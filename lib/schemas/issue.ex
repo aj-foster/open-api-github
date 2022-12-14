@@ -1,0 +1,122 @@
+defmodule GitHub.Issue do
+  @moduledoc """
+  Provides struct and types for Issue, NullableIssue
+  """
+
+  @type t :: %__MODULE__{
+          active_lock_reason: String.t() | nil,
+          assignee: GitHub.User.simple() | nil,
+          assignees: [GitHub.User.simple()] | nil,
+          author_association: String.t(),
+          body: String.t() | nil,
+          body_html: String.t() | nil,
+          body_text: String.t() | nil,
+          closed_at: String.t() | nil,
+          closed_by: GitHub.User.simple() | nil,
+          comments: integer,
+          comments_url: String.t(),
+          created_at: String.t(),
+          draft: boolean | nil,
+          events_url: String.t(),
+          html_url: String.t(),
+          id: integer,
+          labels: [map | String.t()],
+          labels_url: String.t(),
+          locked: boolean,
+          milestone: GitHub.Milestone.t() | nil,
+          node_id: String.t(),
+          number: integer,
+          performed_via_github_app: GitHub.Integration.t() | nil,
+          pull_request: map | nil,
+          reactions: GitHub.Reaction.Rollup.t() | nil,
+          repository: GitHub.Repository.t() | nil,
+          repository_url: String.t(),
+          state: String.t(),
+          state_reason: String.t() | nil,
+          timeline_url: String.t() | nil,
+          title: String.t(),
+          updated_at: String.t(),
+          url: String.t(),
+          user: GitHub.User.simple() | nil
+        }
+
+  defstruct [
+    :active_lock_reason,
+    :assignee,
+    :assignees,
+    :author_association,
+    :body,
+    :body_html,
+    :body_text,
+    :closed_at,
+    :closed_by,
+    :comments,
+    :comments_url,
+    :created_at,
+    :draft,
+    :events_url,
+    :html_url,
+    :id,
+    :labels,
+    :labels_url,
+    :locked,
+    :milestone,
+    :node_id,
+    :number,
+    :performed_via_github_app,
+    :pull_request,
+    :reactions,
+    :repository,
+    :repository_url,
+    :state,
+    :state_reason,
+    :timeline_url,
+    :title,
+    :updated_at,
+    :url,
+    :user
+  ]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(type \\ :t)
+
+  def __fields__(:t) do
+    [
+      active_lock_reason: :string,
+      assignee: {GitHub.User, :simple},
+      assignees: {:array, {GitHub.User, :simple}},
+      author_association: :string,
+      body: :string,
+      body_html: :string,
+      body_text: :string,
+      closed_at: :string,
+      closed_by: {GitHub.User, :simple},
+      comments: :integer,
+      comments_url: :string,
+      created_at: :string,
+      draft: :boolean,
+      events_url: :string,
+      html_url: :string,
+      id: :integer,
+      labels: {:array, {:union, [:string, :map]}},
+      labels_url: :string,
+      locked: :boolean,
+      milestone: {GitHub.Milestone, :t},
+      node_id: :string,
+      number: :integer,
+      performed_via_github_app: {GitHub.Integration, :t},
+      pull_request: :map,
+      reactions: {GitHub.Reaction.Rollup, :t},
+      repository: {GitHub.Repository, :t},
+      repository_url: :string,
+      state: :string,
+      state_reason: :string,
+      timeline_url: :string,
+      title: :string,
+      updated_at: :string,
+      url: :string,
+      user: {GitHub.User, :simple}
+    ]
+  end
+end

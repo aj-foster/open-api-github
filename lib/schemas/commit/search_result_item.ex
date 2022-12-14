@@ -1,0 +1,56 @@
+defmodule GitHub.Commit.SearchResultItem do
+  @moduledoc """
+  Provides struct and type for CommitSearchResultItem
+  """
+
+  @type t :: %__MODULE__{
+          author: GitHub.User.simple() | nil,
+          comments_url: String.t(),
+          commit: map,
+          committer: GitHub.Git.User.nullable() | nil,
+          html_url: String.t(),
+          node_id: String.t(),
+          parents: [map],
+          repository: GitHub.MinimalRepository.t(),
+          score: number,
+          sha: String.t(),
+          text_matches: [map] | nil,
+          url: String.t()
+        }
+
+  defstruct [
+    :author,
+    :comments_url,
+    :commit,
+    :committer,
+    :html_url,
+    :node_id,
+    :parents,
+    :repository,
+    :score,
+    :sha,
+    :text_matches,
+    :url
+  ]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(type \\ :t)
+
+  def __fields__(:t) do
+    [
+      author: {GitHub.User, :simple},
+      comments_url: :string,
+      commit: :map,
+      committer: {GitHub.Git.User, :nullable},
+      html_url: :string,
+      node_id: :string,
+      parents: {:array, :map},
+      repository: {GitHub.MinimalRepository, :t},
+      score: :number,
+      sha: :string,
+      text_matches: {:array, :map},
+      url: :string
+    ]
+  end
+end

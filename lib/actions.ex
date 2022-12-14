@@ -1,0 +1,2697 @@
+defmodule GitHub.Actions do
+  @moduledoc """
+  Provides API endpoints related to actions
+  """
+
+  @default_client GitHub.Client
+
+  @doc """
+  Add custom labels to a self-hosted runner for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#add-custom-labels-to-a-self-hosted-runner-for-an-organization)
+
+  """
+  @spec add_custom_labels_to_self_hosted_runner_for_org(String.t(), integer, map, keyword) ::
+          {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+  def add_custom_labels_to_self_hosted_runner_for_org(org, runner_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runners/#{runner_id}/labels",
+      body: body,
+      method: :post,
+      response: [
+        {200, :map},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :simple}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Add custom labels to a self-hosted runner for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#add-custom-labels-to-a-self-hosted-runner-for-a-repository)
+
+  """
+  @spec add_custom_labels_to_self_hosted_runner_for_repo(
+          String.t(),
+          String.t(),
+          integer,
+          map,
+          keyword
+        ) :: {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+  def add_custom_labels_to_self_hosted_runner_for_repo(owner, repo, runner_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels",
+      body: body,
+      method: :post,
+      response: [
+        {200, :map},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :simple}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Add selected repository to an organization secret
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#add-selected-repository-to-an-organization-secret)
+
+  """
+  @spec add_selected_repo_to_org_secret(String.t(), String.t(), integer, keyword) :: :ok | :error
+  def add_selected_repo_to_org_secret(org, secret_name, repository_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/secrets/#{secret_name}/repositories/#{repository_id}",
+      method: :put,
+      response: [{204, nil}, {409, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Add a self-hosted runner to a group for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#add-a-self-hosted-runner-to-a-group-for-an-organization)
+
+  """
+  @spec add_self_hosted_runner_to_group_for_org(String.t(), integer, integer, keyword) ::
+          :ok | :error
+  def add_self_hosted_runner_to_group_for_org(org, runner_group_id, runner_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/runners/#{runner_id}",
+      method: :put,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Approve a workflow run for a fork pull request
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#approve-a-workflow-run-for-a-fork-pull-request)
+
+  """
+  @spec approve_workflow_run(String.t(), String.t(), integer, keyword) ::
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.BasicError.t()}
+  def approve_workflow_run(owner, repo, run_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/approve",
+      method: :post,
+      response: [
+        {201, {GitHub.EmptyObject, :t}},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Cancel a workflow run
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#cancel-a-workflow-run)
+
+  """
+  @spec cancel_workflow_run(String.t(), String.t(), integer, keyword) ::
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.BasicError.t()}
+  def cancel_workflow_run(owner, repo, run_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/cancel",
+      method: :post,
+      response: [{202, {GitHub.EmptyObject, :t}}, {409, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create or update an environment secret
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#create-or-update-an-environment-secret)
+
+  """
+  @spec create_or_update_environment_secret(integer, String.t(), String.t(), map, keyword) ::
+          {:ok, GitHub.EmptyObject.t()} | :error
+  def create_or_update_environment_secret(
+        repository_id,
+        environment_name,
+        secret_name,
+        body,
+        opts \\ []
+      ) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url:
+        "/repositories/#{repository_id}/environments/#{environment_name}/secrets/#{secret_name}",
+      body: body,
+      method: :put,
+      response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create or update an organization secret
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#create-or-update-an-organization-secret)
+
+  """
+  @spec create_or_update_org_secret(String.t(), String.t(), map, keyword) ::
+          {:ok, GitHub.EmptyObject.t()} | :error
+  def create_or_update_org_secret(org, secret_name, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/secrets/#{secret_name}",
+      body: body,
+      method: :put,
+      response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create or update a repository secret
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#create-or-update-a-repository-secret)
+
+  """
+  @spec create_or_update_repo_secret(String.t(), String.t(), String.t(), map, keyword) ::
+          {:ok, GitHub.EmptyObject.t()} | :error
+  def create_or_update_repo_secret(owner, repo, secret_name, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/secrets/#{secret_name}",
+      body: body,
+      method: :put,
+      response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create a registration token for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#create-a-registration-token-for-an-organization)
+
+  """
+  @spec create_registration_token_for_org(String.t(), keyword) ::
+          {:ok, GitHub.AuthenticationToken.t()} | :error
+  def create_registration_token_for_org(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runners/registration-token",
+      method: :post,
+      response: [{201, {GitHub.AuthenticationToken, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create a registration token for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#create-a-registration-token-for-a-repository)
+
+  """
+  @spec create_registration_token_for_repo(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.AuthenticationToken.t()} | :error
+  def create_registration_token_for_repo(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runners/registration-token",
+      method: :post,
+      response: [{201, {GitHub.AuthenticationToken, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create a remove token for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#create-a-remove-token-for-an-organization)
+
+  """
+  @spec create_remove_token_for_org(String.t(), keyword) ::
+          {:ok, GitHub.AuthenticationToken.t()} | :error
+  def create_remove_token_for_org(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runners/remove-token",
+      method: :post,
+      response: [{201, {GitHub.AuthenticationToken, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create a remove token for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#create-a-remove-token-for-a-repository)
+
+  """
+  @spec create_remove_token_for_repo(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.AuthenticationToken.t()} | :error
+  def create_remove_token_for_repo(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runners/remove-token",
+      method: :post,
+      response: [{201, {GitHub.AuthenticationToken, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create a self-hosted runner group for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#create-a-self-hosted-runner-group-for-an-organization)
+
+  """
+  @spec create_self_hosted_runner_group_for_org(String.t(), map, keyword) ::
+          {:ok, GitHub.Actions.Runner.GroupsOrg.t()} | :error
+  def create_self_hosted_runner_group_for_org(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runner-groups",
+      body: body,
+      method: :post,
+      response: [{201, {GitHub.Actions.Runner.GroupsOrg, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create a workflow dispatch event
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#create-a-workflow-dispatch-event)
+
+  """
+  @spec create_workflow_dispatch(String.t(), String.t(), integer | String.t(), map, keyword) ::
+          :ok | :error
+  def create_workflow_dispatch(owner, repo, workflow_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/dispatches",
+      body: body,
+      method: :post,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Delete a GitHub Actions cache for a repository (using a cache ID)
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/cache#delete-a-github-actions-cache-for-a-repository-using-a-cache-id)
+
+  """
+  @spec delete_actions_cache_by_id(String.t(), String.t(), integer, keyword) :: :ok | :error
+  def delete_actions_cache_by_id(owner, repo, cache_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/caches/#{cache_id}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Delete GitHub Actions caches for a repository (using a cache key)
+
+  ## Options
+
+    * `key` (String.t()): A key for identifying the cache.
+    * `ref` (String.t()): The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/cache#delete-github-actions-caches-for-a-repository-using-a-cache-key)
+
+  """
+  @spec delete_actions_cache_by_key(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Actions.CacheList.t()} | :error
+  def delete_actions_cache_by_key(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:key, :ref])
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/caches",
+      method: :delete,
+      query: query,
+      response: [{200, {GitHub.Actions.CacheList, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Delete an artifact
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-an-artifact)
+
+  """
+  @spec delete_artifact(String.t(), String.t(), integer, keyword) :: :ok | :error
+  def delete_artifact(owner, repo, artifact_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/artifacts/#{artifact_id}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Delete an environment secret
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-an-environment-secret)
+
+  """
+  @spec delete_environment_secret(integer, String.t(), String.t(), keyword) :: :ok | :error
+  def delete_environment_secret(repository_id, environment_name, secret_name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url:
+        "/repositories/#{repository_id}/environments/#{environment_name}/secrets/#{secret_name}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Delete an organization secret
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-an-organization-secret)
+
+  """
+  @spec delete_org_secret(String.t(), String.t(), keyword) :: :ok | :error
+  def delete_org_secret(org, secret_name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/secrets/#{secret_name}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Delete a repository secret
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-repository-secret)
+
+  """
+  @spec delete_repo_secret(String.t(), String.t(), String.t(), keyword) :: :ok | :error
+  def delete_repo_secret(owner, repo, secret_name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/secrets/#{secret_name}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Delete a self-hosted runner from an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-self-hosted-runner-from-an-organization)
+
+  """
+  @spec delete_self_hosted_runner_from_org(String.t(), integer, keyword) :: :ok | :error
+  def delete_self_hosted_runner_from_org(org, runner_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runners/#{runner_id}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Delete a self-hosted runner from a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-self-hosted-runner-from-a-repository)
+
+  """
+  @spec delete_self_hosted_runner_from_repo(String.t(), String.t(), integer, keyword) ::
+          :ok | :error
+  def delete_self_hosted_runner_from_repo(owner, repo, runner_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Delete a self-hosted runner group from an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-self-hosted-runner-group-from-an-organization)
+
+  """
+  @spec delete_self_hosted_runner_group_from_org(String.t(), integer, keyword) :: :ok | :error
+  def delete_self_hosted_runner_group_from_org(org, runner_group_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Delete a workflow run
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-workflow-run)
+
+  """
+  @spec delete_workflow_run(String.t(), String.t(), integer, keyword) :: :ok | :error
+  def delete_workflow_run(owner, repo, run_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Delete workflow run logs
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-workflow-run-logs)
+
+  """
+  @spec delete_workflow_run_logs(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.BasicError.t()}
+  def delete_workflow_run_logs(owner, repo, run_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/logs",
+      method: :delete,
+      response: [{204, nil}, {403, {GitHub.BasicError, :t}}, {500, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Disable a selected repository for GitHub Actions in an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#disable-a-selected-repository-for-github-actions-in-an-organization)
+
+  """
+  @spec disable_selected_repository_github_actions_organization(String.t(), integer, keyword) ::
+          :ok | :error
+  def disable_selected_repository_github_actions_organization(org, repository_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/permissions/repositories/#{repository_id}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Disable a workflow
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#disable-a-workflow)
+
+  """
+  @spec disable_workflow(String.t(), String.t(), integer | String.t(), keyword) :: :ok | :error
+  def disable_workflow(owner, repo, workflow_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/disable",
+      method: :put,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Download an artifact
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#download-an-artifact)
+
+  """
+  @spec download_artifact(String.t(), String.t(), integer, String.t(), keyword) ::
+          :ok | {:error, GitHub.BasicError.t()}
+  def download_artifact(owner, repo, artifact_id, archive_format, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/artifacts/#{artifact_id}/#{archive_format}",
+      method: :get,
+      response: [{302, nil}, {410, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Download job logs for a workflow run
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#download-job-logs-for-a-workflow-run)
+
+  """
+  @spec download_job_logs_for_workflow_run(String.t(), String.t(), integer, keyword) ::
+          :ok | :error
+  def download_job_logs_for_workflow_run(owner, repo, job_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/jobs/#{job_id}/logs",
+      method: :get,
+      response: [{302, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Download workflow run attempt logs
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#download-workflow-run-attempt-logs)
+
+  """
+  @spec download_workflow_run_attempt_logs(String.t(), String.t(), integer, integer, keyword) ::
+          :ok | :error
+  def download_workflow_run_attempt_logs(owner, repo, run_id, attempt_number, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/attempts/#{attempt_number}/logs",
+      method: :get,
+      response: [{302, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Download workflow run logs
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#download-workflow-run-logs)
+
+  """
+  @spec download_workflow_run_logs(String.t(), String.t(), integer, keyword) :: :ok | :error
+  def download_workflow_run_logs(owner, repo, run_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/logs",
+      method: :get,
+      response: [{302, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Enable a selected repository for GitHub Actions in an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#enable-a-selected-repository-for-github-actions-in-an-organization)
+
+  """
+  @spec enable_selected_repository_github_actions_organization(String.t(), integer, keyword) ::
+          :ok | :error
+  def enable_selected_repository_github_actions_organization(org, repository_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/permissions/repositories/#{repository_id}",
+      method: :put,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Enable a workflow
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#enable-a-workflow)
+
+  """
+  @spec enable_workflow(String.t(), String.t(), integer | String.t(), keyword) :: :ok | :error
+  def enable_workflow(owner, repo, workflow_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/enable",
+      method: :put,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List GitHub Actions caches for a repository
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+    * `ref` (String.t()): The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.
+    * `key` (String.t()): An explicit key or prefix for identifying the cache
+    * `sort` (String.t()): The property to sort the results by. `created_at` means when the cache was created. `last_accessed_at` means when the cache was last accessed. `size_in_bytes` is the size of the cache in bytes.
+    * `direction` (String.t()): The direction to sort the results by.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/cache#list-github-actions-caches-for-a-repository)
+
+  """
+  @spec get_actions_cache_list(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Actions.CacheList.t()} | :error
+  def get_actions_cache_list(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:direction, :key, :page, :per_page, :ref, :sort])
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/caches",
+      method: :get,
+      query: query,
+      response: [{200, {GitHub.Actions.CacheList, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get GitHub Actions cache usage for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-github-actions-cache-usage-for-a-repository)
+
+  """
+  @spec get_actions_cache_usage(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Actions.CacheUsageByRepository.t()} | :error
+  def get_actions_cache_usage(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/cache/usage",
+      method: :get,
+      response: [{200, {GitHub.Actions.CacheUsageByRepository, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List repositories with GitHub Actions cache usage for an organization
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-repositories-with-github-actions-cache-usage-for-an-organization)
+
+  """
+  @spec get_actions_cache_usage_by_repo_for_org(String.t(), keyword) :: {:ok, map} | :error
+  def get_actions_cache_usage_by_repo_for_org(org, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/cache/usage-by-repository",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get GitHub Actions cache usage for an enterprise
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-github-actions-cache-usage-for-an-enterprise)
+
+  """
+  @spec get_actions_cache_usage_for_enterprise(String.t(), keyword) ::
+          {:ok, GitHub.Actions.CacheUsageOrgEnterprise.t()} | :error
+  def get_actions_cache_usage_for_enterprise(enterprise, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/enterprises/#{enterprise}/actions/cache/usage",
+      method: :get,
+      response: [{200, {GitHub.Actions.CacheUsageOrgEnterprise, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get GitHub Actions cache usage for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-github-actions-cache-usage-for-an-organization)
+
+  """
+  @spec get_actions_cache_usage_for_org(String.t(), keyword) ::
+          {:ok, GitHub.Actions.CacheUsageOrgEnterprise.t()} | :error
+  def get_actions_cache_usage_for_org(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/cache/usage",
+      method: :get,
+      response: [{200, {GitHub.Actions.CacheUsageOrgEnterprise, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get allowed actions and reusable workflows for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-allowed-actions-for-an-organization)
+
+  """
+  @spec get_allowed_actions_organization(String.t(), keyword) ::
+          {:ok, GitHub.SelectedActions.t()} | :error
+  def get_allowed_actions_organization(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/permissions/selected-actions",
+      method: :get,
+      response: [{200, {GitHub.SelectedActions, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get allowed actions and reusable workflows for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-allowed-actions-for-a-repository)
+
+  """
+  @spec get_allowed_actions_repository(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.SelectedActions.t()} | :error
+  def get_allowed_actions_repository(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/permissions/selected-actions",
+      method: :get,
+      response: [{200, {GitHub.SelectedActions, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get an artifact
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-an-artifact)
+
+  """
+  @spec get_artifact(String.t(), String.t(), integer, keyword) ::
+          {:ok, GitHub.Artifact.t()} | :error
+  def get_artifact(owner, repo, artifact_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/artifacts/#{artifact_id}",
+      method: :get,
+      response: [{200, {GitHub.Artifact, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get the customization template for an OIDC subject claim for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/oidc#get-the-customization-template-for-an-oidc-subject-claim-for-a-repository)
+
+  """
+  @spec get_custom_oidc_sub_claim_for_repo(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.OIDCCustomSubRepo.t()} | {:error, GitHub.BasicError.t()}
+  def get_custom_oidc_sub_claim_for_repo(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/oidc/customization/sub",
+      method: :get,
+      response: [
+        {200, {GitHub.OIDCCustomSubRepo, :t}},
+        {400, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get an environment public key
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-an-environment-public-key)
+
+  """
+  @spec get_environment_public_key(integer, String.t(), keyword) ::
+          {:ok, GitHub.Actions.PublicKey.t()} | :error
+  def get_environment_public_key(repository_id, environment_name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repositories/#{repository_id}/environments/#{environment_name}/secrets/public-key",
+      method: :get,
+      response: [{200, {GitHub.Actions.PublicKey, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get an environment secret
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-an-environment-secret)
+
+  """
+  @spec get_environment_secret(integer, String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Actions.Secret.t()} | :error
+  def get_environment_secret(repository_id, environment_name, secret_name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url:
+        "/repositories/#{repository_id}/environments/#{environment_name}/secrets/#{secret_name}",
+      method: :get,
+      response: [{200, {GitHub.Actions.Secret, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get default workflow permissions for an enterprise
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-default-workflow-permissions-for-an-enterprise)
+
+  """
+  @spec get_github_actions_default_workflow_permissions_enterprise(String.t(), keyword) ::
+          {:ok, GitHub.Actions.GetDefaultWorkflowPermissions.t()} | :error
+  def get_github_actions_default_workflow_permissions_enterprise(enterprise, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/enterprises/#{enterprise}/actions/permissions/workflow",
+      method: :get,
+      response: [{200, {GitHub.Actions.GetDefaultWorkflowPermissions, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get default workflow permissions for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-default-workflow-permissions)
+
+  """
+  @spec get_github_actions_default_workflow_permissions_organization(String.t(), keyword) ::
+          {:ok, GitHub.Actions.GetDefaultWorkflowPermissions.t()} | :error
+  def get_github_actions_default_workflow_permissions_organization(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/permissions/workflow",
+      method: :get,
+      response: [{200, {GitHub.Actions.GetDefaultWorkflowPermissions, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get default workflow permissions for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-default-workflow-permissions-for-a-repository)
+
+  """
+  @spec get_github_actions_default_workflow_permissions_repository(
+          String.t(),
+          String.t(),
+          keyword
+        ) :: {:ok, GitHub.Actions.GetDefaultWorkflowPermissions.t()} | :error
+  def get_github_actions_default_workflow_permissions_repository(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/permissions/workflow",
+      method: :get,
+      response: [{200, {GitHub.Actions.GetDefaultWorkflowPermissions, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get GitHub Actions permissions for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-github-actions-permissions-for-an-organization)
+
+  """
+  @spec get_github_actions_permissions_organization(String.t(), keyword) ::
+          {:ok, GitHub.Actions.OrganizationPermissions.t()} | :error
+  def get_github_actions_permissions_organization(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/permissions",
+      method: :get,
+      response: [{200, {GitHub.Actions.OrganizationPermissions, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get GitHub Actions permissions for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-github-actions-permissions-for-a-repository)
+
+  """
+  @spec get_github_actions_permissions_repository(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Actions.RepositoryPermissions.t()} | :error
+  def get_github_actions_permissions_repository(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/permissions",
+      method: :get,
+      response: [{200, {GitHub.Actions.RepositoryPermissions, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get a job for a workflow run
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-job-for-a-workflow-run)
+
+  """
+  @spec get_job_for_workflow_run(String.t(), String.t(), integer, keyword) ::
+          {:ok, GitHub.Job.t()} | :error
+  def get_job_for_workflow_run(owner, repo, job_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/jobs/#{job_id}",
+      method: :get,
+      response: [{200, {GitHub.Job, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get an organization public key
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-an-organization-public-key)
+
+  """
+  @spec get_org_public_key(String.t(), keyword) :: {:ok, GitHub.Actions.PublicKey.t()} | :error
+  def get_org_public_key(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/secrets/public-key",
+      method: :get,
+      response: [{200, {GitHub.Actions.PublicKey, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get an organization secret
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-an-organization-secret)
+
+  """
+  @spec get_org_secret(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Organization.ActionsSecret.t()} | :error
+  def get_org_secret(org, secret_name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/secrets/#{secret_name}",
+      method: :get,
+      response: [{200, {GitHub.Organization.ActionsSecret, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get pending deployments for a workflow run
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-pending-deployments-for-a-workflow-run)
+
+  """
+  @spec get_pending_deployments_for_run(String.t(), String.t(), integer, keyword) ::
+          {:ok, [GitHub.PendingDeployment.t()]} | :error
+  def get_pending_deployments_for_run(owner, repo, run_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/pending_deployments",
+      method: :get,
+      response: [{200, {:array, {GitHub.PendingDeployment, :t}}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get a repository public key
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-repository-public-key)
+
+  """
+  @spec get_repo_public_key(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Actions.PublicKey.t()} | :error
+  def get_repo_public_key(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/secrets/public-key",
+      method: :get,
+      response: [{200, {GitHub.Actions.PublicKey, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get a repository secret
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-repository-secret)
+
+  """
+  @spec get_repo_secret(String.t(), String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Actions.Secret.t()} | :error
+  def get_repo_secret(owner, repo, secret_name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/secrets/#{secret_name}",
+      method: :get,
+      response: [{200, {GitHub.Actions.Secret, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get the review history for a workflow run
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-the-review-history-for-a-workflow-run)
+
+  """
+  @spec get_reviews_for_run(String.t(), String.t(), integer, keyword) ::
+          {:ok, [GitHub.EnvironmentApprovals.t()]} | :error
+  def get_reviews_for_run(owner, repo, run_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/approvals",
+      method: :get,
+      response: [{200, {:array, {GitHub.EnvironmentApprovals, :t}}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get a self-hosted runner for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-self-hosted-runner-for-an-organization)
+
+  """
+  @spec get_self_hosted_runner_for_org(String.t(), integer, keyword) ::
+          {:ok, GitHub.Actions.Runner.t()} | :error
+  def get_self_hosted_runner_for_org(org, runner_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runners/#{runner_id}",
+      method: :get,
+      response: [{200, {GitHub.Actions.Runner, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get a self-hosted runner for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-self-hosted-runner-for-a-repository)
+
+  """
+  @spec get_self_hosted_runner_for_repo(String.t(), String.t(), integer, keyword) ::
+          {:ok, GitHub.Actions.Runner.t()} | :error
+  def get_self_hosted_runner_for_repo(owner, repo, runner_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}",
+      method: :get,
+      response: [{200, {GitHub.Actions.Runner, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get a self-hosted runner group for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-self-hosted-runner-group-for-an-organization)
+
+  """
+  @spec get_self_hosted_runner_group_for_org(String.t(), integer, keyword) ::
+          {:ok, GitHub.Actions.Runner.GroupsOrg.t()} | :error
+  def get_self_hosted_runner_group_for_org(org, runner_group_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}",
+      method: :get,
+      response: [{200, {GitHub.Actions.Runner.GroupsOrg, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get a workflow
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-workflow)
+
+  """
+  @spec get_workflow(String.t(), String.t(), integer | String.t(), keyword) ::
+          {:ok, GitHub.Actions.Workflow.t()} | :error
+  def get_workflow(owner, repo, workflow_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}",
+      method: :get,
+      response: [{200, {GitHub.Actions.Workflow, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get the level of access for workflows outside of the repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-workflow-access-level-to-a-repository)
+
+  """
+  @spec get_workflow_access_to_repository(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Actions.Workflow.AccessToRepository.t()} | :error
+  def get_workflow_access_to_repository(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/permissions/access",
+      method: :get,
+      response: [{200, {GitHub.Actions.Workflow.AccessToRepository, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get a workflow run
+
+  ## Options
+
+    * `exclude_pull_requests` (boolean): If `true` pull requests are omitted from the response (empty array).
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-workflow-run)
+
+  """
+  @spec get_workflow_run(String.t(), String.t(), integer, keyword) ::
+          {:ok, GitHub.Actions.Workflow.Run.t()} | :error
+  def get_workflow_run(owner, repo, run_id, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:exclude_pull_requests])
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}",
+      method: :get,
+      query: query,
+      response: [{200, {GitHub.Actions.Workflow.Run, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get a workflow run attempt
+
+  ## Options
+
+    * `exclude_pull_requests` (boolean): If `true` pull requests are omitted from the response (empty array).
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-workflow-run-attempt)
+
+  """
+  @spec get_workflow_run_attempt(String.t(), String.t(), integer, integer, keyword) ::
+          {:ok, GitHub.Actions.Workflow.Run.t()} | :error
+  def get_workflow_run_attempt(owner, repo, run_id, attempt_number, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:exclude_pull_requests])
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/attempts/#{attempt_number}",
+      method: :get,
+      query: query,
+      response: [{200, {GitHub.Actions.Workflow.Run, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get workflow run usage
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-workflow-run-usage)
+
+  """
+  @spec get_workflow_run_usage(String.t(), String.t(), integer, keyword) ::
+          {:ok, GitHub.Actions.Workflow.RunUsage.t()} | :error
+  def get_workflow_run_usage(owner, repo, run_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/timing",
+      method: :get,
+      response: [{200, {GitHub.Actions.Workflow.RunUsage, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get workflow usage
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-workflow-usage)
+
+  """
+  @spec get_workflow_usage(String.t(), String.t(), integer | String.t(), keyword) ::
+          {:ok, GitHub.Actions.Workflow.Usage.t()} | :error
+  def get_workflow_usage(owner, repo, workflow_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/timing",
+      method: :get,
+      response: [{200, {GitHub.Actions.Workflow.Usage, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List artifacts for a repository
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+    * `name` (String.t()): Filters artifacts by exact match on their name field.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-artifacts-for-a-repository)
+
+  """
+  @spec list_artifacts_for_repo(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  def list_artifacts_for_repo(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:name, :page, :per_page])
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/artifacts",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List environment secrets
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-environment-secrets)
+
+  """
+  @spec list_environment_secrets(integer, String.t(), keyword) :: {:ok, map} | :error
+  def list_environment_secrets(repository_id, environment_name, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/repositories/#{repository_id}/environments/#{environment_name}/secrets",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List jobs for a workflow run
+
+  ## Options
+
+    * `filter` (String.t()): Filters jobs by their `completed_at` timestamp. `latest` returns jobs from the most recent execution of the workflow run. `all` returns all jobs for a workflow run, including from old executions of the workflow run.
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-jobs-for-a-workflow-run)
+
+  """
+  @spec list_jobs_for_workflow_run(String.t(), String.t(), integer, keyword) ::
+          {:ok, map} | :error
+  def list_jobs_for_workflow_run(owner, repo, run_id, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:filter, :page, :per_page])
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/jobs",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List jobs for a workflow run attempt
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-jobs-for-a-workflow-run-attempt)
+
+  """
+  @spec list_jobs_for_workflow_run_attempt(String.t(), String.t(), integer, integer, keyword) ::
+          {:ok, map} | {:error, GitHub.BasicError.t()}
+  def list_jobs_for_workflow_run_attempt(owner, repo, run_id, attempt_number, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/attempts/#{attempt_number}/jobs",
+      method: :get,
+      query: query,
+      response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List labels for a self-hosted runner for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-labels-for-a-self-hosted-runner-for-an-organization)
+
+  """
+  @spec list_labels_for_self_hosted_runner_for_org(String.t(), integer, keyword) ::
+          {:ok, map} | {:error, GitHub.BasicError.t()}
+  def list_labels_for_self_hosted_runner_for_org(org, runner_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runners/#{runner_id}/labels",
+      method: :get,
+      response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List labels for a self-hosted runner for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-labels-for-a-self-hosted-runner-for-a-repository)
+
+  """
+  @spec list_labels_for_self_hosted_runner_for_repo(String.t(), String.t(), integer, keyword) ::
+          {:ok, map} | {:error, GitHub.BasicError.t()}
+  def list_labels_for_self_hosted_runner_for_repo(owner, repo, runner_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels",
+      method: :get,
+      response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List organization secrets
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-organization-secrets)
+
+  """
+  @spec list_org_secrets(String.t(), keyword) :: {:ok, map} | :error
+  def list_org_secrets(org, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/secrets",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List repository access to a self-hosted runner group in an organization
+
+  ## Options
+
+    * `page` (integer): Page number of the results to fetch.
+    * `per_page` (integer): The number of results per page (max 100).
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-repository-access-to-a-self-hosted-runner-group-in-an-organization)
+
+  """
+  @spec list_repo_access_to_self_hosted_runner_group_in_org(String.t(), integer, keyword) ::
+          {:ok, map} | :error
+  def list_repo_access_to_self_hosted_runner_group_in_org(org, runner_group_id, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/repositories",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List repository secrets
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-repository-secrets)
+
+  """
+  @spec list_repo_secrets(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  def list_repo_secrets(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/secrets",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List repository workflows
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-repository-workflows)
+
+  """
+  @spec list_repo_workflows(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  def list_repo_workflows(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/workflows",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List runner applications for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-runner-applications-for-an-organization)
+
+  """
+  @spec list_runner_applications_for_org(String.t(), keyword) ::
+          {:ok, [GitHub.Actions.Runner.Application.t()]} | :error
+  def list_runner_applications_for_org(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runners/downloads",
+      method: :get,
+      response: [{200, {:array, {GitHub.Actions.Runner.Application, :t}}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List runner applications for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-runner-applications-for-a-repository)
+
+  """
+  @spec list_runner_applications_for_repo(String.t(), String.t(), keyword) ::
+          {:ok, [GitHub.Actions.Runner.Application.t()]} | :error
+  def list_runner_applications_for_repo(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runners/downloads",
+      method: :get,
+      response: [{200, {:array, {GitHub.Actions.Runner.Application, :t}}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List selected repositories for an organization secret
+
+  ## Options
+
+    * `page` (integer): Page number of the results to fetch.
+    * `per_page` (integer): The number of results per page (max 100).
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-selected-repositories-for-an-organization-secret)
+
+  """
+  @spec list_selected_repos_for_org_secret(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  def list_selected_repos_for_org_secret(org, secret_name, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/secrets/#{secret_name}/repositories",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List selected repositories enabled for GitHub Actions in an organization
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-selected-repositories-enabled-for-github-actions-in-an-organization)
+
+  """
+  @spec list_selected_repositories_enabled_github_actions_organization(String.t(), keyword) ::
+          {:ok, map} | :error
+  def list_selected_repositories_enabled_github_actions_organization(org, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/permissions/repositories",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List self-hosted runner groups for an organization
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+    * `visible_to_repository` (String.t()): Only return runner groups that are allowed to be used by this repository.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runner-groups-for-an-organization)
+
+  """
+  @spec list_self_hosted_runner_groups_for_org(String.t(), keyword) :: {:ok, map} | :error
+  def list_self_hosted_runner_groups_for_org(org, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page, :visible_to_repository])
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runner-groups",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List self-hosted runners for an organization
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runners-for-an-organization)
+
+  """
+  @spec list_self_hosted_runners_for_org(String.t(), keyword) :: {:ok, map} | :error
+  def list_self_hosted_runners_for_org(org, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runners",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List self-hosted runners for a repository
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runners-for-a-repository)
+
+  """
+  @spec list_self_hosted_runners_for_repo(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  def list_self_hosted_runners_for_repo(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runners",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List self-hosted runners in a group for an organization
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runners-in-a-group-for-an-organization)
+
+  """
+  @spec list_self_hosted_runners_in_group_for_org(String.t(), integer, keyword) ::
+          {:ok, map} | :error
+  def list_self_hosted_runners_in_group_for_org(org, runner_group_id, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/runners",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List workflow run artifacts
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-workflow-run-artifacts)
+
+  """
+  @spec list_workflow_run_artifacts(String.t(), String.t(), integer, keyword) ::
+          {:ok, map} | :error
+  def list_workflow_run_artifacts(owner, repo, run_id, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/artifacts",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List workflow runs for a workflow
+
+  ## Options
+
+    * `actor` (String.t()): Returns someone's workflow runs. Use the login for the user who created the `push` associated with the check suite or workflow run.
+    * `branch` (String.t()): Returns workflow runs associated with a branch. Use the name of the branch of the `push`.
+    * `event` (String.t()): Returns workflow run triggered by the event you specify. For example, `push`, `pull_request` or `issue`. For more information, see "[Events that trigger workflows](https://docs.github.com/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows)."
+    * `status` (String.t()): Returns workflow runs with the check run `status` or `conclusion` that you specify. For example, a conclusion can be `success` or a status can be `in_progress`. Only GitHub can set a status of `waiting` or `requested`.
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+    * `created` (String.t()): Returns workflow runs created within the given date-time range. For more information on the syntax, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)."
+    * `exclude_pull_requests` (boolean): If `true` pull requests are omitted from the response (empty array).
+    * `check_suite_id` (integer): Returns workflow runs with the `check_suite_id` that you specify.
+    * `head_sha` (String.t()): Only returns workflow runs that are associated with the specified `head_sha`.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-workflow-runs)
+
+  """
+  @spec list_workflow_runs(String.t(), String.t(), integer | String.t(), keyword) ::
+          {:ok, map} | :error
+  def list_workflow_runs(owner, repo, workflow_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    query =
+      Keyword.take(opts, [
+        :actor,
+        :branch,
+        :check_suite_id,
+        :created,
+        :event,
+        :exclude_pull_requests,
+        :head_sha,
+        :page,
+        :per_page,
+        :status
+      ])
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/runs",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List workflow runs for a repository
+
+  ## Options
+
+    * `actor` (String.t()): Returns someone's workflow runs. Use the login for the user who created the `push` associated with the check suite or workflow run.
+    * `branch` (String.t()): Returns workflow runs associated with a branch. Use the name of the branch of the `push`.
+    * `event` (String.t()): Returns workflow run triggered by the event you specify. For example, `push`, `pull_request` or `issue`. For more information, see "[Events that trigger workflows](https://docs.github.com/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows)."
+    * `status` (String.t()): Returns workflow runs with the check run `status` or `conclusion` that you specify. For example, a conclusion can be `success` or a status can be `in_progress`. Only GitHub can set a status of `waiting` or `requested`.
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+    * `created` (String.t()): Returns workflow runs created within the given date-time range. For more information on the syntax, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)."
+    * `exclude_pull_requests` (boolean): If `true` pull requests are omitted from the response (empty array).
+    * `check_suite_id` (integer): Returns workflow runs with the `check_suite_id` that you specify.
+    * `head_sha` (String.t()): Only returns workflow runs that are associated with the specified `head_sha`.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-workflow-runs-for-a-repository)
+
+  """
+  @spec list_workflow_runs_for_repo(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  def list_workflow_runs_for_repo(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    query =
+      Keyword.take(opts, [
+        :actor,
+        :branch,
+        :check_suite_id,
+        :created,
+        :event,
+        :exclude_pull_requests,
+        :head_sha,
+        :page,
+        :per_page,
+        :status
+      ])
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Re-run a job from a workflow run
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#re-run-job-for-workflow-run)
+
+  """
+  @spec re_run_job_for_workflow_run(String.t(), String.t(), integer, map, keyword) ::
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.BasicError.t()}
+  def re_run_job_for_workflow_run(owner, repo, job_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/jobs/#{job_id}/rerun",
+      body: body,
+      method: :post,
+      response: [{201, {GitHub.EmptyObject, :t}}, {403, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Re-run a workflow
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#re-run-a-workflow)
+
+  """
+  @spec re_run_workflow(String.t(), String.t(), integer, map, keyword) ::
+          {:ok, GitHub.EmptyObject.t()} | :error
+  def re_run_workflow(owner, repo, run_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/rerun",
+      body: body,
+      method: :post,
+      response: [{201, {GitHub.EmptyObject, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Re-run failed jobs from a workflow run
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#re-run-workflow-failed-jobs)
+
+  """
+  @spec re_run_workflow_failed_jobs(String.t(), String.t(), integer, map, keyword) ::
+          {:ok, GitHub.EmptyObject.t()} | :error
+  def re_run_workflow_failed_jobs(owner, repo, run_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/rerun-failed-jobs",
+      body: body,
+      method: :post,
+      response: [{201, {GitHub.EmptyObject, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Remove all custom labels from a self-hosted runner for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-all-custom-labels-from-a-self-hosted-runner-for-an-organization)
+
+  """
+  @spec remove_all_custom_labels_from_self_hosted_runner_for_org(String.t(), integer, keyword) ::
+          {:ok, map} | {:error, GitHub.BasicError.t()}
+  def remove_all_custom_labels_from_self_hosted_runner_for_org(org, runner_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runners/#{runner_id}/labels",
+      method: :delete,
+      response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Remove all custom labels from a self-hosted runner for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-all-custom-labels-from-a-self-hosted-runner-for-a-repository)
+
+  """
+  @spec remove_all_custom_labels_from_self_hosted_runner_for_repo(
+          String.t(),
+          String.t(),
+          integer,
+          keyword
+        ) :: {:ok, map} | {:error, GitHub.BasicError.t()}
+  def remove_all_custom_labels_from_self_hosted_runner_for_repo(
+        owner,
+        repo,
+        runner_id,
+        opts \\ []
+      ) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels",
+      method: :delete,
+      response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Remove a custom label from a self-hosted runner for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-a-custom-label-from-a-self-hosted-runner-for-an-organization)
+
+  """
+  @spec remove_custom_label_from_self_hosted_runner_for_org(
+          String.t(),
+          integer,
+          String.t(),
+          keyword
+        ) :: {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+  def remove_custom_label_from_self_hosted_runner_for_org(org, runner_id, name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runners/#{runner_id}/labels/#{name}",
+      method: :delete,
+      response: [
+        {200, :map},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :simple}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Remove a custom label from a self-hosted runner for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-a-custom-label-from-a-self-hosted-runner-for-a-repository)
+
+  """
+  @spec remove_custom_label_from_self_hosted_runner_for_repo(
+          String.t(),
+          String.t(),
+          integer,
+          String.t(),
+          keyword
+        ) :: {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+  def remove_custom_label_from_self_hosted_runner_for_repo(
+        owner,
+        repo,
+        runner_id,
+        name,
+        opts \\ []
+      ) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels/#{name}",
+      method: :delete,
+      response: [
+        {200, :map},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :simple}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Remove repository access to a self-hosted runner group in an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-repository-access-to-a-self-hosted-runner-group-in-an-organization)
+
+  """
+  @spec remove_repo_access_to_self_hosted_runner_group_in_org(
+          String.t(),
+          integer,
+          integer,
+          keyword
+        ) :: :ok | :error
+  def remove_repo_access_to_self_hosted_runner_group_in_org(
+        org,
+        runner_group_id,
+        repository_id,
+        opts \\ []
+      ) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/repositories/#{repository_id}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Remove selected repository from an organization secret
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-selected-repository-from-an-organization-secret)
+
+  """
+  @spec remove_selected_repo_from_org_secret(String.t(), String.t(), integer, keyword) ::
+          :ok | :error
+  def remove_selected_repo_from_org_secret(org, secret_name, repository_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/secrets/#{secret_name}/repositories/#{repository_id}",
+      method: :delete,
+      response: [{204, nil}, {409, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Remove a self-hosted runner from a group for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-a-self-hosted-runner-from-a-group-for-an-organization)
+
+  """
+  @spec remove_self_hosted_runner_from_group_for_org(String.t(), integer, integer, keyword) ::
+          :ok | :error
+  def remove_self_hosted_runner_from_group_for_org(org, runner_group_id, runner_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/runners/#{runner_id}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Review pending deployments for a workflow run
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#review-pending-deployments-for-a-workflow-run)
+
+  """
+  @spec review_pending_deployments_for_run(String.t(), String.t(), integer, map, keyword) ::
+          {:ok, [GitHub.Deployment.t()]} | :error
+  def review_pending_deployments_for_run(owner, repo, run_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/pending_deployments",
+      body: body,
+      method: :post,
+      response: [{200, {:array, {GitHub.Deployment, :t}}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set allowed actions and reusable workflows for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#set-allowed-actions-for-an-organization)
+
+  """
+  @spec set_allowed_actions_organization(String.t(), map, keyword) :: :ok | :error
+  def set_allowed_actions_organization(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/permissions/selected-actions",
+      body: body,
+      method: :put,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set allowed actions and reusable workflows for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#set-allowed-actions-for-a-repository)
+
+  """
+  @spec set_allowed_actions_repository(String.t(), String.t(), map, keyword) :: :ok | :error
+  def set_allowed_actions_repository(owner, repo, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/permissions/selected-actions",
+      body: body,
+      method: :put,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set custom labels for a self-hosted runner for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#set-custom-labels-for-a-self-hosted-runner-for-an-organization)
+
+  """
+  @spec set_custom_labels_for_self_hosted_runner_for_org(String.t(), integer, map, keyword) ::
+          {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+  def set_custom_labels_for_self_hosted_runner_for_org(org, runner_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runners/#{runner_id}/labels",
+      body: body,
+      method: :put,
+      response: [
+        {200, :map},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :simple}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set custom labels for a self-hosted runner for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#set-custom-labels-for-a-self-hosted-runner-for-a-repository)
+
+  """
+  @spec set_custom_labels_for_self_hosted_runner_for_repo(
+          String.t(),
+          String.t(),
+          integer,
+          map,
+          keyword
+        ) :: {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+  def set_custom_labels_for_self_hosted_runner_for_repo(owner, repo, runner_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels",
+      body: body,
+      method: :put,
+      response: [
+        {200, :map},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :simple}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set the customization template for an OIDC subject claim for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/oidc#set-the-customization-template-for-an-oidc-subject-claim-for-a-repository)
+
+  """
+  @spec set_custom_oidc_sub_claim_for_repo(String.t(), String.t(), map, keyword) ::
+          {:ok, GitHub.EmptyObject.t()}
+          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+  def set_custom_oidc_sub_claim_for_repo(owner, repo, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/oidc/customization/sub",
+      body: body,
+      method: :put,
+      response: [
+        {201, {GitHub.EmptyObject, :t}},
+        {400, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :simple}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set default workflow permissions for an enterprise
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#set-default-workflow-permissions-for-an-enterprise)
+
+  """
+  @spec set_github_actions_default_workflow_permissions_enterprise(String.t(), map, keyword) ::
+          :ok | :error
+  def set_github_actions_default_workflow_permissions_enterprise(enterprise, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/enterprises/#{enterprise}/actions/permissions/workflow",
+      body: body,
+      method: :put,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set default workflow permissions for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#set-default-workflow-permissions)
+
+  """
+  @spec set_github_actions_default_workflow_permissions_organization(String.t(), map, keyword) ::
+          :ok | :error
+  def set_github_actions_default_workflow_permissions_organization(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/permissions/workflow",
+      body: body,
+      method: :put,
+      response: [{204, nil}, {409, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set default workflow permissions for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#set-default-workflow-permissions-for-a-repository)
+
+  """
+  @spec set_github_actions_default_workflow_permissions_repository(
+          String.t(),
+          String.t(),
+          map,
+          keyword
+        ) :: :ok | :error
+  def set_github_actions_default_workflow_permissions_repository(owner, repo, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/permissions/workflow",
+      body: body,
+      method: :put,
+      response: [{204, nil}, {409, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set GitHub Actions permissions for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#set-github-actions-permissions-for-an-organization)
+
+  """
+  @spec set_github_actions_permissions_organization(String.t(), map, keyword) :: :ok | :error
+  def set_github_actions_permissions_organization(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/permissions",
+      body: body,
+      method: :put,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set GitHub Actions permissions for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#set-github-actions-permissions-for-a-repository)
+
+  """
+  @spec set_github_actions_permissions_repository(String.t(), String.t(), map, keyword) ::
+          :ok | :error
+  def set_github_actions_permissions_repository(owner, repo, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/permissions",
+      body: body,
+      method: :put,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set repository access for a self-hosted runner group in an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#set-repository-access-to-a-self-hosted-runner-group-in-an-organization)
+
+  """
+  @spec set_repo_access_to_self_hosted_runner_group_in_org(String.t(), integer, map, keyword) ::
+          :ok | :error
+  def set_repo_access_to_self_hosted_runner_group_in_org(org, runner_group_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/repositories",
+      body: body,
+      method: :put,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set selected repositories for an organization secret
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#set-selected-repositories-for-an-organization-secret)
+
+  """
+  @spec set_selected_repos_for_org_secret(String.t(), String.t(), map, keyword) :: :ok | :error
+  def set_selected_repos_for_org_secret(org, secret_name, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/secrets/#{secret_name}/repositories",
+      body: body,
+      method: :put,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set selected repositories enabled for GitHub Actions in an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#set-selected-repositories-enabled-for-github-actions-in-an-organization)
+
+  """
+  @spec set_selected_repositories_enabled_github_actions_organization(String.t(), map, keyword) ::
+          :ok | :error
+  def set_selected_repositories_enabled_github_actions_organization(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/permissions/repositories",
+      body: body,
+      method: :put,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set self-hosted runners in a group for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#set-self-hosted-runners-in-a-group-for-an-organization)
+
+  """
+  @spec set_self_hosted_runners_in_group_for_org(String.t(), integer, map, keyword) ::
+          :ok | :error
+  def set_self_hosted_runners_in_group_for_org(org, runner_group_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/runners",
+      body: body,
+      method: :put,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Set the level of access for workflows outside of the repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#set-workflow-access-to-a-repository)
+
+  """
+  @spec set_workflow_access_to_repository(String.t(), String.t(), map, keyword) :: :ok | :error
+  def set_workflow_access_to_repository(owner, repo, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/permissions/access",
+      body: body,
+      method: :put,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Update a self-hosted runner group for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#update-a-self-hosted-runner-group-for-an-organization)
+
+  """
+  @spec update_self_hosted_runner_group_for_org(String.t(), integer, map, keyword) ::
+          {:ok, GitHub.Actions.Runner.GroupsOrg.t()} | :error
+  def update_self_hosted_runner_group_for_org(org, runner_group_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}",
+      body: body,
+      method: :patch,
+      response: [{200, {GitHub.Actions.Runner.GroupsOrg, :t}}],
+      opts: opts
+    })
+  end
+end

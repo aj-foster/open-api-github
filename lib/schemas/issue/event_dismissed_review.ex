@@ -1,0 +1,27 @@
+defmodule GitHub.Issue.EventDismissedReview do
+  @moduledoc """
+  Provides struct and type for IssueEventDismissedReview
+  """
+
+  @type t :: %__MODULE__{
+          dismissal_commit_id: String.t() | nil,
+          dismissal_message: String.t() | nil,
+          review_id: integer,
+          state: String.t()
+        }
+
+  defstruct [:dismissal_commit_id, :dismissal_message, :review_id, :state]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(type \\ :t)
+
+  def __fields__(:t) do
+    [
+      dismissal_commit_id: :string,
+      dismissal_message: :string,
+      review_id: :integer,
+      state: :string
+    ]
+  end
+end

@@ -1,0 +1,23 @@
+defmodule GitHub.CodeScanning.AlertRuleSummary do
+  @moduledoc """
+  Provides struct and type for CodeScanningAlertRuleSummary
+  """
+
+  @type t :: %__MODULE__{
+          description: String.t() | nil,
+          id: String.t() | nil,
+          name: String.t() | nil,
+          severity: String.t() | nil,
+          tags: [String.t()] | nil
+        }
+
+  defstruct [:description, :id, :name, :severity, :tags]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(type \\ :t)
+
+  def __fields__(:t) do
+    [description: :string, id: :string, name: :string, severity: :string, tags: {:array, :string}]
+  end
+end
