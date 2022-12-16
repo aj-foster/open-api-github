@@ -56,6 +56,7 @@ config :open_api,
       {"PrivateUser", "User"},
       {"PublicUser", "User"}
     ],
+    operation_location: "operations/",
     rename: [
       {~r/^Codespaces/, "Codespace"},
       {~r/Oidc/, "OIDC"},
