@@ -11,16 +11,22 @@ defmodule GitHub.MixProject do
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
-    [
-      extra_applications: [:logger]
-    ]
+    if Mix.env() == :prod do
+      [
+        extra_applications: [:logger]
+      ]
+    else
+      [
+        extra_applications: [:logger, :hackney]
+      ]
+    end
   end
 
-  # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:jason, "~> 1.0", optional: true},
+      {:httpoison, "~> 1.7", optional: true},
       # {:open_api, github: "aj-foster/open-api-generator", branch: "main"}
       {:open_api, path: "/Users/aj/Documents/Projects/aj-foster/open-api-generator"}
     ]
