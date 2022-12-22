@@ -1,0 +1,2 @@
+defmodule GitHub do
+end
