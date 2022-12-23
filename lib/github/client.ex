@@ -1,21 +1,20 @@
 defmodule GitHub.Client do
+  alias GitHub.ClientError
+  alias GitHub.Config
   alias GitHub.Operation
-  alias GitHub.Plugin.HTTPoisonClient
-  alias GitHub.Plugin.JasonSerializer
 
-  defp temporary_stack do
-    [
-      {JasonSerializer, :encode_body},
-      {HTTPoisonClient, :request},
-      {JasonSerializer, :decode_body},
-      {__MODULE__, :decode_as_type}
-    ]
+  @spec request(map) :: {:ok, term} | {:error, term}
+  def request(info) do
+    Operation.new(info)
+    |> reduce_stack()
+    |> wrap_result()
   end
 
-  def request(info) do
-    operation = Operation.new(info)
+  @spec reduce_stack(Operation.t()) :: Operation.t() | ClientError.t()
+  defp reduce_stack(operation) do
+    stack = Config.stack()
 
-    Enum.reduce_while(temporary_stack(), operation, fn {module, function}, operation ->
+    Enum.reduce_while(stack, operation, fn {module, function}, operation ->
       case apply(module, function, [operation]) do
         {:ok, operation} -> {:cont, operation}
         {:error, error} -> {:halt, error}
@@ -23,36 +22,10 @@ defmodule GitHub.Client do
     end)
   end
 
-  def decode_as_type(operation) do
-    %Operation{response_body: body, response_code: code, response_types: types} = operation
+  @spec wrap_result(Operation.t() | ClientError.t()) :: {:ok, term} | {:error, term}
+  defp wrap_result(%Operation{response_body: response, response_code: code}) when code < 300,
+    do: {:ok, response}
 
-    if type = get_type(types, code) do
-      decoded_body = do_decode(body, type)
-      {:ok, %Operation{operation | response_body: decoded_body}}
-    else
-      {:ok, operation}
-    end
-  end
-
-  defp get_type(types, code) do
-    if res = Enum.find(types, fn {c, _} -> c == code end) do
-      elem(res, 1)
-    end
-  end
-
-  defp do_decode(%{} = value, {module, type}) do
-    fields = module.__fields__(type)
-
-    for {field_name, field_type} <- fields, reduce: struct(module) do
-      decoded_value ->
-        if field_value = Map.get(value, to_string(field_name)) do
-          decoded_field_value = do_decode(field_value, field_type)
-          struct(decoded_value, [{field_name, decoded_field_value}])
-        else
-          decoded_value
-        end
-    end
-  end
-
-  defp do_decode(value, _type), do: value
+  defp wrap_result(%Operation{response_body: response}), do: {:error, response}
+  defp wrap_result(%ClientError{} = error), do: {:error, error}
 end
