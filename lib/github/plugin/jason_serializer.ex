@@ -1,9 +1,9 @@
 if Code.ensure_loaded?(Jason) do
   defmodule GitHub.Plugin.JasonSerializer do
-    alias GitHub.ClientError
+    alias GitHub.Error
     alias GitHub.Operation
 
-    @spec encode_body(Operation.t()) :: {:ok, Operation.t()} | {:error, ClientError.t()}
+    @spec encode_body(Operation.t()) :: {:ok, Operation.t()} | {:error, Error.t()}
     def encode_body(%Operation{request_body: nil} = operation), do: {:ok, operation}
     def encode_body(%Operation{request_body: ""} = operation), do: {:ok, operation}
 
@@ -17,16 +17,16 @@ if Code.ensure_loaded?(Jason) do
 
           {:error, %Jason.EncodeError{} = error} ->
             message = "Error while encoding request body"
+            step = {__MODULE__, :encode_body}
 
-            {:ok,
-             %ClientError{message: message, phase: {__MODULE__, :encode_body}, source: error}}
+            {:error, Error.new(message: message, operation: operation, source: error, step: step)}
         end
       else
         {:ok, operation}
       end
     end
 
-    @spec decode_body(Operation.t()) :: {:ok, Operation.t()} | {:error, ClientError.t()}
+    @spec decode_body(Operation.t()) :: {:ok, Operation.t()} | {:error, Error.t()}
     def decode_body(%Operation{response_body: nil} = operation), do: {:ok, operation}
     def decode_body(%Operation{response_body: ""} = operation), do: {:ok, operation}
 
@@ -40,9 +40,9 @@ if Code.ensure_loaded?(Jason) do
 
           {:error, %Jason.DecodeError{} = error} ->
             message = "Error while decoding response body"
+            step = {__MODULE__, :decode_body}
 
-            {:ok,
-             %ClientError{message: message, phase: {__MODULE__, :decode_body}, source: error}}
+            {:error, Error.new(message: message, operation: operation, source: error, step: step)}
         end
       else
         {:ok, operation}

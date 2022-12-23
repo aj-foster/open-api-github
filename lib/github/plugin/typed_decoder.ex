@@ -1,4 +1,5 @@
 defmodule GitHub.Plugin.TypedDecoder do
+  alias GitHub.Error
   alias GitHub.Operation
 
   @spec decode_response(Operation.t()) :: {:ok, Operation.t()}
@@ -34,4 +35,33 @@ defmodule GitHub.Plugin.TypedDecoder do
   end
 
   defp do_decode(value, _type), do: value
+
+  @spec normalize_errors(Operation.t()) :: {:ok, Operation.t()} | {:error, Error.t()}
+  def normalize_errors(%Operation{response_body: %GitHub.BasicError{} = error} = operation) do
+    %Operation{response_code: code} = operation
+
+    {:error,
+     Error.new(
+       code: code,
+       message: error.message,
+       operation: operation,
+       source: error,
+       step: {__MODULE__, :normalize_errors}
+     )}
+  end
+
+  def normalize_errors(%Operation{response_body: %GitHub.ValidationError{} = error} = operation) do
+    %Operation{response_code: code} = operation
+
+    {:error,
+     Error.new(
+       code: code,
+       message: error.message,
+       operation: operation,
+       source: error,
+       step: {__MODULE__, :normalize_errors}
+     )}
+  end
+
+  def normalize_errors(operation), do: {:ok, operation}
 end

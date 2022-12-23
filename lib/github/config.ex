@@ -10,7 +10,8 @@ defmodule GitHub.Config do
     {GitHub.Plugin.JasonSerializer, :encode_body},
     {GitHub.Plugin.HTTPoisonClient, :request},
     {GitHub.Plugin.JasonSerializer, :decode_body},
-    {GitHub.Plugin.TypedDecoder, :decode_response}
+    {GitHub.Plugin.TypedDecoder, :decode_response},
+    {GitHub.Plugin.TypedDecoder, :normalize_errors}
   ]
 
   @spec stack :: [{module, atom}]

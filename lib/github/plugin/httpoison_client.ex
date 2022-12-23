@@ -1,13 +1,13 @@
 if Code.ensure_loaded?(HTTPoison) do
   defmodule GitHub.Plugin.HTTPoisonClient do
-    alias GitHub.ClientError
+    alias GitHub.Error
     alias GitHub.Operation
 
     @http_code_success 200..206
     @http_code_redirect [301, 302, 303, 307, 308]
     @http_code_server_error 500..511
 
-    @spec request(Operation.t()) :: {:ok, Operation.t()} | {:error, ClientError.t()}
+    @spec request(Operation.t()) :: {:ok, Operation.t()} | {:error, Error.t()}
     def request(
           %Operation{
             request_body: body,
@@ -27,12 +27,15 @@ if Code.ensure_loaded?(HTTPoison) do
           process_response(operation, response)
 
         {:error, %HTTPoison.Error{} = error} ->
-          {:error, %ClientError{phase: :request, source: error}}
+          message = "Error during HTTP request"
+          step = {__MODULE__, :encode_body}
+
+          {:error, Error.new(message: message, operation: operation, source: error, step: step)}
       end
     end
 
     @spec process_response(Operation.t(), HTTPoison.Response.t()) ::
-            {:ok, Operation.t()} | {:error, ClientError.t()}
+            {:ok, Operation.t()} | {:error, Error.t()}
     defp process_response(operation, %HTTPoison.Response{status_code: code} = response)
          when code in @http_code_success do
       %HTTPoison.Response{body: body, headers: headers} = response
@@ -54,14 +57,32 @@ if Code.ensure_loaded?(HTTPoison) do
         request(operation)
       else
         message = "Received redirect response with no Location header"
-        {:error, %ClientError{phase: :request, message: message, source: response}}
+        step = {__MODULE__, :request}
+
+        {:error,
+         Error.new(
+           code: code,
+           message: message,
+           operation: operation,
+           source: response,
+           step: step
+         )}
       end
     end
 
-    defp process_response(_operation, %HTTPoison.Response{status_code: code} = response)
+    defp process_response(operation, %HTTPoison.Response{status_code: code} = response)
          when code in @http_code_server_error do
       message = "Received server error response (#{code})"
-      {:error, %ClientError{phase: :request, message: message, source: response}}
+      step = {__MODULE__, :request}
+
+      {:error,
+       Error.new(
+         code: code,
+         message: message,
+         operation: operation,
+         source: response,
+         step: step
+       )}
     end
 
     defp process_response(operation, response) do
