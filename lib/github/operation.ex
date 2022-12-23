@@ -1,8 +1,7 @@
 defmodule GitHub.Operation do
   alias GitHub.Authentication
+  alias GitHub.Config
   alias GitHub.Credential
-
-  @default_server "https://api.github.com"
 
   @type t :: %__MODULE__{}
 
@@ -37,7 +36,7 @@ defmodule GitHub.Operation do
       request_headers: [],
       request_method: method,
       request_params: request_info[:query] || nil,
-      request_server: opts[:server] || @default_server,
+      request_server: Config.server(opts),
       request_url: url,
       response_types: response_types
     }
