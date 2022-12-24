@@ -40,8 +40,13 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/branches/branch-protection#add-app-access-restrictions)
 
   """
-  @spec add_app_access_restrictions(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, [GitHub.Integration.t()]} | {:error, GitHub.ValidationError.t()}
+  @spec add_app_access_restrictions(
+          String.t(),
+          String.t(),
+          String.t(),
+          map | [String.t()],
+          keyword
+        ) :: {:ok, [GitHub.Integration.t()]} | {:error, GitHub.ValidationError.t()}
   def add_app_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -49,6 +54,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/apps",
       body: body,
       method: :post,
+      request: [{"application/json", {:union, [:map, array: :string]}}],
       response: [{200, {:array, {GitHub.Integration, :t}}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -72,6 +78,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/collaborators/#{username}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Repository.Invitation, :t}},
         {204, nil},
@@ -90,7 +97,7 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/branches/branch-protection#add-status-check-contexts)
 
   """
-  @spec add_status_check_contexts(String.t(), String.t(), String.t(), map, keyword) ::
+  @spec add_status_check_contexts(String.t(), String.t(), String.t(), map | [String.t()], keyword) ::
           {:ok, [String.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
   def add_status_check_contexts(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -100,6 +107,7 @@ defmodule GitHub.Repos do
         "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_status_checks/contexts",
       body: body,
       method: :post,
+      request: [{"application/json", {:union, [:map, array: :string]}}],
       response: [
         {200, {:array, :string}},
         {403, {GitHub.BasicError, :t}},
@@ -118,8 +126,13 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/branches/branch-protection#add-team-access-restrictions)
 
   """
-  @spec add_team_access_restrictions(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, [GitHub.Team.t()]} | {:error, GitHub.ValidationError.t()}
+  @spec add_team_access_restrictions(
+          String.t(),
+          String.t(),
+          String.t(),
+          map | [String.t()],
+          keyword
+        ) :: {:ok, [GitHub.Team.t()]} | {:error, GitHub.ValidationError.t()}
   def add_team_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -127,6 +140,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/teams",
       body: body,
       method: :post,
+      request: [{"application/json", {:union, [:map, array: :string]}}],
       response: [{200, {:array, {GitHub.Team, :t}}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -140,8 +154,13 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/branches/branch-protection#add-user-access-restrictions)
 
   """
-  @spec add_user_access_restrictions(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, [GitHub.User.simple()]} | {:error, GitHub.ValidationError.t()}
+  @spec add_user_access_restrictions(
+          String.t(),
+          String.t(),
+          String.t(),
+          map | [String.t()],
+          keyword
+        ) :: {:ok, [GitHub.User.simple()]} | {:error, GitHub.ValidationError.t()}
   def add_user_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -149,6 +168,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/users",
       body: body,
       method: :post,
+      request: [{"application/json", {:union, [:map, array: :string]}}],
       response: [{200, {:array, {GitHub.User, :simple}}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -271,6 +291,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/autolinks",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Autolink, :t}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -294,6 +315,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/commits/#{commit_sha}/comments",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Commit.Comment, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -344,6 +366,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/statuses/#{sha}",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Status, :t}}],
       opts: opts
     })
@@ -366,6 +389,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/keys",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.DeployKey, :t}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -388,6 +412,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/deployments",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Deployment, :t}},
         {202, :map},
@@ -406,8 +431,13 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/deployments/branch-policies#create-deployment-branch-policy)
 
   """
-  @spec create_deployment_branch_policy(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Deployment.BranchPolicy.t()} | :error
+  @spec create_deployment_branch_policy(
+          String.t(),
+          String.t(),
+          String.t(),
+          GitHub.Deployment.BranchPolicyNamePattern.t(),
+          keyword
+        ) :: {:ok, GitHub.Deployment.BranchPolicy.t()} | :error
   def create_deployment_branch_policy(owner, repo, environment_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -415,6 +445,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment-branch-policies",
       body: body,
       method: :post,
+      request: [{"application/json", {GitHub.Deployment.BranchPolicyNamePattern, :t}}],
       response: [{200, {GitHub.Deployment.BranchPolicy, :t}}, {303, nil}, {404, nil}],
       opts: opts
     })
@@ -437,6 +468,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/deployments/#{deployment_id}/statuses",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Deployment.Status, :t}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -459,6 +491,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/dispatches",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{204, nil}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -482,6 +515,7 @@ defmodule GitHub.Repos do
       url: "/user/repos",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Repository, :t}},
         {304, nil},
@@ -513,6 +547,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/forks",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {202, {GitHub.Repository, :full}},
         {400, {GitHub.BasicError, :t}},
@@ -542,6 +577,7 @@ defmodule GitHub.Repos do
       url: "/orgs/#{org}/repos",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Repository, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -568,6 +604,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/environments/#{environment_name}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Environment, :t}}, {422, {GitHub.BasicError, :t}}],
       opts: opts
     })
@@ -591,6 +628,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/contents/#{path}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.FileCommit, :t}},
         {201, {GitHub.FileCommit, :t}},
@@ -620,6 +658,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/pages/deployment",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Page.Deployment, :t}},
         {400, {GitHub.BasicError, :t}},
@@ -647,6 +686,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/pages",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Page, :t}},
         {409, {GitHub.BasicError, :t}},
@@ -673,6 +713,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/releases",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Release, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -699,6 +740,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/tags/protection",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.TagProtection, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -725,6 +767,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{template_owner}/#{template_repo}/generate",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Repository, :t}}],
       opts: opts
     })
@@ -747,6 +790,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/hooks",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Hook, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -1039,6 +1083,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/contents/#{path}",
       body: body,
       method: :delete,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.FileCommit, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -1376,6 +1421,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/releases/generate-notes",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Release.NotesContent, :t}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
@@ -3415,6 +3461,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/merges",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Commit, :t}},
         {204, nil},
@@ -3444,6 +3491,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/merge-upstream",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.MergedUpstream, :t}}, {409, nil}, {422, nil}],
       opts: opts
     })
@@ -3499,8 +3547,13 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/branches/branch-protection#remove-app-access-restrictions)
 
   """
-  @spec remove_app_access_restrictions(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, [GitHub.Integration.t()]} | {:error, GitHub.ValidationError.t()}
+  @spec remove_app_access_restrictions(
+          String.t(),
+          String.t(),
+          String.t(),
+          map | [String.t()],
+          keyword
+        ) :: {:ok, [GitHub.Integration.t()]} | {:error, GitHub.ValidationError.t()}
   def remove_app_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3508,6 +3561,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/apps",
       body: body,
       method: :delete,
+      request: [{"application/json", {:union, [:map, array: :string]}}],
       response: [{200, {:array, {GitHub.Integration, :t}}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -3541,8 +3595,13 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/branches/branch-protection#remove-status-check-contexts)
 
   """
-  @spec remove_status_check_contexts(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, [String.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec remove_status_check_contexts(
+          String.t(),
+          String.t(),
+          String.t(),
+          map | [String.t()],
+          keyword
+        ) :: {:ok, [String.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
   def remove_status_check_contexts(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3551,6 +3610,7 @@ defmodule GitHub.Repos do
         "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_status_checks/contexts",
       body: body,
       method: :delete,
+      request: [{"application/json", {:union, [:map, array: :string]}}],
       response: [
         {200, {:array, :string}},
         {404, {GitHub.BasicError, :t}},
@@ -3589,8 +3649,13 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/branches/branch-protection#remove-team-access-restrictions)
 
   """
-  @spec remove_team_access_restrictions(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, [GitHub.Team.t()]} | {:error, GitHub.ValidationError.t()}
+  @spec remove_team_access_restrictions(
+          String.t(),
+          String.t(),
+          String.t(),
+          map | [String.t()],
+          keyword
+        ) :: {:ok, [GitHub.Team.t()]} | {:error, GitHub.ValidationError.t()}
   def remove_team_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3598,6 +3663,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/teams",
       body: body,
       method: :delete,
+      request: [{"application/json", {:union, [:map, array: :string]}}],
       response: [{200, {:array, {GitHub.Team, :t}}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -3611,8 +3677,13 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/branches/branch-protection#remove-user-access-restrictions)
 
   """
-  @spec remove_user_access_restrictions(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, [GitHub.User.simple()]} | {:error, GitHub.ValidationError.t()}
+  @spec remove_user_access_restrictions(
+          String.t(),
+          String.t(),
+          String.t(),
+          map | [String.t()],
+          keyword
+        ) :: {:ok, [GitHub.User.simple()]} | {:error, GitHub.ValidationError.t()}
   def remove_user_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3620,6 +3691,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/users",
       body: body,
       method: :delete,
+      request: [{"application/json", {:union, [:map, array: :string]}}],
       response: [{200, {:array, {GitHub.User, :simple}}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -3643,6 +3715,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/rename",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Branch.WithProtection, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -3671,6 +3744,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/topics",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Topic, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -3730,8 +3804,13 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/branches/branch-protection#set-app-access-restrictions)
 
   """
-  @spec set_app_access_restrictions(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, [GitHub.Integration.t()]} | {:error, GitHub.ValidationError.t()}
+  @spec set_app_access_restrictions(
+          String.t(),
+          String.t(),
+          String.t(),
+          map | [String.t()],
+          keyword
+        ) :: {:ok, [GitHub.Integration.t()]} | {:error, GitHub.ValidationError.t()}
   def set_app_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3739,6 +3818,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/apps",
       body: body,
       method: :put,
+      request: [{"application/json", {:union, [:map, array: :string]}}],
       response: [{200, {:array, {GitHub.Integration, :t}}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -3752,7 +3832,7 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/branches/branch-protection#set-status-check-contexts)
 
   """
-  @spec set_status_check_contexts(String.t(), String.t(), String.t(), map, keyword) ::
+  @spec set_status_check_contexts(String.t(), String.t(), String.t(), map | [String.t()], keyword) ::
           {:ok, [String.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
   def set_status_check_contexts(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -3762,6 +3842,7 @@ defmodule GitHub.Repos do
         "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_status_checks/contexts",
       body: body,
       method: :put,
+      request: [{"application/json", {:union, [:map, array: :string]}}],
       response: [
         {200, {:array, :string}},
         {404, {GitHub.BasicError, :t}},
@@ -3779,8 +3860,13 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/branches/branch-protection#set-team-access-restrictions)
 
   """
-  @spec set_team_access_restrictions(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, [GitHub.Team.t()]} | {:error, GitHub.ValidationError.t()}
+  @spec set_team_access_restrictions(
+          String.t(),
+          String.t(),
+          String.t(),
+          map | [String.t()],
+          keyword
+        ) :: {:ok, [GitHub.Team.t()]} | {:error, GitHub.ValidationError.t()}
   def set_team_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3788,6 +3874,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/teams",
       body: body,
       method: :put,
+      request: [{"application/json", {:union, [:map, array: :string]}}],
       response: [{200, {:array, {GitHub.Team, :t}}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -3801,8 +3888,13 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/branches/branch-protection#set-user-access-restrictions)
 
   """
-  @spec set_user_access_restrictions(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, [GitHub.User.simple()]} | {:error, GitHub.ValidationError.t()}
+  @spec set_user_access_restrictions(
+          String.t(),
+          String.t(),
+          String.t(),
+          map | [String.t()],
+          keyword
+        ) :: {:ok, [GitHub.User.simple()]} | {:error, GitHub.ValidationError.t()}
   def set_user_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3810,6 +3902,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/users",
       body: body,
       method: :put,
+      request: [{"application/json", {:union, [:map, array: :string]}}],
       response: [{200, {:array, {GitHub.User, :simple}}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -3853,6 +3946,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/transfer",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{202, {GitHub.MinimalRepository, :t}}],
       opts: opts
     })
@@ -3876,6 +3970,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Repository, :full}},
         {307, {GitHub.BasicError, :t}},
@@ -3905,6 +4000,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.ProtectedBranch, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -3932,6 +4028,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/comments/#{comment_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Commit.Comment, :t}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
@@ -3945,8 +4042,14 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/deployments/branch-policies#update-deployment-branch-policy)
 
   """
-  @spec update_deployment_branch_policy(String.t(), String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Deployment.BranchPolicy.t()} | :error
+  @spec update_deployment_branch_policy(
+          String.t(),
+          String.t(),
+          String.t(),
+          integer,
+          GitHub.Deployment.BranchPolicyNamePattern.t(),
+          keyword
+        ) :: {:ok, GitHub.Deployment.BranchPolicy.t()} | :error
   def update_deployment_branch_policy(
         owner,
         repo,
@@ -3962,6 +4065,7 @@ defmodule GitHub.Repos do
         "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment-branch-policies/#{branch_policy_id}",
       body: body,
       method: :put,
+      request: [{"application/json", {GitHub.Deployment.BranchPolicyNamePattern, :t}}],
       response: [{200, {GitHub.Deployment.BranchPolicy, :t}}],
       opts: opts
     })
@@ -3984,6 +4088,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/pages",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {204, nil},
         {400, {GitHub.BasicError, :t}},
@@ -4011,6 +4116,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/invitations/#{invitation_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Repository.Invitation, :t}}],
       opts: opts
     })
@@ -4034,6 +4140,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_pull_request_reviews",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.ProtectedBranch.PullRequestReview, :t}},
         {422, {GitHub.ValidationError, :t}}
@@ -4059,6 +4166,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/releases/#{release_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Release, :t}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
@@ -4081,6 +4189,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/releases/assets/#{asset_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Release.Asset, :t}}],
       opts: opts
     })
@@ -4104,6 +4213,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_status_checks",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.StatusCheckPolicy, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -4130,6 +4240,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Hook, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -4156,6 +4267,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}/config",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Webhook.Config, :t}}],
       opts: opts
     })
@@ -4174,7 +4286,7 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#upload-a-release-asset)
 
   """
-  @spec upload_release_asset(String.t(), String.t(), integer, map, keyword) ::
+  @spec upload_release_asset(String.t(), String.t(), integer, String.t(), keyword) ::
           {:ok, GitHub.Release.Asset.t()} | :error
   def upload_release_asset(owner, repo, release_id, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -4185,6 +4297,7 @@ defmodule GitHub.Repos do
       body: body,
       method: :post,
       query: query,
+      request: [{"*/*", :string}],
       response: [{201, {GitHub.Release.Asset, :t}}, {422, nil}],
       opts: opts
     })

@@ -13,7 +13,7 @@ defmodule GitHub.Users do
     * [API method documentation](https://docs.github.com/rest/reference/users#add-an-email-address-for-the-authenticated-user)
 
   """
-  @spec add_email_for_authenticated_user(map, keyword) ::
+  @spec add_email_for_authenticated_user(map | String.t() | [String.t()], keyword) ::
           {:ok, [GitHub.Email.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
   def add_email_for_authenticated_user(body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -22,6 +22,7 @@ defmodule GitHub.Users do
       url: "/user/emails",
       body: body,
       method: :post,
+      request: [{"application/json", {:union, [:map, {:array, :string}, :string]}}],
       response: [
         {201, {:array, {GitHub.Email, :t}}},
         {304, nil},
@@ -152,6 +153,7 @@ defmodule GitHub.Users do
       url: "/user/gpg_keys",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.GpgKey, :t}},
         {304, nil},
@@ -181,6 +183,7 @@ defmodule GitHub.Users do
       url: "/user/keys",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Key, :t}},
         {304, nil},
@@ -211,6 +214,7 @@ defmodule GitHub.Users do
       url: "/user/ssh_signing_keys",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.SSHSigningKey, :t}},
         {304, nil},
@@ -231,7 +235,7 @@ defmodule GitHub.Users do
     * [API method documentation](https://docs.github.com/rest/reference/users#delete-an-email-address-for-the-authenticated-user)
 
   """
-  @spec delete_email_for_authenticated_user(map, keyword) ::
+  @spec delete_email_for_authenticated_user(map | String.t() | [String.t()], keyword) ::
           :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
   def delete_email_for_authenticated_user(body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -240,6 +244,7 @@ defmodule GitHub.Users do
       url: "/user/emails",
       body: body,
       method: :delete,
+      request: [{"application/json", {:union, [:map, {:array, :string}, :string]}}],
       response: [
         {204, nil},
         {304, nil},
@@ -974,6 +979,7 @@ defmodule GitHub.Users do
       url: "/user/email/visibility",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {:array, {GitHub.Email, :t}}},
         {304, nil},
@@ -1056,6 +1062,7 @@ defmodule GitHub.Users do
       url: "/user",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.User, :private}},
         {304, nil},

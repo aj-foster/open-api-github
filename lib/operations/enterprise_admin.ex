@@ -27,6 +27,7 @@ defmodule GitHub.EnterpriseAdmin do
       url: "/enterprises/#{enterprise}/actions/runners/#{runner_id}/labels",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {200, :map},
         {404, {GitHub.BasicError, :t}},
@@ -153,6 +154,7 @@ defmodule GitHub.EnterpriseAdmin do
       url: "/enterprises/#{enterprise}/actions/runner-groups",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Actions.Runner.GroupsEnterprise, :t}}],
       opts: opts
     })
@@ -706,6 +708,7 @@ defmodule GitHub.EnterpriseAdmin do
       url: "/enterprises/#{enterprise}/code_security_and_analysis",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}, {422, nil}],
       opts: opts
     })
@@ -749,7 +752,8 @@ defmodule GitHub.EnterpriseAdmin do
     * [API method documentation](https://docs.github.com/rest/reference/actions#set-allowed-actions-for-an-enterprise)
 
   """
-  @spec set_allowed_actions_enterprise(String.t(), map, keyword) :: :ok | :error
+  @spec set_allowed_actions_enterprise(String.t(), GitHub.SelectedActions.t(), keyword) ::
+          :ok | :error
   def set_allowed_actions_enterprise(enterprise, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -757,6 +761,7 @@ defmodule GitHub.EnterpriseAdmin do
       url: "/enterprises/#{enterprise}/actions/permissions/selected-actions",
       body: body,
       method: :put,
+      request: [{"application/json", {GitHub.SelectedActions, :t}}],
       response: [{204, nil}],
       opts: opts
     })
@@ -784,6 +789,7 @@ defmodule GitHub.EnterpriseAdmin do
       url: "/enterprises/#{enterprise}/actions/runners/#{runner_id}/labels",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {200, :map},
         {404, {GitHub.BasicError, :t}},
@@ -809,6 +815,7 @@ defmodule GitHub.EnterpriseAdmin do
       url: "/enterprises/#{enterprise}/actions/permissions",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{204, nil}],
       opts: opts
     })
@@ -840,6 +847,7 @@ defmodule GitHub.EnterpriseAdmin do
       url: "/enterprises/#{enterprise}/actions/runner-groups/#{runner_group_id}/organizations",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{204, nil}],
       opts: opts
     })
@@ -862,6 +870,7 @@ defmodule GitHub.EnterpriseAdmin do
       url: "/enterprises/#{enterprise}/actions/permissions/organizations",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{204, nil}],
       opts: opts
     })
@@ -889,6 +898,7 @@ defmodule GitHub.EnterpriseAdmin do
       url: "/enterprises/#{enterprise}/actions/runner-groups/#{runner_group_id}/runners",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{204, nil}],
       opts: opts
     })
@@ -916,6 +926,7 @@ defmodule GitHub.EnterpriseAdmin do
       url: "/enterprises/#{enterprise}/actions/runner-groups/#{runner_group_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Actions.Runner.GroupsEnterprise, :t}}],
       opts: opts
     })

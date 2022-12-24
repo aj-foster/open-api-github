@@ -23,6 +23,7 @@ defmodule GitHub.Git do
       url: "/repos/#{owner}/#{repo}/git/blobs",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.ShortBlob, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -52,6 +53,7 @@ defmodule GitHub.Git do
       url: "/repos/#{owner}/#{repo}/git/commits",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Git.Commit, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -78,6 +80,7 @@ defmodule GitHub.Git do
       url: "/repos/#{owner}/#{repo}/git/refs",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Git.Ref, :t}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -100,6 +103,7 @@ defmodule GitHub.Git do
       url: "/repos/#{owner}/#{repo}/git/tags",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Git.Tag, :t}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -123,6 +127,7 @@ defmodule GitHub.Git do
       url: "/repos/#{owner}/#{repo}/git/trees",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Git.Tree, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -313,6 +318,7 @@ defmodule GitHub.Git do
       url: "/repos/#{owner}/#{repo}/git/refs/#{ref}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Git.Ref, :t}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })

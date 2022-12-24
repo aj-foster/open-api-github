@@ -22,6 +22,7 @@ defmodule GitHub.Projects do
       url: "/projects/#{project_id}/collaborators/#{username}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {204, nil},
         {304, nil},
@@ -56,6 +57,7 @@ defmodule GitHub.Projects do
       url: "/projects/columns/#{column_id}/cards",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Project.Card, :t}},
         {304, nil},
@@ -86,6 +88,7 @@ defmodule GitHub.Projects do
       url: "/projects/#{project_id}/columns",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Project.Column, :t}},
         {304, nil},
@@ -115,6 +118,7 @@ defmodule GitHub.Projects do
       url: "/user/projects",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Project, :t}},
         {304, nil},
@@ -144,6 +148,7 @@ defmodule GitHub.Projects do
       url: "/orgs/#{org}/projects",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Project, :t}},
         {401, {GitHub.BasicError, :t}},
@@ -174,6 +179,7 @@ defmodule GitHub.Projects do
       url: "/repos/#{owner}/#{repo}/projects",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Project, :t}},
         {401, {GitHub.BasicError, :t}},
@@ -588,6 +594,7 @@ defmodule GitHub.Projects do
       url: "/projects/columns/cards/#{card_id}/moves",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, :map},
         {304, nil},
@@ -617,6 +624,7 @@ defmodule GitHub.Projects do
       url: "/projects/columns/#{column_id}/moves",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, :map},
         {304, nil},
@@ -674,6 +682,7 @@ defmodule GitHub.Projects do
       url: "/projects/#{project_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Project, :t}},
         {304, nil},
@@ -705,6 +714,7 @@ defmodule GitHub.Projects do
       url: "/projects/columns/cards/#{card_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Project.Card, :t}},
         {304, nil},
@@ -734,6 +744,7 @@ defmodule GitHub.Projects do
       url: "/projects/columns/#{column_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Project.Column, :t}},
         {304, nil},

@@ -43,6 +43,7 @@ defmodule GitHub.Pulls do
       url: "/repos/#{owner}/#{repo}/pulls",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.PullRequest, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -69,6 +70,7 @@ defmodule GitHub.Pulls do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/comments/#{comment_id}/replies",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.PullRequest.ReviewComment, :t}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
@@ -92,6 +94,7 @@ defmodule GitHub.Pulls do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.PullRequest.Review, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -119,6 +122,7 @@ defmodule GitHub.Pulls do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/comments",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.PullRequest.ReviewComment, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -193,6 +197,7 @@ defmodule GitHub.Pulls do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews/#{review_id}/dismissals",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.PullRequest.Review, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -527,6 +532,7 @@ defmodule GitHub.Pulls do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/merge",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.PullRequest.MergeResult, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -556,6 +562,7 @@ defmodule GitHub.Pulls do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/requested_reviewers",
       body: body,
       method: :delete,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.PullRequest, :simple}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -578,6 +585,7 @@ defmodule GitHub.Pulls do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/requested_reviewers",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.PullRequest, :simple}}, {403, {GitHub.BasicError, :t}}, {422, nil}],
       opts: opts
     })
@@ -601,6 +609,7 @@ defmodule GitHub.Pulls do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews/#{review_id}/events",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.PullRequest.Review, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -629,6 +638,7 @@ defmodule GitHub.Pulls do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.PullRequest, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -655,6 +665,7 @@ defmodule GitHub.Pulls do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/update-branch",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{202, :map}, {403, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -677,6 +688,7 @@ defmodule GitHub.Pulls do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews/#{review_id}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.PullRequest.Review, :t}}, {422, {GitHub.ValidationError, :simple}}],
       opts: opts
     })
@@ -699,6 +711,7 @@ defmodule GitHub.Pulls do
       url: "/repos/#{owner}/#{repo}/pulls/comments/#{comment_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.PullRequest.ReviewComment, :t}}],
       opts: opts
     })

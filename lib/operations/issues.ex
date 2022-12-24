@@ -22,6 +22,7 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/assignees",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Issue, :t}}],
       opts: opts
     })
@@ -35,7 +36,13 @@ defmodule GitHub.Issues do
     * [API method documentation](https://docs.github.com/rest/reference/issues#add-labels-to-an-issue)
 
   """
-  @spec add_labels(String.t(), String.t(), integer, map, keyword) ::
+  @spec add_labels(
+          String.t(),
+          String.t(),
+          integer,
+          map | String.t() | [map] | [String.t()],
+          keyword
+        ) ::
           {:ok, [GitHub.Label.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
   def add_labels(owner, repo, issue_number, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -44,6 +51,9 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/labels",
       body: body,
       method: :post,
+      request: [
+        {"application/json", {:union, [:map, {:array, :string}, {:array, :map}, :string]}}
+      ],
       response: [
         {200, {:array, {GitHub.Label, :t}}},
         {301, {GitHub.BasicError, :t}},
@@ -94,6 +104,7 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/issues",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Issue, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -124,6 +135,7 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/comments",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Issue.Comment, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -152,6 +164,7 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/labels",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Label, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -179,6 +192,7 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/milestones",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Milestone, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -913,6 +927,7 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/lock",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {204, nil},
         {403, {GitHub.BasicError, :t}},
@@ -967,6 +982,7 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/assignees",
       body: body,
       method: :delete,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Issue, :t}}],
       opts: opts
     })
@@ -1006,7 +1022,13 @@ defmodule GitHub.Issues do
     * [API method documentation](https://docs.github.com/rest/reference/issues#set-labels-for-an-issue)
 
   """
-  @spec set_labels(String.t(), String.t(), integer, map, keyword) ::
+  @spec set_labels(
+          String.t(),
+          String.t(),
+          integer,
+          map | String.t() | [map] | [String.t()],
+          keyword
+        ) ::
           {:ok, [GitHub.Label.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
   def set_labels(owner, repo, issue_number, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -1015,6 +1037,9 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/labels",
       body: body,
       method: :put,
+      request: [
+        {"application/json", {:union, [:map, {:array, :string}, {:array, :map}, :string]}}
+      ],
       response: [
         {200, {:array, {GitHub.Label, :t}}},
         {301, {GitHub.BasicError, :t}},
@@ -1064,6 +1089,7 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Issue, :t}},
         {301, {GitHub.BasicError, :t}},
@@ -1094,6 +1120,7 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/issues/comments/#{comment_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Issue.Comment, :t}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -1116,6 +1143,7 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/labels/#{name}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Label, :t}}],
       opts: opts
     })
@@ -1138,6 +1166,7 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/milestones/#{milestone_number}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Milestone, :t}}],
       opts: opts
     })

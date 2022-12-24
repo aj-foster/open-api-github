@@ -136,7 +136,7 @@ defmodule GitHub.Interactions do
     * [API method documentation](https://docs.github.com/rest/reference/interactions#set-interaction-restrictions-for-your-public-repositories)
 
   """
-  @spec set_restrictions_for_authenticated_user(map, keyword) ::
+  @spec set_restrictions_for_authenticated_user(GitHub.Interaction.Limit.t(), keyword) ::
           {:ok, GitHub.Interaction.Limit.Response.t()} | {:error, GitHub.ValidationError.t()}
   def set_restrictions_for_authenticated_user(body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -145,6 +145,7 @@ defmodule GitHub.Interactions do
       url: "/user/interaction-limits",
       body: body,
       method: :put,
+      request: [{"application/json", {GitHub.Interaction.Limit, :t}}],
       response: [
         {200, {GitHub.Interaction.Limit.Response, :t}},
         {422, {GitHub.ValidationError, :t}}
@@ -161,7 +162,7 @@ defmodule GitHub.Interactions do
     * [API method documentation](https://docs.github.com/rest/reference/interactions#set-interaction-restrictions-for-an-organization)
 
   """
-  @spec set_restrictions_for_org(String.t(), map, keyword) ::
+  @spec set_restrictions_for_org(String.t(), GitHub.Interaction.Limit.t(), keyword) ::
           {:ok, GitHub.Interaction.Limit.Response.t()} | {:error, GitHub.ValidationError.t()}
   def set_restrictions_for_org(org, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -170,6 +171,7 @@ defmodule GitHub.Interactions do
       url: "/orgs/#{org}/interaction-limits",
       body: body,
       method: :put,
+      request: [{"application/json", {GitHub.Interaction.Limit, :t}}],
       response: [
         {200, {GitHub.Interaction.Limit.Response, :t}},
         {422, {GitHub.ValidationError, :t}}
@@ -186,7 +188,7 @@ defmodule GitHub.Interactions do
     * [API method documentation](https://docs.github.com/rest/reference/interactions#set-interaction-restrictions-for-a-repository)
 
   """
-  @spec set_restrictions_for_repo(String.t(), String.t(), map, keyword) ::
+  @spec set_restrictions_for_repo(String.t(), String.t(), GitHub.Interaction.Limit.t(), keyword) ::
           {:ok, GitHub.Interaction.Limit.Response.t()} | :error
   def set_restrictions_for_repo(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -195,6 +197,7 @@ defmodule GitHub.Interactions do
       url: "/repos/#{owner}/#{repo}/interaction-limits",
       body: body,
       method: :put,
+      request: [{"application/json", {GitHub.Interaction.Limit, :t}}],
       response: [{200, {GitHub.Interaction.Limit.Response, :t}}, {409, nil}],
       opts: opts
     })

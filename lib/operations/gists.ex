@@ -43,6 +43,7 @@ defmodule GitHub.Gists do
       url: "/gists",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Gist, :simple}},
         {304, nil},
@@ -71,6 +72,7 @@ defmodule GitHub.Gists do
       url: "/gists/#{gist_id}/comments",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Gist.Comment, :t}},
         {304, nil},
@@ -534,6 +536,7 @@ defmodule GitHub.Gists do
       url: "/gists/#{gist_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Gist, :simple}},
         {404, {GitHub.BasicError, :t}},
@@ -560,6 +563,7 @@ defmodule GitHub.Gists do
       url: "/gists/#{gist_id}/comments/#{comment_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Gist.Comment, :t}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })

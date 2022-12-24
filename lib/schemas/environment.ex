@@ -39,7 +39,7 @@ defmodule GitHub.Environment do
       id: :integer,
       name: :string,
       node_id: :string,
-      protection_rules: {:array, {:union, [:map, :map, :map]}},
+      protection_rules: {:array, :map},
       updated_at: :string,
       url: :string
     ]

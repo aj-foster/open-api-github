@@ -49,6 +49,7 @@ defmodule GitHub.Apps do
       url: "/applications/#{client_id}/token",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Authorization, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -101,6 +102,7 @@ defmodule GitHub.Apps do
       url: "/app/installations/#{installation_id}/access_tokens",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Installation.Token, :t}},
         {401, {GitHub.BasicError, :t}},
@@ -129,6 +131,7 @@ defmodule GitHub.Apps do
       url: "/applications/#{client_id}/grant",
       body: body,
       method: :delete,
+      request: [{"application/json", :map}],
       response: [{204, nil}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -170,6 +173,7 @@ defmodule GitHub.Apps do
       url: "/applications/#{client_id}/token",
       body: body,
       method: :delete,
+      request: [{"application/json", :map}],
       response: [{204, nil}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -829,6 +833,7 @@ defmodule GitHub.Apps do
       url: "/applications/#{client_id}/token",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Authorization, :t}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -872,6 +877,7 @@ defmodule GitHub.Apps do
       url: "/applications/#{client_id}/token/scoped",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Authorization, :t}},
         {401, {GitHub.BasicError, :t}},
@@ -939,6 +945,7 @@ defmodule GitHub.Apps do
       url: "/app/hook/config",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Webhook.Config, :t}}],
       opts: opts
     })

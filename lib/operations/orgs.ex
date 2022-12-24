@@ -144,6 +144,7 @@ defmodule GitHub.Orgs do
       url: "/orgs/#{org}/outside_collaborators/#{username}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{202, :map}, {204, nil}, {403, nil}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
@@ -167,6 +168,7 @@ defmodule GitHub.Orgs do
       url: "/orgs/#{org}/custom_roles",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Organization.CustomRepositoryRole, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -194,6 +196,7 @@ defmodule GitHub.Orgs do
       url: "/orgs/#{org}/invitations",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Organization.Invitation, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -220,6 +223,7 @@ defmodule GitHub.Orgs do
       url: "/orgs/#{org}/hooks",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.OrgHook, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -1098,6 +1102,7 @@ defmodule GitHub.Orgs do
       url: "/orgs/#{org}/memberships/#{username}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.OrgMembership, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -1167,6 +1172,7 @@ defmodule GitHub.Orgs do
       url: "/orgs/#{org}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Organization.Full, :t}},
         {409, {GitHub.BasicError, :t}},
@@ -1194,6 +1200,7 @@ defmodule GitHub.Orgs do
       url: "/orgs/#{org}/custom_roles/#{role_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Organization.CustomRepositoryRole, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -1221,6 +1228,7 @@ defmodule GitHub.Orgs do
       url: "/user/memberships/orgs/#{org}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.OrgMembership, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -1248,6 +1256,7 @@ defmodule GitHub.Orgs do
       url: "/orgs/#{org}/hooks/#{hook_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.OrgHook, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -1274,6 +1283,7 @@ defmodule GitHub.Orgs do
       url: "/orgs/#{org}/hooks/#{hook_id}/config",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Webhook.Config, :t}}],
       opts: opts
     })

@@ -42,6 +42,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}/memberships/#{username}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Team.Membership, :t}}, {403, nil}, {422, nil}],
       opts: opts
     })
@@ -64,6 +65,7 @@ defmodule GitHub.Teams do
       url: "/teams/#{team_id}/memberships/#{username}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Team.Membership, :t}},
         {403, nil},
@@ -91,6 +93,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}/projects/#{project_id}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{204, nil}, {403, :map}],
       opts: opts
     })
@@ -113,6 +116,7 @@ defmodule GitHub.Teams do
       url: "/teams/#{team_id}/projects/#{project_id}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {204, nil},
         {403, :map},
@@ -146,6 +150,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}/repos/#{owner}/#{repo}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{204, nil}],
       opts: opts
     })
@@ -168,6 +173,7 @@ defmodule GitHub.Teams do
       url: "/teams/#{team_id}/repos/#{owner}/#{repo}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{204, nil}, {403, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
@@ -275,6 +281,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Team.Full, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -301,6 +308,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Team.DiscussionComment, :t}}],
       opts: opts
     })
@@ -323,6 +331,7 @@ defmodule GitHub.Teams do
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Team.DiscussionComment, :t}}],
       opts: opts
     })
@@ -345,6 +354,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}/discussions",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Team.Discussion, :t}}],
       opts: opts
     })
@@ -367,6 +377,7 @@ defmodule GitHub.Teams do
       url: "/teams/#{team_id}/discussions",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Team.Discussion, :t}}],
       opts: opts
     })
@@ -1320,6 +1331,7 @@ defmodule GitHub.Teams do
         "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments/#{comment_number}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Team.DiscussionComment, :t}}],
       opts: opts
     })
@@ -1348,6 +1360,7 @@ defmodule GitHub.Teams do
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments/#{comment_number}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Team.DiscussionComment, :t}}],
       opts: opts
     })
@@ -1370,6 +1383,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Team.Discussion, :t}}],
       opts: opts
     })
@@ -1392,6 +1406,7 @@ defmodule GitHub.Teams do
       url: "/teams/#{team_id}/discussions/#{discussion_number}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Team.Discussion, :t}}],
       opts: opts
     })
@@ -1415,6 +1430,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Team.Full, :t}},
         {201, {GitHub.Team.Full, :t}},
@@ -1444,6 +1460,7 @@ defmodule GitHub.Teams do
       url: "/teams/#{team_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Team.Full, :t}},
         {201, {GitHub.Team.Full, :t}},

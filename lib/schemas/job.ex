@@ -7,6 +7,7 @@ defmodule GitHub.Job do
           check_run_url: String.t(),
           completed_at: String.t() | nil,
           conclusion: String.t() | nil,
+          head_branch: String.t() | nil,
           head_sha: String.t(),
           html_url: String.t() | nil,
           id: integer,
@@ -23,13 +24,15 @@ defmodule GitHub.Job do
           started_at: String.t(),
           status: String.t(),
           steps: [map] | nil,
-          url: String.t()
+          url: String.t(),
+          workflow_name: String.t() | nil
         }
 
   defstruct [
     :check_run_url,
     :completed_at,
     :conclusion,
+    :head_branch,
     :head_sha,
     :html_url,
     :id,
@@ -46,7 +49,8 @@ defmodule GitHub.Job do
     :started_at,
     :status,
     :steps,
-    :url
+    :url,
+    :workflow_name
   ]
 
   @doc false
@@ -58,6 +62,7 @@ defmodule GitHub.Job do
       check_run_url: :string,
       completed_at: :string,
       conclusion: :string,
+      head_branch: :string,
       head_sha: :string,
       html_url: :string,
       id: :integer,
@@ -74,7 +79,8 @@ defmodule GitHub.Job do
       started_at: :string,
       status: :string,
       steps: {:array, :map},
-      url: :string
+      url: :string,
+      workflow_name: :string
     ]
   end
 end

@@ -226,6 +226,7 @@ defmodule GitHub.SecretScanning do
       url: "/repos/#{owner}/#{repo}/secret-scanning/alerts/#{alert_number}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.SecretScanning.Alert, :t}},
         {400, nil},

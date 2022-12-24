@@ -103,6 +103,7 @@ defmodule GitHub.Codespaces do
       url: "/user/codespaces",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Codespace, :t}},
         {202, {GitHub.Codespace, :t}},
@@ -133,6 +134,7 @@ defmodule GitHub.Codespaces do
       url: "/orgs/#{org}/codespaces/secrets/#{secret_name}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.EmptyObject, :t}},
         {204, nil},
@@ -160,6 +162,7 @@ defmodule GitHub.Codespaces do
       url: "/repos/#{owner}/#{repo}/codespaces/secrets/#{secret_name}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
       opts: opts
     })
@@ -183,6 +186,7 @@ defmodule GitHub.Codespaces do
       url: "/user/codespaces/secrets/#{secret_name}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.EmptyObject, :t}},
         {204, nil},
@@ -210,6 +214,7 @@ defmodule GitHub.Codespaces do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/codespaces",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Codespace, :t}},
         {202, {GitHub.Codespace, :t}},
@@ -239,6 +244,7 @@ defmodule GitHub.Codespaces do
       url: "/repos/#{owner}/#{repo}/codespaces",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Codespace, :t}},
         {202, {GitHub.Codespace, :t}},
@@ -1019,6 +1025,7 @@ defmodule GitHub.Codespaces do
       url: "/orgs/#{org}/codespaces/billing",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {204, nil},
         {304, nil},
@@ -1048,6 +1055,7 @@ defmodule GitHub.Codespaces do
       url: "/user/codespaces/secrets/#{secret_name}/repositories",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {204, nil},
         {401, {GitHub.BasicError, :t}},
@@ -1076,6 +1084,7 @@ defmodule GitHub.Codespaces do
       url: "/orgs/#{org}/codespaces/secrets/#{secret_name}/repositories",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}, {409, nil}],
       opts: opts
     })
@@ -1184,6 +1193,7 @@ defmodule GitHub.Codespaces do
       url: "/user/codespaces/#{codespace_name}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Codespace, :t}},
         {401, {GitHub.BasicError, :t}},

@@ -392,6 +392,7 @@ defmodule GitHub.Migrations do
       url: "/repos/#{owner}/#{repo}/import/authors/#{author_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.PorterAuthor, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -419,6 +420,7 @@ defmodule GitHub.Migrations do
       url: "/repos/#{owner}/#{repo}/import/lfs",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Import, :t}},
         {422, {GitHub.ValidationError, :t}},
@@ -446,6 +448,7 @@ defmodule GitHub.Migrations do
       url: "/user/migrations",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Migration, :t}},
         {304, nil},
@@ -475,6 +478,7 @@ defmodule GitHub.Migrations do
       url: "/orgs/#{org}/migrations",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Migration, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -501,6 +505,7 @@ defmodule GitHub.Migrations do
       url: "/repos/#{owner}/#{repo}/import",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Import, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -576,6 +581,7 @@ defmodule GitHub.Migrations do
       url: "/repos/#{owner}/#{repo}/import",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Import, :t}}, {503, {GitHub.BasicError, :t}}],
       opts: opts
     })

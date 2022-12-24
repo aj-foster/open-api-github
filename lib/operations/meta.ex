@@ -57,7 +57,7 @@ defmodule GitHub.Meta do
     * [API method documentation](https://docs.github.com/rest/reference/meta#get-octocat)
 
   """
-  @spec get_octocat(keyword) :: {:ok, String.t()} | :error
+  @spec get_octocat(keyword) :: {:ok, binary} | :error
   def get_octocat(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:s])
@@ -66,7 +66,7 @@ defmodule GitHub.Meta do
       url: "/octocat",
       method: :get,
       query: query,
-      response: [{200, :string}],
+      response: [{200, :binary}],
       opts: opts
     })
   end
@@ -79,10 +79,10 @@ defmodule GitHub.Meta do
     * [API method documentation](https://docs.github.com/rest/meta#get-the-zen-of-github)
 
   """
-  @spec get_zen(keyword) :: {:ok, String.t()} | :error
+  @spec get_zen(keyword) :: {:ok, binary} | :error
   def get_zen(opts \\ []) do
     client = opts[:client] || @default_client
-    client.request(%{url: "/zen", method: :get, response: [{200, :string}], opts: opts})
+    client.request(%{url: "/zen", method: :get, response: [{200, :binary}], opts: opts})
   end
 
   @doc """

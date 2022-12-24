@@ -707,6 +707,7 @@ defmodule GitHub.Activity do
       url: "/notifications",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {202, :map},
         {205, nil},
@@ -735,6 +736,7 @@ defmodule GitHub.Activity do
       url: "/repos/#{owner}/#{repo}/notifications",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{202, :map}, {205, nil}],
       opts: opts
     })
@@ -777,6 +779,7 @@ defmodule GitHub.Activity do
       url: "/repos/#{owner}/#{repo}/subscription",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Repository.Subscription, :t}}],
       opts: opts
     })
@@ -799,6 +802,7 @@ defmodule GitHub.Activity do
       url: "/notifications/threads/#{thread_id}/subscription",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.ThreadSubscription, :t}},
         {304, nil},

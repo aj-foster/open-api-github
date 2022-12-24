@@ -22,6 +22,7 @@ defmodule GitHub.Reactions do
       url: "/repos/#{owner}/#{repo}/comments/#{comment_id}/reactions",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Reaction, :t}},
         {201, {GitHub.Reaction, :t}},
@@ -48,6 +49,7 @@ defmodule GitHub.Reactions do
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/reactions",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Reaction, :t}},
         {201, {GitHub.Reaction, :t}},
@@ -74,6 +76,7 @@ defmodule GitHub.Reactions do
       url: "/repos/#{owner}/#{repo}/issues/comments/#{comment_id}/reactions",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Reaction, :t}},
         {201, {GitHub.Reaction, :t}},
@@ -100,6 +103,7 @@ defmodule GitHub.Reactions do
       url: "/repos/#{owner}/#{repo}/pulls/comments/#{comment_id}/reactions",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Reaction, :t}},
         {201, {GitHub.Reaction, :t}},
@@ -126,6 +130,7 @@ defmodule GitHub.Reactions do
       url: "/repos/#{owner}/#{repo}/releases/#{release_id}/reactions",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Reaction, :t}},
         {201, {GitHub.Reaction, :t}},
@@ -166,6 +171,7 @@ defmodule GitHub.Reactions do
         "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments/#{comment_number}/reactions",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Reaction, :t}}, {201, {GitHub.Reaction, :t}}],
       opts: opts
     })
@@ -195,6 +201,7 @@ defmodule GitHub.Reactions do
         "/teams/#{team_id}/discussions/#{discussion_number}/comments/#{comment_number}/reactions",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Reaction, :t}}],
       opts: opts
     })
@@ -217,6 +224,7 @@ defmodule GitHub.Reactions do
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/reactions",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Reaction, :t}}, {201, {GitHub.Reaction, :t}}],
       opts: opts
     })
@@ -239,6 +247,7 @@ defmodule GitHub.Reactions do
       url: "/teams/#{team_id}/discussions/#{discussion_number}/reactions",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Reaction, :t}}],
       opts: opts
     })

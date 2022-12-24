@@ -22,6 +22,7 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/runners/#{runner_id}/labels",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {200, :map},
         {404, {GitHub.BasicError, :t}},
@@ -53,6 +54,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {200, :map},
         {404, {GitHub.BasicError, :t}},
@@ -173,6 +175,7 @@ defmodule GitHub.Actions do
         "/repositories/#{repository_id}/environments/#{environment_name}/secrets/#{secret_name}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
       opts: opts
     })
@@ -195,6 +198,7 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/secrets/#{secret_name}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
       opts: opts
     })
@@ -217,6 +221,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/secrets/#{secret_name}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
       opts: opts
     })
@@ -323,6 +328,7 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/runner-groups",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Actions.Runner.GroupsOrg, :t}}],
       opts: opts
     })
@@ -345,6 +351,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/dispatches",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{204, nil}],
       opts: opts
     })
@@ -2066,6 +2073,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/jobs/#{job_id}/rerun",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.EmptyObject, :t}}, {403, {GitHub.BasicError, :t}}],
       opts: opts
     })
@@ -2088,6 +2096,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/rerun",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.EmptyObject, :t}}],
       opts: opts
     })
@@ -2110,6 +2119,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/rerun-failed-jobs",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.EmptyObject, :t}}],
       opts: opts
     })
@@ -2320,6 +2330,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/pending_deployments",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{200, {:array, {GitHub.Deployment, :t}}}],
       opts: opts
     })
@@ -2333,7 +2344,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#set-allowed-actions-for-an-organization)
 
   """
-  @spec set_allowed_actions_organization(String.t(), map, keyword) :: :ok | :error
+  @spec set_allowed_actions_organization(String.t(), GitHub.SelectedActions.t(), keyword) ::
+          :ok | :error
   def set_allowed_actions_organization(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2341,6 +2353,7 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/permissions/selected-actions",
       body: body,
       method: :put,
+      request: [{"application/json", {GitHub.SelectedActions, :t}}],
       response: [{204, nil}],
       opts: opts
     })
@@ -2354,7 +2367,12 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#set-allowed-actions-for-a-repository)
 
   """
-  @spec set_allowed_actions_repository(String.t(), String.t(), map, keyword) :: :ok | :error
+  @spec set_allowed_actions_repository(
+          String.t(),
+          String.t(),
+          GitHub.SelectedActions.t(),
+          keyword
+        ) :: :ok | :error
   def set_allowed_actions_repository(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2362,6 +2380,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/permissions/selected-actions",
       body: body,
       method: :put,
+      request: [{"application/json", {GitHub.SelectedActions, :t}}],
       response: [{204, nil}],
       opts: opts
     })
@@ -2384,6 +2403,7 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/runners/#{runner_id}/labels",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {200, :map},
         {404, {GitHub.BasicError, :t}},
@@ -2415,6 +2435,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [
         {200, :map},
         {404, {GitHub.BasicError, :t}},
@@ -2432,7 +2453,12 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/actions/oidc#set-the-customization-template-for-an-oidc-subject-claim-for-a-repository)
 
   """
-  @spec set_custom_oidc_sub_claim_for_repo(String.t(), String.t(), map, keyword) ::
+  @spec set_custom_oidc_sub_claim_for_repo(
+          String.t(),
+          String.t(),
+          GitHub.OIDCCustomSubRepo.t(),
+          keyword
+        ) ::
           {:ok, GitHub.EmptyObject.t()}
           | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
   def set_custom_oidc_sub_claim_for_repo(owner, repo, body, opts \\ []) do
@@ -2442,6 +2468,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/oidc/customization/sub",
       body: body,
       method: :put,
+      request: [{"application/json", {GitHub.OIDCCustomSubRepo, :t}}],
       response: [
         {201, {GitHub.EmptyObject, :t}},
         {400, {GitHub.BasicError, :t}},
@@ -2460,8 +2487,11 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#set-default-workflow-permissions-for-an-enterprise)
 
   """
-  @spec set_github_actions_default_workflow_permissions_enterprise(String.t(), map, keyword) ::
-          :ok | :error
+  @spec set_github_actions_default_workflow_permissions_enterprise(
+          String.t(),
+          GitHub.Actions.SetDefaultWorkflowPermissions.t(),
+          keyword
+        ) :: :ok | :error
   def set_github_actions_default_workflow_permissions_enterprise(enterprise, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2469,6 +2499,7 @@ defmodule GitHub.Actions do
       url: "/enterprises/#{enterprise}/actions/permissions/workflow",
       body: body,
       method: :put,
+      request: [{"application/json", {GitHub.Actions.SetDefaultWorkflowPermissions, :t}}],
       response: [{204, nil}],
       opts: opts
     })
@@ -2482,8 +2513,11 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#set-default-workflow-permissions)
 
   """
-  @spec set_github_actions_default_workflow_permissions_organization(String.t(), map, keyword) ::
-          :ok | :error
+  @spec set_github_actions_default_workflow_permissions_organization(
+          String.t(),
+          GitHub.Actions.SetDefaultWorkflowPermissions.t(),
+          keyword
+        ) :: :ok | :error
   def set_github_actions_default_workflow_permissions_organization(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2491,6 +2525,7 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/permissions/workflow",
       body: body,
       method: :put,
+      request: [{"application/json", {GitHub.Actions.SetDefaultWorkflowPermissions, :t}}],
       response: [{204, nil}, {409, nil}],
       opts: opts
     })
@@ -2507,7 +2542,7 @@ defmodule GitHub.Actions do
   @spec set_github_actions_default_workflow_permissions_repository(
           String.t(),
           String.t(),
-          map,
+          GitHub.Actions.SetDefaultWorkflowPermissions.t(),
           keyword
         ) :: :ok | :error
   def set_github_actions_default_workflow_permissions_repository(owner, repo, body, opts \\ []) do
@@ -2517,6 +2552,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/permissions/workflow",
       body: body,
       method: :put,
+      request: [{"application/json", {GitHub.Actions.SetDefaultWorkflowPermissions, :t}}],
       response: [{204, nil}, {409, nil}],
       opts: opts
     })
@@ -2538,6 +2574,7 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/permissions",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{204, nil}],
       opts: opts
     })
@@ -2560,6 +2597,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/permissions",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{204, nil}],
       opts: opts
     })
@@ -2582,6 +2620,7 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/repositories",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{204, nil}],
       opts: opts
     })
@@ -2603,6 +2642,7 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/secrets/#{secret_name}/repositories",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{204, nil}],
       opts: opts
     })
@@ -2625,6 +2665,7 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/permissions/repositories",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{204, nil}],
       opts: opts
     })
@@ -2647,6 +2688,7 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/runners",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{204, nil}],
       opts: opts
     })
@@ -2660,7 +2702,12 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#set-workflow-access-to-a-repository)
 
   """
-  @spec set_workflow_access_to_repository(String.t(), String.t(), map, keyword) :: :ok | :error
+  @spec set_workflow_access_to_repository(
+          String.t(),
+          String.t(),
+          GitHub.Actions.Workflow.AccessToRepository.t(),
+          keyword
+        ) :: :ok | :error
   def set_workflow_access_to_repository(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2668,6 +2715,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/permissions/access",
       body: body,
       method: :put,
+      request: [{"application/json", {GitHub.Actions.Workflow.AccessToRepository, :t}}],
       response: [{204, nil}],
       opts: opts
     })
@@ -2690,6 +2738,7 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Actions.Runner.GroupsOrg, :t}}],
       opts: opts
     })

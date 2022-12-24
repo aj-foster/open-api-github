@@ -13,7 +13,8 @@ defmodule GitHub.DependencyGraph do
     * [API method documentation](https://docs.github.com/rest/reference/dependency-graph#create-a-snapshot-of-dependencies-for-a-repository)
 
   """
-  @spec create_repository_snapshot(String.t(), String.t(), map, keyword) :: {:ok, map} | :error
+  @spec create_repository_snapshot(String.t(), String.t(), GitHub.Snapshot.t(), keyword) ::
+          {:ok, map} | :error
   def create_repository_snapshot(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -21,6 +22,7 @@ defmodule GitHub.DependencyGraph do
       url: "/repos/#{owner}/#{repo}/dependency-graph/snapshots",
       body: body,
       method: :post,
+      request: [{"application/json", {GitHub.Snapshot, :t}}],
       response: [{201, :map}],
       opts: opts
     })

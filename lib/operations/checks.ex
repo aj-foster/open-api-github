@@ -21,6 +21,7 @@ defmodule GitHub.Checks do
       url: "/repos/#{owner}/#{repo}/check-runs",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.Check.Run, :t}}],
       opts: opts
     })
@@ -43,6 +44,7 @@ defmodule GitHub.Checks do
       url: "/repos/#{owner}/#{repo}/check-suites",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Check.Suite, :t}}, {201, {GitHub.Check.Suite, :t}}],
       opts: opts
     })
@@ -271,6 +273,7 @@ defmodule GitHub.Checks do
       url: "/repos/#{owner}/#{repo}/check-suites/preferences",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Check.SuitePreference, :t}}],
       opts: opts
     })
@@ -293,6 +296,7 @@ defmodule GitHub.Checks do
       url: "/repos/#{owner}/#{repo}/check-runs/#{check_run_id}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [{200, {GitHub.Check.Run, :t}}],
       opts: opts
     })

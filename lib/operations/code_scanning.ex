@@ -430,6 +430,7 @@ defmodule GitHub.CodeScanning do
       url: "/repos/#{owner}/#{repo}/code-scanning/alerts/#{alert_number}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.CodeScanning.Alert, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -457,6 +458,7 @@ defmodule GitHub.CodeScanning do
       url: "/repos/#{owner}/#{repo}/code-scanning/sarifs",
       body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [
         {202, {GitHub.CodeScanning.SarifsReceipt, :t}},
         {400, nil},

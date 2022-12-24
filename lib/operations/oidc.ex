@@ -34,7 +34,7 @@ defmodule GitHub.Oidc do
     * [API method documentation](https://docs.github.com/rest/actions/oidc#set-the-customization-template-for-an-oidc-subject-claim-for-an-organization)
 
   """
-  @spec update_oidc_custom_sub_template_for_org(String.t(), map, keyword) ::
+  @spec update_oidc_custom_sub_template_for_org(String.t(), GitHub.OIDCCustomSub.t(), keyword) ::
           {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.BasicError.t()}
   def update_oidc_custom_sub_template_for_org(org, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -43,6 +43,7 @@ defmodule GitHub.Oidc do
       url: "/orgs/#{org}/actions/oidc/customization/sub",
       body: body,
       method: :put,
+      request: [{"application/json", {GitHub.OIDCCustomSub, :t}}],
       response: [
         {201, {GitHub.EmptyObject, :t}},
         {403, {GitHub.BasicError, :t}},

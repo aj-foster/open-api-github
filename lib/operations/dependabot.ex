@@ -42,6 +42,7 @@ defmodule GitHub.Dependabot do
       url: "/orgs/#{org}/dependabot/secrets/#{secret_name}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
       opts: opts
     })
@@ -64,6 +65,7 @@ defmodule GitHub.Dependabot do
       url: "/repos/#{owner}/#{repo}/dependabot/secrets/#{secret_name}",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
       opts: opts
     })
@@ -558,6 +560,7 @@ defmodule GitHub.Dependabot do
       url: "/orgs/#{org}/dependabot/secrets/#{secret_name}/repositories",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
       response: [{204, nil}],
       opts: opts
     })
@@ -581,6 +584,7 @@ defmodule GitHub.Dependabot do
       url: "/repos/#{owner}/#{repo}/dependabot/alerts/#{alert_number}",
       body: body,
       method: :patch,
+      request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Dependabot.Alert, :t}},
         {400, {GitHub.BasicError, :t}},
