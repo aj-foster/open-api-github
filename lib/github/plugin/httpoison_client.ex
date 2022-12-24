@@ -20,6 +20,7 @@ if Code.ensure_loaded?(HTTPoison) do
         ) do
       url = Path.join(server, url)
       body = body || ""
+      headers = modify_user_agent(headers)
       options = if params, do: [params: params], else: []
 
       case HTTPoison.request(method, url, body, headers, options) do
@@ -100,8 +101,26 @@ if Code.ensure_loaded?(HTTPoison) do
 
     @spec get_redirect(HTTPoison.headers()) :: String.t() | nil
     defp get_redirect([]), do: nil
-    defp get_redirect([{"location", location} | _rest]), do: location
-    defp get_redirect([{"Location", location} | _rest]), do: location
-    defp get_redirect([_ | rest]), do: get_redirect(rest)
+
+    defp get_redirect([{header, value} | rest]) do
+      if String.match?(header, ~r/^location$/) do
+        value
+      else
+        get_redirect(rest)
+      end
+    end
+
+    @spec modify_user_agent(HTTPoison.headers()) :: HTTPoison.headers()
+    defp modify_user_agent(headers) do
+      hackney_vsn = Application.spec(:hackney, :vsn)
+
+      Enum.map(headers, fn {header, value} ->
+        if String.match?(header, ~r/^user-agent$/) do
+          {header, "#{value}; hackney #{hackney_vsn}"}
+        else
+          {header, value}
+        end
+      end)
+    end
   end
 end

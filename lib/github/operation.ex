@@ -1,18 +1,18 @@
 defmodule GitHub.Operation do
-  alias GitHub.Authentication
+  alias GitHub.Auth
   alias GitHub.Config
-  alias GitHub.Credential
 
   @type t :: %__MODULE__{}
+  @type auth :: nil | (token :: String.t()) | {username :: String.t(), password :: String.t()}
 
   defstruct [
-    :authentication,
     :private,
     :request_body,
     :request_headers,
     :request_method,
     :request_params,
     :request_server,
+    :request_types,
     :request_url,
     :response_body,
     :response_code,
@@ -30,31 +30,62 @@ defmodule GitHub.Operation do
         } = request_info
       ) do
     %__MODULE__{
-      authentication: authentication(opts[:auth]),
-      private: %{},
+      private: %{__info__: request_info},
       request_body: request_info[:body],
       request_headers: [],
       request_method: method,
-      request_params: request_info[:query] || nil,
+      request_params: request_info[:query],
       request_server: Config.server(opts),
+      request_types: request_info[:request],
       request_url: url,
       response_types: response_types
     }
+    |> put_auth_header(opts[:auth])
+    |> put_user_agent()
   end
 
-  @spec authentication(nil) :: nil
-  @spec authentication(String.t()) :: Credential.t()
-  @spec authentication({String.t(), String.t()}) :: Credential.t()
-  @spec authentication(struct) :: Credential.t()
-  defp authentication(nil), do: nil
-
-  defp authentication(token) when is_binary(token) do
-    %Credential{bearer_token: token, type: :token}
+  @spec put_auth_header(t, auth) :: t
+  defp put_auth_header(operation, nil) do
+    if auth = Config.default_auth() do
+      put_auth_header(operation, auth)
+    else
+      operation
+    end
   end
 
-  defp authentication({username, password}) do
-    %Credential{basic_auth_password: password, basic_auth_username: username, type: :basic}
+  defp put_auth_header(operation, token) when is_binary(token) do
+    put_request_header(operation, "Authorization", "Bearer #{token}")
   end
 
-  defp authentication(value), do: Authentication.credentials(value)
+  defp put_auth_header(operation, {username, password}) do
+    basic_auth = Base.encode64("#{username}:#{password}")
+    put_request_header(operation, "Authorization", "Basic #{basic_auth}")
+  end
+
+  defp put_auth_header(operation, value) do
+    auth = Auth.to_auth(value)
+    put_auth_header(operation, auth)
+  end
+
+  @spec put_user_agent(t) :: t
+  defp put_user_agent(operation) do
+    user_agent =
+      IO.iodata_to_binary([
+        Config.app_name() || "Unknown App",
+        " via oapi_github ",
+        Application.spec(:oapi_github, :vsn),
+        "; Elixir ",
+        System.version(),
+        " / OTP ",
+        System.otp_release()
+      ])
+
+    put_request_header(operation, "User-Agent", user_agent)
+  end
+
+  @spec put_request_header(t, String.t(), String.t()) :: t
+  def put_request_header(operation, header, value) do
+    %__MODULE__{request_headers: headers} = operation
+    %__MODULE__{operation | request_headers: [{header, value} | headers]}
+  end
 end
