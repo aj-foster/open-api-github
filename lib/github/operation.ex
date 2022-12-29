@@ -41,6 +41,7 @@ defmodule GitHub.Operation do
       response_types: response_types
     }
     |> put_auth_header(opts[:auth])
+    |> put_content_type_header()
     |> put_user_agent()
   end
 
@@ -65,6 +66,14 @@ defmodule GitHub.Operation do
   defp put_auth_header(operation, value) do
     auth = Auth.to_auth(value)
     put_auth_header(operation, auth)
+  end
+
+  @spec put_content_type_header(t) :: t
+  defp put_content_type_header(%__MODULE__{request_types: nil} = operation), do: operation
+
+  defp put_content_type_header(%__MODULE__{request_types: [type]} = operation) do
+    {content_type, _body_type} = type
+    put_request_header(operation, "Content-Type", content_type)
   end
 
   @spec put_user_agent(t) :: t
