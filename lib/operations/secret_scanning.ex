@@ -14,7 +14,7 @@ defmodule GitHub.SecretScanning do
 
   """
   @spec get_alert(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.SecretScanning.Alert.t()} | {:error, map}
+          {:ok, GitHub.SecretScanning.Alert.t()} | {:error, GitHub.Error.t()}
   def get_alert(owner, repo, alert_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -48,8 +48,7 @@ defmodule GitHub.SecretScanning do
 
   """
   @spec list_alerts_for_enterprise(String.t(), keyword) ::
-          {:ok, [GitHub.Organization.SecretScanningAlert.t()]}
-          | {:error, map | GitHub.BasicError.t()}
+          {:ok, [GitHub.Organization.SecretScanningAlert.t()]} | {:error, GitHub.Error.t()}
   def list_alerts_for_enterprise(enterprise, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -101,8 +100,7 @@ defmodule GitHub.SecretScanning do
 
   """
   @spec list_alerts_for_org(String.t(), keyword) ::
-          {:ok, [GitHub.Organization.SecretScanningAlert.t()]}
-          | {:error, map | GitHub.BasicError.t()}
+          {:ok, [GitHub.Organization.SecretScanningAlert.t()]} | {:error, GitHub.Error.t()}
   def list_alerts_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -155,7 +153,7 @@ defmodule GitHub.SecretScanning do
 
   """
   @spec list_alerts_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.SecretScanning.Alert.t()]} | {:error, map}
+          {:ok, [GitHub.SecretScanning.Alert.t()]} | {:error, GitHub.Error.t()}
   def list_alerts_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -195,7 +193,7 @@ defmodule GitHub.SecretScanning do
 
   """
   @spec list_locations_for_alert(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.SecretScanning.Location.t()]} | {:error, map}
+          {:ok, [GitHub.SecretScanning.Location.t()]} | {:error, GitHub.Error.t()}
   def list_locations_for_alert(owner, repo, alert_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -218,7 +216,7 @@ defmodule GitHub.SecretScanning do
 
   """
   @spec update_alert(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.SecretScanning.Alert.t()} | {:error, map}
+          {:ok, GitHub.SecretScanning.Alert.t()} | {:error, GitHub.Error.t()}
   def update_alert(owner, repo, alert_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 

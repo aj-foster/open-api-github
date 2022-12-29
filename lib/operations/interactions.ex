@@ -14,7 +14,7 @@ defmodule GitHub.Interactions do
 
   """
   @spec get_restrictions_for_authenticated_user(keyword) ::
-          {:ok, map | GitHub.Interaction.Limit.Response.t()} | :error
+          {:ok, map | GitHub.Interaction.Limit.Response.t()} | {:error, GitHub.Error.t()}
   def get_restrictions_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -35,7 +35,7 @@ defmodule GitHub.Interactions do
 
   """
   @spec get_restrictions_for_org(String.t(), keyword) ::
-          {:ok, map | GitHub.Interaction.Limit.Response.t()} | :error
+          {:ok, map | GitHub.Interaction.Limit.Response.t()} | {:error, GitHub.Error.t()}
   def get_restrictions_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -56,7 +56,7 @@ defmodule GitHub.Interactions do
 
   """
   @spec get_restrictions_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, map | GitHub.Interaction.Limit.Response.t()} | :error
+          {:ok, map | GitHub.Interaction.Limit.Response.t()} | {:error, GitHub.Error.t()}
   def get_restrictions_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -76,7 +76,7 @@ defmodule GitHub.Interactions do
     * [API method documentation](https://docs.github.com/rest/reference/interactions#remove-interaction-restrictions-from-your-public-repositories)
 
   """
-  @spec remove_restrictions_for_authenticated_user(keyword) :: :ok | :error
+  @spec remove_restrictions_for_authenticated_user(keyword) :: :ok | {:error, GitHub.Error.t()}
   def remove_restrictions_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -96,7 +96,7 @@ defmodule GitHub.Interactions do
     * [API method documentation](https://docs.github.com/rest/reference/interactions#remove-interaction-restrictions-for-an-organization)
 
   """
-  @spec remove_restrictions_for_org(String.t(), keyword) :: :ok | :error
+  @spec remove_restrictions_for_org(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def remove_restrictions_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -116,7 +116,8 @@ defmodule GitHub.Interactions do
     * [API method documentation](https://docs.github.com/rest/reference/interactions#remove-interaction-restrictions-for-a-repository)
 
   """
-  @spec remove_restrictions_for_repo(String.t(), String.t(), keyword) :: :ok | :error
+  @spec remove_restrictions_for_repo(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def remove_restrictions_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -137,7 +138,7 @@ defmodule GitHub.Interactions do
 
   """
   @spec set_restrictions_for_authenticated_user(GitHub.Interaction.Limit.t(), keyword) ::
-          {:ok, GitHub.Interaction.Limit.Response.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.Interaction.Limit.Response.t()} | {:error, GitHub.Error.t()}
   def set_restrictions_for_authenticated_user(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -163,7 +164,7 @@ defmodule GitHub.Interactions do
 
   """
   @spec set_restrictions_for_org(String.t(), GitHub.Interaction.Limit.t(), keyword) ::
-          {:ok, GitHub.Interaction.Limit.Response.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.Interaction.Limit.Response.t()} | {:error, GitHub.Error.t()}
   def set_restrictions_for_org(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -189,7 +190,7 @@ defmodule GitHub.Interactions do
 
   """
   @spec set_restrictions_for_repo(String.t(), String.t(), GitHub.Interaction.Limit.t(), keyword) ::
-          {:ok, GitHub.Interaction.Limit.Response.t()} | :error
+          {:ok, GitHub.Interaction.Limit.Response.t()} | {:error, GitHub.Error.t()}
   def set_restrictions_for_repo(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 

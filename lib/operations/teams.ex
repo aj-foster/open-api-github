@@ -13,7 +13,7 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams#add-team-member-legacy)
 
   """
-  @spec add_member_legacy(integer, String.t(), keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec add_member_legacy(integer, String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def add_member_legacy(team_id, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -34,7 +34,7 @@ defmodule GitHub.Teams do
 
   """
   @spec add_or_update_membership_for_user_in_org(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Team.Membership.t()} | :error
+          {:ok, GitHub.Team.Membership.t()} | {:error, GitHub.Error.t()}
   def add_or_update_membership_for_user_in_org(org, team_slug, username, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -57,7 +57,7 @@ defmodule GitHub.Teams do
 
   """
   @spec add_or_update_membership_for_user_legacy(integer, String.t(), map, keyword) ::
-          {:ok, GitHub.Team.Membership.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Team.Membership.t()} | {:error, GitHub.Error.t()}
   def add_or_update_membership_for_user_legacy(team_id, username, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -85,7 +85,7 @@ defmodule GitHub.Teams do
 
   """
   @spec add_or_update_project_permissions_in_org(String.t(), String.t(), integer, map, keyword) ::
-          :ok | {:error, map}
+          :ok | {:error, GitHub.Error.t()}
   def add_or_update_project_permissions_in_org(org, team_slug, project_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -108,7 +108,7 @@ defmodule GitHub.Teams do
 
   """
   @spec add_or_update_project_permissions_legacy(integer, integer, map, keyword) ::
-          :ok | {:error, map | GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def add_or_update_project_permissions_legacy(team_id, project_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -142,7 +142,7 @@ defmodule GitHub.Teams do
           String.t(),
           map,
           keyword
-        ) :: :ok | :error
+        ) :: :ok | {:error, GitHub.Error.t()}
   def add_or_update_repo_permissions_in_org(org, team_slug, owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -165,7 +165,7 @@ defmodule GitHub.Teams do
 
   """
   @spec add_or_update_repo_permissions_legacy(integer, String.t(), String.t(), map, keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def add_or_update_repo_permissions_legacy(team_id, owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -188,7 +188,7 @@ defmodule GitHub.Teams do
 
   """
   @spec check_permissions_for_project_in_org(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Team.Project.t()} | :error
+          {:ok, GitHub.Team.Project.t()} | {:error, GitHub.Error.t()}
   def check_permissions_for_project_in_org(org, team_slug, project_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -209,7 +209,7 @@ defmodule GitHub.Teams do
 
   """
   @spec check_permissions_for_project_legacy(integer, integer, keyword) ::
-          {:ok, GitHub.Team.Project.t()} | :error
+          {:ok, GitHub.Team.Project.t()} | {:error, GitHub.Error.t()}
   def check_permissions_for_project_legacy(team_id, project_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -230,7 +230,7 @@ defmodule GitHub.Teams do
 
   """
   @spec check_permissions_for_repo_in_org(String.t(), String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Team.Repository.t()} | :error
+          {:ok, GitHub.Team.Repository.t()} | {:error, GitHub.Error.t()}
   def check_permissions_for_repo_in_org(org, team_slug, owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -251,7 +251,7 @@ defmodule GitHub.Teams do
 
   """
   @spec check_permissions_for_repo_legacy(integer, String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Team.Repository.t()} | :error
+          {:ok, GitHub.Team.Repository.t()} | {:error, GitHub.Error.t()}
   def check_permissions_for_repo_legacy(team_id, owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -272,8 +272,7 @@ defmodule GitHub.Teams do
 
   """
   @spec create(String.t(), map, keyword) ::
-          {:ok, GitHub.Team.Full.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Team.Full.t()} | {:error, GitHub.Error.t()}
   def create(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -300,7 +299,7 @@ defmodule GitHub.Teams do
 
   """
   @spec create_discussion_comment_in_org(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Team.DiscussionComment.t()} | :error
+          {:ok, GitHub.Team.DiscussionComment.t()} | {:error, GitHub.Error.t()}
   def create_discussion_comment_in_org(org, team_slug, discussion_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -323,7 +322,7 @@ defmodule GitHub.Teams do
 
   """
   @spec create_discussion_comment_legacy(integer, integer, map, keyword) ::
-          {:ok, GitHub.Team.DiscussionComment.t()} | :error
+          {:ok, GitHub.Team.DiscussionComment.t()} | {:error, GitHub.Error.t()}
   def create_discussion_comment_legacy(team_id, discussion_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -346,7 +345,7 @@ defmodule GitHub.Teams do
 
   """
   @spec create_discussion_in_org(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Team.Discussion.t()} | :error
+          {:ok, GitHub.Team.Discussion.t()} | {:error, GitHub.Error.t()}
   def create_discussion_in_org(org, team_slug, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -369,7 +368,7 @@ defmodule GitHub.Teams do
 
   """
   @spec create_discussion_legacy(integer, map, keyword) ::
-          {:ok, GitHub.Team.Discussion.t()} | :error
+          {:ok, GitHub.Team.Discussion.t()} | {:error, GitHub.Error.t()}
   def create_discussion_legacy(team_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -392,7 +391,7 @@ defmodule GitHub.Teams do
 
   """
   @spec delete_discussion_comment_in_org(String.t(), String.t(), integer, integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def delete_discussion_comment_in_org(
         org,
         team_slug,
@@ -419,7 +418,8 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams#delete-a-discussion-comment-legacy)
 
   """
-  @spec delete_discussion_comment_legacy(integer, integer, integer, keyword) :: :ok | :error
+  @spec delete_discussion_comment_legacy(integer, integer, integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_discussion_comment_legacy(team_id, discussion_number, comment_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -439,7 +439,8 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams#delete-a-discussion)
 
   """
-  @spec delete_discussion_in_org(String.t(), String.t(), integer, keyword) :: :ok | :error
+  @spec delete_discussion_in_org(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_discussion_in_org(org, team_slug, discussion_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -459,7 +460,7 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams#delete-a-discussion-legacy)
 
   """
-  @spec delete_discussion_legacy(integer, integer, keyword) :: :ok | :error
+  @spec delete_discussion_legacy(integer, integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_discussion_legacy(team_id, discussion_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -479,7 +480,7 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams#delete-a-team)
 
   """
-  @spec delete_in_org(String.t(), String.t(), keyword) :: :ok | :error
+  @spec delete_in_org(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_in_org(org, team_slug, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -499,8 +500,7 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams/#delete-a-team-legacy)
 
   """
-  @spec delete_legacy(integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec delete_legacy(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_legacy(team_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -521,7 +521,7 @@ defmodule GitHub.Teams do
 
   """
   @spec get_by_name(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Team.Full.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Team.Full.t()} | {:error, GitHub.Error.t()}
   def get_by_name(org, team_slug, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -542,7 +542,7 @@ defmodule GitHub.Teams do
 
   """
   @spec get_discussion_comment_in_org(String.t(), String.t(), integer, integer, keyword) ::
-          {:ok, GitHub.Team.DiscussionComment.t()} | :error
+          {:ok, GitHub.Team.DiscussionComment.t()} | {:error, GitHub.Error.t()}
   def get_discussion_comment_in_org(org, team_slug, discussion_number, comment_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -564,7 +564,7 @@ defmodule GitHub.Teams do
 
   """
   @spec get_discussion_comment_legacy(integer, integer, integer, keyword) ::
-          {:ok, GitHub.Team.DiscussionComment.t()} | :error
+          {:ok, GitHub.Team.DiscussionComment.t()} | {:error, GitHub.Error.t()}
   def get_discussion_comment_legacy(team_id, discussion_number, comment_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -585,7 +585,7 @@ defmodule GitHub.Teams do
 
   """
   @spec get_discussion_in_org(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Team.Discussion.t()} | :error
+          {:ok, GitHub.Team.Discussion.t()} | {:error, GitHub.Error.t()}
   def get_discussion_in_org(org, team_slug, discussion_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -606,7 +606,7 @@ defmodule GitHub.Teams do
 
   """
   @spec get_discussion_legacy(integer, integer, keyword) ::
-          {:ok, GitHub.Team.Discussion.t()} | :error
+          {:ok, GitHub.Team.Discussion.t()} | {:error, GitHub.Error.t()}
   def get_discussion_legacy(team_id, discussion_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -626,8 +626,7 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams/#get-a-team-legacy)
 
   """
-  @spec get_legacy(integer, keyword) ::
-          {:ok, GitHub.Team.Full.t()} | {:error, GitHub.BasicError.t()}
+  @spec get_legacy(integer, keyword) :: {:ok, GitHub.Team.Full.t()} | {:error, GitHub.Error.t()}
   def get_legacy(team_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -647,7 +646,7 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams#get-team-member-legacy)
 
   """
-  @spec get_member_legacy(integer, String.t(), keyword) :: :ok | :error
+  @spec get_member_legacy(integer, String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def get_member_legacy(team_id, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -668,7 +667,7 @@ defmodule GitHub.Teams do
 
   """
   @spec get_membership_for_user_in_org(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Team.Membership.t()} | :error
+          {:ok, GitHub.Team.Membership.t()} | {:error, GitHub.Error.t()}
   def get_membership_for_user_in_org(org, team_slug, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -689,7 +688,7 @@ defmodule GitHub.Teams do
 
   """
   @spec get_membership_for_user_legacy(integer, String.t(), keyword) ::
-          {:ok, GitHub.Team.Membership.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Team.Membership.t()} | {:error, GitHub.Error.t()}
   def get_membership_for_user_legacy(team_id, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -714,7 +713,7 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams#list-teams)
 
   """
-  @spec list(String.t(), keyword) :: {:ok, [GitHub.Team.t()]} | {:error, GitHub.BasicError.t()}
+  @spec list(String.t(), keyword) :: {:ok, [GitHub.Team.t()]} | {:error, GitHub.Error.t()}
   def list(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -741,7 +740,8 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams#list-child-teams)
 
   """
-  @spec list_child_in_org(String.t(), String.t(), keyword) :: {:ok, [GitHub.Team.t()]} | :error
+  @spec list_child_in_org(String.t(), String.t(), keyword) ::
+          {:ok, [GitHub.Team.t()]} | {:error, GitHub.Error.t()}
   def list_child_in_org(org, team_slug, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -769,7 +769,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_child_legacy(integer, keyword) ::
-          {:ok, [GitHub.Team.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [GitHub.Team.t()]} | {:error, GitHub.Error.t()}
   def list_child_legacy(team_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -803,7 +803,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_discussion_comments_in_org(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Team.DiscussionComment.t()]} | :error
+          {:ok, [GitHub.Team.DiscussionComment.t()]} | {:error, GitHub.Error.t()}
   def list_discussion_comments_in_org(org, team_slug, discussion_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page])
@@ -832,7 +832,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_discussion_comments_legacy(integer, integer, keyword) ::
-          {:ok, [GitHub.Team.DiscussionComment.t()]} | :error
+          {:ok, [GitHub.Team.DiscussionComment.t()]} | {:error, GitHub.Error.t()}
   def list_discussion_comments_legacy(team_id, discussion_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page])
@@ -862,7 +862,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_discussions_in_org(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Team.Discussion.t()]} | :error
+          {:ok, [GitHub.Team.Discussion.t()]} | {:error, GitHub.Error.t()}
   def list_discussions_in_org(org, team_slug, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page, :pinned])
@@ -890,7 +890,8 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams#list-discussions-legacy)
 
   """
-  @spec list_discussions_legacy(integer, keyword) :: {:ok, [GitHub.Team.Discussion.t()]} | :error
+  @spec list_discussions_legacy(integer, keyword) ::
+          {:ok, [GitHub.Team.Discussion.t()]} | {:error, GitHub.Error.t()}
   def list_discussions_legacy(team_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page])
@@ -918,7 +919,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.Team.Full.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Team.Full.t()]} | {:error, GitHub.Error.t()}
   def list_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -952,7 +953,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_members_in_org(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.User.simple()]} | :error
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_members_in_org(org, team_slug, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :role])
@@ -981,7 +982,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_members_legacy(integer, keyword) ::
-          {:ok, [GitHub.User.simple()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_members_legacy(team_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :role])
@@ -1009,7 +1010,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_pending_invitations_in_org(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Organization.Invitation.t()]} | :error
+          {:ok, [GitHub.Organization.Invitation.t()]} | {:error, GitHub.Error.t()}
   def list_pending_invitations_in_org(org, team_slug, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1037,7 +1038,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_pending_invitations_legacy(integer, keyword) ::
-          {:ok, [GitHub.Organization.Invitation.t()]} | :error
+          {:ok, [GitHub.Organization.Invitation.t()]} | {:error, GitHub.Error.t()}
   def list_pending_invitations_legacy(team_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1065,7 +1066,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_projects_in_org(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Team.Project.t()]} | :error
+          {:ok, [GitHub.Team.Project.t()]} | {:error, GitHub.Error.t()}
   def list_projects_in_org(org, team_slug, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1093,7 +1094,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_projects_legacy(integer, keyword) ::
-          {:ok, [GitHub.Team.Project.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Team.Project.t()]} | {:error, GitHub.Error.t()}
   def list_projects_legacy(team_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1121,7 +1122,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_repos_in_org(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | :error
+          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
   def list_repos_in_org(org, team_slug, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1149,7 +1150,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_repos_legacy(integer, keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
   def list_repos_legacy(team_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1171,7 +1172,7 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams#remove-team-member-legacy)
 
   """
-  @spec remove_member_legacy(integer, String.t(), keyword) :: :ok | :error
+  @spec remove_member_legacy(integer, String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def remove_member_legacy(team_id, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1192,7 +1193,7 @@ defmodule GitHub.Teams do
 
   """
   @spec remove_membership_for_user_in_org(String.t(), String.t(), String.t(), keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def remove_membership_for_user_in_org(org, team_slug, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1212,7 +1213,8 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams#remove-team-membership-for-a-user-legacy)
 
   """
-  @spec remove_membership_for_user_legacy(integer, String.t(), keyword) :: :ok | :error
+  @spec remove_membership_for_user_legacy(integer, String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def remove_membership_for_user_legacy(team_id, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1232,7 +1234,8 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams#remove-a-project-from-a-team)
 
   """
-  @spec remove_project_in_org(String.t(), String.t(), integer, keyword) :: :ok | :error
+  @spec remove_project_in_org(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def remove_project_in_org(org, team_slug, project_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1252,8 +1255,7 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams/#remove-a-project-from-a-team-legacy)
 
   """
-  @spec remove_project_legacy(integer, integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec remove_project_legacy(integer, integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def remove_project_legacy(team_id, project_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1274,7 +1276,7 @@ defmodule GitHub.Teams do
 
   """
   @spec remove_repo_in_org(String.t(), String.t(), String.t(), String.t(), keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def remove_repo_in_org(org, team_slug, owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1294,7 +1296,8 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams/#remove-a-repository-from-a-team-legacy)
 
   """
-  @spec remove_repo_legacy(integer, String.t(), String.t(), keyword) :: :ok | :error
+  @spec remove_repo_legacy(integer, String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def remove_repo_legacy(team_id, owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1315,7 +1318,7 @@ defmodule GitHub.Teams do
 
   """
   @spec update_discussion_comment_in_org(String.t(), String.t(), integer, integer, map, keyword) ::
-          {:ok, GitHub.Team.DiscussionComment.t()} | :error
+          {:ok, GitHub.Team.DiscussionComment.t()} | {:error, GitHub.Error.t()}
   def update_discussion_comment_in_org(
         org,
         team_slug,
@@ -1346,7 +1349,7 @@ defmodule GitHub.Teams do
 
   """
   @spec update_discussion_comment_legacy(integer, integer, integer, map, keyword) ::
-          {:ok, GitHub.Team.DiscussionComment.t()} | :error
+          {:ok, GitHub.Team.DiscussionComment.t()} | {:error, GitHub.Error.t()}
   def update_discussion_comment_legacy(
         team_id,
         discussion_number,
@@ -1375,7 +1378,7 @@ defmodule GitHub.Teams do
 
   """
   @spec update_discussion_in_org(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Team.Discussion.t()} | :error
+          {:ok, GitHub.Team.Discussion.t()} | {:error, GitHub.Error.t()}
   def update_discussion_in_org(org, team_slug, discussion_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1398,7 +1401,7 @@ defmodule GitHub.Teams do
 
   """
   @spec update_discussion_legacy(integer, integer, map, keyword) ::
-          {:ok, GitHub.Team.Discussion.t()} | :error
+          {:ok, GitHub.Team.Discussion.t()} | {:error, GitHub.Error.t()}
   def update_discussion_legacy(team_id, discussion_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1421,8 +1424,7 @@ defmodule GitHub.Teams do
 
   """
   @spec update_in_org(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Team.Full.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Team.Full.t()} | {:error, GitHub.Error.t()}
   def update_in_org(org, team_slug, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1451,8 +1453,7 @@ defmodule GitHub.Teams do
 
   """
   @spec update_legacy(integer, map, keyword) ::
-          {:ok, GitHub.Team.Full.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Team.Full.t()} | {:error, GitHub.Error.t()}
   def update_legacy(team_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 

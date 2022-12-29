@@ -13,7 +13,7 @@ defmodule GitHub.Emojis do
     * [API method documentation](https://docs.github.com/rest/reference/emojis#get-emojis)
 
   """
-  @spec get(keyword) :: {:ok, map} | :error
+  @spec get(keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def get(opts \\ []) do
     client = opts[:client] || @default_client
 

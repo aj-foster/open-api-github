@@ -13,7 +13,7 @@ defmodule GitHub.Meta do
     * [API method documentation](https://docs.github.com/rest/reference/meta#get-github-meta-information)
 
   """
-  @spec get(keyword) :: {:ok, GitHub.ApiOverview.t()} | :error
+  @spec get(keyword) :: {:ok, GitHub.ApiOverview.t()} | {:error, GitHub.Error.t()}
   def get(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -33,7 +33,7 @@ defmodule GitHub.Meta do
     * [API method documentation](https://docs.github.com/rest/reference/meta#get-all-api-versions)
 
   """
-  @spec get_all_versions(keyword) :: {:ok, [String.t()]} | {:error, GitHub.BasicError.t()}
+  @spec get_all_versions(keyword) :: {:ok, [String.t()]} | {:error, GitHub.Error.t()}
   def get_all_versions(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -57,7 +57,7 @@ defmodule GitHub.Meta do
     * [API method documentation](https://docs.github.com/rest/reference/meta#get-octocat)
 
   """
-  @spec get_octocat(keyword) :: {:ok, binary} | :error
+  @spec get_octocat(keyword) :: {:ok, binary} | {:error, GitHub.Error.t()}
   def get_octocat(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:s])
@@ -79,7 +79,7 @@ defmodule GitHub.Meta do
     * [API method documentation](https://docs.github.com/rest/meta#get-the-zen-of-github)
 
   """
-  @spec get_zen(keyword) :: {:ok, binary} | :error
+  @spec get_zen(keyword) :: {:ok, binary} | {:error, GitHub.Error.t()}
   def get_zen(opts \\ []) do
     client = opts[:client] || @default_client
     client.request(%{url: "/zen", method: :get, response: [{200, :binary}], opts: opts})
@@ -93,7 +93,7 @@ defmodule GitHub.Meta do
     * [API method documentation](https://docs.github.com/rest/overview/resources-in-the-rest-api#root-endpoint)
 
   """
-  @spec root(keyword) :: {:ok, GitHub.Root.t()} | :error
+  @spec root(keyword) :: {:ok, GitHub.Root.t()} | {:error, GitHub.Error.t()}
   def root(opts \\ []) do
     client = opts[:client] || @default_client
     client.request(%{url: "/", method: :get, response: [{200, {GitHub.Root, :t}}], opts: opts})

@@ -21,8 +21,7 @@ defmodule GitHub.Search do
     * [API method documentation](https://docs.github.com/rest/reference/search#search-code)
 
   """
-  @spec code(keyword) ::
-          {:ok, map} | {:error, map | GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec code(keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def code(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:order, :page, :per_page, :q, :sort])
@@ -58,7 +57,7 @@ defmodule GitHub.Search do
     * [API method documentation](https://docs.github.com/rest/reference/search#search-commits)
 
   """
-  @spec commits(keyword) :: {:ok, map} | :error
+  @spec commits(keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def commits(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:order, :page, :per_page, :q, :sort])
@@ -88,8 +87,7 @@ defmodule GitHub.Search do
     * [API method documentation](https://docs.github.com/rest/reference/search#search-issues-and-pull-requests)
 
   """
-  @spec issues_and_pull_requests(keyword) ::
-          {:ok, map} | {:error, map | GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec issues_and_pull_requests(keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def issues_and_pull_requests(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:order, :page, :per_page, :q, :sort])
@@ -126,8 +124,7 @@ defmodule GitHub.Search do
     * [API method documentation](https://docs.github.com/rest/reference/search#search-labels)
 
   """
-  @spec labels(keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec labels(keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def labels(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:order, :page, :per_page, :q, :repository_id, :sort])
@@ -163,7 +160,7 @@ defmodule GitHub.Search do
     * [API method documentation](https://docs.github.com/rest/reference/search#search-repositories)
 
   """
-  @spec repos(keyword) :: {:ok, map} | {:error, map | GitHub.ValidationError.t()}
+  @spec repos(keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def repos(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:order, :page, :per_page, :q, :sort])
@@ -191,7 +188,7 @@ defmodule GitHub.Search do
     * [API method documentation](https://docs.github.com/rest/reference/search#search-topics)
 
   """
-  @spec topics(keyword) :: {:ok, map} | :error
+  @spec topics(keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def topics(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :q])
@@ -221,7 +218,7 @@ defmodule GitHub.Search do
     * [API method documentation](https://docs.github.com/rest/reference/search#search-users)
 
   """
-  @spec users(keyword) :: {:ok, map} | {:error, map | GitHub.ValidationError.t()}
+  @spec users(keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def users(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:order, :page, :per_page, :q, :sort])

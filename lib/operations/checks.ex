@@ -13,7 +13,8 @@ defmodule GitHub.Checks do
     * [API method documentation](https://docs.github.com/rest/reference/checks#create-a-check-run)
 
   """
-  @spec create(String.t(), String.t(), map, keyword) :: {:ok, GitHub.Check.Run.t()} | :error
+  @spec create(String.t(), String.t(), map, keyword) ::
+          {:ok, GitHub.Check.Run.t()} | {:error, GitHub.Error.t()}
   def create(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -36,7 +37,7 @@ defmodule GitHub.Checks do
 
   """
   @spec create_suite(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Check.Suite.t()} | :error
+          {:ok, GitHub.Check.Suite.t()} | {:error, GitHub.Error.t()}
   def create_suite(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -58,7 +59,8 @@ defmodule GitHub.Checks do
     * [API method documentation](https://docs.github.com/rest/reference/checks#get-a-check-run)
 
   """
-  @spec get(String.t(), String.t(), integer, keyword) :: {:ok, GitHub.Check.Run.t()} | :error
+  @spec get(String.t(), String.t(), integer, keyword) ::
+          {:ok, GitHub.Check.Run.t()} | {:error, GitHub.Error.t()}
   def get(owner, repo, check_run_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -79,7 +81,7 @@ defmodule GitHub.Checks do
 
   """
   @spec get_suite(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Check.Suite.t()} | :error
+          {:ok, GitHub.Check.Suite.t()} | {:error, GitHub.Error.t()}
   def get_suite(owner, repo, check_suite_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -105,7 +107,7 @@ defmodule GitHub.Checks do
 
   """
   @spec list_annotations(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Check.Annotation.t()]} | :error
+          {:ok, [GitHub.Check.Annotation.t()]} | {:error, GitHub.Error.t()}
   def list_annotations(owner, repo, check_run_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -136,7 +138,8 @@ defmodule GitHub.Checks do
     * [API method documentation](https://docs.github.com/rest/reference/checks#list-check-runs-for-a-git-reference)
 
   """
-  @spec list_for_ref(String.t(), String.t(), String.t(), keyword) :: {:ok, map} | :error
+  @spec list_for_ref(String.t(), String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_for_ref(owner, repo, ref, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:app_id, :check_name, :filter, :page, :per_page, :status])
@@ -166,7 +169,8 @@ defmodule GitHub.Checks do
     * [API method documentation](https://docs.github.com/rest/reference/checks#list-check-runs-in-a-check-suite)
 
   """
-  @spec list_for_suite(String.t(), String.t(), integer, keyword) :: {:ok, map} | :error
+  @spec list_for_suite(String.t(), String.t(), integer, keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_for_suite(owner, repo, check_suite_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:check_name, :filter, :page, :per_page, :status])
@@ -195,7 +199,8 @@ defmodule GitHub.Checks do
     * [API method documentation](https://docs.github.com/rest/reference/checks#list-check-suites-for-a-git-reference)
 
   """
-  @spec list_suites_for_ref(String.t(), String.t(), String.t(), keyword) :: {:ok, map} | :error
+  @spec list_suites_for_ref(String.t(), String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_suites_for_ref(owner, repo, ref, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:app_id, :check_name, :page, :per_page])
@@ -218,7 +223,7 @@ defmodule GitHub.Checks do
 
   """
   @spec rerequest_run(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def rerequest_run(owner, repo, check_run_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -244,7 +249,7 @@ defmodule GitHub.Checks do
 
   """
   @spec rerequest_suite(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.EmptyObject.t()} | :error
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def rerequest_suite(owner, repo, check_suite_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -265,7 +270,7 @@ defmodule GitHub.Checks do
 
   """
   @spec set_suites_preferences(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Check.SuitePreference.t()} | :error
+          {:ok, GitHub.Check.SuitePreference.t()} | {:error, GitHub.Error.t()}
   def set_suites_preferences(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -288,7 +293,7 @@ defmodule GitHub.Checks do
 
   """
   @spec update(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Check.Run.t()} | :error
+          {:ok, GitHub.Check.Run.t()} | {:error, GitHub.Error.t()}
   def update(owner, repo, check_run_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 

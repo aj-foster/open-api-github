@@ -14,7 +14,7 @@ defmodule GitHub.Issues do
 
   """
   @spec add_assignees(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Issue.t()} | :error
+          {:ok, GitHub.Issue.t()} | {:error, GitHub.Error.t()}
   def add_assignees(owner, repo, issue_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -42,8 +42,7 @@ defmodule GitHub.Issues do
           integer,
           map | String.t() | [map] | [String.t()],
           keyword
-        ) ::
-          {:ok, [GitHub.Label.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+        ) :: {:ok, [GitHub.Label.t()]} | {:error, GitHub.Error.t()}
   def add_labels(owner, repo, issue_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -74,7 +73,7 @@ defmodule GitHub.Issues do
 
   """
   @spec check_user_can_be_assigned(String.t(), String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def check_user_can_be_assigned(owner, repo, assignee, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -95,8 +94,7 @@ defmodule GitHub.Issues do
 
   """
   @spec create(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Issue.t()}
-          | {:error, map | GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Issue.t()} | {:error, GitHub.Error.t()}
   def create(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -126,8 +124,7 @@ defmodule GitHub.Issues do
 
   """
   @spec create_comment(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Issue.Comment.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Issue.Comment.t()} | {:error, GitHub.Error.t()}
   def create_comment(owner, repo, issue_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -156,7 +153,7 @@ defmodule GitHub.Issues do
 
   """
   @spec create_label(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Label.t()} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Label.t()} | {:error, GitHub.Error.t()}
   def create_label(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -183,8 +180,7 @@ defmodule GitHub.Issues do
 
   """
   @spec create_milestone(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Milestone.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Milestone.t()} | {:error, GitHub.Error.t()}
   def create_milestone(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -210,7 +206,8 @@ defmodule GitHub.Issues do
     * [API method documentation](https://docs.github.com/rest/reference/issues#delete-an-issue-comment)
 
   """
-  @spec delete_comment(String.t(), String.t(), integer, keyword) :: :ok | :error
+  @spec delete_comment(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_comment(owner, repo, comment_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -230,7 +227,8 @@ defmodule GitHub.Issues do
     * [API method documentation](https://docs.github.com/rest/reference/issues#delete-a-label)
 
   """
-  @spec delete_label(String.t(), String.t(), String.t(), keyword) :: :ok | :error
+  @spec delete_label(String.t(), String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_label(owner, repo, name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -251,7 +249,7 @@ defmodule GitHub.Issues do
 
   """
   @spec delete_milestone(String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_milestone(owner, repo, milestone_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -272,7 +270,7 @@ defmodule GitHub.Issues do
 
   """
   @spec get(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Issue.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Issue.t()} | {:error, GitHub.Error.t()}
   def get(owner, repo, issue_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -299,7 +297,7 @@ defmodule GitHub.Issues do
 
   """
   @spec get_comment(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Issue.Comment.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Issue.Comment.t()} | {:error, GitHub.Error.t()}
   def get_comment(owner, repo, comment_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -320,7 +318,7 @@ defmodule GitHub.Issues do
 
   """
   @spec get_event(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Issue.Event.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Issue.Event.t()} | {:error, GitHub.Error.t()}
   def get_event(owner, repo, event_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -346,7 +344,7 @@ defmodule GitHub.Issues do
 
   """
   @spec get_label(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Label.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Label.t()} | {:error, GitHub.Error.t()}
   def get_label(owner, repo, name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -367,7 +365,7 @@ defmodule GitHub.Issues do
 
   """
   @spec get_milestone(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Milestone.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Milestone.t()} | {:error, GitHub.Error.t()}
   def get_milestone(owner, repo, milestone_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -402,8 +400,7 @@ defmodule GitHub.Issues do
     * [API method documentation](https://docs.github.com/rest/reference/issues#list-issues-assigned-to-the-authenticated-user)
 
   """
-  @spec list(keyword) ::
-          {:ok, [GitHub.Issue.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec list(keyword) :: {:ok, [GitHub.Issue.t()]} | {:error, GitHub.Error.t()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -451,7 +448,7 @@ defmodule GitHub.Issues do
 
   """
   @spec list_assignees(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.User.simple()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_assignees(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -480,7 +477,7 @@ defmodule GitHub.Issues do
 
   """
   @spec list_comments(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Issue.Comment.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Issue.Comment.t()]} | {:error, GitHub.Error.t()}
   def list_comments(owner, repo, issue_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :since])
@@ -515,8 +512,7 @@ defmodule GitHub.Issues do
 
   """
   @spec list_comments_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Issue.Comment.t()]}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [GitHub.Issue.Comment.t()]} | {:error, GitHub.Error.t()}
   def list_comments_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page, :since, :sort])
@@ -566,7 +562,7 @@ defmodule GitHub.Issues do
              | GitHub.UnassignedIssueEvent.t()
              | GitHub.UnlabeledIssueEvent.t()
            ]}
-          | {:error, GitHub.BasicError.t()}
+          | {:error, GitHub.Error.t()}
   def list_events(owner, repo, issue_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -616,7 +612,7 @@ defmodule GitHub.Issues do
 
   """
   @spec list_events_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Issue.Event.t()]} | {:error, GitHub.ValidationError.t()}
+          {:ok, [GitHub.Issue.Event.t()]} | {:error, GitHub.Error.t()}
   def list_events_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -644,7 +640,7 @@ defmodule GitHub.Issues do
 
   """
   @spec list_events_for_timeline(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Timeline.IssueEvents.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Timeline.IssueEvents.t()]} | {:error, GitHub.Error.t()}
   def list_events_for_timeline(owner, repo, issue_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -682,7 +678,7 @@ defmodule GitHub.Issues do
 
   """
   @spec list_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.Issue.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Issue.t()]} | {:error, GitHub.Error.t()}
   def list_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -718,7 +714,7 @@ defmodule GitHub.Issues do
 
   """
   @spec list_for_org(String.t(), keyword) ::
-          {:ok, [GitHub.Issue.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Issue.t()]} | {:error, GitHub.Error.t()}
   def list_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -757,7 +753,7 @@ defmodule GitHub.Issues do
 
   """
   @spec list_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Issue.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [GitHub.Issue.t()]} | {:error, GitHub.Error.t()}
   def list_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -804,7 +800,7 @@ defmodule GitHub.Issues do
 
   """
   @spec list_labels_for_milestone(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Label.t()]} | :error
+          {:ok, [GitHub.Label.t()]} | {:error, GitHub.Error.t()}
   def list_labels_for_milestone(owner, repo, milestone_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -832,7 +828,7 @@ defmodule GitHub.Issues do
 
   """
   @spec list_labels_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Label.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Label.t()]} | {:error, GitHub.Error.t()}
   def list_labels_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -860,7 +856,7 @@ defmodule GitHub.Issues do
 
   """
   @spec list_labels_on_issue(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Label.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Label.t()]} | {:error, GitHub.Error.t()}
   def list_labels_on_issue(owner, repo, issue_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -896,7 +892,7 @@ defmodule GitHub.Issues do
 
   """
   @spec list_milestones(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Milestone.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Milestone.t()]} | {:error, GitHub.Error.t()}
   def list_milestones(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page, :sort, :state])
@@ -918,8 +914,7 @@ defmodule GitHub.Issues do
     * [API method documentation](https://docs.github.com/rest/reference/issues#lock-an-issue)
 
   """
-  @spec lock(String.t(), String.t(), integer, map, keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec lock(String.t(), String.t(), integer, map, keyword) :: :ok | {:error, GitHub.Error.t()}
   def lock(owner, repo, issue_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -948,7 +943,7 @@ defmodule GitHub.Issues do
 
   """
   @spec remove_all_labels(String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def remove_all_labels(owner, repo, issue_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -974,7 +969,7 @@ defmodule GitHub.Issues do
 
   """
   @spec remove_assignees(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Issue.t()} | :error
+          {:ok, GitHub.Issue.t()} | {:error, GitHub.Error.t()}
   def remove_assignees(owner, repo, issue_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -997,7 +992,7 @@ defmodule GitHub.Issues do
 
   """
   @spec remove_label(String.t(), String.t(), integer, String.t(), keyword) ::
-          {:ok, [GitHub.Label.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Label.t()]} | {:error, GitHub.Error.t()}
   def remove_label(owner, repo, issue_number, name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1028,8 +1023,7 @@ defmodule GitHub.Issues do
           integer,
           map | String.t() | [map] | [String.t()],
           keyword
-        ) ::
-          {:ok, [GitHub.Label.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+        ) :: {:ok, [GitHub.Label.t()]} | {:error, GitHub.Error.t()}
   def set_labels(owner, repo, issue_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1059,7 +1053,7 @@ defmodule GitHub.Issues do
     * [API method documentation](https://docs.github.com/rest/reference/issues#unlock-an-issue)
 
   """
-  @spec unlock(String.t(), String.t(), integer, keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec unlock(String.t(), String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def unlock(owner, repo, issue_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1080,8 +1074,7 @@ defmodule GitHub.Issues do
 
   """
   @spec update(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Issue.t()}
-          | {:error, map | GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Issue.t()} | {:error, GitHub.Error.t()}
   def update(owner, repo, issue_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1112,7 +1105,7 @@ defmodule GitHub.Issues do
 
   """
   @spec update_comment(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Issue.Comment.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.Issue.Comment.t()} | {:error, GitHub.Error.t()}
   def update_comment(owner, repo, comment_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1135,7 +1128,7 @@ defmodule GitHub.Issues do
 
   """
   @spec update_label(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Label.t()} | :error
+          {:ok, GitHub.Label.t()} | {:error, GitHub.Error.t()}
   def update_label(owner, repo, name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1158,7 +1151,7 @@ defmodule GitHub.Issues do
 
   """
   @spec update_milestone(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Milestone.t()} | :error
+          {:ok, GitHub.Milestone.t()} | {:error, GitHub.Error.t()}
   def update_milestone(owner, repo, milestone_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 

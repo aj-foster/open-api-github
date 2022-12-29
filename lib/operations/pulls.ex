@@ -13,7 +13,8 @@ defmodule GitHub.Pulls do
     * [API method documentation](https://docs.github.com/rest/reference/pulls#check-if-a-pull-request-has-been-merged)
 
   """
-  @spec check_if_merged(String.t(), String.t(), integer, keyword) :: :ok | :error
+  @spec check_if_merged(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def check_if_merged(owner, repo, pull_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -34,8 +35,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec create(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.PullRequest.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.PullRequest.t()} | {:error, GitHub.Error.t()}
   def create(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -62,7 +62,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec create_reply_for_review_comment(String.t(), String.t(), integer, integer, map, keyword) ::
-          {:ok, GitHub.PullRequest.ReviewComment.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.PullRequest.ReviewComment.t()} | {:error, GitHub.Error.t()}
   def create_reply_for_review_comment(owner, repo, pull_number, comment_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -85,8 +85,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec create_review(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.PullRequest.Review.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, GitHub.PullRequest.Review.t()} | {:error, GitHub.Error.t()}
   def create_review(owner, repo, pull_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -113,8 +112,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec create_review_comment(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.PullRequest.ReviewComment.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.PullRequest.ReviewComment.t()} | {:error, GitHub.Error.t()}
   def create_review_comment(owner, repo, pull_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -141,8 +139,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec delete_pending_review(String.t(), String.t(), integer, integer, keyword) ::
-          {:ok, GitHub.PullRequest.Review.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, GitHub.PullRequest.Review.t()} | {:error, GitHub.Error.t()}
   def delete_pending_review(owner, repo, pull_number, review_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -167,7 +164,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec delete_review_comment(String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_review_comment(owner, repo, comment_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -188,8 +185,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec dismiss_review(String.t(), String.t(), integer, integer, map, keyword) ::
-          {:ok, GitHub.PullRequest.Review.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, GitHub.PullRequest.Review.t()} | {:error, GitHub.Error.t()}
   def dismiss_review(owner, repo, pull_number, review_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -216,7 +212,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec get(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.PullRequest.t()} | {:error, map | GitHub.BasicError.t()}
+          {:ok, GitHub.PullRequest.t()} | {:error, GitHub.Error.t()}
   def get(owner, repo, pull_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -243,7 +239,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec get_review(String.t(), String.t(), integer, integer, keyword) ::
-          {:ok, GitHub.PullRequest.Review.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.PullRequest.Review.t()} | {:error, GitHub.Error.t()}
   def get_review(owner, repo, pull_number, review_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -264,7 +260,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec get_review_comment(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.PullRequest.ReviewComment.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.PullRequest.ReviewComment.t()} | {:error, GitHub.Error.t()}
   def get_review_comment(owner, repo, comment_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -295,7 +291,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec list(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.PullRequest.simple()]} | {:error, GitHub.ValidationError.t()}
+          {:ok, [GitHub.PullRequest.simple()]} | {:error, GitHub.Error.t()}
   def list(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:base, :direction, :head, :page, :per_page, :sort, :state])
@@ -327,7 +323,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec list_comments_for_review(String.t(), String.t(), integer, integer, keyword) ::
-          {:ok, [GitHub.ReviewComment.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.ReviewComment.t()]} | {:error, GitHub.Error.t()}
   def list_comments_for_review(owner, repo, pull_number, review_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -355,7 +351,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec list_commits(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Commit.t()]} | :error
+          {:ok, [GitHub.Commit.t()]} | {:error, GitHub.Error.t()}
   def list_commits(owner, repo, pull_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -383,8 +379,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec list_files(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.DiffEntry.t()]}
-          | {:error, map | GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [GitHub.DiffEntry.t()]} | {:error, GitHub.Error.t()}
   def list_files(owner, repo, pull_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -412,7 +407,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec list_requested_reviewers(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.PullRequest.ReviewRequest.t()} | :error
+          {:ok, GitHub.PullRequest.ReviewRequest.t()} | {:error, GitHub.Error.t()}
   def list_requested_reviewers(owner, repo, pull_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -441,7 +436,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec list_review_comments(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.PullRequest.ReviewComment.t()]} | :error
+          {:ok, [GitHub.PullRequest.ReviewComment.t()]} | {:error, GitHub.Error.t()}
   def list_review_comments(owner, repo, pull_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page, :since, :sort])
@@ -472,7 +467,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec list_review_comments_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.PullRequest.ReviewComment.t()]} | :error
+          {:ok, [GitHub.PullRequest.ReviewComment.t()]} | {:error, GitHub.Error.t()}
   def list_review_comments_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page, :since, :sort])
@@ -500,7 +495,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec list_reviews(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.PullRequest.Review.t()]} | :error
+          {:ok, [GitHub.PullRequest.Review.t()]} | {:error, GitHub.Error.t()}
   def list_reviews(owner, repo, pull_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -523,8 +518,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec merge(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.PullRequest.MergeResult.t()}
-          | {:error, map | GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.PullRequest.MergeResult.t()} | {:error, GitHub.Error.t()}
   def merge(owner, repo, pull_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -554,7 +548,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec remove_requested_reviewers(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.PullRequest.simple()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.PullRequest.simple()} | {:error, GitHub.Error.t()}
   def remove_requested_reviewers(owner, repo, pull_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -577,7 +571,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec request_reviewers(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.PullRequest.simple()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.PullRequest.simple()} | {:error, GitHub.Error.t()}
   def request_reviewers(owner, repo, pull_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -600,8 +594,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec submit_review(String.t(), String.t(), integer, integer, map, keyword) ::
-          {:ok, GitHub.PullRequest.Review.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, GitHub.PullRequest.Review.t()} | {:error, GitHub.Error.t()}
   def submit_review(owner, repo, pull_number, review_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -629,8 +622,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec update(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.PullRequest.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.PullRequest.t()} | {:error, GitHub.Error.t()}
   def update(owner, repo, pull_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -657,7 +649,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec update_branch(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def update_branch(owner, repo, pull_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -680,7 +672,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec update_review(String.t(), String.t(), integer, integer, map, keyword) ::
-          {:ok, GitHub.PullRequest.Review.t()} | {:error, GitHub.ValidationError.simple()}
+          {:ok, GitHub.PullRequest.Review.t()} | {:error, GitHub.Error.t()}
   def update_review(owner, repo, pull_number, review_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -703,7 +695,7 @@ defmodule GitHub.Pulls do
 
   """
   @spec update_review_comment(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.PullRequest.ReviewComment.t()} | :error
+          {:ok, GitHub.PullRequest.ReviewComment.t()} | {:error, GitHub.Error.t()}
   def update_review_comment(owner, repo, comment_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 

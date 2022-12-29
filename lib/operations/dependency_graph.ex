@@ -14,7 +14,7 @@ defmodule GitHub.DependencyGraph do
 
   """
   @spec create_repository_snapshot(String.t(), String.t(), GitHub.Snapshot.t(), keyword) ::
-          {:ok, map} | :error
+          {:ok, map} | {:error, GitHub.Error.t()}
   def create_repository_snapshot(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -41,7 +41,7 @@ defmodule GitHub.DependencyGraph do
 
   """
   @spec diff_range(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, [map]} | {:error, GitHub.BasicError.t()}
+          {:ok, [map]} | {:error, GitHub.Error.t()}
   def diff_range(owner, repo, basehead, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:name])

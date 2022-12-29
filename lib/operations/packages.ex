@@ -14,7 +14,7 @@ defmodule GitHub.Packages do
 
   """
   @spec delete_package_for_authenticated_user(String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_package_for_authenticated_user(package_type, package_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -40,7 +40,7 @@ defmodule GitHub.Packages do
 
   """
   @spec delete_package_for_org(String.t(), String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_package_for_org(org, package_type, package_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -66,7 +66,7 @@ defmodule GitHub.Packages do
 
   """
   @spec delete_package_for_user(String.t(), String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_package_for_user(username, package_type, package_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -92,7 +92,7 @@ defmodule GitHub.Packages do
 
   """
   @spec delete_package_version_for_authenticated_user(String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_package_version_for_authenticated_user(
         package_type,
         package_name,
@@ -123,7 +123,7 @@ defmodule GitHub.Packages do
 
   """
   @spec delete_package_version_for_org(String.t(), String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_package_version_for_org(
         org,
         package_type,
@@ -155,7 +155,7 @@ defmodule GitHub.Packages do
 
   """
   @spec delete_package_version_for_user(String.t(), String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_package_version_for_user(
         username,
         package_type,
@@ -197,7 +197,7 @@ defmodule GitHub.Packages do
           String.t(),
           String.t(),
           keyword
-        ) :: {:ok, [GitHub.PackageVersion.t()]} | {:error, GitHub.BasicError.t()}
+        ) :: {:ok, [GitHub.PackageVersion.t()]} | {:error, GitHub.Error.t()}
   def get_all_package_versions_for_package_owned_by_authenticated_user(
         package_type,
         package_name,
@@ -239,7 +239,7 @@ defmodule GitHub.Packages do
           String.t(),
           String.t(),
           keyword
-        ) :: {:ok, [GitHub.PackageVersion.t()]} | {:error, GitHub.BasicError.t()}
+        ) :: {:ok, [GitHub.PackageVersion.t()]} | {:error, GitHub.Error.t()}
   def get_all_package_versions_for_package_owned_by_org(
         org,
         package_type,
@@ -276,7 +276,7 @@ defmodule GitHub.Packages do
           String.t(),
           String.t(),
           keyword
-        ) :: {:ok, [GitHub.PackageVersion.t()]} | {:error, GitHub.BasicError.t()}
+        ) :: {:ok, [GitHub.PackageVersion.t()]} | {:error, GitHub.Error.t()}
   def get_all_package_versions_for_package_owned_by_user(
         username,
         package_type,
@@ -307,7 +307,7 @@ defmodule GitHub.Packages do
 
   """
   @spec get_package_for_authenticated_user(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Package.t()} | :error
+          {:ok, GitHub.Package.t()} | {:error, GitHub.Error.t()}
   def get_package_for_authenticated_user(package_type, package_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -328,7 +328,7 @@ defmodule GitHub.Packages do
 
   """
   @spec get_package_for_organization(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Package.t()} | :error
+          {:ok, GitHub.Package.t()} | {:error, GitHub.Error.t()}
   def get_package_for_organization(org, package_type, package_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -349,7 +349,7 @@ defmodule GitHub.Packages do
 
   """
   @spec get_package_for_user(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Package.t()} | :error
+          {:ok, GitHub.Package.t()} | {:error, GitHub.Error.t()}
   def get_package_for_user(username, package_type, package_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -370,7 +370,7 @@ defmodule GitHub.Packages do
 
   """
   @spec get_package_version_for_authenticated_user(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.PackageVersion.t()} | :error
+          {:ok, GitHub.PackageVersion.t()} | {:error, GitHub.Error.t()}
   def get_package_version_for_authenticated_user(
         package_type,
         package_name,
@@ -396,7 +396,7 @@ defmodule GitHub.Packages do
 
   """
   @spec get_package_version_for_organization(String.t(), String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.PackageVersion.t()} | :error
+          {:ok, GitHub.PackageVersion.t()} | {:error, GitHub.Error.t()}
   def get_package_version_for_organization(
         org,
         package_type,
@@ -423,7 +423,7 @@ defmodule GitHub.Packages do
 
   """
   @spec get_package_version_for_user(String.t(), String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.PackageVersion.t()} | :error
+          {:ok, GitHub.PackageVersion.t()} | {:error, GitHub.Error.t()}
   def get_package_version_for_user(
         username,
         package_type,
@@ -458,7 +458,8 @@ defmodule GitHub.Packages do
     * [API method documentation](https://docs.github.com/rest/reference/packages#list-packages-for-the-authenticated-user)
 
   """
-  @spec list_packages_for_authenticated_user(keyword) :: {:ok, [GitHub.Package.t()]} | :error
+  @spec list_packages_for_authenticated_user(keyword) ::
+          {:ok, [GitHub.Package.t()]} | {:error, GitHub.Error.t()}
   def list_packages_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:package_type, :visibility])
@@ -489,7 +490,7 @@ defmodule GitHub.Packages do
 
   """
   @spec list_packages_for_organization(String.t(), keyword) ::
-          {:ok, [GitHub.Package.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Package.t()]} | {:error, GitHub.Error.t()}
   def list_packages_for_organization(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:package_type, :visibility])
@@ -524,7 +525,7 @@ defmodule GitHub.Packages do
 
   """
   @spec list_packages_for_user(String.t(), keyword) ::
-          {:ok, [GitHub.Package.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Package.t()]} | {:error, GitHub.Error.t()}
   def list_packages_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:package_type, :visibility])
@@ -555,7 +556,7 @@ defmodule GitHub.Packages do
 
   """
   @spec restore_package_for_authenticated_user(String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def restore_package_for_authenticated_user(package_type, package_name, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token])
@@ -587,7 +588,7 @@ defmodule GitHub.Packages do
 
   """
   @spec restore_package_for_org(String.t(), String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def restore_package_for_org(org, package_type, package_name, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token])
@@ -619,7 +620,7 @@ defmodule GitHub.Packages do
 
   """
   @spec restore_package_for_user(String.t(), String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def restore_package_for_user(username, package_type, package_name, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token])
@@ -647,7 +648,7 @@ defmodule GitHub.Packages do
 
   """
   @spec restore_package_version_for_authenticated_user(String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def restore_package_version_for_authenticated_user(
         package_type,
         package_name,
@@ -679,7 +680,7 @@ defmodule GitHub.Packages do
 
   """
   @spec restore_package_version_for_org(String.t(), String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def restore_package_version_for_org(
         org,
         package_type,
@@ -712,7 +713,7 @@ defmodule GitHub.Packages do
 
   """
   @spec restore_package_version_for_user(String.t(), String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def restore_package_version_for_user(
         username,
         package_type,

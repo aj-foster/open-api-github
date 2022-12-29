@@ -14,7 +14,7 @@ defmodule GitHub.Activity do
 
   """
   @spec check_repo_is_starred_by_authenticated_user(String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def check_repo_is_starred_by_authenticated_user(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -40,7 +40,8 @@ defmodule GitHub.Activity do
     * [API method documentation](https://docs.github.com/rest/reference/activity#delete-a-repository-subscription)
 
   """
-  @spec delete_repo_subscription(String.t(), String.t(), keyword) :: :ok | :error
+  @spec delete_repo_subscription(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_repo_subscription(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -60,7 +61,7 @@ defmodule GitHub.Activity do
     * [API method documentation](https://docs.github.com/rest/reference/activity#delete-a-thread-subscription)
 
   """
-  @spec delete_thread_subscription(integer, keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec delete_thread_subscription(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_thread_subscription(thread_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -85,7 +86,7 @@ defmodule GitHub.Activity do
     * [API method documentation](https://docs.github.com/rest/reference/activity#get-feeds)
 
   """
-  @spec get_feeds(keyword) :: {:ok, GitHub.Feed.t()} | :error
+  @spec get_feeds(keyword) :: {:ok, GitHub.Feed.t()} | {:error, GitHub.Error.t()}
   def get_feeds(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -106,7 +107,7 @@ defmodule GitHub.Activity do
 
   """
   @spec get_repo_subscription(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Repository.Subscription.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Repository.Subscription.t()} | {:error, GitHub.Error.t()}
   def get_repo_subscription(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -130,7 +131,7 @@ defmodule GitHub.Activity do
     * [API method documentation](https://docs.github.com/rest/reference/activity#get-a-thread)
 
   """
-  @spec get_thread(integer, keyword) :: {:ok, GitHub.Thread.t()} | {:error, GitHub.BasicError.t()}
+  @spec get_thread(integer, keyword) :: {:ok, GitHub.Thread.t()} | {:error, GitHub.Error.t()}
   def get_thread(thread_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -156,7 +157,7 @@ defmodule GitHub.Activity do
 
   """
   @spec get_thread_subscription_for_authenticated_user(integer, keyword) ::
-          {:ok, GitHub.ThreadSubscription.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.ThreadSubscription.t()} | {:error, GitHub.Error.t()}
   def get_thread_subscription_for_authenticated_user(thread_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -187,7 +188,7 @@ defmodule GitHub.Activity do
 
   """
   @spec list_events_for_authenticated_user(String.t(), keyword) ::
-          {:ok, [GitHub.Event.t()]} | :error
+          {:ok, [GitHub.Event.t()]} | {:error, GitHub.Error.t()}
   def list_events_for_authenticated_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -219,8 +220,7 @@ defmodule GitHub.Activity do
 
   """
   @spec list_notifications_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.Thread.t()]}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [GitHub.Thread.t()]} | {:error, GitHub.Error.t()}
   def list_notifications_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:all, :before, :page, :participating, :per_page, :since])
@@ -254,7 +254,7 @@ defmodule GitHub.Activity do
 
   """
   @spec list_org_events_for_authenticated_user(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Event.t()]} | :error
+          {:ok, [GitHub.Event.t()]} | {:error, GitHub.Error.t()}
   def list_org_events_for_authenticated_user(username, org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -281,8 +281,7 @@ defmodule GitHub.Activity do
     * [API method documentation](https://docs.github.com/rest/reference/activity#list-public-events)
 
   """
-  @spec list_public_events(keyword) ::
-          {:ok, [GitHub.Event.t()]} | {:error, map | GitHub.BasicError.t()}
+  @spec list_public_events(keyword) :: {:ok, [GitHub.Event.t()]} | {:error, GitHub.Error.t()}
   def list_public_events(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -315,7 +314,7 @@ defmodule GitHub.Activity do
 
   """
   @spec list_public_events_for_repo_network(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Event.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Event.t()]} | {:error, GitHub.Error.t()}
   def list_public_events_for_repo_network(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -348,7 +347,8 @@ defmodule GitHub.Activity do
     * [API method documentation](https://docs.github.com/rest/reference/activity#list-public-events-for-a-user)
 
   """
-  @spec list_public_events_for_user(String.t(), keyword) :: {:ok, [GitHub.Event.t()]} | :error
+  @spec list_public_events_for_user(String.t(), keyword) ::
+          {:ok, [GitHub.Event.t()]} | {:error, GitHub.Error.t()}
   def list_public_events_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -375,7 +375,8 @@ defmodule GitHub.Activity do
     * [API method documentation](https://docs.github.com/rest/reference/activity#list-public-organization-events)
 
   """
-  @spec list_public_org_events(String.t(), keyword) :: {:ok, [GitHub.Event.t()]} | :error
+  @spec list_public_org_events(String.t(), keyword) ::
+          {:ok, [GitHub.Event.t()]} | {:error, GitHub.Error.t()}
   def list_public_org_events(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -402,7 +403,8 @@ defmodule GitHub.Activity do
     * [API method documentation](https://docs.github.com/rest/reference/activity#list-events-received-by-the-authenticated-user)
 
   """
-  @spec list_received_events_for_user(String.t(), keyword) :: {:ok, [GitHub.Event.t()]} | :error
+  @spec list_received_events_for_user(String.t(), keyword) ::
+          {:ok, [GitHub.Event.t()]} | {:error, GitHub.Error.t()}
   def list_received_events_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -430,7 +432,7 @@ defmodule GitHub.Activity do
 
   """
   @spec list_received_public_events_for_user(String.t(), keyword) ::
-          {:ok, [GitHub.Event.t()]} | :error
+          {:ok, [GitHub.Event.t()]} | {:error, GitHub.Error.t()}
   def list_received_public_events_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -457,7 +459,8 @@ defmodule GitHub.Activity do
     * [API method documentation](https://docs.github.com/rest/reference/activity#list-repository-events)
 
   """
-  @spec list_repo_events(String.t(), String.t(), keyword) :: {:ok, [GitHub.Event.t()]} | :error
+  @spec list_repo_events(String.t(), String.t(), keyword) ::
+          {:ok, [GitHub.Event.t()]} | {:error, GitHub.Error.t()}
   def list_repo_events(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -489,7 +492,7 @@ defmodule GitHub.Activity do
 
   """
   @spec list_repo_notifications_for_authenticated_user(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Thread.t()]} | :error
+          {:ok, [GitHub.Thread.t()]} | {:error, GitHub.Error.t()}
   def list_repo_notifications_for_authenticated_user(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:all, :before, :page, :participating, :per_page, :since])
@@ -519,7 +522,7 @@ defmodule GitHub.Activity do
 
   """
   @spec list_repos_starred_by_authenticated_user(keyword) ::
-          {:ok, [GitHub.Repository.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Repository.t()]} | {:error, GitHub.Error.t()}
   def list_repos_starred_by_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page, :sort])
@@ -554,7 +557,8 @@ defmodule GitHub.Activity do
 
   """
   @spec list_repos_starred_by_user(String.t(), keyword) ::
-          {:ok, [GitHub.Repository.t()] | [GitHub.StarredRepository.t()]} | :error
+          {:ok, [GitHub.Repository.t()] | [GitHub.StarredRepository.t()]}
+          | {:error, GitHub.Error.t()}
   def list_repos_starred_by_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page, :sort])
@@ -584,7 +588,7 @@ defmodule GitHub.Activity do
 
   """
   @spec list_repos_watched_by_user(String.t(), keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | :error
+          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
   def list_repos_watched_by_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -612,8 +616,7 @@ defmodule GitHub.Activity do
 
   """
   @spec list_stargazers_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Stargazer.t()] | [GitHub.User.simple()]}
-          | {:error, GitHub.ValidationError.t()}
+          {:ok, [GitHub.Stargazer.t()] | [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_stargazers_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -644,7 +647,7 @@ defmodule GitHub.Activity do
 
   """
   @spec list_watched_repos_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
   def list_watched_repos_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -677,7 +680,7 @@ defmodule GitHub.Activity do
 
   """
   @spec list_watchers_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.User.simple()]} | :error
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_watchers_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -699,7 +702,7 @@ defmodule GitHub.Activity do
     * [API method documentation](https://docs.github.com/rest/reference/activity#mark-notifications-as-read)
 
   """
-  @spec mark_notifications_as_read(map, keyword) :: {:ok, map} | {:error, GitHub.BasicError.t()}
+  @spec mark_notifications_as_read(map, keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def mark_notifications_as_read(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -728,7 +731,7 @@ defmodule GitHub.Activity do
 
   """
   @spec mark_repo_notifications_as_read(String.t(), String.t(), map, keyword) ::
-          {:ok, map} | :error
+          {:ok, map} | {:error, GitHub.Error.t()}
   def mark_repo_notifications_as_read(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -750,7 +753,7 @@ defmodule GitHub.Activity do
     * [API method documentation](https://docs.github.com/rest/reference/activity#mark-a-thread-as-read)
 
   """
-  @spec mark_thread_as_read(integer, keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec mark_thread_as_read(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def mark_thread_as_read(thread_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -771,7 +774,7 @@ defmodule GitHub.Activity do
 
   """
   @spec set_repo_subscription(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Repository.Subscription.t()} | :error
+          {:ok, GitHub.Repository.Subscription.t()} | {:error, GitHub.Error.t()}
   def set_repo_subscription(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -794,7 +797,7 @@ defmodule GitHub.Activity do
 
   """
   @spec set_thread_subscription(integer, map, keyword) ::
-          {:ok, GitHub.ThreadSubscription.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.ThreadSubscription.t()} | {:error, GitHub.Error.t()}
   def set_thread_subscription(thread_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -822,7 +825,7 @@ defmodule GitHub.Activity do
 
   """
   @spec star_repo_for_authenticated_user(String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def star_repo_for_authenticated_user(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -849,7 +852,7 @@ defmodule GitHub.Activity do
 
   """
   @spec unstar_repo_for_authenticated_user(String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def unstar_repo_for_authenticated_user(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 

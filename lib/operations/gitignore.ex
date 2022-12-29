@@ -13,7 +13,7 @@ defmodule GitHub.Gitignore do
     * [API method documentation](https://docs.github.com/rest/reference/gitignore#get-all-gitignore-templates)
 
   """
-  @spec get_all_templates(keyword) :: {:ok, [String.t()]} | :error
+  @spec get_all_templates(keyword) :: {:ok, [String.t()]} | {:error, GitHub.Error.t()}
   def get_all_templates(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -34,7 +34,7 @@ defmodule GitHub.Gitignore do
 
   """
   @spec get_template(String.t(), keyword) ::
-          {:ok, :"Elixir.GitHub.Git.ignoreTemplate".t()} | :error
+          {:ok, :"Elixir.GitHub.Git.ignoreTemplate".t()} | {:error, GitHub.Error.t()}
   def get_template(name, opts \\ []) do
     client = opts[:client] || @default_client
 

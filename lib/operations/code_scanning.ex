@@ -18,7 +18,7 @@ defmodule GitHub.CodeScanning do
 
   """
   @spec delete_analysis(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.CodeScanning.AnalysisDeletion.t()} | {:error, map | GitHub.BasicError.t()}
+          {:ok, GitHub.CodeScanning.AnalysisDeletion.t()} | {:error, GitHub.Error.t()}
   def delete_analysis(owner, repo, analysis_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:confirm_delete])
@@ -47,7 +47,7 @@ defmodule GitHub.CodeScanning do
 
   """
   @spec get_alert(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.CodeScanning.Alert.t()} | {:error, map | GitHub.BasicError.t()}
+          {:ok, GitHub.CodeScanning.Alert.t()} | {:error, GitHub.Error.t()}
   def get_alert(owner, repo, alert_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -74,7 +74,7 @@ defmodule GitHub.CodeScanning do
 
   """
   @spec get_analysis(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.CodeScanning.Analysis.t()} | {:error, map | GitHub.BasicError.t()}
+          {:ok, GitHub.CodeScanning.Analysis.t()} | {:error, GitHub.Error.t()}
   def get_analysis(owner, repo, analysis_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -100,7 +100,7 @@ defmodule GitHub.CodeScanning do
 
   """
   @spec get_codeql_database(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.CodeScanning.CodeqlDatabase.t()} | {:error, map | GitHub.BasicError.t()}
+          {:ok, GitHub.CodeScanning.CodeqlDatabase.t()} | {:error, GitHub.Error.t()}
   def get_codeql_database(owner, repo, language, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -127,7 +127,7 @@ defmodule GitHub.CodeScanning do
 
   """
   @spec get_sarif(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.CodeScanning.SarifsStatus.t()} | {:error, map | GitHub.BasicError.t()}
+          {:ok, GitHub.CodeScanning.SarifsStatus.t()} | {:error, GitHub.Error.t()}
   def get_sarif(owner, repo, sarif_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -159,7 +159,7 @@ defmodule GitHub.CodeScanning do
 
   """
   @spec list_alert_instances(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.CodeScanning.AlertInstance.t()]} | {:error, map | GitHub.BasicError.t()}
+          {:ok, [GitHub.CodeScanning.AlertInstance.t()]} | {:error, GitHub.Error.t()}
   def list_alert_instances(owner, repo, alert_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :ref])
@@ -199,8 +199,7 @@ defmodule GitHub.CodeScanning do
 
   """
   @spec list_alerts_for_enterprise(String.t(), keyword) ::
-          {:ok, [GitHub.CodeScanning.OrganizationAlertItems.t()]}
-          | {:error, map | GitHub.BasicError.t()}
+          {:ok, [GitHub.CodeScanning.OrganizationAlertItems.t()]} | {:error, GitHub.Error.t()}
   def list_alerts_for_enterprise(enterprise, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -252,8 +251,7 @@ defmodule GitHub.CodeScanning do
 
   """
   @spec list_alerts_for_org(String.t(), keyword) ::
-          {:ok, [GitHub.CodeScanning.OrganizationAlertItems.t()]}
-          | {:error, map | GitHub.BasicError.t()}
+          {:ok, [GitHub.CodeScanning.OrganizationAlertItems.t()]} | {:error, GitHub.Error.t()}
   def list_alerts_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -305,7 +303,7 @@ defmodule GitHub.CodeScanning do
 
   """
   @spec list_alerts_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.CodeScanning.AlertItems.t()]} | {:error, map | GitHub.BasicError.t()}
+          {:ok, [GitHub.CodeScanning.AlertItems.t()]} | {:error, GitHub.Error.t()}
   def list_alerts_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -346,7 +344,7 @@ defmodule GitHub.CodeScanning do
 
   """
   @spec list_codeql_databases(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.CodeScanning.CodeqlDatabase.t()]} | {:error, map | GitHub.BasicError.t()}
+          {:ok, [GitHub.CodeScanning.CodeqlDatabase.t()]} | {:error, GitHub.Error.t()}
   def list_codeql_databases(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -383,7 +381,7 @@ defmodule GitHub.CodeScanning do
 
   """
   @spec list_recent_analyses(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.CodeScanning.Analysis.t()]} | {:error, map | GitHub.BasicError.t()}
+          {:ok, [GitHub.CodeScanning.Analysis.t()]} | {:error, GitHub.Error.t()}
   def list_recent_analyses(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -422,7 +420,7 @@ defmodule GitHub.CodeScanning do
 
   """
   @spec update_alert(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.CodeScanning.Alert.t()} | {:error, map | GitHub.BasicError.t()}
+          {:ok, GitHub.CodeScanning.Alert.t()} | {:error, GitHub.Error.t()}
   def update_alert(owner, repo, alert_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -450,7 +448,7 @@ defmodule GitHub.CodeScanning do
 
   """
   @spec upload_sarif(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.CodeScanning.SarifsReceipt.t()} | {:error, map | GitHub.BasicError.t()}
+          {:ok, GitHub.CodeScanning.SarifsReceipt.t()} | {:error, GitHub.Error.t()}
   def upload_sarif(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 

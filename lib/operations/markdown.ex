@@ -13,7 +13,7 @@ defmodule GitHub.Markdown do
     * [API method documentation](https://docs.github.com/rest/reference/markdown#render-a-markdown-document)
 
   """
-  @spec render(map, keyword) :: {:ok, binary} | :error
+  @spec render(map, keyword) :: {:ok, binary} | {:error, GitHub.Error.t()}
   def render(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -35,7 +35,7 @@ defmodule GitHub.Markdown do
     * [API method documentation](https://docs.github.com/rest/reference/markdown#render-a-markdown-document-in-raw-mode)
 
   """
-  @spec render_raw(String.t(), keyword) :: {:ok, binary} | :error
+  @spec render_raw(String.t(), keyword) :: {:ok, binary} | {:error, GitHub.Error.t()}
   def render_raw(body, opts \\ []) do
     client = opts[:client] || @default_client
 

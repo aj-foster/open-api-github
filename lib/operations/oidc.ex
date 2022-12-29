@@ -14,7 +14,7 @@ defmodule GitHub.Oidc do
 
   """
   @spec get_oidc_custom_sub_template_for_org(String.t(), keyword) ::
-          {:ok, GitHub.OIDCCustomSub.t()} | :error
+          {:ok, GitHub.OIDCCustomSub.t()} | {:error, GitHub.Error.t()}
   def get_oidc_custom_sub_template_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -35,7 +35,7 @@ defmodule GitHub.Oidc do
 
   """
   @spec update_oidc_custom_sub_template_for_org(String.t(), GitHub.OIDCCustomSub.t(), keyword) ::
-          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def update_oidc_custom_sub_template_for_org(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 

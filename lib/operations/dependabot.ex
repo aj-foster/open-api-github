@@ -13,7 +13,8 @@ defmodule GitHub.Dependabot do
     * [API method documentation](https://docs.github.com/rest/reference/dependabot#add-selected-repository-to-an-organization-secret)
 
   """
-  @spec add_selected_repo_to_org_secret(String.t(), String.t(), integer, keyword) :: :ok | :error
+  @spec add_selected_repo_to_org_secret(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def add_selected_repo_to_org_secret(org, secret_name, repository_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -34,7 +35,7 @@ defmodule GitHub.Dependabot do
 
   """
   @spec create_or_update_org_secret(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.EmptyObject.t()} | :error
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def create_or_update_org_secret(org, secret_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -57,7 +58,7 @@ defmodule GitHub.Dependabot do
 
   """
   @spec create_or_update_repo_secret(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.EmptyObject.t()} | :error
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def create_or_update_repo_secret(owner, repo, secret_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -79,7 +80,7 @@ defmodule GitHub.Dependabot do
     * [API method documentation](https://docs.github.com/rest/reference/dependabot#delete-an-organization-secret)
 
   """
-  @spec delete_org_secret(String.t(), String.t(), keyword) :: :ok | :error
+  @spec delete_org_secret(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_org_secret(org, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -99,7 +100,8 @@ defmodule GitHub.Dependabot do
     * [API method documentation](https://docs.github.com/rest/reference/dependabot#delete-a-repository-secret)
 
   """
-  @spec delete_repo_secret(String.t(), String.t(), String.t(), keyword) :: :ok | :error
+  @spec delete_repo_secret(String.t(), String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_repo_secret(owner, repo, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -120,7 +122,7 @@ defmodule GitHub.Dependabot do
 
   """
   @spec get_alert(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Dependabot.Alert.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Dependabot.Alert.t()} | {:error, GitHub.Error.t()}
   def get_alert(owner, repo, alert_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -145,7 +147,8 @@ defmodule GitHub.Dependabot do
     * [API method documentation](https://docs.github.com/rest/reference/dependabot#get-an-organization-public-key)
 
   """
-  @spec get_org_public_key(String.t(), keyword) :: {:ok, GitHub.Dependabot.PublicKey.t()} | :error
+  @spec get_org_public_key(String.t(), keyword) ::
+          {:ok, GitHub.Dependabot.PublicKey.t()} | {:error, GitHub.Error.t()}
   def get_org_public_key(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -166,7 +169,7 @@ defmodule GitHub.Dependabot do
 
   """
   @spec get_org_secret(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Organization.DependabotSecret.t()} | :error
+          {:ok, GitHub.Organization.DependabotSecret.t()} | {:error, GitHub.Error.t()}
   def get_org_secret(org, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -187,7 +190,7 @@ defmodule GitHub.Dependabot do
 
   """
   @spec get_repo_public_key(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Dependabot.PublicKey.t()} | :error
+          {:ok, GitHub.Dependabot.PublicKey.t()} | {:error, GitHub.Error.t()}
   def get_repo_public_key(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -208,7 +211,7 @@ defmodule GitHub.Dependabot do
 
   """
   @spec get_repo_secret(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Dependabot.Secret.t()} | :error
+          {:ok, GitHub.Dependabot.Secret.t()} | {:error, GitHub.Error.t()}
   def get_repo_secret(owner, repo, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -256,8 +259,7 @@ defmodule GitHub.Dependabot do
 
   """
   @spec list_alerts_for_enterprise(String.t(), keyword) ::
-          {:ok, [GitHub.Dependabot.Alert.WithRepository.t()]}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, [GitHub.Dependabot.Alert.WithRepository.t()]} | {:error, GitHub.Error.t()}
   def list_alerts_for_enterprise(enterprise, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -328,8 +330,7 @@ defmodule GitHub.Dependabot do
 
   """
   @spec list_alerts_for_org(String.t(), keyword) ::
-          {:ok, [GitHub.Dependabot.Alert.WithRepository.t()]}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, [GitHub.Dependabot.Alert.WithRepository.t()]} | {:error, GitHub.Error.t()}
   def list_alerts_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -403,8 +404,7 @@ defmodule GitHub.Dependabot do
 
   """
   @spec list_alerts_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Dependabot.Alert.t()]}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, [GitHub.Dependabot.Alert.t()]} | {:error, GitHub.Error.t()}
   def list_alerts_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -455,7 +455,7 @@ defmodule GitHub.Dependabot do
     * [API method documentation](https://docs.github.com/rest/reference/dependabot#list-organization-secrets)
 
   """
-  @spec list_org_secrets(String.t(), keyword) :: {:ok, map} | :error
+  @spec list_org_secrets(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def list_org_secrets(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -482,7 +482,8 @@ defmodule GitHub.Dependabot do
     * [API method documentation](https://docs.github.com/rest/reference/dependabot#list-repository-secrets)
 
   """
-  @spec list_repo_secrets(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  @spec list_repo_secrets(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_repo_secrets(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -509,7 +510,8 @@ defmodule GitHub.Dependabot do
     * [API method documentation](https://docs.github.com/rest/reference/dependabot#list-selected-repositories-for-an-organization-secret)
 
   """
-  @spec list_selected_repos_for_org_secret(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  @spec list_selected_repos_for_org_secret(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_selected_repos_for_org_secret(org, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -532,7 +534,7 @@ defmodule GitHub.Dependabot do
 
   """
   @spec remove_selected_repo_from_org_secret(String.t(), String.t(), integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def remove_selected_repo_from_org_secret(org, secret_name, repository_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -552,7 +554,8 @@ defmodule GitHub.Dependabot do
     * [API method documentation](https://docs.github.com/rest/reference/dependabot#set-selected-repositories-for-an-organization-secret)
 
   """
-  @spec set_selected_repos_for_org_secret(String.t(), String.t(), map, keyword) :: :ok | :error
+  @spec set_selected_repos_for_org_secret(String.t(), String.t(), map, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def set_selected_repos_for_org_secret(org, secret_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -575,8 +578,7 @@ defmodule GitHub.Dependabot do
 
   """
   @spec update_alert(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Dependabot.Alert.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, GitHub.Dependabot.Alert.t()} | {:error, GitHub.Error.t()}
   def update_alert(owner, repo, alert_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 

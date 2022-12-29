@@ -14,7 +14,7 @@ defmodule GitHub.Users do
 
   """
   @spec add_email_for_authenticated_user(map | String.t() | [String.t()], keyword) ::
-          {:ok, [GitHub.Email.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [GitHub.Email.t()]} | {:error, GitHub.Error.t()}
   def add_email_for_authenticated_user(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -43,8 +43,7 @@ defmodule GitHub.Users do
     * [API method documentation](https://docs.github.com/rest/reference/users#block-a-user)
 
   """
-  @spec block(String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec block(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def block(username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -71,7 +70,7 @@ defmodule GitHub.Users do
     * [API method documentation](https://docs.github.com/rest/reference/users#check-if-a-user-is-blocked-by-the-authenticated-user)
 
   """
-  @spec check_blocked(String.t(), keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec check_blocked(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def check_blocked(username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -97,7 +96,8 @@ defmodule GitHub.Users do
     * [API method documentation](https://docs.github.com/rest/reference/users#check-if-a-user-follows-another-user)
 
   """
-  @spec check_following_for_user(String.t(), String.t(), keyword) :: :ok | :error
+  @spec check_following_for_user(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def check_following_for_user(username, target_user, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -118,7 +118,7 @@ defmodule GitHub.Users do
 
   """
   @spec check_person_is_followed_by_authenticated(String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def check_person_is_followed_by_authenticated(username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -145,7 +145,7 @@ defmodule GitHub.Users do
 
   """
   @spec create_gpg_key_for_authenticated_user(map, keyword) ::
-          {:ok, GitHub.GpgKey.t()} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.GpgKey.t()} | {:error, GitHub.Error.t()}
   def create_gpg_key_for_authenticated_user(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -175,7 +175,7 @@ defmodule GitHub.Users do
 
   """
   @spec create_public_ssh_key_for_authenticated_user(map, keyword) ::
-          {:ok, GitHub.Key.t()} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Key.t()} | {:error, GitHub.Error.t()}
   def create_public_ssh_key_for_authenticated_user(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -205,8 +205,7 @@ defmodule GitHub.Users do
 
   """
   @spec create_ssh_signing_key_for_authenticated_user(map, keyword) ::
-          {:ok, GitHub.SSHSigningKey.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.SSHSigningKey.t()} | {:error, GitHub.Error.t()}
   def create_ssh_signing_key_for_authenticated_user(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -236,7 +235,7 @@ defmodule GitHub.Users do
 
   """
   @spec delete_email_for_authenticated_user(map | String.t() | [String.t()], keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_email_for_authenticated_user(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -266,7 +265,7 @@ defmodule GitHub.Users do
 
   """
   @spec delete_gpg_key_for_authenticated_user(integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_gpg_key_for_authenticated_user(gpg_key_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -294,7 +293,7 @@ defmodule GitHub.Users do
 
   """
   @spec delete_public_ssh_key_for_authenticated_user(integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_public_ssh_key_for_authenticated_user(key_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -321,7 +320,7 @@ defmodule GitHub.Users do
 
   """
   @spec delete_ssh_signing_key_for_authenticated_user(integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_ssh_signing_key_for_authenticated_user(ssh_signing_key_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -347,7 +346,7 @@ defmodule GitHub.Users do
     * [API method documentation](https://docs.github.com/rest/reference/users#follow-a-user)
 
   """
-  @spec follow(String.t(), keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec follow(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def follow(username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -374,7 +373,7 @@ defmodule GitHub.Users do
 
   """
   @spec get_authenticated(keyword) ::
-          {:ok, GitHub.User.private() | GitHub.User.public()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.User.private() | GitHub.User.public()} | {:error, GitHub.Error.t()}
   def get_authenticated(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -400,7 +399,7 @@ defmodule GitHub.Users do
 
   """
   @spec get_by_username(String.t(), keyword) ::
-          {:ok, GitHub.User.private() | GitHub.User.public()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.User.private() | GitHub.User.public()} | {:error, GitHub.Error.t()}
   def get_by_username(username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -429,8 +428,7 @@ defmodule GitHub.Users do
 
   """
   @spec get_context_for_user(String.t(), keyword) ::
-          {:ok, GitHub.Hovercard.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Hovercard.t()} | {:error, GitHub.Error.t()}
   def get_context_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:subject_id, :subject_type])
@@ -457,7 +455,7 @@ defmodule GitHub.Users do
 
   """
   @spec get_gpg_key_for_authenticated_user(integer, keyword) ::
-          {:ok, GitHub.GpgKey.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.GpgKey.t()} | {:error, GitHub.Error.t()}
   def get_gpg_key_for_authenticated_user(gpg_key_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -484,7 +482,7 @@ defmodule GitHub.Users do
 
   """
   @spec get_public_ssh_key_for_authenticated_user(integer, keyword) ::
-          {:ok, GitHub.Key.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Key.t()} | {:error, GitHub.Error.t()}
   def get_public_ssh_key_for_authenticated_user(key_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -511,7 +509,7 @@ defmodule GitHub.Users do
 
   """
   @spec get_ssh_signing_key_for_authenticated_user(integer, keyword) ::
-          {:ok, GitHub.SSHSigningKey.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.SSHSigningKey.t()} | {:error, GitHub.Error.t()}
   def get_ssh_signing_key_for_authenticated_user(ssh_signing_key_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -542,7 +540,7 @@ defmodule GitHub.Users do
     * [API method documentation](https://docs.github.com/rest/reference/users#list-users)
 
   """
-  @spec list(keyword) :: {:ok, [GitHub.User.simple()]} | :error
+  @spec list(keyword) :: {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:per_page, :since])
@@ -570,7 +568,7 @@ defmodule GitHub.Users do
 
   """
   @spec list_blocked_by_authenticated_user(keyword) ::
-          {:ok, [GitHub.User.simple()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_blocked_by_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -604,7 +602,7 @@ defmodule GitHub.Users do
 
   """
   @spec list_emails_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.Email.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Email.t()]} | {:error, GitHub.Error.t()}
   def list_emails_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -638,7 +636,7 @@ defmodule GitHub.Users do
 
   """
   @spec list_followed_by_authenticated_user(keyword) ::
-          {:ok, [GitHub.User.simple()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_followed_by_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -671,7 +669,7 @@ defmodule GitHub.Users do
 
   """
   @spec list_followers_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.User.simple()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_followers_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -703,7 +701,8 @@ defmodule GitHub.Users do
     * [API method documentation](https://docs.github.com/rest/reference/users#list-followers-of-a-user)
 
   """
-  @spec list_followers_for_user(String.t(), keyword) :: {:ok, [GitHub.User.simple()]} | :error
+  @spec list_followers_for_user(String.t(), keyword) ::
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_followers_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -730,7 +729,8 @@ defmodule GitHub.Users do
     * [API method documentation](https://docs.github.com/rest/reference/users#list-the-people-a-user-follows)
 
   """
-  @spec list_following_for_user(String.t(), keyword) :: {:ok, [GitHub.User.simple()]} | :error
+  @spec list_following_for_user(String.t(), keyword) ::
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_following_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -758,7 +758,7 @@ defmodule GitHub.Users do
 
   """
   @spec list_gpg_keys_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.GpgKey.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.GpgKey.t()]} | {:error, GitHub.Error.t()}
   def list_gpg_keys_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -791,7 +791,8 @@ defmodule GitHub.Users do
     * [API method documentation](https://docs.github.com/rest/reference/users#list-gpg-keys-for-a-user)
 
   """
-  @spec list_gpg_keys_for_user(String.t(), keyword) :: {:ok, [GitHub.GpgKey.t()]} | :error
+  @spec list_gpg_keys_for_user(String.t(), keyword) ::
+          {:ok, [GitHub.GpgKey.t()]} | {:error, GitHub.Error.t()}
   def list_gpg_keys_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -819,7 +820,7 @@ defmodule GitHub.Users do
 
   """
   @spec list_public_emails_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.Email.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Email.t()]} | {:error, GitHub.Error.t()}
   def list_public_emails_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -852,7 +853,8 @@ defmodule GitHub.Users do
     * [API method documentation](https://docs.github.com/rest/reference/users#list-public-keys-for-a-user)
 
   """
-  @spec list_public_keys_for_user(String.t(), keyword) :: {:ok, [GitHub.Key.simple()]} | :error
+  @spec list_public_keys_for_user(String.t(), keyword) ::
+          {:ok, [GitHub.Key.simple()]} | {:error, GitHub.Error.t()}
   def list_public_keys_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -880,7 +882,7 @@ defmodule GitHub.Users do
 
   """
   @spec list_public_ssh_keys_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.Key.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Key.t()]} | {:error, GitHub.Error.t()}
   def list_public_ssh_keys_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -914,7 +916,7 @@ defmodule GitHub.Users do
 
   """
   @spec list_ssh_signing_keys_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.SSHSigningKey.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.SSHSigningKey.t()]} | {:error, GitHub.Error.t()}
   def list_ssh_signing_keys_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -948,7 +950,7 @@ defmodule GitHub.Users do
 
   """
   @spec list_ssh_signing_keys_for_user(String.t(), keyword) ::
-          {:ok, [GitHub.SSHSigningKey.t()]} | :error
+          {:ok, [GitHub.SSHSigningKey.t()]} | {:error, GitHub.Error.t()}
   def list_ssh_signing_keys_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -971,7 +973,7 @@ defmodule GitHub.Users do
 
   """
   @spec set_primary_email_visibility_for_authenticated_user(map, keyword) ::
-          {:ok, [GitHub.Email.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [GitHub.Email.t()]} | {:error, GitHub.Error.t()}
   def set_primary_email_visibility_for_authenticated_user(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1000,7 +1002,7 @@ defmodule GitHub.Users do
     * [API method documentation](https://docs.github.com/rest/reference/users#unblock-a-user)
 
   """
-  @spec unblock(String.t(), keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec unblock(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def unblock(username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1026,7 +1028,7 @@ defmodule GitHub.Users do
     * [API method documentation](https://docs.github.com/rest/reference/users#unfollow-a-user)
 
   """
-  @spec unfollow(String.t(), keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec unfollow(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def unfollow(username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1053,8 +1055,7 @@ defmodule GitHub.Users do
 
   """
   @spec update_authenticated(map, keyword) ::
-          {:ok, GitHub.User.private()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.User.private()} | {:error, GitHub.Error.t()}
   def update_authenticated(body, opts \\ []) do
     client = opts[:client] || @default_client
 

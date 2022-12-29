@@ -14,7 +14,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec add_custom_labels_to_self_hosted_runner_for_enterprise(String.t(), integer, map, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def add_custom_labels_to_self_hosted_runner_for_enterprise(
         enterprise,
         runner_id,
@@ -50,7 +50,7 @@ defmodule GitHub.EnterpriseAdmin do
           integer,
           integer,
           keyword
-        ) :: :ok | :error
+        ) :: :ok | {:error, GitHub.Error.t()}
   def add_org_access_to_self_hosted_runner_group_in_enterprise(
         enterprise,
         runner_group_id,
@@ -77,7 +77,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec add_self_hosted_runner_to_group_for_enterprise(String.t(), integer, integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def add_self_hosted_runner_to_group_for_enterprise(
         enterprise,
         runner_group_id,
@@ -104,7 +104,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec create_registration_token_for_enterprise(String.t(), keyword) ::
-          {:ok, GitHub.AuthenticationToken.t()} | :error
+          {:ok, GitHub.AuthenticationToken.t()} | {:error, GitHub.Error.t()}
   def create_registration_token_for_enterprise(enterprise, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -125,7 +125,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec create_remove_token_for_enterprise(String.t(), keyword) ::
-          {:ok, GitHub.AuthenticationToken.t()} | :error
+          {:ok, GitHub.AuthenticationToken.t()} | {:error, GitHub.Error.t()}
   def create_remove_token_for_enterprise(enterprise, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -146,7 +146,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec create_self_hosted_runner_group_for_enterprise(String.t(), map, keyword) ::
-          {:ok, GitHub.Actions.Runner.GroupsEnterprise.t()} | :error
+          {:ok, GitHub.Actions.Runner.GroupsEnterprise.t()} | {:error, GitHub.Error.t()}
   def create_self_hosted_runner_group_for_enterprise(enterprise, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -168,7 +168,8 @@ defmodule GitHub.EnterpriseAdmin do
     * [API method documentation](https://docs.github.com/rest/reference/actions#delete-self-hosted-runner-from-an-enterprise)
 
   """
-  @spec delete_self_hosted_runner_from_enterprise(String.t(), integer, keyword) :: :ok | :error
+  @spec delete_self_hosted_runner_from_enterprise(String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_self_hosted_runner_from_enterprise(enterprise, runner_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -189,7 +190,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec delete_self_hosted_runner_group_from_enterprise(String.t(), integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def delete_self_hosted_runner_group_from_enterprise(enterprise, runner_group_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -210,7 +211,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec disable_selected_organization_github_actions_enterprise(String.t(), integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def disable_selected_organization_github_actions_enterprise(enterprise, org_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -231,7 +232,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec enable_selected_organization_github_actions_enterprise(String.t(), integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def enable_selected_organization_github_actions_enterprise(enterprise, org_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -252,7 +253,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec get_allowed_actions_enterprise(String.t(), keyword) ::
-          {:ok, GitHub.SelectedActions.t()} | :error
+          {:ok, GitHub.SelectedActions.t()} | {:error, GitHub.Error.t()}
   def get_allowed_actions_enterprise(enterprise, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -273,7 +274,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec get_github_actions_permissions_enterprise(String.t(), keyword) ::
-          {:ok, GitHub.Actions.EnterprisePermissions.t()} | :error
+          {:ok, GitHub.Actions.EnterprisePermissions.t()} | {:error, GitHub.Error.t()}
   def get_github_actions_permissions_enterprise(enterprise, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -294,7 +295,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec get_self_hosted_runner_for_enterprise(String.t(), integer, keyword) ::
-          {:ok, GitHub.Actions.Runner.t()} | :error
+          {:ok, GitHub.Actions.Runner.t()} | {:error, GitHub.Error.t()}
   def get_self_hosted_runner_for_enterprise(enterprise, runner_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -315,7 +316,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec get_self_hosted_runner_group_for_enterprise(String.t(), integer, keyword) ::
-          {:ok, GitHub.Actions.Runner.GroupsEnterprise.t()} | :error
+          {:ok, GitHub.Actions.Runner.GroupsEnterprise.t()} | {:error, GitHub.Error.t()}
   def get_self_hosted_runner_group_for_enterprise(enterprise, runner_group_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -340,7 +341,7 @@ defmodule GitHub.EnterpriseAdmin do
     * [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#get-github-enterprise-server-statistics)
 
   """
-  @spec get_server_statistics(String.t(), keyword) :: {:ok, [map]} | :error
+  @spec get_server_statistics(String.t(), keyword) :: {:ok, [map]} | {:error, GitHub.Error.t()}
   def get_server_statistics(enterprise_or_org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:date_end, :date_start])
@@ -363,7 +364,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec list_labels_for_self_hosted_runner_for_enterprise(String.t(), integer, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_labels_for_self_hosted_runner_for_enterprise(enterprise, runner_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -389,7 +390,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec list_org_access_to_self_hosted_runner_group_in_enterprise(String.t(), integer, keyword) ::
-          {:ok, map} | :error
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_org_access_to_self_hosted_runner_group_in_enterprise(
         enterprise,
         runner_group_id,
@@ -416,7 +417,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec list_runner_applications_for_enterprise(String.t(), keyword) ::
-          {:ok, [GitHub.Actions.Runner.Application.t()]} | :error
+          {:ok, [GitHub.Actions.Runner.Application.t()]} | {:error, GitHub.Error.t()}
   def list_runner_applications_for_enterprise(enterprise, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -442,7 +443,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec list_selected_organizations_enabled_github_actions_enterprise(String.t(), keyword) ::
-          {:ok, map} | :error
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_selected_organizations_enabled_github_actions_enterprise(enterprise, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -470,7 +471,8 @@ defmodule GitHub.EnterpriseAdmin do
     * [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runner-groups-for-an-enterprise)
 
   """
-  @spec list_self_hosted_runner_groups_for_enterprise(String.t(), keyword) :: {:ok, map} | :error
+  @spec list_self_hosted_runner_groups_for_enterprise(String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_self_hosted_runner_groups_for_enterprise(enterprise, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :visible_to_organization])
@@ -497,7 +499,8 @@ defmodule GitHub.EnterpriseAdmin do
     * [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runners-for-an-enterprise)
 
   """
-  @spec list_self_hosted_runners_for_enterprise(String.t(), keyword) :: {:ok, map} | :error
+  @spec list_self_hosted_runners_for_enterprise(String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_self_hosted_runners_for_enterprise(enterprise, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -525,7 +528,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec list_self_hosted_runners_in_group_for_enterprise(String.t(), integer, keyword) ::
-          {:ok, map} | :error
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_self_hosted_runners_in_group_for_enterprise(enterprise, runner_group_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -551,7 +554,7 @@ defmodule GitHub.EnterpriseAdmin do
           String.t(),
           integer,
           keyword
-        ) :: {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+        ) :: {:ok, map} | {:error, GitHub.Error.t()}
   def remove_all_custom_labels_from_self_hosted_runner_for_enterprise(
         enterprise,
         runner_id,
@@ -584,7 +587,7 @@ defmodule GitHub.EnterpriseAdmin do
           integer,
           String.t(),
           keyword
-        ) :: {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+        ) :: {:ok, map} | {:error, GitHub.Error.t()}
   def remove_custom_label_from_self_hosted_runner_for_enterprise(
         enterprise,
         runner_id,
@@ -618,7 +621,7 @@ defmodule GitHub.EnterpriseAdmin do
           integer,
           integer,
           keyword
-        ) :: :ok | :error
+        ) :: :ok | {:error, GitHub.Error.t()}
   def remove_org_access_to_self_hosted_runner_group_in_enterprise(
         enterprise,
         runner_group_id,
@@ -645,7 +648,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec remove_self_hosted_runner_from_group_for_enterprise(String.t(), integer, integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def remove_self_hosted_runner_from_group_for_enterprise(
         enterprise,
         runner_group_id,
@@ -672,7 +675,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec secret_scanning_get_security_analysis_settings_for_enterprise(String.t(), keyword) ::
-          {:ok, GitHub.EnterpriseSecurityAnalysisSettings.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.EnterpriseSecurityAnalysisSettings.t()} | {:error, GitHub.Error.t()}
   def secret_scanning_get_security_analysis_settings_for_enterprise(enterprise, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -696,7 +699,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec secret_scanning_patch_security_analysis_settings_for_enterprise(String.t(), map, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def secret_scanning_patch_security_analysis_settings_for_enterprise(
         enterprise,
         body,
@@ -727,7 +730,7 @@ defmodule GitHub.EnterpriseAdmin do
           String.t(),
           String.t(),
           keyword
-        ) :: :ok | {:error, GitHub.BasicError.t()}
+        ) :: :ok | {:error, GitHub.Error.t()}
   def secret_scanning_post_security_product_enablement_for_enterprise(
         enterprise,
         security_product,
@@ -753,7 +756,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec set_allowed_actions_enterprise(String.t(), GitHub.SelectedActions.t(), keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def set_allowed_actions_enterprise(enterprise, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -776,7 +779,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec set_custom_labels_for_self_hosted_runner_for_enterprise(String.t(), integer, map, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def set_custom_labels_for_self_hosted_runner_for_enterprise(
         enterprise,
         runner_id,
@@ -807,7 +810,8 @@ defmodule GitHub.EnterpriseAdmin do
     * [API method documentation](https://docs.github.com/rest/reference/actions#set-github-actions-permissions-for-an-enterprise)
 
   """
-  @spec set_github_actions_permissions_enterprise(String.t(), map, keyword) :: :ok | :error
+  @spec set_github_actions_permissions_enterprise(String.t(), map, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def set_github_actions_permissions_enterprise(enterprise, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -834,7 +838,7 @@ defmodule GitHub.EnterpriseAdmin do
           integer,
           map,
           keyword
-        ) :: :ok | :error
+        ) :: :ok | {:error, GitHub.Error.t()}
   def set_org_access_to_self_hosted_runner_group_in_enterprise(
         enterprise,
         runner_group_id,
@@ -862,7 +866,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec set_selected_organizations_enabled_github_actions_enterprise(String.t(), map, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def set_selected_organizations_enabled_github_actions_enterprise(enterprise, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -885,7 +889,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec set_self_hosted_runners_in_group_for_enterprise(String.t(), integer, map, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def set_self_hosted_runners_in_group_for_enterprise(
         enterprise,
         runner_group_id,
@@ -913,7 +917,7 @@ defmodule GitHub.EnterpriseAdmin do
 
   """
   @spec update_self_hosted_runner_group_for_enterprise(String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Actions.Runner.GroupsEnterprise.t()} | :error
+          {:ok, GitHub.Actions.Runner.GroupsEnterprise.t()} | {:error, GitHub.Error.t()}
   def update_self_hosted_runner_group_for_enterprise(
         enterprise,
         runner_group_id,

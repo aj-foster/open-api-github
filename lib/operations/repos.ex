@@ -14,7 +14,7 @@ defmodule GitHub.Repos do
 
   """
   @spec accept_invitation_for_authenticated_user(integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def accept_invitation_for_authenticated_user(invitation_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -46,7 +46,7 @@ defmodule GitHub.Repos do
           String.t(),
           map | [String.t()],
           keyword
-        ) :: {:ok, [GitHub.Integration.t()]} | {:error, GitHub.ValidationError.t()}
+        ) :: {:ok, [GitHub.Integration.t()]} | {:error, GitHub.Error.t()}
   def add_app_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -69,8 +69,7 @@ defmodule GitHub.Repos do
 
   """
   @spec add_collaborator(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Repository.Invitation.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Repository.Invitation.t()} | {:error, GitHub.Error.t()}
   def add_collaborator(owner, repo, username, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -98,7 +97,7 @@ defmodule GitHub.Repos do
 
   """
   @spec add_status_check_contexts(String.t(), String.t(), String.t(), map | [String.t()], keyword) ::
-          {:ok, [String.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [String.t()]} | {:error, GitHub.Error.t()}
   def add_status_check_contexts(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -132,7 +131,7 @@ defmodule GitHub.Repos do
           String.t(),
           map | [String.t()],
           keyword
-        ) :: {:ok, [GitHub.Team.t()]} | {:error, GitHub.ValidationError.t()}
+        ) :: {:ok, [GitHub.Team.t()]} | {:error, GitHub.Error.t()}
   def add_team_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -160,7 +159,7 @@ defmodule GitHub.Repos do
           String.t(),
           map | [String.t()],
           keyword
-        ) :: {:ok, [GitHub.User.simple()]} | {:error, GitHub.ValidationError.t()}
+        ) :: {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def add_user_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -182,7 +181,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/collaborators/collaborators#check-if-a-user-is-a-repository-collaborator)
 
   """
-  @spec check_collaborator(String.t(), String.t(), String.t(), keyword) :: :ok | :error
+  @spec check_collaborator(String.t(), String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def check_collaborator(owner, repo, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -202,7 +202,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#check-if-vulnerability-alerts-are-enabled-for-a-repository)
 
   """
-  @spec check_vulnerability_alerts(String.t(), String.t(), keyword) :: :ok | :error
+  @spec check_vulnerability_alerts(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def check_vulnerability_alerts(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -227,7 +228,7 @@ defmodule GitHub.Repos do
 
   """
   @spec codeowners_errors(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.CodeownersErrors.t()} | :error
+          {:ok, GitHub.CodeownersErrors.t()} | {:error, GitHub.Error.t()}
   def codeowners_errors(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:ref])
@@ -255,7 +256,7 @@ defmodule GitHub.Repos do
 
   """
   @spec compare_commits(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Commit.Comparison.t()} | {:error, map | GitHub.BasicError.t()}
+          {:ok, GitHub.Commit.Comparison.t()} | {:error, GitHub.Error.t()}
   def compare_commits(owner, repo, basehead, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -283,7 +284,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_autolink(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Autolink.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.Autolink.t()} | {:error, GitHub.Error.t()}
   def create_autolink(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -306,8 +307,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_commit_comment(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Commit.Comment.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Commit.Comment.t()} | {:error, GitHub.Error.t()}
   def create_commit_comment(owner, repo, commit_sha, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -334,7 +334,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_commit_signature_protection(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.ProtectedBranch.AdminEnforced.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.ProtectedBranch.AdminEnforced.t()} | {:error, GitHub.Error.t()}
   def create_commit_signature_protection(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -358,7 +358,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_commit_status(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Status.t()} | :error
+          {:ok, GitHub.Status.t()} | {:error, GitHub.Error.t()}
   def create_commit_status(owner, repo, sha, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -381,7 +381,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_deploy_key(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.DeployKey.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.DeployKey.t()} | {:error, GitHub.Error.t()}
   def create_deploy_key(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -404,7 +404,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_deployment(String.t(), String.t(), map, keyword) ::
-          {:ok, map | GitHub.Deployment.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, map | GitHub.Deployment.t()} | {:error, GitHub.Error.t()}
   def create_deployment(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -437,7 +437,7 @@ defmodule GitHub.Repos do
           String.t(),
           GitHub.Deployment.BranchPolicyNamePattern.t(),
           keyword
-        ) :: {:ok, GitHub.Deployment.BranchPolicy.t()} | :error
+        ) :: {:ok, GitHub.Deployment.BranchPolicy.t()} | {:error, GitHub.Error.t()}
   def create_deployment_branch_policy(owner, repo, environment_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -460,7 +460,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_deployment_status(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Deployment.Status.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.Deployment.Status.t()} | {:error, GitHub.Error.t()}
   def create_deployment_status(owner, repo, deployment_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -483,7 +483,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_dispatch_event(String.t(), String.t(), map, keyword) ::
-          :ok | {:error, GitHub.ValidationError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def create_dispatch_event(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -506,8 +506,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_for_authenticated_user(map, keyword) ::
-          {:ok, GitHub.Repository.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Repository.t()} | {:error, GitHub.Error.t()}
   def create_for_authenticated_user(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -538,8 +537,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_fork(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Repository.full()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Repository.full()} | {:error, GitHub.Error.t()}
   def create_fork(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -568,8 +566,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_in_org(String.t(), map, keyword) ::
-          {:ok, GitHub.Repository.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Repository.t()} | {:error, GitHub.Error.t()}
   def create_in_org(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -596,7 +593,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_or_update_environment(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Environment.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Environment.t()} | {:error, GitHub.Error.t()}
   def create_or_update_environment(owner, repo, environment_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -619,8 +616,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_or_update_file_contents(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.FileCommit.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.FileCommit.t()} | {:error, GitHub.Error.t()}
   def create_or_update_file_contents(owner, repo, path, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -649,8 +645,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_pages_deployment(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Page.Deployment.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Page.Deployment.t()} | {:error, GitHub.Error.t()}
   def create_pages_deployment(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -678,7 +673,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_pages_site(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Page.t()} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Page.t()} | {:error, GitHub.Error.t()}
   def create_pages_site(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -705,7 +700,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_release(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Release.t()} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Release.t()} | {:error, GitHub.Error.t()}
   def create_release(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -732,7 +727,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_tag_protection(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.TagProtection.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.TagProtection.t()} | {:error, GitHub.Error.t()}
   def create_tag_protection(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -759,7 +754,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_using_template(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Repository.t()} | :error
+          {:ok, GitHub.Repository.t()} | {:error, GitHub.Error.t()}
   def create_using_template(template_owner, template_repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -782,7 +777,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_webhook(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Hook.t()} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Hook.t()} | {:error, GitHub.Error.t()}
   def create_webhook(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -810,7 +805,7 @@ defmodule GitHub.Repos do
 
   """
   @spec decline_invitation_for_authenticated_user(integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def decline_invitation_for_authenticated_user(invitation_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -836,7 +831,7 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-repository)
 
   """
-  @spec delete(String.t(), String.t(), keyword) :: :ok | {:error, map | GitHub.BasicError.t()}
+  @spec delete(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -861,7 +856,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/branches/branch-protection#delete-access-restrictions)
 
   """
-  @spec delete_access_restrictions(String.t(), String.t(), String.t(), keyword) :: :ok | :error
+  @spec delete_access_restrictions(String.t(), String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_access_restrictions(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -882,7 +878,7 @@ defmodule GitHub.Repos do
 
   """
   @spec delete_admin_branch_protection(String.t(), String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_admin_branch_protection(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -902,7 +898,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#delete-an-environment)
 
   """
-  @spec delete_an_environment(String.t(), String.t(), String.t(), keyword) :: :ok | :error
+  @spec delete_an_environment(String.t(), String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_an_environment(owner, repo, environment_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -923,7 +920,7 @@ defmodule GitHub.Repos do
 
   """
   @spec delete_autolink(String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_autolink(owner, repo, autolink_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -944,7 +941,7 @@ defmodule GitHub.Repos do
 
   """
   @spec delete_branch_protection(String.t(), String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_branch_protection(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -965,7 +962,7 @@ defmodule GitHub.Repos do
 
   """
   @spec delete_commit_comment(String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_commit_comment(owner, repo, comment_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -986,7 +983,7 @@ defmodule GitHub.Repos do
 
   """
   @spec delete_commit_signature_protection(String.t(), String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_commit_signature_protection(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1006,7 +1003,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-deploy-key)
 
   """
-  @spec delete_deploy_key(String.t(), String.t(), integer, keyword) :: :ok | :error
+  @spec delete_deploy_key(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_deploy_key(owner, repo, key_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1027,7 +1025,7 @@ defmodule GitHub.Repos do
 
   """
   @spec delete_deployment(String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_deployment(owner, repo, deployment_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1052,7 +1050,7 @@ defmodule GitHub.Repos do
 
   """
   @spec delete_deployment_branch_policy(String.t(), String.t(), String.t(), integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def delete_deployment_branch_policy(owner, repo, environment_name, branch_policy_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1074,8 +1072,7 @@ defmodule GitHub.Repos do
 
   """
   @spec delete_file(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.FileCommit.t()}
-          | {:error, map | GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.FileCommit.t()} | {:error, GitHub.Error.t()}
   def delete_file(owner, repo, path, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1103,7 +1100,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/collaborators/invitations#delete-a-repository-invitation)
 
   """
-  @spec delete_invitation(String.t(), String.t(), integer, keyword) :: :ok | :error
+  @spec delete_invitation(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_invitation(owner, repo, invitation_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1123,8 +1121,7 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/pages#delete-a-github-pages-site)
 
   """
-  @spec delete_pages_site(String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec delete_pages_site(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_pages_site(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1150,7 +1147,7 @@ defmodule GitHub.Repos do
 
   """
   @spec delete_pull_request_review_protection(String.t(), String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_pull_request_review_protection(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1170,7 +1167,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-release)
 
   """
-  @spec delete_release(String.t(), String.t(), integer, keyword) :: :ok | :error
+  @spec delete_release(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_release(owner, repo, release_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1190,7 +1188,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-release-asset)
 
   """
-  @spec delete_release_asset(String.t(), String.t(), integer, keyword) :: :ok | :error
+  @spec delete_release_asset(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_release_asset(owner, repo, asset_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1211,7 +1210,7 @@ defmodule GitHub.Repos do
 
   """
   @spec delete_tag_protection(String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_tag_protection(owner, repo, tag_protection_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1232,7 +1231,7 @@ defmodule GitHub.Repos do
 
   """
   @spec delete_webhook(String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_webhook(owner, repo, hook_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1252,7 +1251,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#disable-automated-security-fixes)
 
   """
-  @spec disable_automated_security_fixes(String.t(), String.t(), keyword) :: :ok | :error
+  @spec disable_automated_security_fixes(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def disable_automated_security_fixes(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1272,7 +1272,7 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#disable-git-lfs-for-a-repository)
 
   """
-  @spec disable_lfs_for_repo(String.t(), String.t(), keyword) :: :ok | :error
+  @spec disable_lfs_for_repo(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def disable_lfs_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1292,7 +1292,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#disable-vulnerability-alerts)
 
   """
-  @spec disable_vulnerability_alerts(String.t(), String.t(), keyword) :: :ok | :error
+  @spec disable_vulnerability_alerts(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def disable_vulnerability_alerts(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1312,7 +1313,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#download-a-repository-archive)
 
   """
-  @spec download_tarball_archive(String.t(), String.t(), String.t(), keyword) :: :ok | :error
+  @spec download_tarball_archive(String.t(), String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def download_tarball_archive(owner, repo, ref, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1332,7 +1334,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#download-a-repository-archive)
 
   """
-  @spec download_zipball_archive(String.t(), String.t(), String.t(), keyword) :: :ok | :error
+  @spec download_zipball_archive(String.t(), String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def download_zipball_archive(owner, repo, ref, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1352,7 +1355,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#enable-automated-security-fixes)
 
   """
-  @spec enable_automated_security_fixes(String.t(), String.t(), keyword) :: :ok | :error
+  @spec enable_automated_security_fixes(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def enable_automated_security_fixes(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1372,7 +1376,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#enable-git-lfs-for-a-repository)
 
   """
-  @spec enable_lfs_for_repo(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  @spec enable_lfs_for_repo(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def enable_lfs_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1392,7 +1397,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#enable-vulnerability-alerts)
 
   """
-  @spec enable_vulnerability_alerts(String.t(), String.t(), keyword) :: :ok | :error
+  @spec enable_vulnerability_alerts(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def enable_vulnerability_alerts(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1413,7 +1419,7 @@ defmodule GitHub.Repos do
 
   """
   @spec generate_release_notes(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Release.NotesContent.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Release.NotesContent.t()} | {:error, GitHub.Error.t()}
   def generate_release_notes(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1436,7 +1442,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Repository.full()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Repository.full()} | {:error, GitHub.Error.t()}
   def get(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1462,7 +1468,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_access_restrictions(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Branch.RestrictionPolicy.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Branch.RestrictionPolicy.t()} | {:error, GitHub.Error.t()}
   def get_access_restrictions(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1483,7 +1489,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_admin_branch_protection(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.ProtectedBranch.AdminEnforced.t()} | :error
+          {:ok, GitHub.ProtectedBranch.AdminEnforced.t()} | {:error, GitHub.Error.t()}
   def get_admin_branch_protection(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1508,7 +1514,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/deployments/environments#list-environments)
 
   """
-  @spec get_all_environments(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  @spec get_all_environments(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def get_all_environments(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1531,7 +1538,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_all_status_check_contexts(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, [String.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [String.t()]} | {:error, GitHub.Error.t()}
   def get_all_status_check_contexts(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1558,7 +1565,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_all_topics(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Topic.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Topic.t()} | {:error, GitHub.Error.t()}
   def get_all_topics(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1581,7 +1588,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_apps_with_access_to_protected_branch(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Integration.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Integration.t()]} | {:error, GitHub.Error.t()}
   def get_apps_with_access_to_protected_branch(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1602,7 +1609,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_autolink(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Autolink.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Autolink.t()} | {:error, GitHub.Error.t()}
   def get_autolink(owner, repo, autolink_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1623,7 +1630,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_branch(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Branch.WithProtection.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Branch.WithProtection.t()} | {:error, GitHub.Error.t()}
   def get_branch(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1648,7 +1655,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_branch_protection(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Branch.Protection.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Branch.Protection.t()} | {:error, GitHub.Error.t()}
   def get_branch_protection(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1673,7 +1680,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_clones(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.CloneTraffic.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.CloneTraffic.t()} | {:error, GitHub.Error.t()}
   def get_clones(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:per])
@@ -1696,7 +1703,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_code_frequency_stats(String.t(), String.t(), keyword) ::
-          {:ok, map | [[integer]]} | :error
+          {:ok, map | [[integer]]} | {:error, GitHub.Error.t()}
   def get_code_frequency_stats(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1717,7 +1724,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_collaborator_permission_level(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Repository.CollaboratorPermission.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Repository.CollaboratorPermission.t()} | {:error, GitHub.Error.t()}
   def get_collaborator_permission_level(owner, repo, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1746,7 +1753,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_combined_status_for_ref(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.CombinedCommitStatus.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.CombinedCommitStatus.t()} | {:error, GitHub.Error.t()}
   def get_combined_status_for_ref(owner, repo, ref, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1774,8 +1781,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_commit(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Commit.t()}
-          | {:error, map | GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Commit.t()} | {:error, GitHub.Error.t()}
   def get_commit(owner, repo, ref, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1804,7 +1810,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_commit_activity_stats(String.t(), String.t(), keyword) ::
-          {:ok, map | [GitHub.Commit.Activity.t()]} | :error
+          {:ok, map | [GitHub.Commit.Activity.t()]} | {:error, GitHub.Error.t()}
   def get_commit_activity_stats(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1825,7 +1831,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_commit_comment(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Commit.Comment.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Commit.Comment.t()} | {:error, GitHub.Error.t()}
   def get_commit_comment(owner, repo, comment_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1846,7 +1852,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_commit_signature_protection(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.ProtectedBranch.AdminEnforced.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.ProtectedBranch.AdminEnforced.t()} | {:error, GitHub.Error.t()}
   def get_commit_signature_protection(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1870,7 +1876,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_community_profile_metrics(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.CommunityProfile.t()} | :error
+          {:ok, GitHub.CommunityProfile.t()} | {:error, GitHub.Error.t()}
   def get_community_profile_metrics(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1900,7 +1906,7 @@ defmodule GitHub.Repos do
            | GitHub.Content.Submodule.t()
            | GitHub.Content.Symlink.t()
            | [map]}
-          | {:error, GitHub.BasicError.t()}
+          | {:error, GitHub.Error.t()}
   def get_content(owner, repo, path, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:ref])
@@ -1935,7 +1941,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_contributors_stats(String.t(), String.t(), keyword) ::
-          {:ok, map | [GitHub.ContributorActivity.t()]} | :error
+          {:ok, map | [GitHub.ContributorActivity.t()]} | {:error, GitHub.Error.t()}
   def get_contributors_stats(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1956,7 +1962,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_deploy_key(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.DeployKey.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.DeployKey.t()} | {:error, GitHub.Error.t()}
   def get_deploy_key(owner, repo, key_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1977,7 +1983,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_deployment(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Deployment.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Deployment.t()} | {:error, GitHub.Error.t()}
   def get_deployment(owner, repo, deployment_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1998,7 +2004,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_deployment_branch_policy(String.t(), String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Deployment.BranchPolicy.t()} | :error
+          {:ok, GitHub.Deployment.BranchPolicy.t()} | {:error, GitHub.Error.t()}
   def get_deployment_branch_policy(owner, repo, environment_name, branch_policy_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2020,7 +2026,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_deployment_status(String.t(), String.t(), integer, integer, keyword) ::
-          {:ok, GitHub.Deployment.Status.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Deployment.Status.t()} | {:error, GitHub.Error.t()}
   def get_deployment_status(owner, repo, deployment_id, status_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2041,7 +2047,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_environment(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Environment.t()} | :error
+          {:ok, GitHub.Environment.t()} | {:error, GitHub.Error.t()}
   def get_environment(owner, repo, environment_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2062,7 +2068,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_latest_pages_build(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Page.Build.t()} | :error
+          {:ok, GitHub.Page.Build.t()} | {:error, GitHub.Error.t()}
   def get_latest_pages_build(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2082,7 +2088,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#get-the-latest-release)
 
   """
-  @spec get_latest_release(String.t(), String.t(), keyword) :: {:ok, GitHub.Release.t()} | :error
+  @spec get_latest_release(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Release.t()} | {:error, GitHub.Error.t()}
   def get_latest_release(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2103,7 +2110,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_pages(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Page.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Page.t()} | {:error, GitHub.Error.t()}
   def get_pages(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2124,7 +2131,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_pages_build(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Page.Build.t()} | :error
+          {:ok, GitHub.Page.Build.t()} | {:error, GitHub.Error.t()}
   def get_pages_build(owner, repo, build_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2146,7 +2153,7 @@ defmodule GitHub.Repos do
   """
   @spec get_pages_health_check(String.t(), String.t(), keyword) ::
           {:ok, GitHub.EmptyObject.t() | :"Elixir.GitHub.Page.sHealthCheck".t()}
-          | {:error, GitHub.BasicError.t()}
+          | {:error, GitHub.Error.t()}
   def get_pages_health_check(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2173,7 +2180,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_participation_stats(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.ParticipationStats.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.ParticipationStats.t()} | {:error, GitHub.Error.t()}
   def get_participation_stats(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2194,7 +2201,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_pull_request_review_protection(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.ProtectedBranch.PullRequestReview.t()} | :error
+          {:ok, GitHub.ProtectedBranch.PullRequestReview.t()} | {:error, GitHub.Error.t()}
   def get_pull_request_review_protection(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2214,7 +2221,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/statistics/repos#get-the-hourly-commit-count-for-each-day)
 
   """
-  @spec get_punch_card_stats(String.t(), String.t(), keyword) :: {:ok, [[integer]]} | :error
+  @spec get_punch_card_stats(String.t(), String.t(), keyword) ::
+          {:ok, [[integer]]} | {:error, GitHub.Error.t()}
   def get_punch_card_stats(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2239,8 +2247,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_readme(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Content.File.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Content.File.t()} | {:error, GitHub.Error.t()}
   def get_readme(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:ref])
@@ -2271,8 +2278,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_readme_in_directory(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Content.File.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Content.File.t()} | {:error, GitHub.Error.t()}
   def get_readme_in_directory(owner, repo, dir, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:ref])
@@ -2299,7 +2305,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_release(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Release.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Release.t()} | {:error, GitHub.Error.t()}
   def get_release(owner, repo, release_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2320,7 +2326,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_release_asset(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Release.Asset.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Release.Asset.t()} | {:error, GitHub.Error.t()}
   def get_release_asset(owner, repo, asset_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2341,7 +2347,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_release_by_tag(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Release.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Release.t()} | {:error, GitHub.Error.t()}
   def get_release_by_tag(owner, repo, tag, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2362,7 +2368,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_status_checks_protection(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.StatusCheckPolicy.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.StatusCheckPolicy.t()} | {:error, GitHub.Error.t()}
   def get_status_checks_protection(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2383,7 +2389,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_teams_with_access_to_protected_branch(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Team.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Team.t()]} | {:error, GitHub.Error.t()}
   def get_teams_with_access_to_protected_branch(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2404,7 +2410,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_top_paths(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Content.Traffic.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Content.Traffic.t()]} | {:error, GitHub.Error.t()}
   def get_top_paths(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2425,7 +2431,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_top_referrers(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.ReferrerTraffic.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.ReferrerTraffic.t()]} | {:error, GitHub.Error.t()}
   def get_top_referrers(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2446,7 +2452,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_users_with_access_to_protected_branch(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.User.simple()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def get_users_with_access_to_protected_branch(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2471,7 +2477,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_views(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.ViewTraffic.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.ViewTraffic.t()} | {:error, GitHub.Error.t()}
   def get_views(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:per])
@@ -2494,7 +2500,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_webhook(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Hook.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Hook.t()} | {:error, GitHub.Error.t()}
   def get_webhook(owner, repo, hook_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2515,7 +2521,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_webhook_config_for_repo(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Webhook.Config.t()} | :error
+          {:ok, GitHub.Webhook.Config.t()} | {:error, GitHub.Error.t()}
   def get_webhook_config_for_repo(owner, repo, hook_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2536,8 +2542,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_webhook_delivery(String.t(), String.t(), integer, integer, keyword) ::
-          {:ok, GitHub.Hook.Delivery.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Hook.Delivery.t()} | {:error, GitHub.Error.t()}
   def get_webhook_delivery(owner, repo, hook_id, delivery_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2565,7 +2570,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/v3/repos#list-autolinks)
 
   """
-  @spec list_autolinks(String.t(), String.t(), keyword) :: {:ok, [GitHub.Autolink.t()]} | :error
+  @spec list_autolinks(String.t(), String.t(), keyword) ::
+          {:ok, [GitHub.Autolink.t()]} | {:error, GitHub.Error.t()}
   def list_autolinks(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page])
@@ -2594,7 +2600,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_branches(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.ShortBranch.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.ShortBranch.t()]} | {:error, GitHub.Error.t()}
   def list_branches(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :protected])
@@ -2617,7 +2623,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_branches_for_head_commit(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Branch.Short.t()]} | {:error, GitHub.ValidationError.t()}
+          {:ok, [GitHub.Branch.Short.t()]} | {:error, GitHub.Error.t()}
   def list_branches_for_head_commit(owner, repo, commit_sha, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2645,7 +2651,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_collaborators(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Collaborator.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Collaborator.t()]} | {:error, GitHub.Error.t()}
   def list_collaborators(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:affiliation, :page, :per_page, :permission])
@@ -2673,7 +2679,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_comments_for_commit(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Commit.Comment.t()]} | :error
+          {:ok, [GitHub.Commit.Comment.t()]} | {:error, GitHub.Error.t()}
   def list_comments_for_commit(owner, repo, commit_sha, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -2701,7 +2707,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_commit_comments_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Commit.Comment.t()]} | :error
+          {:ok, [GitHub.Commit.Comment.t()]} | {:error, GitHub.Error.t()}
   def list_commit_comments_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -2729,7 +2735,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_commit_statuses_for_ref(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Status.t()]} | :error
+          {:ok, [GitHub.Status.t()]} | {:error, GitHub.Error.t()}
   def list_commit_statuses_for_ref(owner, repo, ref, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -2762,7 +2768,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_commits(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Commit.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Commit.t()]} | {:error, GitHub.Error.t()}
   def list_commits(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:author, :page, :path, :per_page, :sha, :since, :until])
@@ -2797,7 +2803,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_contributors(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Contributor.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Contributor.t()]} | {:error, GitHub.Error.t()}
   def list_contributors(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:anon, :page, :per_page])
@@ -2830,7 +2836,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_deploy_keys(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.DeployKey.t()]} | :error
+          {:ok, [GitHub.DeployKey.t()]} | {:error, GitHub.Error.t()}
   def list_deploy_keys(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -2858,7 +2864,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_deployment_branch_policies(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, map} | :error
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_deployment_branch_policies(owner, repo, environment_name, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -2886,7 +2892,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_deployment_statuses(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Deployment.Status.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Deployment.Status.t()]} | {:error, GitHub.Error.t()}
   def list_deployment_statuses(owner, repo, deployment_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -2918,7 +2924,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_deployments(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Deployment.t()]} | :error
+          {:ok, [GitHub.Deployment.t()]} | {:error, GitHub.Error.t()}
   def list_deployments(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:environment, :page, :per_page, :ref, :sha, :task])
@@ -2956,8 +2962,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.Repository.t()]}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [GitHub.Repository.t()]} | {:error, GitHub.Error.t()}
   def list_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3005,7 +3010,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#list-organization-repositories)
 
   """
-  @spec list_for_org(String.t(), keyword) :: {:ok, [GitHub.MinimalRepository.t()]} | :error
+  @spec list_for_org(String.t(), keyword) ::
+          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
   def list_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page, :sort, :type])
@@ -3035,7 +3041,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#list-repositories-for-a-user)
 
   """
-  @spec list_for_user(String.t(), keyword) :: {:ok, [GitHub.MinimalRepository.t()]} | :error
+  @spec list_for_user(String.t(), keyword) ::
+          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
   def list_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page, :sort, :type])
@@ -3064,7 +3071,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_forks(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
   def list_forks(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :sort])
@@ -3092,7 +3099,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_invitations(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Repository.Invitation.t()]} | :error
+          {:ok, [GitHub.Repository.Invitation.t()]} | {:error, GitHub.Error.t()}
   def list_invitations(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -3120,7 +3127,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_invitations_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.Repository.Invitation.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Repository.Invitation.t()]} | {:error, GitHub.Error.t()}
   def list_invitations_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -3148,7 +3155,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#list-repository-languages)
 
   """
-  @spec list_languages(String.t(), String.t(), keyword) :: {:ok, GitHub.Language.t()} | :error
+  @spec list_languages(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Language.t()} | {:error, GitHub.Error.t()}
   def list_languages(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3174,7 +3182,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_pages_builds(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Page.Build.t()]} | :error
+          {:ok, [GitHub.Page.Build.t()]} | {:error, GitHub.Error.t()}
   def list_pages_builds(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -3200,8 +3208,7 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#list-public-repositories)
 
   """
-  @spec list_public(keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.ValidationError.t()}
+  @spec list_public(keyword) :: {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
   def list_public(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:since])
@@ -3233,7 +3240,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_pull_requests_associated_with_commit(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.PullRequest.simple()]} | :error
+          {:ok, [GitHub.PullRequest.simple()]} | {:error, GitHub.Error.t()}
   def list_pull_requests_associated_with_commit(owner, repo, commit_sha, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -3261,7 +3268,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_release_assets(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Release.Asset.t()]} | :error
+          {:ok, [GitHub.Release.Asset.t()]} | {:error, GitHub.Error.t()}
   def list_release_assets(owner, repo, release_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -3289,7 +3296,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_releases(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Release.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Release.t()]} | {:error, GitHub.Error.t()}
   def list_releases(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -3312,7 +3319,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_tag_protection(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.TagProtection.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.TagProtection.t()]} | {:error, GitHub.Error.t()}
   def list_tag_protection(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3341,7 +3348,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#list-repository-tags)
 
   """
-  @spec list_tags(String.t(), String.t(), keyword) :: {:ok, [GitHub.Tag.t()]} | :error
+  @spec list_tags(String.t(), String.t(), keyword) ::
+          {:ok, [GitHub.Tag.t()]} | {:error, GitHub.Error.t()}
   def list_tags(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -3368,7 +3376,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#list-repository-teams)
 
   """
-  @spec list_teams(String.t(), String.t(), keyword) :: {:ok, [GitHub.Team.t()]} | :error
+  @spec list_teams(String.t(), String.t(), keyword) ::
+          {:ok, [GitHub.Team.t()]} | {:error, GitHub.Error.t()}
   def list_teams(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -3397,8 +3406,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_webhook_deliveries(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Hook.DeliveryItem.t()]}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [GitHub.Hook.DeliveryItem.t()]} | {:error, GitHub.Error.t()}
   def list_webhook_deliveries(owner, repo, hook_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:cursor, :per_page, :redelivery])
@@ -3430,7 +3438,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_webhooks(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Hook.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Hook.t()]} | {:error, GitHub.Error.t()}
   def list_webhooks(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -3453,7 +3461,7 @@ defmodule GitHub.Repos do
 
   """
   @spec merge(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Commit.t()} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Commit.t()} | {:error, GitHub.Error.t()}
   def merge(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3483,7 +3491,7 @@ defmodule GitHub.Repos do
 
   """
   @spec merge_upstream(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.MergedUpstream.t()} | :error
+          {:ok, GitHub.MergedUpstream.t()} | {:error, GitHub.Error.t()}
   def merge_upstream(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3505,8 +3513,7 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/webhooks/repos#ping-a-repository-webhook)
 
   """
-  @spec ping_webhook(String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+  @spec ping_webhook(String.t(), String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def ping_webhook(owner, repo, hook_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3527,7 +3534,7 @@ defmodule GitHub.Repos do
 
   """
   @spec redeliver_webhook_delivery(String.t(), String.t(), integer, integer, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def redeliver_webhook_delivery(owner, repo, hook_id, delivery_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3553,7 +3560,7 @@ defmodule GitHub.Repos do
           String.t(),
           map | [String.t()],
           keyword
-        ) :: {:ok, [GitHub.Integration.t()]} | {:error, GitHub.ValidationError.t()}
+        ) :: {:ok, [GitHub.Integration.t()]} | {:error, GitHub.Error.t()}
   def remove_app_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3575,7 +3582,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/collaborators/collaborators#remove-a-repository-collaborator)
 
   """
-  @spec remove_collaborator(String.t(), String.t(), String.t(), keyword) :: :ok | :error
+  @spec remove_collaborator(String.t(), String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def remove_collaborator(owner, repo, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3601,7 +3609,7 @@ defmodule GitHub.Repos do
           String.t(),
           map | [String.t()],
           keyword
-        ) :: {:ok, [String.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+        ) :: {:ok, [String.t()]} | {:error, GitHub.Error.t()}
   def remove_status_check_contexts(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3629,7 +3637,7 @@ defmodule GitHub.Repos do
 
   """
   @spec remove_status_check_protection(String.t(), String.t(), String.t(), keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def remove_status_check_protection(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3655,7 +3663,7 @@ defmodule GitHub.Repos do
           String.t(),
           map | [String.t()],
           keyword
-        ) :: {:ok, [GitHub.Team.t()]} | {:error, GitHub.ValidationError.t()}
+        ) :: {:ok, [GitHub.Team.t()]} | {:error, GitHub.Error.t()}
   def remove_team_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3683,7 +3691,7 @@ defmodule GitHub.Repos do
           String.t(),
           map | [String.t()],
           keyword
-        ) :: {:ok, [GitHub.User.simple()]} | {:error, GitHub.ValidationError.t()}
+        ) :: {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def remove_user_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3706,8 +3714,7 @@ defmodule GitHub.Repos do
 
   """
   @spec rename_branch(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Branch.WithProtection.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Branch.WithProtection.t()} | {:error, GitHub.Error.t()}
   def rename_branch(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3735,8 +3742,7 @@ defmodule GitHub.Repos do
 
   """
   @spec replace_all_topics(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Topic.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, GitHub.Topic.t()} | {:error, GitHub.Error.t()}
   def replace_all_topics(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3763,7 +3769,7 @@ defmodule GitHub.Repos do
 
   """
   @spec request_pages_build(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Page.BuildStatus.t()} | :error
+          {:ok, GitHub.Page.BuildStatus.t()} | {:error, GitHub.Error.t()}
   def request_pages_build(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3784,7 +3790,7 @@ defmodule GitHub.Repos do
 
   """
   @spec set_admin_branch_protection(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.ProtectedBranch.AdminEnforced.t()} | :error
+          {:ok, GitHub.ProtectedBranch.AdminEnforced.t()} | {:error, GitHub.Error.t()}
   def set_admin_branch_protection(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3810,7 +3816,7 @@ defmodule GitHub.Repos do
           String.t(),
           map | [String.t()],
           keyword
-        ) :: {:ok, [GitHub.Integration.t()]} | {:error, GitHub.ValidationError.t()}
+        ) :: {:ok, [GitHub.Integration.t()]} | {:error, GitHub.Error.t()}
   def set_app_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3833,7 +3839,7 @@ defmodule GitHub.Repos do
 
   """
   @spec set_status_check_contexts(String.t(), String.t(), String.t(), map | [String.t()], keyword) ::
-          {:ok, [String.t()]} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [String.t()]} | {:error, GitHub.Error.t()}
   def set_status_check_contexts(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3866,7 +3872,7 @@ defmodule GitHub.Repos do
           String.t(),
           map | [String.t()],
           keyword
-        ) :: {:ok, [GitHub.Team.t()]} | {:error, GitHub.ValidationError.t()}
+        ) :: {:ok, [GitHub.Team.t()]} | {:error, GitHub.Error.t()}
   def set_team_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3894,7 +3900,7 @@ defmodule GitHub.Repos do
           String.t(),
           map | [String.t()],
           keyword
-        ) :: {:ok, [GitHub.User.simple()]} | {:error, GitHub.ValidationError.t()}
+        ) :: {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def set_user_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3917,7 +3923,7 @@ defmodule GitHub.Repos do
 
   """
   @spec test_push_webhook(String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def test_push_webhook(owner, repo, hook_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3938,7 +3944,7 @@ defmodule GitHub.Repos do
 
   """
   @spec transfer(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.MinimalRepository.t()} | :error
+          {:ok, GitHub.MinimalRepository.t()} | {:error, GitHub.Error.t()}
   def transfer(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3961,8 +3967,7 @@ defmodule GitHub.Repos do
 
   """
   @spec update(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Repository.full()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Repository.full()} | {:error, GitHub.Error.t()}
   def update(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3991,8 +3996,7 @@ defmodule GitHub.Repos do
 
   """
   @spec update_branch_protection(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.ProtectedBranch.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, GitHub.ProtectedBranch.t()} | {:error, GitHub.Error.t()}
   def update_branch_protection(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -4020,7 +4024,7 @@ defmodule GitHub.Repos do
 
   """
   @spec update_commit_comment(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Commit.Comment.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Commit.Comment.t()} | {:error, GitHub.Error.t()}
   def update_commit_comment(owner, repo, comment_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -4049,7 +4053,7 @@ defmodule GitHub.Repos do
           integer,
           GitHub.Deployment.BranchPolicyNamePattern.t(),
           keyword
-        ) :: {:ok, GitHub.Deployment.BranchPolicy.t()} | :error
+        ) :: {:ok, GitHub.Deployment.BranchPolicy.t()} | {:error, GitHub.Error.t()}
   def update_deployment_branch_policy(
         owner,
         repo,
@@ -4080,7 +4084,7 @@ defmodule GitHub.Repos do
 
   """
   @spec update_information_about_pages_site(String.t(), String.t(), map, keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def update_information_about_pages_site(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -4108,7 +4112,7 @@ defmodule GitHub.Repos do
 
   """
   @spec update_invitation(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Repository.Invitation.t()} | :error
+          {:ok, GitHub.Repository.Invitation.t()} | {:error, GitHub.Error.t()}
   def update_invitation(owner, repo, invitation_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -4131,8 +4135,7 @@ defmodule GitHub.Repos do
 
   """
   @spec update_pull_request_review_protection(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.ProtectedBranch.PullRequestReview.t()}
-          | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.ProtectedBranch.PullRequestReview.t()} | {:error, GitHub.Error.t()}
   def update_pull_request_review_protection(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -4158,7 +4161,7 @@ defmodule GitHub.Repos do
 
   """
   @spec update_release(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Release.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Release.t()} | {:error, GitHub.Error.t()}
   def update_release(owner, repo, release_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -4181,7 +4184,7 @@ defmodule GitHub.Repos do
 
   """
   @spec update_release_asset(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Release.Asset.t()} | :error
+          {:ok, GitHub.Release.Asset.t()} | {:error, GitHub.Error.t()}
   def update_release_asset(owner, repo, asset_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -4204,8 +4207,7 @@ defmodule GitHub.Repos do
 
   """
   @spec update_status_check_protection(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.StatusCheckPolicy.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.StatusCheckPolicy.t()} | {:error, GitHub.Error.t()}
   def update_status_check_protection(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -4232,7 +4234,7 @@ defmodule GitHub.Repos do
 
   """
   @spec update_webhook(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Hook.t()} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Hook.t()} | {:error, GitHub.Error.t()}
   def update_webhook(owner, repo, hook_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -4259,7 +4261,7 @@ defmodule GitHub.Repos do
 
   """
   @spec update_webhook_config_for_repo(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Webhook.Config.t()} | :error
+          {:ok, GitHub.Webhook.Config.t()} | {:error, GitHub.Error.t()}
   def update_webhook_config_for_repo(owner, repo, hook_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -4287,7 +4289,7 @@ defmodule GitHub.Repos do
 
   """
   @spec upload_release_asset(String.t(), String.t(), integer, String.t(), keyword) ::
-          {:ok, GitHub.Release.Asset.t()} | :error
+          {:ok, GitHub.Release.Asset.t()} | {:error, GitHub.Error.t()}
   def upload_release_asset(owner, repo, release_id, body, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:label, :name])

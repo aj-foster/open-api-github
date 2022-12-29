@@ -13,7 +13,7 @@ defmodule GitHub.Licenses do
     * [API method documentation](https://docs.github.com/rest/reference/licenses#get-a-license)
 
   """
-  @spec get(String.t(), keyword) :: {:ok, GitHub.License.t()} | {:error, GitHub.BasicError.t()}
+  @spec get(String.t(), keyword) :: {:ok, GitHub.License.t()} | {:error, GitHub.Error.t()}
   def get(license, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -44,7 +44,8 @@ defmodule GitHub.Licenses do
     * [API method documentation](https://docs.github.com/rest/reference/licenses#get-all-commonly-used-licenses)
 
   """
-  @spec get_all_commonly_used(keyword) :: {:ok, [GitHub.License.simple()]} | :error
+  @spec get_all_commonly_used(keyword) ::
+          {:ok, [GitHub.License.simple()]} | {:error, GitHub.Error.t()}
   def get_all_commonly_used(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:featured, :page, :per_page])
@@ -67,7 +68,7 @@ defmodule GitHub.Licenses do
 
   """
   @spec get_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.License.Content.t()} | :error
+          {:ok, GitHub.License.Content.t()} | {:error, GitHub.Error.t()}
   def get_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 

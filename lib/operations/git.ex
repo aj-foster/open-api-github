@@ -14,8 +14,7 @@ defmodule GitHub.Git do
 
   """
   @spec create_blob(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.ShortBlob.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.ShortBlob.t()} | {:error, GitHub.Error.t()}
   def create_blob(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -44,8 +43,7 @@ defmodule GitHub.Git do
 
   """
   @spec create_commit(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Git.Commit.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Git.Commit.t()} | {:error, GitHub.Error.t()}
   def create_commit(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -72,7 +70,7 @@ defmodule GitHub.Git do
 
   """
   @spec create_ref(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Git.Ref.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.Git.Ref.t()} | {:error, GitHub.Error.t()}
   def create_ref(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -95,7 +93,7 @@ defmodule GitHub.Git do
 
   """
   @spec create_tag(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Git.Tag.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.Git.Tag.t()} | {:error, GitHub.Error.t()}
   def create_tag(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -118,8 +116,7 @@ defmodule GitHub.Git do
 
   """
   @spec create_tree(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Git.Tree.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Git.Tree.t()} | {:error, GitHub.Error.t()}
   def create_tree(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -147,7 +144,7 @@ defmodule GitHub.Git do
 
   """
   @spec delete_ref(String.t(), String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.ValidationError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_ref(owner, repo, ref, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -168,7 +165,7 @@ defmodule GitHub.Git do
 
   """
   @spec get_blob(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Blob.t()} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Blob.t()} | {:error, GitHub.Error.t()}
   def get_blob(owner, repo, file_sha, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -194,7 +191,7 @@ defmodule GitHub.Git do
 
   """
   @spec get_commit(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Git.Commit.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Git.Commit.t()} | {:error, GitHub.Error.t()}
   def get_commit(owner, repo, commit_sha, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -215,7 +212,7 @@ defmodule GitHub.Git do
 
   """
   @spec get_ref(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Git.Ref.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Git.Ref.t()} | {:error, GitHub.Error.t()}
   def get_ref(owner, repo, ref, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -236,7 +233,7 @@ defmodule GitHub.Git do
 
   """
   @spec get_tag(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Git.Tag.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Git.Tag.t()} | {:error, GitHub.Error.t()}
   def get_tag(owner, repo, tag_sha, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -261,8 +258,7 @@ defmodule GitHub.Git do
 
   """
   @spec get_tree(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Git.Tree.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Git.Tree.t()} | {:error, GitHub.Error.t()}
   def get_tree(owner, repo, tree_sha, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:recursive])
@@ -289,7 +285,7 @@ defmodule GitHub.Git do
 
   """
   @spec list_matching_refs(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Git.Ref.t()]} | :error
+          {:ok, [GitHub.Git.Ref.t()]} | {:error, GitHub.Error.t()}
   def list_matching_refs(owner, repo, ref, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -310,7 +306,7 @@ defmodule GitHub.Git do
 
   """
   @spec update_ref(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Git.Ref.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.Git.Ref.t()} | {:error, GitHub.Error.t()}
   def update_ref(owner, repo, ref, body, opts \\ []) do
     client = opts[:client] || @default_client
 

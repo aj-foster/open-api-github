@@ -25,7 +25,7 @@ defmodule GitHub.RateLimit do
     * [API method documentation](https://docs.github.com/rest/reference/rate-limit#get-rate-limit-status-for-the-authenticated-user)
 
   """
-  @spec get(keyword) :: {:ok, GitHub.RateLimit.Overview.t()} | {:error, GitHub.BasicError.t()}
+  @spec get(keyword) :: {:ok, GitHub.RateLimit.Overview.t()} | {:error, GitHub.Error.t()}
   def get(opts \\ []) do
     client = opts[:client] || @default_client
 

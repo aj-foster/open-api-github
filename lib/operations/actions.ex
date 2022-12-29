@@ -14,7 +14,7 @@ defmodule GitHub.Actions do
 
   """
   @spec add_custom_labels_to_self_hosted_runner_for_org(String.t(), integer, map, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def add_custom_labels_to_self_hosted_runner_for_org(org, runner_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -46,7 +46,7 @@ defmodule GitHub.Actions do
           integer,
           map,
           keyword
-        ) :: {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+        ) :: {:ok, map} | {:error, GitHub.Error.t()}
   def add_custom_labels_to_self_hosted_runner_for_repo(owner, repo, runner_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -72,7 +72,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#add-selected-repository-to-an-organization-secret)
 
   """
-  @spec add_selected_repo_to_org_secret(String.t(), String.t(), integer, keyword) :: :ok | :error
+  @spec add_selected_repo_to_org_secret(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def add_selected_repo_to_org_secret(org, secret_name, repository_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -93,7 +94,7 @@ defmodule GitHub.Actions do
 
   """
   @spec add_self_hosted_runner_to_group_for_org(String.t(), integer, integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def add_self_hosted_runner_to_group_for_org(org, runner_group_id, runner_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -114,7 +115,7 @@ defmodule GitHub.Actions do
 
   """
   @spec approve_workflow_run(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def approve_workflow_run(owner, repo, run_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -139,7 +140,7 @@ defmodule GitHub.Actions do
 
   """
   @spec cancel_workflow_run(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def cancel_workflow_run(owner, repo, run_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -160,7 +161,7 @@ defmodule GitHub.Actions do
 
   """
   @spec create_or_update_environment_secret(integer, String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.EmptyObject.t()} | :error
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def create_or_update_environment_secret(
         repository_id,
         environment_name,
@@ -190,7 +191,7 @@ defmodule GitHub.Actions do
 
   """
   @spec create_or_update_org_secret(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.EmptyObject.t()} | :error
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def create_or_update_org_secret(org, secret_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -213,7 +214,7 @@ defmodule GitHub.Actions do
 
   """
   @spec create_or_update_repo_secret(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.EmptyObject.t()} | :error
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def create_or_update_repo_secret(owner, repo, secret_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -236,7 +237,7 @@ defmodule GitHub.Actions do
 
   """
   @spec create_registration_token_for_org(String.t(), keyword) ::
-          {:ok, GitHub.AuthenticationToken.t()} | :error
+          {:ok, GitHub.AuthenticationToken.t()} | {:error, GitHub.Error.t()}
   def create_registration_token_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -257,7 +258,7 @@ defmodule GitHub.Actions do
 
   """
   @spec create_registration_token_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.AuthenticationToken.t()} | :error
+          {:ok, GitHub.AuthenticationToken.t()} | {:error, GitHub.Error.t()}
   def create_registration_token_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -278,7 +279,7 @@ defmodule GitHub.Actions do
 
   """
   @spec create_remove_token_for_org(String.t(), keyword) ::
-          {:ok, GitHub.AuthenticationToken.t()} | :error
+          {:ok, GitHub.AuthenticationToken.t()} | {:error, GitHub.Error.t()}
   def create_remove_token_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -299,7 +300,7 @@ defmodule GitHub.Actions do
 
   """
   @spec create_remove_token_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.AuthenticationToken.t()} | :error
+          {:ok, GitHub.AuthenticationToken.t()} | {:error, GitHub.Error.t()}
   def create_remove_token_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -320,7 +321,7 @@ defmodule GitHub.Actions do
 
   """
   @spec create_self_hosted_runner_group_for_org(String.t(), map, keyword) ::
-          {:ok, GitHub.Actions.Runner.GroupsOrg.t()} | :error
+          {:ok, GitHub.Actions.Runner.GroupsOrg.t()} | {:error, GitHub.Error.t()}
   def create_self_hosted_runner_group_for_org(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -343,7 +344,7 @@ defmodule GitHub.Actions do
 
   """
   @spec create_workflow_dispatch(String.t(), String.t(), integer | String.t(), map, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def create_workflow_dispatch(owner, repo, workflow_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -365,7 +366,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/actions/cache#delete-a-github-actions-cache-for-a-repository-using-a-cache-id)
 
   """
-  @spec delete_actions_cache_by_id(String.t(), String.t(), integer, keyword) :: :ok | :error
+  @spec delete_actions_cache_by_id(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_actions_cache_by_id(owner, repo, cache_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -391,7 +393,7 @@ defmodule GitHub.Actions do
 
   """
   @spec delete_actions_cache_by_key(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Actions.CacheList.t()} | :error
+          {:ok, GitHub.Actions.CacheList.t()} | {:error, GitHub.Error.t()}
   def delete_actions_cache_by_key(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:key, :ref])
@@ -413,7 +415,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#delete-an-artifact)
 
   """
-  @spec delete_artifact(String.t(), String.t(), integer, keyword) :: :ok | :error
+  @spec delete_artifact(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_artifact(owner, repo, artifact_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -433,7 +436,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#delete-an-environment-secret)
 
   """
-  @spec delete_environment_secret(integer, String.t(), String.t(), keyword) :: :ok | :error
+  @spec delete_environment_secret(integer, String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_environment_secret(repository_id, environment_name, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -454,7 +458,7 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#delete-an-organization-secret)
 
   """
-  @spec delete_org_secret(String.t(), String.t(), keyword) :: :ok | :error
+  @spec delete_org_secret(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_org_secret(org, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -474,7 +478,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-repository-secret)
 
   """
-  @spec delete_repo_secret(String.t(), String.t(), String.t(), keyword) :: :ok | :error
+  @spec delete_repo_secret(String.t(), String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_repo_secret(owner, repo, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -494,7 +499,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-self-hosted-runner-from-an-organization)
 
   """
-  @spec delete_self_hosted_runner_from_org(String.t(), integer, keyword) :: :ok | :error
+  @spec delete_self_hosted_runner_from_org(String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_self_hosted_runner_from_org(org, runner_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -515,7 +521,7 @@ defmodule GitHub.Actions do
 
   """
   @spec delete_self_hosted_runner_from_repo(String.t(), String.t(), integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def delete_self_hosted_runner_from_repo(owner, repo, runner_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -535,7 +541,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-self-hosted-runner-group-from-an-organization)
 
   """
-  @spec delete_self_hosted_runner_group_from_org(String.t(), integer, keyword) :: :ok | :error
+  @spec delete_self_hosted_runner_group_from_org(String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_self_hosted_runner_group_from_org(org, runner_group_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -555,7 +562,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-workflow-run)
 
   """
-  @spec delete_workflow_run(String.t(), String.t(), integer, keyword) :: :ok | :error
+  @spec delete_workflow_run(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_workflow_run(owner, repo, run_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -576,7 +584,7 @@ defmodule GitHub.Actions do
 
   """
   @spec delete_workflow_run_logs(String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_workflow_run_logs(owner, repo, run_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -597,7 +605,7 @@ defmodule GitHub.Actions do
 
   """
   @spec disable_selected_repository_github_actions_organization(String.t(), integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def disable_selected_repository_github_actions_organization(org, repository_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -617,7 +625,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#disable-a-workflow)
 
   """
-  @spec disable_workflow(String.t(), String.t(), integer | String.t(), keyword) :: :ok | :error
+  @spec disable_workflow(String.t(), String.t(), integer | String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def disable_workflow(owner, repo, workflow_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -638,7 +647,7 @@ defmodule GitHub.Actions do
 
   """
   @spec download_artifact(String.t(), String.t(), integer, String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def download_artifact(owner, repo, artifact_id, archive_format, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -659,7 +668,7 @@ defmodule GitHub.Actions do
 
   """
   @spec download_job_logs_for_workflow_run(String.t(), String.t(), integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def download_job_logs_for_workflow_run(owner, repo, job_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -680,7 +689,7 @@ defmodule GitHub.Actions do
 
   """
   @spec download_workflow_run_attempt_logs(String.t(), String.t(), integer, integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def download_workflow_run_attempt_logs(owner, repo, run_id, attempt_number, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -700,7 +709,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#download-workflow-run-logs)
 
   """
-  @spec download_workflow_run_logs(String.t(), String.t(), integer, keyword) :: :ok | :error
+  @spec download_workflow_run_logs(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def download_workflow_run_logs(owner, repo, run_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -721,7 +731,7 @@ defmodule GitHub.Actions do
 
   """
   @spec enable_selected_repository_github_actions_organization(String.t(), integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def enable_selected_repository_github_actions_organization(org, repository_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -741,7 +751,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#enable-a-workflow)
 
   """
-  @spec enable_workflow(String.t(), String.t(), integer | String.t(), keyword) :: :ok | :error
+  @spec enable_workflow(String.t(), String.t(), integer | String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def enable_workflow(owner, repo, workflow_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -771,7 +782,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_actions_cache_list(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Actions.CacheList.t()} | :error
+          {:ok, GitHub.Actions.CacheList.t()} | {:error, GitHub.Error.t()}
   def get_actions_cache_list(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :key, :page, :per_page, :ref, :sort])
@@ -794,7 +805,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_actions_cache_usage(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Actions.CacheUsageByRepository.t()} | :error
+          {:ok, GitHub.Actions.CacheUsageByRepository.t()} | {:error, GitHub.Error.t()}
   def get_actions_cache_usage(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -819,7 +830,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#list-repositories-with-github-actions-cache-usage-for-an-organization)
 
   """
-  @spec get_actions_cache_usage_by_repo_for_org(String.t(), keyword) :: {:ok, map} | :error
+  @spec get_actions_cache_usage_by_repo_for_org(String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def get_actions_cache_usage_by_repo_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -842,7 +854,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_actions_cache_usage_for_enterprise(String.t(), keyword) ::
-          {:ok, GitHub.Actions.CacheUsageOrgEnterprise.t()} | :error
+          {:ok, GitHub.Actions.CacheUsageOrgEnterprise.t()} | {:error, GitHub.Error.t()}
   def get_actions_cache_usage_for_enterprise(enterprise, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -863,7 +875,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_actions_cache_usage_for_org(String.t(), keyword) ::
-          {:ok, GitHub.Actions.CacheUsageOrgEnterprise.t()} | :error
+          {:ok, GitHub.Actions.CacheUsageOrgEnterprise.t()} | {:error, GitHub.Error.t()}
   def get_actions_cache_usage_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -884,7 +896,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_allowed_actions_organization(String.t(), keyword) ::
-          {:ok, GitHub.SelectedActions.t()} | :error
+          {:ok, GitHub.SelectedActions.t()} | {:error, GitHub.Error.t()}
   def get_allowed_actions_organization(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -905,7 +917,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_allowed_actions_repository(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.SelectedActions.t()} | :error
+          {:ok, GitHub.SelectedActions.t()} | {:error, GitHub.Error.t()}
   def get_allowed_actions_repository(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -926,7 +938,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_artifact(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Artifact.t()} | :error
+          {:ok, GitHub.Artifact.t()} | {:error, GitHub.Error.t()}
   def get_artifact(owner, repo, artifact_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -947,7 +959,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_custom_oidc_sub_claim_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.OIDCCustomSubRepo.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.OIDCCustomSubRepo.t()} | {:error, GitHub.Error.t()}
   def get_custom_oidc_sub_claim_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -972,7 +984,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_environment_public_key(integer, String.t(), keyword) ::
-          {:ok, GitHub.Actions.PublicKey.t()} | :error
+          {:ok, GitHub.Actions.PublicKey.t()} | {:error, GitHub.Error.t()}
   def get_environment_public_key(repository_id, environment_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -993,7 +1005,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_environment_secret(integer, String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Actions.Secret.t()} | :error
+          {:ok, GitHub.Actions.Secret.t()} | {:error, GitHub.Error.t()}
   def get_environment_secret(repository_id, environment_name, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1015,7 +1027,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_github_actions_default_workflow_permissions_enterprise(String.t(), keyword) ::
-          {:ok, GitHub.Actions.GetDefaultWorkflowPermissions.t()} | :error
+          {:ok, GitHub.Actions.GetDefaultWorkflowPermissions.t()} | {:error, GitHub.Error.t()}
   def get_github_actions_default_workflow_permissions_enterprise(enterprise, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1036,7 +1048,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_github_actions_default_workflow_permissions_organization(String.t(), keyword) ::
-          {:ok, GitHub.Actions.GetDefaultWorkflowPermissions.t()} | :error
+          {:ok, GitHub.Actions.GetDefaultWorkflowPermissions.t()} | {:error, GitHub.Error.t()}
   def get_github_actions_default_workflow_permissions_organization(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1060,7 +1072,7 @@ defmodule GitHub.Actions do
           String.t(),
           String.t(),
           keyword
-        ) :: {:ok, GitHub.Actions.GetDefaultWorkflowPermissions.t()} | :error
+        ) :: {:ok, GitHub.Actions.GetDefaultWorkflowPermissions.t()} | {:error, GitHub.Error.t()}
   def get_github_actions_default_workflow_permissions_repository(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1081,7 +1093,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_github_actions_permissions_organization(String.t(), keyword) ::
-          {:ok, GitHub.Actions.OrganizationPermissions.t()} | :error
+          {:ok, GitHub.Actions.OrganizationPermissions.t()} | {:error, GitHub.Error.t()}
   def get_github_actions_permissions_organization(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1102,7 +1114,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_github_actions_permissions_repository(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Actions.RepositoryPermissions.t()} | :error
+          {:ok, GitHub.Actions.RepositoryPermissions.t()} | {:error, GitHub.Error.t()}
   def get_github_actions_permissions_repository(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1123,7 +1135,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_job_for_workflow_run(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Job.t()} | :error
+          {:ok, GitHub.Job.t()} | {:error, GitHub.Error.t()}
   def get_job_for_workflow_run(owner, repo, job_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1143,7 +1155,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#get-an-organization-public-key)
 
   """
-  @spec get_org_public_key(String.t(), keyword) :: {:ok, GitHub.Actions.PublicKey.t()} | :error
+  @spec get_org_public_key(String.t(), keyword) ::
+          {:ok, GitHub.Actions.PublicKey.t()} | {:error, GitHub.Error.t()}
   def get_org_public_key(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1164,7 +1177,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_org_secret(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Organization.ActionsSecret.t()} | :error
+          {:ok, GitHub.Organization.ActionsSecret.t()} | {:error, GitHub.Error.t()}
   def get_org_secret(org, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1185,7 +1198,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_pending_deployments_for_run(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.PendingDeployment.t()]} | :error
+          {:ok, [GitHub.PendingDeployment.t()]} | {:error, GitHub.Error.t()}
   def get_pending_deployments_for_run(owner, repo, run_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1206,7 +1219,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_repo_public_key(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Actions.PublicKey.t()} | :error
+          {:ok, GitHub.Actions.PublicKey.t()} | {:error, GitHub.Error.t()}
   def get_repo_public_key(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1227,7 +1240,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_repo_secret(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Actions.Secret.t()} | :error
+          {:ok, GitHub.Actions.Secret.t()} | {:error, GitHub.Error.t()}
   def get_repo_secret(owner, repo, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1248,7 +1261,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_reviews_for_run(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.EnvironmentApprovals.t()]} | :error
+          {:ok, [GitHub.EnvironmentApprovals.t()]} | {:error, GitHub.Error.t()}
   def get_reviews_for_run(owner, repo, run_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1269,7 +1282,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_self_hosted_runner_for_org(String.t(), integer, keyword) ::
-          {:ok, GitHub.Actions.Runner.t()} | :error
+          {:ok, GitHub.Actions.Runner.t()} | {:error, GitHub.Error.t()}
   def get_self_hosted_runner_for_org(org, runner_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1290,7 +1303,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_self_hosted_runner_for_repo(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Actions.Runner.t()} | :error
+          {:ok, GitHub.Actions.Runner.t()} | {:error, GitHub.Error.t()}
   def get_self_hosted_runner_for_repo(owner, repo, runner_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1311,7 +1324,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_self_hosted_runner_group_for_org(String.t(), integer, keyword) ::
-          {:ok, GitHub.Actions.Runner.GroupsOrg.t()} | :error
+          {:ok, GitHub.Actions.Runner.GroupsOrg.t()} | {:error, GitHub.Error.t()}
   def get_self_hosted_runner_group_for_org(org, runner_group_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1332,7 +1345,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_workflow(String.t(), String.t(), integer | String.t(), keyword) ::
-          {:ok, GitHub.Actions.Workflow.t()} | :error
+          {:ok, GitHub.Actions.Workflow.t()} | {:error, GitHub.Error.t()}
   def get_workflow(owner, repo, workflow_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1353,7 +1366,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_workflow_access_to_repository(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Actions.Workflow.AccessToRepository.t()} | :error
+          {:ok, GitHub.Actions.Workflow.AccessToRepository.t()} | {:error, GitHub.Error.t()}
   def get_workflow_access_to_repository(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1378,7 +1391,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_workflow_run(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Actions.Workflow.Run.t()} | :error
+          {:ok, GitHub.Actions.Workflow.Run.t()} | {:error, GitHub.Error.t()}
   def get_workflow_run(owner, repo, run_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:exclude_pull_requests])
@@ -1405,7 +1418,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_workflow_run_attempt(String.t(), String.t(), integer, integer, keyword) ::
-          {:ok, GitHub.Actions.Workflow.Run.t()} | :error
+          {:ok, GitHub.Actions.Workflow.Run.t()} | {:error, GitHub.Error.t()}
   def get_workflow_run_attempt(owner, repo, run_id, attempt_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:exclude_pull_requests])
@@ -1428,7 +1441,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_workflow_run_usage(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Actions.Workflow.RunUsage.t()} | :error
+          {:ok, GitHub.Actions.Workflow.RunUsage.t()} | {:error, GitHub.Error.t()}
   def get_workflow_run_usage(owner, repo, run_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1449,7 +1462,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_workflow_usage(String.t(), String.t(), integer | String.t(), keyword) ::
-          {:ok, GitHub.Actions.Workflow.Usage.t()} | :error
+          {:ok, GitHub.Actions.Workflow.Usage.t()} | {:error, GitHub.Error.t()}
   def get_workflow_usage(owner, repo, workflow_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1475,7 +1488,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#list-artifacts-for-a-repository)
 
   """
-  @spec list_artifacts_for_repo(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  @spec list_artifacts_for_repo(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_artifacts_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:name, :page, :per_page])
@@ -1502,7 +1516,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#list-environment-secrets)
 
   """
-  @spec list_environment_secrets(integer, String.t(), keyword) :: {:ok, map} | :error
+  @spec list_environment_secrets(integer, String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_environment_secrets(repository_id, environment_name, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1531,7 +1546,7 @@ defmodule GitHub.Actions do
 
   """
   @spec list_jobs_for_workflow_run(String.t(), String.t(), integer, keyword) ::
-          {:ok, map} | :error
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_jobs_for_workflow_run(owner, repo, run_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:filter, :page, :per_page])
@@ -1559,7 +1574,7 @@ defmodule GitHub.Actions do
 
   """
   @spec list_jobs_for_workflow_run_attempt(String.t(), String.t(), integer, integer, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_jobs_for_workflow_run_attempt(owner, repo, run_id, attempt_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1582,7 +1597,7 @@ defmodule GitHub.Actions do
 
   """
   @spec list_labels_for_self_hosted_runner_for_org(String.t(), integer, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_labels_for_self_hosted_runner_for_org(org, runner_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1603,7 +1618,7 @@ defmodule GitHub.Actions do
 
   """
   @spec list_labels_for_self_hosted_runner_for_repo(String.t(), String.t(), integer, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_labels_for_self_hosted_runner_for_repo(owner, repo, runner_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1628,7 +1643,7 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#list-organization-secrets)
 
   """
-  @spec list_org_secrets(String.t(), keyword) :: {:ok, map} | :error
+  @spec list_org_secrets(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def list_org_secrets(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1656,7 +1671,7 @@ defmodule GitHub.Actions do
 
   """
   @spec list_repo_access_to_self_hosted_runner_group_in_org(String.t(), integer, keyword) ::
-          {:ok, map} | :error
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_repo_access_to_self_hosted_runner_group_in_org(org, runner_group_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1683,7 +1698,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#list-repository-secrets)
 
   """
-  @spec list_repo_secrets(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  @spec list_repo_secrets(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_repo_secrets(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1710,7 +1726,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#list-repository-workflows)
 
   """
-  @spec list_repo_workflows(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  @spec list_repo_workflows(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_repo_workflows(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1733,7 +1750,7 @@ defmodule GitHub.Actions do
 
   """
   @spec list_runner_applications_for_org(String.t(), keyword) ::
-          {:ok, [GitHub.Actions.Runner.Application.t()]} | :error
+          {:ok, [GitHub.Actions.Runner.Application.t()]} | {:error, GitHub.Error.t()}
   def list_runner_applications_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1754,7 +1771,7 @@ defmodule GitHub.Actions do
 
   """
   @spec list_runner_applications_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Actions.Runner.Application.t()]} | :error
+          {:ok, [GitHub.Actions.Runner.Application.t()]} | {:error, GitHub.Error.t()}
   def list_runner_applications_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1779,7 +1796,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#list-selected-repositories-for-an-organization-secret)
 
   """
-  @spec list_selected_repos_for_org_secret(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  @spec list_selected_repos_for_org_secret(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_selected_repos_for_org_secret(org, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1807,7 +1825,7 @@ defmodule GitHub.Actions do
 
   """
   @spec list_selected_repositories_enabled_github_actions_organization(String.t(), keyword) ::
-          {:ok, map} | :error
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_selected_repositories_enabled_github_actions_organization(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1835,7 +1853,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runner-groups-for-an-organization)
 
   """
-  @spec list_self_hosted_runner_groups_for_org(String.t(), keyword) :: {:ok, map} | :error
+  @spec list_self_hosted_runner_groups_for_org(String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_self_hosted_runner_groups_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :visible_to_repository])
@@ -1862,7 +1881,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runners-for-an-organization)
 
   """
-  @spec list_self_hosted_runners_for_org(String.t(), keyword) :: {:ok, map} | :error
+  @spec list_self_hosted_runners_for_org(String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_self_hosted_runners_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1889,7 +1909,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runners-for-a-repository)
 
   """
-  @spec list_self_hosted_runners_for_repo(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  @spec list_self_hosted_runners_for_repo(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_self_hosted_runners_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1917,7 +1938,7 @@ defmodule GitHub.Actions do
 
   """
   @spec list_self_hosted_runners_in_group_for_org(String.t(), integer, keyword) ::
-          {:ok, map} | :error
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_self_hosted_runners_in_group_for_org(org, runner_group_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1945,7 +1966,7 @@ defmodule GitHub.Actions do
 
   """
   @spec list_workflow_run_artifacts(String.t(), String.t(), integer, keyword) ::
-          {:ok, map} | :error
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_workflow_run_artifacts(owner, repo, run_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1981,7 +2002,7 @@ defmodule GitHub.Actions do
 
   """
   @spec list_workflow_runs(String.t(), String.t(), integer | String.t(), keyword) ::
-          {:ok, map} | :error
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_workflow_runs(owner, repo, workflow_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2029,7 +2050,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#list-workflow-runs-for-a-repository)
 
   """
-  @spec list_workflow_runs_for_repo(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  @spec list_workflow_runs_for_repo(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_workflow_runs_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2065,7 +2087,7 @@ defmodule GitHub.Actions do
 
   """
   @spec re_run_job_for_workflow_run(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def re_run_job_for_workflow_run(owner, repo, job_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2088,7 +2110,7 @@ defmodule GitHub.Actions do
 
   """
   @spec re_run_workflow(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.EmptyObject.t()} | :error
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def re_run_workflow(owner, repo, run_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2111,7 +2133,7 @@ defmodule GitHub.Actions do
 
   """
   @spec re_run_workflow_failed_jobs(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.EmptyObject.t()} | :error
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def re_run_workflow_failed_jobs(owner, repo, run_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2134,7 +2156,7 @@ defmodule GitHub.Actions do
 
   """
   @spec remove_all_custom_labels_from_self_hosted_runner_for_org(String.t(), integer, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def remove_all_custom_labels_from_self_hosted_runner_for_org(org, runner_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2159,7 +2181,7 @@ defmodule GitHub.Actions do
           String.t(),
           integer,
           keyword
-        ) :: {:ok, map} | {:error, GitHub.BasicError.t()}
+        ) :: {:ok, map} | {:error, GitHub.Error.t()}
   def remove_all_custom_labels_from_self_hosted_runner_for_repo(
         owner,
         repo,
@@ -2189,7 +2211,7 @@ defmodule GitHub.Actions do
           integer,
           String.t(),
           keyword
-        ) :: {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+        ) :: {:ok, map} | {:error, GitHub.Error.t()}
   def remove_custom_label_from_self_hosted_runner_for_org(org, runner_id, name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2219,7 +2241,7 @@ defmodule GitHub.Actions do
           integer,
           String.t(),
           keyword
-        ) :: {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+        ) :: {:ok, map} | {:error, GitHub.Error.t()}
   def remove_custom_label_from_self_hosted_runner_for_repo(
         owner,
         repo,
@@ -2254,7 +2276,7 @@ defmodule GitHub.Actions do
           integer,
           integer,
           keyword
-        ) :: :ok | :error
+        ) :: :ok | {:error, GitHub.Error.t()}
   def remove_repo_access_to_self_hosted_runner_group_in_org(
         org,
         runner_group_id,
@@ -2280,7 +2302,7 @@ defmodule GitHub.Actions do
 
   """
   @spec remove_selected_repo_from_org_secret(String.t(), String.t(), integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def remove_selected_repo_from_org_secret(org, secret_name, repository_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2301,7 +2323,7 @@ defmodule GitHub.Actions do
 
   """
   @spec remove_self_hosted_runner_from_group_for_org(String.t(), integer, integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def remove_self_hosted_runner_from_group_for_org(org, runner_group_id, runner_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2322,7 +2344,7 @@ defmodule GitHub.Actions do
 
   """
   @spec review_pending_deployments_for_run(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, [GitHub.Deployment.t()]} | :error
+          {:ok, [GitHub.Deployment.t()]} | {:error, GitHub.Error.t()}
   def review_pending_deployments_for_run(owner, repo, run_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2345,7 +2367,7 @@ defmodule GitHub.Actions do
 
   """
   @spec set_allowed_actions_organization(String.t(), GitHub.SelectedActions.t(), keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def set_allowed_actions_organization(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2372,7 +2394,7 @@ defmodule GitHub.Actions do
           String.t(),
           GitHub.SelectedActions.t(),
           keyword
-        ) :: :ok | :error
+        ) :: :ok | {:error, GitHub.Error.t()}
   def set_allowed_actions_repository(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2395,7 +2417,7 @@ defmodule GitHub.Actions do
 
   """
   @spec set_custom_labels_for_self_hosted_runner_for_org(String.t(), integer, map, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def set_custom_labels_for_self_hosted_runner_for_org(org, runner_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2427,7 +2449,7 @@ defmodule GitHub.Actions do
           integer,
           map,
           keyword
-        ) :: {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+        ) :: {:ok, map} | {:error, GitHub.Error.t()}
   def set_custom_labels_for_self_hosted_runner_for_repo(owner, repo, runner_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2458,9 +2480,7 @@ defmodule GitHub.Actions do
           String.t(),
           GitHub.OIDCCustomSubRepo.t(),
           keyword
-        ) ::
-          {:ok, GitHub.EmptyObject.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+        ) :: {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def set_custom_oidc_sub_claim_for_repo(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2491,7 +2511,7 @@ defmodule GitHub.Actions do
           String.t(),
           GitHub.Actions.SetDefaultWorkflowPermissions.t(),
           keyword
-        ) :: :ok | :error
+        ) :: :ok | {:error, GitHub.Error.t()}
   def set_github_actions_default_workflow_permissions_enterprise(enterprise, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2517,7 +2537,7 @@ defmodule GitHub.Actions do
           String.t(),
           GitHub.Actions.SetDefaultWorkflowPermissions.t(),
           keyword
-        ) :: :ok | :error
+        ) :: :ok | {:error, GitHub.Error.t()}
   def set_github_actions_default_workflow_permissions_organization(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2544,7 +2564,7 @@ defmodule GitHub.Actions do
           String.t(),
           GitHub.Actions.SetDefaultWorkflowPermissions.t(),
           keyword
-        ) :: :ok | :error
+        ) :: :ok | {:error, GitHub.Error.t()}
   def set_github_actions_default_workflow_permissions_repository(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2566,7 +2586,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#set-github-actions-permissions-for-an-organization)
 
   """
-  @spec set_github_actions_permissions_organization(String.t(), map, keyword) :: :ok | :error
+  @spec set_github_actions_permissions_organization(String.t(), map, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def set_github_actions_permissions_organization(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2589,7 +2610,7 @@ defmodule GitHub.Actions do
 
   """
   @spec set_github_actions_permissions_repository(String.t(), String.t(), map, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def set_github_actions_permissions_repository(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2612,7 +2633,7 @@ defmodule GitHub.Actions do
 
   """
   @spec set_repo_access_to_self_hosted_runner_group_in_org(String.t(), integer, map, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def set_repo_access_to_self_hosted_runner_group_in_org(org, runner_group_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2634,7 +2655,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#set-selected-repositories-for-an-organization-secret)
 
   """
-  @spec set_selected_repos_for_org_secret(String.t(), String.t(), map, keyword) :: :ok | :error
+  @spec set_selected_repos_for_org_secret(String.t(), String.t(), map, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def set_selected_repos_for_org_secret(org, secret_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2657,7 +2679,7 @@ defmodule GitHub.Actions do
 
   """
   @spec set_selected_repositories_enabled_github_actions_organization(String.t(), map, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def set_selected_repositories_enabled_github_actions_organization(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2680,7 +2702,7 @@ defmodule GitHub.Actions do
 
   """
   @spec set_self_hosted_runners_in_group_for_org(String.t(), integer, map, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def set_self_hosted_runners_in_group_for_org(org, runner_group_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2707,7 +2729,7 @@ defmodule GitHub.Actions do
           String.t(),
           GitHub.Actions.Workflow.AccessToRepository.t(),
           keyword
-        ) :: :ok | :error
+        ) :: :ok | {:error, GitHub.Error.t()}
   def set_workflow_access_to_repository(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2730,7 +2752,7 @@ defmodule GitHub.Actions do
 
   """
   @spec update_self_hosted_runner_group_for_org(String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Actions.Runner.GroupsOrg.t()} | :error
+          {:ok, GitHub.Actions.Runner.GroupsOrg.t()} | {:error, GitHub.Error.t()}
   def update_self_hosted_runner_group_for_org(org, runner_group_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 

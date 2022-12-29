@@ -65,5 +65,8 @@ config :open_api,
       {~r/^Ssh/, "SSH"},
       {~r/^Workflow/, "Actions.Workflow"}
     ],
-    schema_location: "schemas/"
+    schema_location: "schemas/",
+    types: [
+      error: {GitHub.Error, :t}
+    ]
   ]

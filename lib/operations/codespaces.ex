@@ -14,7 +14,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec add_repository_for_secret_for_authenticated_user(String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def add_repository_for_secret_for_authenticated_user(secret_name, repository_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -41,7 +41,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec add_selected_repo_to_org_secret(String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def add_selected_repo_to_org_secret(org, secret_name, repository_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -67,7 +67,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec codespace_machines_for_authenticated_user(String.t(), keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def codespace_machines_for_authenticated_user(codespace_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -95,7 +95,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec create_for_authenticated_user(map, keyword) ::
-          {:ok, GitHub.Codespace.t()} | {:error, map | GitHub.BasicError.t()}
+          {:ok, GitHub.Codespace.t()} | {:error, GitHub.Error.t()}
   def create_for_authenticated_user(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -125,8 +125,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec create_or_update_org_secret(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.EmptyObject.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def create_or_update_org_secret(org, secret_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -154,7 +153,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec create_or_update_repo_secret(String.t(), String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.EmptyObject.t()} | :error
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def create_or_update_repo_secret(owner, repo, secret_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -177,8 +176,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec create_or_update_secret_for_authenticated_user(String.t(), map, keyword) ::
-          {:ok, GitHub.EmptyObject.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def create_or_update_secret_for_authenticated_user(secret_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -206,7 +204,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec create_with_pr_for_authenticated_user(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Codespace.t()} | {:error, map | GitHub.BasicError.t()}
+          {:ok, GitHub.Codespace.t()} | {:error, GitHub.Error.t()}
   def create_with_pr_for_authenticated_user(owner, repo, pull_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -236,7 +234,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec create_with_repo_for_authenticated_user(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Codespace.t()} | {:error, map | GitHub.BasicError.t()}
+          {:ok, GitHub.Codespace.t()} | {:error, GitHub.Error.t()}
   def create_with_repo_for_authenticated_user(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -267,7 +265,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec delete_for_authenticated_user(String.t(), keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def delete_for_authenticated_user(codespace_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -295,7 +293,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec delete_from_organization(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def delete_from_organization(org, username, codespace_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -322,8 +320,7 @@ defmodule GitHub.Codespaces do
     * [API method documentation](https://docs.github.com/rest/reference/codespaces#delete-an-organization-secret)
 
   """
-  @spec delete_org_secret(String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+  @spec delete_org_secret(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_org_secret(org, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -343,7 +340,8 @@ defmodule GitHub.Codespaces do
     * [API method documentation](https://docs.github.com/rest/reference/codespaces#delete-a-repository-secret)
 
   """
-  @spec delete_repo_secret(String.t(), String.t(), String.t(), keyword) :: :ok | :error
+  @spec delete_repo_secret(String.t(), String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_repo_secret(owner, repo, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -363,7 +361,8 @@ defmodule GitHub.Codespaces do
     * [API method documentation](https://docs.github.com/rest/reference/codespaces#delete-a-secret-for-the-authenticated-user)
 
   """
-  @spec delete_secret_for_authenticated_user(String.t(), keyword) :: :ok | :error
+  @spec delete_secret_for_authenticated_user(String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_secret_for_authenticated_user(secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -384,8 +383,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec export_for_authenticated_user(String.t(), keyword) ::
-          {:ok, GitHub.Codespace.ExportDetails.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Codespace.ExportDetails.t()} | {:error, GitHub.Error.t()}
   def export_for_authenticated_user(codespace_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -418,7 +416,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec get_codespaces_for_user_in_org(String.t(), String.t(), keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def get_codespaces_for_user_in_org(org, username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -448,7 +446,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec get_export_details_for_authenticated_user(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Codespace.ExportDetails.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Codespace.ExportDetails.t()} | {:error, GitHub.Error.t()}
   def get_export_details_for_authenticated_user(codespace_name, export_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -469,7 +467,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec get_for_authenticated_user(String.t(), keyword) ::
-          {:ok, GitHub.Codespace.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Codespace.t()} | {:error, GitHub.Error.t()}
   def get_for_authenticated_user(codespace_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -496,7 +494,8 @@ defmodule GitHub.Codespaces do
     * [API method documentation](https://docs.github.com/rest/reference/codespaces#get-an-organization-public-key)
 
   """
-  @spec get_org_public_key(String.t(), keyword) :: {:ok, GitHub.Codespace.PublicKey.t()} | :error
+  @spec get_org_public_key(String.t(), keyword) ::
+          {:ok, GitHub.Codespace.PublicKey.t()} | {:error, GitHub.Error.t()}
   def get_org_public_key(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -517,7 +516,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec get_org_secret(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Codespace.OrgSecret.t()} | :error
+          {:ok, GitHub.Codespace.OrgSecret.t()} | {:error, GitHub.Error.t()}
   def get_org_secret(org, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -538,7 +537,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec get_public_key_for_authenticated_user(keyword) ::
-          {:ok, GitHub.Codespace.UserPublicKey.t()} | :error
+          {:ok, GitHub.Codespace.UserPublicKey.t()} | {:error, GitHub.Error.t()}
   def get_public_key_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -559,7 +558,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec get_repo_public_key(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Codespace.PublicKey.t()} | :error
+          {:ok, GitHub.Codespace.PublicKey.t()} | {:error, GitHub.Error.t()}
   def get_repo_public_key(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -580,7 +579,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec get_repo_secret(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.RepoCodespacesSecret.t()} | :error
+          {:ok, GitHub.RepoCodespacesSecret.t()} | {:error, GitHub.Error.t()}
   def get_repo_secret(owner, repo, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -601,7 +600,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec get_secret_for_authenticated_user(String.t(), keyword) ::
-          {:ok, GitHub.Codespace.Secret.t()} | :error
+          {:ok, GitHub.Codespace.Secret.t()} | {:error, GitHub.Error.t()}
   def get_secret_for_authenticated_user(secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -627,7 +626,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec list_devcontainers_in_repository_for_authenticated_user(String.t(), String.t(), keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_devcontainers_in_repository_for_authenticated_user(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -662,7 +661,7 @@ defmodule GitHub.Codespaces do
     * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-codespaces-for-the-authenticated-user)
 
   """
-  @spec list_for_authenticated_user(keyword) :: {:ok, map} | {:error, GitHub.BasicError.t()}
+  @spec list_for_authenticated_user(keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def list_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :repository_id])
@@ -696,7 +695,7 @@ defmodule GitHub.Codespaces do
     * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-in-organization)
 
   """
-  @spec list_in_organization(String.t(), keyword) :: {:ok, map} | {:error, GitHub.BasicError.t()}
+  @spec list_in_organization(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def list_in_organization(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -731,7 +730,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec list_in_repository_for_authenticated_user(String.t(), String.t(), keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_in_repository_for_authenticated_user(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -764,7 +763,7 @@ defmodule GitHub.Codespaces do
     * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-organization-secrets)
 
   """
-  @spec list_org_secrets(String.t(), keyword) :: {:ok, map} | :error
+  @spec list_org_secrets(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def list_org_secrets(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -791,7 +790,8 @@ defmodule GitHub.Codespaces do
     * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-repository-secrets)
 
   """
-  @spec list_repo_secrets(String.t(), String.t(), keyword) :: {:ok, map} | :error
+  @spec list_repo_secrets(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_repo_secrets(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -814,7 +814,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec list_repositories_for_secret_for_authenticated_user(String.t(), keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_repositories_for_secret_for_authenticated_user(secret_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -845,7 +845,7 @@ defmodule GitHub.Codespaces do
     * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-secrets-for-the-authenticated-user)
 
   """
-  @spec list_secrets_for_authenticated_user(keyword) :: {:ok, map} | :error
+  @spec list_secrets_for_authenticated_user(keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def list_secrets_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -873,7 +873,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec list_selected_repos_for_org_secret(String.t(), String.t(), keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_selected_repos_for_org_secret(org, secret_name, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -901,7 +901,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec pre_flight_with_repo_for_authenticated_user(String.t(), String.t(), keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def pre_flight_with_repo_for_authenticated_user(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:client_ip, :ref])
@@ -929,7 +929,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec remove_repository_for_secret_for_authenticated_user(String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def remove_repository_for_secret_for_authenticated_user(secret_name, repository_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -956,7 +956,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec remove_selected_repo_from_org_secret(String.t(), String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def remove_selected_repo_from_org_secret(org, secret_name, repository_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -987,7 +987,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec repo_machines_for_authenticated_user(String.t(), String.t(), keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def repo_machines_for_authenticated_user(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:client_ip, :location])
@@ -1016,8 +1016,7 @@ defmodule GitHub.Codespaces do
     * [API method documentation](https://docs.github.com/rest/reference/codespaces#set-codespaces-billing)
 
   """
-  @spec set_codespaces_billing(String.t(), map, keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec set_codespaces_billing(String.t(), map, keyword) :: :ok | {:error, GitHub.Error.t()}
   def set_codespaces_billing(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1047,7 +1046,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec set_repositories_for_secret_for_authenticated_user(String.t(), map, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def set_repositories_for_secret_for_authenticated_user(secret_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1076,7 +1075,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec set_selected_repos_for_org_secret(String.t(), String.t(), map, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def set_selected_repos_for_org_secret(org, secret_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1099,7 +1098,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec start_for_authenticated_user(String.t(), keyword) ::
-          {:ok, GitHub.Codespace.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Codespace.t()} | {:error, GitHub.Error.t()}
   def start_for_authenticated_user(codespace_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1130,7 +1129,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec stop_for_authenticated_user(String.t(), keyword) ::
-          {:ok, GitHub.Codespace.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Codespace.t()} | {:error, GitHub.Error.t()}
   def stop_for_authenticated_user(codespace_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1157,7 +1156,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec stop_in_organization(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Codespace.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Codespace.t()} | {:error, GitHub.Error.t()}
   def stop_in_organization(org, username, codespace_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1185,7 +1184,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec update_for_authenticated_user(String.t(), map, keyword) ::
-          {:ok, GitHub.Codespace.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Codespace.t()} | {:error, GitHub.Error.t()}
   def update_for_authenticated_user(codespace_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 

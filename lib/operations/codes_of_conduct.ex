@@ -13,7 +13,8 @@ defmodule GitHub.CodesOfConduct do
     * [API method documentation](https://docs.github.com/rest/reference/codes-of-conduct#get-all-codes-of-conduct)
 
   """
-  @spec get_all_codes_of_conduct(keyword) :: {:ok, [GitHub.CodeOfConduct.t()]} | :error
+  @spec get_all_codes_of_conduct(keyword) ::
+          {:ok, [GitHub.CodeOfConduct.t()]} | {:error, GitHub.Error.t()}
   def get_all_codes_of_conduct(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -34,7 +35,7 @@ defmodule GitHub.CodesOfConduct do
 
   """
   @spec get_conduct_code(String.t(), keyword) ::
-          {:ok, GitHub.CodeOfConduct.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.CodeOfConduct.t()} | {:error, GitHub.Error.t()}
   def get_conduct_code(key, opts \\ []) do
     client = opts[:client] || @default_client
 

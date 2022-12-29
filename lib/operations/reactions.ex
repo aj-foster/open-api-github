@@ -14,7 +14,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec create_for_commit_comment(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Reaction.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.Reaction.t()} | {:error, GitHub.Error.t()}
   def create_for_commit_comment(owner, repo, comment_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -41,7 +41,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec create_for_issue(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Reaction.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.Reaction.t()} | {:error, GitHub.Error.t()}
   def create_for_issue(owner, repo, issue_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -68,7 +68,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec create_for_issue_comment(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Reaction.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.Reaction.t()} | {:error, GitHub.Error.t()}
   def create_for_issue_comment(owner, repo, comment_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -95,7 +95,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec create_for_pull_request_review_comment(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Reaction.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.Reaction.t()} | {:error, GitHub.Error.t()}
   def create_for_pull_request_review_comment(owner, repo, comment_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -122,7 +122,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec create_for_release(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Reaction.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.Reaction.t()} | {:error, GitHub.Error.t()}
   def create_for_release(owner, repo, release_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -155,7 +155,7 @@ defmodule GitHub.Reactions do
           integer,
           map,
           keyword
-        ) :: {:ok, GitHub.Reaction.t()} | :error
+        ) :: {:ok, GitHub.Reaction.t()} | {:error, GitHub.Error.t()}
   def create_for_team_discussion_comment_in_org(
         org,
         team_slug,
@@ -186,7 +186,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec create_for_team_discussion_comment_legacy(integer, integer, integer, map, keyword) ::
-          {:ok, GitHub.Reaction.t()} | :error
+          {:ok, GitHub.Reaction.t()} | {:error, GitHub.Error.t()}
   def create_for_team_discussion_comment_legacy(
         team_id,
         discussion_number,
@@ -216,7 +216,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec create_for_team_discussion_in_org(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Reaction.t()} | :error
+          {:ok, GitHub.Reaction.t()} | {:error, GitHub.Error.t()}
   def create_for_team_discussion_in_org(org, team_slug, discussion_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -239,7 +239,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec create_for_team_discussion_legacy(integer, integer, map, keyword) ::
-          {:ok, GitHub.Reaction.t()} | :error
+          {:ok, GitHub.Reaction.t()} | {:error, GitHub.Error.t()}
   def create_for_team_discussion_legacy(team_id, discussion_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -262,7 +262,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec delete_for_commit_comment(String.t(), String.t(), integer, integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def delete_for_commit_comment(owner, repo, comment_id, reaction_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -282,7 +282,8 @@ defmodule GitHub.Reactions do
     * [API method documentation](https://docs.github.com/rest/reference/reactions#delete-an-issue-reaction)
 
   """
-  @spec delete_for_issue(String.t(), String.t(), integer, integer, keyword) :: :ok | :error
+  @spec delete_for_issue(String.t(), String.t(), integer, integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_for_issue(owner, repo, issue_number, reaction_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -303,7 +304,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec delete_for_issue_comment(String.t(), String.t(), integer, integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def delete_for_issue_comment(owner, repo, comment_id, reaction_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -324,7 +325,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec delete_for_pull_request_comment(String.t(), String.t(), integer, integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def delete_for_pull_request_comment(owner, repo, comment_id, reaction_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -344,7 +345,8 @@ defmodule GitHub.Reactions do
     * [API method documentation](https://docs.github.com/rest/reference/reactions/#delete-a-release-reaction)
 
   """
-  @spec delete_for_release(String.t(), String.t(), integer, integer, keyword) :: :ok | :error
+  @spec delete_for_release(String.t(), String.t(), integer, integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def delete_for_release(owner, repo, release_id, reaction_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -365,7 +367,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec delete_for_team_discussion(String.t(), String.t(), integer, integer, keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def delete_for_team_discussion(org, team_slug, discussion_number, reaction_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -393,7 +395,7 @@ defmodule GitHub.Reactions do
           integer,
           integer,
           keyword
-        ) :: :ok | :error
+        ) :: :ok | {:error, GitHub.Error.t()}
   def delete_for_team_discussion_comment(
         org,
         team_slug,
@@ -428,7 +430,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec list_for_commit_comment(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Reaction.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Reaction.t()]} | {:error, GitHub.Error.t()}
   def list_for_commit_comment(owner, repo, comment_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:content, :page, :per_page])
@@ -457,7 +459,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec list_for_issue(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Reaction.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Reaction.t()]} | {:error, GitHub.Error.t()}
   def list_for_issue(owner, repo, issue_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:content, :page, :per_page])
@@ -490,7 +492,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec list_for_issue_comment(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Reaction.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Reaction.t()]} | {:error, GitHub.Error.t()}
   def list_for_issue_comment(owner, repo, comment_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:content, :page, :per_page])
@@ -519,7 +521,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec list_for_pull_request_review_comment(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Reaction.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Reaction.t()]} | {:error, GitHub.Error.t()}
   def list_for_pull_request_review_comment(owner, repo, comment_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:content, :page, :per_page])
@@ -548,7 +550,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec list_for_release(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Reaction.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Reaction.t()]} | {:error, GitHub.Error.t()}
   def list_for_release(owner, repo, release_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:content, :page, :per_page])
@@ -577,7 +579,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec list_for_team_discussion_comment_in_org(String.t(), String.t(), integer, integer, keyword) ::
-          {:ok, [GitHub.Reaction.t()]} | :error
+          {:ok, [GitHub.Reaction.t()]} | {:error, GitHub.Error.t()}
   def list_for_team_discussion_comment_in_org(
         org,
         team_slug,
@@ -613,7 +615,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec list_for_team_discussion_comment_legacy(integer, integer, integer, keyword) ::
-          {:ok, [GitHub.Reaction.t()]} | :error
+          {:ok, [GitHub.Reaction.t()]} | {:error, GitHub.Error.t()}
   def list_for_team_discussion_comment_legacy(
         team_id,
         discussion_number,
@@ -648,7 +650,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec list_for_team_discussion_in_org(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Reaction.t()]} | :error
+          {:ok, [GitHub.Reaction.t()]} | {:error, GitHub.Error.t()}
   def list_for_team_discussion_in_org(org, team_slug, discussion_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:content, :page, :per_page])
@@ -677,7 +679,7 @@ defmodule GitHub.Reactions do
 
   """
   @spec list_for_team_discussion_legacy(integer, integer, keyword) ::
-          {:ok, [GitHub.Reaction.t()]} | :error
+          {:ok, [GitHub.Reaction.t()]} | {:error, GitHub.Error.t()}
   def list_for_team_discussion_legacy(team_id, discussion_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:content, :page, :per_page])

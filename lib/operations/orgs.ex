@@ -13,7 +13,8 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#add-a-security-manager-team)
 
   """
-  @spec add_security_manager_team(String.t(), String.t(), keyword) :: :ok | :error
+  @spec add_security_manager_team(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def add_security_manager_team(org, team_slug, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -33,7 +34,7 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#block-a-user-from-an-organization)
 
   """
-  @spec block_user(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.ValidationError.t()}
+  @spec block_user(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def block_user(org, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -53,8 +54,7 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#cancel-an-organization-invitation)
 
   """
-  @spec cancel_invitation(String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec cancel_invitation(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def cancel_invitation(org, invitation_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -74,8 +74,7 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#check-if-a-user-is-blocked-by-an-organization)
 
   """
-  @spec check_blocked_user(String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+  @spec check_blocked_user(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def check_blocked_user(org, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -95,7 +94,8 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#check-organization-membership-for-a-user)
 
   """
-  @spec check_membership_for_user(String.t(), String.t(), keyword) :: :ok | :error
+  @spec check_membership_for_user(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def check_membership_for_user(org, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -115,7 +115,8 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#check-public-organization-membership-for-a-user)
 
   """
-  @spec check_public_membership_for_user(String.t(), String.t(), keyword) :: :ok | :error
+  @spec check_public_membership_for_user(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def check_public_membership_for_user(org, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -136,7 +137,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec convert_member_to_outside_collaborator(String.t(), String.t(), map, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def convert_member_to_outside_collaborator(org, username, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -159,8 +160,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec create_custom_role(String.t(), map, keyword) ::
-          {:ok, GitHub.Organization.CustomRepositoryRole.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Organization.CustomRepositoryRole.t()} | {:error, GitHub.Error.t()}
   def create_custom_role(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -187,8 +187,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec create_invitation(String.t(), map, keyword) ::
-          {:ok, GitHub.Organization.Invitation.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Organization.Invitation.t()} | {:error, GitHub.Error.t()}
   def create_invitation(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -215,7 +214,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec create_webhook(String.t(), map, keyword) ::
-          {:ok, GitHub.OrgHook.t()} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.OrgHook.t()} | {:error, GitHub.Error.t()}
   def create_webhook(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -241,7 +240,7 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#delete-a-custom-role)
 
   """
-  @spec delete_custom_role(String.t(), integer, keyword) :: :ok | :error
+  @spec delete_custom_role(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_custom_role(org, role_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -261,7 +260,7 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#delete-an-organization-webhook)
 
   """
-  @spec delete_webhook(String.t(), integer, keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec delete_webhook(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_webhook(org, hook_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -286,7 +285,7 @@ defmodule GitHub.Orgs do
           String.t(),
           String.t(),
           keyword
-        ) :: :ok | :error
+        ) :: :ok | {:error, GitHub.Error.t()}
   def enable_or_disable_security_product_on_all_org_repos(
         org,
         security_product,
@@ -312,7 +311,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec get(String.t(), keyword) ::
-          {:ok, GitHub.Organization.Full.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Organization.Full.t()} | {:error, GitHub.Error.t()}
   def get(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -333,7 +332,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec get_custom_role(String.t(), integer, keyword) ::
-          {:ok, GitHub.Organization.CustomRepositoryRole.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Organization.CustomRepositoryRole.t()} | {:error, GitHub.Error.t()}
   def get_custom_role(org, role_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -357,7 +356,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec get_membership_for_authenticated_user(String.t(), keyword) ::
-          {:ok, GitHub.OrgMembership.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.OrgMembership.t()} | {:error, GitHub.Error.t()}
   def get_membership_for_authenticated_user(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -382,7 +381,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec get_membership_for_user(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.OrgMembership.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.OrgMembership.t()} | {:error, GitHub.Error.t()}
   def get_membership_for_user(org, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -407,7 +406,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec get_webhook(String.t(), integer, keyword) ::
-          {:ok, GitHub.OrgHook.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.OrgHook.t()} | {:error, GitHub.Error.t()}
   def get_webhook(org, hook_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -428,7 +427,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec get_webhook_config_for_org(String.t(), integer, keyword) ::
-          {:ok, GitHub.Webhook.Config.t()} | :error
+          {:ok, GitHub.Webhook.Config.t()} | {:error, GitHub.Error.t()}
   def get_webhook_config_for_org(org, hook_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -449,8 +448,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec get_webhook_delivery(String.t(), integer, integer, keyword) ::
-          {:ok, GitHub.Hook.Delivery.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Hook.Delivery.t()} | {:error, GitHub.Error.t()}
   def get_webhook_delivery(org, hook_id, delivery_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -479,7 +477,7 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#list-organizations)
 
   """
-  @spec list(keyword) :: {:ok, [GitHub.Organization.simple()]} | :error
+  @spec list(keyword) :: {:ok, [GitHub.Organization.simple()]} | {:error, GitHub.Error.t()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:per_page, :since])
@@ -506,7 +504,7 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#list-app-installations-for-an-organization)
 
   """
-  @spec list_app_installations(String.t(), keyword) :: {:ok, map} | :error
+  @spec list_app_installations(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def list_app_installations(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -533,7 +531,8 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#list-users-blocked-by-an-organization)
 
   """
-  @spec list_blocked_users(String.t(), keyword) :: {:ok, [GitHub.User.simple()]} | :error
+  @spec list_blocked_users(String.t(), keyword) ::
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_blocked_users(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -555,7 +554,7 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#list-custom-repository-roles-in-an-organization)
 
   """
-  @spec list_custom_roles(String.t(), keyword) :: {:ok, map} | :error
+  @spec list_custom_roles(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def list_custom_roles(organization_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -581,7 +580,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec list_failed_invitations(String.t(), keyword) ::
-          {:ok, [GitHub.Organization.Invitation.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Organization.Invitation.t()]} | {:error, GitHub.Error.t()}
   def list_failed_invitations(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -607,7 +606,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec list_fine_grained_permissions(String.t(), keyword) ::
-          {:ok, [GitHub.Organization.FineGrainedPermission.t()]} | :error
+          {:ok, [GitHub.Organization.FineGrainedPermission.t()]} | {:error, GitHub.Error.t()}
   def list_fine_grained_permissions(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -633,7 +632,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec list_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.Organization.simple()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Organization.simple()]} | {:error, GitHub.Error.t()}
   def list_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -665,7 +664,8 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#list-organizations-for-a-user)
 
   """
-  @spec list_for_user(String.t(), keyword) :: {:ok, [GitHub.Organization.simple()]} | :error
+  @spec list_for_user(String.t(), keyword) ::
+          {:ok, [GitHub.Organization.simple()]} | {:error, GitHub.Error.t()}
   def list_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -693,7 +693,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec list_invitation_teams(String.t(), integer, keyword) ::
-          {:ok, [GitHub.Team.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Team.t()]} | {:error, GitHub.Error.t()}
   def list_invitation_teams(org, invitation_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -723,7 +723,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec list_members(String.t(), keyword) ::
-          {:ok, [GitHub.User.simple()]} | {:error, GitHub.ValidationError.t()}
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_members(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:filter, :page, :per_page, :role])
@@ -752,8 +752,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec list_memberships_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.OrgMembership.t()]}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [GitHub.OrgMembership.t()]} | {:error, GitHub.Error.t()}
   def list_memberships_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :state])
@@ -787,7 +786,8 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#list-outside-collaborators-for-an-organization)
 
   """
-  @spec list_outside_collaborators(String.t(), keyword) :: {:ok, [GitHub.User.simple()]} | :error
+  @spec list_outside_collaborators(String.t(), keyword) ::
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_outside_collaborators(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:filter, :page, :per_page])
@@ -815,7 +815,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec list_pending_invitations(String.t(), keyword) ::
-          {:ok, [GitHub.Organization.Invitation.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Organization.Invitation.t()]} | {:error, GitHub.Error.t()}
   def list_pending_invitations(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -845,7 +845,8 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#list-public-organization-members)
 
   """
-  @spec list_public_members(String.t(), keyword) :: {:ok, [GitHub.User.simple()]} | :error
+  @spec list_public_members(String.t(), keyword) ::
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_public_members(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -867,7 +868,8 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#list-security-manager-teams)
 
   """
-  @spec list_security_manager_teams(String.t(), keyword) :: {:ok, [GitHub.Team.simple()]} | :error
+  @spec list_security_manager_teams(String.t(), keyword) ::
+          {:ok, [GitHub.Team.simple()]} | {:error, GitHub.Error.t()}
   def list_security_manager_teams(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -894,8 +896,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec list_webhook_deliveries(String.t(), integer, keyword) ::
-          {:ok, [GitHub.Hook.DeliveryItem.t()]}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [GitHub.Hook.DeliveryItem.t()]} | {:error, GitHub.Error.t()}
   def list_webhook_deliveries(org, hook_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:cursor, :per_page, :redelivery])
@@ -927,7 +928,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec list_webhooks(String.t(), keyword) ::
-          {:ok, [GitHub.OrgHook.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.OrgHook.t()]} | {:error, GitHub.Error.t()}
   def list_webhooks(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -949,7 +950,7 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#ping-an-organization-webhook)
 
   """
-  @spec ping_webhook(String.t(), integer, keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec ping_webhook(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def ping_webhook(org, hook_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -970,7 +971,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec redeliver_webhook_delivery(String.t(), integer, integer, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def redeliver_webhook_delivery(org, hook_id, delivery_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -990,7 +991,7 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#remove-an-organization-member)
 
   """
-  @spec remove_member(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec remove_member(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def remove_member(org, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1011,7 +1012,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec remove_membership_for_user(String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def remove_membership_for_user(org, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1031,7 +1032,8 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#remove-outside-collaborator-from-an-organization)
 
   """
-  @spec remove_outside_collaborator(String.t(), String.t(), keyword) :: :ok | {:error, map}
+  @spec remove_outside_collaborator(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def remove_outside_collaborator(org, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1052,7 +1054,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec remove_public_membership_for_authenticated_user(String.t(), String.t(), keyword) ::
-          :ok | :error
+          :ok | {:error, GitHub.Error.t()}
   def remove_public_membership_for_authenticated_user(org, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1072,7 +1074,8 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#remove-a-security-manager-team)
 
   """
-  @spec remove_security_manager_team(String.t(), String.t(), keyword) :: :ok | :error
+  @spec remove_security_manager_team(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def remove_security_manager_team(org, team_slug, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1093,8 +1096,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec set_membership_for_user(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.OrgMembership.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.OrgMembership.t()} | {:error, GitHub.Error.t()}
   def set_membership_for_user(org, username, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1121,7 +1123,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec set_public_membership_for_authenticated_user(String.t(), String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def set_public_membership_for_authenticated_user(org, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1141,7 +1143,7 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#unblock-a-user-from-an-organization)
 
   """
-  @spec unblock_user(String.t(), String.t(), keyword) :: :ok | :error
+  @spec unblock_user(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def unblock_user(org, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1162,9 +1164,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec update(String.t(), map, keyword) ::
-          {:ok, GitHub.Organization.Full.t()}
-          | {:error,
-             GitHub.BasicError.t() | GitHub.ValidationError.simple() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Organization.Full.t()} | {:error, GitHub.Error.t()}
   def update(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1191,8 +1191,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec update_custom_role(String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Organization.CustomRepositoryRole.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Organization.CustomRepositoryRole.t()} | {:error, GitHub.Error.t()}
   def update_custom_role(org, role_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1219,8 +1218,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec update_membership_for_authenticated_user(String.t(), map, keyword) ::
-          {:ok, GitHub.OrgMembership.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.OrgMembership.t()} | {:error, GitHub.Error.t()}
   def update_membership_for_authenticated_user(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1248,7 +1246,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec update_webhook(String.t(), integer, map, keyword) ::
-          {:ok, GitHub.OrgHook.t()} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.OrgHook.t()} | {:error, GitHub.Error.t()}
   def update_webhook(org, hook_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1275,7 +1273,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec update_webhook_config_for_org(String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Webhook.Config.t()} | :error
+          {:ok, GitHub.Webhook.Config.t()} | {:error, GitHub.Error.t()}
   def update_webhook_config_for_org(org, hook_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 

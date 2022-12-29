@@ -13,7 +13,7 @@ defmodule GitHub.Migrations do
     * [API method documentation](https://docs.github.com/rest/reference/migrations#cancel-an-import)
 
   """
-  @spec cancel_import(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec cancel_import(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def cancel_import(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -34,7 +34,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec delete_archive_for_authenticated_user(integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def delete_archive_for_authenticated_user(migration_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -60,8 +60,7 @@ defmodule GitHub.Migrations do
     * [API method documentation](https://docs.github.com/rest/reference/migrations#delete-an-organization-migration-archive)
 
   """
-  @spec delete_archive_for_org(String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+  @spec delete_archive_for_org(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_archive_for_org(org, migration_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -81,8 +80,7 @@ defmodule GitHub.Migrations do
     * [API method documentation](https://docs.github.com/rest/reference/migrations#download-an-organization-migration-archive)
 
   """
-  @spec download_archive_for_org(String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+  @spec download_archive_for_org(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def download_archive_for_org(org, migration_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -102,8 +100,7 @@ defmodule GitHub.Migrations do
     * [API method documentation](https://docs.github.com/rest/reference/migrations#download-a-user-migration-archive)
 
   """
-  @spec get_archive_for_authenticated_user(integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+  @spec get_archive_for_authenticated_user(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def get_archive_for_authenticated_user(migration_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -133,7 +130,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec get_commit_authors(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.PorterAuthor.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.PorterAuthor.t()]} | {:error, GitHub.Error.t()}
   def get_commit_authors(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:since])
@@ -160,7 +157,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec get_import_status(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Import.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Import.t()} | {:error, GitHub.Error.t()}
   def get_import_status(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -185,7 +182,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec get_large_files(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.PorterLargeFile.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.PorterLargeFile.t()]} | {:error, GitHub.Error.t()}
   def get_large_files(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -210,7 +207,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec get_status_for_authenticated_user(integer, keyword) ::
-          {:ok, GitHub.Migration.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Migration.t()} | {:error, GitHub.Error.t()}
   def get_status_for_authenticated_user(migration_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:exclude])
@@ -243,7 +240,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec get_status_for_org(String.t(), integer, keyword) ::
-          {:ok, GitHub.Migration.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Migration.t()} | {:error, GitHub.Error.t()}
   def get_status_for_org(org, migration_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:exclude])
@@ -271,7 +268,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec list_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.Migration.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Migration.t()]} | {:error, GitHub.Error.t()}
   def list_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -304,7 +301,8 @@ defmodule GitHub.Migrations do
     * [API method documentation](https://docs.github.com/rest/reference/migrations#list-organization-migrations)
 
   """
-  @spec list_for_org(String.t(), keyword) :: {:ok, [GitHub.Migration.t()]} | :error
+  @spec list_for_org(String.t(), keyword) ::
+          {:ok, [GitHub.Migration.t()]} | {:error, GitHub.Error.t()}
   def list_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:exclude, :page, :per_page])
@@ -332,7 +330,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec list_repos_for_authenticated_user(integer, keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
   def list_repos_for_authenticated_user(migration_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -360,7 +358,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec list_repos_for_org(String.t(), integer, keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
   def list_repos_for_org(org, migration_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -383,8 +381,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec map_commit_author(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.PorterAuthor.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.PorterAuthor.t()} | {:error, GitHub.Error.t()}
   def map_commit_author(owner, repo, author_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -412,7 +409,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec set_lfs_preference(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Import.t()} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Import.t()} | {:error, GitHub.Error.t()}
   def set_lfs_preference(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -439,8 +436,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec start_for_authenticated_user(map, keyword) ::
-          {:ok, GitHub.Migration.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Migration.t()} | {:error, GitHub.Error.t()}
   def start_for_authenticated_user(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -469,8 +465,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec start_for_org(String.t(), map, keyword) ::
-          {:ok, GitHub.Migration.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Migration.t()} | {:error, GitHub.Error.t()}
   def start_for_org(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -497,7 +492,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec start_import(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Import.t()} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Import.t()} | {:error, GitHub.Error.t()}
   def start_import(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -525,7 +520,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec unlock_repo_for_authenticated_user(integer, String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def unlock_repo_for_authenticated_user(migration_id, repo_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -552,7 +547,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec unlock_repo_for_org(String.t(), integer, String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def unlock_repo_for_org(org, migration_id, repo_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -573,7 +568,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec update_import(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Import.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Import.t()} | {:error, GitHub.Error.t()}
   def update_import(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 

@@ -14,7 +14,7 @@ defmodule GitHub.Billing do
 
   """
   @spec get_github_actions_billing_org(String.t(), keyword) ::
-          {:ok, GitHub.Actions.BillingUsage.t()} | :error
+          {:ok, GitHub.Actions.BillingUsage.t()} | {:error, GitHub.Error.t()}
   def get_github_actions_billing_org(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -35,7 +35,7 @@ defmodule GitHub.Billing do
 
   """
   @spec get_github_actions_billing_user(String.t(), keyword) ::
-          {:ok, GitHub.Actions.BillingUsage.t()} | :error
+          {:ok, GitHub.Actions.BillingUsage.t()} | {:error, GitHub.Error.t()}
   def get_github_actions_billing_user(username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -61,7 +61,7 @@ defmodule GitHub.Billing do
 
   """
   @spec get_github_advanced_security_billing_ghe(String.t(), keyword) ::
-          {:ok, GitHub.AdvancedSecurity.ActiveCommitters.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.AdvancedSecurity.ActiveCommitters.t()} | {:error, GitHub.Error.t()}
   def get_github_advanced_security_billing_ghe(enterprise, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -92,7 +92,7 @@ defmodule GitHub.Billing do
 
   """
   @spec get_github_advanced_security_billing_org(String.t(), keyword) ::
-          {:ok, GitHub.AdvancedSecurity.ActiveCommitters.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.AdvancedSecurity.ActiveCommitters.t()} | {:error, GitHub.Error.t()}
   def get_github_advanced_security_billing_org(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -118,7 +118,7 @@ defmodule GitHub.Billing do
 
   """
   @spec get_github_packages_billing_org(String.t(), keyword) ::
-          {:ok, GitHub.PackagesBillingUsage.t()} | :error
+          {:ok, GitHub.PackagesBillingUsage.t()} | {:error, GitHub.Error.t()}
   def get_github_packages_billing_org(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -139,7 +139,7 @@ defmodule GitHub.Billing do
 
   """
   @spec get_github_packages_billing_user(String.t(), keyword) ::
-          {:ok, GitHub.PackagesBillingUsage.t()} | :error
+          {:ok, GitHub.PackagesBillingUsage.t()} | {:error, GitHub.Error.t()}
   def get_github_packages_billing_user(username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -160,7 +160,7 @@ defmodule GitHub.Billing do
 
   """
   @spec get_shared_storage_billing_org(String.t(), keyword) ::
-          {:ok, GitHub.CombinedBillingUsage.t()} | :error
+          {:ok, GitHub.CombinedBillingUsage.t()} | {:error, GitHub.Error.t()}
   def get_shared_storage_billing_org(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -181,7 +181,7 @@ defmodule GitHub.Billing do
 
   """
   @spec get_shared_storage_billing_user(String.t(), keyword) ::
-          {:ok, GitHub.CombinedBillingUsage.t()} | :error
+          {:ok, GitHub.CombinedBillingUsage.t()} | {:error, GitHub.Error.t()}
   def get_shared_storage_billing_user(username, opts \\ []) do
     client = opts[:client] || @default_client
 

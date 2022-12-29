@@ -13,8 +13,7 @@ defmodule GitHub.Projects do
     * [API method documentation](https://docs.github.com/rest/reference/projects#add-project-collaborator)
 
   """
-  @spec add_collaborator(integer, String.t(), map, keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec add_collaborator(integer, String.t(), map, keyword) :: :ok | {:error, GitHub.Error.t()}
   def add_collaborator(project_id, username, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -44,12 +43,7 @@ defmodule GitHub.Projects do
 
   """
   @spec create_card(integer, map, keyword) ::
-          {:ok, GitHub.Project.Card.t()}
-          | {:error,
-             map
-             | GitHub.BasicError.t()
-             | GitHub.ValidationError.simple()
-             | GitHub.ValidationError.t()}
+          {:ok, GitHub.Project.Card.t()} | {:error, GitHub.Error.t()}
   def create_card(column_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -79,8 +73,7 @@ defmodule GitHub.Projects do
 
   """
   @spec create_column(integer, map, keyword) ::
-          {:ok, GitHub.Project.Column.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, GitHub.Project.Column.t()} | {:error, GitHub.Error.t()}
   def create_column(project_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -109,8 +102,7 @@ defmodule GitHub.Projects do
 
   """
   @spec create_for_authenticated_user(map, keyword) ::
-          {:ok, GitHub.Project.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, GitHub.Project.t()} | {:error, GitHub.Error.t()}
   def create_for_authenticated_user(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -139,8 +131,7 @@ defmodule GitHub.Projects do
 
   """
   @spec create_for_org(String.t(), map, keyword) ::
-          {:ok, GitHub.Project.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, GitHub.Project.t()} | {:error, GitHub.Error.t()}
   def create_for_org(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -170,8 +161,7 @@ defmodule GitHub.Projects do
 
   """
   @spec create_for_repo(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Project.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, GitHub.Project.t()} | {:error, GitHub.Error.t()}
   def create_for_repo(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -200,7 +190,7 @@ defmodule GitHub.Projects do
     * [API method documentation](https://docs.github.com/rest/reference/projects#delete-a-project)
 
   """
-  @spec delete(integer, keyword) :: :ok | {:error, map | GitHub.BasicError.t()}
+  @spec delete(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete(project_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -227,7 +217,7 @@ defmodule GitHub.Projects do
     * [API method documentation](https://docs.github.com/rest/reference/projects#delete-a-project-card)
 
   """
-  @spec delete_card(integer, keyword) :: :ok | {:error, map | GitHub.BasicError.t()}
+  @spec delete_card(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_card(card_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -253,7 +243,7 @@ defmodule GitHub.Projects do
     * [API method documentation](https://docs.github.com/rest/reference/projects#delete-a-project-column)
 
   """
-  @spec delete_column(integer, keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec delete_column(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_column(column_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -278,7 +268,7 @@ defmodule GitHub.Projects do
     * [API method documentation](https://docs.github.com/rest/reference/projects#get-a-project)
 
   """
-  @spec get(integer, keyword) :: {:ok, GitHub.Project.t()} | {:error, GitHub.BasicError.t()}
+  @spec get(integer, keyword) :: {:ok, GitHub.Project.t()} | {:error, GitHub.Error.t()}
   def get(project_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -303,8 +293,7 @@ defmodule GitHub.Projects do
     * [API method documentation](https://docs.github.com/rest/reference/projects#get-a-project-card)
 
   """
-  @spec get_card(integer, keyword) ::
-          {:ok, GitHub.Project.Card.t()} | {:error, GitHub.BasicError.t()}
+  @spec get_card(integer, keyword) :: {:ok, GitHub.Project.Card.t()} | {:error, GitHub.Error.t()}
   def get_card(card_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -331,7 +320,7 @@ defmodule GitHub.Projects do
 
   """
   @spec get_column(integer, keyword) ::
-          {:ok, GitHub.Project.Column.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Project.Column.t()} | {:error, GitHub.Error.t()}
   def get_column(column_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -358,8 +347,7 @@ defmodule GitHub.Projects do
 
   """
   @spec get_permission_for_user(integer, String.t(), keyword) ::
-          {:ok, GitHub.Project.CollaboratorPermission.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Project.CollaboratorPermission.t()} | {:error, GitHub.Error.t()}
   def get_permission_for_user(project_id, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -393,7 +381,7 @@ defmodule GitHub.Projects do
 
   """
   @spec list_cards(integer, keyword) ::
-          {:ok, [GitHub.Project.Card.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Project.Card.t()]} | {:error, GitHub.Error.t()}
   def list_cards(column_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:archived_state, :page, :per_page])
@@ -427,8 +415,7 @@ defmodule GitHub.Projects do
 
   """
   @spec list_collaborators(integer, keyword) ::
-          {:ok, [GitHub.User.simple()]}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_collaborators(project_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:affiliation, :page, :per_page])
@@ -463,7 +450,7 @@ defmodule GitHub.Projects do
 
   """
   @spec list_columns(integer, keyword) ::
-          {:ok, [GitHub.Project.Column.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Project.Column.t()]} | {:error, GitHub.Error.t()}
   def list_columns(project_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -497,7 +484,7 @@ defmodule GitHub.Projects do
 
   """
   @spec list_for_org(String.t(), keyword) ::
-          {:ok, [GitHub.Project.t()]} | {:error, GitHub.ValidationError.simple()}
+          {:ok, [GitHub.Project.t()]} | {:error, GitHub.Error.t()}
   def list_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :state])
@@ -526,8 +513,7 @@ defmodule GitHub.Projects do
 
   """
   @spec list_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Project.t()]}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, [GitHub.Project.t()]} | {:error, GitHub.Error.t()}
   def list_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :state])
@@ -563,7 +549,7 @@ defmodule GitHub.Projects do
 
   """
   @spec list_for_user(String.t(), keyword) ::
-          {:ok, [GitHub.Project.t()]} | {:error, GitHub.ValidationError.t()}
+          {:ok, [GitHub.Project.t()]} | {:error, GitHub.Error.t()}
   def list_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :state])
@@ -585,8 +571,7 @@ defmodule GitHub.Projects do
     * [API method documentation](https://docs.github.com/rest/reference/projects#move-a-project-card)
 
   """
-  @spec move_card(integer, map, keyword) ::
-          {:ok, map} | {:error, map | GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec move_card(integer, map, keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def move_card(card_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -615,8 +600,7 @@ defmodule GitHub.Projects do
     * [API method documentation](https://docs.github.com/rest/reference/projects#move-a-project-column)
 
   """
-  @spec move_column(integer, map, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+  @spec move_column(integer, map, keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def move_column(column_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -644,8 +628,7 @@ defmodule GitHub.Projects do
     * [API method documentation](https://docs.github.com/rest/reference/projects#remove-project-collaborator)
 
   """
-  @spec remove_collaborator(integer, String.t(), keyword) ::
-          :ok | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec remove_collaborator(integer, String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def remove_collaborator(project_id, username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -672,9 +655,7 @@ defmodule GitHub.Projects do
     * [API method documentation](https://docs.github.com/rest/reference/projects#update-a-project)
 
   """
-  @spec update(integer, map, keyword) ::
-          {:ok, GitHub.Project.t()}
-          | {:error, map | GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+  @spec update(integer, map, keyword) :: {:ok, GitHub.Project.t()} | {:error, GitHub.Error.t()}
   def update(project_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -705,8 +686,7 @@ defmodule GitHub.Projects do
 
   """
   @spec update_card(integer, map, keyword) ::
-          {:ok, GitHub.Project.Card.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+          {:ok, GitHub.Project.Card.t()} | {:error, GitHub.Error.t()}
   def update_card(card_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -736,7 +716,7 @@ defmodule GitHub.Projects do
 
   """
   @spec update_column(integer, map, keyword) ::
-          {:ok, GitHub.Project.Column.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Project.Column.t()} | {:error, GitHub.Error.t()}
   def update_column(column_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 

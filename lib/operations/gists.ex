@@ -13,7 +13,7 @@ defmodule GitHub.Gists do
     * [API method documentation](https://docs.github.com/rest/reference/gists#check-if-a-gist-is-starred)
 
   """
-  @spec check_is_starred(String.t(), keyword) :: :ok | {:error, map | GitHub.BasicError.t()}
+  @spec check_is_starred(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def check_is_starred(gist_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -33,9 +33,7 @@ defmodule GitHub.Gists do
     * [API method documentation](https://docs.github.com/rest/reference/gists#create-a-gist)
 
   """
-  @spec create(map, keyword) ::
-          {:ok, GitHub.Gist.simple()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec create(map, keyword) :: {:ok, GitHub.Gist.simple()} | {:error, GitHub.Error.t()}
   def create(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -64,7 +62,7 @@ defmodule GitHub.Gists do
 
   """
   @spec create_comment(String.t(), map, keyword) ::
-          {:ok, GitHub.Gist.Comment.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Gist.Comment.t()} | {:error, GitHub.Error.t()}
   def create_comment(gist_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -91,7 +89,7 @@ defmodule GitHub.Gists do
     * [API method documentation](https://docs.github.com/rest/reference/gists#delete-a-gist)
 
   """
-  @spec delete(String.t(), keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec delete(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete(gist_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -116,7 +114,7 @@ defmodule GitHub.Gists do
     * [API method documentation](https://docs.github.com/rest/reference/gists#delete-a-gist-comment)
 
   """
-  @spec delete_comment(String.t(), integer, keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec delete_comment(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_comment(gist_id, comment_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -141,9 +139,7 @@ defmodule GitHub.Gists do
     * [API method documentation](https://docs.github.com/rest/reference/gists#fork-a-gist)
 
   """
-  @spec fork(String.t(), keyword) ::
-          {:ok, GitHub.BaseGist.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec fork(String.t(), keyword) :: {:ok, GitHub.BaseGist.t()} | {:error, GitHub.Error.t()}
   def fork(gist_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -169,8 +165,7 @@ defmodule GitHub.Gists do
     * [API method documentation](https://docs.github.com/rest/reference/gists#get-a-gist)
 
   """
-  @spec get(String.t(), keyword) ::
-          {:ok, GitHub.Gist.simple()} | {:error, map | GitHub.BasicError.t()}
+  @spec get(String.t(), keyword) :: {:ok, GitHub.Gist.simple()} | {:error, GitHub.Error.t()}
   def get(gist_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -196,7 +191,7 @@ defmodule GitHub.Gists do
 
   """
   @spec get_comment(String.t(), integer, keyword) ::
-          {:ok, GitHub.Gist.Comment.t()} | {:error, map | GitHub.BasicError.t()}
+          {:ok, GitHub.Gist.Comment.t()} | {:error, GitHub.Error.t()}
   def get_comment(gist_id, comment_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -222,8 +217,7 @@ defmodule GitHub.Gists do
 
   """
   @spec get_revision(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Gist.simple()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Gist.simple()} | {:error, GitHub.Error.t()}
   def get_revision(gist_id, sha, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -254,7 +248,7 @@ defmodule GitHub.Gists do
     * [API method documentation](https://docs.github.com/rest/reference/gists#list-gists-for-the-authenticated-user)
 
   """
-  @spec list(keyword) :: {:ok, [GitHub.BaseGist.t()]} | {:error, GitHub.BasicError.t()}
+  @spec list(keyword) :: {:ok, [GitHub.BaseGist.t()]} | {:error, GitHub.Error.t()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :since])
@@ -286,7 +280,7 @@ defmodule GitHub.Gists do
 
   """
   @spec list_comments(String.t(), keyword) ::
-          {:ok, [GitHub.Gist.Comment.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Gist.Comment.t()]} | {:error, GitHub.Error.t()}
   def list_comments(gist_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -319,7 +313,7 @@ defmodule GitHub.Gists do
 
   """
   @spec list_commits(String.t(), keyword) ::
-          {:ok, [GitHub.Gist.Commit.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Gist.Commit.t()]} | {:error, GitHub.Error.t()}
   def list_commits(gist_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -353,7 +347,7 @@ defmodule GitHub.Gists do
 
   """
   @spec list_for_user(String.t(), keyword) ::
-          {:ok, [GitHub.BaseGist.t()]} | {:error, GitHub.ValidationError.t()}
+          {:ok, [GitHub.BaseGist.t()]} | {:error, GitHub.Error.t()}
   def list_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :since])
@@ -381,7 +375,7 @@ defmodule GitHub.Gists do
 
   """
   @spec list_forks(String.t(), keyword) ::
-          {:ok, [GitHub.Gist.simple()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Gist.simple()]} | {:error, GitHub.Error.t()}
   def list_forks(gist_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -414,9 +408,7 @@ defmodule GitHub.Gists do
     * [API method documentation](https://docs.github.com/rest/reference/gists#list-public-gists)
 
   """
-  @spec list_public(keyword) ::
-          {:ok, [GitHub.BaseGist.t()]}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec list_public(keyword) :: {:ok, [GitHub.BaseGist.t()]} | {:error, GitHub.Error.t()}
   def list_public(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :since])
@@ -449,7 +441,7 @@ defmodule GitHub.Gists do
     * [API method documentation](https://docs.github.com/rest/reference/gists#list-starred-gists)
 
   """
-  @spec list_starred(keyword) :: {:ok, [GitHub.BaseGist.t()]} | {:error, GitHub.BasicError.t()}
+  @spec list_starred(keyword) :: {:ok, [GitHub.BaseGist.t()]} | {:error, GitHub.Error.t()}
   def list_starred(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :since])
@@ -476,7 +468,7 @@ defmodule GitHub.Gists do
     * [API method documentation](https://docs.github.com/rest/reference/gists#star-a-gist)
 
   """
-  @spec star(String.t(), keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec star(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def star(gist_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -501,7 +493,7 @@ defmodule GitHub.Gists do
     * [API method documentation](https://docs.github.com/rest/reference/gists#unstar-a-gist)
 
   """
-  @spec unstar(String.t(), keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec unstar(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
   def unstar(gist_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -527,8 +519,7 @@ defmodule GitHub.Gists do
 
   """
   @spec update(String.t(), map, keyword) ::
-          {:ok, GitHub.Gist.simple()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Gist.simple()} | {:error, GitHub.Error.t()}
   def update(gist_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -555,7 +546,7 @@ defmodule GitHub.Gists do
 
   """
   @spec update_comment(String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Gist.Comment.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Gist.Comment.t()} | {:error, GitHub.Error.t()}
   def update_comment(gist_id, comment_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 

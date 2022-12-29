@@ -30,7 +30,8 @@ defmodule GitHub.ServerStatistics do
     * [API method documentation](https://docs.github.com/rest/reference/enterprise-admin#get-github-enterprise-server-statistics)
 
   """
-  @spec enterprise_admin_get_server_statistics(String.t(), keyword) :: {:ok, [map]} | :error
+  @spec enterprise_admin_get_server_statistics(String.t(), keyword) ::
+          {:ok, [map]} | {:error, GitHub.Error.t()}
   def enterprise_admin_get_server_statistics(enterprise_or_org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:date_end, :date_start])

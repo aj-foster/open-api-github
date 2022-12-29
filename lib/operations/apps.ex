@@ -14,7 +14,7 @@ defmodule GitHub.Apps do
 
   """
   @spec add_repo_to_installation_for_authenticated_user(integer, integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def add_repo_to_installation_for_authenticated_user(installation_id, repository_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -40,8 +40,7 @@ defmodule GitHub.Apps do
 
   """
   @spec check_token(String.t(), map, keyword) ::
-          {:ok, GitHub.Authorization.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Authorization.t()} | {:error, GitHub.Error.t()}
   def check_token(client_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -67,8 +66,7 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#create-a-github-app-from-a-manifest)
 
   """
-  @spec create_from_manifest(String.t(), keyword) ::
-          {:ok, term} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.simple()}
+  @spec create_from_manifest(String.t(), keyword) :: {:ok, term} | {:error, GitHub.Error.t()}
   def create_from_manifest(code, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -93,8 +91,7 @@ defmodule GitHub.Apps do
 
   """
   @spec create_installation_access_token(integer, map, keyword) ::
-          {:ok, GitHub.Installation.Token.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Installation.Token.t()} | {:error, GitHub.Error.t()}
   def create_installation_access_token(installation_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -122,8 +119,7 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#delete-an-app-authorization)
 
   """
-  @spec delete_authorization(String.t(), map, keyword) ::
-          :ok | {:error, GitHub.ValidationError.t()}
+  @spec delete_authorization(String.t(), map, keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_authorization(client_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -145,7 +141,7 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#delete-an-installation-for-the-authenticated-app)
 
   """
-  @spec delete_installation(integer, keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec delete_installation(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_installation(installation_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -165,7 +161,7 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#delete-an-app-token)
 
   """
-  @spec delete_token(String.t(), map, keyword) :: :ok | {:error, GitHub.ValidationError.t()}
+  @spec delete_token(String.t(), map, keyword) :: :ok | {:error, GitHub.Error.t()}
   def delete_token(client_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -187,7 +183,7 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#get-the-authenticated-app)
 
   """
-  @spec get_authenticated(keyword) :: {:ok, GitHub.Integration.t()} | :error
+  @spec get_authenticated(keyword) :: {:ok, GitHub.Integration.t()} | {:error, GitHub.Error.t()}
   def get_authenticated(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -208,7 +204,7 @@ defmodule GitHub.Apps do
 
   """
   @spec get_by_slug(String.t(), keyword) ::
-          {:ok, GitHub.Integration.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Integration.t()} | {:error, GitHub.Error.t()}
   def get_by_slug(app_slug, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -233,7 +229,7 @@ defmodule GitHub.Apps do
 
   """
   @spec get_installation(integer, keyword) ::
-          {:ok, GitHub.Installation.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Installation.t()} | {:error, GitHub.Error.t()}
   def get_installation(installation_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -253,7 +249,8 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#get-an-organization-installation-for-the-authenticated-app)
 
   """
-  @spec get_org_installation(String.t(), keyword) :: {:ok, GitHub.Installation.t()} | :error
+  @spec get_org_installation(String.t(), keyword) ::
+          {:ok, GitHub.Installation.t()} | {:error, GitHub.Error.t()}
   def get_org_installation(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -274,7 +271,7 @@ defmodule GitHub.Apps do
 
   """
   @spec get_repo_installation(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Installation.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Installation.t()} | {:error, GitHub.Error.t()}
   def get_repo_installation(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -299,7 +296,7 @@ defmodule GitHub.Apps do
 
   """
   @spec get_subscription_plan_for_account(integer, keyword) ::
-          {:ok, GitHub.Marketplace.Purchase.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Marketplace.Purchase.t()} | {:error, GitHub.Error.t()}
   def get_subscription_plan_for_account(account_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -324,7 +321,7 @@ defmodule GitHub.Apps do
 
   """
   @spec get_subscription_plan_for_account_stubbed(integer, keyword) ::
-          {:ok, GitHub.Marketplace.Purchase.t()} | {:error, GitHub.BasicError.t()}
+          {:ok, GitHub.Marketplace.Purchase.t()} | {:error, GitHub.Error.t()}
   def get_subscription_plan_for_account_stubbed(account_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -348,7 +345,8 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#get-a-user-installation-for-the-authenticated-app)
 
   """
-  @spec get_user_installation(String.t(), keyword) :: {:ok, GitHub.Installation.t()} | :error
+  @spec get_user_installation(String.t(), keyword) ::
+          {:ok, GitHub.Installation.t()} | {:error, GitHub.Error.t()}
   def get_user_installation(username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -368,7 +366,8 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#get-a-webhook-configuration-for-an-app)
 
   """
-  @spec get_webhook_config_for_app(keyword) :: {:ok, GitHub.Webhook.Config.t()} | :error
+  @spec get_webhook_config_for_app(keyword) ::
+          {:ok, GitHub.Webhook.Config.t()} | {:error, GitHub.Error.t()}
   def get_webhook_config_for_app(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -389,8 +388,7 @@ defmodule GitHub.Apps do
 
   """
   @spec get_webhook_delivery(integer, keyword) ::
-          {:ok, GitHub.Hook.Delivery.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Hook.Delivery.t()} | {:error, GitHub.Error.t()}
   def get_webhook_delivery(delivery_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -422,8 +420,7 @@ defmodule GitHub.Apps do
 
   """
   @spec list_accounts_for_plan(integer, keyword) ::
-          {:ok, [GitHub.Marketplace.Purchase.t()]}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [GitHub.Marketplace.Purchase.t()]} | {:error, GitHub.Error.t()}
   def list_accounts_for_plan(plan_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page, :sort])
@@ -458,7 +455,7 @@ defmodule GitHub.Apps do
 
   """
   @spec list_accounts_for_plan_stubbed(integer, keyword) ::
-          {:ok, [GitHub.Marketplace.Purchase.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Marketplace.Purchase.t()]} | {:error, GitHub.Error.t()}
   def list_accounts_for_plan_stubbed(plan_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page, :sort])
@@ -489,7 +486,7 @@ defmodule GitHub.Apps do
 
   """
   @spec list_installation_repos_for_authenticated_user(integer, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_installation_repos_for_authenticated_user(installation_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -523,7 +520,8 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#list-installations-for-the-authenticated-app)
 
   """
-  @spec list_installations(keyword) :: {:ok, [GitHub.Installation.t()]} | :error
+  @spec list_installations(keyword) ::
+          {:ok, [GitHub.Installation.t()]} | {:error, GitHub.Error.t()}
   def list_installations(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:outdated, :page, :per_page, :since])
@@ -551,7 +549,7 @@ defmodule GitHub.Apps do
 
   """
   @spec list_installations_for_authenticated_user(keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def list_installations_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -584,7 +582,7 @@ defmodule GitHub.Apps do
 
   """
   @spec list_plans(keyword) ::
-          {:ok, [GitHub.Marketplace.ListingPlan.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Marketplace.ListingPlan.t()]} | {:error, GitHub.Error.t()}
   def list_plans(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -616,7 +614,7 @@ defmodule GitHub.Apps do
 
   """
   @spec list_plans_stubbed(keyword) ::
-          {:ok, [GitHub.Marketplace.ListingPlan.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.Marketplace.ListingPlan.t()]} | {:error, GitHub.Error.t()}
   def list_plans_stubbed(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -646,8 +644,7 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#list-repositories-accessible-to-the-app-installation)
 
   """
-  @spec list_repos_accessible_to_installation(keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t()}
+  @spec list_repos_accessible_to_installation(keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def list_repos_accessible_to_installation(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -680,7 +677,7 @@ defmodule GitHub.Apps do
 
   """
   @spec list_subscriptions_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.User.MarketplacePurchase.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.User.MarketplacePurchase.t()]} | {:error, GitHub.Error.t()}
   def list_subscriptions_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -713,7 +710,7 @@ defmodule GitHub.Apps do
 
   """
   @spec list_subscriptions_for_authenticated_user_stubbed(keyword) ::
-          {:ok, [GitHub.User.MarketplacePurchase.t()]} | {:error, GitHub.BasicError.t()}
+          {:ok, [GitHub.User.MarketplacePurchase.t()]} | {:error, GitHub.Error.t()}
   def list_subscriptions_for_authenticated_user_stubbed(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -746,8 +743,7 @@ defmodule GitHub.Apps do
 
   """
   @spec list_webhook_deliveries(keyword) ::
-          {:ok, [GitHub.Hook.DeliveryItem.t()]}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, [GitHub.Hook.DeliveryItem.t()]} | {:error, GitHub.Error.t()}
   def list_webhook_deliveries(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:cursor, :per_page, :redelivery])
@@ -773,8 +769,7 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#redeliver-a-delivery-for-an-app-webhook)
 
   """
-  @spec redeliver_webhook_delivery(integer, keyword) ::
-          {:ok, map} | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+  @spec redeliver_webhook_delivery(integer, keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def redeliver_webhook_delivery(delivery_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -795,7 +790,7 @@ defmodule GitHub.Apps do
 
   """
   @spec remove_repo_from_installation_for_authenticated_user(integer, integer, keyword) ::
-          :ok | {:error, GitHub.BasicError.t()}
+          :ok | {:error, GitHub.Error.t()}
   def remove_repo_from_installation_for_authenticated_user(
         installation_id,
         repository_id,
@@ -825,7 +820,7 @@ defmodule GitHub.Apps do
 
   """
   @spec reset_token(String.t(), map, keyword) ::
-          {:ok, GitHub.Authorization.t()} | {:error, GitHub.ValidationError.t()}
+          {:ok, GitHub.Authorization.t()} | {:error, GitHub.Error.t()}
   def reset_token(client_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -847,7 +842,7 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#revoke-an-installation-access-token)
 
   """
-  @spec revoke_installation_access_token(keyword) :: :ok | :error
+  @spec revoke_installation_access_token(keyword) :: :ok | {:error, GitHub.Error.t()}
   def revoke_installation_access_token(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -868,8 +863,7 @@ defmodule GitHub.Apps do
 
   """
   @spec scope_token(String.t(), map, keyword) ::
-          {:ok, GitHub.Authorization.t()}
-          | {:error, GitHub.BasicError.t() | GitHub.ValidationError.t()}
+          {:ok, GitHub.Authorization.t()} | {:error, GitHub.Error.t()}
   def scope_token(client_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -897,7 +891,7 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#suspend-an-app-installation)
 
   """
-  @spec suspend_installation(integer, keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec suspend_installation(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def suspend_installation(installation_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -917,7 +911,7 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#unsuspend-an-app-installation)
 
   """
-  @spec unsuspend_installation(integer, keyword) :: :ok | {:error, GitHub.BasicError.t()}
+  @spec unsuspend_installation(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
   def unsuspend_installation(installation_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -937,7 +931,8 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#update-a-webhook-configuration-for-an-app)
 
   """
-  @spec update_webhook_config_for_app(map, keyword) :: {:ok, GitHub.Webhook.Config.t()} | :error
+  @spec update_webhook_config_for_app(map, keyword) ::
+          {:ok, GitHub.Webhook.Config.t()} | {:error, GitHub.Error.t()}
   def update_webhook_config_for_app(body, opts \\ []) do
     client = opts[:client] || @default_client
 
