@@ -6,17 +6,21 @@ defmodule GitHub.Plugin.TypedDecoder do
   def decode_response(operation) do
     %Operation{response_body: body, response_code: code, response_types: types} = operation
 
-    if type = get_type(types, code) do
-      decoded_body = do_decode(body, type)
-      {:ok, %Operation{operation | response_body: decoded_body}}
-    else
-      {:ok, operation}
+    case get_type(types, code) do
+      {:ok, response_type} ->
+        decoded_body = do_decode(body, response_type)
+        {:ok, %Operation{operation | response_body: decoded_body}}
+
+      {:error, :not_found} ->
+        {:ok, operation}
     end
   end
 
   defp get_type(types, code) do
     if res = Enum.find(types, fn {c, _} -> c == code end) do
-      elem(res, 1)
+      {:ok, elem(res, 1)}
+    else
+      {:error, :not_found}
     end
   end
 
@@ -34,6 +38,7 @@ defmodule GitHub.Plugin.TypedDecoder do
     end
   end
 
+  defp do_decode("", nil), do: nil
   defp do_decode(value, _type), do: value
 
   @spec normalize_errors(Operation.t()) :: {:ok, Operation.t()} | {:error, Error.t()}

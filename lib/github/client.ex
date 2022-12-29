@@ -23,6 +23,9 @@ defmodule GitHub.Client do
   end
 
   @spec wrap_result(Operation.t() | Error.t()) :: {:ok, term} | {:error, term}
+  defp wrap_result(%Operation{response_body: nil, response_code: code}) when code < 300,
+    do: :ok
+
   defp wrap_result(%Operation{response_body: response, response_code: code}) when code < 300,
     do: {:ok, response}
 
