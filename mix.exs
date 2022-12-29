@@ -29,8 +29,8 @@ defmodule GitHub.MixProject do
     [
       {:jason, "~> 1.0", optional: true},
       {:httpoison, "~> 1.7", optional: true},
-      # {:open_api, github: "aj-foster/open-api-generator", branch: "main"}
-      {:open_api, path: "/Users/aj/Documents/Projects/aj-foster/open-api-generator"}
+      # {:open_api, github: "aj-foster/open-api-generator", branch: "main", only: :dev}
+      {:open_api, path: "/Users/aj/Documents/Projects/aj-foster/open-api-generator", only: :dev}
     ]
   end
 end
