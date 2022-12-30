@@ -3,7 +3,7 @@ if Code.ensure_loaded?(Redix) do
     @moduledoc """
     Use Redis to cache full API responses and perform conditional requests
 
-    > ### Warning {:.warning}
+    > #### Warning {:.warning}
     >
     > This plugin caches full API responses. This may include sensitive data, and it may use a lot
     > of memory. Memory usage can be controlled using the `expiration` configuration.
@@ -54,6 +54,7 @@ if Code.ensure_loaded?(Redix) do
 
     By including the hashed auth token in the key, we can be reasonably sure that...
     """
+    alias GitHub.Config
     alias GitHub.Operation
 
     @default_cache_prefix "oapi_github"
@@ -64,12 +65,25 @@ if Code.ensure_loaded?(Redix) do
     # Before Request
     #
 
+    @doc """
+    Check Redis for cached responses for the current request
+
+    This plugin only affects GET requests. If a cached response is found, the corresponding ETag
+    will be included in the HTTP request as an `If-None-Match` header. This allows the API to
+    respond with a `304 Not Modified` response that does not count against rate limits. Use the
+    `use_cache/2` plugin to capture 304 responses and replace the body with the cached response.
+
+    ## Configuration
+
+    This plugin requires the `server` configuration, and uses the `cache_prefix` configuration.
+    See **Configuration** above for more information.
+    """
     @spec check_cache(Operation.t()) :: {:ok, Operation.t()}
     def check_cache(operation, options \\ [])
 
     def check_cache(%Operation{request_method: :get} = operation, opts) do
-      server = config!(opts, :server)
-      key = cache_key(operation)
+      server = Config.plugin_config!(opts, __MODULE__, :server)
+      key = cache_key(operation, opts)
 
       with {:ok, data} when is_binary(data) <- Redix.command(server, ["GET", key]),
            {:ok, %{"content_type" => content_type, "etag" => etag, "response" => response}} <-
@@ -95,17 +109,25 @@ if Code.ensure_loaded?(Redix) do
     # After Request
     #
 
+    @doc """
+    Replace 304 responses with cached data, and cache new data
+
+    This plugin only affects GET requests. In the event of a `304 Not Modified` response (presumably
+    because `check_cache/2` provided an `If-None-Match` header), this plugin will replace the
+    empty response body with cached data and reset the status code to 200. In the event of a 200
+    response, the new data will be added to the cache.
+    """
     @spec use_cache(Operation.t(), keyword) :: {:ok, Operation.t()}
     def use_cache(operation, options \\ [])
 
     def use_cache(%Operation{request_method: :get, response_code: 200} = operation, opts) do
-      %Operation{response_body: response, response_headers: headers} = operation |> IO.inspect()
+      %Operation{response_body: response, response_headers: headers} = operation
       content_type = get_content_type(headers)
       etag = get_etag(headers)
 
-      server = config!(opts, :server)
-      key = cache_key(operation)
-      expiration = config(opts, :expiration, @default_expiration_sec)
+      server = Config.plugin_config!(opts, __MODULE__, :server)
+      key = cache_key(operation, opts)
+      expiration = Config.plugin_config(opts, __MODULE__, :expiration, @default_expiration_sec)
 
       with {:ok, data} <-
              Jason.encode(%{content_type: content_type, etag: etag, response: response}) do
@@ -123,9 +145,10 @@ if Code.ensure_loaded?(Redix) do
           } = operation,
           opts
         ) do
-      server = config!(opts, :server)
-      key = cache_key(operation)
-      expiration = config(opts, :expiration, @default_expiration_sec)
+      server = Config.plugin_config!(opts, __MODULE__, :server)
+      key = cache_key(operation, opts)
+      expiration = Config.plugin_config(opts, __MODULE__, :expiration, @default_expiration_sec)
+
       Redix.noreply_command(server, ["EXPIRE", key, expiration, "GT"])
 
       operation = %Operation{
@@ -144,10 +167,10 @@ if Code.ensure_loaded?(Redix) do
     # Helpers
     #
 
-    @spec cache_key(Operation.t()) :: String.t()
-    defp cache_key(operation) do
+    @spec cache_key(Operation.t(), keyword) :: String.t()
+    defp cache_key(operation, opts) do
       [
-        cache_key_prefix(),
+        cache_key_prefix(opts),
         cache_key_server(operation),
         cache_key_url(operation),
         cache_key_params(operation),
@@ -174,9 +197,9 @@ if Code.ensure_loaded?(Redix) do
       |> URI.encode_query()
     end
 
-    @spec cache_key_prefix :: String.t()
-    defp cache_key_prefix do
-      config([], :cache_prefix, @default_cache_prefix)
+    @spec cache_key_prefix(keyword) :: String.t()
+    defp cache_key_prefix(opts) do
+      Config.plugin_config(opts, __MODULE__, :cache_prefix, @default_cache_prefix)
     end
 
     @spec cache_key_server(Operation.t()) :: String.t()
@@ -184,21 +207,6 @@ if Code.ensure_loaded?(Redix) do
 
     @spec cache_key_url(Operation.t()) :: String.t()
     defp cache_key_url(%Operation{request_url: url}), do: url
-
-    @spec config(keyword, atom, term) :: term
-    defp config(config, key, default) do
-      if value = Keyword.get(config, key) do
-        value
-      else
-        Application.get_env(:oapi_github, __MODULE__, [])
-        |> Keyword.get(key, default)
-      end
-    end
-
-    @spec config!(keyword, atom) :: term
-    defp config!(config, key) do
-      config(config, key, nil) || raise "Configuration #{key} is required for #{__MODULE__}"
-    end
 
     @spec get_content_type([{String.t(), String.t()}]) :: String.t() | nil
     defp get_content_type([]), do: nil
