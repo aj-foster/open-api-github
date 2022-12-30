@@ -1,4 +1,4 @@
-defmodule GitHub.Page.BuildStatus do
+defmodule GitHub.Pages.BuildStatus do
   @moduledoc """
   Provides struct and type for PageBuildStatus
   """

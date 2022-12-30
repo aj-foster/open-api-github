@@ -645,7 +645,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_pages_deployment(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Page.Deployment.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Pages.Deployment.t()} | {:error, GitHub.Error.t()}
   def create_pages_deployment(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -655,7 +655,7 @@ defmodule GitHub.Repos do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {200, {GitHub.Page.Deployment, :t}},
+        {200, {GitHub.Pages.Deployment, :t}},
         {400, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
@@ -2068,14 +2068,14 @@ defmodule GitHub.Repos do
 
   """
   @spec get_latest_pages_build(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Page.Build.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Pages.Build.t()} | {:error, GitHub.Error.t()}
   def get_latest_pages_build(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       url: "/repos/#{owner}/#{repo}/pages/builds/latest",
       method: :get,
-      response: [{200, {GitHub.Page.Build, :t}}],
+      response: [{200, {GitHub.Pages.Build, :t}}],
       opts: opts
     })
   end
@@ -2131,14 +2131,14 @@ defmodule GitHub.Repos do
 
   """
   @spec get_pages_build(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Page.Build.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Pages.Build.t()} | {:error, GitHub.Error.t()}
   def get_pages_build(owner, repo, build_id, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       url: "/repos/#{owner}/#{repo}/pages/builds/#{build_id}",
       method: :get,
-      response: [{200, {GitHub.Page.Build, :t}}],
+      response: [{200, {GitHub.Pages.Build, :t}}],
       opts: opts
     })
   end
@@ -2152,7 +2152,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_pages_health_check(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.EmptyObject.t() | :"Elixir.GitHub.Page.sHealthCheck".t()}
+          {:ok, GitHub.EmptyObject.t() | GitHub.Pages.HealthCheck.t()}
           | {:error, GitHub.Error.t()}
   def get_pages_health_check(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
@@ -2161,7 +2161,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/pages/health",
       method: :get,
       response: [
-        {200, {:"Elixir.GitHub.Page.sHealthCheck", :t}},
+        {200, {GitHub.Pages.HealthCheck, :t}},
         {202, {GitHub.EmptyObject, :t}},
         {400, nil},
         {404, {GitHub.BasicError, :t}},
@@ -3182,7 +3182,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_pages_builds(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Page.Build.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Pages.Build.t()]} | {:error, GitHub.Error.t()}
   def list_pages_builds(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -3191,7 +3191,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/pages/builds",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Page.Build, :t}}}],
+      response: [{200, {:array, {GitHub.Pages.Build, :t}}}],
       opts: opts
     })
   end
@@ -3769,14 +3769,14 @@ defmodule GitHub.Repos do
 
   """
   @spec request_pages_build(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Page.BuildStatus.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Pages.BuildStatus.t()} | {:error, GitHub.Error.t()}
   def request_pages_build(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       url: "/repos/#{owner}/#{repo}/pages/builds",
       method: :post,
-      response: [{201, {GitHub.Page.BuildStatus, :t}}],
+      response: [{201, {GitHub.Pages.BuildStatus, :t}}],
       opts: opts
     })
   end

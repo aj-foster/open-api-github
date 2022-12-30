@@ -1,4 +1,4 @@
-defmodule GitHub.Page.Build do
+defmodule GitHub.Pages.Build do
   @moduledoc """
   Provides struct and type for PageBuild
   """

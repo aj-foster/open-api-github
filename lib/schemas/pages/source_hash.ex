@@ -1,4 +1,4 @@
-defmodule :"Elixir.GitHub.Page.sSourceHash" do
+defmodule GitHub.Pages.SourceHash do
   @moduledoc """
   Provides struct and type for PagesSourceHash
   """

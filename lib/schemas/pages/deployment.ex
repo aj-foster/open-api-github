@@ -1,4 +1,4 @@
-defmodule GitHub.Page.Deployment do
+defmodule GitHub.Pages.Deployment do
   @moduledoc """
   Provides struct and type for PageDeployment
   """

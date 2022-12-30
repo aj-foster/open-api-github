@@ -8,12 +8,12 @@ defmodule GitHub.Page do
           cname: String.t() | nil,
           custom_404: boolean,
           html_url: String.t() | nil,
-          https_certificate: :"Elixir.GitHub.Page.sHttpsCertificate".t() | nil,
+          https_certificate: GitHub.Pages.HttpsCertificate.t() | nil,
           https_enforced: boolean | nil,
           pending_domain_unverified_at: String.t() | nil,
           protected_domain_state: String.t() | nil,
           public: boolean,
-          source: :"Elixir.GitHub.Page.sSourceHash".t() | nil,
+          source: GitHub.Pages.SourceHash.t() | nil,
           status: String.t() | nil,
           url: String.t()
         }
@@ -43,12 +43,12 @@ defmodule GitHub.Page do
       cname: :string,
       custom_404: :boolean,
       html_url: :string,
-      https_certificate: {:"Elixir.GitHub.Page.sHttpsCertificate", :t},
+      https_certificate: {GitHub.Pages.HttpsCertificate, :t},
       https_enforced: :boolean,
       pending_domain_unverified_at: :string,
       protected_domain_state: :string,
       public: :boolean,
-      source: {:"Elixir.GitHub.Page.sSourceHash", :t},
+      source: {GitHub.Pages.SourceHash, :t},
       status: :string,
       url: :string
     ]

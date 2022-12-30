@@ -1,4 +1,4 @@
-defmodule :"Elixir.GitHub.Page.sHealthCheck" do
+defmodule GitHub.Pages.HealthCheck do
   @moduledoc """
   Provides struct and type for PagesHealthCheck
   """

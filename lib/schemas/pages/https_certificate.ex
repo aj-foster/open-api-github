@@ -1,4 +1,4 @@
-defmodule :"Elixir.GitHub.Page.sHttpsCertificate" do
+defmodule GitHub.Pages.HttpsCertificate do
   @moduledoc """
   Provides struct and type for PagesHttpsCertificate
   """
