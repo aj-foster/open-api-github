@@ -27,6 +27,7 @@ defmodule GitHub.MixProject do
 
   defp deps do
     [
+      {:ex_doc, "~> 0.28", only: :dev},
       {:jason, "~> 1.0", optional: true},
       {:httpoison, "~> 1.7", optional: true},
       # {:open_api, github: "aj-foster/open-api-generator", branch: "main", only: :dev}
