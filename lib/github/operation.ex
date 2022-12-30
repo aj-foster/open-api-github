@@ -1,9 +1,88 @@
 defmodule GitHub.Operation do
+  @moduledoc """
+  Defines a struct that tracks client requests
+
+  This module is unlikely to be used directly by applications. Instead, functions in this module
+  are useful for plugins. See `GitHub.Plugin` for more information.
+
+  ## Fields
+
+    * `private` (map): This field is useful for plugins that need to store information. Plugins
+      should be careful to namespace their data to avoid overlap. By default, this map will include
+      an `__auth__` key with the auth credentials used for the request and `__info__` containing
+      the information that originated the request.
+
+    * `request_body` (term): For requests that support request bodies, this key will hold the data
+      to be included in an outgoing request. Depending on the plugins involved, this key may have
+      Elixir terms (like a map) or strings (such as a JSON-encoded string).
+
+    * `request_headers` (list of headers): HTTP headers to be included in the outgoing request.
+      These are specified as tuples with the name of the header and its value.
+
+    * `request_method` (atom): HTTP verb of the outgoing request.
+
+    * `request_params` (keyword): URL-based query parameters for the outgoing request.
+
+    * `request_server` (string): URL scheme and hostname of the API server for the request.
+
+    * `request_types` (list of types): OpenAPI type specifications for the request body. These are
+      specified as tuples with the Content-Type and the type specification.
+
+    * `request_url` (string): URL path of the outgoing request.
+
+    * `response_body` (term): For responses that include response bodies, this key will hold the
+      data from the response. Depending on the plugins involved, this key may have raw response data
+      (such as a JSON-encoded string) or Elixir terms (like a map).
+
+    * `response_code` (integer): Response status code.
+
+    * `response_headers` (list of headers): HTTP headers from the response. These are specified as
+      tuples with the name of the header and its value.
+
+    * `response_types` (list of types): OpenAPI type specifications for the response body. These are
+      specified as tuples with the Content-Type and the type specification.
+
+  """
+
   alias GitHub.Auth
   alias GitHub.Config
 
-  @type t :: %__MODULE__{}
   @type auth :: nil | (token :: String.t()) | {username :: String.t(), password :: String.t()}
+  @type header :: {String.t(), String.t()}
+  @type headers :: [header]
+  @type method :: :get | :put | :post | :delete | :options | :head | :patch | :trace
+  @type request_type :: {String.t(), type}
+  @type request_types :: [request_type]
+  @type response_type :: {integer, type | nil}
+  @type response_types :: [response_type]
+
+  @typedoc "Type annotation produced by [OpenAPI](https://github.com/aj-foster/open-api-generator)"
+  @type type ::
+          :binary
+          | :boolean
+          | :integer
+          | :number
+          | :string
+          | :unknown
+          | {:array, t}
+          | {:union, [t]}
+          | {module, atom}
+
+  @typedoc "Operation struct for tracking client requests from start to finish"
+  @type t :: %__MODULE__{
+          private: map,
+          request_body: term,
+          request_headers: headers,
+          request_method: method,
+          request_params: keyword | nil,
+          request_server: String.t(),
+          request_types: request_types | nil,
+          request_url: String.t(),
+          response_body: term,
+          response_code: integer | nil,
+          response_headers: headers | nil,
+          response_types: response_types
+        }
 
   defstruct [
     :private,
@@ -20,6 +99,41 @@ defmodule GitHub.Operation do
     :response_types
   ]
 
+  #
+  # Plugin Helpers
+  #
+
+  @doc "Get the value of a response header."
+  @spec get_response_header(t, String.t()) :: String.t() | nil
+  def get_response_header(operation, header) do
+    %__MODULE__{response_headers: headers} = operation
+    header = String.downcase(header)
+
+    case Enum.find(headers, fn {name, _value} -> String.downcase(name) == header end) do
+      {_header, value} -> value
+      _ -> nil
+    end
+  end
+
+  @doc "Put information in the operation's private data store."
+  @spec put_private(t, atom, term) :: t
+  def put_private(operation, key, value) do
+    %__MODULE__{private: private} = operation
+    %__MODULE__{operation | private: Map.put(private, key, value)}
+  end
+
+  @doc "Add a request header to an outgoing operation."
+  @spec put_request_header(t, String.t(), String.t()) :: t
+  def put_request_header(operation, header, value) do
+    %__MODULE__{request_headers: headers} = operation
+    %__MODULE__{operation | request_headers: [{header, value} | headers]}
+  end
+
+  #
+  # Internal
+  #
+
+  @doc false
   @spec new(map) :: t
   def new(
         %{
@@ -95,17 +209,5 @@ defmodule GitHub.Operation do
       ])
 
     put_request_header(operation, "User-Agent", user_agent)
-  end
-
-  @spec put_private(t, atom, term) :: t
-  def put_private(operation, key, value) do
-    %__MODULE__{private: private} = operation
-    %__MODULE__{operation | private: Map.put(private, key, value)}
-  end
-
-  @spec put_request_header(t, String.t(), String.t()) :: t
-  def put_request_header(operation, header, value) do
-    %__MODULE__{request_headers: headers} = operation
-    %__MODULE__{operation | request_headers: [{header, value} | headers]}
   end
 end

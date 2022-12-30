@@ -121,9 +121,9 @@ if Code.ensure_loaded?(Redix) do
     def use_cache(operation, options \\ [])
 
     def use_cache(%Operation{request_method: :get, response_code: 200} = operation, opts) do
-      %Operation{response_body: response, response_headers: headers} = operation
-      content_type = get_content_type(headers)
-      etag = get_etag(headers)
+      %Operation{response_body: response} = operation
+      content_type = Operation.get_response_header(operation, "content-type")
+      etag = Operation.get_response_header(operation, "etag")
 
       server = Config.plugin_config!(opts, __MODULE__, :server)
       key = cache_key(operation, opts)
@@ -207,22 +207,5 @@ if Code.ensure_loaded?(Redix) do
 
     @spec cache_key_url(Operation.t()) :: String.t()
     defp cache_key_url(%Operation{request_url: url}), do: url
-
-    @spec get_content_type([{String.t(), String.t()}]) :: String.t() | nil
-    defp get_content_type([]), do: nil
-    defp get_content_type([{"content-type", content_type} | _rest]), do: content_type
-    defp get_content_type([{"Content-Type", content_type} | _rest]), do: content_type
-    defp get_content_type([_ | rest]), do: get_content_type(rest)
-
-    @spec get_etag([{String.t(), String.t()}]) :: String.t() | nil
-    defp get_etag([]), do: nil
-
-    defp get_etag([{header, value} | rest]) do
-      if String.match?(header, ~r/^etag$/i) do
-        value
-      else
-        get_etag(rest)
-      end
-    end
   end
 end
