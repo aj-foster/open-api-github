@@ -58,6 +58,7 @@ config :open_api,
     operation_location: "operations/",
     rename: [
       {~r/^Codespaces/, "Codespace"},
+      {"GitignoreTemplate", "GitIgnoreTemplate"},
       {~r/Oidc/, "OIDC"},
       {~r/Page([A-Z])/, "Pages\\1"},
       {~r/^Runner/, "Actions.Runner"},

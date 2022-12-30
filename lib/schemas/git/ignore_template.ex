@@ -1,4 +1,4 @@
-defmodule :"Elixir.GitHub.Git.ignoreTemplate" do
+defmodule GitHub.Git.IgnoreTemplate do
   @moduledoc """
   Provides struct and type for GitignoreTemplate
   """

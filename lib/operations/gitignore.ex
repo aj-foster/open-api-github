@@ -34,14 +34,14 @@ defmodule GitHub.Gitignore do
 
   """
   @spec get_template(String.t(), keyword) ::
-          {:ok, :"Elixir.GitHub.Git.ignoreTemplate".t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Git.IgnoreTemplate.t()} | {:error, GitHub.Error.t()}
   def get_template(name, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       url: "/gitignore/templates/#{name}",
       method: :get,
-      response: [{200, {:"Elixir.GitHub.Git.ignoreTemplate", :t}}, {304, nil}],
+      response: [{200, {GitHub.Git.IgnoreTemplate, :t}}, {304, nil}],
       opts: opts
     })
   end
