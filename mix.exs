@@ -30,7 +30,8 @@ defmodule GitHub.MixProject do
       {:jason, "~> 1.0", optional: true},
       {:httpoison, "~> 1.7", optional: true},
       # {:open_api, github: "aj-foster/open-api-generator", branch: "main", only: :dev}
-      {:open_api, path: "/Users/aj/Documents/Projects/aj-foster/open-api-generator", only: :dev}
+      {:open_api, path: "/Users/aj/Documents/Projects/aj-foster/open-api-generator", only: :dev},
+      {:redix, "~> 1.0", optional: true}
     ]
   end
 end

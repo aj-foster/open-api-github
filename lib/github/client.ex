@@ -14,11 +14,18 @@ defmodule GitHub.Client do
   defp reduce_stack(operation) do
     stack = Config.stack()
 
-    Enum.reduce_while(stack, operation, fn {module, function}, operation ->
-      case apply(module, function, [operation]) do
-        {:ok, operation} -> {:cont, operation}
-        {:error, error} -> {:halt, error}
-      end
+    Enum.reduce_while(stack, operation, fn
+      {module, function}, operation ->
+        case apply(module, function, [operation]) do
+          {:ok, operation} -> {:cont, operation}
+          {:error, error} -> {:halt, error}
+        end
+
+      {module, function, options}, operation ->
+        case apply(module, function, [operation, options]) do
+          {:ok, operation} -> {:cont, operation}
+          {:error, error} -> {:halt, error}
+        end
     end)
   end
 

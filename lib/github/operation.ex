@@ -50,17 +50,22 @@ defmodule GitHub.Operation do
     if auth = Config.default_auth() do
       put_auth_header(operation, auth)
     else
-      operation
+      put_private(operation, :__auth__, nil)
     end
   end
 
   defp put_auth_header(operation, token) when is_binary(token) do
-    put_request_header(operation, "Authorization", "Bearer #{token}")
+    operation
+    |> put_request_header("Authorization", "Bearer #{token}")
+    |> put_private(:__auth__, token)
   end
 
   defp put_auth_header(operation, {username, password}) do
     basic_auth = Base.encode64("#{username}:#{password}")
-    put_request_header(operation, "Authorization", "Basic #{basic_auth}")
+
+    operation
+    |> put_request_header("Authorization", "Basic #{basic_auth}")
+    |> put_private(:__auth__, basic_auth)
   end
 
   defp put_auth_header(operation, value) do
@@ -90,6 +95,12 @@ defmodule GitHub.Operation do
       ])
 
     put_request_header(operation, "User-Agent", user_agent)
+  end
+
+  @spec put_private(t, atom, term) :: t
+  def put_private(operation, key, value) do
+    %__MODULE__{private: private} = operation
+    %__MODULE__{operation | private: Map.put(private, key, value)}
   end
 
   @spec put_request_header(t, String.t(), String.t()) :: t
