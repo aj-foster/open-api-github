@@ -3,11 +3,11 @@ if Code.ensure_loaded?(Jason) do
     alias GitHub.Error
     alias GitHub.Operation
 
-    @spec encode_body(Operation.t()) :: {:ok, Operation.t()} | {:error, Error.t()}
-    def encode_body(%Operation{request_body: nil} = operation), do: {:ok, operation}
-    def encode_body(%Operation{request_body: ""} = operation), do: {:ok, operation}
+    @spec encode_body(Operation.t(), keyword) :: {:ok, Operation.t()} | {:error, Error.t()}
+    def encode_body(%Operation{request_body: nil} = operation, _opts), do: {:ok, operation}
+    def encode_body(%Operation{request_body: ""} = operation, _opts), do: {:ok, operation}
 
-    def encode_body(operation) do
+    def encode_body(operation, _opts) do
       %Operation{request_body: body, request_headers: headers} = operation
 
       if get_content_type(headers) == "application/json" do
@@ -26,11 +26,11 @@ if Code.ensure_loaded?(Jason) do
       end
     end
 
-    @spec decode_body(Operation.t()) :: {:ok, Operation.t()} | {:error, Error.t()}
-    def decode_body(%Operation{response_body: nil} = operation), do: {:ok, operation}
-    def decode_body(%Operation{response_body: ""} = operation), do: {:ok, operation}
+    @spec decode_body(Operation.t(), keyword) :: {:ok, Operation.t()} | {:error, Error.t()}
+    def decode_body(%Operation{response_body: nil} = operation, _opts), do: {:ok, operation}
+    def decode_body(%Operation{response_body: ""} = operation, _opts), do: {:ok, operation}
 
-    def decode_body(operation) do
+    def decode_body(operation, _opts) do
       %Operation{response_body: body, response_headers: headers} = operation
 
       if get_content_type(headers) =~ "application/json" do

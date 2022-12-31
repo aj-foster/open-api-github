@@ -1,4 +1,5 @@
 defmodule GitHub.Client do
+  @moduledoc false
   alias GitHub.Error
   alias GitHub.Config
   alias GitHub.Operation
@@ -16,7 +17,7 @@ defmodule GitHub.Client do
 
     Enum.reduce_while(stack, operation, fn
       {module, function}, operation ->
-        case apply(module, function, [operation]) do
+        case apply(module, function, [operation, []]) do
           {:ok, operation} -> {:cont, operation}
           {:error, error} -> {:halt, error}
         end

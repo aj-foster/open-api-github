@@ -9,7 +9,8 @@ defmodule GitHub.MixProject do
       version: @version,
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      docs: docs()
     ]
   end
 
@@ -33,6 +34,61 @@ defmodule GitHub.MixProject do
       # {:open_api, github: "aj-foster/open-api-generator", branch: "main", only: :dev}
       {:open_api, path: "/Users/aj/Documents/Projects/aj-foster/open-api-generator", only: :dev},
       {:redix, "~> 1.0", optional: true}
+    ]
+  end
+
+  defp docs do
+    [
+      main: "readme",
+      extras: [
+        "README.md": [title: "Overview"]
+      ],
+      groups_for_modules: [
+        Client: [
+          GitHub,
+          GitHub.Auth,
+          GitHub.Config,
+          GitHub.Error,
+          GitHub.Operation
+        ],
+        Plugins: ~r/GitHub.Plugin/,
+        Operations: [
+          GitHub.Actions,
+          GitHub.Activity,
+          GitHub.Apps,
+          GitHub.Billing,
+          GitHub.Checks,
+          GitHub.CodeScanning,
+          GitHub.CodesOfConduct,
+          GitHub.Codespaces,
+          GitHub.Dependabot,
+          GitHub.DependencyGraph,
+          GitHub.Emojis,
+          GitHub.EnterpriseAdmin,
+          GitHub.Gists,
+          GitHub.Git,
+          GitHub.Gitignore,
+          GitHub.Interactions,
+          GitHub.Issues,
+          GitHub.Licenses,
+          GitHub.Markdown,
+          GitHub.Meta,
+          GitHub.Migrations,
+          GitHub.Oidc,
+          GitHub.Packages,
+          GitHub.Projects,
+          GitHub.Pulls,
+          GitHub.RateLimit,
+          GitHub.Reactions,
+          GitHub.Repos,
+          GitHub.Search,
+          GitHub.SecretScanning,
+          GitHub.ServerStatistics,
+          GitHub.Teams,
+          GitHub.Users
+        ],
+        Schemas: ~r//
+      ]
     ]
   end
 end

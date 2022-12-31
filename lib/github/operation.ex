@@ -2,15 +2,18 @@ defmodule GitHub.Operation do
   @moduledoc """
   Defines a struct that tracks client requests
 
-  This module is unlikely to be used directly by applications. Instead, functions in this module
-  are useful for plugins. See `GitHub.Plugin` for more information.
+  > #### Note {:.info}
+  >
+  > This module is unlikely to be used directly by applications. Instead, functions in this module
+  > are useful for plugins. See `GitHub.Plugin` for more information.
 
   ## Fields
 
     * `private` (map): This field is useful for plugins that need to store information. Plugins
       should be careful to namespace their data to avoid overlap. By default, this map will include
-      an `__auth__` key with the auth credentials used for the request and `__info__` containing
-      the information that originated the request.
+      an `__auth__` key with the auth credentials used for the request, `__info__` containing the
+      information that originated the request, and `__opts__` containing all of the options passed
+      in to the original operation function.
 
     * `request_body` (term): For requests that support request bodies, this key will hold the data
       to be included in an outgoing request. Depending on the plugins involved, this key may have
@@ -144,7 +147,7 @@ defmodule GitHub.Operation do
         } = request_info
       ) do
     %__MODULE__{
-      private: %{__info__: request_info},
+      private: %{__info__: request_info, __opts__: opts},
       request_body: request_info[:body],
       request_headers: [],
       request_method: method,

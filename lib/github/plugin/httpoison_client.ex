@@ -7,7 +7,7 @@ if Code.ensure_loaded?(HTTPoison) do
     @http_code_redirect [301, 302, 303, 307, 308]
     @http_code_server_error 500..511
 
-    @spec request(Operation.t()) :: {:ok, Operation.t()} | {:error, Error.t()}
+    @spec request(Operation.t(), keyword) :: {:ok, Operation.t()} | {:error, Error.t()}
     def request(
           %Operation{
             request_body: body,
@@ -16,7 +16,8 @@ if Code.ensure_loaded?(HTTPoison) do
             request_params: params,
             request_server: server,
             request_url: url
-          } = operation
+          } = operation,
+          _opts
         ) do
       url = Path.join(server, url)
       body = body || ""
@@ -55,7 +56,7 @@ if Code.ensure_loaded?(HTTPoison) do
          when code in @http_code_redirect do
       if location = get_redirect(response.headers) do
         operation = %Operation{operation | request_url: location}
-        request(operation)
+        request(operation, [])
       else
         message = "Received redirect response with no Location header"
         step = {__MODULE__, :request}

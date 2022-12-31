@@ -78,10 +78,12 @@ if Code.ensure_loaded?(Redix) do
     This plugin requires the `server` configuration, and uses the `cache_prefix` configuration.
     See **Configuration** above for more information.
     """
-    @spec check_cache(Operation.t()) :: {:ok, Operation.t()}
-    def check_cache(operation, options \\ [])
+    @spec check_cache(Operation.t(), keyword) :: {:ok, Operation.t()}
+    def check_cache(operation, options)
 
     def check_cache(%Operation{request_method: :get} = operation, opts) do
+      %Operation{private: %{__opts__: operation_opts}} = operation
+      opts = Keyword.merge(opts, operation_opts)
       server = Config.plugin_config!(opts, __MODULE__, :server)
       key = cache_key(operation, opts)
 
@@ -118,10 +120,11 @@ if Code.ensure_loaded?(Redix) do
     response, the new data will be added to the cache.
     """
     @spec use_cache(Operation.t(), keyword) :: {:ok, Operation.t()}
-    def use_cache(operation, options \\ [])
+    def use_cache(operation, options)
 
     def use_cache(%Operation{request_method: :get, response_code: 200} = operation, opts) do
-      %Operation{response_body: response} = operation
+      %Operation{private: %{__opts__: operation_opts}, response_body: response} = operation
+      opts = Keyword.merge(opts, operation_opts)
       content_type = Operation.get_response_header(operation, "content-type")
       etag = Operation.get_response_header(operation, "etag")
 
@@ -145,6 +148,8 @@ if Code.ensure_loaded?(Redix) do
           } = operation,
           opts
         ) do
+      %Operation{private: %{__opts__: operation_opts}} = operation
+      opts = Keyword.merge(opts, operation_opts)
       server = Config.plugin_config!(opts, __MODULE__, :server)
       key = cache_key(operation, opts)
       expiration = Config.plugin_config(opts, __MODULE__, :expiration, @default_expiration_sec)

@@ -1,9 +1,11 @@
 defmodule GitHub.Plugin.TypedDecoder do
+  alias GitHub.BasicError
   alias GitHub.Error
   alias GitHub.Operation
+  alias GitHub.ValidationError
 
-  @spec decode_response(Operation.t()) :: {:ok, Operation.t()}
-  def decode_response(operation) do
+  @spec decode_response(Operation.t(), keyword) :: {:ok, Operation.t()}
+  def decode_response(operation, _opts) do
     %Operation{response_body: body, response_code: code, response_types: types} = operation
 
     case get_type(types, code) do
@@ -41,8 +43,8 @@ defmodule GitHub.Plugin.TypedDecoder do
   defp do_decode("", nil), do: nil
   defp do_decode(value, _type), do: value
 
-  @spec normalize_errors(Operation.t()) :: {:ok, Operation.t()} | {:error, Error.t()}
-  def normalize_errors(%Operation{response_body: %GitHub.BasicError{} = error} = operation) do
+  @spec normalize_errors(Operation.t(), keyword) :: {:ok, Operation.t()} | {:error, Error.t()}
+  def normalize_errors(%Operation{response_body: %BasicError{} = error} = operation, _opts) do
     %Operation{response_code: code} = operation
 
     {:error,
@@ -55,7 +57,7 @@ defmodule GitHub.Plugin.TypedDecoder do
      )}
   end
 
-  def normalize_errors(%Operation{response_body: %GitHub.ValidationError{} = error} = operation) do
+  def normalize_errors(%Operation{response_body: %ValidationError{} = error} = operation, _opts) do
     %Operation{response_code: code} = operation
 
     {:error,
@@ -68,5 +70,5 @@ defmodule GitHub.Plugin.TypedDecoder do
      )}
   end
 
-  def normalize_errors(operation), do: {:ok, operation}
+  def normalize_errors(operation, _opts), do: {:ok, operation}
 end
