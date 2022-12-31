@@ -36,8 +36,8 @@ defmodule GitHub.Plugin do
     function).
   3. Options defined globally using the application environment.
 
-  This hierarchy can be accomplished by calling `Keyword.merge/2` on the operation's options and
-  the plugin options argument (order matters!), then calling `GitHub.Config.plugin_config/4` to
+  This hierarchy can be accomplished by calling `Keyword.merge/2` on the plugin options argument and
+  the operation's options (order matters!), then calling `GitHub.Config.plugin_config/4` to
   incorporate the application environment as a fallback. (For required options, the sibling
   function `GitHub.Config.plugin_config!/3` is also available.)
 

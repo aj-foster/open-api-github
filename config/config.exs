@@ -1,5 +1,6 @@
 import Config
 
+# Code generator configuration
 config :open_api,
   default: [
     base_location: "lib/",
@@ -71,3 +72,8 @@ config :open_api,
       error: {GitHub.Error, :t}
     ]
   ]
+
+# Test configuration
+config :oapi_github,
+  app_name: "Test App",
+  default_auth: {"client_one", "abc123"}

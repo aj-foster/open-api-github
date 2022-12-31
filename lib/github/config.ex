@@ -86,25 +86,63 @@ defmodule GitHub.Config do
   # Client Configuration
   #
 
-  @doc "Get the configured app name"
+  @doc """
+  Get the configured app name
+
+  ## Example
+
+      iex> Config.app_name()
+      "Test App"
+
+  """
   @spec app_name :: String.t() | nil
   def app_name do
     Application.get_env(:oapi_github, :app_name)
   end
 
-  @doc "Get the configured default auth credentials"
+  @doc """
+  Get the configured default auth credentials
+
+  ## Example
+
+      iex> Config.default_auth()
+      {"client_one", "abc123"}
+
+  """
   @spec default_auth :: GitHub.Auth.auth()
   def default_auth do
     Application.get_env(:oapi_github, :default_auth)
   end
 
-  @doc "Get the configured default API server, or `#{@default_server}` by default"
+  @doc """
+  Get the configured default API server, or `#{@default_server}` by default
+
+  ## Example
+
+      iex> Config.server([])
+      "https://api.github.com"
+
+      iex> Config.server(server: "https://gh.example.com")
+      "https://gh.example.com"
+
+  """
   @spec server(keyword) :: String.t()
   def server(opts) do
     config(opts, :server, @default_server)
   end
 
-  @doc "Get the configured plugin stack"
+  @doc """
+  Get the configured plugin stack
+
+  ## Example
+
+      Config.stack()
+      [
+        {GitHub.Plugin.JasonSerializer, :encode_body},
+        # ...
+      ]
+
+  """
   @spec stack :: [plugin]
   def stack do
     Application.get_env(:oapi_github, :stack, @default_stack)
@@ -114,7 +152,19 @@ defmodule GitHub.Config do
   # Plugin Configuration
   #
 
-  @doc "Get configuration namespaced with a plugin module"
+  @doc """
+  Get configuration namespaced with a plugin module
+
+  Plugins can provide a keyword list of options (such as a pre-merged keyword list of the plugin
+  options argument and the operation's options) to be used if the given key is present. Otherwise,
+  the response will fall back to the application environment given with the following form:
+
+      config :oapi_github, MyPlugin, some: :option
+
+  Where `MyPlugin` is the `plugin` module given as the second argument.
+
+  See `plugin_config!/3` for a variant that raises if the configuration is not found.
+  """
   @spec plugin_config(keyword, module, atom, term) :: term
   def plugin_config(config \\ [], plugin, key, default) do
     if value = Keyword.get(config, key) do
@@ -125,7 +175,19 @@ defmodule GitHub.Config do
     end
   end
 
-  @doc "Get configuration namespaced with a plugin module, or raise if not present"
+  @doc """
+  Get configuration namespaced with a plugin module, or raise if not present
+
+  Plugins can provide a keyword list of options (such as a pre-merged keyword list of the plugin
+  options argument and the operation's options) to be used if the given key is present. Otherwise,
+  the response will fall back to the application environment given with the following form:
+
+      config :oapi_github, MyPlugin, some: :option
+
+  Where `MyPlugin` is the `plugin` module given as the second argument.
+
+  See `plugin_config/4` for a variant that accepts a default value.
+  """
   @spec plugin_config!(keyword, module, atom) :: term | no_return
   def plugin_config!(config \\ [], plugin, key) do
     plugin_config(config, plugin, key, nil) ||

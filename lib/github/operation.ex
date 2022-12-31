@@ -106,7 +106,23 @@ defmodule GitHub.Operation do
   # Plugin Helpers
   #
 
-  @doc "Get the value of a response header."
+  @doc """
+  Get the value of a response header
+
+  If response headers have not been filled in — or the response did not have the given header —
+  then `nil` will be returned.
+
+  ## Examples
+
+      iex> operation = %Operation{response_headers: [{"Content-Type", "application/json"}]}
+      iex> Operation.get_response_header(operation, "Content-Type")
+      "application/json"
+
+      iex> operation = %Operation{response_headers: []}
+      iex> Operation.get_response_header(operation, "ETag")
+      nil
+
+  """
   @spec get_response_header(t, String.t()) :: String.t() | nil
   def get_response_header(operation, header) do
     %__MODULE__{response_headers: headers} = operation
@@ -118,14 +134,36 @@ defmodule GitHub.Operation do
     end
   end
 
-  @doc "Put information in the operation's private data store."
+  @doc """
+  Put information in the operation's private data store
+
+  Existing data with the same key will be overridden.
+
+  ## Example
+
+      iex> operation = %Operation{private: %{}}
+      iex> operation = Operation.put_private(operation, :my_plugin_data, "abc123")
+      %Operation{private: %{my_plugin_data: "abc123"}} = operation
+
+  """
   @spec put_private(t, atom, term) :: t
   def put_private(operation, key, value) do
     %__MODULE__{private: private} = operation
     %__MODULE__{operation | private: Map.put(private, key, value)}
   end
 
-  @doc "Add a request header to an outgoing operation."
+  @doc """
+  Add a request header to an outgoing operation
+
+  This function makes no effort to deduplicate headers.
+
+  ## Example
+
+      iex> operation = %Operation{request_headers: []}
+      iex> operation = Operation.put_request_header(operation, "Content-Type", "application/json")
+      %Operation{request_headers: [{"Content-Type", "application/json"}]} = operation
+
+  """
   @spec put_request_header(t, String.t(), String.t()) :: t
   def put_request_header(operation, header, value) do
     %__MODULE__{request_headers: headers} = operation
