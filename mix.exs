@@ -1,16 +1,21 @@
 defmodule GitHub.MixProject do
   use Mix.Project
 
-  @version "0.1.0"
+  @version "0.0.1-beta.0"
+  @source_url "https://github.com/aj-foster/open-api-github"
 
   def project do
     [
       app: :oapi_github,
       version: @version,
-      elixir: "~> 1.14",
+      elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
+      name: "GitHub REST API Client",
+      source_url: @source_url,
+      homepage_url: @source_url,
       deps: deps(),
-      docs: docs()
+      docs: docs(),
+      package: package()
     ]
   end
 
@@ -28,12 +33,10 @@ defmodule GitHub.MixProject do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.28", only: :dev},
+      {:ex_doc, "~> 0.29", only: :dev, runtime: false},
       {:jason, "~> 1.0", optional: true},
       {:httpoison, "~> 1.7", optional: true},
-      # {:open_api, github: "aj-foster/open-api-generator", branch: "main", only: [:dev, :test]}
-      {:open_api,
-       path: "/Users/aj/Documents/Projects/aj-foster/open-api-generator", only: [:dev, :test]},
+      {:oapi_generator, "0.0.1-beta.1", only: [:dev, :test]},
       {:redix, "~> 1.0", optional: true}
     ]
   end
@@ -93,6 +96,21 @@ defmodule GitHub.MixProject do
         ],
         Schemas: ~r//
       ]
+    ]
+  end
+
+  defp package do
+    [
+      description: "GitHub REST API Client for Elixir",
+      files: [
+        "lib",
+        "LICENSE",
+        "mix.exs",
+        "README.md"
+      ],
+      licenses: ["MIT"],
+      links: %{"GitHub" => @source_url, "Sponsor" => "https://github.com/sponsors/aj-foster"},
+      maintainers: ["AJ Foster"]
     ]
   end
 end
