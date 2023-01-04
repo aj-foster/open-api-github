@@ -136,7 +136,7 @@ defmodule GitHub.Config do
 
   ## Example
 
-      Config.stack()
+      iex> Config.stack()
       [
         {GitHub.Plugin.JasonSerializer, :encode_body},
         # ...
