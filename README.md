@@ -1,5 +1,7 @@
 # GitHub REST API Client for Elixir
 
+[![Hex.pm](https://img.shields.io/hexpm/v/oapi_github)](https://hex.pm/packages/oapi_github)
+[![Documentation](https://img.shields.io/badge/hex-docs-blue)](https://hexdocs.pm/oapi_github)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
 _The ergonomics of a hand-crafted client with the API coverage of generated code._
@@ -14,18 +16,18 @@ Instead it allows users to define their own **stack** of plugins, many of which 
 
 ## Installation
 
-This library is not yet available on Hex.pm.
-In the meantime, please install it directly from GitHub:
+This library is available on Hex.pm.
+Add the dependency in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:oapi_github, github: "aj-foster/open-api-github", branch: "main"}
+    {:oapi_github, "~> 0.0.1"}
   ]
 end
 ```
 
-Be aware that the `main` branch may occasionally include unstable updates.
+Then install the dependency using `mix deps.get`.
 
 ## Configuration
 

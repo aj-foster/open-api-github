@@ -1,7 +1,7 @@
 defmodule GitHub.MixProject do
   use Mix.Project
 
-  @version "0.0.1-beta.0"
+  @version "0.0.1"
   @source_url "https://github.com/aj-foster/open-api-github"
 
   def project do
@@ -36,7 +36,7 @@ defmodule GitHub.MixProject do
       {:ex_doc, "~> 0.29", only: :dev, runtime: false},
       {:jason, "~> 1.0", optional: true},
       {:httpoison, "~> 1.7", optional: true},
-      {:oapi_generator, "0.0.1-beta.1", only: [:dev, :test]},
+      {:oapi_generator, "0.0.1", only: [:dev, :test], runtime: false},
       {:redix, "~> 1.0", optional: true}
     ]
   end

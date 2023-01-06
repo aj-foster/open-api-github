@@ -1,7 +1,7 @@
 import Config
 
 # Code generator configuration
-config :open_api,
+config :oapi_generator,
   default: [
     base_location: "lib/",
     base_module: GitHub,
