@@ -483,6 +483,8 @@ defmodule GitHub.Packages do
 
   The `internal` visibility is only supported for GitHub Packages registries that allow for granular permissions. For other ecosystems `internal` is synonymous with `private`.
   For the list of GitHub Packages registries that support granular permissions, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#granular-permissions-for-userorganization-scoped-packages)."
+    * `page` (integer): Page number of the results to fetch.
+    * `per_page` (integer): The number of results per page (max 100).
 
   ## Resources
 
@@ -493,7 +495,7 @@ defmodule GitHub.Packages do
           {:ok, [GitHub.Package.t()]} | {:error, GitHub.Error.t()}
   def list_packages_for_organization(org, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:package_type, :visibility])
+    query = Keyword.take(opts, [:package_type, :page, :per_page, :visibility])
 
     client.request(%{
       url: "/orgs/#{org}/packages",

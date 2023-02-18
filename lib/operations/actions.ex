@@ -86,22 +86,44 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  Add a self-hosted runner to a group for an organization
+  Add selected repository to an organization variable
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#add-a-self-hosted-runner-to-a-group-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/variables#add-selected-repository-to-an-organization-variable)
 
   """
-  @spec add_self_hosted_runner_to_group_for_org(String.t(), integer, integer, keyword) ::
+  @spec add_selected_repo_to_org_variable(String.t(), String.t(), integer, keyword) ::
           :ok | {:error, GitHub.Error.t()}
-  def add_self_hosted_runner_to_group_for_org(org, runner_group_id, runner_id, opts \\ []) do
+  def add_selected_repo_to_org_variable(org, name, repository_id, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
-      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/runners/#{runner_id}",
+      url: "/orgs/#{org}/actions/variables/#{name}/repositories/#{repository_id}",
       method: :put,
-      response: [{204, nil}],
+      response: [{204, nil}, {409, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Add a repository to a required workflow
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#add-a-repository-to-selected-repositories-list-for-a-required-workflow)
+
+  """
+  @spec add_selected_repo_to_required_workflow(String.t(), integer, integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def add_selected_repo_to_required_workflow(org, required_workflow_id, repository_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url:
+        "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}/repositories/#{repository_id}",
+      method: :put,
+      response: [{204, nil}, {404, nil}, {422, nil}],
       opts: opts
     })
   end
@@ -148,6 +170,29 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/cancel",
       method: :post,
       response: [{202, {GitHub.EmptyObject, :t}}, {409, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create an environment variable
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/variables#create-an-environment-variable)
+
+  """
+  @spec create_environment_variable(integer, String.t(), map, keyword) ::
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
+  def create_environment_variable(repository_id, environment_name, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repositories/#{repository_id}/environments/#{environment_name}/variables",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [{201, {GitHub.EmptyObject, :t}}],
       opts: opts
     })
   end
@@ -224,6 +269,29 @@ defmodule GitHub.Actions do
       method: :put,
       request: [{"application/json", :map}],
       response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create an organization variable
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/variables#create-an-organization-variable)
+
+  """
+  @spec create_org_variable(String.t(), map, keyword) ::
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
+  def create_org_variable(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/variables",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [{201, {GitHub.EmptyObject, :t}}],
       opts: opts
     })
   end
@@ -313,24 +381,47 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  Create a self-hosted runner group for an organization
+  Create a repository variable
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#create-a-self-hosted-runner-group-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/variables#create-a-repository-variable)
 
   """
-  @spec create_self_hosted_runner_group_for_org(String.t(), map, keyword) ::
-          {:ok, GitHub.Actions.Runner.GroupsOrg.t()} | {:error, GitHub.Error.t()}
-  def create_self_hosted_runner_group_for_org(org, body, opts \\ []) do
+  @spec create_repo_variable(String.t(), String.t(), map, keyword) ::
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
+  def create_repo_variable(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
-      url: "/orgs/#{org}/actions/runner-groups",
+      url: "/repos/#{owner}/#{repo}/actions/variables",
       body: body,
       method: :post,
       request: [{"application/json", :map}],
-      response: [{201, {GitHub.Actions.Runner.GroupsOrg, :t}}],
+      response: [{201, {GitHub.EmptyObject, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create a required workflow
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#create-a-required-workflow)
+
+  """
+  @spec create_required_workflow(String.t(), map, keyword) ::
+          {:ok, GitHub.RequiredWorkflow.t()} | {:error, GitHub.Error.t()}
+  def create_required_workflow(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/required_workflows",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [{201, {GitHub.RequiredWorkflow, :t}}, {422, {GitHub.ValidationError, :simple}}],
       opts: opts
     })
   end
@@ -451,6 +542,27 @@ defmodule GitHub.Actions do
   end
 
   @doc """
+  Delete an environment variable
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/variables#delete-an-environment-variable)
+
+  """
+  @spec delete_environment_variable(integer, String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def delete_environment_variable(repository_id, environment_name, name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repositories/#{repository_id}/environments/#{environment_name}/variables/#{name}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
   Delete an organization secret
 
   ## Resources
@@ -464,6 +576,26 @@ defmodule GitHub.Actions do
 
     client.request(%{
       url: "/orgs/#{org}/actions/secrets/#{secret_name}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Delete an organization variable
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/variables#delete-an-organization-variable)
+
+  """
+  @spec delete_org_variable(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
+  def delete_org_variable(org, name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/variables/#{name}",
       method: :delete,
       response: [{204, nil}],
       opts: opts
@@ -485,6 +617,47 @@ defmodule GitHub.Actions do
 
     client.request(%{
       url: "/repos/#{owner}/#{repo}/actions/secrets/#{secret_name}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Delete a repository variable
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/variables#delete-a-repository-variable)
+
+  """
+  @spec delete_repo_variable(String.t(), String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def delete_repo_variable(owner, repo, name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/variables/#{name}",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Delete a required workflow
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-required-workflow)
+
+  """
+  @spec delete_required_workflow(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
+  def delete_required_workflow(org, required_workflow_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}",
       method: :delete,
       response: [{204, nil}],
       opts: opts
@@ -527,27 +700,6 @@ defmodule GitHub.Actions do
 
     client.request(%{
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}",
-      method: :delete,
-      response: [{204, nil}],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Delete a self-hosted runner group from an organization
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-self-hosted-runner-group-from-an-organization)
-
-  """
-  @spec delete_self_hosted_runner_group_from_org(String.t(), integer, keyword) ::
-          :ok | {:error, GitHub.Error.t()}
-  def delete_self_hosted_runner_group_from_org(org, runner_group_id, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}",
       method: :delete,
       response: [{204, nil}],
       opts: opts
@@ -846,27 +998,6 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  Get GitHub Actions cache usage for an enterprise
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-github-actions-cache-usage-for-an-enterprise)
-
-  """
-  @spec get_actions_cache_usage_for_enterprise(String.t(), keyword) ::
-          {:ok, GitHub.Actions.CacheUsageOrgEnterprise.t()} | {:error, GitHub.Error.t()}
-  def get_actions_cache_usage_for_enterprise(enterprise, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      url: "/enterprises/#{enterprise}/actions/cache/usage",
-      method: :get,
-      response: [{200, {GitHub.Actions.CacheUsageOrgEnterprise, :t}}],
-      opts: opts
-    })
-  end
-
-  @doc """
   Get GitHub Actions cache usage for an organization
 
   ## Resources
@@ -1019,22 +1150,22 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  Get default workflow permissions for an enterprise
+  Get an environment variable
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-default-workflow-permissions-for-an-enterprise)
+    * [API method documentation](https://docs.github.com/rest/actions/variables#get-an-environment-variable)
 
   """
-  @spec get_github_actions_default_workflow_permissions_enterprise(String.t(), keyword) ::
-          {:ok, GitHub.Actions.GetDefaultWorkflowPermissions.t()} | {:error, GitHub.Error.t()}
-  def get_github_actions_default_workflow_permissions_enterprise(enterprise, opts \\ []) do
+  @spec get_environment_variable(integer, String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Actions.Variable.t()} | {:error, GitHub.Error.t()}
+  def get_environment_variable(repository_id, environment_name, name, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
-      url: "/enterprises/#{enterprise}/actions/permissions/workflow",
+      url: "/repositories/#{repository_id}/environments/#{environment_name}/variables/#{name}",
       method: :get,
-      response: [{200, {GitHub.Actions.GetDefaultWorkflowPermissions, :t}}],
+      response: [{200, {GitHub.Actions.Variable, :t}}],
       opts: opts
     })
   end
@@ -1190,6 +1321,27 @@ defmodule GitHub.Actions do
   end
 
   @doc """
+  Get an organization variable
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/variables#get-an-organization-variable)
+
+  """
+  @spec get_org_variable(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Organization.ActionsVariable.t()} | {:error, GitHub.Error.t()}
+  def get_org_variable(org, name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/variables/#{name}",
+      method: :get,
+      response: [{200, {GitHub.Organization.ActionsVariable, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
   Get pending deployments for a workflow run
 
   ## Resources
@@ -1232,6 +1384,49 @@ defmodule GitHub.Actions do
   end
 
   @doc """
+  Get a required workflow entity for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-repository-required-workflow)
+
+  """
+  @spec get_repo_required_workflow(String.t(), String.t(), integer, keyword) ::
+          {:ok, GitHub.RepoRequiredWorkflow.t()} | {:error, GitHub.Error.t()}
+  def get_repo_required_workflow(org, repo, required_workflow_id_for_repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{org}/#{repo}/actions/required_workflows/#{required_workflow_id_for_repo}",
+      method: :get,
+      response: [{200, {GitHub.RepoRequiredWorkflow, :t}}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get required workflow usage
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-repository-required-workflow-usage)
+
+  """
+  @spec get_repo_required_workflow_usage(String.t(), String.t(), integer, keyword) ::
+          {:ok, GitHub.Actions.Workflow.Usage.t()} | {:error, GitHub.Error.t()}
+  def get_repo_required_workflow_usage(org, repo, required_workflow_id_for_repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url:
+        "/repos/#{org}/#{repo}/actions/required_workflows/#{required_workflow_id_for_repo}/timing",
+      method: :get,
+      response: [{200, {GitHub.Actions.Workflow.Usage, :t}}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
   Get a repository secret
 
   ## Resources
@@ -1248,6 +1443,48 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/secrets/#{secret_name}",
       method: :get,
       response: [{200, {GitHub.Actions.Secret, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get a repository variable
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/variables#get-a-repository-variable)
+
+  """
+  @spec get_repo_variable(String.t(), String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Actions.Variable.t()} | {:error, GitHub.Error.t()}
+  def get_repo_variable(owner, repo, name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/variables/#{name}",
+      method: :get,
+      response: [{200, {GitHub.Actions.Variable, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get a required workflow
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-required-workflow)
+
+  """
+  @spec get_required_workflow(String.t(), integer, keyword) ::
+          {:ok, GitHub.RequiredWorkflow.t()} | {:error, GitHub.Error.t()}
+  def get_required_workflow(org, required_workflow_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}",
+      method: :get,
+      response: [{200, {GitHub.RequiredWorkflow, :t}}],
       opts: opts
     })
   end
@@ -1311,27 +1548,6 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}",
       method: :get,
       response: [{200, {GitHub.Actions.Runner, :t}}],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Get a self-hosted runner group for an organization
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-self-hosted-runner-group-for-an-organization)
-
-  """
-  @spec get_self_hosted_runner_group_for_org(String.t(), integer, keyword) ::
-          {:ok, GitHub.Actions.Runner.GroupsOrg.t()} | {:error, GitHub.Error.t()}
-  def get_self_hosted_runner_group_for_org(org, runner_group_id, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}",
-      method: :get,
-      response: [{200, {GitHub.Actions.Runner.GroupsOrg, :t}}],
       opts: opts
     })
   end
@@ -1532,6 +1748,34 @@ defmodule GitHub.Actions do
   end
 
   @doc """
+  List environment variables
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 30).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/variables#list-environment-variables)
+
+  """
+  @spec list_environment_variables(integer, String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
+  def list_environment_variables(repository_id, environment_name, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/repositories/#{repository_id}/environments/#{environment_name}/variables",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
   List jobs for a workflow run
 
   ## Options
@@ -1658,29 +1902,56 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  List repository access to a self-hosted runner group in an organization
+  List organization variables
 
   ## Options
 
+    * `per_page` (integer): The number of results per page (max 30).
     * `page` (integer): Page number of the results to fetch.
-    * `per_page` (integer): The number of results per page (max 100).
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-repository-access-to-a-self-hosted-runner-group-in-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/variables#list-organization-variables)
 
   """
-  @spec list_repo_access_to_self_hosted_runner_group_in_org(String.t(), integer, keyword) ::
-          {:ok, map} | {:error, GitHub.Error.t()}
-  def list_repo_access_to_self_hosted_runner_group_in_org(org, runner_group_id, opts \\ []) do
+  @spec list_org_variables(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
+  def list_org_variables(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
-      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/repositories",
+      url: "/orgs/#{org}/actions/variables",
       method: :get,
       query: query,
       response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List repository required workflows
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-repository-required-workflows)
+
+  """
+  @spec list_repo_required_workflows(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
+  def list_repo_required_workflows(org, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/repos/#{org}/#{repo}/actions/required_workflows",
+      method: :get,
+      query: query,
+      response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -1714,6 +1985,34 @@ defmodule GitHub.Actions do
   end
 
   @doc """
+  List repository variables
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 30).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/variables#list-repository-variables)
+
+  """
+  @spec list_repo_variables(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
+  def list_repo_variables(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/variables",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
   List repository workflows
 
   ## Options
@@ -1734,6 +2033,83 @@ defmodule GitHub.Actions do
 
     client.request(%{
       url: "/repos/#{owner}/#{repo}/actions/workflows",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List workflow runs for a required workflow
+
+  ## Options
+
+    * `actor` (String.t()): Returns someone's workflow runs. Use the login for the user who created the `push` associated with the check suite or workflow run.
+    * `branch` (String.t()): Returns workflow runs associated with a branch. Use the name of the branch of the `push`.
+    * `event` (String.t()): Returns workflow run triggered by the event you specify. For example, `push`, `pull_request` or `issue`. For more information, see "[Events that trigger workflows](https://docs.github.com/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows)."
+    * `status` (String.t()): Returns workflow runs with the check run `status` or `conclusion` that you specify. For example, a conclusion can be `success` or a status can be `in_progress`. Only GitHub can set a status of `waiting` or `requested`.
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+    * `created` (String.t()): Returns workflow runs created within the given date-time range. For more information on the syntax, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)."
+    * `exclude_pull_requests` (boolean): If `true` pull requests are omitted from the response (empty array).
+    * `check_suite_id` (integer): Returns workflow runs with the `check_suite_id` that you specify.
+    * `head_sha` (String.t()): Only returns workflow runs that are associated with the specified `head_sha`.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-required-workflow-runs)
+
+  """
+  @spec list_required_workflow_runs(String.t(), String.t(), integer, keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
+  def list_required_workflow_runs(owner, repo, required_workflow_id_for_repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    query =
+      Keyword.take(opts, [
+        :actor,
+        :branch,
+        :check_suite_id,
+        :created,
+        :event,
+        :exclude_pull_requests,
+        :head_sha,
+        :page,
+        :per_page,
+        :status
+      ])
+
+    client.request(%{
+      url:
+        "/repos/#{owner}/#{repo}/actions/required_workflows/#{required_workflow_id_for_repo}/runs",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List required workflows
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#list-required-workflows)
+
+  """
+  @spec list_required_workflows(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
+  def list_required_workflows(org, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/required_workflows",
       method: :get,
       query: query,
       response: [{200, :map}],
@@ -1812,6 +2188,34 @@ defmodule GitHub.Actions do
   end
 
   @doc """
+  List selected repositories for an organization variable
+
+  ## Options
+
+    * `page` (integer): Page number of the results to fetch.
+    * `per_page` (integer): The number of results per page (max 100).
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/variables#list-selected-repositories-for-an-organization-variable)
+
+  """
+  @spec list_selected_repos_for_org_variable(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
+  def list_selected_repos_for_org_variable(org, name, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/variables/#{name}/repositories",
+      method: :get,
+      query: query,
+      response: [{200, :map}, {409, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
   List selected repositories enabled for GitHub Actions in an organization
 
   ## Options
@@ -1840,30 +2244,22 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  List self-hosted runner groups for an organization
-
-  ## Options
-
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
-    * `visible_to_repository` (String.t()): Only return runner groups that are allowed to be used by this repository.
+  List selected repositories for a required workflow
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runner-groups-for-an-organization)
+    * [API method documentation https://docs.github.com/rest/reference/actions#list-selected-repositories-required-workflows](https://docs.github.com/rest/reference/actions#list-selected-repositories-required-workflows)
 
   """
-  @spec list_self_hosted_runner_groups_for_org(String.t(), keyword) ::
+  @spec list_selected_repositories_required_workflow(String.t(), integer, keyword) ::
           {:ok, map} | {:error, GitHub.Error.t()}
-  def list_self_hosted_runner_groups_for_org(org, opts \\ []) do
+  def list_selected_repositories_required_workflow(org, required_workflow_id, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:page, :per_page, :visible_to_repository])
 
     client.request(%{
-      url: "/orgs/#{org}/actions/runner-groups",
+      url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}/repositories",
       method: :get,
-      query: query,
-      response: [{200, :map}],
+      response: [{200, :map}, {404, nil}],
       opts: opts
     })
   end
@@ -1917,34 +2313,6 @@ defmodule GitHub.Actions do
 
     client.request(%{
       url: "/repos/#{owner}/#{repo}/actions/runners",
-      method: :get,
-      query: query,
-      response: [{200, :map}],
-      opts: opts
-    })
-  end
-
-  @doc """
-  List self-hosted runners in a group for an organization
-
-  ## Options
-
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runners-in-a-group-for-an-organization)
-
-  """
-  @spec list_self_hosted_runners_in_group_for_org(String.t(), integer, keyword) ::
-          {:ok, map} | {:error, GitHub.Error.t()}
-  def list_self_hosted_runners_in_group_for_org(org, runner_group_id, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:page, :per_page])
-
-    client.request(%{
-      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/runners",
       method: :get,
       query: query,
       response: [{200, :map}],
@@ -2264,36 +2632,6 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  Remove repository access to a self-hosted runner group in an organization
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-repository-access-to-a-self-hosted-runner-group-in-an-organization)
-
-  """
-  @spec remove_repo_access_to_self_hosted_runner_group_in_org(
-          String.t(),
-          integer,
-          integer,
-          keyword
-        ) :: :ok | {:error, GitHub.Error.t()}
-  def remove_repo_access_to_self_hosted_runner_group_in_org(
-        org,
-        runner_group_id,
-        repository_id,
-        opts \\ []
-      ) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/repositories/#{repository_id}",
-      method: :delete,
-      response: [{204, nil}],
-      opts: opts
-    })
-  end
-
-  @doc """
   Remove selected repository from an organization secret
 
   ## Resources
@@ -2315,22 +2653,49 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  Remove a self-hosted runner from a group for an organization
+  Remove selected repository from an organization variable
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-a-self-hosted-runner-from-a-group-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/variables#remove-selected-repository-from-an-organization-variable)
 
   """
-  @spec remove_self_hosted_runner_from_group_for_org(String.t(), integer, integer, keyword) ::
+  @spec remove_selected_repo_from_org_variable(String.t(), String.t(), integer, keyword) ::
           :ok | {:error, GitHub.Error.t()}
-  def remove_self_hosted_runner_from_group_for_org(org, runner_group_id, runner_id, opts \\ []) do
+  def remove_selected_repo_from_org_variable(org, name, repository_id, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
-      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/runners/#{runner_id}",
+      url: "/orgs/#{org}/actions/variables/#{name}/repositories/#{repository_id}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, nil}, {409, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Remove a selected repository from required workflow
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-a-repository-from-selected-repositories-list-for-a-required-workflow)
+
+  """
+  @spec remove_selected_repo_from_required_workflow(String.t(), integer, integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def remove_selected_repo_from_required_workflow(
+        org,
+        required_workflow_id,
+        repository_id,
+        opts \\ []
+      ) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url:
+        "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}/repositories/#{repository_id}",
+      method: :delete,
+      response: [{204, nil}, {404, nil}, {422, nil}],
       opts: opts
     })
   end
@@ -2475,12 +2840,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/actions/oidc#set-the-customization-template-for-an-oidc-subject-claim-for-a-repository)
 
   """
-  @spec set_custom_oidc_sub_claim_for_repo(
-          String.t(),
-          String.t(),
-          GitHub.OIDCCustomSubRepo.t(),
-          keyword
-        ) :: {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
+  @spec set_custom_oidc_sub_claim_for_repo(String.t(), String.t(), map, keyword) ::
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def set_custom_oidc_sub_claim_for_repo(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2488,39 +2849,13 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/oidc/customization/sub",
       body: body,
       method: :put,
-      request: [{"application/json", {GitHub.OIDCCustomSubRepo, :t}}],
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.EmptyObject, :t}},
         {400, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
       ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Set default workflow permissions for an enterprise
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#set-default-workflow-permissions-for-an-enterprise)
-
-  """
-  @spec set_github_actions_default_workflow_permissions_enterprise(
-          String.t(),
-          GitHub.Actions.SetDefaultWorkflowPermissions.t(),
-          keyword
-        ) :: :ok | {:error, GitHub.Error.t()}
-  def set_github_actions_default_workflow_permissions_enterprise(enterprise, body, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      url: "/enterprises/#{enterprise}/actions/permissions/workflow",
-      body: body,
-      method: :put,
-      request: [{"application/json", {GitHub.Actions.SetDefaultWorkflowPermissions, :t}}],
-      response: [{204, nil}],
       opts: opts
     })
   end
@@ -2546,7 +2881,7 @@ defmodule GitHub.Actions do
       body: body,
       method: :put,
       request: [{"application/json", {GitHub.Actions.SetDefaultWorkflowPermissions, :t}}],
-      response: [{204, nil}, {409, nil}],
+      response: [{204, nil}],
       opts: opts
     })
   end
@@ -2625,29 +2960,6 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  Set repository access for a self-hosted runner group in an organization
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#set-repository-access-to-a-self-hosted-runner-group-in-an-organization)
-
-  """
-  @spec set_repo_access_to_self_hosted_runner_group_in_org(String.t(), integer, map, keyword) ::
-          :ok | {:error, GitHub.Error.t()}
-  def set_repo_access_to_self_hosted_runner_group_in_org(org, runner_group_id, body, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/repositories",
-      body: body,
-      method: :put,
-      request: [{"application/json", :map}],
-      response: [{204, nil}],
-      opts: opts
-    })
-  end
-
-  @doc """
   Set selected repositories for an organization secret
 
   ## Resources
@@ -2671,6 +2983,52 @@ defmodule GitHub.Actions do
   end
 
   @doc """
+  Set selected repositories for an organization variable
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/variables#set-selected-repositories-for-an-organization-variable)
+
+  """
+  @spec set_selected_repos_for_org_variable(String.t(), String.t(), map, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def set_selected_repos_for_org_variable(org, name, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/variables/#{name}/repositories",
+      body: body,
+      method: :put,
+      request: [{"application/json", :map}],
+      response: [{204, nil}, {409, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Sets repositories for a required workflow
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#set-selected-repositories-for-a-required-workflow)
+
+  """
+  @spec set_selected_repos_to_required_workflow(String.t(), integer, map, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def set_selected_repos_to_required_workflow(org, required_workflow_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}/repositories",
+      body: body,
+      method: :put,
+      request: [{"application/json", :map}],
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
   Set selected repositories enabled for GitHub Actions in an organization
 
   ## Resources
@@ -2685,29 +3043,6 @@ defmodule GitHub.Actions do
 
     client.request(%{
       url: "/orgs/#{org}/actions/permissions/repositories",
-      body: body,
-      method: :put,
-      request: [{"application/json", :map}],
-      response: [{204, nil}],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Set self-hosted runners in a group for an organization
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#set-self-hosted-runners-in-a-group-for-an-organization)
-
-  """
-  @spec set_self_hosted_runners_in_group_for_org(String.t(), integer, map, keyword) ::
-          :ok | {:error, GitHub.Error.t()}
-  def set_self_hosted_runners_in_group_for_org(org, runner_group_id, body, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}/runners",
       body: body,
       method: :put,
       request: [{"application/json", :map}],
@@ -2744,24 +3079,93 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  Update a self-hosted runner group for an organization
+  Update an environment variable
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#update-a-self-hosted-runner-group-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/variables#update-an-environment-variable)
 
   """
-  @spec update_self_hosted_runner_group_for_org(String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Actions.Runner.GroupsOrg.t()} | {:error, GitHub.Error.t()}
-  def update_self_hosted_runner_group_for_org(org, runner_group_id, body, opts \\ []) do
+  @spec update_environment_variable(integer, String.t(), String.t(), map, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def update_environment_variable(repository_id, environment_name, name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
-      url: "/orgs/#{org}/actions/runner-groups/#{runner_group_id}",
+      url: "/repositories/#{repository_id}/environments/#{environment_name}/variables/#{name}",
       body: body,
       method: :patch,
       request: [{"application/json", :map}],
-      response: [{200, {GitHub.Actions.Runner.GroupsOrg, :t}}],
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Update an organization variable
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/variables#update-an-organization-variable)
+
+  """
+  @spec update_org_variable(String.t(), String.t(), map, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def update_org_variable(org, name, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/variables/#{name}",
+      body: body,
+      method: :patch,
+      request: [{"application/json", :map}],
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Update a repository variable
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/variables#update-a-repository-variable)
+
+  """
+  @spec update_repo_variable(String.t(), String.t(), String.t(), map, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def update_repo_variable(owner, repo, name, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/actions/variables/#{name}",
+      body: body,
+      method: :patch,
+      request: [{"application/json", :map}],
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Update a required workflow
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/actions#update-a-required-workflow)
+
+  """
+  @spec update_required_workflow(String.t(), integer, map, keyword) ::
+          {:ok, GitHub.RequiredWorkflow.t()} | {:error, GitHub.Error.t()}
+  def update_required_workflow(org, required_workflow_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}",
+      body: body,
+      method: :patch,
+      request: [{"application/json", :map}],
+      response: [{200, {GitHub.RequiredWorkflow, :t}}, {422, {GitHub.ValidationError, :simple}}],
       opts: opts
     })
   end

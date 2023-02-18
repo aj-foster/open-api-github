@@ -179,57 +179,6 @@ defmodule GitHub.CodeScanning do
   end
 
   @doc """
-  List code scanning alerts for an enterprise
-
-  ## Options
-
-    * `tool_name` (String.t()): The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool by using either `tool_name` or `tool_guid`, but not both.
-    * `tool_guid` (String.t() | nil): The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both.
-    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for results before this cursor.
-    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for results after this cursor.
-    * `page` (integer): Page number of the results to fetch.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `direction` (String.t()): The direction to sort the results by.
-    * `state` (String.t()): If specified, only code scanning alerts with this state will be returned.
-    * `sort` (String.t()): The property by which to sort the results.
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-code-scanning-alerts-for-an-enterprise)
-
-  """
-  @spec list_alerts_for_enterprise(String.t(), keyword) ::
-          {:ok, [GitHub.CodeScanning.OrganizationAlertItems.t()]} | {:error, GitHub.Error.t()}
-  def list_alerts_for_enterprise(enterprise, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    query =
-      Keyword.take(opts, [
-        :after,
-        :before,
-        :direction,
-        :page,
-        :per_page,
-        :sort,
-        :state,
-        :tool_guid,
-        :tool_name
-      ])
-
-    client.request(%{
-      url: "/enterprises/#{enterprise}/code-scanning/alerts",
-      method: :get,
-      query: query,
-      response: [
-        {200, {:array, {GitHub.CodeScanning.OrganizationAlertItems, :t}}},
-        {404, {GitHub.BasicError, :t}},
-        {503, :map}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
   List code scanning alerts for an organization
 
   ## Options

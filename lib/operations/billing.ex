@@ -48,68 +48,6 @@ defmodule GitHub.Billing do
   end
 
   @doc """
-  Get GitHub Advanced Security active committers for an enterprise
-
-  ## Options
-
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/billing#export-advanced-security-active-committers-data-for-enterprise)
-
-  """
-  @spec get_github_advanced_security_billing_ghe(String.t(), keyword) ::
-          {:ok, GitHub.AdvancedSecurity.ActiveCommitters.t()} | {:error, GitHub.Error.t()}
-  def get_github_advanced_security_billing_ghe(enterprise, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:page, :per_page])
-
-    client.request(%{
-      url: "/enterprises/#{enterprise}/settings/billing/advanced-security",
-      method: :get,
-      query: query,
-      response: [
-        {200, {GitHub.AdvancedSecurity.ActiveCommitters, :t}},
-        {403, {GitHub.BasicError, :t}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Get GitHub Advanced Security active committers for an organization
-
-  ## Options
-
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/billing#get-github-advanced-security-active-committers-for-an-organization)
-
-  """
-  @spec get_github_advanced_security_billing_org(String.t(), keyword) ::
-          {:ok, GitHub.AdvancedSecurity.ActiveCommitters.t()} | {:error, GitHub.Error.t()}
-  def get_github_advanced_security_billing_org(org, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:page, :per_page])
-
-    client.request(%{
-      url: "/orgs/#{org}/settings/billing/advanced-security",
-      method: :get,
-      query: query,
-      response: [
-        {200, {GitHub.AdvancedSecurity.ActiveCommitters, :t}},
-        {403, {GitHub.BasicError, :t}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
   Get GitHub Packages billing for an organization
 
   ## Resources

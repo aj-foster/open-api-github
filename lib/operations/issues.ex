@@ -86,6 +86,27 @@ defmodule GitHub.Issues do
   end
 
   @doc """
+  Check if a user can be assigned to a issue
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/issues#check-if-a-user-can-be-assigned-to-a-issue)
+
+  """
+  @spec check_user_can_be_assigned_to_issue(String.t(), String.t(), integer, String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def check_user_can_be_assigned_to_issue(owner, repo, issue_number, assignee, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/assignees/#{assignee}",
+      method: :get,
+      response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
   Create an issue
 
   ## Resources

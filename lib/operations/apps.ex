@@ -859,7 +859,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#create-a-scoped-access-token)
+    * [API method documentation](https://docs.github.com/rest/apps/apps#create-a-scoped-access-token)
 
   """
   @spec scope_token(String.t(), map, keyword) ::

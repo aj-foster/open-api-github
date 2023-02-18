@@ -1,6 +1,6 @@
-defmodule GitHub.Codespace do
+defmodule GitHub.Codespace.WithFullRepository do
   @moduledoc """
-  Provides struct and type for Codespace
+  Provides struct and type for CodespaceWithFullRepository
   """
 
   @type t :: %__MODULE__{
@@ -13,7 +13,6 @@ defmodule GitHub.Codespace do
           id: integer,
           idle_timeout_minutes: integer | nil,
           idle_timeout_notice: String.t() | nil,
-          last_known_stop_notice: String.t() | nil,
           last_used_at: String.t(),
           location: String.t(),
           machine: GitHub.Codespace.Machine.t() | nil,
@@ -26,7 +25,7 @@ defmodule GitHub.Codespace do
           publish_url: String.t() | nil,
           pulls_url: String.t() | nil,
           recent_folders: [String.t()],
-          repository: GitHub.MinimalRepository.t(),
+          repository: GitHub.Repository.full(),
           retention_expires_at: String.t() | nil,
           retention_period_minutes: integer | nil,
           runtime_constraints: map | nil,
@@ -48,7 +47,6 @@ defmodule GitHub.Codespace do
     :id,
     :idle_timeout_minutes,
     :idle_timeout_notice,
-    :last_known_stop_notice,
     :last_used_at,
     :location,
     :machine,
@@ -88,7 +86,6 @@ defmodule GitHub.Codespace do
       id: :integer,
       idle_timeout_minutes: {:nullable, :integer},
       idle_timeout_notice: {:nullable, :string},
-      last_known_stop_notice: {:nullable, :string},
       last_used_at: :string,
       location: :string,
       machine: {:nullable, {GitHub.Codespace.Machine, :t}},
@@ -101,7 +98,7 @@ defmodule GitHub.Codespace do
       publish_url: {:nullable, :string},
       pulls_url: {:nullable, :string},
       recent_folders: {:array, :string},
-      repository: {GitHub.MinimalRepository, :t},
+      repository: {GitHub.Repository, :full},
       retention_expires_at: {:nullable, :string},
       retention_period_minutes: {:nullable, :integer},
       runtime_constraints: :map,

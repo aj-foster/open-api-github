@@ -257,6 +257,36 @@ defmodule GitHub.Codespaces do
   end
 
   @doc """
+  Removes users from Codespaces billing for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/codespaces#delete-codespaces-billing-users)
+
+  """
+  @spec delete_codespaces_billing_users(String.t(), map, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def delete_codespaces_billing_users(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/codespaces/billing/selected_users",
+      body: body,
+      method: :delete,
+      request: [{"application/json", :map}],
+      response: [
+        {204, nil},
+        {304, nil},
+        {400, nil},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   Delete a codespace for the authenticated user
 
   ## Resources
@@ -921,6 +951,35 @@ defmodule GitHub.Codespaces do
   end
 
   @doc """
+  Create a repository from an unpublished codespace
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/codespaces/codespaces#create-a-repository-from-an-unpublished-codespace)
+
+  """
+  @spec publish_for_authenticated_user(String.t(), map, keyword) ::
+          {:ok, GitHub.Codespace.WithFullRepository.t()} | {:error, GitHub.Error.t()}
+  def publish_for_authenticated_user(codespace_name, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/user/codespaces/#{codespace_name}/publish",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {201, {GitHub.Codespace.WithFullRepository, :t}},
+        {401, {GitHub.BasicError, :t}},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   Remove a selected repository from a user secret
 
   ## Resources
@@ -1024,6 +1083,35 @@ defmodule GitHub.Codespaces do
       url: "/orgs/#{org}/codespaces/billing",
       body: body,
       method: :put,
+      request: [{"application/json", :map}],
+      response: [
+        {204, nil},
+        {304, nil},
+        {400, nil},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Add users to Codespaces billing for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/codespaces#set-codespaces-billing-users)
+
+  """
+  @spec set_codespaces_billing_users(String.t(), map, keyword) :: :ok | {:error, GitHub.Error.t()}
+  def set_codespaces_billing_users(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      url: "/orgs/#{org}/codespaces/billing/selected_users",
+      body: body,
+      method: :post,
       request: [{"application/json", :map}],
       response: [
         {204, nil},

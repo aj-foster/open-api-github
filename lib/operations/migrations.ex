@@ -10,7 +10,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#cancel-an-import)
+    * [API method documentation](https://docs.github.com/rest/migrations/source-imports#cancel-an-import)
 
   """
   @spec cancel_import(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -30,7 +30,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#delete-a-user-migration-archive)
+    * [API method documentation](https://docs.github.com/rest/migrations/users#delete-a-user-migration-archive)
 
   """
   @spec delete_archive_for_authenticated_user(integer, keyword) ::
@@ -57,7 +57,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#delete-an-organization-migration-archive)
+    * [API method documentation](https://docs.github.com/rest/migrations/orgs#delete-an-organization-migration-archive)
 
   """
   @spec delete_archive_for_org(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -77,7 +77,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#download-an-organization-migration-archive)
+    * [API method documentation](https://docs.github.com/rest/migrations/orgs#download-an-organization-migration-archive)
 
   """
   @spec download_archive_for_org(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -97,7 +97,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#download-a-user-migration-archive)
+    * [API method documentation](https://docs.github.com/rest/migrations/users#download-a-user-migration-archive)
 
   """
   @spec get_archive_for_authenticated_user(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -126,7 +126,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#get-commit-authors)
+    * [API method documentation](https://docs.github.com/rest/migrations/source-imports#get-commit-authors)
 
   """
   @spec get_commit_authors(String.t(), String.t(), keyword) ::
@@ -153,7 +153,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#get-an-import-status)
+    * [API method documentation](https://docs.github.com/rest/migrations/source-imports#get-an-import-status)
 
   """
   @spec get_import_status(String.t(), String.t(), keyword) ::
@@ -178,7 +178,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#get-large-files)
+    * [API method documentation](https://docs.github.com/rest/migrations/source-imports#get-large-files)
 
   """
   @spec get_large_files(String.t(), String.t(), keyword) ::
@@ -203,7 +203,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#get-a-user-migration-status)
+    * [API method documentation](https://docs.github.com/rest/migrations/users#get-a-user-migration-status)
 
   """
   @spec get_status_for_authenticated_user(integer, keyword) ::
@@ -236,7 +236,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#get-an-organization-migration-status)
+    * [API method documentation](https://docs.github.com/rest/migrations/orgs#get-an-organization-migration-status)
 
   """
   @spec get_status_for_org(String.t(), integer, keyword) ::
@@ -264,7 +264,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#list-user-migrations)
+    * [API method documentation](https://docs.github.com/rest/migrations/users#list-user-migrations)
 
   """
   @spec list_for_authenticated_user(keyword) ::
@@ -298,7 +298,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#list-organization-migrations)
+    * [API method documentation](https://docs.github.com/rest/migrations/orgs#list-organization-migrations)
 
   """
   @spec list_for_org(String.t(), keyword) ::
@@ -326,7 +326,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#list-repositories-for-a-user-migration)
+    * [API method documentation](https://docs.github.com/rest/migrations/users#list-repositories-for-a-user-migration)
 
   """
   @spec list_repos_for_authenticated_user(integer, keyword) ::
@@ -354,7 +354,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#list-repositories-in-an-organization-migration)
+    * [API method documentation](https://docs.github.com/rest/migrations/orgs#list-repositories-in-an-organization-migration)
 
   """
   @spec list_repos_for_org(String.t(), integer, keyword) ::
@@ -377,7 +377,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#map-a-commit-author)
+    * [API method documentation](https://docs.github.com/rest/migrations/source-imports#map-a-commit-author)
 
   """
   @spec map_commit_author(String.t(), String.t(), integer, map, keyword) ::
@@ -405,7 +405,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#update-git-lfs-preference)
+    * [API method documentation](https://docs.github.com/rest/migrations/source-imports#update-git-lfs-preference)
 
   """
   @spec set_lfs_preference(String.t(), String.t(), map, keyword) ::
@@ -432,7 +432,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#start-a-user-migration)
+    * [API method documentation](https://docs.github.com/rest/migrations/users#start-a-user-migration)
 
   """
   @spec start_for_authenticated_user(map, keyword) ::
@@ -461,7 +461,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#start-an-organization-migration)
+    * [API method documentation](https://docs.github.com/rest/migrations/orgs#start-an-organization-migration)
 
   """
   @spec start_for_org(String.t(), map, keyword) ::
@@ -488,7 +488,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#start-an-import)
+    * [API method documentation](https://docs.github.com/rest/migrations/source-imports#start-an-import)
 
   """
   @spec start_import(String.t(), String.t(), map, keyword) ::
@@ -516,7 +516,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#unlock-a-user-repository)
+    * [API method documentation](https://docs.github.com/rest/migrations/users#unlock-a-user-repository)
 
   """
   @spec unlock_repo_for_authenticated_user(integer, String.t(), keyword) ::
@@ -543,7 +543,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#unlock-an-organization-repository)
+    * [API method documentation](https://docs.github.com/rest/migrations/orgs#unlock-an-organization-repository)
 
   """
   @spec unlock_repo_for_org(String.t(), integer, String.t(), keyword) ::
@@ -564,7 +564,7 @@ defmodule GitHub.Migrations do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/migrations#update-an-import)
+    * [API method documentation](https://docs.github.com/rest/migrations/source-imports#update-an-import)
 
   """
   @spec update_import(String.t(), String.t(), map | nil, keyword) ::

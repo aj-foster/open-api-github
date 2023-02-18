@@ -280,7 +280,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/v3/repos#create-an-autolink)
+    * [API method documentation](https://docs.github.com/rest/repos/autolinks#create-an-autolink-reference-for-a-repository)
 
   """
   @spec create_autolink(String.t(), String.t(), map, keyword) ::
@@ -377,7 +377,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#create-a-deploy-key)
+    * [API method documentation](https://docs.github.com/rest/deploy-keys#create-a-deploy-key)
 
   """
   @spec create_deploy_key(String.t(), String.t(), map, keyword) ::
@@ -400,7 +400,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#create-a-deployment)
+    * [API method documentation](https://docs.github.com/rest/deployments/deployments#create-a-deployment)
 
   """
   @spec create_deployment(String.t(), String.t(), map, keyword) ::
@@ -456,7 +456,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#create-a-deployment-status)
+    * [API method documentation](https://docs.github.com/rest/deployments/statuses#create-a-deployment-status)
 
   """
   @spec create_deployment_status(String.t(), String.t(), integer, map, keyword) ::
@@ -589,7 +589,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#create-or-update-an-environment)
+    * [API method documentation](https://docs.github.com/rest/deployments/environments#create-or-update-an-environment)
 
   """
   @spec create_or_update_environment(String.t(), String.t(), String.t(), map | nil, keyword) ::
@@ -696,7 +696,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#create-a-release)
+    * [API method documentation](https://docs.github.com/rest/releases/releases#create-a-release)
 
   """
   @spec create_release(String.t(), String.t(), map, keyword) ::
@@ -895,7 +895,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#delete-an-environment)
+    * [API method documentation](https://docs.github.com/rest/deployments/environments#delete-an-environment)
 
   """
   @spec delete_an_environment(String.t(), String.t(), String.t(), keyword) ::
@@ -916,7 +916,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/v3/repos#delete-autolink)
+    * [API method documentation](https://docs.github.com/rest/repos/autolinks#delete-an-autolink-reference-from-a-repository)
 
   """
   @spec delete_autolink(String.t(), String.t(), integer, keyword) ::
@@ -1000,7 +1000,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-deploy-key)
+    * [API method documentation](https://docs.github.com/rest/deploy-keys#delete-a-deploy-key)
 
   """
   @spec delete_deploy_key(String.t(), String.t(), integer, keyword) ::
@@ -1021,7 +1021,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-deployment)
+    * [API method documentation](https://docs.github.com/rest/deployments/deployments#delete-a-deployment)
 
   """
   @spec delete_deployment(String.t(), String.t(), integer, keyword) ::
@@ -1605,7 +1605,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/v3/repos#get-autolink)
+    * [API method documentation](https://docs.github.com/rest/repos/autolinks#get-an-autolink-reference-of-a-repository)
 
   """
   @spec get_autolink(String.t(), String.t(), integer, keyword) ::
@@ -1958,7 +1958,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#get-a-deploy-key)
+    * [API method documentation](https://docs.github.com/rest/deploy-keys#get-a-deploy-key)
 
   """
   @spec get_deploy_key(String.t(), String.t(), integer, keyword) ::
@@ -1979,7 +1979,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#get-a-deployment)
+    * [API method documentation](https://docs.github.com/rest/deployments/deployments#get-a-deployment)
 
   """
   @spec get_deployment(String.t(), String.t(), integer, keyword) ::
@@ -2022,7 +2022,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#get-a-deployment-status)
+    * [API method documentation](https://docs.github.com/rest/deployments/statuses#get-a-deployment-status)
 
   """
   @spec get_deployment_status(String.t(), String.t(), integer, integer, keyword) ::
@@ -2043,7 +2043,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#get-an-environment)
+    * [API method documentation](https://docs.github.com/rest/deployments/environments#get-an-environment)
 
   """
   @spec get_environment(String.t(), String.t(), String.t(), keyword) ::
@@ -2218,7 +2218,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/statistics/repos#get-the-hourly-commit-count-for-each-day)
+    * [API method documentation](https://docs.github.com/rest/metrics/statistics#get-the-hourly-commit-count-for-each-day)
 
   """
   @spec get_punch_card_stats(String.t(), String.t(), keyword) ::
@@ -2567,7 +2567,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/v3/repos#list-autolinks)
+    * [API method documentation](https://docs.github.com/rest/repos/autolinks#list-all-autolinks-of-a-repository)
 
   """
   @spec list_autolinks(String.t(), String.t(), keyword) ::
@@ -2754,7 +2754,7 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `sha` (String.t()): SHA or branch to start listing commits from. Default: the repository’s default branch (usually `master`).
+    * `sha` (String.t()): SHA or branch to start listing commits from. Default: the repository’s default branch (usually `main`).
     * `path` (String.t()): Only commits containing this file path will be returned.
     * `author` (String.t()): GitHub login or email address by which to filter by commit author.
     * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
@@ -2832,7 +2832,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-deploy-keys)
+    * [API method documentation](https://docs.github.com/rest/deploy-keys#list-deploy-keys)
 
   """
   @spec list_deploy_keys(String.t(), String.t(), keyword) ::
@@ -2888,7 +2888,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-deployment-statuses)
+    * [API method documentation](https://docs.github.com/rest/deployments/statuses#list-deployment-statuses)
 
   """
   @spec list_deployment_statuses(String.t(), String.t(), integer, keyword) ::
@@ -2920,7 +2920,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-deployments)
+    * [API method documentation](https://docs.github.com/rest/deployments/deployments#list-deployments)
 
   """
   @spec list_deployments(String.t(), String.t(), keyword) ::
@@ -2945,9 +2945,9 @@ defmodule GitHub.Repos do
 
     * `visibility` (String.t()): Limit results to repositories with the specified visibility.
     * `affiliation` (String.t()): Comma-separated list of values. Can include:  
-  \* `owner`: Repositories that are owned by the authenticated user.  
-  \* `collaborator`: Repositories that the user has been added to as a collaborator.  
-  \* `organization_member`: Repositories that the user has access to through being a member of an organization. This includes every repository on every team that the user is on.
+   * `owner`: Repositories that are owned by the authenticated user.  
+   * `collaborator`: Repositories that the user has been added to as a collaborator.  
+   * `organization_member`: Repositories that the user has access to through being a member of an organization. This includes every repository on every team that the user is on.
     * `type` (String.t()): Limit results to repositories of the specified type. Will cause a `422` error if used in the same request as **visibility** or **affiliation**.
     * `sort` (String.t()): The property to sort the results by.
     * `direction` (String.t()): The order to sort by. Default: `asc` when using `full_name`, otherwise `desc`.
@@ -2999,7 +2999,7 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `type` (String.t()): Specifies the types of repositories you want returned. If your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+, `type` can also be `internal`. However, the `internal` value is not yet supported when a GitHub App calls this API with an installation access token.
+    * `type` (String.t()): Specifies the types of repositories you want returned.
     * `sort` (String.t()): The property to sort the results by.
     * `direction` (String.t()): The order to sort by. Default: `asc` when using `full_name`, otherwise `desc`.
     * `per_page` (integer): The number of results per page (max 100).
@@ -4299,7 +4299,7 @@ defmodule GitHub.Repos do
       body: body,
       method: :post,
       query: query,
-      request: [{"*/*", :string}],
+      request: [{"application/octet-stream", :string}],
       response: [{201, {GitHub.Release.Asset, :t}}, {422, nil}],
       opts: opts
     })

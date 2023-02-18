@@ -152,33 +152,6 @@ defmodule GitHub.Orgs do
   end
 
   @doc """
-  Create a custom role
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#create-a-custom-role)
-
-  """
-  @spec create_custom_role(String.t(), map, keyword) ::
-          {:ok, GitHub.Organization.CustomRepositoryRole.t()} | {:error, GitHub.Error.t()}
-  def create_custom_role(org, body, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      url: "/orgs/#{org}/custom_roles",
-      body: body,
-      method: :post,
-      request: [{"application/json", :map}],
-      response: [
-        {201, {GitHub.Organization.CustomRepositoryRole, :t}},
-        {404, {GitHub.BasicError, :t}},
-        {422, {GitHub.ValidationError, :t}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
   Create an organization invitation
 
   ## Resources
@@ -228,26 +201,6 @@ defmodule GitHub.Orgs do
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
       ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Delete a custom role
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#delete-a-custom-role)
-
-  """
-  @spec delete_custom_role(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
-  def delete_custom_role(org, role_id, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      url: "/orgs/#{org}/custom_roles/#{role_id}",
-      method: :delete,
-      response: [{204, nil}],
       opts: opts
     })
   end
@@ -319,30 +272,6 @@ defmodule GitHub.Orgs do
       url: "/orgs/#{org}",
       method: :get,
       response: [{200, {GitHub.Organization.Full, :t}}, {404, {GitHub.BasicError, :t}}],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Get a custom role
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/orgs/#get-a-custom-role)
-
-  """
-  @spec get_custom_role(String.t(), integer, keyword) ::
-          {:ok, GitHub.Organization.CustomRepositoryRole.t()} | {:error, GitHub.Error.t()}
-  def get_custom_role(org, role_id, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      url: "/orgs/#{org}/custom_roles/#{role_id}",
-      method: :get,
-      response: [
-        {200, {GitHub.Organization.CustomRepositoryRole, :t}},
-        {404, {GitHub.BasicError, :t}}
-      ],
       opts: opts
     })
   end
@@ -547,26 +476,6 @@ defmodule GitHub.Orgs do
   end
 
   @doc """
-  List custom repository roles in an organization
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-custom-repository-roles-in-an-organization)
-
-  """
-  @spec list_custom_roles(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
-  def list_custom_roles(organization_id, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      url: "/organizations/#{organization_id}/custom_roles",
-      method: :get,
-      response: [{200, :map}],
-      opts: opts
-    })
-  end
-
-  @doc """
   List failed organization invitations
 
   ## Options
@@ -593,27 +502,6 @@ defmodule GitHub.Orgs do
         {200, {:array, {GitHub.Organization.Invitation, :t}}},
         {404, {GitHub.BasicError, :t}}
       ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  List fine-grained permissions for an organization
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-fine-grained-permissions-for-an-organization)
-
-  """
-  @spec list_fine_grained_permissions(String.t(), keyword) ::
-          {:ok, [GitHub.Organization.FineGrainedPermission.t()]} | {:error, GitHub.Error.t()}
-  def list_fine_grained_permissions(org, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      url: "/orgs/#{org}/fine_grained_permissions",
-      method: :get,
-      response: [{200, {:array, {GitHub.Organization.FineGrainedPermission, :t}}}],
       opts: opts
     })
   end
@@ -808,6 +696,8 @@ defmodule GitHub.Orgs do
 
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
+    * `role` (String.t()): Filter invitations by their member role.
+    * `invitation_source` (String.t()): Filter invitations by their invitation source.
 
   ## Resources
 
@@ -818,7 +708,7 @@ defmodule GitHub.Orgs do
           {:ok, [GitHub.Organization.Invitation.t()]} | {:error, GitHub.Error.t()}
   def list_pending_invitations(org, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:page, :per_page])
+    query = Keyword.take(opts, [:invitation_source, :page, :per_page, :role])
 
     client.request(%{
       url: "/orgs/#{org}/invitations",
@@ -1177,33 +1067,6 @@ defmodule GitHub.Orgs do
         {200, {GitHub.Organization.Full, :t}},
         {409, {GitHub.BasicError, :t}},
         {422, {:union, [{GitHub.ValidationError, :t}, {GitHub.ValidationError, :simple}]}}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Update a custom role
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#update-a-custom-role)
-
-  """
-  @spec update_custom_role(String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Organization.CustomRepositoryRole.t()} | {:error, GitHub.Error.t()}
-  def update_custom_role(org, role_id, body, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      url: "/orgs/#{org}/custom_roles/#{role_id}",
-      body: body,
-      method: :patch,
-      request: [{"application/json", :map}],
-      response: [
-        {200, {GitHub.Organization.CustomRepositoryRole, :t}},
-        {404, {GitHub.BasicError, :t}},
-        {422, {GitHub.ValidationError, :t}}
       ],
       opts: opts
     })
