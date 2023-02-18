@@ -55,8 +55,21 @@ if Code.ensure_loaded?(HTTPoison) do
     defp process_response(operation, %HTTPoison.Response{status_code: code} = response)
          when code in @http_code_redirect do
       if location = get_redirect(response.headers) do
-        operation = %Operation{operation | request_url: location}
-        request(operation, [])
+        server = URI.to_string(%URI{location | path: nil, query: nil, fragment: nil})
+        url = location.path
+
+        query =
+          if location.query do
+            URI.decode_query(location.query) |> Enum.to_list()
+          end
+
+        %Operation{
+          operation
+          | request_server: server,
+            request_url: url,
+            request_params: query
+        }
+        |> request([])
       else
         message = "Received redirect response with no Location header"
         step = {__MODULE__, :request}
@@ -100,12 +113,12 @@ if Code.ensure_loaded?(HTTPoison) do
       {:ok, operation}
     end
 
-    @spec get_redirect(HTTPoison.headers()) :: String.t() | nil
+    @spec get_redirect(HTTPoison.headers()) :: URI.t() | nil
     defp get_redirect([]), do: nil
 
     defp get_redirect([{header, value} | rest]) do
-      if String.match?(header, ~r/^location$/) do
-        value
+      if String.match?(header, ~r/^location$/i) do
+        URI.parse(value)
       else
         get_redirect(rest)
       end
