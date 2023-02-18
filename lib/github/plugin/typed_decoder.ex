@@ -26,6 +26,9 @@ defmodule GitHub.Plugin.TypedDecoder do
     end
   end
 
+  defp do_decode(nil, {:nullable, _type}), do: nil
+  defp do_decode(value, {:nullable, type}), do: do_decode(value, type)
+
   defp do_decode(%{} = value, {module, type}) do
     fields = module.__fields__(type)
 
