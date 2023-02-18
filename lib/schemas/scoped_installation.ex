@@ -1,9 +1,9 @@
 defmodule GitHub.ScopedInstallation do
   @moduledoc """
-  Provides struct and type for NullableScopedInstallation
+  Provides struct and type for ScopedInstallation
   """
 
-  @type nullable :: %__MODULE__{
+  @type t :: %__MODULE__{
           account: GitHub.User.simple(),
           has_multiple_single_files: boolean | nil,
           permissions: GitHub.AppPermissions.t(),
@@ -25,14 +25,16 @@ defmodule GitHub.ScopedInstallation do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:nullable) do
+  def __fields__(type \\ :t)
+
+  def __fields__(:t) do
     [
       account: {GitHub.User, :simple},
       has_multiple_single_files: :boolean,
       permissions: {GitHub.AppPermissions, :t},
       repositories_url: :string,
       repository_selection: :string,
-      single_file_name: :string,
+      single_file_name: {:nullable, :string},
       single_file_paths: {:array, :string}
     ]
   end

@@ -36,8 +36,8 @@ defmodule GitHub.ConvertedNoteToIssueIssueEvent do
   def __fields__(:t) do
     [
       actor: {GitHub.User, :simple},
-      commit_id: :string,
-      commit_url: :string,
+      commit_id: {:nullable, :string},
+      commit_url: {:nullable, :string},
       created_at: :string,
       event: :string,
       id: :integer,

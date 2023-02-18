@@ -1,6 +1,6 @@
 defmodule GitHub.Integration do
   @moduledoc """
-  Provides struct and types for Integration, NullableIntegration
+  Provides struct and type for Integration
   """
 
   @type t :: %__MODULE__{
@@ -52,7 +52,7 @@ defmodule GitHub.Integration do
       client_id: :string,
       client_secret: :string,
       created_at: :string,
-      description: :string,
+      description: {:nullable, :string},
       events: {:array, :string},
       external_url: :string,
       html_url: :string,
@@ -60,12 +60,12 @@ defmodule GitHub.Integration do
       installations_count: :integer,
       name: :string,
       node_id: :string,
-      owner: {GitHub.User, :simple},
+      owner: {:nullable, {GitHub.User, :simple}},
       pem: :string,
       permissions: :map,
       slug: :string,
       updated_at: :string,
-      webhook_secret: :string
+      webhook_secret: {:nullable, :string}
     ]
   end
 end

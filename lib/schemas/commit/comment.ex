@@ -49,14 +49,14 @@ defmodule GitHub.Commit.Comment do
       created_at: :string,
       html_url: :string,
       id: :integer,
-      line: :integer,
+      line: {:nullable, :integer},
       node_id: :string,
-      path: :string,
-      position: :integer,
+      path: {:nullable, :string},
+      position: {:nullable, :integer},
       reactions: {GitHub.Reaction.Rollup, :t},
       updated_at: :string,
       url: :string,
-      user: {GitHub.User, :simple}
+      user: {:nullable, {GitHub.User, :simple}}
     ]
   end
 end

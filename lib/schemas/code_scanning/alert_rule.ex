@@ -35,13 +35,13 @@ defmodule GitHub.CodeScanning.AlertRule do
     [
       description: :string,
       full_description: :string,
-      help: :string,
-      help_uri: :string,
-      id: :string,
+      help: {:nullable, :string},
+      help_uri: {:nullable, :string},
+      id: {:nullable, :string},
       name: :string,
-      security_severity_level: :string,
-      severity: :string,
-      tags: {:array, :string}
+      security_severity_level: {:nullable, :string},
+      severity: {:nullable, :string},
+      tags: {:nullable, {:array, :string}}
     ]
   end
 end

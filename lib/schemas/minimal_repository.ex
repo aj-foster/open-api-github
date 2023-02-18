@@ -1,6 +1,6 @@
 defmodule GitHub.MinimalRepository do
   @moduledoc """
-  Provides struct and types for MinimalRepository, NullableMinimalRepository
+  Provides struct and type for MinimalRepository
   """
 
   @type t :: %__MODULE__{
@@ -203,11 +203,11 @@ defmodule GitHub.MinimalRepository do
       compare_url: :string,
       contents_url: :string,
       contributors_url: :string,
-      created_at: :string,
+      created_at: {:nullable, :string},
       default_branch: :string,
       delete_branch_on_merge: :boolean,
       deployments_url: :string,
-      description: :string,
+      description: {:nullable, :string},
       disabled: :boolean,
       downloads_url: :string,
       events_url: :string,
@@ -226,7 +226,7 @@ defmodule GitHub.MinimalRepository do
       has_pages: :boolean,
       has_projects: :boolean,
       has_wiki: :boolean,
-      homepage: :string,
+      homepage: {:nullable, :string},
       hooks_url: :string,
       html_url: :string,
       id: :integer,
@@ -236,12 +236,12 @@ defmodule GitHub.MinimalRepository do
       issues_url: :string,
       keys_url: :string,
       labels_url: :string,
-      language: :string,
+      language: {:nullable, :string},
       languages_url: :string,
-      license: :map,
+      license: {:nullable, :map},
       merges_url: :string,
       milestones_url: :string,
-      mirror_url: :string,
+      mirror_url: {:nullable, :string},
       name: :string,
       network_count: :integer,
       node_id: :string,
@@ -252,10 +252,10 @@ defmodule GitHub.MinimalRepository do
       permissions: :map,
       private: :boolean,
       pulls_url: :string,
-      pushed_at: :string,
+      pushed_at: {:nullable, :string},
       releases_url: :string,
       role_name: :string,
-      security_and_analysis: {GitHub.SecurityAndAnalysis, :t},
+      security_and_analysis: {:nullable, {GitHub.SecurityAndAnalysis, :t}},
       size: :integer,
       ssh_url: :string,
       stargazers_count: :integer,
@@ -270,7 +270,7 @@ defmodule GitHub.MinimalRepository do
       temp_clone_token: :string,
       topics: {:array, :string},
       trees_url: :string,
-      updated_at: :string,
+      updated_at: {:nullable, :string},
       url: :string,
       visibility: :string,
       watchers: :integer,

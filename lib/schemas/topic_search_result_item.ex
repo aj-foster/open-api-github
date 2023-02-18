@@ -47,20 +47,20 @@ defmodule GitHub.TopicSearchResultItem do
 
   def __fields__(:t) do
     [
-      aliases: {:array, :map},
+      aliases: {:nullable, {:array, :map}},
       created_at: :string,
-      created_by: :string,
+      created_by: {:nullable, :string},
       curated: :boolean,
-      description: :string,
-      display_name: :string,
+      description: {:nullable, :string},
+      display_name: {:nullable, :string},
       featured: :boolean,
-      logo_url: :string,
+      logo_url: {:nullable, :string},
       name: :string,
-      related: {:array, :map},
-      released: :string,
-      repository_count: :integer,
+      related: {:nullable, {:array, :map}},
+      released: {:nullable, :string},
+      repository_count: {:nullable, :integer},
       score: :number,
-      short_description: :string,
+      short_description: {:nullable, :string},
       text_matches: {:array, :map},
       updated_at: :string
     ]

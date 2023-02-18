@@ -25,7 +25,7 @@ defmodule GitHub.LabelSearchResultItem do
     [
       color: :string,
       default: :boolean,
-      description: :string,
+      description: {:nullable, :string},
       id: :integer,
       name: :string,
       node_id: :string,

@@ -1,6 +1,6 @@
 defmodule GitHub.Alert.UpdatedAt do
   @moduledoc """
-  Provides struct and types for AlertUpdatedAt, NullableAlertUpdatedAt
+  Provides struct and type for AlertUpdatedAt
   """
 
   @type t :: %__MODULE__{}

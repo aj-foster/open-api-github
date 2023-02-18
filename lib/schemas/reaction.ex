@@ -23,7 +23,7 @@ defmodule GitHub.Reaction do
       created_at: :string,
       id: :integer,
       node_id: :string,
-      user: {GitHub.User, :simple}
+      user: {:nullable, {GitHub.User, :simple}}
     ]
   end
 end

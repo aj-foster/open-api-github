@@ -41,7 +41,7 @@ defmodule GitHub.Dependabot.Alert.SecurityAdvisory do
 
   def __fields__(:t) do
     [
-      cve_id: :string,
+      cve_id: {:nullable, :string},
       cvss: :map,
       cwes: {:array, :map},
       description: :string,
@@ -53,7 +53,7 @@ defmodule GitHub.Dependabot.Alert.SecurityAdvisory do
       summary: :string,
       updated_at: :string,
       vulnerabilities: {:array, {GitHub.Dependabot.Alert.SecurityVulnerability, :t}},
-      withdrawn_at: :string
+      withdrawn_at: {:nullable, :string}
     ]
   end
 end

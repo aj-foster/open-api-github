@@ -12,6 +12,6 @@ defmodule GitHub.Project.CollaboratorPermission do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [permission: :string, user: {GitHub.User, :simple}]
+    [permission: :string, user: {:nullable, {GitHub.User, :simple}}]
   end
 end

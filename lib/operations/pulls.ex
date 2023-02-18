@@ -517,7 +517,7 @@ defmodule GitHub.Pulls do
     * [API method documentation](https://docs.github.com/rest/reference/pulls#merge-a-pull-request)
 
   """
-  @spec merge(String.t(), String.t(), integer, map, keyword) ::
+  @spec merge(String.t(), String.t(), integer, map | nil, keyword) ::
           {:ok, GitHub.PullRequest.MergeResult.t()} | {:error, GitHub.Error.t()}
   def merge(owner, repo, pull_number, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -526,7 +526,7 @@ defmodule GitHub.Pulls do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/merge",
       body: body,
       method: :put,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {:nullable, :map}}],
       response: [
         {200, {GitHub.PullRequest.MergeResult, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -648,7 +648,7 @@ defmodule GitHub.Pulls do
     * [API method documentation](https://docs.github.com/rest/reference/pulls#update-a-pull-request-branch)
 
   """
-  @spec update_branch(String.t(), String.t(), integer, map, keyword) ::
+  @spec update_branch(String.t(), String.t(), integer, map | nil, keyword) ::
           {:ok, map} | {:error, GitHub.Error.t()}
   def update_branch(owner, repo, pull_number, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -657,7 +657,7 @@ defmodule GitHub.Pulls do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/update-branch",
       body: body,
       method: :put,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {:nullable, :map}}],
       response: [{202, :map}, {403, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })

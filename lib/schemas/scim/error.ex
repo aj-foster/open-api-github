@@ -20,11 +20,11 @@ defmodule GitHub.SCIM.Error do
 
   def __fields__(:t) do
     [
-      detail: :string,
-      documentation_url: :string,
-      message: :string,
+      detail: {:nullable, :string},
+      documentation_url: {:nullable, :string},
+      message: {:nullable, :string},
       schemas: {:array, :string},
-      scimType: :string,
+      scimType: {:nullable, :string},
       status: :integer
     ]
   end

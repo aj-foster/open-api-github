@@ -34,7 +34,7 @@ defmodule GitHub.Environment do
   def __fields__(:t) do
     [
       created_at: :string,
-      deployment_branch_policy: {GitHub.Deployment.BranchPolicySettings, :t},
+      deployment_branch_policy: {:nullable, {GitHub.Deployment.BranchPolicySettings, :t}},
       html_url: :string,
       id: :integer,
       name: :string,

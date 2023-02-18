@@ -12,6 +12,6 @@ defmodule GitHub.Issue.EventLabel do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [color: :string, name: :string]
+    [color: {:nullable, :string}, name: {:nullable, :string}]
   end
 end

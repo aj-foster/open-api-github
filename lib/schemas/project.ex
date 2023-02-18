@@ -45,10 +45,10 @@ defmodule GitHub.Project do
 
   def __fields__(:t) do
     [
-      body: :string,
+      body: {:nullable, :string},
       columns_url: :string,
       created_at: :string,
-      creator: {GitHub.User, :simple},
+      creator: {:nullable, {GitHub.User, :simple}},
       html_url: :string,
       id: :integer,
       name: :string,

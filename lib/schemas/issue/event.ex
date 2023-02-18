@@ -59,27 +59,27 @@ defmodule GitHub.Issue.Event do
 
   def __fields__(:t) do
     [
-      actor: {GitHub.User, :simple},
-      assignee: {GitHub.User, :simple},
-      assigner: {GitHub.User, :simple},
+      actor: {:nullable, {GitHub.User, :simple}},
+      assignee: {:nullable, {GitHub.User, :simple}},
+      assigner: {:nullable, {GitHub.User, :simple}},
       author_association: :string,
-      commit_id: :string,
-      commit_url: :string,
+      commit_id: {:nullable, :string},
+      commit_url: {:nullable, :string},
       created_at: :string,
       dismissed_review: {GitHub.Issue.EventDismissedReview, :t},
       event: :string,
       id: :integer,
-      issue: {GitHub.Issue, :t},
+      issue: {:nullable, {GitHub.Issue, :t}},
       label: {GitHub.Issue.EventLabel, :t},
-      lock_reason: :string,
+      lock_reason: {:nullable, :string},
       milestone: {GitHub.Issue.EventMilestone, :t},
       node_id: :string,
-      performed_via_github_app: {GitHub.Integration, :t},
+      performed_via_github_app: {:nullable, {GitHub.Integration, :t}},
       project_card: {GitHub.Issue.EventProjectCard, :t},
       rename: {GitHub.Issue.EventRename, :t},
-      requested_reviewer: {GitHub.User, :simple},
+      requested_reviewer: {:nullable, {GitHub.User, :simple}},
       requested_team: {GitHub.Team, :t},
-      review_requester: {GitHub.User, :simple},
+      review_requester: {:nullable, {GitHub.User, :simple}},
       url: :string
     ]
   end

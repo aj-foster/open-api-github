@@ -33,7 +33,7 @@ defmodule GitHub.Organization.CustomRepositoryRole do
     [
       base_role: :string,
       created_at: :string,
-      description: :string,
+      description: {:nullable, :string},
       id: :integer,
       name: :string,
       organization: {GitHub.User, :simple},

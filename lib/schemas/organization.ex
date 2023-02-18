@@ -38,7 +38,7 @@ defmodule GitHub.Organization do
   def __fields__(:simple) do
     [
       avatar_url: :string,
-      description: :string,
+      description: {:nullable, :string},
       events_url: :string,
       hooks_url: :string,
       id: :integer,

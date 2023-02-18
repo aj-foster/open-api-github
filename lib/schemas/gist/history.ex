@@ -22,7 +22,7 @@ defmodule GitHub.Gist.History do
       change_status: :map,
       committed_at: :string,
       url: :string,
-      user: {GitHub.User, :simple},
+      user: {:nullable, {GitHub.User, :simple}},
       version: :string
     ]
   end

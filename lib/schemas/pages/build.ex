@@ -26,7 +26,7 @@ defmodule GitHub.Pages.Build do
       created_at: :string,
       duration: :integer,
       error: :map,
-      pusher: {GitHub.User, :simple},
+      pusher: {:nullable, {GitHub.User, :simple}},
       status: :string,
       updated_at: :string,
       url: :string

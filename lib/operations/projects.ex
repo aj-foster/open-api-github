@@ -13,7 +13,8 @@ defmodule GitHub.Projects do
     * [API method documentation](https://docs.github.com/rest/reference/projects#add-project-collaborator)
 
   """
-  @spec add_collaborator(integer, String.t(), map, keyword) :: :ok | {:error, GitHub.Error.t()}
+  @spec add_collaborator(integer, String.t(), map | nil, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def add_collaborator(project_id, username, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -21,7 +22,7 @@ defmodule GitHub.Projects do
       url: "/projects/#{project_id}/collaborators/#{username}",
       body: body,
       method: :put,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {:nullable, :map}}],
       response: [
         {204, nil},
         {304, nil},

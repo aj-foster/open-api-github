@@ -1,6 +1,6 @@
 defmodule GitHub.Issue do
   @moduledoc """
-  Provides struct and types for Issue, NullableIssue
+  Provides struct and type for Issue
   """
 
   @type t :: %__MODULE__{
@@ -83,15 +83,15 @@ defmodule GitHub.Issue do
 
   def __fields__(:t) do
     [
-      active_lock_reason: :string,
-      assignee: {GitHub.User, :simple},
-      assignees: {:array, {GitHub.User, :simple}},
+      active_lock_reason: {:nullable, :string},
+      assignee: {:nullable, {GitHub.User, :simple}},
+      assignees: {:nullable, {:array, {GitHub.User, :simple}}},
       author_association: :string,
-      body: :string,
+      body: {:nullable, :string},
       body_html: :string,
       body_text: :string,
-      closed_at: :string,
-      closed_by: {GitHub.User, :simple},
+      closed_at: {:nullable, :string},
+      closed_by: {:nullable, {GitHub.User, :simple}},
       comments: :integer,
       comments_url: :string,
       created_at: :string,
@@ -102,21 +102,21 @@ defmodule GitHub.Issue do
       labels: {:array, {:union, [:string, :map]}},
       labels_url: :string,
       locked: :boolean,
-      milestone: {GitHub.Milestone, :t},
+      milestone: {:nullable, {GitHub.Milestone, :t}},
       node_id: :string,
       number: :integer,
-      performed_via_github_app: {GitHub.Integration, :t},
+      performed_via_github_app: {:nullable, {GitHub.Integration, :t}},
       pull_request: :map,
       reactions: {GitHub.Reaction.Rollup, :t},
       repository: {GitHub.Repository, :t},
       repository_url: :string,
       state: :string,
-      state_reason: :string,
+      state_reason: {:nullable, :string},
       timeline_url: :string,
       title: :string,
       updated_at: :string,
       url: :string,
-      user: {GitHub.User, :simple}
+      user: {:nullable, {GitHub.User, :simple}}
     ]
   end
 end

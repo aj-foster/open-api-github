@@ -61,28 +61,28 @@ defmodule GitHub.Import do
 
   def __fields__(:t) do
     [
-      authors_count: :integer,
+      authors_count: {:nullable, :integer},
       authors_url: :string,
-      commit_count: :integer,
-      error_message: :string,
-      failed_step: :string,
+      commit_count: {:nullable, :integer},
+      error_message: {:nullable, :string},
+      failed_step: {:nullable, :string},
       has_large_files: :boolean,
       html_url: :string,
-      import_percent: :integer,
+      import_percent: {:nullable, :integer},
       large_files_count: :integer,
       large_files_size: :integer,
       message: :string,
       project_choices: {:array, :map},
-      push_percent: :integer,
+      push_percent: {:nullable, :integer},
       repository_url: :string,
       status: :string,
-      status_text: :string,
+      status_text: {:nullable, :string},
       svc_root: :string,
       svn_root: :string,
       tfvc_project: :string,
       url: :string,
       use_lfs: :boolean,
-      vcs: :string,
+      vcs: {:nullable, :string},
       vcs_url: :string
     ]
   end

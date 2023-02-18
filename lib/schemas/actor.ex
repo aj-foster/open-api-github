@@ -22,7 +22,7 @@ defmodule GitHub.Actor do
     [
       avatar_url: :string,
       display_login: :string,
-      gravatar_id: :string,
+      gravatar_id: {:nullable, :string},
       id: :integer,
       login: :string,
       url: :string

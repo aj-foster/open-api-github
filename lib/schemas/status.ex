@@ -37,15 +37,15 @@ defmodule GitHub.Status do
 
   def __fields__(:t) do
     [
-      avatar_url: :string,
+      avatar_url: {:nullable, :string},
       context: :string,
       created_at: :string,
-      creator: {GitHub.User, :simple},
-      description: :string,
+      creator: {:nullable, {GitHub.User, :simple}},
+      description: {:nullable, :string},
       id: :integer,
       node_id: :string,
       state: :string,
-      target_url: :string,
+      target_url: {:nullable, :string},
       updated_at: :string,
       url: :string
     ]

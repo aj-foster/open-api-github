@@ -47,7 +47,7 @@ defmodule GitHub.Team.Project do
 
   def __fields__(:t) do
     [
-      body: :string,
+      body: {:nullable, :string},
       columns_url: :string,
       created_at: :string,
       creator: {GitHub.User, :simple},

@@ -640,7 +640,32 @@ defmodule GitHub.Issues do
 
   """
   @spec list_events_for_timeline(String.t(), String.t(), integer, keyword) ::
-          {:ok, [GitHub.Timeline.IssueEvents.t()]} | {:error, GitHub.Error.t()}
+          {:ok,
+           [
+             GitHub.AddedToProjectIssueEvent.t()
+             | GitHub.ConvertedNoteToIssueIssueEvent.t()
+             | GitHub.DemilestonedIssueEvent.t()
+             | GitHub.LabeledIssueEvent.t()
+             | GitHub.LockedIssueEvent.t()
+             | GitHub.MilestonedIssueEvent.t()
+             | GitHub.MovedColumnInProjectIssueEvent.t()
+             | GitHub.RemovedFromProjectIssueEvent.t()
+             | GitHub.RenamedIssueEvent.t()
+             | GitHub.ReviewDismissedIssueEvent.t()
+             | GitHub.ReviewRequestRemovedIssueEvent.t()
+             | GitHub.ReviewRequestedIssueEvent.t()
+             | GitHub.StateChangeIssueEvent.t()
+             | GitHub.Timeline.AssignedIssueEvent.t()
+             | GitHub.Timeline.CommentEvent.t()
+             | GitHub.Timeline.CommitCommentedEvent.t()
+             | GitHub.Timeline.CommittedEvent.t()
+             | GitHub.Timeline.CrossReferencedEvent.t()
+             | GitHub.Timeline.LineCommentedEvent.t()
+             | GitHub.Timeline.ReviewedEvent.t()
+             | GitHub.Timeline.UnassignedIssueEvent.t()
+             | GitHub.UnlabeledIssueEvent.t()
+           ]}
+          | {:error, GitHub.Error.t()}
   def list_events_for_timeline(owner, repo, issue_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -650,7 +675,33 @@ defmodule GitHub.Issues do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Timeline.IssueEvents, :t}}},
+        {200,
+         {:array,
+          {:union,
+           [
+             {GitHub.LabeledIssueEvent, :t},
+             {GitHub.UnlabeledIssueEvent, :t},
+             {GitHub.MilestonedIssueEvent, :t},
+             {GitHub.DemilestonedIssueEvent, :t},
+             {GitHub.RenamedIssueEvent, :t},
+             {GitHub.ReviewRequestedIssueEvent, :t},
+             {GitHub.ReviewRequestRemovedIssueEvent, :t},
+             {GitHub.ReviewDismissedIssueEvent, :t},
+             {GitHub.LockedIssueEvent, :t},
+             {GitHub.AddedToProjectIssueEvent, :t},
+             {GitHub.MovedColumnInProjectIssueEvent, :t},
+             {GitHub.RemovedFromProjectIssueEvent, :t},
+             {GitHub.ConvertedNoteToIssueIssueEvent, :t},
+             {GitHub.Timeline.CommentEvent, :t},
+             {GitHub.Timeline.CrossReferencedEvent, :t},
+             {GitHub.Timeline.CommittedEvent, :t},
+             {GitHub.Timeline.ReviewedEvent, :t},
+             {GitHub.Timeline.LineCommentedEvent, :t},
+             {GitHub.Timeline.CommitCommentedEvent, :t},
+             {GitHub.Timeline.AssignedIssueEvent, :t},
+             {GitHub.Timeline.UnassignedIssueEvent, :t},
+             {GitHub.StateChangeIssueEvent, :t}
+           ]}}},
         {404, {GitHub.BasicError, :t}},
         {410, {GitHub.BasicError, :t}}
       ],
@@ -914,7 +965,8 @@ defmodule GitHub.Issues do
     * [API method documentation](https://docs.github.com/rest/reference/issues#lock-an-issue)
 
   """
-  @spec lock(String.t(), String.t(), integer, map, keyword) :: :ok | {:error, GitHub.Error.t()}
+  @spec lock(String.t(), String.t(), integer, map | nil, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def lock(owner, repo, issue_number, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -922,7 +974,7 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/lock",
       body: body,
       method: :put,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {:nullable, :map}}],
       response: [
         {204, nil},
         {403, {GitHub.BasicError, :t}},

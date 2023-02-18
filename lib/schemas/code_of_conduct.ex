@@ -1,6 +1,6 @@
 defmodule GitHub.CodeOfConduct do
   @moduledoc """
-  Provides struct and types for CodeOfConduct, CodeOfConductSimple, NullableCodeOfConductSimple
+  Provides struct and types for CodeOfConduct, CodeOfConductSimple
   """
 
   @type simple :: %__MODULE__{
@@ -25,10 +25,10 @@ defmodule GitHub.CodeOfConduct do
   def __fields__(type \\ :t)
 
   def __fields__(:simple) do
-    [html_url: :string, key: :string, name: :string, url: :string]
+    [html_url: {:nullable, :string}, key: :string, name: :string, url: :string]
   end
 
   def __fields__(:t) do
-    [body: :string, html_url: :string, key: :string, name: :string, url: :string]
+    [body: :string, html_url: {:nullable, :string}, key: :string, name: :string, url: :string]
   end
 end

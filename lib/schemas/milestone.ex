@@ -1,6 +1,6 @@
 defmodule GitHub.Milestone do
   @moduledoc """
-  Provides struct and types for Milestone, NullableMilestone
+  Provides struct and type for Milestone
   """
 
   @type t :: %__MODULE__{
@@ -47,12 +47,12 @@ defmodule GitHub.Milestone do
 
   def __fields__(:t) do
     [
-      closed_at: :string,
+      closed_at: {:nullable, :string},
       closed_issues: :integer,
       created_at: :string,
-      creator: {GitHub.User, :simple},
-      description: :string,
-      due_on: :string,
+      creator: {:nullable, {GitHub.User, :simple}},
+      description: {:nullable, :string},
+      due_on: {:nullable, :string},
       html_url: :string,
       id: :integer,
       labels_url: :string,

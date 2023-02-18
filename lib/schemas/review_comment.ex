@@ -87,18 +87,18 @@ defmodule GitHub.ReviewComment do
       original_commit_id: :string,
       original_line: :integer,
       original_position: :integer,
-      original_start_line: :integer,
+      original_start_line: {:nullable, :integer},
       path: :string,
-      position: :integer,
-      pull_request_review_id: :integer,
+      position: {:nullable, :integer},
+      pull_request_review_id: {:nullable, :integer},
       pull_request_url: :string,
       reactions: {GitHub.Reaction.Rollup, :t},
       side: :string,
-      start_line: :integer,
-      start_side: :string,
+      start_line: {:nullable, :integer},
+      start_side: {:nullable, :string},
       updated_at: :string,
       url: :string,
-      user: {GitHub.User, :simple}
+      user: {:nullable, {GitHub.User, :simple}}
     ]
   end
 end

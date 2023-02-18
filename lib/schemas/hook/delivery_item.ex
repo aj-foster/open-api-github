@@ -37,15 +37,15 @@ defmodule GitHub.Hook.DeliveryItem do
 
   def __fields__(:t) do
     [
-      action: :string,
+      action: {:nullable, :string},
       delivered_at: :string,
       duration: :number,
       event: :string,
       guid: :string,
       id: :integer,
-      installation_id: :integer,
+      installation_id: {:nullable, :integer},
       redelivery: :boolean,
-      repository_id: :integer,
+      repository_id: {:nullable, :integer},
       status: :string,
       status_code: :integer
     ]

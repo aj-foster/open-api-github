@@ -18,8 +18,8 @@ defmodule GitHub.Issue.EventDismissedReview do
 
   def __fields__(:t) do
     [
-      dismissal_commit_id: :string,
-      dismissal_message: :string,
+      dismissal_commit_id: {:nullable, :string},
+      dismissal_message: {:nullable, :string},
       review_id: :integer,
       state: :string
     ]

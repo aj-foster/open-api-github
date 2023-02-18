@@ -38,9 +38,9 @@ defmodule GitHub.Content.Symlink do
   def __fields__(:t) do
     [
       _links: :map,
-      download_url: :string,
-      git_url: :string,
-      html_url: :string,
+      download_url: {:nullable, :string},
+      git_url: {:nullable, :string},
+      html_url: {:nullable, :string},
       name: :string,
       path: :string,
       sha: :string,

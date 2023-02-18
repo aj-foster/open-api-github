@@ -1,6 +1,6 @@
 defmodule GitHub.Commit do
   @moduledoc """
-  Provides struct and types for Commit, NullableSimpleCommit, SimpleCommit
+  Provides struct and types for Commit, SimpleCommit
   """
 
   @type simple :: %__MODULE__{
@@ -50,8 +50,8 @@ defmodule GitHub.Commit do
 
   def __fields__(:simple) do
     [
-      author: :map,
-      committer: :map,
+      author: {:nullable, :map},
+      committer: {:nullable, :map},
       id: :string,
       message: :string,
       timestamp: :string,
@@ -61,10 +61,10 @@ defmodule GitHub.Commit do
 
   def __fields__(:t) do
     [
-      author: {GitHub.User, :simple},
+      author: {:nullable, {GitHub.User, :simple}},
       comments_url: :string,
       commit: :map,
-      committer: {GitHub.User, :simple},
+      committer: {:nullable, {GitHub.User, :simple}},
       files: {:array, {GitHub.DiffEntry, :t}},
       html_url: :string,
       node_id: :string,

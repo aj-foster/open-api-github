@@ -2086,7 +2086,7 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#re-run-job-for-workflow-run)
 
   """
-  @spec re_run_job_for_workflow_run(String.t(), String.t(), integer, map, keyword) ::
+  @spec re_run_job_for_workflow_run(String.t(), String.t(), integer, map | nil, keyword) ::
           {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def re_run_job_for_workflow_run(owner, repo, job_id, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -2095,7 +2095,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/jobs/#{job_id}/rerun",
       body: body,
       method: :post,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {:nullable, :map}}],
       response: [{201, {GitHub.EmptyObject, :t}}, {403, {GitHub.BasicError, :t}}],
       opts: opts
     })
@@ -2109,7 +2109,7 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#re-run-a-workflow)
 
   """
-  @spec re_run_workflow(String.t(), String.t(), integer, map, keyword) ::
+  @spec re_run_workflow(String.t(), String.t(), integer, map | nil, keyword) ::
           {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def re_run_workflow(owner, repo, run_id, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -2118,7 +2118,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/rerun",
       body: body,
       method: :post,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {:nullable, :map}}],
       response: [{201, {GitHub.EmptyObject, :t}}],
       opts: opts
     })
@@ -2132,7 +2132,7 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/reference/actions#re-run-workflow-failed-jobs)
 
   """
-  @spec re_run_workflow_failed_jobs(String.t(), String.t(), integer, map, keyword) ::
+  @spec re_run_workflow_failed_jobs(String.t(), String.t(), integer, map | nil, keyword) ::
           {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def re_run_workflow_failed_jobs(owner, repo, run_id, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -2141,7 +2141,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/rerun-failed-jobs",
       body: body,
       method: :post,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {:nullable, :map}}],
       response: [{201, {GitHub.EmptyObject, :t}}],
       opts: opts
     })

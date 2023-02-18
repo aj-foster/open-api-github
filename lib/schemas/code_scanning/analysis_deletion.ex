@@ -15,6 +15,6 @@ defmodule GitHub.CodeScanning.AnalysisDeletion do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [confirm_delete_url: :string, next_analysis_url: :string]
+    [confirm_delete_url: {:nullable, :string}, next_analysis_url: {:nullable, :string}]
   end
 end

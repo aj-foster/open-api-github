@@ -52,7 +52,7 @@ defmodule GitHub.Team.Full do
   def __fields__(:t) do
     [
       created_at: :string,
-      description: :string,
+      description: {:nullable, :string},
       html_url: :string,
       id: :integer,
       ldap_dn: :string,
@@ -61,7 +61,7 @@ defmodule GitHub.Team.Full do
       name: :string,
       node_id: :string,
       organization: {GitHub.Team.Organization, :t},
-      parent: {GitHub.Team, :simple},
+      parent: {:nullable, {GitHub.Team, :simple}},
       permission: :string,
       privacy: :string,
       repos_count: :integer,

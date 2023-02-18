@@ -34,7 +34,7 @@ defmodule GitHub.Thread do
   def __fields__(:t) do
     [
       id: :string,
-      last_read_at: :string,
+      last_read_at: {:nullable, :string},
       reason: :string,
       repository: {GitHub.MinimalRepository, :t},
       subject: :map,

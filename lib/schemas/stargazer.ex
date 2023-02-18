@@ -12,6 +12,6 @@ defmodule GitHub.Stargazer do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [starred_at: :string, user: {GitHub.User, :simple}]
+    [starred_at: :string, user: {:nullable, {GitHub.User, :simple}}]
   end
 end

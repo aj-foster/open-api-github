@@ -58,7 +58,7 @@ defmodule GitHub.Timeline.CommentEvent do
       id: :integer,
       issue_url: :string,
       node_id: :string,
-      performed_via_github_app: {GitHub.Integration, :t},
+      performed_via_github_app: {:nullable, {GitHub.Integration, :t}},
       reactions: {GitHub.Reaction.Rollup, :t},
       updated_at: :string,
       url: :string,

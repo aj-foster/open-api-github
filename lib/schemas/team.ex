@@ -1,6 +1,6 @@
 defmodule GitHub.Team do
   @moduledoc """
-  Provides struct and types for NullableTeamSimple, Team, TeamSimple
+  Provides struct and types for Team, TeamSimple
   """
 
   @type simple :: %__MODULE__{
@@ -57,7 +57,7 @@ defmodule GitHub.Team do
 
   def __fields__(:simple) do
     [
-      description: :string,
+      description: {:nullable, :string},
       html_url: :string,
       id: :integer,
       ldap_dn: :string,
@@ -74,13 +74,13 @@ defmodule GitHub.Team do
 
   def __fields__(:t) do
     [
-      description: :string,
+      description: {:nullable, :string},
       html_url: :string,
       id: :integer,
       members_url: :string,
       name: :string,
       node_id: :string,
-      parent: {GitHub.Team, :simple},
+      parent: {:nullable, {GitHub.Team, :simple}},
       permission: :string,
       permissions: :map,
       privacy: :string,

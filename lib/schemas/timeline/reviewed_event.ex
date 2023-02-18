@@ -45,7 +45,7 @@ defmodule GitHub.Timeline.ReviewedEvent do
     [
       _links: :map,
       author_association: :string,
-      body: :string,
+      body: {:nullable, :string},
       body_html: :string,
       body_text: :string,
       commit_id: :string,

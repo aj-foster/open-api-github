@@ -53,25 +53,25 @@ defmodule GitHub.Check.Suite do
 
   def __fields__(:t) do
     [
-      after: :string,
-      app: {GitHub.Integration, :t},
-      before: :string,
+      after: {:nullable, :string},
+      app: {:nullable, {GitHub.Integration, :t}},
+      before: {:nullable, :string},
       check_runs_url: :string,
-      conclusion: :string,
-      created_at: :string,
-      head_branch: :string,
+      conclusion: {:nullable, :string},
+      created_at: {:nullable, :string},
+      head_branch: {:nullable, :string},
       head_commit: {GitHub.Commit, :simple},
       head_sha: :string,
       id: :integer,
       latest_check_runs_count: :integer,
       node_id: :string,
-      pull_requests: {:array, {GitHub.PullRequest.Minimal, :t}},
+      pull_requests: {:nullable, {:array, {GitHub.PullRequest.Minimal, :t}}},
       repository: {GitHub.MinimalRepository, :t},
       rerequestable: :boolean,
       runs_rerequestable: :boolean,
-      status: :string,
-      updated_at: :string,
-      url: :string
+      status: {:nullable, :string},
+      updated_at: {:nullable, :string},
+      url: {:nullable, :string}
     ]
   end
 end

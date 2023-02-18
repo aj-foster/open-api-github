@@ -69,12 +69,12 @@ defmodule GitHub.Deployment do
   def __fields__(:simple) do
     [
       created_at: :string,
-      description: :string,
+      description: {:nullable, :string},
       environment: :string,
       id: :integer,
       node_id: :string,
       original_environment: :string,
-      performed_via_github_app: {GitHub.Integration, :t},
+      performed_via_github_app: {:nullable, {GitHub.Integration, :t}},
       production_environment: :boolean,
       repository_url: :string,
       statuses_url: :string,
@@ -88,14 +88,14 @@ defmodule GitHub.Deployment do
   def __fields__(:t) do
     [
       created_at: :string,
-      creator: {GitHub.User, :simple},
-      description: :string,
+      creator: {:nullable, {GitHub.User, :simple}},
+      description: {:nullable, :string},
       environment: :string,
       id: :integer,
       node_id: :string,
       original_environment: :string,
       payload: {:union, [:map, :string]},
-      performed_via_github_app: {GitHub.Integration, :t},
+      performed_via_github_app: {:nullable, {GitHub.Integration, :t}},
       production_environment: :boolean,
       ref: :string,
       repository_url: :string,

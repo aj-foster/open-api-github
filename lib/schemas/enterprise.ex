@@ -36,15 +36,15 @@ defmodule GitHub.Enterprise do
   def __fields__(:t) do
     [
       avatar_url: :string,
-      created_at: :string,
-      description: :string,
+      created_at: {:nullable, :string},
+      description: {:nullable, :string},
       html_url: :string,
       id: :integer,
       name: :string,
       node_id: :string,
       slug: :string,
-      updated_at: :string,
-      website_url: :string
+      updated_at: {:nullable, :string},
+      website_url: {:nullable, :string}
     ]
   end
 end

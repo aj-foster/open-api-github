@@ -36,13 +36,13 @@ defmodule GitHub.MovedColumnInProjectIssueEvent do
   def __fields__(:t) do
     [
       actor: {GitHub.User, :simple},
-      commit_id: :string,
-      commit_url: :string,
+      commit_id: {:nullable, :string},
+      commit_url: {:nullable, :string},
       created_at: :string,
       event: :string,
       id: :integer,
       node_id: :string,
-      performed_via_github_app: {GitHub.Integration, :t},
+      performed_via_github_app: {:nullable, {GitHub.Integration, :t}},
       project_card: :map,
       url: :string
     ]

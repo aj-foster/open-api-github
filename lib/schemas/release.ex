@@ -64,7 +64,7 @@ defmodule GitHub.Release do
       assets: {:array, {GitHub.Release.Asset, :t}},
       assets_url: :string,
       author: {GitHub.User, :simple},
-      body: :string,
+      body: {:nullable, :string},
       body_html: :string,
       body_text: :string,
       created_at: :string,
@@ -73,17 +73,17 @@ defmodule GitHub.Release do
       html_url: :string,
       id: :integer,
       mentions_count: :integer,
-      name: :string,
+      name: {:nullable, :string},
       node_id: :string,
       prerelease: :boolean,
-      published_at: :string,
+      published_at: {:nullable, :string},
       reactions: {GitHub.Reaction.Rollup, :t},
       tag_name: :string,
-      tarball_url: :string,
+      tarball_url: {:nullable, :string},
       target_commitish: :string,
       upload_url: :string,
       url: :string,
-      zipball_url: :string
+      zipball_url: {:nullable, :string}
     ]
   end
 end

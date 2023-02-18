@@ -46,13 +46,13 @@ defmodule GitHub.Release.Asset do
       created_at: :string,
       download_count: :integer,
       id: :integer,
-      label: :string,
+      label: {:nullable, :string},
       name: :string,
       node_id: :string,
       size: :integer,
       state: :string,
       updated_at: :string,
-      uploader: {GitHub.User, :simple},
+      uploader: {:nullable, {GitHub.User, :simple}},
       url: :string
     ]
   end

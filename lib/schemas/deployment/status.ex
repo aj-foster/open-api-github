@@ -46,7 +46,7 @@ defmodule GitHub.Deployment.Status do
   def __fields__(:t) do
     [
       created_at: :string,
-      creator: {GitHub.User, :simple},
+      creator: {:nullable, {GitHub.User, :simple}},
       deployment_url: :string,
       description: :string,
       environment: :string,
@@ -54,7 +54,7 @@ defmodule GitHub.Deployment.Status do
       id: :integer,
       log_url: :string,
       node_id: :string,
-      performed_via_github_app: {GitHub.Integration, :t},
+      performed_via_github_app: {:nullable, {GitHub.Integration, :t}},
       repository_url: :string,
       state: :string,
       target_url: :string,

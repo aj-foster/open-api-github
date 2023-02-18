@@ -66,7 +66,7 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#create-a-github-app-from-a-manifest)
 
   """
-  @spec create_from_manifest(String.t(), keyword) :: {:ok, term} | {:error, GitHub.Error.t()}
+  @spec create_from_manifest(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def create_from_manifest(code, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -74,7 +74,7 @@ defmodule GitHub.Apps do
       url: "/app-manifests/#{code}/conversions",
       method: :post,
       response: [
-        {201, :unknown},
+        {201, :map},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
       ],

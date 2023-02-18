@@ -41,14 +41,14 @@ defmodule GitHub.Team.DiscussionComment do
 
   def __fields__(:t) do
     [
-      author: {GitHub.User, :simple},
+      author: {:nullable, {GitHub.User, :simple}},
       body: :string,
       body_html: :string,
       body_version: :string,
       created_at: :string,
       discussion_url: :string,
       html_url: :string,
-      last_edited_at: :string,
+      last_edited_at: {:nullable, :string},
       node_id: :string,
       number: :integer,
       reactions: {GitHub.Reaction.Rollup, :t},

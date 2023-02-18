@@ -16,6 +16,6 @@ defmodule GitHub.CodeScanning.AnalysisTool do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [guid: :string, name: :string, version: :string]
+    [guid: {:nullable, :string}, name: :string, version: {:nullable, :string}]
   end
 end

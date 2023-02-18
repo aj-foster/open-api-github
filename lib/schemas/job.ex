@@ -60,11 +60,11 @@ defmodule GitHub.Job do
   def __fields__(:t) do
     [
       check_run_url: :string,
-      completed_at: :string,
-      conclusion: :string,
-      head_branch: :string,
+      completed_at: {:nullable, :string},
+      conclusion: {:nullable, :string},
+      head_branch: {:nullable, :string},
       head_sha: :string,
-      html_url: :string,
+      html_url: {:nullable, :string},
       id: :integer,
       labels: {:array, :string},
       name: :string,
@@ -72,15 +72,15 @@ defmodule GitHub.Job do
       run_attempt: :integer,
       run_id: :integer,
       run_url: :string,
-      runner_group_id: :integer,
-      runner_group_name: :string,
-      runner_id: :integer,
-      runner_name: :string,
+      runner_group_id: {:nullable, :integer},
+      runner_group_name: {:nullable, :string},
+      runner_id: {:nullable, :integer},
+      runner_name: {:nullable, :string},
       started_at: :string,
       status: :string,
       steps: {:array, :map},
       url: :string,
-      workflow_name: :string
+      workflow_name: {:nullable, :string}
     ]
   end
 end

@@ -203,7 +203,7 @@ defmodule GitHub.Codespaces do
     * [API method documentation](https://docs.github.com/rest/reference/codespaces#create-a-codespace-from-a-pull-request)
 
   """
-  @spec create_with_pr_for_authenticated_user(String.t(), String.t(), integer, map, keyword) ::
+  @spec create_with_pr_for_authenticated_user(String.t(), String.t(), integer, map | nil, keyword) ::
           {:ok, GitHub.Codespace.t()} | {:error, GitHub.Error.t()}
   def create_with_pr_for_authenticated_user(owner, repo, pull_number, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -212,7 +212,7 @@ defmodule GitHub.Codespaces do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/codespaces",
       body: body,
       method: :post,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {:nullable, :map}}],
       response: [
         {201, {GitHub.Codespace, :t}},
         {202, {GitHub.Codespace, :t}},
@@ -233,7 +233,7 @@ defmodule GitHub.Codespaces do
     * [API method documentation](https://docs.github.com/rest/reference/codespaces#create-a-codespace-in-a-repository)
 
   """
-  @spec create_with_repo_for_authenticated_user(String.t(), String.t(), map, keyword) ::
+  @spec create_with_repo_for_authenticated_user(String.t(), String.t(), map | nil, keyword) ::
           {:ok, GitHub.Codespace.t()} | {:error, GitHub.Error.t()}
   def create_with_repo_for_authenticated_user(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -242,7 +242,7 @@ defmodule GitHub.Codespaces do
       url: "/repos/#{owner}/#{repo}/codespaces",
       body: body,
       method: :post,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {:nullable, :map}}],
       response: [
         {201, {GitHub.Codespace, :t}},
         {202, {GitHub.Codespace, :t}},

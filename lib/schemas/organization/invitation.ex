@@ -38,13 +38,13 @@ defmodule GitHub.Organization.Invitation do
   def __fields__(:t) do
     [
       created_at: :string,
-      email: :string,
-      failed_at: :string,
-      failed_reason: :string,
+      email: {:nullable, :string},
+      failed_at: {:nullable, :string},
+      failed_reason: {:nullable, :string},
       id: :integer,
       invitation_teams_url: :string,
       inviter: {GitHub.User, :simple},
-      login: :string,
+      login: {:nullable, :string},
       node_id: :string,
       role: :string,
       team_count: :integer

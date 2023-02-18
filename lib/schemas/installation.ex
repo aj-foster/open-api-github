@@ -56,10 +56,10 @@ defmodule GitHub.Installation do
   def __fields__(:t) do
     [
       access_tokens_url: :string,
-      account: {:union, [{GitHub.User, :simple}, {GitHub.Enterprise, :t}]},
+      account: {:nullable, {:union, [{GitHub.User, :simple}, {GitHub.Enterprise, :t}]}},
       app_id: :integer,
       app_slug: :string,
-      contact_email: :string,
+      contact_email: {:nullable, :string},
       created_at: :string,
       events: {:array, :string},
       has_multiple_single_files: :boolean,
@@ -68,10 +68,10 @@ defmodule GitHub.Installation do
       permissions: {GitHub.AppPermissions, :t},
       repositories_url: :string,
       repository_selection: :string,
-      single_file_name: :string,
+      single_file_name: {:nullable, :string},
       single_file_paths: {:array, :string},
-      suspended_at: :string,
-      suspended_by: {GitHub.User, :simple},
+      suspended_at: {:nullable, :string},
+      suspended_by: {:nullable, {GitHub.User, :simple}},
       target_id: :integer,
       target_type: :string,
       updated_at: :string

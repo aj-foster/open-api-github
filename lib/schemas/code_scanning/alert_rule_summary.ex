@@ -18,6 +18,12 @@ defmodule GitHub.CodeScanning.AlertRuleSummary do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [description: :string, id: :string, name: :string, severity: :string, tags: {:array, :string}]
+    [
+      description: :string,
+      id: {:nullable, :string},
+      name: :string,
+      severity: {:nullable, :string},
+      tags: {:nullable, {:array, :string}}
+    ]
   end
 end

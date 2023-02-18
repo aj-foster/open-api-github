@@ -51,7 +51,7 @@ defmodule GitHub.Team.Discussion do
 
   def __fields__(:t) do
     [
-      author: {GitHub.User, :simple},
+      author: {:nullable, {GitHub.User, :simple}},
       body: :string,
       body_html: :string,
       body_version: :string,
@@ -59,7 +59,7 @@ defmodule GitHub.Team.Discussion do
       comments_url: :string,
       created_at: :string,
       html_url: :string,
-      last_edited_at: :string,
+      last_edited_at: {:nullable, :string},
       node_id: :string,
       number: :integer,
       pinned: :boolean,

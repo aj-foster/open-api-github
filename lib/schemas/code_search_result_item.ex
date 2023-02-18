@@ -44,7 +44,7 @@ defmodule GitHub.CodeSearchResultItem do
       file_size: :integer,
       git_url: :string,
       html_url: :string,
-      language: :string,
+      language: {:nullable, :string},
       last_modified_at: :string,
       line_numbers: {:array, :string},
       name: :string,

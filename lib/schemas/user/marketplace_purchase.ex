@@ -33,12 +33,12 @@ defmodule GitHub.User.MarketplacePurchase do
     [
       account: {GitHub.Marketplace.Account, :t},
       billing_cycle: :string,
-      free_trial_ends_on: :string,
-      next_billing_date: :string,
+      free_trial_ends_on: {:nullable, :string},
+      next_billing_date: {:nullable, :string},
       on_free_trial: :boolean,
       plan: {GitHub.Marketplace.ListingPlan, :t},
-      unit_count: :integer,
-      updated_at: :string
+      unit_count: {:nullable, :integer},
+      updated_at: {:nullable, :string}
     ]
   end
 end

@@ -51,13 +51,13 @@ defmodule GitHub.GpgKey do
       can_sign: :boolean,
       created_at: :string,
       emails: {:array, :map},
-      expires_at: :string,
+      expires_at: {:nullable, :string},
       id: :integer,
       key_id: :string,
-      name: :string,
-      primary_key_id: :integer,
+      name: {:nullable, :string},
+      primary_key_id: {:nullable, :integer},
       public_key: :string,
-      raw_key: :string,
+      raw_key: {:nullable, :string},
       revoked: :boolean,
       subkeys: {:array, :map}
     ]

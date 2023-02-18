@@ -1,6 +1,6 @@
 defmodule GitHub.Codespace.Machine do
   @moduledoc """
-  Provides struct and types for CodespaceMachine, NullableCodespaceMachine
+  Provides struct and type for CodespaceMachine
   """
 
   @type t :: %__MODULE__{
@@ -34,7 +34,7 @@ defmodule GitHub.Codespace.Machine do
       memory_in_bytes: :integer,
       name: :string,
       operating_system: :string,
-      prebuild_availability: :string,
+      prebuild_availability: {:nullable, :string},
       storage_in_bytes: :integer
     ]
   end

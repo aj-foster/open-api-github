@@ -64,7 +64,7 @@ defmodule GitHub.Contributor do
       followers_url: :string,
       following_url: :string,
       gists_url: :string,
-      gravatar_id: :string,
+      gravatar_id: {:nullable, :string},
       html_url: :string,
       id: :integer,
       login: :string,

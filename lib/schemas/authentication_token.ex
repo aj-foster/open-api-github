@@ -31,7 +31,7 @@ defmodule GitHub.AuthenticationToken do
       permissions: :map,
       repositories: {:array, {GitHub.Repository, :t}},
       repository_selection: :string,
-      single_file: :string,
+      single_file: {:nullable, :string},
       token: :string
     ]
   end

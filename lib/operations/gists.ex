@@ -518,7 +518,7 @@ defmodule GitHub.Gists do
     * [API method documentation](https://docs.github.com/rest/reference/gists/#update-a-gist)
 
   """
-  @spec update(String.t(), map, keyword) ::
+  @spec update(String.t(), map | nil, keyword) ::
           {:ok, GitHub.Gist.simple()} | {:error, GitHub.Error.t()}
   def update(gist_id, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -527,7 +527,7 @@ defmodule GitHub.Gists do
       url: "/gists/#{gist_id}",
       body: body,
       method: :patch,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {:nullable, :map}}],
       response: [
         {200, {GitHub.Gist, :simple}},
         {404, {GitHub.BasicError, :t}},

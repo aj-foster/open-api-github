@@ -38,16 +38,16 @@ defmodule GitHub.Artifact do
   def __fields__(:t) do
     [
       archive_download_url: :string,
-      created_at: :string,
+      created_at: {:nullable, :string},
       expired: :boolean,
-      expires_at: :string,
+      expires_at: {:nullable, :string},
       id: :integer,
       name: :string,
       node_id: :string,
       size_in_bytes: :integer,
-      updated_at: :string,
+      updated_at: {:nullable, :string},
       url: :string,
-      workflow_run: :map
+      workflow_run: {:nullable, :map}
     ]
   end
 end

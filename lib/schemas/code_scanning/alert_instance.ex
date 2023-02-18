@@ -6,7 +6,7 @@ defmodule GitHub.CodeScanning.AlertInstance do
   @type t :: %__MODULE__{
           analysis_key: String.t() | nil,
           category: String.t() | nil,
-          classifications: [String.t()] | nil,
+          classifications: [String.t() | nil] | nil,
           commit_sha: String.t() | nil,
           environment: String.t() | nil,
           html_url: String.t() | nil,
@@ -37,7 +37,7 @@ defmodule GitHub.CodeScanning.AlertInstance do
     [
       analysis_key: :string,
       category: :string,
-      classifications: {:array, :string},
+      classifications: {:array, {:nullable, :string}},
       commit_sha: :string,
       environment: :string,
       html_url: :string,

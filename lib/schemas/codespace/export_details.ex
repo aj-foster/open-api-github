@@ -21,13 +21,13 @@ defmodule GitHub.Codespace.ExportDetails do
 
   def __fields__(:t) do
     [
-      branch: :string,
-      completed_at: :string,
+      branch: {:nullable, :string},
+      completed_at: {:nullable, :string},
       export_url: :string,
-      html_url: :string,
+      html_url: {:nullable, :string},
       id: :string,
-      sha: :string,
-      state: :string
+      sha: {:nullable, :string},
+      state: {:nullable, :string}
     ]
   end
 end

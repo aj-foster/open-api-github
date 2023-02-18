@@ -46,14 +46,14 @@ defmodule GitHub.PullRequest.Review do
       body: :string,
       body_html: :string,
       body_text: :string,
-      commit_id: :string,
+      commit_id: {:nullable, :string},
       html_url: :string,
       id: :integer,
       node_id: :string,
       pull_request_url: :string,
       state: :string,
       submitted_at: :string,
-      user: {GitHub.User, :simple}
+      user: {:nullable, {GitHub.User, :simple}}
     ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.License do
   @moduledoc """
-  Provides struct and types for License, LicenseSimple, NullableLicenseSimple
+  Provides struct and types for License, LicenseSimple
   """
 
   @type simple :: %__MODULE__{
@@ -54,8 +54,8 @@ defmodule GitHub.License do
       key: :string,
       name: :string,
       node_id: :string,
-      spdx_id: :string,
-      url: :string
+      spdx_id: {:nullable, :string},
+      url: {:nullable, :string}
     ]
   end
 
@@ -72,8 +72,8 @@ defmodule GitHub.License do
       name: :string,
       node_id: :string,
       permissions: {:array, :string},
-      spdx_id: :string,
-      url: :string
+      spdx_id: {:nullable, :string},
+      url: {:nullable, :string}
     ]
   end
 end

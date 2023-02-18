@@ -23,13 +23,13 @@ defmodule GitHub.Event do
   def __fields__(:t) do
     [
       actor: {GitHub.Actor, :t},
-      created_at: :string,
+      created_at: {:nullable, :string},
       id: :string,
       org: {GitHub.Actor, :t},
       payload: :map,
       public: :boolean,
       repo: :map,
-      type: :string
+      type: {:nullable, :string}
     ]
   end
 end

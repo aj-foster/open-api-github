@@ -51,7 +51,7 @@ defmodule GitHub.Marketplace.ListingPlan do
       number: :integer,
       price_model: :string,
       state: :string,
-      unit_name: :string,
+      unit_name: {:nullable, :string},
       url: :string,
       yearly_price_in_cents: :integer
     ]

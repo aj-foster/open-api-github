@@ -17,6 +17,11 @@ defmodule GitHub.Verification do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [payload: :string, reason: :string, signature: :string, verified: :boolean]
+    [
+      payload: {:nullable, :string},
+      reason: :string,
+      signature: {:nullable, :string},
+      verified: :boolean
+    ]
   end
 end

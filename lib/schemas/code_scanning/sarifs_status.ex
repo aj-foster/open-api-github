@@ -16,6 +16,10 @@ defmodule GitHub.CodeScanning.SarifsStatus do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [analyses_url: :string, errors: {:array, :string}, processing_status: :string]
+    [
+      analyses_url: {:nullable, :string},
+      errors: {:nullable, {:array, :string}},
+      processing_status: :string
+    ]
   end
 end

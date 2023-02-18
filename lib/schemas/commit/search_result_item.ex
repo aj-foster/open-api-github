@@ -7,7 +7,7 @@ defmodule GitHub.Commit.SearchResultItem do
           author: GitHub.User.simple() | nil,
           comments_url: String.t(),
           commit: map,
-          committer: GitHub.Git.User.nullable() | nil,
+          committer: GitHub.Git.User.t() | nil,
           html_url: String.t(),
           node_id: String.t(),
           parents: [map],
@@ -39,10 +39,10 @@ defmodule GitHub.Commit.SearchResultItem do
 
   def __fields__(:t) do
     [
-      author: {GitHub.User, :simple},
+      author: {:nullable, {GitHub.User, :simple}},
       comments_url: :string,
       commit: :map,
-      committer: {GitHub.Git.User, :nullable},
+      committer: {:nullable, {GitHub.Git.User, :t}},
       html_url: :string,
       node_id: :string,
       parents: {:array, :map},

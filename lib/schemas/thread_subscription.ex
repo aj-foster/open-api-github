@@ -21,9 +21,9 @@ defmodule GitHub.ThreadSubscription do
 
   def __fields__(:t) do
     [
-      created_at: :string,
+      created_at: {:nullable, :string},
       ignored: :boolean,
-      reason: :string,
+      reason: {:nullable, :string},
       repository_url: :string,
       subscribed: :boolean,
       thread_url: :string,

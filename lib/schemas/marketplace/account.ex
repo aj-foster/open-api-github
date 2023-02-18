@@ -21,11 +21,11 @@ defmodule GitHub.Marketplace.Account do
 
   def __fields__(:t) do
     [
-      email: :string,
+      email: {:nullable, :string},
       id: :integer,
       login: :string,
       node_id: :string,
-      organization_billing_email: :string,
+      organization_billing_email: {:nullable, :string},
       type: :string,
       url: :string
     ]

@@ -22,7 +22,7 @@ defmodule GitHub.Repository.Subscription do
     [
       created_at: :string,
       ignored: :boolean,
-      reason: :string,
+      reason: {:nullable, :string},
       repository_url: :string,
       subscribed: :boolean,
       url: :string

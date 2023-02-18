@@ -31,10 +31,10 @@ defmodule GitHub.Marketplace.Purchase do
 
   def __fields__(:t) do
     [
-      email: :string,
+      email: {:nullable, :string},
       id: :integer,
       login: :string,
-      marketplace_pending_change: :map,
+      marketplace_pending_change: {:nullable, :map},
       marketplace_purchase: :map,
       organization_billing_email: :string,
       type: :string,

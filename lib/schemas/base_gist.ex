@@ -10,11 +10,11 @@ defmodule GitHub.BaseGist do
           created_at: String.t(),
           description: String.t() | nil,
           files: map,
-          forks: [term] | nil,
+          forks: [map] | nil,
           forks_url: String.t(),
           git_pull_url: String.t(),
           git_push_url: String.t(),
-          history: [term] | nil,
+          history: [map] | nil,
           html_url: String.t(),
           id: String.t(),
           node_id: String.t(),
@@ -59,13 +59,13 @@ defmodule GitHub.BaseGist do
       comments_url: :string,
       commits_url: :string,
       created_at: :string,
-      description: :string,
+      description: {:nullable, :string},
       files: :map,
-      forks: {:array, :unknown},
+      forks: {:array, :map},
       forks_url: :string,
       git_pull_url: :string,
       git_push_url: :string,
-      history: {:array, :unknown},
+      history: {:array, :map},
       html_url: :string,
       id: :string,
       node_id: :string,
@@ -74,7 +74,7 @@ defmodule GitHub.BaseGist do
       truncated: :boolean,
       updated_at: :string,
       url: :string,
-      user: {GitHub.User, :simple}
+      user: {:nullable, {GitHub.User, :simple}}
     ]
   end
 end

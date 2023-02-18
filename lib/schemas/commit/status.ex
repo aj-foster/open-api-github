@@ -35,15 +35,15 @@ defmodule GitHub.Commit.Status do
   @spec __fields__(atom) :: keyword
   def __fields__(:simple) do
     [
-      avatar_url: :string,
+      avatar_url: {:nullable, :string},
       context: :string,
       created_at: :string,
-      description: :string,
+      description: {:nullable, :string},
       id: :integer,
       node_id: :string,
-      required: :boolean,
+      required: {:nullable, :boolean},
       state: :string,
-      target_url: :string,
+      target_url: {:nullable, :string},
       updated_at: :string,
       url: :string
     ]

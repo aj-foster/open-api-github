@@ -25,7 +25,7 @@ defmodule GitHub.EnterpriseSecurityAnalysisSettings do
     [
       advanced_security_enabled_for_new_repositories: :boolean,
       secret_scanning_enabled_for_new_repositories: :boolean,
-      secret_scanning_push_protection_custom_link: :string,
+      secret_scanning_push_protection_custom_link: {:nullable, :string},
       secret_scanning_push_protection_enabled_for_new_repositories: :boolean
     ]
   end

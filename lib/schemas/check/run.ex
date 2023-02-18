@@ -49,21 +49,21 @@ defmodule GitHub.Check.Run do
 
   def __fields__(:t) do
     [
-      app: {GitHub.Integration, :t},
-      check_suite: :map,
-      completed_at: :string,
-      conclusion: :string,
+      app: {:nullable, {GitHub.Integration, :t}},
+      check_suite: {:nullable, :map},
+      completed_at: {:nullable, :string},
+      conclusion: {:nullable, :string},
       deployment: {GitHub.Deployment, :simple},
-      details_url: :string,
-      external_id: :string,
+      details_url: {:nullable, :string},
+      external_id: {:nullable, :string},
       head_sha: :string,
-      html_url: :string,
+      html_url: {:nullable, :string},
       id: :integer,
       name: :string,
       node_id: :string,
       output: :map,
       pull_requests: {:array, {GitHub.PullRequest.Minimal, :t}},
-      started_at: :string,
+      started_at: {:nullable, :string},
       status: :string,
       url: :string
     ]

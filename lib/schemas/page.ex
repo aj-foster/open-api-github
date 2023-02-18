@@ -39,17 +39,17 @@ defmodule GitHub.Page do
 
   def __fields__(:t) do
     [
-      build_type: :string,
-      cname: :string,
+      build_type: {:nullable, :string},
+      cname: {:nullable, :string},
       custom_404: :boolean,
       html_url: :string,
       https_certificate: {GitHub.Pages.HttpsCertificate, :t},
       https_enforced: :boolean,
-      pending_domain_unverified_at: :string,
-      protected_domain_state: :string,
+      pending_domain_unverified_at: {:nullable, :string},
+      protected_domain_state: {:nullable, :string},
       public: :boolean,
       source: {GitHub.Pages.SourceHash, :t},
-      status: :string,
+      status: {:nullable, :string},
       url: :string
     ]
   end

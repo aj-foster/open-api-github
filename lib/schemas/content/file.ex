@@ -45,10 +45,10 @@ defmodule GitHub.Content.File do
     [
       _links: :map,
       content: :string,
-      download_url: :string,
+      download_url: {:nullable, :string},
       encoding: :string,
-      git_url: :string,
-      html_url: :string,
+      git_url: {:nullable, :string},
+      html_url: {:nullable, :string},
       name: :string,
       path: :string,
       sha: :string,

@@ -48,11 +48,11 @@ defmodule GitHub.CodeScanning.OrganizationAlertItems do
   def __fields__(:t) do
     [
       created_at: :string,
-      dismissed_at: :string,
-      dismissed_by: {GitHub.User, :simple},
-      dismissed_comment: :string,
-      dismissed_reason: :string,
-      fixed_at: :string,
+      dismissed_at: {:nullable, :string},
+      dismissed_by: {:nullable, {GitHub.User, :simple}},
+      dismissed_comment: {:nullable, :string},
+      dismissed_reason: {:nullable, :string},
+      fixed_at: {:nullable, :string},
       html_url: :string,
       instances_url: :string,
       most_recent_instance: {GitHub.CodeScanning.AlertInstance, :t},

@@ -16,6 +16,6 @@ defmodule GitHub.Repository.CollaboratorPermission do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [permission: :string, role_name: :string, user: {GitHub.Collaborator, :t}]
+    [permission: :string, role_name: :string, user: {:nullable, {GitHub.Collaborator, :t}}]
   end
 end

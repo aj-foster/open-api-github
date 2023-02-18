@@ -59,14 +59,14 @@ defmodule GitHub.Gist do
       comments_url: :string,
       commits_url: :string,
       created_at: :string,
-      description: :string,
+      description: {:nullable, :string},
       files: :map,
-      fork_of: :map,
-      forks: {:array, :map},
+      fork_of: {:nullable, :map},
+      forks: {:nullable, {:array, :map}},
       forks_url: :string,
       git_pull_url: :string,
       git_push_url: :string,
-      history: {:array, {GitHub.Gist.History, :t}},
+      history: {:nullable, {:array, {GitHub.Gist.History, :t}}},
       html_url: :string,
       id: :string,
       node_id: :string,
@@ -75,7 +75,7 @@ defmodule GitHub.Gist do
       truncated: :boolean,
       updated_at: :string,
       url: :string,
-      user: :string
+      user: {:nullable, :string}
     ]
   end
 end

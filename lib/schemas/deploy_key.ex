@@ -23,11 +23,11 @@ defmodule GitHub.DeployKey do
 
   def __fields__(:t) do
     [
-      added_by: :string,
+      added_by: {:nullable, :string},
       created_at: :string,
       id: :integer,
       key: :string,
-      last_used: :string,
+      last_used: {:nullable, :string},
       read_only: :boolean,
       title: :string,
       url: :string,

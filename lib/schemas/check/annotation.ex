@@ -35,16 +35,16 @@ defmodule GitHub.Check.Annotation do
 
   def __fields__(:t) do
     [
-      annotation_level: :string,
+      annotation_level: {:nullable, :string},
       blob_href: :string,
-      end_column: :integer,
+      end_column: {:nullable, :integer},
       end_line: :integer,
-      message: :string,
+      message: {:nullable, :string},
       path: :string,
-      raw_details: :string,
-      start_column: :integer,
+      raw_details: {:nullable, :string},
+      start_column: {:nullable, :integer},
       start_line: :integer,
-      title: :string
+      title: {:nullable, :string}
     ]
   end
 end

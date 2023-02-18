@@ -28,11 +28,11 @@ defmodule GitHub.CommunityProfile do
   def __fields__(:t) do
     [
       content_reports_enabled: :boolean,
-      description: :string,
-      documentation: :string,
+      description: {:nullable, :string},
+      documentation: {:nullable, :string},
       files: :map,
       health_percentage: :integer,
-      updated_at: :string
+      updated_at: {:nullable, :string}
     ]
   end
 end

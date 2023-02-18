@@ -27,7 +27,7 @@ defmodule GitHub.OrgMembership do
       role: :string,
       state: :string,
       url: :string,
-      user: {GitHub.User, :simple}
+      user: {:nullable, {GitHub.User, :simple}}
     ]
   end
 end

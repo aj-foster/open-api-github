@@ -29,7 +29,7 @@ defmodule GitHub.PendingDeployment do
       environment: :map,
       reviewers: {:array, :map},
       wait_timer: :integer,
-      wait_timer_started_at: :string
+      wait_timer_started_at: {:nullable, :string}
     ]
   end
 end

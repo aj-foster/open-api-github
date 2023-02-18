@@ -1,6 +1,6 @@
 defmodule GitHub.Collaborator do
   @moduledoc """
-  Provides struct and types for Collaborator, NullableCollaborator
+  Provides struct and type for Collaborator
   """
 
   @type t :: %__MODULE__{
@@ -60,16 +60,16 @@ defmodule GitHub.Collaborator do
   def __fields__(:t) do
     [
       avatar_url: :string,
-      email: :string,
+      email: {:nullable, :string},
       events_url: :string,
       followers_url: :string,
       following_url: :string,
       gists_url: :string,
-      gravatar_id: :string,
+      gravatar_id: {:nullable, :string},
       html_url: :string,
       id: :integer,
       login: :string,
-      name: :string,
+      name: {:nullable, :string},
       node_id: :string,
       organizations_url: :string,
       permissions: :map,

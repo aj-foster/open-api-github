@@ -12,6 +12,6 @@ defmodule GitHub.Pages.HealthCheck do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [alt_domain: :map, domain: :map]
+    [alt_domain: {:nullable, :map}, domain: :map]
   end
 end

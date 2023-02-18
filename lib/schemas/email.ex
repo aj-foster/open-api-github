@@ -17,6 +17,6 @@ defmodule GitHub.Email do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [email: :string, primary: :boolean, verified: :boolean, visibility: :string]
+    [email: :string, primary: :boolean, verified: :boolean, visibility: {:nullable, :string}]
   end
 end

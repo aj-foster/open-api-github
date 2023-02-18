@@ -26,7 +26,7 @@ defmodule GitHub.Blob do
       highlighted_content: :string,
       node_id: :string,
       sha: :string,
-      size: :integer,
+      size: {:nullable, :integer},
       url: :string
     ]
   end

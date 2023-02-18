@@ -536,7 +536,7 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#create-a-fork)
 
   """
-  @spec create_fork(String.t(), String.t(), map, keyword) ::
+  @spec create_fork(String.t(), String.t(), map | nil, keyword) ::
           {:ok, GitHub.Repository.full()} | {:error, GitHub.Error.t()}
   def create_fork(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -545,7 +545,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/forks",
       body: body,
       method: :post,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {:nullable, :map}}],
       response: [
         {202, {GitHub.Repository, :full}},
         {400, {GitHub.BasicError, :t}},
@@ -592,7 +592,7 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#create-or-update-an-environment)
 
   """
-  @spec create_or_update_environment(String.t(), String.t(), String.t(), map, keyword) ::
+  @spec create_or_update_environment(String.t(), String.t(), String.t(), map | nil, keyword) ::
           {:ok, GitHub.Environment.t()} | {:error, GitHub.Error.t()}
   def create_or_update_environment(owner, repo, environment_name, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -601,7 +601,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/environments/#{environment_name}",
       body: body,
       method: :put,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {:nullable, :map}}],
       response: [{200, {GitHub.Environment, :t}}, {422, {GitHub.BasicError, :t}}],
       opts: opts
     })
@@ -672,7 +672,7 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/pages#create-a-github-pages-site)
 
   """
-  @spec create_pages_site(String.t(), String.t(), map, keyword) ::
+  @spec create_pages_site(String.t(), String.t(), map | nil, keyword) ::
           {:ok, GitHub.Page.t()} | {:error, GitHub.Error.t()}
   def create_pages_site(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -681,7 +681,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/pages",
       body: body,
       method: :post,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {:nullable, :map}}],
       response: [
         {201, {GitHub.Page, :t}},
         {409, {GitHub.BasicError, :t}},
@@ -776,7 +776,7 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/webhooks/repos#create-a-repository-webhook)
 
   """
-  @spec create_webhook(String.t(), String.t(), map, keyword) ::
+  @spec create_webhook(String.t(), String.t(), map | nil, keyword) ::
           {:ok, GitHub.Hook.t()} | {:error, GitHub.Error.t()}
   def create_webhook(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -785,7 +785,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/hooks",
       body: body,
       method: :post,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {:nullable, :map}}],
       response: [
         {201, {GitHub.Hook, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -2914,7 +2914,7 @@ defmodule GitHub.Repos do
     * `sha` (String.t()): The SHA recorded at creation time.
     * `ref` (String.t()): The name of the ref. This can be a branch, tag, or SHA.
     * `task` (String.t()): The name of the task for the deployment (e.g., `deploy` or `deploy:migrations`).
-    * `environment` (String.t()): The name of the environment that was deployed to (e.g., `staging` or `production`).
+    * `environment` (String.t() | nil): The name of the environment that was deployed to (e.g., `staging` or `production`).
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 

@@ -10,7 +10,7 @@ defmodule GitHub.Authorization do
           fingerprint: String.t() | nil,
           hashed_token: String.t() | nil,
           id: integer,
-          installation: GitHub.ScopedInstallation.nullable() | nil,
+          installation: GitHub.ScopedInstallation.t() | nil,
           note: String.t() | nil,
           note_url: String.t() | nil,
           scopes: [String.t()] | nil,
@@ -47,19 +47,19 @@ defmodule GitHub.Authorization do
     [
       app: :map,
       created_at: :string,
-      expires_at: :string,
-      fingerprint: :string,
-      hashed_token: :string,
+      expires_at: {:nullable, :string},
+      fingerprint: {:nullable, :string},
+      hashed_token: {:nullable, :string},
       id: :integer,
-      installation: {GitHub.ScopedInstallation, :nullable},
-      note: :string,
-      note_url: :string,
-      scopes: {:array, :string},
+      installation: {:nullable, {GitHub.ScopedInstallation, :t}},
+      note: {:nullable, :string},
+      note_url: {:nullable, :string},
+      scopes: {:nullable, {:array, :string}},
       token: :string,
-      token_last_eight: :string,
+      token_last_eight: {:nullable, :string},
       updated_at: :string,
       url: :string,
-      user: {GitHub.User, :simple}
+      user: {:nullable, {GitHub.User, :simple}}
     ]
   end
 end

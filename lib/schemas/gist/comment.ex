@@ -29,7 +29,7 @@ defmodule GitHub.Gist.Comment do
       node_id: :string,
       updated_at: :string,
       url: :string,
-      user: {GitHub.User, :simple}
+      user: {:nullable, {GitHub.User, :simple}}
     ]
   end
 end
