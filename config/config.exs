@@ -50,7 +50,6 @@ config :oapi_generator,
     ],
     merge: [
       {"FullRepository", "Repository"},
-      {~r/^Nullable/, ""},
       {~r/^Simple/, ""},
       {~r/Simple$/, ""},
       {"PrivateUser", "User"},

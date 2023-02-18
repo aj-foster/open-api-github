@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## 0.0.1
+* **Breaking**: Upgrade to OpenAPI 3.1 description (`descriptions-next`) with better support for nullable fields.
+  No more `.nullable()` types!
+* **Add**: Upgrade to `open-api-generator` version `0.0.2`, with support for OpenAPI 3.1 and other fixes.
+* **Add**: Include the recommended API version header in all requests.
+  The value of this header is defined by the `.api-version` file, which should be kept up-to-date
+  as the code is regenerated.
+
+### 0.0.1
 
 * **Initial Release**

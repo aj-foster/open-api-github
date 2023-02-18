@@ -71,6 +71,7 @@ However, the following are always available:
 
 * `auth` (string, 2-tuple, or struct implementing `GitHub.Auth`) Credentials to use for the request.
 * `server` (URL including scheme) Base API server to use, such as `https://api.github.com` (useful for interacting with GitHub Enterprise installations).
+* `version` (string) GitHub API version to use (not recommended to override this, because the generated code may not match the specified version).
 
 Whenever GitHub specifies a named schema as the response type for an operation, an Elixir struct will be returned.
 Note that GitHub often has similarly named schemas (such as `SimpleUser`, `PrivateUser`, `PublicUser`, etc.).

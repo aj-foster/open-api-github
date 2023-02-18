@@ -50,14 +50,15 @@ Please use [GitHub Discussions](https://github.com/aj-foster/open-api-github/dis
 If you intend to open a PR with updates to the generated code based on the latest GitHub OpenAPI description, please read carefully:
 
 1. Please use the latest commit from the [official repository](https://github.com/github/rest-api-description) at the time of your contribution.
-2. Please use `descriptions/api.github.com/api.github.com.yaml` — **not** `descriptions-next` or a GitHub Enterprise release.
-3. Use `mix api.gen default path/to/descriptions/api.github.com/api.github.com.yaml` to regenerate the code.
-4. Please include the commit SHA of the official repository in the description of your pull request.
-5. Please do not make any other changes in the same PR (for example, changing the library version).
+2. Please use `descriptions-next/api.github.com/api.github.com.yaml` — **not** `descriptions` or a GitHub Enterprise release.
+3. Use `mix api.gen default path/to/descriptions-next/api.github.com/api.github.com.yaml` to regenerate the code.
+4. Please also change the `.api-version` file if appropriate.
+5. Please include the commit SHA of the official repository in the description of your pull request.
+6. Please do not make any other changes in the same PR (for example, changing this library's version).
 
 If you run into any unexpected issues while generating the code, please open an issue.
 
-Thank you for you help!
+Thank you for your help!
 
 ### Implementing Changes
 
