@@ -67,8 +67,9 @@ defmodule GitHub.Operation do
           | :number
           | :string
           | :unknown
-          | {:array, t}
-          | {:union, [t]}
+          | {:array, type}
+          | {:nullable, type}
+          | {:union, [type]}
           | {module, atom}
 
   @typedoc "Operation struct for tracking client requests from start to finish"
@@ -197,6 +198,7 @@ defmodule GitHub.Operation do
     }
     |> put_auth_header(opts[:auth])
     |> put_content_type_header()
+    |> put_version_header(Config.version(opts))
     |> put_user_agent()
   end
 
@@ -234,6 +236,11 @@ defmodule GitHub.Operation do
   defp put_content_type_header(%__MODULE__{request_types: [type]} = operation) do
     {content_type, _body_type} = type
     put_request_header(operation, "Content-Type", content_type)
+  end
+
+  @spec put_version_header(t, String.t()) :: t
+  defp put_version_header(operation, version) do
+    put_request_header(operation, "X-GitHub-Api-Version", version)
   end
 
   @spec put_user_agent(t) :: t

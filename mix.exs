@@ -103,6 +103,7 @@ defmodule GitHub.MixProject do
     [
       description: "GitHub REST API Client for Elixir",
       files: [
+        ".api-version",
         "lib",
         "LICENSE",
         "mix.exs",

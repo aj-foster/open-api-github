@@ -1,5 +1,8 @@
 defmodule GitHub.Config do
+  @external_resource ".api-version"
+
   @default_server "https://api.github.com"
+  @default_version File.read!(".api-version") |> String.trim()
 
   @default_stack [
     {GitHub.Plugin.JasonSerializer, :encode_body},
@@ -32,6 +35,11 @@ defmodule GitHub.Config do
 
     * `server` (URL): API server to use. Useful if the client would like to target a GitHub
       Enterprise installation. Defaults to `#{@default_server}`.
+
+    * `version` (string): API version to use. Setting this option is not recommended, as the default
+      value is the version of the API used to generate this client's code. Overriding it risks the
+      client raising an error. To see the default value, open `.api-version` in the root of this
+      project.
 
   The following configuration is available using the **application environment**:
 
@@ -146,6 +154,23 @@ defmodule GitHub.Config do
   @spec stack :: [plugin]
   def stack do
     Application.get_env(:oapi_github, :stack, @default_stack)
+  end
+
+  @doc """
+  Get the configured API version, or `#{@default_version}` by default
+
+  ## Example
+
+      iex> Config.version([])
+      #{inspect(@default_version)}
+
+      iex> Config.version(version: "2020-01-01")
+      "2020-01-01"
+
+  """
+  @spec version(keyword) :: String.t()
+  def version(opts) do
+    config(opts, :version, @default_version)
   end
 
   #
