@@ -78,7 +78,7 @@ defmodule GitHub.Operation do
           request_body: term,
           request_headers: headers,
           request_method: method,
-          request_params: keyword | nil,
+          request_params: keyword | [{String.t(), String.t()}] | nil,
           request_server: String.t(),
           request_types: request_types | nil,
           request_url: String.t(),
