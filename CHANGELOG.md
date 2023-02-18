@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **Add**: Include the recommended API version header in all requests.
   The value of this header is defined by the `.api-version` file, which should be kept up-to-date
   as the code is regenerated.
+* **Add**: Plugin for caching redirect locations to avoid repeated (rate limited) 301 responses.
 
 ### 0.0.1
 

@@ -52,12 +52,13 @@ if Code.ensure_loaded?(Redix) do
       * URL-encoded parameters (ex. `page=1`), and
       * A SHA-256 hash of the auth token used.
 
-    By including the hashed auth token in the key, we can be reasonably sure that...
+    By including the hashed auth token in the key, we can be reasonably sure that cached data will
+    not be returned to a user that does not have access to the original data.
     """
     alias GitHub.Config
     alias GitHub.Operation
 
-    @default_cache_prefix "oapi_github"
+    @default_cache_prefix "oapi_github:response"
     @default_expiration_sec 60 * 60 * 24 * 30
     @private_key :redix_full_response_cache
 
