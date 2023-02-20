@@ -19,6 +19,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug],
       url: "/orgs/#{org}/security-managers/teams/#{team_slug}",
       method: :put,
       response: [{204, nil}, {409, nil}],
@@ -39,6 +40,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, username: username],
       url: "/orgs/#{org}/blocks/#{username}",
       method: :put,
       response: [{204, nil}, {422, {GitHub.ValidationError, :t}}],
@@ -59,6 +61,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, invitation_id: invitation_id],
       url: "/orgs/#{org}/invitations/#{invitation_id}",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
@@ -79,6 +82,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, username: username],
       url: "/orgs/#{org}/blocks/#{username}",
       method: :get,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -100,6 +104,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, username: username],
       url: "/orgs/#{org}/members/#{username}",
       method: :get,
       response: [{204, nil}, {302, nil}, {404, nil}],
@@ -121,6 +126,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, username: username],
       url: "/orgs/#{org}/public_members/#{username}",
       method: :get,
       response: [{204, nil}, {404, nil}],
@@ -142,6 +148,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, username: username],
       url: "/orgs/#{org}/outside_collaborators/#{username}",
       body: body,
       method: :put,
@@ -165,6 +172,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/invitations",
       body: body,
       method: :post,
@@ -192,6 +200,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/hooks",
       body: body,
       method: :post,
@@ -218,6 +227,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, hook_id: hook_id],
       url: "/orgs/#{org}/hooks/#{hook_id}",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -248,6 +258,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, security_product: security_product, enablement: enablement],
       url: "/orgs/#{org}/#{security_product}/#{enablement}",
       method: :post,
       response: [{204, nil}, {422, nil}],
@@ -269,6 +280,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}",
       method: :get,
       response: [{200, {GitHub.Organization.Full, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -290,6 +302,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org],
       url: "/user/memberships/orgs/#{org}",
       method: :get,
       response: [
@@ -315,6 +328,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, username: username],
       url: "/orgs/#{org}/memberships/#{username}",
       method: :get,
       response: [
@@ -340,6 +354,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, hook_id: hook_id],
       url: "/orgs/#{org}/hooks/#{hook_id}",
       method: :get,
       response: [{200, {GitHub.OrgHook, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -361,6 +376,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, hook_id: hook_id],
       url: "/orgs/#{org}/hooks/#{hook_id}/config",
       method: :get,
       response: [{200, {GitHub.Webhook.Config, :t}}],
@@ -382,6 +398,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, hook_id: hook_id, delivery_id: delivery_id],
       url: "/orgs/#{org}/hooks/#{hook_id}/deliveries/#{delivery_id}",
       method: :get,
       response: [
@@ -439,6 +456,7 @@ defmodule GitHub.Orgs do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/installations",
       method: :get,
       query: query,
@@ -467,6 +485,7 @@ defmodule GitHub.Orgs do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/blocks",
       method: :get,
       query: query,
@@ -495,6 +514,7 @@ defmodule GitHub.Orgs do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/failed_invitations",
       method: :get,
       query: query,
@@ -559,6 +579,7 @@ defmodule GitHub.Orgs do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/orgs",
       method: :get,
       query: query,
@@ -587,6 +608,7 @@ defmodule GitHub.Orgs do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [org: org, invitation_id: invitation_id],
       url: "/orgs/#{org}/invitations/#{invitation_id}/teams",
       method: :get,
       query: query,
@@ -617,6 +639,7 @@ defmodule GitHub.Orgs do
     query = Keyword.take(opts, [:filter, :page, :per_page, :role])
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/members",
       method: :get,
       query: query,
@@ -681,6 +704,7 @@ defmodule GitHub.Orgs do
     query = Keyword.take(opts, [:filter, :page, :per_page])
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/outside_collaborators",
       method: :get,
       query: query,
@@ -711,6 +735,7 @@ defmodule GitHub.Orgs do
     query = Keyword.take(opts, [:invitation_source, :page, :per_page, :role])
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/invitations",
       method: :get,
       query: query,
@@ -742,6 +767,7 @@ defmodule GitHub.Orgs do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/public_members",
       method: :get,
       query: query,
@@ -764,6 +790,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/security-managers",
       method: :get,
       response: [{200, {:array, {GitHub.Team, :simple}}}],
@@ -792,6 +819,7 @@ defmodule GitHub.Orgs do
     query = Keyword.take(opts, [:cursor, :per_page, :redelivery])
 
     client.request(%{
+      args: [org: org, hook_id: hook_id],
       url: "/orgs/#{org}/hooks/#{hook_id}/deliveries",
       method: :get,
       query: query,
@@ -824,6 +852,7 @@ defmodule GitHub.Orgs do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/hooks",
       method: :get,
       query: query,
@@ -845,6 +874,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, hook_id: hook_id],
       url: "/orgs/#{org}/hooks/#{hook_id}/pings",
       method: :post,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -866,6 +896,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, hook_id: hook_id, delivery_id: delivery_id],
       url: "/orgs/#{org}/hooks/#{hook_id}/deliveries/#{delivery_id}/attempts",
       method: :post,
       response: [{202, :map}, {400, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
@@ -886,6 +917,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, username: username],
       url: "/orgs/#{org}/members/#{username}",
       method: :delete,
       response: [{204, nil}, {403, {GitHub.BasicError, :t}}],
@@ -907,6 +939,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, username: username],
       url: "/orgs/#{org}/memberships/#{username}",
       method: :delete,
       response: [{204, nil}, {403, {GitHub.BasicError, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -928,6 +961,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, username: username],
       url: "/orgs/#{org}/outside_collaborators/#{username}",
       method: :delete,
       response: [{204, nil}, {422, :map}],
@@ -949,6 +983,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, username: username],
       url: "/orgs/#{org}/public_members/#{username}",
       method: :delete,
       response: [{204, nil}],
@@ -970,6 +1005,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug],
       url: "/orgs/#{org}/security-managers/teams/#{team_slug}",
       method: :delete,
       response: [{204, nil}],
@@ -991,6 +1027,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, username: username],
       url: "/orgs/#{org}/memberships/#{username}",
       body: body,
       method: :put,
@@ -1018,6 +1055,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, username: username],
       url: "/orgs/#{org}/public_members/#{username}",
       method: :put,
       response: [{204, nil}, {403, {GitHub.BasicError, :t}}],
@@ -1038,6 +1076,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, username: username],
       url: "/orgs/#{org}/blocks/#{username}",
       method: :delete,
       response: [{204, nil}],
@@ -1059,6 +1098,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}",
       body: body,
       method: :patch,
@@ -1086,6 +1126,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org],
       url: "/user/memberships/orgs/#{org}",
       body: body,
       method: :patch,
@@ -1114,6 +1155,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, hook_id: hook_id],
       url: "/orgs/#{org}/hooks/#{hook_id}",
       body: body,
       method: :patch,
@@ -1141,6 +1183,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, hook_id: hook_id],
       url: "/orgs/#{org}/hooks/#{hook_id}/config",
       body: body,
       method: :patch,

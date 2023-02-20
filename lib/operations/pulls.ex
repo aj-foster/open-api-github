@@ -19,6 +19,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/merge",
       method: :get,
       response: [{204, nil}, {404, nil}],
@@ -40,6 +41,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/pulls",
       body: body,
       method: :post,
@@ -67,6 +69,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number, comment_id: comment_id],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/comments/#{comment_id}/replies",
       body: body,
       method: :post,
@@ -90,6 +93,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews",
       body: body,
       method: :post,
@@ -117,6 +121,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/comments",
       body: body,
       method: :post,
@@ -144,6 +149,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number, review_id: review_id],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews/#{review_id}",
       method: :delete,
       response: [
@@ -169,6 +175,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, comment_id: comment_id],
       url: "/repos/#{owner}/#{repo}/pulls/comments/#{comment_id}",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -190,6 +197,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number, review_id: review_id],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews/#{review_id}/dismissals",
       body: body,
       method: :put,
@@ -217,6 +225,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}",
       method: :get,
       response: [
@@ -244,6 +253,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number, review_id: review_id],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews/#{review_id}",
       method: :get,
       response: [{200, {GitHub.PullRequest.Review, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -265,6 +275,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, comment_id: comment_id],
       url: "/repos/#{owner}/#{repo}/pulls/comments/#{comment_id}",
       method: :get,
       response: [{200, {GitHub.PullRequest.ReviewComment, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -297,6 +308,7 @@ defmodule GitHub.Pulls do
     query = Keyword.take(opts, [:base, :direction, :head, :page, :per_page, :sort, :state])
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/pulls",
       method: :get,
       query: query,
@@ -329,6 +341,7 @@ defmodule GitHub.Pulls do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number, review_id: review_id],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews/#{review_id}/comments",
       method: :get,
       query: query,
@@ -357,6 +370,7 @@ defmodule GitHub.Pulls do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/commits",
       method: :get,
       query: query,
@@ -385,6 +399,7 @@ defmodule GitHub.Pulls do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/files",
       method: :get,
       query: query,
@@ -412,6 +427,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/requested_reviewers",
       method: :get,
       response: [{200, {GitHub.PullRequest.ReviewRequest, :t}}],
@@ -442,6 +458,7 @@ defmodule GitHub.Pulls do
     query = Keyword.take(opts, [:direction, :page, :per_page, :since, :sort])
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/comments",
       method: :get,
       query: query,
@@ -473,6 +490,7 @@ defmodule GitHub.Pulls do
     query = Keyword.take(opts, [:direction, :page, :per_page, :since, :sort])
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/pulls/comments",
       method: :get,
       query: query,
@@ -501,6 +519,7 @@ defmodule GitHub.Pulls do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews",
       method: :get,
       query: query,
@@ -523,6 +542,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/merge",
       body: body,
       method: :put,
@@ -553,6 +573,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/requested_reviewers",
       body: body,
       method: :delete,
@@ -576,6 +597,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/requested_reviewers",
       body: body,
       method: :post,
@@ -599,6 +621,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number, review_id: review_id],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews/#{review_id}/events",
       body: body,
       method: :post,
@@ -627,6 +650,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}",
       body: body,
       method: :patch,
@@ -654,6 +678,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/update-branch",
       body: body,
       method: :put,
@@ -677,6 +702,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, pull_number: pull_number, review_id: review_id],
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews/#{review_id}",
       body: body,
       method: :put,
@@ -700,6 +726,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, comment_id: comment_id],
       url: "/repos/#{owner}/#{repo}/pulls/comments/#{comment_id}",
       body: body,
       method: :patch,

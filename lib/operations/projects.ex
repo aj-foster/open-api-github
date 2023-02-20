@@ -19,6 +19,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [project_id: project_id, username: username],
       url: "/projects/#{project_id}/collaborators/#{username}",
       body: body,
       method: :put,
@@ -49,6 +50,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [column_id: column_id],
       url: "/projects/columns/#{column_id}/cards",
       body: body,
       method: :post,
@@ -79,6 +81,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [project_id: project_id],
       url: "/projects/#{project_id}/columns",
       body: body,
       method: :post,
@@ -137,6 +140,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/projects",
       body: body,
       method: :post,
@@ -167,6 +171,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/projects",
       body: body,
       method: :post,
@@ -196,6 +201,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [project_id: project_id],
       url: "/projects/#{project_id}",
       method: :delete,
       response: [
@@ -223,6 +229,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [card_id: card_id],
       url: "/projects/columns/cards/#{card_id}",
       method: :delete,
       response: [
@@ -249,6 +256,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [column_id: column_id],
       url: "/projects/columns/#{column_id}",
       method: :delete,
       response: [
@@ -274,6 +282,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [project_id: project_id],
       url: "/projects/#{project_id}",
       method: :get,
       response: [
@@ -299,6 +308,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [card_id: card_id],
       url: "/projects/columns/cards/#{card_id}",
       method: :get,
       response: [
@@ -326,6 +336,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [column_id: column_id],
       url: "/projects/columns/#{column_id}",
       method: :get,
       response: [
@@ -353,6 +364,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [project_id: project_id, username: username],
       url: "/projects/#{project_id}/collaborators/#{username}/permission",
       method: :get,
       response: [
@@ -388,6 +400,7 @@ defmodule GitHub.Projects do
     query = Keyword.take(opts, [:archived_state, :page, :per_page])
 
     client.request(%{
+      args: [column_id: column_id],
       url: "/projects/columns/#{column_id}/cards",
       method: :get,
       query: query,
@@ -422,6 +435,7 @@ defmodule GitHub.Projects do
     query = Keyword.take(opts, [:affiliation, :page, :per_page])
 
     client.request(%{
+      args: [project_id: project_id],
       url: "/projects/#{project_id}/collaborators",
       method: :get,
       query: query,
@@ -457,6 +471,7 @@ defmodule GitHub.Projects do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [project_id: project_id],
       url: "/projects/#{project_id}/columns",
       method: :get,
       query: query,
@@ -491,6 +506,7 @@ defmodule GitHub.Projects do
     query = Keyword.take(opts, [:page, :per_page, :state])
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/projects",
       method: :get,
       query: query,
@@ -520,6 +536,7 @@ defmodule GitHub.Projects do
     query = Keyword.take(opts, [:page, :per_page, :state])
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/projects",
       method: :get,
       query: query,
@@ -556,6 +573,7 @@ defmodule GitHub.Projects do
     query = Keyword.take(opts, [:page, :per_page, :state])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/projects",
       method: :get,
       query: query,
@@ -577,6 +595,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [card_id: card_id],
       url: "/projects/columns/cards/#{card_id}/moves",
       body: body,
       method: :post,
@@ -606,6 +625,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [column_id: column_id],
       url: "/projects/columns/#{column_id}/moves",
       body: body,
       method: :post,
@@ -634,6 +654,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [project_id: project_id, username: username],
       url: "/projects/#{project_id}/collaborators/#{username}",
       method: :delete,
       response: [
@@ -661,6 +682,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [project_id: project_id],
       url: "/projects/#{project_id}",
       body: body,
       method: :patch,
@@ -692,6 +714,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [card_id: card_id],
       url: "/projects/columns/cards/#{card_id}",
       body: body,
       method: :patch,
@@ -722,6 +745,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [column_id: column_id],
       url: "/projects/columns/#{column_id}",
       body: body,
       method: :patch,

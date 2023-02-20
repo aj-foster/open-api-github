@@ -19,6 +19,7 @@ defmodule GitHub.SecretScanning do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, alert_number: alert_number],
       url: "/repos/#{owner}/#{repo}/secret-scanning/alerts/#{alert_number}",
       method: :get,
       response: [{200, {GitHub.SecretScanning.Alert, :t}}, {304, nil}, {404, nil}, {503, :map}],
@@ -65,6 +66,7 @@ defmodule GitHub.SecretScanning do
       ])
 
     client.request(%{
+      args: [enterprise: enterprise],
       url: "/enterprises/#{enterprise}/secret-scanning/alerts",
       method: :get,
       query: query,
@@ -118,6 +120,7 @@ defmodule GitHub.SecretScanning do
       ])
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/secret-scanning/alerts",
       method: :get,
       query: query,
@@ -171,6 +174,7 @@ defmodule GitHub.SecretScanning do
       ])
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/secret-scanning/alerts",
       method: :get,
       query: query,
@@ -199,6 +203,7 @@ defmodule GitHub.SecretScanning do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo, alert_number: alert_number],
       url: "/repos/#{owner}/#{repo}/secret-scanning/alerts/#{alert_number}/locations",
       method: :get,
       query: query,
@@ -221,6 +226,7 @@ defmodule GitHub.SecretScanning do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, alert_number: alert_number],
       url: "/repos/#{owner}/#{repo}/secret-scanning/alerts/#{alert_number}",
       body: body,
       method: :patch,

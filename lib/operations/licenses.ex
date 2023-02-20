@@ -18,6 +18,7 @@ defmodule GitHub.Licenses do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [license: license],
       url: "/licenses/#{license}",
       method: :get,
       response: [
@@ -73,6 +74,7 @@ defmodule GitHub.Licenses do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/license",
       method: :get,
       response: [{200, {GitHub.License.Content, :t}}],

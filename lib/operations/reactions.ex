@@ -19,6 +19,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, comment_id: comment_id],
       url: "/repos/#{owner}/#{repo}/comments/#{comment_id}/reactions",
       body: body,
       method: :post,
@@ -46,6 +47,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, issue_number: issue_number],
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/reactions",
       body: body,
       method: :post,
@@ -73,6 +75,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, comment_id: comment_id],
       url: "/repos/#{owner}/#{repo}/issues/comments/#{comment_id}/reactions",
       body: body,
       method: :post,
@@ -100,6 +103,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, comment_id: comment_id],
       url: "/repos/#{owner}/#{repo}/pulls/comments/#{comment_id}/reactions",
       body: body,
       method: :post,
@@ -127,6 +131,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, release_id: release_id],
       url: "/repos/#{owner}/#{repo}/releases/#{release_id}/reactions",
       body: body,
       method: :post,
@@ -167,6 +172,12 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        org: org,
+        team_slug: team_slug,
+        discussion_number: discussion_number,
+        comment_number: comment_number
+      ],
       url:
         "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments/#{comment_number}/reactions",
       body: body,
@@ -197,6 +208,11 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        team_id: team_id,
+        discussion_number: discussion_number,
+        comment_number: comment_number
+      ],
       url:
         "/teams/#{team_id}/discussions/#{discussion_number}/comments/#{comment_number}/reactions",
       body: body,
@@ -221,6 +237,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, discussion_number: discussion_number],
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/reactions",
       body: body,
       method: :post,
@@ -244,6 +261,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, discussion_number: discussion_number],
       url: "/teams/#{team_id}/discussions/#{discussion_number}/reactions",
       body: body,
       method: :post,
@@ -267,6 +285,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, comment_id: comment_id, reaction_id: reaction_id],
       url: "/repos/#{owner}/#{repo}/comments/#{comment_id}/reactions/#{reaction_id}",
       method: :delete,
       response: [{204, nil}],
@@ -288,6 +307,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, issue_number: issue_number, reaction_id: reaction_id],
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/reactions/#{reaction_id}",
       method: :delete,
       response: [{204, nil}],
@@ -309,6 +329,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, comment_id: comment_id, reaction_id: reaction_id],
       url: "/repos/#{owner}/#{repo}/issues/comments/#{comment_id}/reactions/#{reaction_id}",
       method: :delete,
       response: [{204, nil}],
@@ -330,6 +351,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, comment_id: comment_id, reaction_id: reaction_id],
       url: "/repos/#{owner}/#{repo}/pulls/comments/#{comment_id}/reactions/#{reaction_id}",
       method: :delete,
       response: [{204, nil}],
@@ -351,6 +373,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, release_id: release_id, reaction_id: reaction_id],
       url: "/repos/#{owner}/#{repo}/releases/#{release_id}/reactions/#{reaction_id}",
       method: :delete,
       response: [{204, nil}],
@@ -372,6 +395,12 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        org: org,
+        team_slug: team_slug,
+        discussion_number: discussion_number,
+        reaction_id: reaction_id
+      ],
       url:
         "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/reactions/#{reaction_id}",
       method: :delete,
@@ -407,6 +436,13 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        org: org,
+        team_slug: team_slug,
+        discussion_number: discussion_number,
+        comment_number: comment_number,
+        reaction_id: reaction_id
+      ],
       url:
         "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments/#{comment_number}/reactions/#{reaction_id}",
       method: :delete,
@@ -436,6 +472,7 @@ defmodule GitHub.Reactions do
     query = Keyword.take(opts, [:content, :page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo, comment_id: comment_id],
       url: "/repos/#{owner}/#{repo}/comments/#{comment_id}/reactions",
       method: :get,
       query: query,
@@ -465,6 +502,7 @@ defmodule GitHub.Reactions do
     query = Keyword.take(opts, [:content, :page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo, issue_number: issue_number],
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/reactions",
       method: :get,
       query: query,
@@ -498,6 +536,7 @@ defmodule GitHub.Reactions do
     query = Keyword.take(opts, [:content, :page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo, comment_id: comment_id],
       url: "/repos/#{owner}/#{repo}/issues/comments/#{comment_id}/reactions",
       method: :get,
       query: query,
@@ -527,6 +566,7 @@ defmodule GitHub.Reactions do
     query = Keyword.take(opts, [:content, :page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo, comment_id: comment_id],
       url: "/repos/#{owner}/#{repo}/pulls/comments/#{comment_id}/reactions",
       method: :get,
       query: query,
@@ -556,6 +596,7 @@ defmodule GitHub.Reactions do
     query = Keyword.take(opts, [:content, :page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo, release_id: release_id],
       url: "/repos/#{owner}/#{repo}/releases/#{release_id}/reactions",
       method: :get,
       query: query,
@@ -591,6 +632,12 @@ defmodule GitHub.Reactions do
     query = Keyword.take(opts, [:content, :page, :per_page])
 
     client.request(%{
+      args: [
+        org: org,
+        team_slug: team_slug,
+        discussion_number: discussion_number,
+        comment_number: comment_number
+      ],
       url:
         "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments/#{comment_number}/reactions",
       method: :get,
@@ -626,6 +673,11 @@ defmodule GitHub.Reactions do
     query = Keyword.take(opts, [:content, :page, :per_page])
 
     client.request(%{
+      args: [
+        team_id: team_id,
+        discussion_number: discussion_number,
+        comment_number: comment_number
+      ],
       url:
         "/teams/#{team_id}/discussions/#{discussion_number}/comments/#{comment_number}/reactions",
       method: :get,
@@ -656,6 +708,7 @@ defmodule GitHub.Reactions do
     query = Keyword.take(opts, [:content, :page, :per_page])
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, discussion_number: discussion_number],
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/reactions",
       method: :get,
       query: query,
@@ -685,6 +738,7 @@ defmodule GitHub.Reactions do
     query = Keyword.take(opts, [:content, :page, :per_page])
 
     client.request(%{
+      args: [team_id: team_id, discussion_number: discussion_number],
       url: "/teams/#{team_id}/discussions/#{discussion_number}/reactions",
       method: :get,
       query: query,

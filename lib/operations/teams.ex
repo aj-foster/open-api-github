@@ -18,6 +18,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, username: username],
       url: "/teams/#{team_id}/members/#{username}",
       method: :put,
       response: [{204, nil}, {403, {GitHub.BasicError, :t}}, {404, nil}, {422, nil}],
@@ -39,6 +40,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, username: username],
       url: "/orgs/#{org}/teams/#{team_slug}/memberships/#{username}",
       body: body,
       method: :put,
@@ -62,6 +64,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, username: username],
       url: "/teams/#{team_id}/memberships/#{username}",
       body: body,
       method: :put,
@@ -95,6 +98,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, project_id: project_id],
       url: "/orgs/#{org}/teams/#{team_slug}/projects/#{project_id}",
       body: body,
       method: :put,
@@ -118,6 +122,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, project_id: project_id],
       url: "/teams/#{team_id}/projects/#{project_id}",
       body: body,
       method: :put,
@@ -152,6 +157,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, owner: owner, repo: repo],
       url: "/orgs/#{org}/teams/#{team_slug}/repos/#{owner}/#{repo}",
       body: body,
       method: :put,
@@ -175,6 +181,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, owner: owner, repo: repo],
       url: "/teams/#{team_id}/repos/#{owner}/#{repo}",
       body: body,
       method: :put,
@@ -198,6 +205,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, project_id: project_id],
       url: "/orgs/#{org}/teams/#{team_slug}/projects/#{project_id}",
       method: :get,
       response: [{200, {GitHub.Team.Project, :t}}, {404, nil}],
@@ -219,6 +227,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, project_id: project_id],
       url: "/teams/#{team_id}/projects/#{project_id}",
       method: :get,
       response: [{200, {GitHub.Team.Project, :t}}, {404, nil}],
@@ -240,6 +249,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, owner: owner, repo: repo],
       url: "/orgs/#{org}/teams/#{team_slug}/repos/#{owner}/#{repo}",
       method: :get,
       response: [{200, {GitHub.Team.Repository, :t}}, {204, nil}, {404, nil}],
@@ -261,6 +271,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, owner: owner, repo: repo],
       url: "/teams/#{team_id}/repos/#{owner}/#{repo}",
       method: :get,
       response: [{200, {GitHub.Team.Repository, :t}}, {204, nil}, {404, nil}],
@@ -282,6 +293,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/teams",
       body: body,
       method: :post,
@@ -309,6 +321,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, discussion_number: discussion_number],
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments",
       body: body,
       method: :post,
@@ -332,6 +345,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, discussion_number: discussion_number],
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments",
       body: body,
       method: :post,
@@ -355,6 +369,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug],
       url: "/orgs/#{org}/teams/#{team_slug}/discussions",
       body: body,
       method: :post,
@@ -378,6 +393,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id],
       url: "/teams/#{team_id}/discussions",
       body: body,
       method: :post,
@@ -407,6 +423,12 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        org: org,
+        team_slug: team_slug,
+        discussion_number: discussion_number,
+        comment_number: comment_number
+      ],
       url:
         "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments/#{comment_number}",
       method: :delete,
@@ -429,6 +451,11 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        team_id: team_id,
+        discussion_number: discussion_number,
+        comment_number: comment_number
+      ],
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments/#{comment_number}",
       method: :delete,
       response: [{204, nil}],
@@ -450,6 +477,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, discussion_number: discussion_number],
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}",
       method: :delete,
       response: [{204, nil}],
@@ -470,6 +498,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, discussion_number: discussion_number],
       url: "/teams/#{team_id}/discussions/#{discussion_number}",
       method: :delete,
       response: [{204, nil}],
@@ -490,6 +519,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug],
       url: "/orgs/#{org}/teams/#{team_slug}",
       method: :delete,
       response: [{204, nil}],
@@ -510,6 +540,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id],
       url: "/teams/#{team_id}",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
@@ -531,6 +562,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug],
       url: "/orgs/#{org}/teams/#{team_slug}",
       method: :get,
       response: [{200, {GitHub.Team.Full, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -552,6 +584,12 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        org: org,
+        team_slug: team_slug,
+        discussion_number: discussion_number,
+        comment_number: comment_number
+      ],
       url:
         "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments/#{comment_number}",
       method: :get,
@@ -574,6 +612,11 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        team_id: team_id,
+        discussion_number: discussion_number,
+        comment_number: comment_number
+      ],
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments/#{comment_number}",
       method: :get,
       response: [{200, {GitHub.Team.DiscussionComment, :t}}],
@@ -595,6 +638,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, discussion_number: discussion_number],
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}",
       method: :get,
       response: [{200, {GitHub.Team.Discussion, :t}}],
@@ -616,6 +660,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, discussion_number: discussion_number],
       url: "/teams/#{team_id}/discussions/#{discussion_number}",
       method: :get,
       response: [{200, {GitHub.Team.Discussion, :t}}],
@@ -636,6 +681,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id],
       url: "/teams/#{team_id}",
       method: :get,
       response: [{200, {GitHub.Team.Full, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -656,6 +702,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, username: username],
       url: "/teams/#{team_id}/members/#{username}",
       method: :get,
       response: [{204, nil}, {404, nil}],
@@ -677,6 +724,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, username: username],
       url: "/orgs/#{org}/teams/#{team_slug}/memberships/#{username}",
       method: :get,
       response: [{200, {GitHub.Team.Membership, :t}}, {404, nil}],
@@ -698,6 +746,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, username: username],
       url: "/teams/#{team_id}/memberships/#{username}",
       method: :get,
       response: [{200, {GitHub.Team.Membership, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -724,6 +773,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/teams",
       method: :get,
       query: query,
@@ -752,6 +802,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [org: org, team_slug: team_slug],
       url: "/orgs/#{org}/teams/#{team_slug}/teams",
       method: :get,
       query: query,
@@ -780,6 +831,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [team_id: team_id],
       url: "/teams/#{team_id}/teams",
       method: :get,
       query: query,
@@ -814,6 +866,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:direction, :page, :per_page])
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, discussion_number: discussion_number],
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments",
       method: :get,
       query: query,
@@ -843,6 +896,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:direction, :page, :per_page])
 
     client.request(%{
+      args: [team_id: team_id, discussion_number: discussion_number],
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments",
       method: :get,
       query: query,
@@ -873,6 +927,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:direction, :page, :per_page, :pinned])
 
     client.request(%{
+      args: [org: org, team_slug: team_slug],
       url: "/orgs/#{org}/teams/#{team_slug}/discussions",
       method: :get,
       query: query,
@@ -902,6 +957,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:direction, :page, :per_page])
 
     client.request(%{
+      args: [team_id: team_id],
       url: "/teams/#{team_id}/discussions",
       method: :get,
       query: query,
@@ -964,6 +1020,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:page, :per_page, :role])
 
     client.request(%{
+      args: [org: org, team_slug: team_slug],
       url: "/orgs/#{org}/teams/#{team_slug}/members",
       method: :get,
       query: query,
@@ -993,6 +1050,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:page, :per_page, :role])
 
     client.request(%{
+      args: [team_id: team_id],
       url: "/teams/#{team_id}/members",
       method: :get,
       query: query,
@@ -1021,6 +1079,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [org: org, team_slug: team_slug],
       url: "/orgs/#{org}/teams/#{team_slug}/invitations",
       method: :get,
       query: query,
@@ -1049,6 +1108,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [team_id: team_id],
       url: "/teams/#{team_id}/invitations",
       method: :get,
       query: query,
@@ -1077,6 +1137,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [org: org, team_slug: team_slug],
       url: "/orgs/#{org}/teams/#{team_slug}/projects",
       method: :get,
       query: query,
@@ -1105,6 +1166,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [team_id: team_id],
       url: "/teams/#{team_id}/projects",
       method: :get,
       query: query,
@@ -1133,6 +1195,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [org: org, team_slug: team_slug],
       url: "/orgs/#{org}/teams/#{team_slug}/repos",
       method: :get,
       query: query,
@@ -1161,6 +1224,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [team_id: team_id],
       url: "/teams/#{team_id}/repos",
       method: :get,
       query: query,
@@ -1182,6 +1246,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, username: username],
       url: "/teams/#{team_id}/members/#{username}",
       method: :delete,
       response: [{204, nil}, {404, nil}],
@@ -1203,6 +1268,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, username: username],
       url: "/orgs/#{org}/teams/#{team_slug}/memberships/#{username}",
       method: :delete,
       response: [{204, nil}, {403, nil}],
@@ -1224,6 +1290,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, username: username],
       url: "/teams/#{team_id}/memberships/#{username}",
       method: :delete,
       response: [{204, nil}, {403, nil}],
@@ -1245,6 +1312,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, project_id: project_id],
       url: "/orgs/#{org}/teams/#{team_slug}/projects/#{project_id}",
       method: :delete,
       response: [{204, nil}],
@@ -1265,6 +1333,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, project_id: project_id],
       url: "/teams/#{team_id}/projects/#{project_id}",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
@@ -1286,6 +1355,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, owner: owner, repo: repo],
       url: "/orgs/#{org}/teams/#{team_slug}/repos/#{owner}/#{repo}",
       method: :delete,
       response: [{204, nil}],
@@ -1307,6 +1377,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, owner: owner, repo: repo],
       url: "/teams/#{team_id}/repos/#{owner}/#{repo}",
       method: :delete,
       response: [{204, nil}],
@@ -1335,6 +1406,12 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        org: org,
+        team_slug: team_slug,
+        discussion_number: discussion_number,
+        comment_number: comment_number
+      ],
       url:
         "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments/#{comment_number}",
       body: body,
@@ -1365,6 +1442,11 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        team_id: team_id,
+        discussion_number: discussion_number,
+        comment_number: comment_number
+      ],
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments/#{comment_number}",
       body: body,
       method: :patch,
@@ -1388,6 +1470,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug, discussion_number: discussion_number],
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}",
       body: body,
       method: :patch,
@@ -1411,6 +1494,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id, discussion_number: discussion_number],
       url: "/teams/#{team_id}/discussions/#{discussion_number}",
       body: body,
       method: :patch,
@@ -1434,6 +1518,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, team_slug: team_slug],
       url: "/orgs/#{org}/teams/#{team_slug}",
       body: body,
       method: :patch,
@@ -1463,6 +1548,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [team_id: team_id],
       url: "/teams/#{team_id}",
       body: body,
       method: :patch,

@@ -19,6 +19,7 @@ defmodule GitHub.DependencyGraph do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/dependency-graph/snapshots",
       body: body,
       method: :post,
@@ -47,6 +48,7 @@ defmodule GitHub.DependencyGraph do
     query = Keyword.take(opts, [:name])
 
     client.request(%{
+      args: [owner: owner, repo: repo, basehead: basehead],
       url: "/repos/#{owner}/#{repo}/dependency-graph/compare/#{basehead}",
       method: :get,
       query: query,

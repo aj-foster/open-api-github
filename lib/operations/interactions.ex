@@ -40,6 +40,7 @@ defmodule GitHub.Interactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/interaction-limits",
       method: :get,
       response: [{200, {:union, [{GitHub.Interaction.Limit.Response, :t}, :map]}}],
@@ -61,6 +62,7 @@ defmodule GitHub.Interactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/interaction-limits",
       method: :get,
       response: [{200, {:union, [{GitHub.Interaction.Limit.Response, :t}, :map]}}],
@@ -101,6 +103,7 @@ defmodule GitHub.Interactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/interaction-limits",
       method: :delete,
       response: [{204, nil}],
@@ -122,6 +125,7 @@ defmodule GitHub.Interactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/interaction-limits",
       method: :delete,
       response: [{204, nil}, {409, nil}],
@@ -169,6 +173,7 @@ defmodule GitHub.Interactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/interaction-limits",
       body: body,
       method: :put,
@@ -195,6 +200,7 @@ defmodule GitHub.Interactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/interaction-limits",
       body: body,
       method: :put,

@@ -24,6 +24,7 @@ defmodule GitHub.CodeScanning do
     query = Keyword.take(opts, [:confirm_delete])
 
     client.request(%{
+      args: [owner: owner, repo: repo, analysis_id: analysis_id],
       url: "/repos/#{owner}/#{repo}/code-scanning/analyses/#{analysis_id}",
       method: :delete,
       query: query,
@@ -52,6 +53,7 @@ defmodule GitHub.CodeScanning do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, alert_number: alert_number],
       url: "/repos/#{owner}/#{repo}/code-scanning/alerts/#{alert_number}",
       method: :get,
       response: [
@@ -79,6 +81,7 @@ defmodule GitHub.CodeScanning do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, analysis_id: analysis_id],
       url: "/repos/#{owner}/#{repo}/code-scanning/analyses/#{analysis_id}",
       method: :get,
       response: [
@@ -105,6 +108,7 @@ defmodule GitHub.CodeScanning do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, language: language],
       url: "/repos/#{owner}/#{repo}/code-scanning/codeql/databases/#{language}",
       method: :get,
       response: [
@@ -132,6 +136,7 @@ defmodule GitHub.CodeScanning do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, sarif_id: sarif_id],
       url: "/repos/#{owner}/#{repo}/code-scanning/sarifs/#{sarif_id}",
       method: :get,
       response: [
@@ -165,6 +170,7 @@ defmodule GitHub.CodeScanning do
     query = Keyword.take(opts, [:page, :per_page, :ref])
 
     client.request(%{
+      args: [owner: owner, repo: repo, alert_number: alert_number],
       url: "/repos/#{owner}/#{repo}/code-scanning/alerts/#{alert_number}/instances",
       method: :get,
       query: query,
@@ -219,6 +225,7 @@ defmodule GitHub.CodeScanning do
       ])
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/code-scanning/alerts",
       method: :get,
       query: query,
@@ -270,6 +277,7 @@ defmodule GitHub.CodeScanning do
       ])
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/code-scanning/alerts",
       method: :get,
       query: query,
@@ -298,6 +306,7 @@ defmodule GitHub.CodeScanning do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/code-scanning/codeql/databases",
       method: :get,
       response: [
@@ -347,6 +356,7 @@ defmodule GitHub.CodeScanning do
       ])
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/code-scanning/analyses",
       method: :get,
       query: query,
@@ -374,6 +384,7 @@ defmodule GitHub.CodeScanning do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, alert_number: alert_number],
       url: "/repos/#{owner}/#{repo}/code-scanning/alerts/#{alert_number}",
       body: body,
       method: :patch,
@@ -402,6 +413,7 @@ defmodule GitHub.CodeScanning do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/code-scanning/sarifs",
       body: body,
       method: :post,

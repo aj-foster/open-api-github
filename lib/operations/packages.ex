@@ -19,6 +19,7 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [package_type: package_type, package_name: package_name],
       url: "/user/packages/#{package_type}/#{package_name}",
       method: :delete,
       response: [
@@ -45,6 +46,7 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, package_type: package_type, package_name: package_name],
       url: "/orgs/#{org}/packages/#{package_type}/#{package_name}",
       method: :delete,
       response: [
@@ -71,6 +73,7 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [username: username, package_type: package_type, package_name: package_name],
       url: "/users/#{username}/packages/#{package_type}/#{package_name}",
       method: :delete,
       response: [
@@ -102,6 +105,11 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        package_type: package_type,
+        package_name: package_name,
+        package_version_id: package_version_id
+      ],
       url: "/user/packages/#{package_type}/#{package_name}/versions/#{package_version_id}",
       method: :delete,
       response: [
@@ -134,6 +142,12 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        org: org,
+        package_type: package_type,
+        package_name: package_name,
+        package_version_id: package_version_id
+      ],
       url: "/orgs/#{org}/packages/#{package_type}/#{package_name}/versions/#{package_version_id}",
       method: :delete,
       response: [
@@ -166,6 +180,12 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        username: username,
+        package_type: package_type,
+        package_name: package_name,
+        package_version_id: package_version_id
+      ],
       url:
         "/users/#{username}/packages/#{package_type}/#{package_name}/versions/#{package_version_id}",
       method: :delete,
@@ -207,6 +227,7 @@ defmodule GitHub.Packages do
     query = Keyword.take(opts, [:page, :per_page, :state])
 
     client.request(%{
+      args: [package_type: package_type, package_name: package_name],
       url: "/user/packages/#{package_type}/#{package_name}/versions",
       method: :get,
       query: query,
@@ -250,6 +271,7 @@ defmodule GitHub.Packages do
     query = Keyword.take(opts, [:page, :per_page, :state])
 
     client.request(%{
+      args: [org: org, package_type: package_type, package_name: package_name],
       url: "/orgs/#{org}/packages/#{package_type}/#{package_name}/versions",
       method: :get,
       query: query,
@@ -286,6 +308,7 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [username: username, package_type: package_type, package_name: package_name],
       url: "/users/#{username}/packages/#{package_type}/#{package_name}/versions",
       method: :get,
       response: [
@@ -312,6 +335,7 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [package_type: package_type, package_name: package_name],
       url: "/user/packages/#{package_type}/#{package_name}",
       method: :get,
       response: [{200, {GitHub.Package, :t}}],
@@ -333,6 +357,7 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org, package_type: package_type, package_name: package_name],
       url: "/orgs/#{org}/packages/#{package_type}/#{package_name}",
       method: :get,
       response: [{200, {GitHub.Package, :t}}],
@@ -354,6 +379,7 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [username: username, package_type: package_type, package_name: package_name],
       url: "/users/#{username}/packages/#{package_type}/#{package_name}",
       method: :get,
       response: [{200, {GitHub.Package, :t}}],
@@ -380,6 +406,11 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        package_type: package_type,
+        package_name: package_name,
+        package_version_id: package_version_id
+      ],
       url: "/user/packages/#{package_type}/#{package_name}/versions/#{package_version_id}",
       method: :get,
       response: [{200, {GitHub.PackageVersion, :t}}],
@@ -407,6 +438,12 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        org: org,
+        package_type: package_type,
+        package_name: package_name,
+        package_version_id: package_version_id
+      ],
       url: "/orgs/#{org}/packages/#{package_type}/#{package_name}/versions/#{package_version_id}",
       method: :get,
       response: [{200, {GitHub.PackageVersion, :t}}],
@@ -434,6 +471,12 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        username: username,
+        package_type: package_type,
+        package_name: package_name,
+        package_version_id: package_version_id
+      ],
       url:
         "/users/#{username}/packages/#{package_type}/#{package_name}/versions/#{package_version_id}",
       method: :get,
@@ -498,6 +541,7 @@ defmodule GitHub.Packages do
     query = Keyword.take(opts, [:package_type, :page, :per_page, :visibility])
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/packages",
       method: :get,
       query: query,
@@ -533,6 +577,7 @@ defmodule GitHub.Packages do
     query = Keyword.take(opts, [:package_type, :visibility])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/packages",
       method: :get,
       query: query,
@@ -564,6 +609,7 @@ defmodule GitHub.Packages do
     query = Keyword.take(opts, [:token])
 
     client.request(%{
+      args: [package_type: package_type, package_name: package_name],
       url: "/user/packages/#{package_type}/#{package_name}/restore",
       method: :post,
       query: query,
@@ -596,6 +642,7 @@ defmodule GitHub.Packages do
     query = Keyword.take(opts, [:token])
 
     client.request(%{
+      args: [org: org, package_type: package_type, package_name: package_name],
       url: "/orgs/#{org}/packages/#{package_type}/#{package_name}/restore",
       method: :post,
       query: query,
@@ -628,6 +675,7 @@ defmodule GitHub.Packages do
     query = Keyword.take(opts, [:token])
 
     client.request(%{
+      args: [username: username, package_type: package_type, package_name: package_name],
       url: "/users/#{username}/packages/#{package_type}/#{package_name}/restore",
       method: :post,
       query: query,
@@ -660,6 +708,11 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        package_type: package_type,
+        package_name: package_name,
+        package_version_id: package_version_id
+      ],
       url:
         "/user/packages/#{package_type}/#{package_name}/versions/#{package_version_id}/restore",
       method: :post,
@@ -693,6 +746,12 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        org: org,
+        package_type: package_type,
+        package_name: package_name,
+        package_version_id: package_version_id
+      ],
       url:
         "/orgs/#{org}/packages/#{package_type}/#{package_name}/versions/#{package_version_id}/restore",
       method: :post,
@@ -726,6 +785,12 @@ defmodule GitHub.Packages do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [
+        username: username,
+        package_type: package_type,
+        package_name: package_name,
+        package_version_id: package_version_id
+      ],
       url:
         "/users/#{username}/packages/#{package_type}/#{package_name}/versions/#{package_version_id}/restore",
       method: :post,

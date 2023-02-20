@@ -39,6 +39,7 @@ defmodule GitHub.Gitignore do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [name: name],
       url: "/gitignore/templates/#{name}",
       method: :get,
       response: [{200, {GitHub.Git.IgnoreTemplate, :t}}, {304, nil}],

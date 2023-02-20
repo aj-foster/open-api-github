@@ -36,7 +36,7 @@ defmodule GitHub.MixProject do
       {:ex_doc, "~> 0.29", only: :dev, runtime: false},
       {:jason, "~> 1.0", optional: true},
       {:httpoison, "~> 1.7 or ~> 2.0", optional: true},
-      {:oapi_generator, "0.0.2", only: [:dev, :test], runtime: false},
+      {:oapi_generator, "0.0.3", only: [:dev, :test], runtime: false},
       {:redix, "~> 1.0", optional: true}
     ]
   end

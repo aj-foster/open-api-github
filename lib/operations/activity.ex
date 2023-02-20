@@ -19,6 +19,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/user/starred/#{owner}/#{repo}",
       method: :get,
       response: [
@@ -46,6 +47,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/subscription",
       method: :delete,
       response: [{204, nil}],
@@ -66,6 +68,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [thread_id: thread_id],
       url: "/notifications/threads/#{thread_id}/subscription",
       method: :delete,
       response: [
@@ -112,6 +115,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/subscription",
       method: :get,
       response: [
@@ -136,6 +140,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [thread_id: thread_id],
       url: "/notifications/threads/#{thread_id}",
       method: :get,
       response: [
@@ -162,6 +167,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [thread_id: thread_id],
       url: "/notifications/threads/#{thread_id}/subscription",
       method: :get,
       response: [
@@ -194,6 +200,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/events",
       method: :get,
       query: query,
@@ -260,6 +267,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [username: username, org: org],
       url: "/users/#{username}/events/orgs/#{org}",
       method: :get,
       query: query,
@@ -320,6 +328,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/networks/#{owner}/#{repo}/events",
       method: :get,
       query: query,
@@ -354,6 +363,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/events/public",
       method: :get,
       query: query,
@@ -382,6 +392,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/events",
       method: :get,
       query: query,
@@ -410,6 +421,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/received_events",
       method: :get,
       query: query,
@@ -438,6 +450,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/received_events/public",
       method: :get,
       query: query,
@@ -466,6 +479,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/events",
       method: :get,
       query: query,
@@ -498,6 +512,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:all, :before, :page, :participating, :per_page, :since])
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/notifications",
       method: :get,
       query: query,
@@ -564,6 +579,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:direction, :page, :per_page, :sort])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/starred",
       method: :get,
       query: query,
@@ -594,6 +610,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/subscriptions",
       method: :get,
       query: query,
@@ -622,6 +639,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/stargazers",
       method: :get,
       query: query,
@@ -686,6 +704,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/subscribers",
       method: :get,
       query: query,
@@ -736,6 +755,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/notifications",
       body: body,
       method: :put,
@@ -758,6 +778,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [thread_id: thread_id],
       url: "/notifications/threads/#{thread_id}",
       method: :patch,
       response: [{205, nil}, {304, nil}, {403, {GitHub.BasicError, :t}}],
@@ -779,6 +800,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/subscription",
       body: body,
       method: :put,
@@ -802,6 +824,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [thread_id: thread_id],
       url: "/notifications/threads/#{thread_id}/subscription",
       body: body,
       method: :put,
@@ -830,6 +853,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/user/starred/#{owner}/#{repo}",
       method: :put,
       response: [
@@ -857,6 +881,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/user/starred/#{owner}/#{repo}",
       method: :delete,
       response: [

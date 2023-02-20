@@ -18,6 +18,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [gist_id: gist_id],
       url: "/gists/#{gist_id}/star",
       method: :get,
       response: [{204, nil}, {304, nil}, {403, {GitHub.BasicError, :t}}, {404, :map}],
@@ -67,6 +68,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [gist_id: gist_id],
       url: "/gists/#{gist_id}/comments",
       body: body,
       method: :post,
@@ -94,6 +96,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [gist_id: gist_id],
       url: "/gists/#{gist_id}",
       method: :delete,
       response: [
@@ -119,6 +122,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [gist_id: gist_id, comment_id: comment_id],
       url: "/gists/#{gist_id}/comments/#{comment_id}",
       method: :delete,
       response: [
@@ -144,6 +148,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [gist_id: gist_id],
       url: "/gists/#{gist_id}/forks",
       method: :post,
       response: [
@@ -170,6 +175,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [gist_id: gist_id],
       url: "/gists/#{gist_id}",
       method: :get,
       response: [
@@ -196,6 +202,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [gist_id: gist_id, comment_id: comment_id],
       url: "/gists/#{gist_id}/comments/#{comment_id}",
       method: :get,
       response: [
@@ -222,6 +229,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [gist_id: gist_id, sha: sha],
       url: "/gists/#{gist_id}/#{sha}",
       method: :get,
       response: [
@@ -286,6 +294,7 @@ defmodule GitHub.Gists do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [gist_id: gist_id],
       url: "/gists/#{gist_id}/comments",
       method: :get,
       query: query,
@@ -319,6 +328,7 @@ defmodule GitHub.Gists do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [gist_id: gist_id],
       url: "/gists/#{gist_id}/commits",
       method: :get,
       query: query,
@@ -353,6 +363,7 @@ defmodule GitHub.Gists do
     query = Keyword.take(opts, [:page, :per_page, :since])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/gists",
       method: :get,
       query: query,
@@ -381,6 +392,7 @@ defmodule GitHub.Gists do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [gist_id: gist_id],
       url: "/gists/#{gist_id}/forks",
       method: :get,
       query: query,
@@ -473,6 +485,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [gist_id: gist_id],
       url: "/gists/#{gist_id}/star",
       method: :put,
       response: [
@@ -498,6 +511,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [gist_id: gist_id],
       url: "/gists/#{gist_id}/star",
       method: :delete,
       response: [
@@ -524,6 +538,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [gist_id: gist_id],
       url: "/gists/#{gist_id}",
       body: body,
       method: :patch,
@@ -551,6 +566,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [gist_id: gist_id, comment_id: comment_id],
       url: "/gists/#{gist_id}/comments/#{comment_id}",
       body: body,
       method: :patch,

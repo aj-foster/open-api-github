@@ -19,6 +19,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/git/blobs",
       body: body,
       method: :post,
@@ -48,6 +49,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/git/commits",
       body: body,
       method: :post,
@@ -75,6 +77,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/git/refs",
       body: body,
       method: :post,
@@ -98,6 +101,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/git/tags",
       body: body,
       method: :post,
@@ -121,6 +125,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/git/trees",
       body: body,
       method: :post,
@@ -149,6 +154,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, ref: ref],
       url: "/repos/#{owner}/#{repo}/git/refs/#{ref}",
       method: :delete,
       response: [{204, nil}, {422, {GitHub.ValidationError, :t}}],
@@ -170,6 +176,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, file_sha: file_sha],
       url: "/repos/#{owner}/#{repo}/git/blobs/#{file_sha}",
       method: :get,
       response: [
@@ -196,6 +203,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, commit_sha: commit_sha],
       url: "/repos/#{owner}/#{repo}/git/commits/#{commit_sha}",
       method: :get,
       response: [{200, {GitHub.Git.Commit, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -217,6 +225,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, ref: ref],
       url: "/repos/#{owner}/#{repo}/git/ref/#{ref}",
       method: :get,
       response: [{200, {GitHub.Git.Ref, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -238,6 +247,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, tag_sha: tag_sha],
       url: "/repos/#{owner}/#{repo}/git/tags/#{tag_sha}",
       method: :get,
       response: [{200, {GitHub.Git.Tag, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -264,6 +274,7 @@ defmodule GitHub.Git do
     query = Keyword.take(opts, [:recursive])
 
     client.request(%{
+      args: [owner: owner, repo: repo, tree_sha: tree_sha],
       url: "/repos/#{owner}/#{repo}/git/trees/#{tree_sha}",
       method: :get,
       query: query,
@@ -290,6 +301,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, ref: ref],
       url: "/repos/#{owner}/#{repo}/git/matching-refs/#{ref}",
       method: :get,
       response: [{200, {:array, {GitHub.Git.Ref, :t}}}],
@@ -311,6 +323,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, ref: ref],
       url: "/repos/#{owner}/#{repo}/git/refs/#{ref}",
       body: body,
       method: :patch,

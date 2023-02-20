@@ -19,6 +19,7 @@ defmodule GitHub.Oidc do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/actions/oidc/customization/sub",
       method: :get,
       response: [{200, {GitHub.OIDCCustomSub, :t}}],
@@ -40,6 +41,7 @@ defmodule GitHub.Oidc do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [org: org],
       url: "/orgs/#{org}/actions/oidc/customization/sub",
       body: body,
       method: :put,

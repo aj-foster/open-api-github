@@ -19,6 +19,7 @@ defmodule GitHub.Checks do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/check-runs",
       body: body,
       method: :post,
@@ -42,6 +43,7 @@ defmodule GitHub.Checks do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/check-suites",
       body: body,
       method: :post,
@@ -65,6 +67,7 @@ defmodule GitHub.Checks do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, check_run_id: check_run_id],
       url: "/repos/#{owner}/#{repo}/check-runs/#{check_run_id}",
       method: :get,
       response: [{200, {GitHub.Check.Run, :t}}],
@@ -86,6 +89,7 @@ defmodule GitHub.Checks do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, check_suite_id: check_suite_id],
       url: "/repos/#{owner}/#{repo}/check-suites/#{check_suite_id}",
       method: :get,
       response: [{200, {GitHub.Check.Suite, :t}}],
@@ -113,6 +117,7 @@ defmodule GitHub.Checks do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo, check_run_id: check_run_id],
       url: "/repos/#{owner}/#{repo}/check-runs/#{check_run_id}/annotations",
       method: :get,
       query: query,
@@ -145,6 +150,7 @@ defmodule GitHub.Checks do
     query = Keyword.take(opts, [:app_id, :check_name, :filter, :page, :per_page, :status])
 
     client.request(%{
+      args: [owner: owner, repo: repo, ref: ref],
       url: "/repos/#{owner}/#{repo}/commits/#{ref}/check-runs",
       method: :get,
       query: query,
@@ -176,6 +182,7 @@ defmodule GitHub.Checks do
     query = Keyword.take(opts, [:check_name, :filter, :page, :per_page, :status])
 
     client.request(%{
+      args: [owner: owner, repo: repo, check_suite_id: check_suite_id],
       url: "/repos/#{owner}/#{repo}/check-suites/#{check_suite_id}/check-runs",
       method: :get,
       query: query,
@@ -206,6 +213,7 @@ defmodule GitHub.Checks do
     query = Keyword.take(opts, [:app_id, :check_name, :page, :per_page])
 
     client.request(%{
+      args: [owner: owner, repo: repo, ref: ref],
       url: "/repos/#{owner}/#{repo}/commits/#{ref}/check-suites",
       method: :get,
       query: query,
@@ -228,6 +236,7 @@ defmodule GitHub.Checks do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, check_run_id: check_run_id],
       url: "/repos/#{owner}/#{repo}/check-runs/#{check_run_id}/rerequest",
       method: :post,
       response: [
@@ -254,6 +263,7 @@ defmodule GitHub.Checks do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, check_suite_id: check_suite_id],
       url: "/repos/#{owner}/#{repo}/check-suites/#{check_suite_id}/rerequest",
       method: :post,
       response: [{201, {GitHub.EmptyObject, :t}}],
@@ -275,6 +285,7 @@ defmodule GitHub.Checks do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo],
       url: "/repos/#{owner}/#{repo}/check-suites/preferences",
       body: body,
       method: :patch,
@@ -298,6 +309,7 @@ defmodule GitHub.Checks do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [owner: owner, repo: repo, check_run_id: check_run_id],
       url: "/repos/#{owner}/#{repo}/check-runs/#{check_run_id}",
       body: body,
       method: :patch,

@@ -48,6 +48,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [username: username],
       url: "/user/blocks/#{username}",
       method: :put,
       response: [
@@ -75,6 +76,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [username: username],
       url: "/user/blocks/#{username}",
       method: :get,
       response: [
@@ -102,6 +104,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [username: username, target_user: target_user],
       url: "/users/#{username}/following/#{target_user}",
       method: :get,
       response: [{204, nil}, {404, nil}],
@@ -123,6 +126,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [username: username],
       url: "/user/following/#{username}",
       method: :get,
       response: [
@@ -270,6 +274,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [gpg_key_id: gpg_key_id],
       url: "/user/gpg_keys/#{gpg_key_id}",
       method: :delete,
       response: [
@@ -298,6 +303,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [key_id: key_id],
       url: "/user/keys/#{key_id}",
       method: :delete,
       response: [
@@ -325,6 +331,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [ssh_signing_key_id: ssh_signing_key_id],
       url: "/user/ssh_signing_keys/#{ssh_signing_key_id}",
       method: :delete,
       response: [
@@ -351,6 +358,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [username: username],
       url: "/user/following/#{username}",
       method: :put,
       response: [
@@ -404,6 +412,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}",
       method: :get,
       response: [
@@ -434,6 +443,7 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:subject_id, :subject_type])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/hovercard",
       method: :get,
       query: query,
@@ -460,6 +470,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [gpg_key_id: gpg_key_id],
       url: "/user/gpg_keys/#{gpg_key_id}",
       method: :get,
       response: [
@@ -487,6 +498,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [key_id: key_id],
       url: "/user/keys/#{key_id}",
       method: :get,
       response: [
@@ -514,6 +526,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [ssh_signing_key_id: ssh_signing_key_id],
       url: "/user/ssh_signing_keys/#{ssh_signing_key_id}",
       method: :get,
       response: [
@@ -708,6 +721,7 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/followers",
       method: :get,
       query: query,
@@ -736,6 +750,7 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/following",
       method: :get,
       query: query,
@@ -798,6 +813,7 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/gpg_keys",
       method: :get,
       query: query,
@@ -860,6 +876,7 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/keys",
       method: :get,
       query: query,
@@ -956,6 +973,7 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [username: username],
       url: "/users/#{username}/ssh_signing_keys",
       method: :get,
       query: query,
@@ -1007,6 +1025,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [username: username],
       url: "/user/blocks/#{username}",
       method: :delete,
       response: [
@@ -1033,6 +1052,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [username: username],
       url: "/user/following/#{username}",
       method: :delete,
       response: [
