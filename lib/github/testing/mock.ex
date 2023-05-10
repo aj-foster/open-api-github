@@ -4,6 +4,23 @@ defmodule GitHub.Testing.Mock do
   """
 
   @typedoc """
+  Specification of arguments
+
+  Each set of arguments can be given as a list of elements to match or a total arity. When given
+  as a list, each element can be any Erlang term or the special value `:_` to match any value.
+  Specifications given as a list will have higher precedence depending on the number of arguments
+  that match exactly.
+  """
+  @type args :: [any] | non_neg_integer
+
+  @typedoc """
+  Limit to the number of times a mock can be used
+
+  The special value `:infinity` can be used to place no limit.
+  """
+  @type limit :: pos_integer | :infinity
+
+  @typedoc """
   Return value from a mocked API call
 
   This may be a constant (value) or a zero-arity function returning a constant (generator). In
@@ -18,9 +35,9 @@ defmodule GitHub.Testing.Mock do
   Mocked API call
   """
   @type t :: %__MODULE__{
-          args: [any] | non_neg_integer,
+          args: args,
           implicit: boolean,
-          limit: pos_integer | :infinity,
+          limit: limit,
           return: return
         }
 
@@ -45,21 +62,25 @@ defmodule GitHub.Testing.Mock do
 
   @spec filter_by_arity([t], [any]) :: [t]
   defp filter_by_arity(mocks, args) do
-    Enum.reject(mocks, fn
-      %{args: arity} when is_integer(arity) -> arity != length(args)
-      %{args: mock_args} when is_list(mock_args) -> length(mock_args) != length(args)
+    Enum.filter(mocks, fn
+      %{args: arity} when is_integer(arity) -> arity == length(args)
+      %{args: mock_args} when is_list(mock_args) -> length(mock_args) == length(args)
     end)
   end
 
   @spec filter_by_argument([t], [any]) :: [t]
   defp filter_by_argument(mocks, args) do
-    Enum.reject(mocks, fn %{args: mock_args} ->
-      Enum.zip(mock_args, args)
-      |> Enum.any?(fn
-        {:_, _} -> false
-        {same_value, same_value} -> false
-        _else -> true
-      end)
+    Enum.filter(mocks, fn
+      %{args: arity} when is_integer(arity) ->
+        true
+
+      %{args: mock_args} ->
+        Enum.zip(mock_args, args)
+        |> Enum.all?(fn
+          {:_, _} -> true
+          {same_value, same_value} -> true
+          _else -> false
+        end)
     end)
   end
 
@@ -71,6 +92,7 @@ defmodule GitHub.Testing.Mock do
       %{args: ^args, implicit: false} -> 1
       %{args: ^args, implicit: true} -> 2
       %{args: ^args_length, implicit: false} -> 100
+      %{args: ^args_length, implicit: true} -> 200
       %{args: mock_args, implicit: false} -> 100 - count_matching_args(mock_args, args)
       %{args: mock_args, implicit: true} -> 200 - count_matching_args(mock_args, args)
       _else -> 999

@@ -53,8 +53,9 @@ defmodule GitHub.Testing do
   def generate(_schema, :email, :string), do: Faker.Internet.email()
   def generate(_schema, :id, :integer), do: System.unique_integer([:positive])
   def generate(_schema, :login, :string), do: Faker.Internet.user_name()
-  def generate(_schema, :name, :string), do: Faker.Person.name()
   def generate(_schema, :url, :string), do: Faker.Internet.url()
+
+  def generate(GitHub.User, :name, :string), do: Faker.Person.name()
 
   # Primitive types
   def generate(_schema, _key, :binary), do: Faker.String.base64()
@@ -122,16 +123,7 @@ defmodule GitHub.Testing do
   # @pd_call_key :oapi_github_test_call
   @pd_mock_key :oapi_github_test_mock
 
-  @type mock_return ::
-          {:ok, integer, any} | {:error, any} | (() -> {:ok, integer, any} | {:error, any})
-  @type mock :: %{
-          :args => [any] | :_,
-          :implicit => boolean,
-          :limit => pos_integer | :infinity,
-          :return => mock_return
-        }
-
-  @type mocks :: %{{module, atom} => [mock]}
+  @type mocks :: %{{module, atom} => [Mock.t()]}
 
   def get_mock(operation) do
     {module, function, args} = Operation.get_caller(operation)
@@ -144,31 +136,31 @@ defmodule GitHub.Testing do
         mock
 
       %{return: mock} ->
-        put_mock(module, function, args, true, :infinity, mock.())
+        put_mock(module, function, args, mock.(), implicit: true)
 
       nil ->
-        mock = default_response(operation)
-        open_args = Enum.map(args, fn _ -> :_ end)
-        put_mock(module, function, open_args, true, :infinity, mock)
-        put_mock(module, function, args, true, :infinity, mock.())
+        mock_return_fn = default_response_fn(operation)
+        put_mock(module, function, length(args), mock_return_fn, implicit: true)
+        put_mock(module, function, args, mock_return_fn.(), implicit: true)
     end
   end
 
-  defp default_response(%Operation{response_types: [{code, type} | _]}) do
-    fn ->
-      {:ok, code, GitHub.Testing.generate(nil, nil, type)}
-    end
+  @spec default_response_fn(Operation.t()) :: Mock.return()
+  defp default_response_fn(%Operation{response_types: [{code, type} | _]}) do
+    fn -> {:ok, code, GitHub.Testing.generate(nil, nil, type)} end
   end
 
-  @spec put_mock(module, atom, [any], boolean, non_neg_integer | :infinity, mock_return) :: mock
-  def put_mock(module, function, args, implicit, limit, mock) do
+  @spec put_mock(module, atom, Mock.args(), Mock.return(), keyword) :: Mock.t()
+  def put_mock(module, function, args, return, opts \\ []) do
+    implicit = opts[:implicit] == true
+    limit = opts[:limit] || :infinity
+
     all_mocks = Process.get(@pd_mock_key, %{})
-    new_mock = %Mock{args: args, implicit: implicit, limit: limit, return: mock}
+    new_mock = %Mock{args: args, implicit: implicit, limit: limit, return: return}
     new_mocks = [new_mock | Map.get(all_mocks, {module, function}, [])]
-
     updated_mocks = Map.put(all_mocks, {module, function}, new_mocks)
-    Process.put(@pd_mock_key, updated_mocks)
 
-    mock
+    Process.put(@pd_mock_key, updated_mocks)
+    return
   end
 end
