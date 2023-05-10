@@ -34,6 +34,7 @@ defmodule GitHub.MixProject do
   defp deps do
     [
       {:ex_doc, "~> 0.29", only: :dev, runtime: false},
+      {:faker, "~> 0.15", optional: true},
       {:jason, "~> 1.0", optional: true},
       {:httpoison, "~> 1.7 or ~> 2.0", optional: true},
       {:oapi_generator, "0.0.4", only: [:dev, :test], runtime: false},
