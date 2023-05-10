@@ -43,7 +43,7 @@ defmodule GitHub.Operation do
       tuples with the name of the header and its value.
 
     * `response_types` (list of types): OpenAPI type specifications for the response body. These are
-      specified as tuples with the Content-Type and the type specification.
+      specified as tuples with the status code and the type specification.
 
   """
 
@@ -64,6 +64,7 @@ defmodule GitHub.Operation do
           :binary
           | :boolean
           | :integer
+          | :map
           | :number
           | :string
           | :unknown
@@ -106,6 +107,18 @@ defmodule GitHub.Operation do
   #
   # Plugin Helpers
   #
+
+  @doc """
+  Get the client's calling function and original arguments
+
+  This level of introspection is meant for testing purposes, although other plugins can take
+  advantage of it as necessary.
+  """
+  @spec get_caller(t) :: {module, atom, [any]}
+  def get_caller(operation) do
+    %__MODULE__{private: %{__info__: %{args: args, call: {module, function}}}} = operation
+    {module, function, Keyword.values(args)}
+  end
 
   @doc """
   Get the value of a response header

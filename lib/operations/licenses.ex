@@ -19,6 +19,7 @@ defmodule GitHub.Licenses do
 
     client.request(%{
       args: [license: license],
+      call: {GitHub.Licenses, :get},
       url: "/licenses/#{license}",
       method: :get,
       response: [
@@ -52,6 +53,7 @@ defmodule GitHub.Licenses do
     query = Keyword.take(opts, [:featured, :page, :per_page])
 
     client.request(%{
+      call: {GitHub.Licenses, :get_all_commonly_used},
       url: "/licenses",
       method: :get,
       query: query,
@@ -75,6 +77,7 @@ defmodule GitHub.Licenses do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Licenses, :get_for_repo},
       url: "/repos/#{owner}/#{repo}/license",
       method: :get,
       response: [{200, {GitHub.License.Content, :t}}],

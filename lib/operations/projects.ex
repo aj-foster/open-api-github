@@ -20,6 +20,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [project_id: project_id, username: username],
+      call: {GitHub.Projects, :add_collaborator},
       url: "/projects/#{project_id}/collaborators/#{username}",
       body: body,
       method: :put,
@@ -51,6 +52,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [column_id: column_id],
+      call: {GitHub.Projects, :create_card},
       url: "/projects/columns/#{column_id}/cards",
       body: body,
       method: :post,
@@ -82,6 +84,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [project_id: project_id],
+      call: {GitHub.Projects, :create_column},
       url: "/projects/#{project_id}/columns",
       body: body,
       method: :post,
@@ -111,6 +114,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Projects, :create_for_authenticated_user},
       url: "/user/projects",
       body: body,
       method: :post,
@@ -141,6 +145,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Projects, :create_for_org},
       url: "/orgs/#{org}/projects",
       body: body,
       method: :post,
@@ -172,6 +177,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Projects, :create_for_repo},
       url: "/repos/#{owner}/#{repo}/projects",
       body: body,
       method: :post,
@@ -202,6 +208,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [project_id: project_id],
+      call: {GitHub.Projects, :delete},
       url: "/projects/#{project_id}",
       method: :delete,
       response: [
@@ -230,6 +237,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [card_id: card_id],
+      call: {GitHub.Projects, :delete_card},
       url: "/projects/columns/cards/#{card_id}",
       method: :delete,
       response: [
@@ -257,6 +265,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [column_id: column_id],
+      call: {GitHub.Projects, :delete_column},
       url: "/projects/columns/#{column_id}",
       method: :delete,
       response: [
@@ -283,6 +292,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [project_id: project_id],
+      call: {GitHub.Projects, :get},
       url: "/projects/#{project_id}",
       method: :get,
       response: [
@@ -309,6 +319,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [card_id: card_id],
+      call: {GitHub.Projects, :get_card},
       url: "/projects/columns/cards/#{card_id}",
       method: :get,
       response: [
@@ -337,6 +348,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [column_id: column_id],
+      call: {GitHub.Projects, :get_column},
       url: "/projects/columns/#{column_id}",
       method: :get,
       response: [
@@ -365,6 +377,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [project_id: project_id, username: username],
+      call: {GitHub.Projects, :get_permission_for_user},
       url: "/projects/#{project_id}/collaborators/#{username}/permission",
       method: :get,
       response: [
@@ -401,6 +414,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [column_id: column_id],
+      call: {GitHub.Projects, :list_cards},
       url: "/projects/columns/#{column_id}/cards",
       method: :get,
       query: query,
@@ -436,6 +450,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [project_id: project_id],
+      call: {GitHub.Projects, :list_collaborators},
       url: "/projects/#{project_id}/collaborators",
       method: :get,
       query: query,
@@ -472,6 +487,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [project_id: project_id],
+      call: {GitHub.Projects, :list_columns},
       url: "/projects/#{project_id}/columns",
       method: :get,
       query: query,
@@ -507,6 +523,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Projects, :list_for_org},
       url: "/orgs/#{org}/projects",
       method: :get,
       query: query,
@@ -537,6 +554,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Projects, :list_for_repo},
       url: "/repos/#{owner}/#{repo}/projects",
       method: :get,
       query: query,
@@ -574,6 +592,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Projects, :list_for_user},
       url: "/users/#{username}/projects",
       method: :get,
       query: query,
@@ -596,6 +615,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [card_id: card_id],
+      call: {GitHub.Projects, :move_card},
       url: "/projects/columns/cards/#{card_id}/moves",
       body: body,
       method: :post,
@@ -626,6 +646,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [column_id: column_id],
+      call: {GitHub.Projects, :move_column},
       url: "/projects/columns/#{column_id}/moves",
       body: body,
       method: :post,
@@ -655,6 +676,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [project_id: project_id, username: username],
+      call: {GitHub.Projects, :remove_collaborator},
       url: "/projects/#{project_id}/collaborators/#{username}",
       method: :delete,
       response: [
@@ -683,6 +705,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [project_id: project_id],
+      call: {GitHub.Projects, :update},
       url: "/projects/#{project_id}",
       body: body,
       method: :patch,
@@ -715,6 +738,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [card_id: card_id],
+      call: {GitHub.Projects, :update_card},
       url: "/projects/columns/cards/#{card_id}",
       body: body,
       method: :patch,
@@ -746,6 +770,7 @@ defmodule GitHub.Projects do
 
     client.request(%{
       args: [column_id: column_id],
+      call: {GitHub.Projects, :update_column},
       url: "/projects/columns/#{column_id}",
       body: body,
       method: :patch,

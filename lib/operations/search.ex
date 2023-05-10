@@ -27,6 +27,7 @@ defmodule GitHub.Search do
     query = Keyword.take(opts, [:order, :page, :per_page, :q, :sort])
 
     client.request(%{
+      call: {GitHub.Search, :code},
       url: "/search/code",
       method: :get,
       query: query,
@@ -63,6 +64,7 @@ defmodule GitHub.Search do
     query = Keyword.take(opts, [:order, :page, :per_page, :q, :sort])
 
     client.request(%{
+      call: {GitHub.Search, :commits},
       url: "/search/commits",
       method: :get,
       query: query,
@@ -93,6 +95,7 @@ defmodule GitHub.Search do
     query = Keyword.take(opts, [:order, :page, :per_page, :q, :sort])
 
     client.request(%{
+      call: {GitHub.Search, :issues_and_pull_requests},
       url: "/search/issues",
       method: :get,
       query: query,
@@ -130,6 +133,7 @@ defmodule GitHub.Search do
     query = Keyword.take(opts, [:order, :page, :per_page, :q, :repository_id, :sort])
 
     client.request(%{
+      call: {GitHub.Search, :labels},
       url: "/search/labels",
       method: :get,
       query: query,
@@ -166,6 +170,7 @@ defmodule GitHub.Search do
     query = Keyword.take(opts, [:order, :page, :per_page, :q, :sort])
 
     client.request(%{
+      call: {GitHub.Search, :repos},
       url: "/search/repositories",
       method: :get,
       query: query,
@@ -194,6 +199,7 @@ defmodule GitHub.Search do
     query = Keyword.take(opts, [:page, :per_page, :q])
 
     client.request(%{
+      call: {GitHub.Search, :topics},
       url: "/search/topics",
       method: :get,
       query: query,
@@ -224,6 +230,7 @@ defmodule GitHub.Search do
     query = Keyword.take(opts, [:order, :page, :per_page, :q, :sort])
 
     client.request(%{
+      call: {GitHub.Search, :users},
       url: "/search/users",
       method: :get,
       query: query,

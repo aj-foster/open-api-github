@@ -20,6 +20,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [invitation_id: invitation_id],
+      call: {GitHub.Repos, :accept_invitation_for_authenticated_user},
       url: "/user/repository_invitations/#{invitation_id}",
       method: :patch,
       response: [
@@ -53,6 +54,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :add_app_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/apps",
       body: body,
       method: :post,
@@ -77,6 +79,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, username: username],
+      call: {GitHub.Repos, :add_collaborator},
       url: "/repos/#{owner}/#{repo}/collaborators/#{username}",
       body: body,
       method: :put,
@@ -106,6 +109,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :add_status_check_contexts},
       url:
         "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_status_checks/contexts",
       body: body,
@@ -141,6 +145,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :add_team_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/teams",
       body: body,
       method: :post,
@@ -170,6 +175,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :add_user_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/users",
       body: body,
       method: :post,
@@ -194,6 +200,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, username: username],
+      call: {GitHub.Repos, :check_collaborator},
       url: "/repos/#{owner}/#{repo}/collaborators/#{username}",
       method: :get,
       response: [{204, nil}, {404, nil}],
@@ -216,6 +223,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :check_vulnerability_alerts},
       url: "/repos/#{owner}/#{repo}/vulnerability-alerts",
       method: :get,
       response: [{204, nil}, {404, nil}],
@@ -243,6 +251,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :codeowners_errors},
       url: "/repos/#{owner}/#{repo}/codeowners/errors",
       method: :get,
       query: query,
@@ -272,6 +281,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, basehead: basehead],
+      call: {GitHub.Repos, :compare_commits},
       url: "/repos/#{owner}/#{repo}/compare/#{basehead}",
       method: :get,
       query: query,
@@ -300,6 +310,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :create_autolink},
       url: "/repos/#{owner}/#{repo}/autolinks",
       body: body,
       method: :post,
@@ -324,6 +335,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, commit_sha: commit_sha],
+      call: {GitHub.Repos, :create_commit_comment},
       url: "/repos/#{owner}/#{repo}/commits/#{commit_sha}/comments",
       body: body,
       method: :post,
@@ -352,6 +364,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :create_commit_signature_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_signatures",
       method: :post,
       response: [
@@ -377,6 +390,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, sha: sha],
+      call: {GitHub.Repos, :create_commit_status},
       url: "/repos/#{owner}/#{repo}/statuses/#{sha}",
       body: body,
       method: :post,
@@ -401,6 +415,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :create_deploy_key},
       url: "/repos/#{owner}/#{repo}/keys",
       body: body,
       method: :post,
@@ -425,6 +440,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :create_deployment},
       url: "/repos/#{owner}/#{repo}/deployments",
       body: body,
       method: :post,
@@ -459,6 +475,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, environment_name: environment_name],
+      call: {GitHub.Repos, :create_deployment_branch_policy},
       url: "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment-branch-policies",
       body: body,
       method: :post,
@@ -483,6 +500,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, deployment_id: deployment_id],
+      call: {GitHub.Repos, :create_deployment_status},
       url: "/repos/#{owner}/#{repo}/deployments/#{deployment_id}/statuses",
       body: body,
       method: :post,
@@ -507,6 +525,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :create_dispatch_event},
       url: "/repos/#{owner}/#{repo}/dispatches",
       body: body,
       method: :post,
@@ -530,6 +549,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Repos, :create_for_authenticated_user},
       url: "/user/repos",
       body: body,
       method: :post,
@@ -562,6 +582,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :create_fork},
       url: "/repos/#{owner}/#{repo}/forks",
       body: body,
       method: :post,
@@ -592,6 +613,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Repos, :create_in_org},
       url: "/orgs/#{org}/repos",
       body: body,
       method: :post,
@@ -620,6 +642,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, environment_name: environment_name],
+      call: {GitHub.Repos, :create_or_update_environment},
       url: "/repos/#{owner}/#{repo}/environments/#{environment_name}",
       body: body,
       method: :put,
@@ -644,6 +667,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, path: path],
+      call: {GitHub.Repos, :create_or_update_file_contents},
       url: "/repos/#{owner}/#{repo}/contents/#{path}",
       body: body,
       method: :put,
@@ -674,6 +698,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :create_pages_deployment},
       url: "/repos/#{owner}/#{repo}/pages/deployment",
       body: body,
       method: :post,
@@ -703,6 +728,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :create_pages_site},
       url: "/repos/#{owner}/#{repo}/pages",
       body: body,
       method: :post,
@@ -731,6 +757,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :create_release},
       url: "/repos/#{owner}/#{repo}/releases",
       body: body,
       method: :post,
@@ -759,6 +786,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :create_tag_protection},
       url: "/repos/#{owner}/#{repo}/tags/protection",
       body: body,
       method: :post,
@@ -787,6 +815,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [template_owner: template_owner, template_repo: template_repo],
+      call: {GitHub.Repos, :create_using_template},
       url: "/repos/#{template_owner}/#{template_repo}/generate",
       body: body,
       method: :post,
@@ -811,6 +840,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :create_webhook},
       url: "/repos/#{owner}/#{repo}/hooks",
       body: body,
       method: :post,
@@ -840,6 +870,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [invitation_id: invitation_id],
+      call: {GitHub.Repos, :decline_invitation_for_authenticated_user},
       url: "/user/repository_invitations/#{invitation_id}",
       method: :delete,
       response: [
@@ -867,6 +898,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :delete},
       url: "/repos/#{owner}/#{repo}",
       method: :delete,
       response: [
@@ -894,6 +926,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :delete_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions",
       method: :delete,
       response: [{204, nil}],
@@ -916,6 +949,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :delete_admin_branch_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/enforce_admins",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -938,6 +972,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, environment_name: environment_name],
+      call: {GitHub.Repos, :delete_an_environment},
       url: "/repos/#{owner}/#{repo}/environments/#{environment_name}",
       method: :delete,
       response: [{204, nil}],
@@ -960,6 +995,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, autolink_id: autolink_id],
+      call: {GitHub.Repos, :delete_autolink},
       url: "/repos/#{owner}/#{repo}/autolinks/#{autolink_id}",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -982,6 +1018,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :delete_branch_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection",
       method: :delete,
       response: [{204, nil}, {403, {GitHub.BasicError, :t}}],
@@ -1004,6 +1041,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, comment_id: comment_id],
+      call: {GitHub.Repos, :delete_commit_comment},
       url: "/repos/#{owner}/#{repo}/comments/#{comment_id}",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -1026,6 +1064,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :delete_commit_signature_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_signatures",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -1048,6 +1087,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, key_id: key_id],
+      call: {GitHub.Repos, :delete_deploy_key},
       url: "/repos/#{owner}/#{repo}/keys/#{key_id}",
       method: :delete,
       response: [{204, nil}],
@@ -1070,6 +1110,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, deployment_id: deployment_id],
+      call: {GitHub.Repos, :delete_deployment},
       url: "/repos/#{owner}/#{repo}/deployments/#{deployment_id}",
       method: :delete,
       response: [
@@ -1101,6 +1142,7 @@ defmodule GitHub.Repos do
         environment_name: environment_name,
         branch_policy_id: branch_policy_id
       ],
+      call: {GitHub.Repos, :delete_deployment_branch_policy},
       url:
         "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment-branch-policies/#{branch_policy_id}",
       method: :delete,
@@ -1124,6 +1166,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, path: path],
+      call: {GitHub.Repos, :delete_file},
       url: "/repos/#{owner}/#{repo}/contents/#{path}",
       body: body,
       method: :delete,
@@ -1154,6 +1197,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, invitation_id: invitation_id],
+      call: {GitHub.Repos, :delete_invitation},
       url: "/repos/#{owner}/#{repo}/invitations/#{invitation_id}",
       method: :delete,
       response: [{204, nil}],
@@ -1175,6 +1219,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :delete_pages_site},
       url: "/repos/#{owner}/#{repo}/pages",
       method: :delete,
       response: [
@@ -1202,6 +1247,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :delete_pull_request_review_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_pull_request_reviews",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -1224,6 +1270,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, release_id: release_id],
+      call: {GitHub.Repos, :delete_release},
       url: "/repos/#{owner}/#{repo}/releases/#{release_id}",
       method: :delete,
       response: [{204, nil}],
@@ -1246,6 +1293,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, asset_id: asset_id],
+      call: {GitHub.Repos, :delete_release_asset},
       url: "/repos/#{owner}/#{repo}/releases/assets/#{asset_id}",
       method: :delete,
       response: [{204, nil}],
@@ -1268,6 +1316,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, tag_protection_id: tag_protection_id],
+      call: {GitHub.Repos, :delete_tag_protection},
       url: "/repos/#{owner}/#{repo}/tags/protection/#{tag_protection_id}",
       method: :delete,
       response: [{204, nil}, {403, {GitHub.BasicError, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -1290,6 +1339,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, hook_id: hook_id],
+      call: {GitHub.Repos, :delete_webhook},
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -1312,6 +1362,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :disable_automated_security_fixes},
       url: "/repos/#{owner}/#{repo}/automated-security-fixes",
       method: :delete,
       response: [{204, nil}],
@@ -1333,6 +1384,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :disable_lfs_for_repo},
       url: "/repos/#{owner}/#{repo}/lfs",
       method: :delete,
       response: [{204, nil}],
@@ -1355,6 +1407,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :disable_vulnerability_alerts},
       url: "/repos/#{owner}/#{repo}/vulnerability-alerts",
       method: :delete,
       response: [{204, nil}],
@@ -1377,6 +1430,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, ref: ref],
+      call: {GitHub.Repos, :download_tarball_archive},
       url: "/repos/#{owner}/#{repo}/tarball/#{ref}",
       method: :get,
       response: [{302, nil}],
@@ -1399,6 +1453,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, ref: ref],
+      call: {GitHub.Repos, :download_zipball_archive},
       url: "/repos/#{owner}/#{repo}/zipball/#{ref}",
       method: :get,
       response: [{302, nil}],
@@ -1421,6 +1476,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :enable_automated_security_fixes},
       url: "/repos/#{owner}/#{repo}/automated-security-fixes",
       method: :put,
       response: [{204, nil}],
@@ -1443,6 +1499,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :enable_lfs_for_repo},
       url: "/repos/#{owner}/#{repo}/lfs",
       method: :put,
       response: [{202, :map}, {403, nil}],
@@ -1465,6 +1522,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :enable_vulnerability_alerts},
       url: "/repos/#{owner}/#{repo}/vulnerability-alerts",
       method: :put,
       response: [{204, nil}],
@@ -1487,6 +1545,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :generate_release_notes},
       url: "/repos/#{owner}/#{repo}/releases/generate-notes",
       body: body,
       method: :post,
@@ -1511,6 +1570,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get},
       url: "/repos/#{owner}/#{repo}",
       method: :get,
       response: [
@@ -1538,6 +1598,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :get_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions",
       method: :get,
       response: [{200, {GitHub.Branch.RestrictionPolicy, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -1560,6 +1621,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :get_admin_branch_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/enforce_admins",
       method: :get,
       response: [{200, {GitHub.ProtectedBranch.AdminEnforced, :t}}],
@@ -1588,6 +1650,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_all_environments},
       url: "/repos/#{owner}/#{repo}/environments",
       method: :get,
       query: query,
@@ -1611,6 +1674,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :get_all_status_check_contexts},
       url:
         "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_status_checks/contexts",
       method: :get,
@@ -1640,6 +1704,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_all_topics},
       url: "/repos/#{owner}/#{repo}/topics",
       method: :get,
       query: query,
@@ -1663,6 +1728,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :get_apps_with_access_to_protected_branch},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/apps",
       method: :get,
       response: [{200, {:array, {GitHub.Integration, :t}}}, {404, {GitHub.BasicError, :t}}],
@@ -1685,6 +1751,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, autolink_id: autolink_id],
+      call: {GitHub.Repos, :get_autolink},
       url: "/repos/#{owner}/#{repo}/autolinks/#{autolink_id}",
       method: :get,
       response: [{200, {GitHub.Autolink, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -1707,6 +1774,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :get_branch},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}",
       method: :get,
       response: [
@@ -1733,6 +1801,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :get_branch_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection",
       method: :get,
       response: [{200, {GitHub.Branch.Protection, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -1760,6 +1829,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_clones},
       url: "/repos/#{owner}/#{repo}/traffic/clones",
       method: :get,
       query: query,
@@ -1783,6 +1853,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_code_frequency_stats},
       url: "/repos/#{owner}/#{repo}/stats/code_frequency",
       method: :get,
       response: [{200, {:array, {:array, :integer}}}, {202, :map}, {204, nil}],
@@ -1805,6 +1876,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, username: username],
+      call: {GitHub.Repos, :get_collaborator_permission_level},
       url: "/repos/#{owner}/#{repo}/collaborators/#{username}/permission",
       method: :get,
       response: [
@@ -1836,6 +1908,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, ref: ref],
+      call: {GitHub.Repos, :get_combined_status_for_ref},
       url: "/repos/#{owner}/#{repo}/commits/#{ref}/status",
       method: :get,
       query: query,
@@ -1865,6 +1938,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, ref: ref],
+      call: {GitHub.Repos, :get_commit},
       url: "/repos/#{owner}/#{repo}/commits/#{ref}",
       method: :get,
       query: query,
@@ -1894,6 +1968,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_commit_activity_stats},
       url: "/repos/#{owner}/#{repo}/stats/commit_activity",
       method: :get,
       response: [{200, {:array, {GitHub.Commit.Activity, :t}}}, {202, :map}, {204, nil}],
@@ -1916,6 +1991,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, comment_id: comment_id],
+      call: {GitHub.Repos, :get_commit_comment},
       url: "/repos/#{owner}/#{repo}/comments/#{comment_id}",
       method: :get,
       response: [{200, {GitHub.Commit.Comment, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -1938,6 +2014,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :get_commit_signature_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_signatures",
       method: :get,
       response: [
@@ -1963,6 +2040,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_community_profile_metrics},
       url: "/repos/#{owner}/#{repo}/community/profile",
       method: :get,
       response: [{200, {GitHub.CommunityProfile, :t}}],
@@ -1995,6 +2073,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, path: path],
+      call: {GitHub.Repos, :get_content},
       url: "/repos/#{owner}/#{repo}/contents/#{path}",
       method: :get,
       query: query,
@@ -2030,6 +2109,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_contributors_stats},
       url: "/repos/#{owner}/#{repo}/stats/contributors",
       method: :get,
       response: [{200, {:array, {GitHub.ContributorActivity, :t}}}, {202, :map}, {204, nil}],
@@ -2052,6 +2132,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, key_id: key_id],
+      call: {GitHub.Repos, :get_deploy_key},
       url: "/repos/#{owner}/#{repo}/keys/#{key_id}",
       method: :get,
       response: [{200, {GitHub.DeployKey, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -2074,6 +2155,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, deployment_id: deployment_id],
+      call: {GitHub.Repos, :get_deployment},
       url: "/repos/#{owner}/#{repo}/deployments/#{deployment_id}",
       method: :get,
       response: [{200, {GitHub.Deployment, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -2101,6 +2183,7 @@ defmodule GitHub.Repos do
         environment_name: environment_name,
         branch_policy_id: branch_policy_id
       ],
+      call: {GitHub.Repos, :get_deployment_branch_policy},
       url:
         "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment-branch-policies/#{branch_policy_id}",
       method: :get,
@@ -2124,6 +2207,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, deployment_id: deployment_id, status_id: status_id],
+      call: {GitHub.Repos, :get_deployment_status},
       url: "/repos/#{owner}/#{repo}/deployments/#{deployment_id}/statuses/#{status_id}",
       method: :get,
       response: [{200, {GitHub.Deployment.Status, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -2146,6 +2230,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, environment_name: environment_name],
+      call: {GitHub.Repos, :get_environment},
       url: "/repos/#{owner}/#{repo}/environments/#{environment_name}",
       method: :get,
       response: [{200, {GitHub.Environment, :t}}],
@@ -2168,6 +2253,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_latest_pages_build},
       url: "/repos/#{owner}/#{repo}/pages/builds/latest",
       method: :get,
       response: [{200, {GitHub.Pages.Build, :t}}],
@@ -2190,6 +2276,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_latest_release},
       url: "/repos/#{owner}/#{repo}/releases/latest",
       method: :get,
       response: [{200, {GitHub.Release, :t}}],
@@ -2212,6 +2299,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_pages},
       url: "/repos/#{owner}/#{repo}/pages",
       method: :get,
       response: [{200, {GitHub.Page, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -2234,6 +2322,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, build_id: build_id],
+      call: {GitHub.Repos, :get_pages_build},
       url: "/repos/#{owner}/#{repo}/pages/builds/#{build_id}",
       method: :get,
       response: [{200, {GitHub.Pages.Build, :t}}],
@@ -2257,6 +2346,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_pages_health_check},
       url: "/repos/#{owner}/#{repo}/pages/health",
       method: :get,
       response: [
@@ -2285,6 +2375,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_participation_stats},
       url: "/repos/#{owner}/#{repo}/stats/participation",
       method: :get,
       response: [{200, {GitHub.ParticipationStats, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -2307,6 +2398,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :get_pull_request_review_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_pull_request_reviews",
       method: :get,
       response: [{200, {GitHub.ProtectedBranch.PullRequestReview, :t}}],
@@ -2329,6 +2421,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_punch_card_stats},
       url: "/repos/#{owner}/#{repo}/stats/punch_card",
       method: :get,
       response: [{200, {:array, {:array, :integer}}}, {204, nil}],
@@ -2356,6 +2449,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_readme},
       url: "/repos/#{owner}/#{repo}/readme",
       method: :get,
       query: query,
@@ -2388,6 +2482,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, dir: dir],
+      call: {GitHub.Repos, :get_readme_in_directory},
       url: "/repos/#{owner}/#{repo}/readme/#{dir}",
       method: :get,
       query: query,
@@ -2415,6 +2510,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, release_id: release_id],
+      call: {GitHub.Repos, :get_release},
       url: "/repos/#{owner}/#{repo}/releases/#{release_id}",
       method: :get,
       response: [{200, {GitHub.Release, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -2437,6 +2533,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, asset_id: asset_id],
+      call: {GitHub.Repos, :get_release_asset},
       url: "/repos/#{owner}/#{repo}/releases/assets/#{asset_id}",
       method: :get,
       response: [{200, {GitHub.Release.Asset, :t}}, {302, nil}, {404, {GitHub.BasicError, :t}}],
@@ -2459,6 +2556,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, tag: tag],
+      call: {GitHub.Repos, :get_release_by_tag},
       url: "/repos/#{owner}/#{repo}/releases/tags/#{tag}",
       method: :get,
       response: [{200, {GitHub.Release, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -2481,6 +2579,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :get_status_checks_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_status_checks",
       method: :get,
       response: [{200, {GitHub.StatusCheckPolicy, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -2503,6 +2602,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :get_teams_with_access_to_protected_branch},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/teams",
       method: :get,
       response: [{200, {:array, {GitHub.Team, :t}}}, {404, {GitHub.BasicError, :t}}],
@@ -2525,6 +2625,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_top_paths},
       url: "/repos/#{owner}/#{repo}/traffic/popular/paths",
       method: :get,
       response: [{200, {:array, {GitHub.Content.Traffic, :t}}}, {403, {GitHub.BasicError, :t}}],
@@ -2547,6 +2648,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_top_referrers},
       url: "/repos/#{owner}/#{repo}/traffic/popular/referrers",
       method: :get,
       response: [{200, {:array, {GitHub.ReferrerTraffic, :t}}}, {403, {GitHub.BasicError, :t}}],
@@ -2569,6 +2671,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :get_users_with_access_to_protected_branch},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/users",
       method: :get,
       response: [{200, {:array, {GitHub.User, :simple}}}, {404, {GitHub.BasicError, :t}}],
@@ -2596,6 +2699,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_views},
       url: "/repos/#{owner}/#{repo}/traffic/views",
       method: :get,
       query: query,
@@ -2619,6 +2723,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, hook_id: hook_id],
+      call: {GitHub.Repos, :get_webhook},
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}",
       method: :get,
       response: [{200, {GitHub.Hook, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -2641,6 +2746,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, hook_id: hook_id],
+      call: {GitHub.Repos, :get_webhook_config_for_repo},
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}/config",
       method: :get,
       response: [{200, {GitHub.Webhook.Config, :t}}],
@@ -2663,6 +2769,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, hook_id: hook_id, delivery_id: delivery_id],
+      call: {GitHub.Repos, :get_webhook_delivery},
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}/deliveries/#{delivery_id}",
       method: :get,
       response: [
@@ -2694,6 +2801,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_autolinks},
       url: "/repos/#{owner}/#{repo}/autolinks",
       method: :get,
       query: query,
@@ -2724,6 +2832,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_branches},
       url: "/repos/#{owner}/#{repo}/branches",
       method: :get,
       query: query,
@@ -2747,6 +2856,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, commit_sha: commit_sha],
+      call: {GitHub.Repos, :list_branches_for_head_commit},
       url: "/repos/#{owner}/#{repo}/commits/#{commit_sha}/branches-where-head",
       method: :get,
       response: [{200, {:array, {GitHub.Branch.Short, :t}}}, {422, {GitHub.ValidationError, :t}}],
@@ -2777,6 +2887,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_collaborators},
       url: "/repos/#{owner}/#{repo}/collaborators",
       method: :get,
       query: query,
@@ -2806,6 +2917,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, commit_sha: commit_sha],
+      call: {GitHub.Repos, :list_comments_for_commit},
       url: "/repos/#{owner}/#{repo}/commits/#{commit_sha}/comments",
       method: :get,
       query: query,
@@ -2835,6 +2947,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_commit_comments_for_repo},
       url: "/repos/#{owner}/#{repo}/comments",
       method: :get,
       query: query,
@@ -2864,6 +2977,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, ref: ref],
+      call: {GitHub.Repos, :list_commit_statuses_for_ref},
       url: "/repos/#{owner}/#{repo}/commits/#{ref}/statuses",
       method: :get,
       query: query,
@@ -2898,6 +3012,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_commits},
       url: "/repos/#{owner}/#{repo}/commits",
       method: :get,
       query: query,
@@ -2934,6 +3049,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_contributors},
       url: "/repos/#{owner}/#{repo}/contributors",
       method: :get,
       query: query,
@@ -2968,6 +3084,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_deploy_keys},
       url: "/repos/#{owner}/#{repo}/keys",
       method: :get,
       query: query,
@@ -2997,6 +3114,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, environment_name: environment_name],
+      call: {GitHub.Repos, :list_deployment_branch_policies},
       url: "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment-branch-policies",
       method: :get,
       query: query,
@@ -3026,6 +3144,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, deployment_id: deployment_id],
+      call: {GitHub.Repos, :list_deployment_statuses},
       url: "/repos/#{owner}/#{repo}/deployments/#{deployment_id}/statuses",
       method: :get,
       query: query,
@@ -3059,6 +3178,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_deployments},
       url: "/repos/#{owner}/#{repo}/deployments",
       method: :get,
       query: query,
@@ -3109,6 +3229,7 @@ defmodule GitHub.Repos do
       ])
 
     client.request(%{
+      call: {GitHub.Repos, :list_for_authenticated_user},
       url: "/user/repos",
       method: :get,
       query: query,
@@ -3147,6 +3268,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Repos, :list_for_org},
       url: "/orgs/#{org}/repos",
       method: :get,
       query: query,
@@ -3179,6 +3301,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Repos, :list_for_user},
       url: "/users/#{username}/repos",
       method: :get,
       query: query,
@@ -3209,6 +3332,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_forks},
       url: "/repos/#{owner}/#{repo}/forks",
       method: :get,
       query: query,
@@ -3238,6 +3362,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_invitations},
       url: "/repos/#{owner}/#{repo}/invitations",
       method: :get,
       query: query,
@@ -3266,6 +3391,7 @@ defmodule GitHub.Repos do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Repos, :list_invitations_for_authenticated_user},
       url: "/user/repository_invitations",
       method: :get,
       query: query,
@@ -3295,6 +3421,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_languages},
       url: "/repos/#{owner}/#{repo}/languages",
       method: :get,
       response: [{200, {GitHub.Language, :t}}],
@@ -3323,6 +3450,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_pages_builds},
       url: "/repos/#{owner}/#{repo}/pages/builds",
       method: :get,
       query: query,
@@ -3349,6 +3477,7 @@ defmodule GitHub.Repos do
     query = Keyword.take(opts, [:since])
 
     client.request(%{
+      call: {GitHub.Repos, :list_public},
       url: "/repositories",
       method: :get,
       query: query,
@@ -3382,6 +3511,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, commit_sha: commit_sha],
+      call: {GitHub.Repos, :list_pull_requests_associated_with_commit},
       url: "/repos/#{owner}/#{repo}/commits/#{commit_sha}/pulls",
       method: :get,
       query: query,
@@ -3411,6 +3541,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, release_id: release_id],
+      call: {GitHub.Repos, :list_release_assets},
       url: "/repos/#{owner}/#{repo}/releases/#{release_id}/assets",
       method: :get,
       query: query,
@@ -3440,6 +3571,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_releases},
       url: "/repos/#{owner}/#{repo}/releases",
       method: :get,
       query: query,
@@ -3463,6 +3595,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_tag_protection},
       url: "/repos/#{owner}/#{repo}/tags/protection",
       method: :get,
       response: [
@@ -3495,6 +3628,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_tags},
       url: "/repos/#{owner}/#{repo}/tags",
       method: :get,
       query: query,
@@ -3524,6 +3658,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_teams},
       url: "/repos/#{owner}/#{repo}/teams",
       method: :get,
       query: query,
@@ -3554,6 +3689,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, hook_id: hook_id],
+      call: {GitHub.Repos, :list_webhook_deliveries},
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}/deliveries",
       method: :get,
       query: query,
@@ -3587,6 +3723,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_webhooks},
       url: "/repos/#{owner}/#{repo}/hooks",
       method: :get,
       query: query,
@@ -3610,6 +3747,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :merge},
       url: "/repos/#{owner}/#{repo}/merges",
       body: body,
       method: :post,
@@ -3641,6 +3779,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :merge_upstream},
       url: "/repos/#{owner}/#{repo}/merge-upstream",
       body: body,
       method: :post,
@@ -3664,6 +3803,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, hook_id: hook_id],
+      call: {GitHub.Repos, :ping_webhook},
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}/pings",
       method: :post,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -3686,6 +3826,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, hook_id: hook_id, delivery_id: delivery_id],
+      call: {GitHub.Repos, :redeliver_webhook_delivery},
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}/deliveries/#{delivery_id}/attempts",
       method: :post,
       response: [{202, :map}, {400, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
@@ -3713,6 +3854,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :remove_app_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/apps",
       body: body,
       method: :delete,
@@ -3737,6 +3879,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, username: username],
+      call: {GitHub.Repos, :remove_collaborator},
       url: "/repos/#{owner}/#{repo}/collaborators/#{username}",
       method: :delete,
       response: [{204, nil}],
@@ -3764,6 +3907,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :remove_status_check_contexts},
       url:
         "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_status_checks/contexts",
       body: body,
@@ -3793,6 +3937,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :remove_status_check_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_status_checks",
       method: :delete,
       response: [{204, nil}],
@@ -3820,6 +3965,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :remove_team_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/teams",
       body: body,
       method: :delete,
@@ -3849,6 +3995,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :remove_user_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/users",
       body: body,
       method: :delete,
@@ -3873,6 +4020,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :rename_branch},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/rename",
       body: body,
       method: :post,
@@ -3902,6 +4050,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :replace_all_topics},
       url: "/repos/#{owner}/#{repo}/topics",
       body: body,
       method: :put,
@@ -3930,6 +4079,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :request_pages_build},
       url: "/repos/#{owner}/#{repo}/pages/builds",
       method: :post,
       response: [{201, {GitHub.Pages.BuildStatus, :t}}],
@@ -3952,6 +4102,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :set_admin_branch_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/enforce_admins",
       method: :post,
       response: [{200, {GitHub.ProtectedBranch.AdminEnforced, :t}}],
@@ -3979,6 +4130,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :set_app_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/apps",
       body: body,
       method: :put,
@@ -4003,6 +4155,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :set_status_check_contexts},
       url:
         "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_status_checks/contexts",
       body: body,
@@ -4037,6 +4190,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :set_team_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/teams",
       body: body,
       method: :put,
@@ -4066,6 +4220,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :set_user_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/users",
       body: body,
       method: :put,
@@ -4090,6 +4245,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, hook_id: hook_id],
+      call: {GitHub.Repos, :test_push_webhook},
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}/tests",
       method: :post,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -4112,6 +4268,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :transfer},
       url: "/repos/#{owner}/#{repo}/transfer",
       body: body,
       method: :post,
@@ -4136,6 +4293,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :update},
       url: "/repos/#{owner}/#{repo}",
       body: body,
       method: :patch,
@@ -4166,6 +4324,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :update_branch_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection",
       body: body,
       method: :put,
@@ -4195,6 +4354,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, comment_id: comment_id],
+      call: {GitHub.Repos, :update_commit_comment},
       url: "/repos/#{owner}/#{repo}/comments/#{comment_id}",
       body: body,
       method: :patch,
@@ -4237,6 +4397,7 @@ defmodule GitHub.Repos do
         environment_name: environment_name,
         branch_policy_id: branch_policy_id
       ],
+      call: {GitHub.Repos, :update_deployment_branch_policy},
       url:
         "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment-branch-policies/#{branch_policy_id}",
       body: body,
@@ -4262,6 +4423,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :update_information_about_pages_site},
       url: "/repos/#{owner}/#{repo}/pages",
       body: body,
       method: :put,
@@ -4291,6 +4453,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, invitation_id: invitation_id],
+      call: {GitHub.Repos, :update_invitation},
       url: "/repos/#{owner}/#{repo}/invitations/#{invitation_id}",
       body: body,
       method: :patch,
@@ -4315,6 +4478,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :update_pull_request_review_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_pull_request_reviews",
       body: body,
       method: :patch,
@@ -4342,6 +4506,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, release_id: release_id],
+      call: {GitHub.Repos, :update_release},
       url: "/repos/#{owner}/#{repo}/releases/#{release_id}",
       body: body,
       method: :patch,
@@ -4366,6 +4531,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, asset_id: asset_id],
+      call: {GitHub.Repos, :update_release_asset},
       url: "/repos/#{owner}/#{repo}/releases/assets/#{asset_id}",
       body: body,
       method: :patch,
@@ -4390,6 +4556,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :update_status_check_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_status_checks",
       body: body,
       method: :patch,
@@ -4418,6 +4585,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, hook_id: hook_id],
+      call: {GitHub.Repos, :update_webhook},
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}",
       body: body,
       method: :patch,
@@ -4446,6 +4614,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, hook_id: hook_id],
+      call: {GitHub.Repos, :update_webhook_config_for_repo},
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}/config",
       body: body,
       method: :patch,
@@ -4476,6 +4645,7 @@ defmodule GitHub.Repos do
 
     client.request(%{
       args: [owner: owner, repo: repo, release_id: release_id],
+      call: {GitHub.Repos, :upload_release_asset},
       url: "/repos/#{owner}/#{repo}/releases/#{release_id}/assets",
       body: body,
       method: :post,

@@ -19,6 +19,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Migrations, :cancel_import},
       url: "/repos/#{owner}/#{repo}/import",
       method: :delete,
       response: [{204, nil}, {503, {GitHub.BasicError, :t}}],
@@ -41,6 +42,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [migration_id: migration_id],
+      call: {GitHub.Migrations, :delete_archive_for_authenticated_user},
       url: "/user/migrations/#{migration_id}/archive",
       method: :delete,
       response: [
@@ -68,6 +70,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [org: org, migration_id: migration_id],
+      call: {GitHub.Migrations, :delete_archive_for_org},
       url: "/orgs/#{org}/migrations/#{migration_id}/archive",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -89,6 +92,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [org: org, migration_id: migration_id],
+      call: {GitHub.Migrations, :download_archive_for_org},
       url: "/orgs/#{org}/migrations/#{migration_id}/archive",
       method: :get,
       response: [{302, nil}, {404, {GitHub.BasicError, :t}}],
@@ -110,6 +114,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [migration_id: migration_id],
+      call: {GitHub.Migrations, :get_archive_for_authenticated_user},
       url: "/user/migrations/#{migration_id}/archive",
       method: :get,
       response: [
@@ -142,6 +147,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Migrations, :get_commit_authors},
       url: "/repos/#{owner}/#{repo}/import/authors",
       method: :get,
       query: query,
@@ -169,6 +175,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Migrations, :get_import_status},
       url: "/repos/#{owner}/#{repo}/import",
       method: :get,
       response: [
@@ -195,6 +202,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Migrations, :get_large_files},
       url: "/repos/#{owner}/#{repo}/import/large_files",
       method: :get,
       response: [{200, {:array, {GitHub.PorterLargeFile, :t}}}, {503, {GitHub.BasicError, :t}}],
@@ -222,6 +230,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [migration_id: migration_id],
+      call: {GitHub.Migrations, :get_status_for_authenticated_user},
       url: "/user/migrations/#{migration_id}",
       method: :get,
       query: query,
@@ -256,6 +265,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [org: org, migration_id: migration_id],
+      call: {GitHub.Migrations, :get_status_for_org},
       url: "/orgs/#{org}/migrations/#{migration_id}",
       method: :get,
       query: query,
@@ -284,6 +294,7 @@ defmodule GitHub.Migrations do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Migrations, :list_for_authenticated_user},
       url: "/user/migrations",
       method: :get,
       query: query,
@@ -319,6 +330,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Migrations, :list_for_org},
       url: "/orgs/#{org}/migrations",
       method: :get,
       query: query,
@@ -348,6 +360,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [migration_id: migration_id],
+      call: {GitHub.Migrations, :list_repos_for_authenticated_user},
       url: "/user/migrations/#{migration_id}/repositories",
       method: :get,
       query: query,
@@ -377,6 +390,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [org: org, migration_id: migration_id],
+      call: {GitHub.Migrations, :list_repos_for_org},
       url: "/orgs/#{org}/migrations/#{migration_id}/repositories",
       method: :get,
       query: query,
@@ -400,6 +414,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [owner: owner, repo: repo, author_id: author_id],
+      call: {GitHub.Migrations, :map_commit_author},
       url: "/repos/#{owner}/#{repo}/import/authors/#{author_id}",
       body: body,
       method: :patch,
@@ -429,6 +444,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Migrations, :set_lfs_preference},
       url: "/repos/#{owner}/#{repo}/import/lfs",
       body: body,
       method: :patch,
@@ -456,6 +472,7 @@ defmodule GitHub.Migrations do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Migrations, :start_for_authenticated_user},
       url: "/user/migrations",
       body: body,
       method: :post,
@@ -486,6 +503,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Migrations, :start_for_org},
       url: "/orgs/#{org}/migrations",
       body: body,
       method: :post,
@@ -514,6 +532,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Migrations, :start_import},
       url: "/repos/#{owner}/#{repo}/import",
       body: body,
       method: :put,
@@ -543,6 +562,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [migration_id: migration_id, repo_name: repo_name],
+      call: {GitHub.Migrations, :unlock_repo_for_authenticated_user},
       url: "/user/migrations/#{migration_id}/repos/#{repo_name}/lock",
       method: :delete,
       response: [
@@ -571,6 +591,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [org: org, migration_id: migration_id, repo_name: repo_name],
+      call: {GitHub.Migrations, :unlock_repo_for_org},
       url: "/orgs/#{org}/migrations/#{migration_id}/repos/#{repo_name}/lock",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -593,6 +614,7 @@ defmodule GitHub.Migrations do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Migrations, :update_import},
       url: "/repos/#{owner}/#{repo}/import",
       body: body,
       method: :patch,

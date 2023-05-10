@@ -20,6 +20,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [installation_id: installation_id, repository_id: repository_id],
+      call: {GitHub.Apps, :add_repo_to_installation_for_authenticated_user},
       url: "/user/installations/#{installation_id}/repositories/#{repository_id}",
       method: :put,
       response: [
@@ -47,6 +48,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [client_id: client_id],
+      call: {GitHub.Apps, :check_token},
       url: "/applications/#{client_id}/token",
       body: body,
       method: :post,
@@ -74,6 +76,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [code: code],
+      call: {GitHub.Apps, :create_from_manifest},
       url: "/app-manifests/#{code}/conversions",
       method: :post,
       response: [
@@ -100,6 +103,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [installation_id: installation_id],
+      call: {GitHub.Apps, :create_installation_access_token},
       url: "/app/installations/#{installation_id}/access_tokens",
       body: body,
       method: :post,
@@ -129,6 +133,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [client_id: client_id],
+      call: {GitHub.Apps, :delete_authorization},
       url: "/applications/#{client_id}/grant",
       body: body,
       method: :delete,
@@ -152,6 +157,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [installation_id: installation_id],
+      call: {GitHub.Apps, :delete_installation},
       url: "/app/installations/#{installation_id}",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -173,6 +179,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [client_id: client_id],
+      call: {GitHub.Apps, :delete_token},
       url: "/applications/#{client_id}/token",
       body: body,
       method: :delete,
@@ -195,6 +202,7 @@ defmodule GitHub.Apps do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Apps, :get_authenticated},
       url: "/app",
       method: :get,
       response: [{200, {GitHub.Integration, :t}}],
@@ -217,6 +225,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [app_slug: app_slug],
+      call: {GitHub.Apps, :get_by_slug},
       url: "/apps/#{app_slug}",
       method: :get,
       response: [
@@ -243,6 +252,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [installation_id: installation_id],
+      call: {GitHub.Apps, :get_installation},
       url: "/app/installations/#{installation_id}",
       method: :get,
       response: [{200, {GitHub.Installation, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -265,6 +275,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Apps, :get_org_installation},
       url: "/orgs/#{org}/installation",
       method: :get,
       response: [{200, {GitHub.Installation, :t}}],
@@ -287,6 +298,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Apps, :get_repo_installation},
       url: "/repos/#{owner}/#{repo}/installation",
       method: :get,
       response: [
@@ -313,6 +325,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [account_id: account_id],
+      call: {GitHub.Apps, :get_subscription_plan_for_account},
       url: "/marketplace_listing/accounts/#{account_id}",
       method: :get,
       response: [
@@ -339,6 +352,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [account_id: account_id],
+      call: {GitHub.Apps, :get_subscription_plan_for_account_stubbed},
       url: "/marketplace_listing/stubbed/accounts/#{account_id}",
       method: :get,
       response: [
@@ -365,6 +379,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Apps, :get_user_installation},
       url: "/users/#{username}/installation",
       method: :get,
       response: [{200, {GitHub.Installation, :t}}],
@@ -386,6 +401,7 @@ defmodule GitHub.Apps do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Apps, :get_webhook_config_for_app},
       url: "/app/hook/config",
       method: :get,
       response: [{200, {GitHub.Webhook.Config, :t}}],
@@ -408,6 +424,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [delivery_id: delivery_id],
+      call: {GitHub.Apps, :get_webhook_delivery},
       url: "/app/hook/deliveries/#{delivery_id}",
       method: :get,
       response: [
@@ -442,6 +459,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [plan_id: plan_id],
+      call: {GitHub.Apps, :list_accounts_for_plan},
       url: "/marketplace_listing/plans/#{plan_id}/accounts",
       method: :get,
       query: query,
@@ -478,6 +496,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [plan_id: plan_id],
+      call: {GitHub.Apps, :list_accounts_for_plan_stubbed},
       url: "/marketplace_listing/stubbed/plans/#{plan_id}/accounts",
       method: :get,
       query: query,
@@ -510,6 +529,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [installation_id: installation_id],
+      call: {GitHub.Apps, :list_installation_repos_for_authenticated_user},
       url: "/user/installations/#{installation_id}/repositories",
       method: :get,
       query: query,
@@ -545,6 +565,7 @@ defmodule GitHub.Apps do
     query = Keyword.take(opts, [:outdated, :page, :per_page, :since])
 
     client.request(%{
+      call: {GitHub.Apps, :list_installations},
       url: "/app/installations",
       method: :get,
       query: query,
@@ -573,6 +594,7 @@ defmodule GitHub.Apps do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Apps, :list_installations_for_authenticated_user},
       url: "/user/installations",
       method: :get,
       query: query,
@@ -606,6 +628,7 @@ defmodule GitHub.Apps do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Apps, :list_plans},
       url: "/marketplace_listing/plans",
       method: :get,
       query: query,
@@ -638,6 +661,7 @@ defmodule GitHub.Apps do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Apps, :list_plans_stubbed},
       url: "/marketplace_listing/stubbed/plans",
       method: :get,
       query: query,
@@ -668,6 +692,7 @@ defmodule GitHub.Apps do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Apps, :list_repos_accessible_to_installation},
       url: "/installation/repositories",
       method: :get,
       query: query,
@@ -701,6 +726,7 @@ defmodule GitHub.Apps do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Apps, :list_subscriptions_for_authenticated_user},
       url: "/user/marketplace_purchases",
       method: :get,
       query: query,
@@ -734,6 +760,7 @@ defmodule GitHub.Apps do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Apps, :list_subscriptions_for_authenticated_user_stubbed},
       url: "/user/marketplace_purchases/stubbed",
       method: :get,
       query: query,
@@ -767,6 +794,7 @@ defmodule GitHub.Apps do
     query = Keyword.take(opts, [:cursor, :per_page, :redelivery])
 
     client.request(%{
+      call: {GitHub.Apps, :list_webhook_deliveries},
       url: "/app/hook/deliveries",
       method: :get,
       query: query,
@@ -793,6 +821,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [delivery_id: delivery_id],
+      call: {GitHub.Apps, :redeliver_webhook_delivery},
       url: "/app/hook/deliveries/#{delivery_id}/attempts",
       method: :post,
       response: [{202, :map}, {400, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
@@ -819,6 +848,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [installation_id: installation_id, repository_id: repository_id],
+      call: {GitHub.Apps, :remove_repo_from_installation_for_authenticated_user},
       url: "/user/installations/#{installation_id}/repositories/#{repository_id}",
       method: :delete,
       response: [
@@ -846,6 +876,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [client_id: client_id],
+      call: {GitHub.Apps, :reset_token},
       url: "/applications/#{client_id}/token",
       body: body,
       method: :patch,
@@ -868,6 +899,7 @@ defmodule GitHub.Apps do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Apps, :revoke_installation_access_token},
       url: "/installation/token",
       method: :delete,
       response: [{204, nil}],
@@ -890,6 +922,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [client_id: client_id],
+      call: {GitHub.Apps, :scope_token},
       url: "/applications/#{client_id}/token/scoped",
       body: body,
       method: :post,
@@ -919,6 +952,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [installation_id: installation_id],
+      call: {GitHub.Apps, :suspend_installation},
       url: "/app/installations/#{installation_id}/suspended",
       method: :put,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -940,6 +974,7 @@ defmodule GitHub.Apps do
 
     client.request(%{
       args: [installation_id: installation_id],
+      call: {GitHub.Apps, :unsuspend_installation},
       url: "/app/installations/#{installation_id}/suspended",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -961,6 +996,7 @@ defmodule GitHub.Apps do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Apps, :update_webhook_config_for_app},
       url: "/app/hook/config",
       body: body,
       method: :patch,

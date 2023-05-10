@@ -19,6 +19,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Users, :add_email_for_authenticated_user},
       url: "/user/emails",
       body: body,
       method: :post,
@@ -49,6 +50,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Users, :block},
       url: "/user/blocks/#{username}",
       method: :put,
       response: [
@@ -77,6 +79,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Users, :check_blocked},
       url: "/user/blocks/#{username}",
       method: :get,
       response: [
@@ -105,6 +108,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [username: username, target_user: target_user],
+      call: {GitHub.Users, :check_following_for_user},
       url: "/users/#{username}/following/#{target_user}",
       method: :get,
       response: [{204, nil}, {404, nil}],
@@ -127,6 +131,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Users, :check_person_is_followed_by_authenticated},
       url: "/user/following/#{username}",
       method: :get,
       response: [
@@ -154,6 +159,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Users, :create_gpg_key_for_authenticated_user},
       url: "/user/gpg_keys",
       body: body,
       method: :post,
@@ -184,6 +190,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Users, :create_public_ssh_key_for_authenticated_user},
       url: "/user/keys",
       body: body,
       method: :post,
@@ -214,6 +221,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Users, :create_ssh_signing_key_for_authenticated_user},
       url: "/user/ssh_signing_keys",
       body: body,
       method: :post,
@@ -244,6 +252,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Users, :delete_email_for_authenticated_user},
       url: "/user/emails",
       body: body,
       method: :delete,
@@ -275,6 +284,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [gpg_key_id: gpg_key_id],
+      call: {GitHub.Users, :delete_gpg_key_for_authenticated_user},
       url: "/user/gpg_keys/#{gpg_key_id}",
       method: :delete,
       response: [
@@ -304,6 +314,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [key_id: key_id],
+      call: {GitHub.Users, :delete_public_ssh_key_for_authenticated_user},
       url: "/user/keys/#{key_id}",
       method: :delete,
       response: [
@@ -332,6 +343,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [ssh_signing_key_id: ssh_signing_key_id],
+      call: {GitHub.Users, :delete_ssh_signing_key_for_authenticated_user},
       url: "/user/ssh_signing_keys/#{ssh_signing_key_id}",
       method: :delete,
       response: [
@@ -359,6 +371,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Users, :follow},
       url: "/user/following/#{username}",
       method: :put,
       response: [
@@ -386,6 +399,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Users, :get_authenticated},
       url: "/user",
       method: :get,
       response: [
@@ -413,6 +427,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Users, :get_by_username},
       url: "/users/#{username}",
       method: :get,
       response: [
@@ -444,6 +459,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Users, :get_context_for_user},
       url: "/users/#{username}/hovercard",
       method: :get,
       query: query,
@@ -471,6 +487,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [gpg_key_id: gpg_key_id],
+      call: {GitHub.Users, :get_gpg_key_for_authenticated_user},
       url: "/user/gpg_keys/#{gpg_key_id}",
       method: :get,
       response: [
@@ -499,6 +516,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [key_id: key_id],
+      call: {GitHub.Users, :get_public_ssh_key_for_authenticated_user},
       url: "/user/keys/#{key_id}",
       method: :get,
       response: [
@@ -527,6 +545,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [ssh_signing_key_id: ssh_signing_key_id],
+      call: {GitHub.Users, :get_ssh_signing_key_for_authenticated_user},
       url: "/user/ssh_signing_keys/#{ssh_signing_key_id}",
       method: :get,
       response: [
@@ -559,6 +578,7 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:per_page, :since])
 
     client.request(%{
+      call: {GitHub.Users, :list},
       url: "/users",
       method: :get,
       query: query,
@@ -587,6 +607,7 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Users, :list_blocked_by_authenticated_user},
       url: "/user/blocks",
       method: :get,
       query: query,
@@ -621,6 +642,7 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Users, :list_emails_for_authenticated_user},
       url: "/user/emails",
       method: :get,
       query: query,
@@ -655,6 +677,7 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Users, :list_followed_by_authenticated_user},
       url: "/user/following",
       method: :get,
       query: query,
@@ -688,6 +711,7 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Users, :list_followers_for_authenticated_user},
       url: "/user/followers",
       method: :get,
       query: query,
@@ -722,6 +746,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Users, :list_followers_for_user},
       url: "/users/#{username}/followers",
       method: :get,
       query: query,
@@ -751,6 +776,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Users, :list_following_for_user},
       url: "/users/#{username}/following",
       method: :get,
       query: query,
@@ -779,6 +805,7 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Users, :list_gpg_keys_for_authenticated_user},
       url: "/user/gpg_keys",
       method: :get,
       query: query,
@@ -814,6 +841,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Users, :list_gpg_keys_for_user},
       url: "/users/#{username}/gpg_keys",
       method: :get,
       query: query,
@@ -842,6 +870,7 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Users, :list_public_emails_for_authenticated_user},
       url: "/user/public_emails",
       method: :get,
       query: query,
@@ -877,6 +906,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Users, :list_public_keys_for_user},
       url: "/users/#{username}/keys",
       method: :get,
       query: query,
@@ -905,6 +935,7 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Users, :list_public_ssh_keys_for_authenticated_user},
       url: "/user/keys",
       method: :get,
       query: query,
@@ -939,6 +970,7 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Users, :list_ssh_signing_keys_for_authenticated_user},
       url: "/user/ssh_signing_keys",
       method: :get,
       query: query,
@@ -974,6 +1006,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Users, :list_ssh_signing_keys_for_user},
       url: "/users/#{username}/ssh_signing_keys",
       method: :get,
       query: query,
@@ -996,6 +1029,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Users, :set_primary_email_visibility_for_authenticated_user},
       url: "/user/email/visibility",
       body: body,
       method: :patch,
@@ -1026,6 +1060,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Users, :unblock},
       url: "/user/blocks/#{username}",
       method: :delete,
       response: [
@@ -1053,6 +1088,7 @@ defmodule GitHub.Users do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Users, :unfollow},
       url: "/user/following/#{username}",
       method: :delete,
       response: [
@@ -1080,6 +1116,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Users, :update_authenticated},
       url: "/user",
       body: body,
       method: :patch,

@@ -20,6 +20,7 @@ defmodule GitHub.Packages do
 
     client.request(%{
       args: [package_type: package_type, package_name: package_name],
+      call: {GitHub.Packages, :delete_package_for_authenticated_user},
       url: "/user/packages/#{package_type}/#{package_name}",
       method: :delete,
       response: [
@@ -47,6 +48,7 @@ defmodule GitHub.Packages do
 
     client.request(%{
       args: [org: org, package_type: package_type, package_name: package_name],
+      call: {GitHub.Packages, :delete_package_for_org},
       url: "/orgs/#{org}/packages/#{package_type}/#{package_name}",
       method: :delete,
       response: [
@@ -74,6 +76,7 @@ defmodule GitHub.Packages do
 
     client.request(%{
       args: [username: username, package_type: package_type, package_name: package_name],
+      call: {GitHub.Packages, :delete_package_for_user},
       url: "/users/#{username}/packages/#{package_type}/#{package_name}",
       method: :delete,
       response: [
@@ -110,6 +113,7 @@ defmodule GitHub.Packages do
         package_name: package_name,
         package_version_id: package_version_id
       ],
+      call: {GitHub.Packages, :delete_package_version_for_authenticated_user},
       url: "/user/packages/#{package_type}/#{package_name}/versions/#{package_version_id}",
       method: :delete,
       response: [
@@ -148,6 +152,7 @@ defmodule GitHub.Packages do
         package_name: package_name,
         package_version_id: package_version_id
       ],
+      call: {GitHub.Packages, :delete_package_version_for_org},
       url: "/orgs/#{org}/packages/#{package_type}/#{package_name}/versions/#{package_version_id}",
       method: :delete,
       response: [
@@ -186,6 +191,7 @@ defmodule GitHub.Packages do
         package_name: package_name,
         package_version_id: package_version_id
       ],
+      call: {GitHub.Packages, :delete_package_version_for_user},
       url:
         "/users/#{username}/packages/#{package_type}/#{package_name}/versions/#{package_version_id}",
       method: :delete,
@@ -228,6 +234,7 @@ defmodule GitHub.Packages do
 
     client.request(%{
       args: [package_type: package_type, package_name: package_name],
+      call: {GitHub.Packages, :get_all_package_versions_for_package_owned_by_authenticated_user},
       url: "/user/packages/#{package_type}/#{package_name}/versions",
       method: :get,
       query: query,
@@ -272,6 +279,7 @@ defmodule GitHub.Packages do
 
     client.request(%{
       args: [org: org, package_type: package_type, package_name: package_name],
+      call: {GitHub.Packages, :get_all_package_versions_for_package_owned_by_org},
       url: "/orgs/#{org}/packages/#{package_type}/#{package_name}/versions",
       method: :get,
       query: query,
@@ -309,6 +317,7 @@ defmodule GitHub.Packages do
 
     client.request(%{
       args: [username: username, package_type: package_type, package_name: package_name],
+      call: {GitHub.Packages, :get_all_package_versions_for_package_owned_by_user},
       url: "/users/#{username}/packages/#{package_type}/#{package_name}/versions",
       method: :get,
       response: [
@@ -336,6 +345,7 @@ defmodule GitHub.Packages do
 
     client.request(%{
       args: [package_type: package_type, package_name: package_name],
+      call: {GitHub.Packages, :get_package_for_authenticated_user},
       url: "/user/packages/#{package_type}/#{package_name}",
       method: :get,
       response: [{200, {GitHub.Package, :t}}],
@@ -358,6 +368,7 @@ defmodule GitHub.Packages do
 
     client.request(%{
       args: [org: org, package_type: package_type, package_name: package_name],
+      call: {GitHub.Packages, :get_package_for_organization},
       url: "/orgs/#{org}/packages/#{package_type}/#{package_name}",
       method: :get,
       response: [{200, {GitHub.Package, :t}}],
@@ -380,6 +391,7 @@ defmodule GitHub.Packages do
 
     client.request(%{
       args: [username: username, package_type: package_type, package_name: package_name],
+      call: {GitHub.Packages, :get_package_for_user},
       url: "/users/#{username}/packages/#{package_type}/#{package_name}",
       method: :get,
       response: [{200, {GitHub.Package, :t}}],
@@ -411,6 +423,7 @@ defmodule GitHub.Packages do
         package_name: package_name,
         package_version_id: package_version_id
       ],
+      call: {GitHub.Packages, :get_package_version_for_authenticated_user},
       url: "/user/packages/#{package_type}/#{package_name}/versions/#{package_version_id}",
       method: :get,
       response: [{200, {GitHub.PackageVersion, :t}}],
@@ -444,6 +457,7 @@ defmodule GitHub.Packages do
         package_name: package_name,
         package_version_id: package_version_id
       ],
+      call: {GitHub.Packages, :get_package_version_for_organization},
       url: "/orgs/#{org}/packages/#{package_type}/#{package_name}/versions/#{package_version_id}",
       method: :get,
       response: [{200, {GitHub.PackageVersion, :t}}],
@@ -477,6 +491,7 @@ defmodule GitHub.Packages do
         package_name: package_name,
         package_version_id: package_version_id
       ],
+      call: {GitHub.Packages, :get_package_version_for_user},
       url:
         "/users/#{username}/packages/#{package_type}/#{package_name}/versions/#{package_version_id}",
       method: :get,
@@ -508,6 +523,7 @@ defmodule GitHub.Packages do
     query = Keyword.take(opts, [:package_type, :visibility])
 
     client.request(%{
+      call: {GitHub.Packages, :list_packages_for_authenticated_user},
       url: "/user/packages",
       method: :get,
       query: query,
@@ -542,6 +558,7 @@ defmodule GitHub.Packages do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Packages, :list_packages_for_organization},
       url: "/orgs/#{org}/packages",
       method: :get,
       query: query,
@@ -578,6 +595,7 @@ defmodule GitHub.Packages do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Packages, :list_packages_for_user},
       url: "/users/#{username}/packages",
       method: :get,
       query: query,
@@ -610,6 +628,7 @@ defmodule GitHub.Packages do
 
     client.request(%{
       args: [package_type: package_type, package_name: package_name],
+      call: {GitHub.Packages, :restore_package_for_authenticated_user},
       url: "/user/packages/#{package_type}/#{package_name}/restore",
       method: :post,
       query: query,
@@ -643,6 +662,7 @@ defmodule GitHub.Packages do
 
     client.request(%{
       args: [org: org, package_type: package_type, package_name: package_name],
+      call: {GitHub.Packages, :restore_package_for_org},
       url: "/orgs/#{org}/packages/#{package_type}/#{package_name}/restore",
       method: :post,
       query: query,
@@ -676,6 +696,7 @@ defmodule GitHub.Packages do
 
     client.request(%{
       args: [username: username, package_type: package_type, package_name: package_name],
+      call: {GitHub.Packages, :restore_package_for_user},
       url: "/users/#{username}/packages/#{package_type}/#{package_name}/restore",
       method: :post,
       query: query,
@@ -713,6 +734,7 @@ defmodule GitHub.Packages do
         package_name: package_name,
         package_version_id: package_version_id
       ],
+      call: {GitHub.Packages, :restore_package_version_for_authenticated_user},
       url:
         "/user/packages/#{package_type}/#{package_name}/versions/#{package_version_id}/restore",
       method: :post,
@@ -752,6 +774,7 @@ defmodule GitHub.Packages do
         package_name: package_name,
         package_version_id: package_version_id
       ],
+      call: {GitHub.Packages, :restore_package_version_for_org},
       url:
         "/orgs/#{org}/packages/#{package_type}/#{package_name}/versions/#{package_version_id}/restore",
       method: :post,
@@ -791,6 +814,7 @@ defmodule GitHub.Packages do
         package_name: package_name,
         package_version_id: package_version_id
       ],
+      call: {GitHub.Packages, :restore_package_version_for_user},
       url:
         "/users/#{username}/packages/#{package_type}/#{package_name}/versions/#{package_version_id}/restore",
       method: :post,

@@ -20,6 +20,7 @@ defmodule GitHub.Checks do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Checks, :create},
       url: "/repos/#{owner}/#{repo}/check-runs",
       body: body,
       method: :post,
@@ -44,6 +45,7 @@ defmodule GitHub.Checks do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Checks, :create_suite},
       url: "/repos/#{owner}/#{repo}/check-suites",
       body: body,
       method: :post,
@@ -68,6 +70,7 @@ defmodule GitHub.Checks do
 
     client.request(%{
       args: [owner: owner, repo: repo, check_run_id: check_run_id],
+      call: {GitHub.Checks, :get},
       url: "/repos/#{owner}/#{repo}/check-runs/#{check_run_id}",
       method: :get,
       response: [{200, {GitHub.Check.Run, :t}}],
@@ -90,6 +93,7 @@ defmodule GitHub.Checks do
 
     client.request(%{
       args: [owner: owner, repo: repo, check_suite_id: check_suite_id],
+      call: {GitHub.Checks, :get_suite},
       url: "/repos/#{owner}/#{repo}/check-suites/#{check_suite_id}",
       method: :get,
       response: [{200, {GitHub.Check.Suite, :t}}],
@@ -118,6 +122,7 @@ defmodule GitHub.Checks do
 
     client.request(%{
       args: [owner: owner, repo: repo, check_run_id: check_run_id],
+      call: {GitHub.Checks, :list_annotations},
       url: "/repos/#{owner}/#{repo}/check-runs/#{check_run_id}/annotations",
       method: :get,
       query: query,
@@ -151,6 +156,7 @@ defmodule GitHub.Checks do
 
     client.request(%{
       args: [owner: owner, repo: repo, ref: ref],
+      call: {GitHub.Checks, :list_for_ref},
       url: "/repos/#{owner}/#{repo}/commits/#{ref}/check-runs",
       method: :get,
       query: query,
@@ -183,6 +189,7 @@ defmodule GitHub.Checks do
 
     client.request(%{
       args: [owner: owner, repo: repo, check_suite_id: check_suite_id],
+      call: {GitHub.Checks, :list_for_suite},
       url: "/repos/#{owner}/#{repo}/check-suites/#{check_suite_id}/check-runs",
       method: :get,
       query: query,
@@ -214,6 +221,7 @@ defmodule GitHub.Checks do
 
     client.request(%{
       args: [owner: owner, repo: repo, ref: ref],
+      call: {GitHub.Checks, :list_suites_for_ref},
       url: "/repos/#{owner}/#{repo}/commits/#{ref}/check-suites",
       method: :get,
       query: query,
@@ -237,6 +245,7 @@ defmodule GitHub.Checks do
 
     client.request(%{
       args: [owner: owner, repo: repo, check_run_id: check_run_id],
+      call: {GitHub.Checks, :rerequest_run},
       url: "/repos/#{owner}/#{repo}/check-runs/#{check_run_id}/rerequest",
       method: :post,
       response: [
@@ -264,6 +273,7 @@ defmodule GitHub.Checks do
 
     client.request(%{
       args: [owner: owner, repo: repo, check_suite_id: check_suite_id],
+      call: {GitHub.Checks, :rerequest_suite},
       url: "/repos/#{owner}/#{repo}/check-suites/#{check_suite_id}/rerequest",
       method: :post,
       response: [{201, {GitHub.EmptyObject, :t}}],
@@ -286,6 +296,7 @@ defmodule GitHub.Checks do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Checks, :set_suites_preferences},
       url: "/repos/#{owner}/#{repo}/check-suites/preferences",
       body: body,
       method: :patch,
@@ -310,6 +321,7 @@ defmodule GitHub.Checks do
 
     client.request(%{
       args: [owner: owner, repo: repo, check_run_id: check_run_id],
+      call: {GitHub.Checks, :update},
       url: "/repos/#{owner}/#{repo}/check-runs/#{check_run_id}",
       body: body,
       method: :patch,

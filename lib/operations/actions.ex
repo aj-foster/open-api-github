@@ -20,6 +20,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, runner_id: runner_id],
+      call: {GitHub.Actions, :add_custom_labels_to_self_hosted_runner_for_org},
       url: "/orgs/#{org}/actions/runners/#{runner_id}/labels",
       body: body,
       method: :post,
@@ -53,6 +54,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, runner_id: runner_id],
+      call: {GitHub.Actions, :add_custom_labels_to_self_hosted_runner_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels",
       body: body,
       method: :post,
@@ -81,6 +83,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, secret_name: secret_name, repository_id: repository_id],
+      call: {GitHub.Actions, :add_selected_repo_to_org_secret},
       url: "/orgs/#{org}/actions/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :put,
       response: [{204, nil}, {409, nil}],
@@ -103,6 +106,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, name: name, repository_id: repository_id],
+      call: {GitHub.Actions, :add_selected_repo_to_org_variable},
       url: "/orgs/#{org}/actions/variables/#{name}/repositories/#{repository_id}",
       method: :put,
       response: [{204, nil}, {409, nil}],
@@ -125,6 +129,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, required_workflow_id: required_workflow_id, repository_id: repository_id],
+      call: {GitHub.Actions, :add_selected_repo_to_required_workflow},
       url:
         "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}/repositories/#{repository_id}",
       method: :put,
@@ -148,6 +153,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :approve_workflow_run},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/approve",
       method: :post,
       response: [
@@ -174,6 +180,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :cancel_workflow_run},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/cancel",
       method: :post,
       response: [{202, {GitHub.EmptyObject, :t}}, {409, {GitHub.BasicError, :t}}],
@@ -196,6 +203,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [repository_id: repository_id, environment_name: environment_name],
+      call: {GitHub.Actions, :create_environment_variable},
       url: "/repositories/#{repository_id}/environments/#{environment_name}/variables",
       body: body,
       method: :post,
@@ -230,6 +238,7 @@ defmodule GitHub.Actions do
         environment_name: environment_name,
         secret_name: secret_name
       ],
+      call: {GitHub.Actions, :create_or_update_environment_secret},
       url:
         "/repositories/#{repository_id}/environments/#{environment_name}/secrets/#{secret_name}",
       body: body,
@@ -255,6 +264,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, secret_name: secret_name],
+      call: {GitHub.Actions, :create_or_update_org_secret},
       url: "/orgs/#{org}/actions/secrets/#{secret_name}",
       body: body,
       method: :put,
@@ -279,6 +289,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, secret_name: secret_name],
+      call: {GitHub.Actions, :create_or_update_repo_secret},
       url: "/repos/#{owner}/#{repo}/actions/secrets/#{secret_name}",
       body: body,
       method: :put,
@@ -303,6 +314,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :create_org_variable},
       url: "/orgs/#{org}/actions/variables",
       body: body,
       method: :post,
@@ -327,6 +339,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :create_registration_token_for_org},
       url: "/orgs/#{org}/actions/runners/registration-token",
       method: :post,
       response: [{201, {GitHub.AuthenticationToken, :t}}],
@@ -349,6 +362,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :create_registration_token_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/registration-token",
       method: :post,
       response: [{201, {GitHub.AuthenticationToken, :t}}],
@@ -371,6 +385,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :create_remove_token_for_org},
       url: "/orgs/#{org}/actions/runners/remove-token",
       method: :post,
       response: [{201, {GitHub.AuthenticationToken, :t}}],
@@ -393,6 +408,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :create_remove_token_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/remove-token",
       method: :post,
       response: [{201, {GitHub.AuthenticationToken, :t}}],
@@ -415,6 +431,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :create_repo_variable},
       url: "/repos/#{owner}/#{repo}/actions/variables",
       body: body,
       method: :post,
@@ -439,6 +456,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :create_required_workflow},
       url: "/orgs/#{org}/actions/required_workflows",
       body: body,
       method: :post,
@@ -463,6 +481,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, workflow_id: workflow_id],
+      call: {GitHub.Actions, :create_workflow_dispatch},
       url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/dispatches",
       body: body,
       method: :post,
@@ -487,6 +506,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, cache_id: cache_id],
+      call: {GitHub.Actions, :delete_actions_cache_by_id},
       url: "/repos/#{owner}/#{repo}/actions/caches/#{cache_id}",
       method: :delete,
       response: [{204, nil}],
@@ -515,6 +535,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :delete_actions_cache_by_key},
       url: "/repos/#{owner}/#{repo}/actions/caches",
       method: :delete,
       query: query,
@@ -538,6 +559,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, artifact_id: artifact_id],
+      call: {GitHub.Actions, :delete_artifact},
       url: "/repos/#{owner}/#{repo}/actions/artifacts/#{artifact_id}",
       method: :delete,
       response: [{204, nil}],
@@ -564,6 +586,7 @@ defmodule GitHub.Actions do
         environment_name: environment_name,
         secret_name: secret_name
       ],
+      call: {GitHub.Actions, :delete_environment_secret},
       url:
         "/repositories/#{repository_id}/environments/#{environment_name}/secrets/#{secret_name}",
       method: :delete,
@@ -587,6 +610,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [repository_id: repository_id, environment_name: environment_name, name: name],
+      call: {GitHub.Actions, :delete_environment_variable},
       url: "/repositories/#{repository_id}/environments/#{environment_name}/variables/#{name}",
       method: :delete,
       response: [{204, nil}],
@@ -608,6 +632,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, secret_name: secret_name],
+      call: {GitHub.Actions, :delete_org_secret},
       url: "/orgs/#{org}/actions/secrets/#{secret_name}",
       method: :delete,
       response: [{204, nil}],
@@ -629,6 +654,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, name: name],
+      call: {GitHub.Actions, :delete_org_variable},
       url: "/orgs/#{org}/actions/variables/#{name}",
       method: :delete,
       response: [{204, nil}],
@@ -651,6 +677,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, secret_name: secret_name],
+      call: {GitHub.Actions, :delete_repo_secret},
       url: "/repos/#{owner}/#{repo}/actions/secrets/#{secret_name}",
       method: :delete,
       response: [{204, nil}],
@@ -673,6 +700,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, name: name],
+      call: {GitHub.Actions, :delete_repo_variable},
       url: "/repos/#{owner}/#{repo}/actions/variables/#{name}",
       method: :delete,
       response: [{204, nil}],
@@ -694,6 +722,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, required_workflow_id: required_workflow_id],
+      call: {GitHub.Actions, :delete_required_workflow},
       url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}",
       method: :delete,
       response: [{204, nil}],
@@ -716,6 +745,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, runner_id: runner_id],
+      call: {GitHub.Actions, :delete_self_hosted_runner_from_org},
       url: "/orgs/#{org}/actions/runners/#{runner_id}",
       method: :delete,
       response: [{204, nil}],
@@ -738,6 +768,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, runner_id: runner_id],
+      call: {GitHub.Actions, :delete_self_hosted_runner_from_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}",
       method: :delete,
       response: [{204, nil}],
@@ -760,6 +791,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :delete_workflow_run},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}",
       method: :delete,
       response: [{204, nil}],
@@ -782,6 +814,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :delete_workflow_run_logs},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/logs",
       method: :delete,
       response: [{204, nil}, {403, {GitHub.BasicError, :t}}, {500, {GitHub.BasicError, :t}}],
@@ -804,6 +837,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, repository_id: repository_id],
+      call: {GitHub.Actions, :disable_selected_repository_github_actions_organization},
       url: "/orgs/#{org}/actions/permissions/repositories/#{repository_id}",
       method: :delete,
       response: [{204, nil}],
@@ -826,6 +860,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, workflow_id: workflow_id],
+      call: {GitHub.Actions, :disable_workflow},
       url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/disable",
       method: :put,
       response: [{204, nil}],
@@ -848,6 +883,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, artifact_id: artifact_id, archive_format: archive_format],
+      call: {GitHub.Actions, :download_artifact},
       url: "/repos/#{owner}/#{repo}/actions/artifacts/#{artifact_id}/#{archive_format}",
       method: :get,
       response: [{302, nil}, {410, {GitHub.BasicError, :t}}],
@@ -870,6 +906,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, job_id: job_id],
+      call: {GitHub.Actions, :download_job_logs_for_workflow_run},
       url: "/repos/#{owner}/#{repo}/actions/jobs/#{job_id}/logs",
       method: :get,
       response: [{302, nil}],
@@ -892,6 +929,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id, attempt_number: attempt_number],
+      call: {GitHub.Actions, :download_workflow_run_attempt_logs},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/attempts/#{attempt_number}/logs",
       method: :get,
       response: [{302, nil}],
@@ -914,6 +952,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :download_workflow_run_logs},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/logs",
       method: :get,
       response: [{302, nil}],
@@ -936,6 +975,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, repository_id: repository_id],
+      call: {GitHub.Actions, :enable_selected_repository_github_actions_organization},
       url: "/orgs/#{org}/actions/permissions/repositories/#{repository_id}",
       method: :put,
       response: [{204, nil}],
@@ -958,6 +998,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, workflow_id: workflow_id],
+      call: {GitHub.Actions, :enable_workflow},
       url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/enable",
       method: :put,
       response: [{204, nil}],
@@ -990,6 +1031,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :get_actions_cache_list},
       url: "/repos/#{owner}/#{repo}/actions/caches",
       method: :get,
       query: query,
@@ -1013,6 +1055,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :get_actions_cache_usage},
       url: "/repos/#{owner}/#{repo}/actions/cache/usage",
       method: :get,
       response: [{200, {GitHub.Actions.CacheUsageByRepository, :t}}],
@@ -1041,6 +1084,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :get_actions_cache_usage_by_repo_for_org},
       url: "/orgs/#{org}/actions/cache/usage-by-repository",
       method: :get,
       query: query,
@@ -1064,6 +1108,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :get_actions_cache_usage_for_org},
       url: "/orgs/#{org}/actions/cache/usage",
       method: :get,
       response: [{200, {GitHub.Actions.CacheUsageOrgEnterprise, :t}}],
@@ -1086,6 +1131,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :get_allowed_actions_organization},
       url: "/orgs/#{org}/actions/permissions/selected-actions",
       method: :get,
       response: [{200, {GitHub.SelectedActions, :t}}],
@@ -1108,6 +1154,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :get_allowed_actions_repository},
       url: "/repos/#{owner}/#{repo}/actions/permissions/selected-actions",
       method: :get,
       response: [{200, {GitHub.SelectedActions, :t}}],
@@ -1130,6 +1177,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, artifact_id: artifact_id],
+      call: {GitHub.Actions, :get_artifact},
       url: "/repos/#{owner}/#{repo}/actions/artifacts/#{artifact_id}",
       method: :get,
       response: [{200, {GitHub.Artifact, :t}}],
@@ -1152,6 +1200,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :get_custom_oidc_sub_claim_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/oidc/customization/sub",
       method: :get,
       response: [
@@ -1178,6 +1227,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [repository_id: repository_id, environment_name: environment_name],
+      call: {GitHub.Actions, :get_environment_public_key},
       url: "/repositories/#{repository_id}/environments/#{environment_name}/secrets/public-key",
       method: :get,
       response: [{200, {GitHub.Actions.PublicKey, :t}}],
@@ -1204,6 +1254,7 @@ defmodule GitHub.Actions do
         environment_name: environment_name,
         secret_name: secret_name
       ],
+      call: {GitHub.Actions, :get_environment_secret},
       url:
         "/repositories/#{repository_id}/environments/#{environment_name}/secrets/#{secret_name}",
       method: :get,
@@ -1227,6 +1278,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [repository_id: repository_id, environment_name: environment_name, name: name],
+      call: {GitHub.Actions, :get_environment_variable},
       url: "/repositories/#{repository_id}/environments/#{environment_name}/variables/#{name}",
       method: :get,
       response: [{200, {GitHub.Actions.Variable, :t}}],
@@ -1249,6 +1301,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :get_github_actions_default_workflow_permissions_organization},
       url: "/orgs/#{org}/actions/permissions/workflow",
       method: :get,
       response: [{200, {GitHub.Actions.GetDefaultWorkflowPermissions, :t}}],
@@ -1274,6 +1327,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :get_github_actions_default_workflow_permissions_repository},
       url: "/repos/#{owner}/#{repo}/actions/permissions/workflow",
       method: :get,
       response: [{200, {GitHub.Actions.GetDefaultWorkflowPermissions, :t}}],
@@ -1296,6 +1350,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :get_github_actions_permissions_organization},
       url: "/orgs/#{org}/actions/permissions",
       method: :get,
       response: [{200, {GitHub.Actions.OrganizationPermissions, :t}}],
@@ -1318,6 +1373,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :get_github_actions_permissions_repository},
       url: "/repos/#{owner}/#{repo}/actions/permissions",
       method: :get,
       response: [{200, {GitHub.Actions.RepositoryPermissions, :t}}],
@@ -1340,6 +1396,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, job_id: job_id],
+      call: {GitHub.Actions, :get_job_for_workflow_run},
       url: "/repos/#{owner}/#{repo}/actions/jobs/#{job_id}",
       method: :get,
       response: [{200, {GitHub.Job, :t}}],
@@ -1362,6 +1419,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :get_org_public_key},
       url: "/orgs/#{org}/actions/secrets/public-key",
       method: :get,
       response: [{200, {GitHub.Actions.PublicKey, :t}}],
@@ -1384,6 +1442,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, secret_name: secret_name],
+      call: {GitHub.Actions, :get_org_secret},
       url: "/orgs/#{org}/actions/secrets/#{secret_name}",
       method: :get,
       response: [{200, {GitHub.Organization.ActionsSecret, :t}}],
@@ -1406,6 +1465,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, name: name],
+      call: {GitHub.Actions, :get_org_variable},
       url: "/orgs/#{org}/actions/variables/#{name}",
       method: :get,
       response: [{200, {GitHub.Organization.ActionsVariable, :t}}],
@@ -1428,6 +1488,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :get_pending_deployments_for_run},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/pending_deployments",
       method: :get,
       response: [{200, {:array, {GitHub.PendingDeployment, :t}}}],
@@ -1450,6 +1511,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :get_repo_public_key},
       url: "/repos/#{owner}/#{repo}/actions/secrets/public-key",
       method: :get,
       response: [{200, {GitHub.Actions.PublicKey, :t}}],
@@ -1472,6 +1534,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, repo: repo, required_workflow_id_for_repo: required_workflow_id_for_repo],
+      call: {GitHub.Actions, :get_repo_required_workflow},
       url: "/repos/#{org}/#{repo}/actions/required_workflows/#{required_workflow_id_for_repo}",
       method: :get,
       response: [{200, {GitHub.RepoRequiredWorkflow, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -1494,6 +1557,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, repo: repo, required_workflow_id_for_repo: required_workflow_id_for_repo],
+      call: {GitHub.Actions, :get_repo_required_workflow_usage},
       url:
         "/repos/#{org}/#{repo}/actions/required_workflows/#{required_workflow_id_for_repo}/timing",
       method: :get,
@@ -1517,6 +1581,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, secret_name: secret_name],
+      call: {GitHub.Actions, :get_repo_secret},
       url: "/repos/#{owner}/#{repo}/actions/secrets/#{secret_name}",
       method: :get,
       response: [{200, {GitHub.Actions.Secret, :t}}],
@@ -1539,6 +1604,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, name: name],
+      call: {GitHub.Actions, :get_repo_variable},
       url: "/repos/#{owner}/#{repo}/actions/variables/#{name}",
       method: :get,
       response: [{200, {GitHub.Actions.Variable, :t}}],
@@ -1561,6 +1627,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, required_workflow_id: required_workflow_id],
+      call: {GitHub.Actions, :get_required_workflow},
       url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}",
       method: :get,
       response: [{200, {GitHub.RequiredWorkflow, :t}}],
@@ -1583,6 +1650,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :get_reviews_for_run},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/approvals",
       method: :get,
       response: [{200, {:array, {GitHub.EnvironmentApprovals, :t}}}],
@@ -1605,6 +1673,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, runner_id: runner_id],
+      call: {GitHub.Actions, :get_self_hosted_runner_for_org},
       url: "/orgs/#{org}/actions/runners/#{runner_id}",
       method: :get,
       response: [{200, {GitHub.Actions.Runner, :t}}],
@@ -1627,6 +1696,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, runner_id: runner_id],
+      call: {GitHub.Actions, :get_self_hosted_runner_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}",
       method: :get,
       response: [{200, {GitHub.Actions.Runner, :t}}],
@@ -1649,6 +1719,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, workflow_id: workflow_id],
+      call: {GitHub.Actions, :get_workflow},
       url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}",
       method: :get,
       response: [{200, {GitHub.Actions.Workflow, :t}}],
@@ -1671,6 +1742,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :get_workflow_access_to_repository},
       url: "/repos/#{owner}/#{repo}/actions/permissions/access",
       method: :get,
       response: [{200, {GitHub.Actions.Workflow.AccessToRepository, :t}}],
@@ -1698,6 +1770,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :get_workflow_run},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}",
       method: :get,
       query: query,
@@ -1726,6 +1799,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id, attempt_number: attempt_number],
+      call: {GitHub.Actions, :get_workflow_run_attempt},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/attempts/#{attempt_number}",
       method: :get,
       query: query,
@@ -1749,6 +1823,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :get_workflow_run_usage},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/timing",
       method: :get,
       response: [{200, {GitHub.Actions.Workflow.RunUsage, :t}}],
@@ -1771,6 +1846,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, workflow_id: workflow_id],
+      call: {GitHub.Actions, :get_workflow_usage},
       url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/timing",
       method: :get,
       response: [{200, {GitHub.Actions.Workflow.Usage, :t}}],
@@ -1800,6 +1876,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :list_artifacts_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/artifacts",
       method: :get,
       query: query,
@@ -1829,6 +1906,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [repository_id: repository_id, environment_name: environment_name],
+      call: {GitHub.Actions, :list_environment_secrets},
       url: "/repositories/#{repository_id}/environments/#{environment_name}/secrets",
       method: :get,
       query: query,
@@ -1858,6 +1936,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [repository_id: repository_id, environment_name: environment_name],
+      call: {GitHub.Actions, :list_environment_variables},
       url: "/repositories/#{repository_id}/environments/#{environment_name}/variables",
       method: :get,
       query: query,
@@ -1888,6 +1967,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :list_jobs_for_workflow_run},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/jobs",
       method: :get,
       query: query,
@@ -1917,6 +1997,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id, attempt_number: attempt_number],
+      call: {GitHub.Actions, :list_jobs_for_workflow_run_attempt},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/attempts/#{attempt_number}/jobs",
       method: :get,
       query: query,
@@ -1940,6 +2021,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, runner_id: runner_id],
+      call: {GitHub.Actions, :list_labels_for_self_hosted_runner_for_org},
       url: "/orgs/#{org}/actions/runners/#{runner_id}/labels",
       method: :get,
       response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
@@ -1962,6 +2044,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, runner_id: runner_id],
+      call: {GitHub.Actions, :list_labels_for_self_hosted_runner_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels",
       method: :get,
       response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
@@ -1989,6 +2072,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :list_org_secrets},
       url: "/orgs/#{org}/actions/secrets",
       method: :get,
       query: query,
@@ -2017,6 +2101,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :list_org_variables},
       url: "/orgs/#{org}/actions/variables",
       method: :get,
       query: query,
@@ -2046,6 +2131,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, repo: repo],
+      call: {GitHub.Actions, :list_repo_required_workflows},
       url: "/repos/#{org}/#{repo}/actions/required_workflows",
       method: :get,
       query: query,
@@ -2075,6 +2161,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :list_repo_secrets},
       url: "/repos/#{owner}/#{repo}/actions/secrets",
       method: :get,
       query: query,
@@ -2104,6 +2191,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :list_repo_variables},
       url: "/repos/#{owner}/#{repo}/actions/variables",
       method: :get,
       query: query,
@@ -2133,6 +2221,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :list_repo_workflows},
       url: "/repos/#{owner}/#{repo}/actions/workflows",
       method: :get,
       query: query,
@@ -2187,6 +2276,7 @@ defmodule GitHub.Actions do
         repo: repo,
         required_workflow_id_for_repo: required_workflow_id_for_repo
       ],
+      call: {GitHub.Actions, :list_required_workflow_runs},
       url:
         "/repos/#{owner}/#{repo}/actions/required_workflows/#{required_workflow_id_for_repo}/runs",
       method: :get,
@@ -2216,6 +2306,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :list_required_workflows},
       url: "/orgs/#{org}/actions/required_workflows",
       method: :get,
       query: query,
@@ -2239,6 +2330,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :list_runner_applications_for_org},
       url: "/orgs/#{org}/actions/runners/downloads",
       method: :get,
       response: [{200, {:array, {GitHub.Actions.Runner.Application, :t}}}],
@@ -2261,6 +2353,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :list_runner_applications_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/downloads",
       method: :get,
       response: [{200, {:array, {GitHub.Actions.Runner.Application, :t}}}],
@@ -2289,6 +2382,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, secret_name: secret_name],
+      call: {GitHub.Actions, :list_selected_repos_for_org_secret},
       url: "/orgs/#{org}/actions/secrets/#{secret_name}/repositories",
       method: :get,
       query: query,
@@ -2318,6 +2412,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, name: name],
+      call: {GitHub.Actions, :list_selected_repos_for_org_variable},
       url: "/orgs/#{org}/actions/variables/#{name}/repositories",
       method: :get,
       query: query,
@@ -2347,6 +2442,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :list_selected_repositories_enabled_github_actions_organization},
       url: "/orgs/#{org}/actions/permissions/repositories",
       method: :get,
       query: query,
@@ -2370,6 +2466,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, required_workflow_id: required_workflow_id],
+      call: {GitHub.Actions, :list_selected_repositories_required_workflow},
       url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}/repositories",
       method: :get,
       response: [{200, :map}, {404, nil}],
@@ -2398,6 +2495,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :list_self_hosted_runners_for_org},
       url: "/orgs/#{org}/actions/runners",
       method: :get,
       query: query,
@@ -2427,6 +2525,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :list_self_hosted_runners_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners",
       method: :get,
       query: query,
@@ -2456,6 +2555,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :list_workflow_run_artifacts},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/artifacts",
       method: :get,
       query: query,
@@ -2506,6 +2606,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, workflow_id: workflow_id],
+      call: {GitHub.Actions, :list_workflow_runs},
       url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/runs",
       method: :get,
       query: query,
@@ -2556,6 +2657,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :list_workflow_runs_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runs",
       method: :get,
       query: query,
@@ -2579,6 +2681,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, job_id: job_id],
+      call: {GitHub.Actions, :re_run_job_for_workflow_run},
       url: "/repos/#{owner}/#{repo}/actions/jobs/#{job_id}/rerun",
       body: body,
       method: :post,
@@ -2603,6 +2706,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :re_run_workflow},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/rerun",
       body: body,
       method: :post,
@@ -2627,6 +2731,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :re_run_workflow_failed_jobs},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/rerun-failed-jobs",
       body: body,
       method: :post,
@@ -2651,6 +2756,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, runner_id: runner_id],
+      call: {GitHub.Actions, :remove_all_custom_labels_from_self_hosted_runner_for_org},
       url: "/orgs/#{org}/actions/runners/#{runner_id}/labels",
       method: :delete,
       response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
@@ -2682,6 +2788,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, runner_id: runner_id],
+      call: {GitHub.Actions, :remove_all_custom_labels_from_self_hosted_runner_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels",
       method: :delete,
       response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
@@ -2708,6 +2815,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, runner_id: runner_id, name: name],
+      call: {GitHub.Actions, :remove_custom_label_from_self_hosted_runner_for_org},
       url: "/orgs/#{org}/actions/runners/#{runner_id}/labels/#{name}",
       method: :delete,
       response: [
@@ -2745,6 +2853,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, runner_id: runner_id, name: name],
+      call: {GitHub.Actions, :remove_custom_label_from_self_hosted_runner_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels/#{name}",
       method: :delete,
       response: [
@@ -2771,6 +2880,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, secret_name: secret_name, repository_id: repository_id],
+      call: {GitHub.Actions, :remove_selected_repo_from_org_secret},
       url: "/orgs/#{org}/actions/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :delete,
       response: [{204, nil}, {409, nil}],
@@ -2793,6 +2903,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, name: name, repository_id: repository_id],
+      call: {GitHub.Actions, :remove_selected_repo_from_org_variable},
       url: "/orgs/#{org}/actions/variables/#{name}/repositories/#{repository_id}",
       method: :delete,
       response: [{204, nil}, {409, nil}],
@@ -2820,6 +2931,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, required_workflow_id: required_workflow_id, repository_id: repository_id],
+      call: {GitHub.Actions, :remove_selected_repo_from_required_workflow},
       url:
         "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}/repositories/#{repository_id}",
       method: :delete,
@@ -2843,6 +2955,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :review_pending_deployments_for_run},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/pending_deployments",
       body: body,
       method: :post,
@@ -2867,6 +2980,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :set_allowed_actions_organization},
       url: "/orgs/#{org}/actions/permissions/selected-actions",
       body: body,
       method: :put,
@@ -2895,6 +3009,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :set_allowed_actions_repository},
       url: "/repos/#{owner}/#{repo}/actions/permissions/selected-actions",
       body: body,
       method: :put,
@@ -2919,6 +3034,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, runner_id: runner_id],
+      call: {GitHub.Actions, :set_custom_labels_for_self_hosted_runner_for_org},
       url: "/orgs/#{org}/actions/runners/#{runner_id}/labels",
       body: body,
       method: :put,
@@ -2952,6 +3068,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, runner_id: runner_id],
+      call: {GitHub.Actions, :set_custom_labels_for_self_hosted_runner_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels",
       body: body,
       method: :put,
@@ -2980,6 +3097,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :set_custom_oidc_sub_claim_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/oidc/customization/sub",
       body: body,
       method: :put,
@@ -3012,6 +3130,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :set_github_actions_default_workflow_permissions_organization},
       url: "/orgs/#{org}/actions/permissions/workflow",
       body: body,
       method: :put,
@@ -3040,6 +3159,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :set_github_actions_default_workflow_permissions_repository},
       url: "/repos/#{owner}/#{repo}/actions/permissions/workflow",
       body: body,
       method: :put,
@@ -3064,6 +3184,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :set_github_actions_permissions_organization},
       url: "/orgs/#{org}/actions/permissions",
       body: body,
       method: :put,
@@ -3088,6 +3209,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :set_github_actions_permissions_repository},
       url: "/repos/#{owner}/#{repo}/actions/permissions",
       body: body,
       method: :put,
@@ -3112,6 +3234,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, secret_name: secret_name],
+      call: {GitHub.Actions, :set_selected_repos_for_org_secret},
       url: "/orgs/#{org}/actions/secrets/#{secret_name}/repositories",
       body: body,
       method: :put,
@@ -3136,6 +3259,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, name: name],
+      call: {GitHub.Actions, :set_selected_repos_for_org_variable},
       url: "/orgs/#{org}/actions/variables/#{name}/repositories",
       body: body,
       method: :put,
@@ -3160,6 +3284,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, required_workflow_id: required_workflow_id],
+      call: {GitHub.Actions, :set_selected_repos_to_required_workflow},
       url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}/repositories",
       body: body,
       method: :put,
@@ -3184,6 +3309,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Actions, :set_selected_repositories_enabled_github_actions_organization},
       url: "/orgs/#{org}/actions/permissions/repositories",
       body: body,
       method: :put,
@@ -3212,6 +3338,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :set_workflow_access_to_repository},
       url: "/repos/#{owner}/#{repo}/actions/permissions/access",
       body: body,
       method: :put,
@@ -3236,6 +3363,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [repository_id: repository_id, environment_name: environment_name, name: name],
+      call: {GitHub.Actions, :update_environment_variable},
       url: "/repositories/#{repository_id}/environments/#{environment_name}/variables/#{name}",
       body: body,
       method: :patch,
@@ -3260,6 +3388,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, name: name],
+      call: {GitHub.Actions, :update_org_variable},
       url: "/orgs/#{org}/actions/variables/#{name}",
       body: body,
       method: :patch,
@@ -3284,6 +3413,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [owner: owner, repo: repo, name: name],
+      call: {GitHub.Actions, :update_repo_variable},
       url: "/repos/#{owner}/#{repo}/actions/variables/#{name}",
       body: body,
       method: :patch,
@@ -3308,6 +3438,7 @@ defmodule GitHub.Actions do
 
     client.request(%{
       args: [org: org, required_workflow_id: required_workflow_id],
+      call: {GitHub.Actions, :update_required_workflow},
       url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}",
       body: body,
       method: :patch,

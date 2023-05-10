@@ -20,6 +20,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number],
+      call: {GitHub.Issues, :add_assignees},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/assignees",
       body: body,
       method: :post,
@@ -49,6 +50,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number],
+      call: {GitHub.Issues, :add_labels},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/labels",
       body: body,
       method: :post,
@@ -81,6 +83,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, assignee: assignee],
+      call: {GitHub.Issues, :check_user_can_be_assigned},
       url: "/repos/#{owner}/#{repo}/assignees/#{assignee}",
       method: :get,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -103,6 +106,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number, assignee: assignee],
+      call: {GitHub.Issues, :check_user_can_be_assigned_to_issue},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/assignees/#{assignee}",
       method: :get,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -125,6 +129,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Issues, :create},
       url: "/repos/#{owner}/#{repo}/issues",
       body: body,
       method: :post,
@@ -156,6 +161,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number],
+      call: {GitHub.Issues, :create_comment},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/comments",
       body: body,
       method: :post,
@@ -186,6 +192,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Issues, :create_label},
       url: "/repos/#{owner}/#{repo}/labels",
       body: body,
       method: :post,
@@ -214,6 +221,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Issues, :create_milestone},
       url: "/repos/#{owner}/#{repo}/milestones",
       body: body,
       method: :post,
@@ -242,6 +250,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, comment_id: comment_id],
+      call: {GitHub.Issues, :delete_comment},
       url: "/repos/#{owner}/#{repo}/issues/comments/#{comment_id}",
       method: :delete,
       response: [{204, nil}],
@@ -264,6 +273,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, name: name],
+      call: {GitHub.Issues, :delete_label},
       url: "/repos/#{owner}/#{repo}/labels/#{name}",
       method: :delete,
       response: [{204, nil}],
@@ -286,6 +296,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, milestone_number: milestone_number],
+      call: {GitHub.Issues, :delete_milestone},
       url: "/repos/#{owner}/#{repo}/milestones/#{milestone_number}",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -308,6 +319,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number],
+      call: {GitHub.Issues, :get},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}",
       method: :get,
       response: [
@@ -336,6 +348,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, comment_id: comment_id],
+      call: {GitHub.Issues, :get_comment},
       url: "/repos/#{owner}/#{repo}/issues/comments/#{comment_id}",
       method: :get,
       response: [{200, {GitHub.Issue.Comment, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -358,6 +371,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, event_id: event_id],
+      call: {GitHub.Issues, :get_event},
       url: "/repos/#{owner}/#{repo}/issues/events/#{event_id}",
       method: :get,
       response: [
@@ -385,6 +399,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, name: name],
+      call: {GitHub.Issues, :get_label},
       url: "/repos/#{owner}/#{repo}/labels/#{name}",
       method: :get,
       response: [{200, {GitHub.Label, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -407,6 +422,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, milestone_number: milestone_number],
+      call: {GitHub.Issues, :get_milestone},
       url: "/repos/#{owner}/#{repo}/milestones/#{milestone_number}",
       method: :get,
       response: [{200, {GitHub.Milestone, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -458,6 +474,7 @@ defmodule GitHub.Issues do
       ])
 
     client.request(%{
+      call: {GitHub.Issues, :list},
       url: "/issues",
       method: :get,
       query: query,
@@ -492,6 +509,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Issues, :list_assignees},
       url: "/repos/#{owner}/#{repo}/assignees",
       method: :get,
       query: query,
@@ -522,6 +540,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number],
+      call: {GitHub.Issues, :list_comments},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/comments",
       method: :get,
       query: query,
@@ -558,6 +577,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Issues, :list_comments_for_repo},
       url: "/repos/#{owner}/#{repo}/issues/comments",
       method: :get,
       query: query,
@@ -609,6 +629,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number],
+      call: {GitHub.Issues, :list_events},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/events",
       method: :get,
       query: query,
@@ -660,6 +681,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Issues, :list_events_for_repo},
       url: "/repos/#{owner}/#{repo}/issues/events",
       method: :get,
       query: query,
@@ -714,6 +736,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number],
+      call: {GitHub.Issues, :list_events_for_timeline},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/timeline",
       method: :get,
       query: query,
@@ -780,6 +803,7 @@ defmodule GitHub.Issues do
       Keyword.take(opts, [:direction, :filter, :labels, :page, :per_page, :since, :sort, :state])
 
     client.request(%{
+      call: {GitHub.Issues, :list_for_authenticated_user},
       url: "/user/issues",
       method: :get,
       query: query,
@@ -817,6 +841,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Issues, :list_for_org},
       url: "/orgs/#{org}/issues",
       method: :get,
       query: query,
@@ -869,6 +894,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Issues, :list_for_repo},
       url: "/repos/#{owner}/#{repo}/issues",
       method: :get,
       query: query,
@@ -903,6 +929,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, milestone_number: milestone_number],
+      call: {GitHub.Issues, :list_labels_for_milestone},
       url: "/repos/#{owner}/#{repo}/milestones/#{milestone_number}/labels",
       method: :get,
       query: query,
@@ -932,6 +959,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Issues, :list_labels_for_repo},
       url: "/repos/#{owner}/#{repo}/labels",
       method: :get,
       query: query,
@@ -961,6 +989,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number],
+      call: {GitHub.Issues, :list_labels_on_issue},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/labels",
       method: :get,
       query: query,
@@ -998,6 +1027,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Issues, :list_milestones},
       url: "/repos/#{owner}/#{repo}/milestones",
       method: :get,
       query: query,
@@ -1021,6 +1051,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number],
+      call: {GitHub.Issues, :lock},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/lock",
       body: body,
       method: :put,
@@ -1051,6 +1082,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number],
+      call: {GitHub.Issues, :remove_all_labels},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/labels",
       method: :delete,
       response: [
@@ -1078,6 +1110,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number],
+      call: {GitHub.Issues, :remove_assignees},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/assignees",
       body: body,
       method: :delete,
@@ -1102,6 +1135,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number, name: name],
+      call: {GitHub.Issues, :remove_label},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/labels/#{name}",
       method: :delete,
       response: [
@@ -1134,6 +1168,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number],
+      call: {GitHub.Issues, :set_labels},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/labels",
       body: body,
       method: :put,
@@ -1165,6 +1200,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number],
+      call: {GitHub.Issues, :unlock},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/lock",
       method: :delete,
       response: [{204, nil}, {403, {GitHub.BasicError, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -1187,6 +1223,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, issue_number: issue_number],
+      call: {GitHub.Issues, :update},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}",
       body: body,
       method: :patch,
@@ -1219,6 +1256,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, comment_id: comment_id],
+      call: {GitHub.Issues, :update_comment},
       url: "/repos/#{owner}/#{repo}/issues/comments/#{comment_id}",
       body: body,
       method: :patch,
@@ -1243,6 +1281,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, name: name],
+      call: {GitHub.Issues, :update_label},
       url: "/repos/#{owner}/#{repo}/labels/#{name}",
       body: body,
       method: :patch,
@@ -1267,6 +1306,7 @@ defmodule GitHub.Issues do
 
     client.request(%{
       args: [owner: owner, repo: repo, milestone_number: milestone_number],
+      call: {GitHub.Issues, :update_milestone},
       url: "/repos/#{owner}/#{repo}/milestones/#{milestone_number}",
       body: body,
       method: :patch,

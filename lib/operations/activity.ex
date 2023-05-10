@@ -20,6 +20,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Activity, :check_repo_is_starred_by_authenticated_user},
       url: "/user/starred/#{owner}/#{repo}",
       method: :get,
       response: [
@@ -48,6 +49,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Activity, :delete_repo_subscription},
       url: "/repos/#{owner}/#{repo}/subscription",
       method: :delete,
       response: [{204, nil}],
@@ -69,6 +71,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [thread_id: thread_id],
+      call: {GitHub.Activity, :delete_thread_subscription},
       url: "/notifications/threads/#{thread_id}/subscription",
       method: :delete,
       response: [
@@ -94,6 +97,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Activity, :get_feeds},
       url: "/feeds",
       method: :get,
       response: [{200, {GitHub.Feed, :t}}],
@@ -116,6 +120,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Activity, :get_repo_subscription},
       url: "/repos/#{owner}/#{repo}/subscription",
       method: :get,
       response: [
@@ -141,6 +146,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [thread_id: thread_id],
+      call: {GitHub.Activity, :get_thread},
       url: "/notifications/threads/#{thread_id}",
       method: :get,
       response: [
@@ -168,6 +174,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [thread_id: thread_id],
+      call: {GitHub.Activity, :get_thread_subscription_for_authenticated_user},
       url: "/notifications/threads/#{thread_id}/subscription",
       method: :get,
       response: [
@@ -201,6 +208,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Activity, :list_events_for_authenticated_user},
       url: "/users/#{username}/events",
       method: :get,
       query: query,
@@ -233,6 +241,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:all, :before, :page, :participating, :per_page, :since])
 
     client.request(%{
+      call: {GitHub.Activity, :list_notifications_for_authenticated_user},
       url: "/notifications",
       method: :get,
       query: query,
@@ -268,6 +277,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [username: username, org: org],
+      call: {GitHub.Activity, :list_org_events_for_authenticated_user},
       url: "/users/#{username}/events/orgs/#{org}",
       method: :get,
       query: query,
@@ -295,6 +305,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Activity, :list_public_events},
       url: "/events",
       method: :get,
       query: query,
@@ -329,6 +340,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Activity, :list_public_events_for_repo_network},
       url: "/networks/#{owner}/#{repo}/events",
       method: :get,
       query: query,
@@ -364,6 +376,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Activity, :list_public_events_for_user},
       url: "/users/#{username}/events/public",
       method: :get,
       query: query,
@@ -393,6 +406,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Activity, :list_public_org_events},
       url: "/orgs/#{org}/events",
       method: :get,
       query: query,
@@ -422,6 +436,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Activity, :list_received_events_for_user},
       url: "/users/#{username}/received_events",
       method: :get,
       query: query,
@@ -451,6 +466,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Activity, :list_received_public_events_for_user},
       url: "/users/#{username}/received_events/public",
       method: :get,
       query: query,
@@ -480,6 +496,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Activity, :list_repo_events},
       url: "/repos/#{owner}/#{repo}/events",
       method: :get,
       query: query,
@@ -513,6 +530,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Activity, :list_repo_notifications_for_authenticated_user},
       url: "/repos/#{owner}/#{repo}/notifications",
       method: :get,
       query: query,
@@ -543,6 +561,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:direction, :page, :per_page, :sort])
 
     client.request(%{
+      call: {GitHub.Activity, :list_repos_starred_by_authenticated_user},
       url: "/user/starred",
       method: :get,
       query: query,
@@ -580,6 +599,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Activity, :list_repos_starred_by_user},
       url: "/users/#{username}/starred",
       method: :get,
       query: query,
@@ -611,6 +631,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Activity, :list_repos_watched_by_user},
       url: "/users/#{username}/subscriptions",
       method: :get,
       query: query,
@@ -640,6 +661,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Activity, :list_stargazers_for_repo},
       url: "/repos/#{owner}/#{repo}/stargazers",
       method: :get,
       query: query,
@@ -671,6 +693,7 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Activity, :list_watched_repos_for_authenticated_user},
       url: "/user/subscriptions",
       method: :get,
       query: query,
@@ -705,6 +728,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Activity, :list_watchers_for_repo},
       url: "/repos/#{owner}/#{repo}/subscribers",
       method: :get,
       query: query,
@@ -726,6 +750,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Activity, :mark_notifications_as_read},
       url: "/notifications",
       body: body,
       method: :put,
@@ -756,6 +781,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Activity, :mark_repo_notifications_as_read},
       url: "/repos/#{owner}/#{repo}/notifications",
       body: body,
       method: :put,
@@ -779,6 +805,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [thread_id: thread_id],
+      call: {GitHub.Activity, :mark_thread_as_read},
       url: "/notifications/threads/#{thread_id}",
       method: :patch,
       response: [{205, nil}, {304, nil}, {403, {GitHub.BasicError, :t}}],
@@ -801,6 +828,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Activity, :set_repo_subscription},
       url: "/repos/#{owner}/#{repo}/subscription",
       body: body,
       method: :put,
@@ -825,6 +853,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [thread_id: thread_id],
+      call: {GitHub.Activity, :set_thread_subscription},
       url: "/notifications/threads/#{thread_id}/subscription",
       body: body,
       method: :put,
@@ -854,6 +883,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Activity, :star_repo_for_authenticated_user},
       url: "/user/starred/#{owner}/#{repo}",
       method: :put,
       response: [
@@ -882,6 +912,7 @@ defmodule GitHub.Activity do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Activity, :unstar_repo_for_authenticated_user},
       url: "/user/starred/#{owner}/#{repo}",
       method: :delete,
       response: [

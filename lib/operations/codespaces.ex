@@ -20,6 +20,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [secret_name: secret_name, repository_id: repository_id],
+      call: {GitHub.Codespaces, :add_repository_for_secret_for_authenticated_user},
       url: "/user/codespaces/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :put,
       response: [
@@ -48,6 +49,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org, secret_name: secret_name, repository_id: repository_id],
+      call: {GitHub.Codespaces, :add_selected_repo_to_org_secret},
       url: "/orgs/#{org}/codespaces/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :put,
       response: [
@@ -75,6 +77,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [codespace_name: codespace_name],
+      call: {GitHub.Codespaces, :codespace_machines_for_authenticated_user},
       url: "/user/codespaces/#{codespace_name}/machines",
       method: :get,
       response: [
@@ -103,6 +106,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Codespaces, :create_for_authenticated_user},
       url: "/user/codespaces",
       body: body,
       method: :post,
@@ -134,6 +138,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org, secret_name: secret_name],
+      call: {GitHub.Codespaces, :create_or_update_org_secret},
       url: "/orgs/#{org}/codespaces/secrets/#{secret_name}",
       body: body,
       method: :put,
@@ -163,6 +168,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [owner: owner, repo: repo, secret_name: secret_name],
+      call: {GitHub.Codespaces, :create_or_update_repo_secret},
       url: "/repos/#{owner}/#{repo}/codespaces/secrets/#{secret_name}",
       body: body,
       method: :put,
@@ -187,6 +193,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [secret_name: secret_name],
+      call: {GitHub.Codespaces, :create_or_update_secret_for_authenticated_user},
       url: "/user/codespaces/secrets/#{secret_name}",
       body: body,
       method: :put,
@@ -216,6 +223,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [owner: owner, repo: repo, pull_number: pull_number],
+      call: {GitHub.Codespaces, :create_with_pr_for_authenticated_user},
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/codespaces",
       body: body,
       method: :post,
@@ -247,6 +255,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Codespaces, :create_with_repo_for_authenticated_user},
       url: "/repos/#{owner}/#{repo}/codespaces",
       body: body,
       method: :post,
@@ -279,6 +288,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Codespaces, :delete_codespaces_billing_users},
       url: "/orgs/#{org}/codespaces/billing/selected_users",
       body: body,
       method: :delete,
@@ -310,6 +320,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [codespace_name: codespace_name],
+      call: {GitHub.Codespaces, :delete_for_authenticated_user},
       url: "/user/codespaces/#{codespace_name}",
       method: :delete,
       response: [
@@ -339,6 +350,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org, username: username, codespace_name: codespace_name],
+      call: {GitHub.Codespaces, :delete_from_organization},
       url: "/orgs/#{org}/members/#{username}/codespaces/#{codespace_name}",
       method: :delete,
       response: [
@@ -367,6 +379,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org, secret_name: secret_name],
+      call: {GitHub.Codespaces, :delete_org_secret},
       url: "/orgs/#{org}/codespaces/secrets/#{secret_name}",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -389,6 +402,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [owner: owner, repo: repo, secret_name: secret_name],
+      call: {GitHub.Codespaces, :delete_repo_secret},
       url: "/repos/#{owner}/#{repo}/codespaces/secrets/#{secret_name}",
       method: :delete,
       response: [{204, nil}],
@@ -411,6 +425,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [secret_name: secret_name],
+      call: {GitHub.Codespaces, :delete_secret_for_authenticated_user},
       url: "/user/codespaces/secrets/#{secret_name}",
       method: :delete,
       response: [{204, nil}],
@@ -433,6 +448,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [codespace_name: codespace_name],
+      call: {GitHub.Codespaces, :export_for_authenticated_user},
       url: "/user/codespaces/#{codespace_name}/exports",
       method: :post,
       response: [
@@ -468,6 +484,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org, username: username],
+      call: {GitHub.Codespaces, :get_codespaces_for_user_in_org},
       url: "/orgs/#{org}/members/#{username}/codespaces",
       method: :get,
       query: query,
@@ -498,6 +515,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [codespace_name: codespace_name, export_id: export_id],
+      call: {GitHub.Codespaces, :get_export_details_for_authenticated_user},
       url: "/user/codespaces/#{codespace_name}/exports/#{export_id}",
       method: :get,
       response: [{200, {GitHub.Codespace.ExportDetails, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -520,6 +538,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [codespace_name: codespace_name],
+      call: {GitHub.Codespaces, :get_for_authenticated_user},
       url: "/user/codespaces/#{codespace_name}",
       method: :get,
       response: [
@@ -549,6 +568,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Codespaces, :get_org_public_key},
       url: "/orgs/#{org}/codespaces/secrets/public-key",
       method: :get,
       response: [{200, {GitHub.Codespace.PublicKey, :t}}],
@@ -571,6 +591,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org, secret_name: secret_name],
+      call: {GitHub.Codespaces, :get_org_secret},
       url: "/orgs/#{org}/codespaces/secrets/#{secret_name}",
       method: :get,
       response: [{200, {GitHub.Codespace.OrgSecret, :t}}],
@@ -592,6 +613,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Codespaces, :get_public_key_for_authenticated_user},
       url: "/user/codespaces/secrets/public-key",
       method: :get,
       response: [{200, {GitHub.Codespace.UserPublicKey, :t}}],
@@ -614,6 +636,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Codespaces, :get_repo_public_key},
       url: "/repos/#{owner}/#{repo}/codespaces/secrets/public-key",
       method: :get,
       response: [{200, {GitHub.Codespace.PublicKey, :t}}],
@@ -636,6 +659,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [owner: owner, repo: repo, secret_name: secret_name],
+      call: {GitHub.Codespaces, :get_repo_secret},
       url: "/repos/#{owner}/#{repo}/codespaces/secrets/#{secret_name}",
       method: :get,
       response: [{200, {GitHub.RepoCodespacesSecret, :t}}],
@@ -658,6 +682,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [secret_name: secret_name],
+      call: {GitHub.Codespaces, :get_secret_for_authenticated_user},
       url: "/user/codespaces/secrets/#{secret_name}",
       method: :get,
       response: [{200, {GitHub.Codespace.Secret, :t}}],
@@ -686,6 +711,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Codespaces, :list_devcontainers_in_repository_for_authenticated_user},
       url: "/repos/#{owner}/#{repo}/codespaces/devcontainers",
       method: :get,
       query: query,
@@ -721,6 +747,7 @@ defmodule GitHub.Codespaces do
     query = Keyword.take(opts, [:page, :per_page, :repository_id])
 
     client.request(%{
+      call: {GitHub.Codespaces, :list_for_authenticated_user},
       url: "/user/codespaces",
       method: :get,
       query: query,
@@ -756,6 +783,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Codespaces, :list_in_organization},
       url: "/orgs/#{org}/codespaces",
       method: :get,
       query: query,
@@ -792,6 +820,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Codespaces, :list_in_repository_for_authenticated_user},
       url: "/repos/#{owner}/#{repo}/codespaces",
       method: :get,
       query: query,
@@ -826,6 +855,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Codespaces, :list_org_secrets},
       url: "/orgs/#{org}/codespaces/secrets",
       method: :get,
       query: query,
@@ -855,6 +885,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Codespaces, :list_repo_secrets},
       url: "/repos/#{owner}/#{repo}/codespaces/secrets",
       method: :get,
       query: query,
@@ -878,6 +909,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [secret_name: secret_name],
+      call: {GitHub.Codespaces, :list_repositories_for_secret_for_authenticated_user},
       url: "/user/codespaces/secrets/#{secret_name}/repositories",
       method: :get,
       response: [
@@ -910,6 +942,7 @@ defmodule GitHub.Codespaces do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Codespaces, :list_secrets_for_authenticated_user},
       url: "/user/codespaces/secrets",
       method: :get,
       query: query,
@@ -939,6 +972,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org, secret_name: secret_name],
+      call: {GitHub.Codespaces, :list_selected_repos_for_org_secret},
       url: "/orgs/#{org}/codespaces/secrets/#{secret_name}/repositories",
       method: :get,
       query: query,
@@ -968,6 +1002,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Codespaces, :pre_flight_with_repo_for_authenticated_user},
       url: "/repos/#{owner}/#{repo}/codespaces/new",
       method: :get,
       query: query,
@@ -996,6 +1031,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [codespace_name: codespace_name],
+      call: {GitHub.Codespaces, :publish_for_authenticated_user},
       url: "/user/codespaces/#{codespace_name}/publish",
       body: body,
       method: :post,
@@ -1026,6 +1062,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [secret_name: secret_name, repository_id: repository_id],
+      call: {GitHub.Codespaces, :remove_repository_for_secret_for_authenticated_user},
       url: "/user/codespaces/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :delete,
       response: [
@@ -1054,6 +1091,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org, secret_name: secret_name, repository_id: repository_id],
+      call: {GitHub.Codespaces, :remove_selected_repo_from_org_secret},
       url: "/orgs/#{org}/codespaces/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :delete,
       response: [
@@ -1087,6 +1125,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Codespaces, :repo_machines_for_authenticated_user},
       url: "/repos/#{owner}/#{repo}/codespaces/machines",
       method: :get,
       query: query,
@@ -1116,6 +1155,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Codespaces, :set_codespaces_billing},
       url: "/orgs/#{org}/codespaces/billing",
       body: body,
       method: :put,
@@ -1146,6 +1186,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Codespaces, :set_codespaces_billing_users},
       url: "/orgs/#{org}/codespaces/billing/selected_users",
       body: body,
       method: :post,
@@ -1177,6 +1218,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [secret_name: secret_name],
+      call: {GitHub.Codespaces, :set_repositories_for_secret_for_authenticated_user},
       url: "/user/codespaces/secrets/#{secret_name}/repositories",
       body: body,
       method: :put,
@@ -1207,6 +1249,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org, secret_name: secret_name],
+      call: {GitHub.Codespaces, :set_selected_repos_for_org_secret},
       url: "/orgs/#{org}/codespaces/secrets/#{secret_name}/repositories",
       body: body,
       method: :put,
@@ -1231,6 +1274,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [codespace_name: codespace_name],
+      call: {GitHub.Codespaces, :start_for_authenticated_user},
       url: "/user/codespaces/#{codespace_name}/start",
       method: :post,
       response: [
@@ -1263,6 +1307,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [codespace_name: codespace_name],
+      call: {GitHub.Codespaces, :stop_for_authenticated_user},
       url: "/user/codespaces/#{codespace_name}/stop",
       method: :post,
       response: [
@@ -1291,6 +1336,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [org: org, username: username, codespace_name: codespace_name],
+      call: {GitHub.Codespaces, :stop_in_organization},
       url: "/orgs/#{org}/members/#{username}/codespaces/#{codespace_name}/stop",
       method: :post,
       response: [
@@ -1320,6 +1366,7 @@ defmodule GitHub.Codespaces do
 
     client.request(%{
       args: [codespace_name: codespace_name],
+      call: {GitHub.Codespaces, :update_for_authenticated_user},
       url: "/user/codespaces/#{codespace_name}",
       body: body,
       method: :patch,

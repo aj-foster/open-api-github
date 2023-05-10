@@ -20,6 +20,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, team_slug: team_slug],
+      call: {GitHub.Orgs, :add_security_manager_team},
       url: "/orgs/#{org}/security-managers/teams/#{team_slug}",
       method: :put,
       response: [{204, nil}, {409, nil}],
@@ -41,6 +42,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, username: username],
+      call: {GitHub.Orgs, :block_user},
       url: "/orgs/#{org}/blocks/#{username}",
       method: :put,
       response: [{204, nil}, {422, {GitHub.ValidationError, :t}}],
@@ -62,6 +64,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, invitation_id: invitation_id],
+      call: {GitHub.Orgs, :cancel_invitation},
       url: "/orgs/#{org}/invitations/#{invitation_id}",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
@@ -83,6 +86,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, username: username],
+      call: {GitHub.Orgs, :check_blocked_user},
       url: "/orgs/#{org}/blocks/#{username}",
       method: :get,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -105,6 +109,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, username: username],
+      call: {GitHub.Orgs, :check_membership_for_user},
       url: "/orgs/#{org}/members/#{username}",
       method: :get,
       response: [{204, nil}, {302, nil}, {404, nil}],
@@ -127,6 +132,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, username: username],
+      call: {GitHub.Orgs, :check_public_membership_for_user},
       url: "/orgs/#{org}/public_members/#{username}",
       method: :get,
       response: [{204, nil}, {404, nil}],
@@ -149,6 +155,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, username: username],
+      call: {GitHub.Orgs, :convert_member_to_outside_collaborator},
       url: "/orgs/#{org}/outside_collaborators/#{username}",
       body: body,
       method: :put,
@@ -173,6 +180,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Orgs, :create_invitation},
       url: "/orgs/#{org}/invitations",
       body: body,
       method: :post,
@@ -201,6 +209,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Orgs, :create_webhook},
       url: "/orgs/#{org}/hooks",
       body: body,
       method: :post,
@@ -228,6 +237,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, hook_id: hook_id],
+      call: {GitHub.Orgs, :delete_webhook},
       url: "/orgs/#{org}/hooks/#{hook_id}",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -259,6 +269,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, security_product: security_product, enablement: enablement],
+      call: {GitHub.Orgs, :enable_or_disable_security_product_on_all_org_repos},
       url: "/orgs/#{org}/#{security_product}/#{enablement}",
       method: :post,
       response: [{204, nil}, {422, nil}],
@@ -281,6 +292,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Orgs, :get},
       url: "/orgs/#{org}",
       method: :get,
       response: [{200, {GitHub.Organization.Full, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -303,6 +315,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Orgs, :get_membership_for_authenticated_user},
       url: "/user/memberships/orgs/#{org}",
       method: :get,
       response: [
@@ -329,6 +342,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, username: username],
+      call: {GitHub.Orgs, :get_membership_for_user},
       url: "/orgs/#{org}/memberships/#{username}",
       method: :get,
       response: [
@@ -355,6 +369,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, hook_id: hook_id],
+      call: {GitHub.Orgs, :get_webhook},
       url: "/orgs/#{org}/hooks/#{hook_id}",
       method: :get,
       response: [{200, {GitHub.OrgHook, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -377,6 +392,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, hook_id: hook_id],
+      call: {GitHub.Orgs, :get_webhook_config_for_org},
       url: "/orgs/#{org}/hooks/#{hook_id}/config",
       method: :get,
       response: [{200, {GitHub.Webhook.Config, :t}}],
@@ -399,6 +415,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, hook_id: hook_id, delivery_id: delivery_id],
+      call: {GitHub.Orgs, :get_webhook_delivery},
       url: "/orgs/#{org}/hooks/#{hook_id}/deliveries/#{delivery_id}",
       method: :get,
       response: [
@@ -429,6 +446,7 @@ defmodule GitHub.Orgs do
     query = Keyword.take(opts, [:per_page, :since])
 
     client.request(%{
+      call: {GitHub.Orgs, :list},
       url: "/organizations",
       method: :get,
       query: query,
@@ -457,6 +475,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Orgs, :list_app_installations},
       url: "/orgs/#{org}/installations",
       method: :get,
       query: query,
@@ -486,6 +505,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Orgs, :list_blocked_users},
       url: "/orgs/#{org}/blocks",
       method: :get,
       query: query,
@@ -515,6 +535,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Orgs, :list_failed_invitations},
       url: "/orgs/#{org}/failed_invitations",
       method: :get,
       query: query,
@@ -546,6 +567,7 @@ defmodule GitHub.Orgs do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Orgs, :list_for_authenticated_user},
       url: "/user/orgs",
       method: :get,
       query: query,
@@ -580,6 +602,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Orgs, :list_for_user},
       url: "/users/#{username}/orgs",
       method: :get,
       query: query,
@@ -609,6 +632,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, invitation_id: invitation_id],
+      call: {GitHub.Orgs, :list_invitation_teams},
       url: "/orgs/#{org}/invitations/#{invitation_id}/teams",
       method: :get,
       query: query,
@@ -640,6 +664,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Orgs, :list_members},
       url: "/orgs/#{org}/members",
       method: :get,
       query: query,
@@ -669,6 +694,7 @@ defmodule GitHub.Orgs do
     query = Keyword.take(opts, [:page, :per_page, :state])
 
     client.request(%{
+      call: {GitHub.Orgs, :list_memberships_for_authenticated_user},
       url: "/user/memberships/orgs",
       method: :get,
       query: query,
@@ -705,6 +731,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Orgs, :list_outside_collaborators},
       url: "/orgs/#{org}/outside_collaborators",
       method: :get,
       query: query,
@@ -736,6 +763,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Orgs, :list_pending_invitations},
       url: "/orgs/#{org}/invitations",
       method: :get,
       query: query,
@@ -768,6 +796,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Orgs, :list_public_members},
       url: "/orgs/#{org}/public_members",
       method: :get,
       query: query,
@@ -791,6 +820,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Orgs, :list_security_manager_teams},
       url: "/orgs/#{org}/security-managers",
       method: :get,
       response: [{200, {:array, {GitHub.Team, :simple}}}],
@@ -820,6 +850,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, hook_id: hook_id],
+      call: {GitHub.Orgs, :list_webhook_deliveries},
       url: "/orgs/#{org}/hooks/#{hook_id}/deliveries",
       method: :get,
       query: query,
@@ -853,6 +884,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Orgs, :list_webhooks},
       url: "/orgs/#{org}/hooks",
       method: :get,
       query: query,
@@ -875,6 +907,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, hook_id: hook_id],
+      call: {GitHub.Orgs, :ping_webhook},
       url: "/orgs/#{org}/hooks/#{hook_id}/pings",
       method: :post,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
@@ -897,6 +930,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, hook_id: hook_id, delivery_id: delivery_id],
+      call: {GitHub.Orgs, :redeliver_webhook_delivery},
       url: "/orgs/#{org}/hooks/#{hook_id}/deliveries/#{delivery_id}/attempts",
       method: :post,
       response: [{202, :map}, {400, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
@@ -918,6 +952,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, username: username],
+      call: {GitHub.Orgs, :remove_member},
       url: "/orgs/#{org}/members/#{username}",
       method: :delete,
       response: [{204, nil}, {403, {GitHub.BasicError, :t}}],
@@ -940,6 +975,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, username: username],
+      call: {GitHub.Orgs, :remove_membership_for_user},
       url: "/orgs/#{org}/memberships/#{username}",
       method: :delete,
       response: [{204, nil}, {403, {GitHub.BasicError, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -962,6 +998,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, username: username],
+      call: {GitHub.Orgs, :remove_outside_collaborator},
       url: "/orgs/#{org}/outside_collaborators/#{username}",
       method: :delete,
       response: [{204, nil}, {422, :map}],
@@ -984,6 +1021,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, username: username],
+      call: {GitHub.Orgs, :remove_public_membership_for_authenticated_user},
       url: "/orgs/#{org}/public_members/#{username}",
       method: :delete,
       response: [{204, nil}],
@@ -1006,6 +1044,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, team_slug: team_slug],
+      call: {GitHub.Orgs, :remove_security_manager_team},
       url: "/orgs/#{org}/security-managers/teams/#{team_slug}",
       method: :delete,
       response: [{204, nil}],
@@ -1028,6 +1067,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, username: username],
+      call: {GitHub.Orgs, :set_membership_for_user},
       url: "/orgs/#{org}/memberships/#{username}",
       body: body,
       method: :put,
@@ -1056,6 +1096,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, username: username],
+      call: {GitHub.Orgs, :set_public_membership_for_authenticated_user},
       url: "/orgs/#{org}/public_members/#{username}",
       method: :put,
       response: [{204, nil}, {403, {GitHub.BasicError, :t}}],
@@ -1077,6 +1118,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, username: username],
+      call: {GitHub.Orgs, :unblock_user},
       url: "/orgs/#{org}/blocks/#{username}",
       method: :delete,
       response: [{204, nil}],
@@ -1099,6 +1141,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Orgs, :update},
       url: "/orgs/#{org}",
       body: body,
       method: :patch,
@@ -1127,6 +1170,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Orgs, :update_membership_for_authenticated_user},
       url: "/user/memberships/orgs/#{org}",
       body: body,
       method: :patch,
@@ -1156,6 +1200,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, hook_id: hook_id],
+      call: {GitHub.Orgs, :update_webhook},
       url: "/orgs/#{org}/hooks/#{hook_id}",
       body: body,
       method: :patch,
@@ -1184,6 +1229,7 @@ defmodule GitHub.Orgs do
 
     client.request(%{
       args: [org: org, hook_id: hook_id],
+      call: {GitHub.Orgs, :update_webhook_config_for_org},
       url: "/orgs/#{org}/hooks/#{hook_id}/config",
       body: body,
       method: :patch,

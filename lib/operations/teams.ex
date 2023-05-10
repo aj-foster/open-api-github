@@ -19,6 +19,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, username: username],
+      call: {GitHub.Teams, :add_member_legacy},
       url: "/teams/#{team_id}/members/#{username}",
       method: :put,
       response: [{204, nil}, {403, {GitHub.BasicError, :t}}, {404, nil}, {422, nil}],
@@ -41,6 +42,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug, username: username],
+      call: {GitHub.Teams, :add_or_update_membership_for_user_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/memberships/#{username}",
       body: body,
       method: :put,
@@ -65,6 +67,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, username: username],
+      call: {GitHub.Teams, :add_or_update_membership_for_user_legacy},
       url: "/teams/#{team_id}/memberships/#{username}",
       body: body,
       method: :put,
@@ -99,6 +102,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug, project_id: project_id],
+      call: {GitHub.Teams, :add_or_update_project_permissions_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/projects/#{project_id}",
       body: body,
       method: :put,
@@ -123,6 +127,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, project_id: project_id],
+      call: {GitHub.Teams, :add_or_update_project_permissions_legacy},
       url: "/teams/#{team_id}/projects/#{project_id}",
       body: body,
       method: :put,
@@ -158,6 +163,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug, owner: owner, repo: repo],
+      call: {GitHub.Teams, :add_or_update_repo_permissions_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/repos/#{owner}/#{repo}",
       body: body,
       method: :put,
@@ -182,6 +188,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, owner: owner, repo: repo],
+      call: {GitHub.Teams, :add_or_update_repo_permissions_legacy},
       url: "/teams/#{team_id}/repos/#{owner}/#{repo}",
       body: body,
       method: :put,
@@ -206,6 +213,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug, project_id: project_id],
+      call: {GitHub.Teams, :check_permissions_for_project_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/projects/#{project_id}",
       method: :get,
       response: [{200, {GitHub.Team.Project, :t}}, {404, nil}],
@@ -228,6 +236,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, project_id: project_id],
+      call: {GitHub.Teams, :check_permissions_for_project_legacy},
       url: "/teams/#{team_id}/projects/#{project_id}",
       method: :get,
       response: [{200, {GitHub.Team.Project, :t}}, {404, nil}],
@@ -250,6 +259,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug, owner: owner, repo: repo],
+      call: {GitHub.Teams, :check_permissions_for_repo_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/repos/#{owner}/#{repo}",
       method: :get,
       response: [{200, {GitHub.Team.Repository, :t}}, {204, nil}, {404, nil}],
@@ -272,6 +282,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, owner: owner, repo: repo],
+      call: {GitHub.Teams, :check_permissions_for_repo_legacy},
       url: "/teams/#{team_id}/repos/#{owner}/#{repo}",
       method: :get,
       response: [{200, {GitHub.Team.Repository, :t}}, {204, nil}, {404, nil}],
@@ -294,6 +305,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Teams, :create},
       url: "/orgs/#{org}/teams",
       body: body,
       method: :post,
@@ -322,6 +334,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug, discussion_number: discussion_number],
+      call: {GitHub.Teams, :create_discussion_comment_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments",
       body: body,
       method: :post,
@@ -346,6 +359,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, discussion_number: discussion_number],
+      call: {GitHub.Teams, :create_discussion_comment_legacy},
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments",
       body: body,
       method: :post,
@@ -370,6 +384,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug],
+      call: {GitHub.Teams, :create_discussion_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/discussions",
       body: body,
       method: :post,
@@ -394,6 +409,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id],
+      call: {GitHub.Teams, :create_discussion_legacy},
       url: "/teams/#{team_id}/discussions",
       body: body,
       method: :post,
@@ -429,6 +445,7 @@ defmodule GitHub.Teams do
         discussion_number: discussion_number,
         comment_number: comment_number
       ],
+      call: {GitHub.Teams, :delete_discussion_comment_in_org},
       url:
         "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments/#{comment_number}",
       method: :delete,
@@ -456,6 +473,7 @@ defmodule GitHub.Teams do
         discussion_number: discussion_number,
         comment_number: comment_number
       ],
+      call: {GitHub.Teams, :delete_discussion_comment_legacy},
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments/#{comment_number}",
       method: :delete,
       response: [{204, nil}],
@@ -478,6 +496,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug, discussion_number: discussion_number],
+      call: {GitHub.Teams, :delete_discussion_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}",
       method: :delete,
       response: [{204, nil}],
@@ -499,6 +518,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, discussion_number: discussion_number],
+      call: {GitHub.Teams, :delete_discussion_legacy},
       url: "/teams/#{team_id}/discussions/#{discussion_number}",
       method: :delete,
       response: [{204, nil}],
@@ -520,6 +540,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug],
+      call: {GitHub.Teams, :delete_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}",
       method: :delete,
       response: [{204, nil}],
@@ -541,6 +562,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id],
+      call: {GitHub.Teams, :delete_legacy},
       url: "/teams/#{team_id}",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
@@ -563,6 +585,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug],
+      call: {GitHub.Teams, :get_by_name},
       url: "/orgs/#{org}/teams/#{team_slug}",
       method: :get,
       response: [{200, {GitHub.Team.Full, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -590,6 +613,7 @@ defmodule GitHub.Teams do
         discussion_number: discussion_number,
         comment_number: comment_number
       ],
+      call: {GitHub.Teams, :get_discussion_comment_in_org},
       url:
         "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments/#{comment_number}",
       method: :get,
@@ -617,6 +641,7 @@ defmodule GitHub.Teams do
         discussion_number: discussion_number,
         comment_number: comment_number
       ],
+      call: {GitHub.Teams, :get_discussion_comment_legacy},
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments/#{comment_number}",
       method: :get,
       response: [{200, {GitHub.Team.DiscussionComment, :t}}],
@@ -639,6 +664,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug, discussion_number: discussion_number],
+      call: {GitHub.Teams, :get_discussion_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}",
       method: :get,
       response: [{200, {GitHub.Team.Discussion, :t}}],
@@ -661,6 +687,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, discussion_number: discussion_number],
+      call: {GitHub.Teams, :get_discussion_legacy},
       url: "/teams/#{team_id}/discussions/#{discussion_number}",
       method: :get,
       response: [{200, {GitHub.Team.Discussion, :t}}],
@@ -682,6 +709,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id],
+      call: {GitHub.Teams, :get_legacy},
       url: "/teams/#{team_id}",
       method: :get,
       response: [{200, {GitHub.Team.Full, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -703,6 +731,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, username: username],
+      call: {GitHub.Teams, :get_member_legacy},
       url: "/teams/#{team_id}/members/#{username}",
       method: :get,
       response: [{204, nil}, {404, nil}],
@@ -725,6 +754,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug, username: username],
+      call: {GitHub.Teams, :get_membership_for_user_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/memberships/#{username}",
       method: :get,
       response: [{200, {GitHub.Team.Membership, :t}}, {404, nil}],
@@ -747,6 +777,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, username: username],
+      call: {GitHub.Teams, :get_membership_for_user_legacy},
       url: "/teams/#{team_id}/memberships/#{username}",
       method: :get,
       response: [{200, {GitHub.Team.Membership, :t}}, {404, {GitHub.BasicError, :t}}],
@@ -774,6 +805,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Teams, :list},
       url: "/orgs/#{org}/teams",
       method: :get,
       query: query,
@@ -803,6 +835,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug],
+      call: {GitHub.Teams, :list_child_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/teams",
       method: :get,
       query: query,
@@ -832,6 +865,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id],
+      call: {GitHub.Teams, :list_child_legacy},
       url: "/teams/#{team_id}/teams",
       method: :get,
       query: query,
@@ -867,6 +901,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug, discussion_number: discussion_number],
+      call: {GitHub.Teams, :list_discussion_comments_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments",
       method: :get,
       query: query,
@@ -897,6 +932,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, discussion_number: discussion_number],
+      call: {GitHub.Teams, :list_discussion_comments_legacy},
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments",
       method: :get,
       query: query,
@@ -928,6 +964,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug],
+      call: {GitHub.Teams, :list_discussions_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/discussions",
       method: :get,
       query: query,
@@ -958,6 +995,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id],
+      call: {GitHub.Teams, :list_discussions_legacy},
       url: "/teams/#{team_id}/discussions",
       method: :get,
       query: query,
@@ -986,6 +1024,7 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      call: {GitHub.Teams, :list_for_authenticated_user},
       url: "/user/teams",
       method: :get,
       query: query,
@@ -1021,6 +1060,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug],
+      call: {GitHub.Teams, :list_members_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/members",
       method: :get,
       query: query,
@@ -1051,6 +1091,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id],
+      call: {GitHub.Teams, :list_members_legacy},
       url: "/teams/#{team_id}/members",
       method: :get,
       query: query,
@@ -1080,6 +1121,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug],
+      call: {GitHub.Teams, :list_pending_invitations_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/invitations",
       method: :get,
       query: query,
@@ -1109,6 +1151,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id],
+      call: {GitHub.Teams, :list_pending_invitations_legacy},
       url: "/teams/#{team_id}/invitations",
       method: :get,
       query: query,
@@ -1138,6 +1181,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug],
+      call: {GitHub.Teams, :list_projects_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/projects",
       method: :get,
       query: query,
@@ -1167,6 +1211,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id],
+      call: {GitHub.Teams, :list_projects_legacy},
       url: "/teams/#{team_id}/projects",
       method: :get,
       query: query,
@@ -1196,6 +1241,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug],
+      call: {GitHub.Teams, :list_repos_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/repos",
       method: :get,
       query: query,
@@ -1225,6 +1271,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id],
+      call: {GitHub.Teams, :list_repos_legacy},
       url: "/teams/#{team_id}/repos",
       method: :get,
       query: query,
@@ -1247,6 +1294,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, username: username],
+      call: {GitHub.Teams, :remove_member_legacy},
       url: "/teams/#{team_id}/members/#{username}",
       method: :delete,
       response: [{204, nil}, {404, nil}],
@@ -1269,6 +1317,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug, username: username],
+      call: {GitHub.Teams, :remove_membership_for_user_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/memberships/#{username}",
       method: :delete,
       response: [{204, nil}, {403, nil}],
@@ -1291,6 +1340,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, username: username],
+      call: {GitHub.Teams, :remove_membership_for_user_legacy},
       url: "/teams/#{team_id}/memberships/#{username}",
       method: :delete,
       response: [{204, nil}, {403, nil}],
@@ -1313,6 +1363,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug, project_id: project_id],
+      call: {GitHub.Teams, :remove_project_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/projects/#{project_id}",
       method: :delete,
       response: [{204, nil}],
@@ -1334,6 +1385,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, project_id: project_id],
+      call: {GitHub.Teams, :remove_project_legacy},
       url: "/teams/#{team_id}/projects/#{project_id}",
       method: :delete,
       response: [{204, nil}, {404, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
@@ -1356,6 +1408,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug, owner: owner, repo: repo],
+      call: {GitHub.Teams, :remove_repo_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/repos/#{owner}/#{repo}",
       method: :delete,
       response: [{204, nil}],
@@ -1378,6 +1431,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, owner: owner, repo: repo],
+      call: {GitHub.Teams, :remove_repo_legacy},
       url: "/teams/#{team_id}/repos/#{owner}/#{repo}",
       method: :delete,
       response: [{204, nil}],
@@ -1412,6 +1466,7 @@ defmodule GitHub.Teams do
         discussion_number: discussion_number,
         comment_number: comment_number
       ],
+      call: {GitHub.Teams, :update_discussion_comment_in_org},
       url:
         "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments/#{comment_number}",
       body: body,
@@ -1447,6 +1502,7 @@ defmodule GitHub.Teams do
         discussion_number: discussion_number,
         comment_number: comment_number
       ],
+      call: {GitHub.Teams, :update_discussion_comment_legacy},
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments/#{comment_number}",
       body: body,
       method: :patch,
@@ -1471,6 +1527,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug, discussion_number: discussion_number],
+      call: {GitHub.Teams, :update_discussion_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}",
       body: body,
       method: :patch,
@@ -1495,6 +1552,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id, discussion_number: discussion_number],
+      call: {GitHub.Teams, :update_discussion_legacy},
       url: "/teams/#{team_id}/discussions/#{discussion_number}",
       body: body,
       method: :patch,
@@ -1519,6 +1577,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [org: org, team_slug: team_slug],
+      call: {GitHub.Teams, :update_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}",
       body: body,
       method: :patch,
@@ -1549,6 +1608,7 @@ defmodule GitHub.Teams do
 
     client.request(%{
       args: [team_id: team_id],
+      call: {GitHub.Teams, :update_legacy},
       url: "/teams/#{team_id}",
       body: body,
       method: :patch,

@@ -20,6 +20,7 @@ defmodule GitHub.Oidc do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Oidc, :get_oidc_custom_sub_template_for_org},
       url: "/orgs/#{org}/actions/oidc/customization/sub",
       method: :get,
       response: [{200, {GitHub.OIDCCustomSub, :t}}],
@@ -42,6 +43,7 @@ defmodule GitHub.Oidc do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Oidc, :update_oidc_custom_sub_template_for_org},
       url: "/orgs/#{org}/actions/oidc/customization/sub",
       body: body,
       method: :put,

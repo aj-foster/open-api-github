@@ -20,6 +20,7 @@ defmodule GitHub.Billing do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Billing, :get_github_actions_billing_org},
       url: "/orgs/#{org}/settings/billing/actions",
       method: :get,
       response: [{200, {GitHub.Actions.BillingUsage, :t}}],
@@ -42,6 +43,7 @@ defmodule GitHub.Billing do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Billing, :get_github_actions_billing_user},
       url: "/users/#{username}/settings/billing/actions",
       method: :get,
       response: [{200, {GitHub.Actions.BillingUsage, :t}}],
@@ -64,6 +66,7 @@ defmodule GitHub.Billing do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Billing, :get_github_packages_billing_org},
       url: "/orgs/#{org}/settings/billing/packages",
       method: :get,
       response: [{200, {GitHub.PackagesBillingUsage, :t}}],
@@ -86,6 +89,7 @@ defmodule GitHub.Billing do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Billing, :get_github_packages_billing_user},
       url: "/users/#{username}/settings/billing/packages",
       method: :get,
       response: [{200, {GitHub.PackagesBillingUsage, :t}}],
@@ -108,6 +112,7 @@ defmodule GitHub.Billing do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Billing, :get_shared_storage_billing_org},
       url: "/orgs/#{org}/settings/billing/shared-storage",
       method: :get,
       response: [{200, {GitHub.CombinedBillingUsage, :t}}],
@@ -130,6 +135,7 @@ defmodule GitHub.Billing do
 
     client.request(%{
       args: [username: username],
+      call: {GitHub.Billing, :get_shared_storage_billing_user},
       url: "/users/#{username}/settings/billing/shared-storage",
       method: :get,
       response: [{200, {GitHub.CombinedBillingUsage, :t}}],

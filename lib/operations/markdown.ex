@@ -18,6 +18,7 @@ defmodule GitHub.Markdown do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Markdown, :render},
       url: "/markdown",
       body: body,
       method: :post,
@@ -40,6 +41,7 @@ defmodule GitHub.Markdown do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Markdown, :render_raw},
       url: "/markdown/raw",
       body: body,
       method: :post,

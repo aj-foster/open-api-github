@@ -20,6 +20,7 @@ defmodule GitHub.DependencyGraph do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.DependencyGraph, :create_repository_snapshot},
       url: "/repos/#{owner}/#{repo}/dependency-graph/snapshots",
       body: body,
       method: :post,
@@ -49,6 +50,7 @@ defmodule GitHub.DependencyGraph do
 
     client.request(%{
       args: [owner: owner, repo: repo, basehead: basehead],
+      call: {GitHub.DependencyGraph, :diff_range},
       url: "/repos/#{owner}/#{repo}/dependency-graph/compare/#{basehead}",
       method: :get,
       query: query,

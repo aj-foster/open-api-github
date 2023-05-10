@@ -19,6 +19,7 @@ defmodule GitHub.CodesOfConduct do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.CodesOfConduct, :get_all_codes_of_conduct},
       url: "/codes_of_conduct",
       method: :get,
       response: [{200, {:array, {GitHub.CodeOfConduct, :t}}}, {304, nil}],
@@ -41,6 +42,7 @@ defmodule GitHub.CodesOfConduct do
 
     client.request(%{
       args: [key: key],
+      call: {GitHub.CodesOfConduct, :get_conduct_code},
       url: "/codes_of_conduct/#{key}",
       method: :get,
       response: [{200, {GitHub.CodeOfConduct, :t}}, {304, nil}, {404, {GitHub.BasicError, :t}}],

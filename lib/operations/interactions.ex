@@ -19,6 +19,7 @@ defmodule GitHub.Interactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Interactions, :get_restrictions_for_authenticated_user},
       url: "/user/interaction-limits",
       method: :get,
       response: [{200, {:union, [{GitHub.Interaction.Limit.Response, :t}, :map]}}, {204, nil}],
@@ -41,6 +42,7 @@ defmodule GitHub.Interactions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Interactions, :get_restrictions_for_org},
       url: "/orgs/#{org}/interaction-limits",
       method: :get,
       response: [{200, {:union, [{GitHub.Interaction.Limit.Response, :t}, :map]}}],
@@ -63,6 +65,7 @@ defmodule GitHub.Interactions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Interactions, :get_restrictions_for_repo},
       url: "/repos/#{owner}/#{repo}/interaction-limits",
       method: :get,
       response: [{200, {:union, [{GitHub.Interaction.Limit.Response, :t}, :map]}}],
@@ -83,6 +86,7 @@ defmodule GitHub.Interactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Interactions, :remove_restrictions_for_authenticated_user},
       url: "/user/interaction-limits",
       method: :delete,
       response: [{204, nil}],
@@ -104,6 +108,7 @@ defmodule GitHub.Interactions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Interactions, :remove_restrictions_for_org},
       url: "/orgs/#{org}/interaction-limits",
       method: :delete,
       response: [{204, nil}],
@@ -126,6 +131,7 @@ defmodule GitHub.Interactions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Interactions, :remove_restrictions_for_repo},
       url: "/repos/#{owner}/#{repo}/interaction-limits",
       method: :delete,
       response: [{204, nil}, {409, nil}],
@@ -147,6 +153,7 @@ defmodule GitHub.Interactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Interactions, :set_restrictions_for_authenticated_user},
       url: "/user/interaction-limits",
       body: body,
       method: :put,
@@ -174,6 +181,7 @@ defmodule GitHub.Interactions do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Interactions, :set_restrictions_for_org},
       url: "/orgs/#{org}/interaction-limits",
       body: body,
       method: :put,
@@ -201,6 +209,7 @@ defmodule GitHub.Interactions do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Interactions, :set_restrictions_for_repo},
       url: "/repos/#{owner}/#{repo}/interaction-limits",
       body: body,
       method: :put,

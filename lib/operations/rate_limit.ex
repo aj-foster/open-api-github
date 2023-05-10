@@ -30,6 +30,7 @@ defmodule GitHub.RateLimit do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.RateLimit, :get},
       url: "/rate_limit",
       method: :get,
       response: [

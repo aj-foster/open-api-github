@@ -20,6 +20,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [org: org, secret_name: secret_name, repository_id: repository_id],
+      call: {GitHub.Dependabot, :add_selected_repo_to_org_secret},
       url: "/orgs/#{org}/dependabot/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :put,
       response: [{204, nil}, {409, nil}],
@@ -42,6 +43,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [org: org, secret_name: secret_name],
+      call: {GitHub.Dependabot, :create_or_update_org_secret},
       url: "/orgs/#{org}/dependabot/secrets/#{secret_name}",
       body: body,
       method: :put,
@@ -66,6 +68,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [owner: owner, repo: repo, secret_name: secret_name],
+      call: {GitHub.Dependabot, :create_or_update_repo_secret},
       url: "/repos/#{owner}/#{repo}/dependabot/secrets/#{secret_name}",
       body: body,
       method: :put,
@@ -89,6 +92,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [org: org, secret_name: secret_name],
+      call: {GitHub.Dependabot, :delete_org_secret},
       url: "/orgs/#{org}/dependabot/secrets/#{secret_name}",
       method: :delete,
       response: [{204, nil}],
@@ -111,6 +115,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [owner: owner, repo: repo, secret_name: secret_name],
+      call: {GitHub.Dependabot, :delete_repo_secret},
       url: "/repos/#{owner}/#{repo}/dependabot/secrets/#{secret_name}",
       method: :delete,
       response: [{204, nil}],
@@ -133,6 +138,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [owner: owner, repo: repo, alert_number: alert_number],
+      call: {GitHub.Dependabot, :get_alert},
       url: "/repos/#{owner}/#{repo}/dependabot/alerts/#{alert_number}",
       method: :get,
       response: [
@@ -160,6 +166,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Dependabot, :get_org_public_key},
       url: "/orgs/#{org}/dependabot/secrets/public-key",
       method: :get,
       response: [{200, {GitHub.Dependabot.PublicKey, :t}}],
@@ -182,6 +189,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [org: org, secret_name: secret_name],
+      call: {GitHub.Dependabot, :get_org_secret},
       url: "/orgs/#{org}/dependabot/secrets/#{secret_name}",
       method: :get,
       response: [{200, {GitHub.Organization.DependabotSecret, :t}}],
@@ -204,6 +212,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Dependabot, :get_repo_public_key},
       url: "/repos/#{owner}/#{repo}/dependabot/secrets/public-key",
       method: :get,
       response: [{200, {GitHub.Dependabot.PublicKey, :t}}],
@@ -226,6 +235,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [owner: owner, repo: repo, secret_name: secret_name],
+      call: {GitHub.Dependabot, :get_repo_secret},
       url: "/repos/#{owner}/#{repo}/dependabot/secrets/#{secret_name}",
       method: :get,
       response: [{200, {GitHub.Dependabot.Secret, :t}}],
@@ -291,6 +301,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [enterprise: enterprise],
+      call: {GitHub.Dependabot, :list_alerts_for_enterprise},
       url: "/enterprises/#{enterprise}/dependabot/alerts",
       method: :get,
       query: query,
@@ -363,6 +374,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Dependabot, :list_alerts_for_org},
       url: "/orgs/#{org}/dependabot/alerts",
       method: :get,
       query: query,
@@ -440,6 +452,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Dependabot, :list_alerts_for_repo},
       url: "/repos/#{owner}/#{repo}/dependabot/alerts",
       method: :get,
       query: query,
@@ -475,6 +488,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [org: org],
+      call: {GitHub.Dependabot, :list_org_secrets},
       url: "/orgs/#{org}/dependabot/secrets",
       method: :get,
       query: query,
@@ -504,6 +518,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [owner: owner, repo: repo],
+      call: {GitHub.Dependabot, :list_repo_secrets},
       url: "/repos/#{owner}/#{repo}/dependabot/secrets",
       method: :get,
       query: query,
@@ -533,6 +548,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [org: org, secret_name: secret_name],
+      call: {GitHub.Dependabot, :list_selected_repos_for_org_secret},
       url: "/orgs/#{org}/dependabot/secrets/#{secret_name}/repositories",
       method: :get,
       query: query,
@@ -556,6 +572,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [org: org, secret_name: secret_name, repository_id: repository_id],
+      call: {GitHub.Dependabot, :remove_selected_repo_from_org_secret},
       url: "/orgs/#{org}/dependabot/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :delete,
       response: [{204, nil}, {409, nil}],
@@ -578,6 +595,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [org: org, secret_name: secret_name],
+      call: {GitHub.Dependabot, :set_selected_repos_for_org_secret},
       url: "/orgs/#{org}/dependabot/secrets/#{secret_name}/repositories",
       body: body,
       method: :put,
@@ -602,6 +620,7 @@ defmodule GitHub.Dependabot do
 
     client.request(%{
       args: [owner: owner, repo: repo, alert_number: alert_number],
+      call: {GitHub.Dependabot, :update_alert},
       url: "/repos/#{owner}/#{repo}/dependabot/alerts/#{alert_number}",
       body: body,
       method: :patch,

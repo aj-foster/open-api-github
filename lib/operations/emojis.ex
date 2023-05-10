@@ -18,6 +18,7 @@ defmodule GitHub.Emojis do
     client = opts[:client] || @default_client
 
     client.request(%{
+      call: {GitHub.Emojis, :get},
       url: "/emojis",
       method: :get,
       response: [{200, :map}, {304, nil}],
