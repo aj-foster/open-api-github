@@ -3,6 +3,11 @@ defmodule GitHub.Testing do
   Support for interacting with the client in a test environment
   """
   alias GitHub.Operation
+  alias GitHub.Testing.Mock
+
+  #
+  # Data Generation
+  #
 
   @doc """
   Generate random data for use in a test response
@@ -79,7 +84,7 @@ defmodule GitHub.Testing do
         Faker.Internet.url()
 
       :else ->
-        Faker.Lorem.characters() |> to_string()
+        Faker.Lorem.characters(15..30) |> to_string()
     end
   end
 
@@ -108,5 +113,62 @@ defmodule GitHub.Testing do
     apply(module, :__fields__, [struct_type])
     |> Enum.map(fn {key, field_type} -> {key, generate(module, key, field_type)} end)
     |> then(fn fields -> struct!(module, fields) end)
+  end
+
+  #
+  # Mocks
+  #
+
+  # @pd_call_key :oapi_github_test_call
+  @pd_mock_key :oapi_github_test_mock
+
+  @type mock_return ::
+          {:ok, integer, any} | {:error, any} | (() -> {:ok, integer, any} | {:error, any})
+  @type mock :: %{
+          :args => [any] | :_,
+          :implicit => boolean,
+          :limit => pos_integer | :infinity,
+          :return => mock_return
+        }
+
+  @type mocks :: %{{module, atom} => [mock]}
+
+  def get_mock(operation) do
+    {module, function, args} = Operation.get_caller(operation)
+
+    Process.get(@pd_mock_key, %{})
+    |> Map.get({module, function})
+    |> Mock.choose(args)
+    |> case do
+      %{args: ^args, return: mock} ->
+        mock
+
+      %{return: mock} ->
+        put_mock(module, function, args, true, :infinity, mock.())
+
+      nil ->
+        mock = default_response(operation)
+        open_args = Enum.map(args, fn _ -> :_ end)
+        put_mock(module, function, open_args, true, :infinity, mock)
+        put_mock(module, function, args, true, :infinity, mock.())
+    end
+  end
+
+  defp default_response(%Operation{response_types: [{code, type} | _]}) do
+    fn ->
+      {:ok, code, GitHub.Testing.generate(nil, nil, type)}
+    end
+  end
+
+  @spec put_mock(module, atom, [any], boolean, non_neg_integer | :infinity, mock_return) :: mock
+  def put_mock(module, function, args, implicit, limit, mock) do
+    all_mocks = Process.get(@pd_mock_key, %{})
+    new_mock = %Mock{args: args, implicit: implicit, limit: limit, return: mock}
+    new_mocks = [new_mock | Map.get(all_mocks, {module, function}, [])]
+
+    updated_mocks = Map.put(all_mocks, {module, function}, new_mocks)
+    Process.put(@pd_mock_key, updated_mocks)
+
+    mock
   end
 end
