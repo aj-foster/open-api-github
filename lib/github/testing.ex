@@ -19,9 +19,16 @@ defmodule GitHub.Testing do
   client stack:
 
       # config/test.exs
-      config :oapi_github, stack: [{GitHub.Plugin.TestClient, :request}]
+      config :oapi_github, stack: [{GitHub.Plugin.TestClient, :request, []}]
 
   The stack can also be configured at runtime by passing the `:stack` option to any operation.
+
+  > #### Warning {:.warning}
+  >
+  > Stack entries without options, like `{GitHub.Plugin.TestClient, :request}`, look like keyword
+  > list items. If you have stacks configured in multiple Mix environments that all use this
+  > 2-tuple format, Elixir will try to merge them as keyword lists. Adding an empty options
+  > element to any stack item will prevent this behaviour.
 
   Then, in your test file, `use` this module and make use of the available assertions:
 

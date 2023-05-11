@@ -5,11 +5,11 @@ defmodule GitHub.Config do
   @default_version File.read!(".api-version") |> String.trim()
 
   @default_stack [
-    {GitHub.Plugin.JasonSerializer, :encode_body},
-    {GitHub.Plugin.HTTPoisonClient, :request},
-    {GitHub.Plugin.JasonSerializer, :decode_body},
-    {GitHub.Plugin.TypedDecoder, :decode_response},
-    {GitHub.Plugin.TypedDecoder, :normalize_errors}
+    {GitHub.Plugin.JasonSerializer, :encode_body, []},
+    {GitHub.Plugin.HTTPoisonClient, :request, []},
+    {GitHub.Plugin.JasonSerializer, :decode_body, []},
+    {GitHub.Plugin.TypedDecoder, :decode_response, []},
+    {GitHub.Plugin.TypedDecoder, :normalize_errors, []}
   ]
 
   @moduledoc """
@@ -81,6 +81,13 @@ defmodule GitHub.Config do
       #=> MyPlugin.my_function(operation, some: :option)
 
   By modifying the stack, applications can easily use a different HTTP client library or serializer.
+
+  > #### Warning {:.warning}
+  >
+  > Stack entries without options, like `{GitHub.Plugin.TestClient, :request}`, look like keyword
+  > list items. If you have stacks configured in multiple Mix environments that all use this
+  > 2-tuple format, Elixir will try to merge them as keyword lists. Adding an empty options
+  > element to any stack item will prevent this behaviour.
   """
 
   @typedoc """
