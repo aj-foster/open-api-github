@@ -22,7 +22,7 @@ Add the dependency in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:oapi_github, "~> 0.0.1"}
+    {:oapi_github, "~> 0.0.2"}
   ]
 end
 ```
@@ -77,6 +77,29 @@ Whenever GitHub specifies a named schema as the response type for an operation, 
 Note that GitHub often has similarly named schemas (such as `SimpleUser`, `PrivateUser`, `PublicUser`, etc.).
 Where possible, these have been collapsed into a single struct (like `GitHub.User`) where not all of the fields may be filled in.
 However, responses are still properly typed by their type specifications.
+
+## Testing
+
+Test helpers are available in `GitHub.Testing` together with the `GitHub.Plugins.TestClient` plugin.
+
+```elixir
+defmodule MyApp.MyTest do
+  use ExUnit.Case
+  use GitHub.Testing
+
+  test "calls GitHub API" do
+    mock_gh &GitHub.Repo.get/2, fn ->
+      {:ok, 200, %GitHub.Repository{id: 12345}}
+    end
+
+    my_function()
+
+    assert_called_gh GitHub.Repos.get("owner", :_)
+  end
+end
+```
+
+For more information, see the documentation for `GitHub.Testing`.
 
 ## Contributing
 
