@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* **Add**: Decode union types in `GitHub.Plugin.TypedDecoder` using best-guess logic.
+  This enhancement supports all currently-known union type responses, but it will require long-term maintenance.
+
 ### 0.0.2
 
 * **Breaking**: Upgrade to OpenAPI 3.1 description (`descriptions-next`) with better support for nullable fields.
