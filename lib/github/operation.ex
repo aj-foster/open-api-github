@@ -116,8 +116,13 @@ defmodule GitHub.Operation do
   """
   @spec get_caller(t) :: {module, atom, [any]}
   def get_caller(operation) do
-    %__MODULE__{private: %{__info__: %{args: args, call: {module, function}}}} = operation
-    {module, function, Keyword.values(args)}
+    case operation do
+      %__MODULE__{private: %{__info__: %{args: args, call: {module, function}}}} ->
+        {module, function, Keyword.values(args)}
+
+      %__MODULE__{private: %{__info__: %{call: {module, function}}}} ->
+        {module, function, []}
+    end
   end
 
   @doc """

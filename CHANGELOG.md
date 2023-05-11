@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **Add**: Allow returning unwrapped results from client operations.
   This can be useful for callers that need more information, such as response headers.
 
+* **Fix**: Support zero-arity operations in `GitHub.Operation.get_caller/1`.
+
 ### 0.0.2
 
 * **Breaking**: Upgrade to OpenAPI 3.1 description (`descriptions-next`) with better support for nullable fields.
