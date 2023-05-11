@@ -12,8 +12,8 @@ defmodule GitHub.Client do
   end
 
   @spec reduce_stack(Operation.t()) :: Operation.t() | Error.t()
-  defp reduce_stack(operation) do
-    stack = Config.stack()
+  defp reduce_stack(%Operation{private: %{__opts__: opts}} = operation) do
+    stack = Config.stack(opts)
 
     Enum.reduce_while(stack, operation, fn
       {module, function}, operation ->

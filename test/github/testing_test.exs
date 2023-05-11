@@ -5,6 +5,8 @@ defmodule GitHub.TestingTest do
   alias ExUnit.AssertionError
   alias GitHub.Repos
 
+  @options [stack: [{GitHub.Plugin.TestClient, :request}]]
+
   describe "assert_called_gh/2" do
     test "asserts on the call history of the process" do
       # Initial state: no calls
@@ -42,7 +44,7 @@ defmodule GitHub.TestingTest do
       assert_fail(fn -> assert_gh_called &Repos.get/2, times: 1 end)
 
       # Second state: one call
-      Repos.get("owner", "repo")
+      Repos.get("owner", "repo", @options)
 
       assert_gh_called Repos.get(:_, :_), times: 1
       assert_gh_called Repos.get("owner", :_), times: 1
@@ -81,7 +83,7 @@ defmodule GitHub.TestingTest do
       assert_fail(fn -> assert_gh_called Repos.get("owner", "repo"), min: 2, max: 3 end)
 
       # Third state: different call
-      Repos.get("owner", "another-repo")
+      Repos.get("owner", "another-repo", @options)
 
       assert_gh_called Repos.get(:_, :_), times: 2
       assert_gh_called Repos.get("owner", :_), times: 2

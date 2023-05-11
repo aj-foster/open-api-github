@@ -36,6 +36,9 @@ defmodule GitHub.Config do
     * `server` (URL): API server to use. Useful if the client would like to target a GitHub
       Enterprise installation. Defaults to `#{@default_server}`.
 
+    * `stack` (list of plugins): Plugins to control the execution of client requests. See
+      `GitHub.Plugin` for more information. Defaults to the default stack below.
+
     * `version` (string): API version to use. Setting this option is not recommended, as the default
       value is the version of the API used to generate this client's code. Overriding it risks the
       client raising an error. To see the default value, open `.api-version` in the root of this
@@ -64,7 +67,7 @@ defmodule GitHub.Config do
 
   The default stack uses `Jason` as a serializer/deserializer and `HTTPoison` as an HTTP client:
 
-  ```
+  ```elixir
   #{inspect(@default_stack, pretty: true, width: 98)}
   ```
 
@@ -144,16 +147,24 @@ defmodule GitHub.Config do
 
   ## Example
 
-      iex> Config.stack()
+      iex> Config.stack([])
       [
         {GitHub.Plugin.JasonSerializer, :encode_body},
         # ...
       ]
 
+  ## Default
+
+  The following stack is the default if none is configured or passed as an option:
+
+  ```elixir
+  #{inspect(@default_stack, pretty: true, width: 98)}
+  ```
+
   """
-  @spec stack :: [plugin]
-  def stack do
-    Application.get_env(:oapi_github, :stack, @default_stack)
+  @spec stack(keyword) :: [plugin]
+  def stack(opts) do
+    config(opts, :stack, @default_stack)
   end
 
   @doc """
