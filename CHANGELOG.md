@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 0.0.3 (2023-05-11)
+
 * **Add**: Decode union types in `GitHub.Plugin.TypedDecoder` using best-guess logic.
   This enhancement supports all currently-known union type responses, but it will require long-term maintenance.
 * **Add**: Allow returning unwrapped results from client operations.
@@ -14,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * **Fix**: Support zero-arity operations in `GitHub.Operation.get_caller/1`.
 
-### 0.0.2
+### 0.0.2 (2023-05-11)
 
 * **Breaking**: Upgrade to OpenAPI 3.1 description (`descriptions-next`) with better support for nullable fields.
   No more `.nullable()` types!
@@ -28,6 +30,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **Add**: Test helpers in `GitHub.Testing` and corresponding plugin `GitHub.Plugins.TestClient`.
 * **Add**: Allow setting the client stack at runtime.
 
-### 0.0.1
+### 0.0.1 (2023-01-05)
 
 * **Initial Release**
