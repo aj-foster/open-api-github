@@ -44,7 +44,13 @@ defmodule GitHub.Testing do
   @doc false
   defmacro __using__(_) do
     quote do
-      import GitHub.Testing, only: [assert_gh_called: 1, assert_gh_called: 2]
+      import GitHub.Testing,
+        only: [
+          assert_gh_called: 1,
+          assert_gh_called: 2,
+          mock_gh: 2,
+          mock_gh: 3
+        ]
     end
   end
 
@@ -165,8 +171,70 @@ defmodule GitHub.Testing do
 
   @pd_mock_key :oapi_github_test_mock
 
-  @type mocks :: %{{module, atom} => [Mock.t()]}
+  @doc """
+  Mock a response for an API endpoint
 
+  The API endpoint can be passed as a function call or using function capture syntax. If passed
+  as a function call, the arguments must match exactly or use the special value `:_` to match any
+  value. If passed using function capture syntax, only the arity will be matched. The options
+  argument is not considered during these checks.
+
+  As a return function for a mock, you can use a zero-arity function that returns a tagged tuple
+  `{:ok, code, data}` with the HTTP status code and response body. This response body can be
+  an Elixir term (as if it already passed through JSON decoding and related steps), an untyped
+  map, or a plain string depending on your client stack. It is recommended to use a stack that
+  contains only the `GitHub.Plugin.TestClient` plugin, in which case the return values should
+  contain structs from this library.
+
+  ## Examples
+
+      mock_gh GitHub.Repos.get("owner", :_), fn ->
+        {:ok, 200, %GitHub.Repository{id: 12345}}
+      end
+
+      mock_gh &GitHub.Repos.get/2, fn ->
+        {:ok, 200, %GitHub.Repository{id: 67890}}
+      end
+
+  """
+  defmacro mock_gh(call, return_fn, opts \\ [])
+
+  defmacro mock_gh({{:., _, [module, function]}, _, args}, return_fn, opts) do
+    module = Macro.expand(module, __CALLER__)
+
+    quote do
+      GitHub.Testing.put_mock(
+        unquote(module),
+        unquote(function),
+        unquote(args),
+        unquote(return_fn),
+        unquote(opts)
+      )
+    end
+  end
+
+  defmacro mock_gh(
+             {:&, _, [{:/, _, [{{:., _, [module, function]}, _, _}, arity]}]},
+             return_fn,
+             opts
+           ) do
+    module = Macro.expand(module, __CALLER__)
+
+    quote do
+      GitHub.Testing.put_mock(
+        unquote(module),
+        unquote(function),
+        unquote(arity),
+        unquote(return_fn),
+        unquote(opts)
+      )
+    end
+  end
+
+  # Not ready for public use
+
+  @doc false
+  @spec get_mock(Operation.t()) :: Mock.t()
   def get_mock(operation) do
     {module, function, args} = Operation.get_caller(operation)
 
@@ -192,6 +260,7 @@ defmodule GitHub.Testing do
     fn -> {:ok, code, GitHub.Testing.generate(nil, nil, type)} end
   end
 
+  @doc false
   @spec put_mock(module, atom, Mock.args(), Mock.return(), keyword) :: Mock.t()
   def put_mock(module, function, args, return, opts \\ []) do
     implicit = opts[:implicit] == true
@@ -247,7 +316,7 @@ defmodule GitHub.Testing do
       one matching call.
 
   """
-  defmacro assert_gh_called(node, opts \\ [])
+  defmacro assert_gh_called(call, opts \\ [])
 
   defmacro assert_gh_called({{:., _, [module, function]}, _, args}, opts) do
     module = Macro.expand(module, __CALLER__)
@@ -278,7 +347,7 @@ defmodule GitHub.Testing do
     end
   end
 
-  defmacro assert_gh_called(_node, _opts) do
+  defmacro assert_gh_called(_call, _opts) do
     raise ArgumentError, "Unknown form passed to `assert_gh_called`"
   end
 

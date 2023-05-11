@@ -124,6 +124,28 @@ defmodule GitHub.TestingTest do
     end
   end
 
+  describe "mock_gh/3" do
+    test "mocks calls for the process" do
+      {:ok, %GitHub.Repository{id: id_one}} = Repos.get("owner", "repo", @options)
+      id_two = System.unique_integer([:positive])
+      id_three = System.unique_integer([:positive])
+
+      mock_gh &Repos.get/2, fn ->
+        {:ok, 200, %GitHub.Repository{id: id_two}}
+      end
+
+      assert {:ok, %GitHub.Repository{id: ^id_one}} = Repos.get("owner", "repo", @options)
+      assert {:ok, %GitHub.Repository{id: ^id_two}} = Repos.get("owner", "repo_two", @options)
+
+      mock_gh Repos.get("owner", "repo"), fn ->
+        {:ok, 200, %GitHub.Repository{id: id_three}}
+      end
+
+      assert {:ok, %GitHub.Repository{id: ^id_three}} = Repos.get("owner", "repo", @options)
+      assert {:ok, %GitHub.Repository{id: ^id_two}} = Repos.get("owner", "repo_two", @options)
+    end
+  end
+
   defp assert_fail(fun) do
     assert_raise AssertionError, fun
   end

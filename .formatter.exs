@@ -1,7 +1,9 @@
 locals_without_parens = [
   # GitHub.Testing
   assert_gh_called: 1,
-  assert_gh_called: 2
+  assert_gh_called: 2,
+  mock_gh: 2,
+  mock_gh: 3
 ]
 
 [
