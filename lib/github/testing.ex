@@ -234,7 +234,7 @@ defmodule GitHub.Testing do
   # Not ready for public use
 
   @doc false
-  @spec get_mock(Operation.t()) :: Mock.t()
+  @spec get_mock(Operation.t()) :: Mock.return()
   def get_mock(operation) do
     {module, function, args} = Operation.get_caller(operation)
 
