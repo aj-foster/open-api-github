@@ -44,6 +44,14 @@ defmodule GitHub.Config do
       client raising an error. To see the default value, open `.api-version` in the root of this
       project.
 
+    * `wrap` (boolean): Whether to wrap the results of the API call in a tagged tuple. When
+      `true`, the response body will be wrapped as `{:ok, response}` on success or
+      `{:error, error}` otherwise. When false, the Operation or Error is returned directly.
+      Defaults to `true`.
+
+      **Note**: Unwrapped responses violate the type specifications provided for each client
+      operation. To avoid Dialyzer errors, consider using `GitHub.raw/4` instead.
+
   The following configuration is available using the **application environment**:
 
     * `app_name` (string): Name of the application using this client, used for User Agent and
@@ -189,6 +197,26 @@ defmodule GitHub.Config do
   @spec version(keyword) :: String.t()
   def version(opts) do
     config(opts, :version, @default_version)
+  end
+
+  @doc """
+  Whether to wrap the result
+
+  Passing `wrap: false` to a client call can be useful if you need additional information about
+  the response, such as response headers.
+
+  ## Example
+
+      iex> Config.wrap([])
+      true
+
+      iex> Config.wrap(wrap: false)
+      false
+
+  """
+  @spec wrap(keyword) :: boolean
+  def wrap(opts) do
+    config(opts, :wrap, true)
   end
 
   #

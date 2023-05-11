@@ -4,11 +4,17 @@ defmodule GitHub.Client do
   alias GitHub.Config
   alias GitHub.Operation
 
-  @spec request(map) :: {:ok, term} | {:error, term}
-  def request(info) do
-    Operation.new(info)
-    |> reduce_stack()
-    |> wrap_result()
+  @spec request(map) :: {:ok, term} | {:error, term} | Operation.t()
+  def request(%{opts: opts} = info) do
+    result =
+      Operation.new(info)
+      |> reduce_stack()
+
+    if Config.wrap(opts) do
+      wrap_result(result)
+    else
+      result
+    end
   end
 
   @spec reduce_stack(Operation.t()) :: Operation.t() | Error.t()

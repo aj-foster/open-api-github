@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * **Add**: Decode union types in `GitHub.Plugin.TypedDecoder` using best-guess logic.
   This enhancement supports all currently-known union type responses, but it will require long-term maintenance.
+* **Add**: Allow returning unwrapped results from client operations.
+  This can be useful for callers that need more information, such as response headers.
 
 ### 0.0.2
 
