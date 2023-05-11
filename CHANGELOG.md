@@ -11,10 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   No more `.nullable()` types!
 * **Add**: Upgrade to `oapi_generator` version `0.0.2`, with support for OpenAPI 3.1 and other fixes.
 * **Add**: Upgrade to `oapi_generator` version `0.0.3`, with support for `args` passed to the client.
+* **Add**: Upgrade to `oapi_generator` version `0.0.4`, with support for `call` passed to the client.
 * **Add**: Include the recommended API version header in all requests.
   The value of this header is defined by the `.api-version` file, which should be kept up-to-date
   as the code is regenerated.
 * **Add**: Plugin for caching redirect locations to avoid repeated (rate limited) 301 responses.
+* **Add**: Test helpers in `GitHub.Testing` and corresponding plugin `GitHub.Plugins.TestClient`.
+* **Add**: Allow setting the client stack at runtime.
 
 ### 0.0.1
 

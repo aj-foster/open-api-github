@@ -4,6 +4,6 @@ defmodule GitHubTest do
   alias GitHub.Config
   alias GitHub.Operation
 
-  doctest GitHub.Config, except: [stack: 0]
+  doctest GitHub.Config, except: [stack: 1]
   doctest GitHub.Operation
 end

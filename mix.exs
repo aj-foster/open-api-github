@@ -34,7 +34,7 @@ defmodule GitHub.MixProject do
   defp deps do
     [
       {:ex_doc, "~> 0.29", only: :dev, runtime: false},
-      {:faker, "~> 0.15", optional: true},
+      {:faker, "~> 0.15"},
       {:jason, "~> 1.0", optional: true},
       {:httpoison, "~> 1.7 or ~> 2.0", optional: true},
       {:oapi_generator, "0.0.4", only: [:dev, :test], runtime: false},
@@ -58,6 +58,9 @@ defmodule GitHub.MixProject do
           GitHub.Config,
           GitHub.Error,
           GitHub.Operation
+        ],
+        Testing: [
+          ~r/GitHub.Testing/
         ],
         Plugins: ~r/GitHub.Plugin/,
         Operations: [

@@ -1,6 +1,40 @@
 defmodule GitHub.Testing do
   @moduledoc """
   Support for interacting with the client in a test environment
+
+  > #### Note {:.info}
+  >
+  > The current method of tracking and mocking API calls uses the process dictionary for storage.
+  > This means that tests can be run async (calls from one process will not affect calls from
+  > another). However, it also means that calls from an async task will not be tracked by the test
+  > process. If this affects you, please open an issue to discuss possible solutions.
+
+  ## Usage
+
+  The testing facility provided by this library has two parts: this module, which provides helpful
+  functions for generating data and asserting that API calls are made, and
+  `GitHub.Plugin.TestClient`, which provides a basic mock and support for the test assertions.
+
+  In your test environment, you likely want to use the test client plugin as the only item in the
+  client stack:
+
+      # config/test.exs
+      config :oapi_github, stack: [{GitHub.Plugin.TestClient, :request}]
+
+  The stack can also be configured at runtime by passing the `:stack` option to any operation.
+
+  Then, in your test file, `use` this module and make use of the available assertions:
+
+      defmodule MyApp.MyTest do
+        use ExUnit.Case
+        use GitHub.Testing
+
+        test "something" do
+          my_function()
+          assert_gh_called &GitHub.Repos.get/2
+        end
+      end
+
   """
   require ExUnit.Assertions
 
