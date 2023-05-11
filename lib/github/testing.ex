@@ -178,38 +178,7 @@ defmodule GitHub.Testing do
 
   @pd_call_key :oapi_github_test_call
 
-  def get_calls do
-    Process.get(@pd_call_key, [])
-  end
-
-  def put_call(operation) do
-    new_call = Operation.get_caller(operation)
-
-    all_calls = Process.get(@pd_call_key, [])
-    updated_calls = [new_call | all_calls]
-
-    Process.put(@pd_call_key, updated_calls)
-  end
-
-  @doc false
-  @spec assert_call_count(module, atom, Mock.args(), keyword) :: any
-  def assert_call_count(module, function, args, opts \\ []) do
-    call_count =
-      get_calls()
-      |> Enum.count(fn {m, f, a} ->
-        module == m and function == f and args_match?(args, a)
-      end)
-
-    Keyword.take(opts, [:times, :min, :max])
-    |> Enum.into(%{})
-    |> count_restriction()
-    |> case do
-      {:==, times} -> ExUnit.Assertions.assert(call_count == times)
-      {:>=, min} -> ExUnit.Assertions.assert(call_count >= min)
-      {:<=, max} -> ExUnit.Assertions.assert(call_count <= max)
-      {:.., min, max} -> ExUnit.Assertions.assert(call_count in min..max)
-    end
-  end
+  @typep call :: {module :: module, function :: atom, args :: [any]}
 
   @doc """
   Assert the number of times an API endpoint was called
@@ -223,7 +192,7 @@ defmodule GitHub.Testing do
 
       assert_gh_called GitHub.Repos.get("owner", "repo")
       assert_gh_called GitHub.Repos.get("owner", :_), times: 2
-      assert_gh_called GitHub.Repos.get(:_, "repo"), min: 2, max: 3
+      assert_gh_called GitHub.Repos.get(owner, "repo"), min: 2, max: 3
       assert_gh_called &GitHub.Repos.get/2, times: 0
 
   ## Options
@@ -323,5 +292,45 @@ defmodule GitHub.Testing do
       {same_value, same_value} -> true
       _else -> false
     end)
+  end
+
+  # Not ready for public use
+
+  @doc false
+  @spec get_calls :: [call]
+  def get_calls do
+    Process.get(@pd_call_key, [])
+  end
+
+  @doc false
+  @spec put_call(Operation.t()) :: :ok
+  def put_call(operation) do
+    new_call = Operation.get_caller(operation)
+
+    all_calls = Process.get(@pd_call_key, [])
+    updated_calls = [new_call | all_calls]
+
+    Process.put(@pd_call_key, updated_calls)
+    :ok
+  end
+
+  @doc false
+  @spec assert_call_count(module, atom, Mock.args(), keyword) :: any
+  def assert_call_count(module, function, args, opts \\ []) do
+    call_count =
+      get_calls()
+      |> Enum.count(fn {m, f, a} ->
+        module == m and function == f and args_match?(args, a)
+      end)
+
+    Keyword.take(opts, [:times, :min, :max])
+    |> Enum.into(%{})
+    |> count_restriction()
+    |> case do
+      {:==, times} -> ExUnit.Assertions.assert(call_count == times)
+      {:>=, min} -> ExUnit.Assertions.assert(call_count >= min)
+      {:<=, max} -> ExUnit.Assertions.assert(call_count <= max)
+      {:.., min, max} -> ExUnit.Assertions.assert(call_count in min..max)
+    end
   end
 end

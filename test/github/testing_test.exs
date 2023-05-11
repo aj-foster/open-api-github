@@ -116,6 +116,11 @@ defmodule GitHub.TestingTest do
       assert_fail(fn -> assert_gh_called Repos.get(:_, :_), min: 3, max: 4 end)
       assert_fail(fn -> assert_gh_called Repos.get("owner", :_), min: 3, max: 4 end)
       assert_fail(fn -> assert_gh_called Repos.get("owner", "repo"), min: 2, max: 3 end)
+
+      # Pinning
+      repo = "another-repo"
+      assert_gh_called Repos.get(:_, repo)
+      assert_fail(fn -> assert_gh_called Repos.get(repo, :_) end)
     end
   end
 
