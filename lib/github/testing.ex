@@ -7,6 +7,13 @@ defmodule GitHub.Testing do
   alias GitHub.Operation
   alias GitHub.Testing.Mock
 
+  @doc false
+  defmacro __using__(_) do
+    quote do
+      import GitHub.Testing, only: [assert_gh_called: 1, assert_gh_called: 2]
+    end
+  end
+
   #
   # Data Generation
   #
@@ -184,7 +191,9 @@ defmodule GitHub.Testing do
     Process.put(@pd_call_key, updated_calls)
   end
 
-  def assert_called_gh(module, function, args, opts \\ []) do
+  @doc false
+  @spec assert_call_count(module, atom, Mock.args(), keyword) :: any
+  def assert_call_count(module, function, args, opts \\ []) do
     call_count =
       get_calls()
       |> Enum.count(fn {m, f, a} ->
@@ -202,17 +211,72 @@ defmodule GitHub.Testing do
     end
   end
 
-  defmacro assert_called_gh_2({{:., _, [module, function]}, _, args}, opts \\ []) do
+  @doc """
+  Assert the number of times an API endpoint was called
+
+  The API endpoint can be passed as a function call or using function capture syntax. If passed
+  as a function call, the arguments must match exactly or use the special value `:_` to match any
+  value. If passed using function capture syntax, only the arity will be matched. The options
+  argument is not considered during these checks.
+
+  ## Examples
+
+      assert_gh_called GitHub.Repos.get("owner", "repo")
+      assert_gh_called GitHub.Repos.get("owner", :_), times: 2
+      assert_gh_called GitHub.Repos.get(:_, "repo"), min: 2, max: 3
+      assert_gh_called &GitHub.Repos.get/2, times: 0
+
+  ## Options
+
+    * `max`: Non-negative integer representing the maximum number of times a matching call should
+      have occurred. If unspecified, there is no upper limit on the acceptable number of calls.
+      If none of `times`, `min`, or `max` are specified, the default is to assert at least
+      one matching call.
+
+    * `min`: Non-negative integer representing the minimum number of times a matching call should
+      have occurred. If unspecified, there is no lower limit on the acceptable number of calls.
+      If none of `times`, `min`, or `max` are specified, the default is to assert at least
+      one matching call.
+
+    * `times`: Non-negative integer number of times a matching call should have occurred. Passing
+      zero will assert the endpoint has not been called. This option has precedence over `min` and
+      `max`. If none of `times`, `min`, or `max` are specified, the default is to assert at least
+      one matching call.
+
+  """
+  defmacro assert_gh_called(node, opts \\ [])
+
+  defmacro assert_gh_called({{:., _, [module, function]}, _, args}, opts) do
     module = Macro.expand(module, __CALLER__)
 
     quote do
-      GitHub.Testing.assert_called_gh(
+      GitHub.Testing.assert_call_count(
         unquote(module),
         unquote(function),
         unquote(args),
         unquote(opts)
       )
     end
+  end
+
+  defmacro assert_gh_called(
+             {:&, _, [{:/, _, [{{:., _, [module, function]}, _, _}, arity]}]},
+             opts
+           ) do
+    module = Macro.expand(module, __CALLER__)
+
+    quote do
+      GitHub.Testing.assert_call_count(
+        unquote(module),
+        unquote(function),
+        unquote(arity),
+        unquote(opts)
+      )
+    end
+  end
+
+  defmacro assert_gh_called(_node, _opts) do
+    raise ArgumentError, "Unknown form passed to `assert_gh_called`"
   end
 
   @spec count_restriction(keyword) :: {:== | :<= | :>=, integer} | {:.., integer, integer}

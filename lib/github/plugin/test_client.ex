@@ -5,6 +5,8 @@ defmodule GitHub.Plugin.TestClient do
 
   @spec request(Operation.t(), keyword) :: {:ok, Operation.t()} | {:error, Error.t()}
   def request(%Operation{} = operation, _opts) do
+    Testing.put_call(operation)
+
     case Testing.get_mock(operation) do
       fun when is_function(fun, 0) ->
         case fun.() do
