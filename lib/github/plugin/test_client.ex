@@ -10,10 +10,23 @@ defmodule GitHub.Plugin.TestClient do
         case fun.() do
           {:ok, code, data} ->
             {:ok, %Operation{operation | response_body: data, response_code: code}}
+
+          {:error, reason} ->
+            message = "Error during test request"
+            step = {__MODULE__, :request}
+
+            {:error,
+             Error.new(message: message, operation: operation, source: reason, step: step)}
         end
 
       {:ok, code, data} ->
         {:ok, %Operation{operation | response_body: data, response_code: code}}
+
+      {:error, reason} ->
+        message = "Error during test request"
+        step = {__MODULE__, :request}
+
+        {:error, Error.new(message: message, operation: operation, source: reason, step: step)}
     end
   end
 end

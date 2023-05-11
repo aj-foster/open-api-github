@@ -2,6 +2,8 @@ defmodule GitHub.Testing do
   @moduledoc """
   Support for interacting with the client in a test environment
   """
+  require ExUnit.Assertions
+
   alias GitHub.Operation
   alias GitHub.Testing.Mock
 
@@ -120,7 +122,6 @@ defmodule GitHub.Testing do
   # Mocks
   #
 
-  # @pd_call_key :oapi_github_test_call
   @pd_mock_key :oapi_github_test_mock
 
   @type mocks :: %{{module, atom} => [Mock.t()]}
@@ -162,5 +163,101 @@ defmodule GitHub.Testing do
 
     Process.put(@pd_mock_key, updated_mocks)
     return
+  end
+
+  #
+  # Calls
+  #
+
+  @pd_call_key :oapi_github_test_call
+
+  def get_calls do
+    Process.get(@pd_call_key, [])
+  end
+
+  def put_call(operation) do
+    new_call = Operation.get_caller(operation)
+
+    all_calls = Process.get(@pd_call_key, [])
+    updated_calls = [new_call | all_calls]
+
+    Process.put(@pd_call_key, updated_calls)
+  end
+
+  def assert_called_gh(module, function, args, opts \\ []) do
+    call_count =
+      get_calls()
+      |> Enum.count(fn {m, f, a} ->
+        module == m and function == f and args_match?(args, a)
+      end)
+
+    Keyword.take(opts, [:times, :min, :max])
+    |> Enum.into(%{})
+    |> count_restriction()
+    |> case do
+      {:==, times} -> ExUnit.Assertions.assert(call_count == times)
+      {:>=, min} -> ExUnit.Assertions.assert(call_count >= min)
+      {:<=, max} -> ExUnit.Assertions.assert(call_count <= max)
+      {:.., min, max} -> ExUnit.Assertions.assert(call_count in min..max)
+    end
+  end
+
+  defmacro assert_called_gh_2({{:., _, [module, function]}, _, args}, opts \\ []) do
+    module = Macro.expand(module, __CALLER__)
+
+    quote do
+      GitHub.Testing.assert_called_gh(
+        unquote(module),
+        unquote(function),
+        unquote(args),
+        unquote(opts)
+      )
+    end
+  end
+
+  @spec count_restriction(keyword) :: {:== | :<= | :>=, integer} | {:.., integer, integer}
+  defp count_restriction(%{times: times}) when is_integer(times) and times >= 0, do: {:==, times}
+
+  defp count_restriction(%{times: times}) when is_integer(times) and times < 0 do
+    raise ArgumentError, "Option `:times` must be a non-negative integer"
+  end
+
+  defp count_restriction(%{min: min, max: max}) when is_integer(min) and is_integer(max) do
+    cond do
+      min < 0 or max < 0 ->
+        raise ArgumentError, "Options `:min` and `:max` must be non-negative integers"
+
+      min > max ->
+        raise ArgumentError, "Option `:min` must be less than or equal to `:max`"
+
+      :else ->
+        {:.., min, max}
+    end
+  end
+
+  defp count_restriction(%{min: min}) when is_integer(min) and min >= 0, do: {:>=, min}
+  defp count_restriction(%{max: max}) when is_integer(max) and max >= 0, do: {:<=, max}
+
+  defp count_restriction(%{min: min}) when is_integer(min) do
+    raise ArgumentError, "Option `:min` must be a non-negative integer"
+  end
+
+  defp count_restriction(%{max: max}) when is_integer(max) do
+    raise ArgumentError, "Option `:max` must be a non-negative integer"
+  end
+
+  defp count_restriction(_opts), do: {:>=, 1}
+
+  @spec args_match?(Mock.args(), [any]) :: boolean
+  defp args_match?(arity, call_args) when is_integer(arity), do: length(call_args) == arity
+  defp args_match?(args, call_args) when length(args) != length(call_args), do: false
+
+  defp args_match?(args, call_args) do
+    Enum.zip(args, call_args)
+    |> Enum.all?(fn
+      {:_, _} -> true
+      {same_value, same_value} -> true
+      _else -> false
+    end)
   end
 end
