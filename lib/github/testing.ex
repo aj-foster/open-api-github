@@ -112,6 +112,7 @@ defmodule GitHub.Testing do
   def generate(_schema, :url, :string), do: Faker.Internet.url()
 
   def generate(GitHub.User, :name, :string), do: Faker.Person.name()
+  def generate(GitHub.User, :type, :string), do: Enum.random(["User", "Bot", "Organization"])
 
   # Primitive types
   def generate(_schema, _key, :binary), do: Faker.String.base64()
