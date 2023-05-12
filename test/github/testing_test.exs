@@ -130,19 +130,51 @@ defmodule GitHub.TestingTest do
       id_two = System.unique_integer([:positive])
       id_three = System.unique_integer([:positive])
 
-      mock_gh &Repos.get/2, fn ->
-        {:ok, 200, %GitHub.Repository{id: id_two}}
-      end
+      mock_gh &Repos.get/2, {:ok, %GitHub.Repository{id: id_two}}
 
       assert {:ok, %GitHub.Repository{id: ^id_one}} = Repos.get("owner", "repo", @options)
       assert {:ok, %GitHub.Repository{id: ^id_two}} = Repos.get("owner", "repo_two", @options)
 
-      mock_gh Repos.get("owner", "repo"), fn ->
-        {:ok, 200, %GitHub.Repository{id: id_three}}
-      end
+      mock_gh Repos.get("owner", "repo"), {:ok, %GitHub.Repository{id: id_three}}
 
       assert {:ok, %GitHub.Repository{id: ^id_three}} = Repos.get("owner", "repo", @options)
       assert {:ok, %GitHub.Repository{id: ^id_two}} = Repos.get("owner", "repo_two", @options)
+    end
+
+    test "mocks using a generator function" do
+      mock_gh &Repos.get/2, fn -> {:ok, %GitHub.Repository{id: 12345}} end
+      assert {:ok, %GitHub.Repository{id: 12345}} = Repos.get("owner", "repo", @options)
+
+      mock_gh &Repos.list_for_user/1, fn -> {:ok, [%GitHub.Repository{id: 12345}], code: 201} end
+
+      assert {:ok,
+              %GitHub.Operation{
+                response_body: [%GitHub.Repository{id: 12345}],
+                response_code: 201
+              }} = GitHub.raw(Repos, :list_for_user, ["me"], @options)
+    end
+
+    test "mocks with arguments" do
+      mock_gh &Repos.get/2, fn owner, repo ->
+        assert owner == "owner"
+        assert repo == "repo"
+        {:ok, nil}
+      end
+
+      assert :ok = Repos.get("owner", "repo", @options)
+      assert_fail(fn -> Repos.get("owner", "another-repo", @options) end)
+    end
+
+    test "mocks with arguments and options" do
+      mock_gh &Repos.get/2, fn owner, _repo, opts ->
+        assert owner == "owner"
+        IO.inspect(opts)
+        assert opts == @options
+        {:ok, nil}
+      end
+
+      assert :ok = Repos.get("owner", "repo", @options)
+      assert_fail(fn -> Repos.get("owner", "another-repo", Keyword.put(@options, :a, :b)) end)
     end
   end
 

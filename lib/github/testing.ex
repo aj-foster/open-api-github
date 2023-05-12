@@ -181,26 +181,62 @@ defmodule GitHub.Testing do
   @doc """
   Mock a response for an API endpoint
 
+  ## API Endpoint
+
   The API endpoint can be passed as a function call or using function capture syntax. If passed
   as a function call, the arguments must match exactly or use the special value `:_` to match any
   value. If passed using function capture syntax, only the arity will be matched. The options
   argument is not considered during these checks.
 
-  As a return function for a mock, you can use a zero-arity function that returns a tagged tuple
-  `{:ok, code, data}` with the HTTP status code and response body. This response body can be
-  an Elixir term (as if it already passed through JSON decoding and related steps), an untyped
-  map, or a plain string depending on your client stack. It is recommended to use a stack that
-  contains only the `GitHub.Plugin.TestClient` plugin, in which case the return values should
-  contain structs from this library.
+  ## Return Value
+
+  As a return value for a mock, you can set a plain value or pass one of several function forms:
+
+  * A zero-arity function will be evaluated a call time. Use this to perform lazy evaluation of
+    the mock or encapsulate a generator.
+
+  * A function with the same number of arguments as the original client operation (**not**
+    including the final `opts` argument) will be called with the same arguments. Use this to
+    perform assertions on the arguments or return a different value depending on the call.
+
+  * A function with the same number of arguments as the original client operation (including the
+    final `opts` argument) will be called with the same arguments and options. Use this to perform
+    assertions on the arguments and options or return a different value depending on the call.
+
+  In each case, the plain value — or the value returned from the function — should have one of the
+  following forms:
+
+      {:ok, data}
+      {:ok, data, opts}
+      {:error, error}
+      {:error, error, opts}
+
+  Where `data` is the response body and `error` is the error to return, and `opts` modifies the
+  response. The available options are:
+
+  * `code` (integer): Status code to include with the response.
+
+  In addition, the following pre-defined error responses are available:
+
+  * `{:error, :not_found}` will return an error matching GitHub's standard "Not Found" response.
 
   ## Examples
 
-      mock_gh GitHub.Repos.get("owner", :_), fn ->
-        {:ok, 200, %GitHub.Repository{id: 12345}}
+      mock_gh GitHub.Repos.get("owner", "repo"), {:ok, %GitHub.Repository{}}
+      mock_gh GitHub.Repos.get("owner", "repo-2"), {:ok, %GitHub.Repository{}, code: 201}
+      mock_gh GitHub.Repos.get("friend", "repo"), {:error, %GitHub.Error{}}
+      mock_gh GitHub.Repos.get("friend", "repo-2"), {:error, %GitHub.Error{}, code: 404}
+
+      mock_gh &GitHub.Repos.get/2, fn -> {:ok, %GitHub.Repository{}} end
+
+      mock_gh &GitHub.Repos.get/2, fn owner, name ->
+        assert String.starts_with?(name, "oapi_")
+        {:ok, %GitHub.Repository{owner: owner, name: name}}
       end
 
-      mock_gh &GitHub.Repos.get/2, fn ->
-        {:ok, 200, %GitHub.Repository{id: 67890}}
+      mock_gh &GitHub.Repos.get/2, fn owner, name, opts ->
+        assert opts[:auth] == "gho_token"
+        {:ok, %GitHub.Repository{owner: owner, name: name}}
       end
 
   """
@@ -241,19 +277,21 @@ defmodule GitHub.Testing do
   # Not ready for public use
 
   @doc false
-  @spec get_mock(Operation.t()) :: Mock.return()
-  def get_mock(operation) do
+  @spec get_mock_result(Operation.t()) :: Mock.return()
+  def get_mock_result(operation) do
     {module, function, args} = Operation.get_caller(operation)
+    options = Operation.get_options(operation)
 
     Process.get(@pd_mock_key, %{})
     |> Map.get({module, function})
     |> Mock.choose(args)
     |> case do
-      %{args: ^args, return: mock} ->
-        mock
+      %{args: ^args, return: mock_return} ->
+        evaluate_mock(mock_return, args, options)
 
-      %{return: mock} ->
-        put_mock(module, function, args, mock.(), implicit: true)
+      %{return: mock_return} ->
+        return_value = evaluate_mock(mock_return, args, options)
+        put_mock(module, function, args, return_value, implicit: true)
 
       nil ->
         mock_return_fn = default_response_fn(operation)
@@ -262,13 +300,22 @@ defmodule GitHub.Testing do
     end
   end
 
-  @spec default_response_fn(Operation.t()) :: Mock.return()
+  @spec evaluate_mock(Mock.return_fun(), [any], keyword) :: Mock.return()
+  defp evaluate_mock(fun, _args, _opts) when is_function(fun, 0), do: fun.()
+  defp evaluate_mock(fun, args, _opts) when is_function(fun, length(args)), do: apply(fun, args)
+
+  defp evaluate_mock(fun, args, opts) when is_function(fun, length(args) + 1),
+    do: apply(fun, args ++ [opts])
+
+  defp evaluate_mock(return, _args, _opts), do: return
+
+  @spec default_response_fn(Operation.t()) :: Mock.return_fun()
   defp default_response_fn(%Operation{response_types: [{code, type} | _]}) do
-    fn -> {:ok, code, GitHub.Testing.generate(nil, nil, type)} end
+    fn -> {:ok, GitHub.Testing.generate(nil, nil, type), code: code} end
   end
 
   @doc false
-  @spec put_mock(module, atom, Mock.args(), Mock.return(), keyword) :: Mock.t()
+  @spec put_mock(module, atom, Mock.args(), Mock.return_fun(), keyword) :: Mock.t()
   def put_mock(module, function, args, return, opts \\ []) do
     implicit = opts[:implicit] == true
     limit = opts[:limit] || :infinity

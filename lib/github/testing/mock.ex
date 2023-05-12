@@ -23,13 +23,30 @@ defmodule GitHub.Testing.Mock do
   @typedoc """
   Return value from a mocked API call
 
-  This may be a constant (value) or a zero-arity function returning a constant (generator). In
-  each case, the constant is a tagged tuple containing the status code and response.
+  Return values are tagged tuples with optional additional information. For example:
+
+      {:ok, %GitHub.Repository{}}
+      {:ok, %GitHub.Repository{}, code: 200}
+      {:error, %GitHub.Error{}}
+      {:error, %GitHub.Error{}, code: 404}
+
+  For more on the possible values, see `GitHub.Testing`.
   """
   @type return ::
-          {:ok, integer, any}
+          {:ok, any}
+          | {:ok, any, keyword}
           | {:error, any}
-          | (() -> {:ok, integer, any} | {:error, any})
+          | {:error, any, keyword}
+
+  @typedoc """
+  Return value or generator of a mocked API call
+
+  This may be a constant (value) or a zero-arity function returning a constant (generator).
+  """
+  @type return_fun ::
+          return
+          | (() -> return)
+          | (... -> return)
 
   @typedoc """
   Mocked API call
@@ -38,7 +55,7 @@ defmodule GitHub.Testing.Mock do
           args: args,
           implicit: boolean,
           limit: limit,
-          return: return
+          return: return_fun
         }
 
   defstruct [:args, :implicit, :limit, :return]

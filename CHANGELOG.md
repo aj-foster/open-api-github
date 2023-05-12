@@ -7,8 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* **Breaking**: The mock system has been rewritten to allow greater flexibility.
+  See `GitHub.Testing` for more information.
 * **Add**: Add helper `GitHub.Operation.get_options/1` for plugins and testing.
-
 * **Fix**: Export "locals without parens" to allow using test helpers without parentheses.
 
 ### 0.0.3 (2023-05-11)
@@ -17,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   This enhancement supports all currently-known union type responses, but it will require long-term maintenance.
 * **Add**: Allow returning unwrapped results from client operations.
   This can be useful for callers that need more information, such as response headers.
-
+  
 * **Fix**: Support zero-arity operations in `GitHub.Operation.get_caller/1`.
 
 ### 0.0.2 (2023-05-11)
