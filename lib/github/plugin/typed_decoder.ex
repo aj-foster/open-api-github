@@ -11,7 +11,9 @@ defmodule GitHub.Plugin.TypedDecoder do
   configuration. `decode_response/2` uses the type information available in the operation and each
   module's `__fields__/1` functions to decode the data. `normalize_errors/2` changes API error
   responses into standard `GitHub.Error` results. It is recommended to run these plugins towards
-  the end of the stack, after JSON decoding responses.
+  the end of the stack, after decoding JSON responses.
+
+  The normalized errors will be `GitHub.Error` structs with relevant reason fields where possible.
 
   ## Special Cases
 
@@ -23,10 +25,8 @@ defmodule GitHub.Plugin.TypedDecoder do
   basis using required keys to determine the correct type. Some of these are done on a "best
   guess" basis due to a lack of official documentation.
   """
-  alias GitHub.BasicError
   alias GitHub.Error
   alias GitHub.Operation
-  alias GitHub.ValidationError
 
   @doc """
   Decode a response body based on type information from the operation and schemas
@@ -78,33 +78,91 @@ defmodule GitHub.Plugin.TypedDecoder do
   Change API error responses into `GitHub.Error` results
   """
   @spec normalize_errors(Operation.t(), keyword) :: {:ok, Operation.t()} | {:error, Error.t()}
-  def normalize_errors(%Operation{response_body: %BasicError{} = error} = operation, _opts) do
-    %Operation{response_code: code} = operation
+  def normalize_errors(%Operation{response_code: code} = operation, _opts) when code >= 400 do
+    %Operation{response_body: body} = operation
 
-    {:error,
-     Error.new(
-       code: code,
-       message: error.message,
-       operation: operation,
-       source: error,
-       step: {__MODULE__, :normalize_errors}
-     )}
-  end
+    error_attributes =
+      Keyword.merge(
+        [
+          code: code,
+          operation: operation,
+          source: body,
+          step: {__MODULE__, :normalize_errors}
+        ],
+        error_attributes(code, body)
+      )
 
-  def normalize_errors(%Operation{response_body: %ValidationError{} = error} = operation, _opts) do
-    %Operation{response_code: code} = operation
-
-    {:error,
-     Error.new(
-       code: code,
-       message: error.message,
-       operation: operation,
-       source: error,
-       step: {__MODULE__, :normalize_errors}
-     )}
+    {:error, Error.new(error_attributes)}
   end
 
   def normalize_errors(operation, _opts), do: {:ok, operation}
+
+  @spec error_attributes(integer | nil, any) :: keyword
+  defp error_attributes(400, %{"errors" => "The version you specified" <> _ = message}) do
+    [message: message, reason: :invalid_version]
+  end
+
+  # Invalid credentials
+  defp error_attributes(401, %{"message" => "Bad credentials" = message}) do
+    [message: message, reason: :invalid_auth]
+  end
+
+  defp error_attributes(401, %{message: "Bad credentials" = message}) do
+    [message: message, reason: :invalid_auth]
+  end
+
+  # Requires authentication
+  defp error_attributes(401, %{"message" => "Requires authentication" = message}) do
+    [message: message, reason: :requires_auth]
+  end
+
+  defp error_attributes(401, %{message: "Requires authentication" = message}) do
+    [message: message, reason: :requires_auth]
+  end
+
+  # Unauthorized
+  defp error_attributes(403, %{"message" => "Must have admin rights" <> _ = message}) do
+    [message: message, reason: :unauthorized]
+  end
+
+  defp error_attributes(403, %{message: "Must have admin rights" <> _ = message}) do
+    [message: message, reason: :unauthorized]
+  end
+
+  # OAuth app restrictions
+  defp error_attributes(403, %{"message" => "Although you appear to have" <> _ = message}) do
+    [message: message, reason: :oauth_restricted]
+  end
+
+  defp error_attributes(403, %{message: "Although you appear to have" <> _ = message}) do
+    [message: message, reason: :oauth_restricted]
+  end
+
+  # Rate limits
+  defp error_attributes(403, %{"message" => "API rate limit exceeded" <> _ = message}) do
+    [message: message, reason: :rate_limited]
+  end
+
+  defp error_attributes(403, %{message: "API rate limit exceeded" <> _ = message}) do
+    [message: message, reason: :rate_limited]
+  end
+
+  defp error_attributes(403, %{"message" => "You have exceeded a secondary" <> _ = message}) do
+    [message: message, reason: :rate_limited]
+  end
+
+  defp error_attributes(403, %{message: "You have exceeded a secondary" <> _ = message}) do
+    [message: message, reason: :rate_limited]
+  end
+
+  # Not found
+  defp error_attributes(404, _response) do
+    [message: "Not Found", reason: :not_found]
+  end
+
+  defp error_attributes(_code, %{"message" => message}), do: [message: message]
+  defp error_attributes(_code, %{message: message}), do: [message: message]
+  defp error_attributes(_code, _response), do: [message: "Unknown Error"]
 
   #
   # Union Type Handlers

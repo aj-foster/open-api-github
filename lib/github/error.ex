@@ -20,7 +20,7 @@ defmodule GitHub.Error do
     * `operation` (`t:Operation.t/0`): Operation at the time of the error.
 
     * `reason` (atom): Easily-matched atom for common errors, like `:not_found`. Defaults to a
-      generic `:error`.
+      generic `:error`. See **Error Reasons** below for a list of possible values.
 
     * `source` (term): Cause of the error. This could be an operation, an API error response, or
       something else.
@@ -34,6 +34,31 @@ defmodule GitHub.Error do
 
   Users of the library can match on the information in the `code` and `source` fields to extract
   additional information.
+
+  ## Error Reasons
+
+  Although plugins may use any atom for the `reason` field, the following have predetermined
+  meanings:
+
+    * `:invalid_auth`: The credential (`:auth` option) provided is invalid.
+
+    * `:invalid_version`: The version (`:version` option) provided is invalid.
+
+    * `:not_found`: A resource or route was not found. Note that GitHub may return this kind of
+      response when authentication is required to see a resource.
+
+    * `:oauth_restricted`: The OAuth credentials are valid, but the requested resource is owned
+      by an organization that requires admin approval for OAuth apps.
+
+    * `:rate_limited`: The client has exceeded a primary or secondary rate limit. Secondary rate
+      limits have a distinct `message` field with further information.
+
+    * `:requires_auth`: The requested endpoint requires an authenticated user, and no auth
+      credentials were given.
+
+    * `:unauthorized`: Valid authentication credentials were given, but the current user does not
+      have permission to perform this action.
+
   """
 
   alias GitHub.Operation

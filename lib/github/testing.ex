@@ -220,13 +220,15 @@ defmodule GitHub.Testing do
   In addition, the following pre-defined error responses are available:
 
   * `{:error, :not_found}` will return an error matching GitHub's standard "Not Found" response.
+  * `{:error, :rate_limited}` with return an error matching a GitHub API rate limited response.
+  * `{:error, :unauthorized}` will return an error matching GitHub's unauthorized response.
 
   ## Examples
 
       mock_gh GitHub.Repos.get("owner", "repo"), {:ok, %GitHub.Repository{}}
       mock_gh GitHub.Repos.get("owner", "repo-2"), {:ok, %GitHub.Repository{}, code: 201}
-      mock_gh GitHub.Repos.get("friend", "repo"), {:error, %GitHub.Error{}}
-      mock_gh GitHub.Repos.get("friend", "repo-2"), {:error, %GitHub.Error{}, code: 404}
+      mock_gh GitHub.Repos.get("friend", "repo"), {:error, :not_found}
+      mock_gh GitHub.Repos.get("friend", "repo-2"), {:error, %GitHub.Error{}, code: 403}
 
       mock_gh &GitHub.Repos.get/2, fn -> {:ok, %GitHub.Repository{}} end
 
