@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* **Fix**: Export "locals without parens" to allow using test helpers without parentheses.
+
 ### 0.0.3 (2023-05-11)
 
 * **Add**: Decode union types in `GitHub.Plugin.TypedDecoder` using best-guess logic.
