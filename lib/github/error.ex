@@ -14,14 +14,20 @@ defmodule GitHub.Error do
 
     * `code` (integer): Status code of the API response, if a response was received.
 
-    * `message` (string): Human-readable message describing the error.
+    * `message` (string): Human-readable message describing the error. Defaults to a generic
+      `"Unknown Error"`.
 
     * `operation` (`t:Operation.t/0`): Operation at the time of the error.
+
+    * `reason` (atom): Easily-matched atom for common errors, like `:not_found`. Defaults to a
+      generic `:error`.
 
     * `source` (term): Cause of the error. This could be an operation, an API error response, or
       something else.
 
-    * `stacktrace` (`t:Exception.stacktrace/0`): Stacktrace from the time of the error.
+    * `stacktrace` (`t:Exception.stacktrace/0`): Stacktrace from the time of the error. Defaults
+      to a stack that terminates with the calling function, but can be overridden (for example,
+      if a `__STACKTRACE__` is available in a `rescue` block).
 
     * `step` (plugin): Plugin active at the time of the error (expressed as a tuple containing the
       module and function).
@@ -37,13 +43,14 @@ defmodule GitHub.Error do
           code: integer | nil,
           message: String.t(),
           operation: Operation.t(),
+          reason: atom,
           source: term,
           stacktrace: Exception.stacktrace(),
           step: {module, atom}
         }
 
   @derive {Inspect, except: [:operation, :stacktrace]}
-  defexception [:code, :message, :operation, :source, :stacktrace, :step]
+  defexception [:code, :message, :operation, :reason, :source, :stacktrace, :step]
 
   @doc """
   Create a new error struct with the given fields
@@ -58,6 +65,16 @@ defmodule GitHub.Error do
     # Drop `Process.info/2` and `new/1`.
     stacktrace = Enum.drop(stack, 2)
 
-    struct!(%__MODULE__{stacktrace: stacktrace}, opts)
+    fields =
+      Keyword.merge(
+        [
+          message: "Unknown Error",
+          reason: :error,
+          stacktrace: stacktrace
+        ],
+        opts
+      )
+
+    struct!(%__MODULE__{}, fields)
   end
 end

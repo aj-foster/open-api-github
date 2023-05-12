@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* **Add**: `GitHub.Error` structs now have an easily matchable `reason` field.
+  This field will need to be populated on a case-by-case basis in `GitHub.Plugin.TypedDecoder`.
+
 ### 0.0.4 (2023-05-12)
 
 * **Breaking**: The mock system has been rewritten to allow greater flexibility.
