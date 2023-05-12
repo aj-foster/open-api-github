@@ -168,7 +168,6 @@ defmodule GitHub.TestingTest do
     test "mocks with arguments and options" do
       mock_gh &Repos.get/2, fn owner, _repo, opts ->
         assert owner == "owner"
-        IO.inspect(opts)
         assert opts == @options
         {:ok, nil}
       end

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 0.0.5 (2023-05-12)
+
 * **Breaking**: `GitHub.Plugin.TypedDecoder` now normalizes errors for all status codes greater than or equal to `400`.
   Previously, errors were only normalized when the operation had well-typed errors in its response specification.
   This left out a large number of errors, including many "Not Found" errors that did not need to be documented for every operation.
