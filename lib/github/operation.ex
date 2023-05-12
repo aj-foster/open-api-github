@@ -126,6 +126,19 @@ defmodule GitHub.Operation do
   end
 
   @doc """
+  Get the options passed to the client request
+
+  ## Examples
+
+      iex> operation = %Operation{private: %{__opts__: [server: "https://api.github.com"]}}
+      iex> Operation.get_options(operation)
+      [server: "https://api.github.com"]
+
+  """
+  @spec get_options(t) :: keyword
+  def get_options(%__MODULE__{private: %{__opts__: opts}}), do: opts
+
+  @doc """
   Get the value of a response header
 
   If response headers have not been filled in — or the response did not have the given header —

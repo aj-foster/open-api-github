@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* **Add**: Add helper `GitHub.Operation.get_options/1` for plugins and testing.
+
 * **Fix**: Export "locals without parens" to allow using test helpers without parentheses.
 
 ### 0.0.3 (2023-05-11)
