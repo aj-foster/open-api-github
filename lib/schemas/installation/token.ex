@@ -6,7 +6,7 @@ defmodule GitHub.Installation.Token do
   @type t :: %__MODULE__{
           expires_at: String.t(),
           has_multiple_single_files: boolean | nil,
-          permissions: GitHub.AppPermissions.t() | nil,
+          permissions: GitHub.App.Permissions.t() | nil,
           repositories: [GitHub.Repository.t()] | nil,
           repository_selection: String.t() | nil,
           single_file: String.t() | nil,
@@ -33,7 +33,7 @@ defmodule GitHub.Installation.Token do
     [
       expires_at: :string,
       has_multiple_single_files: :boolean,
-      permissions: {GitHub.AppPermissions, :t},
+      permissions: {GitHub.App.Permissions, :t},
       repositories: {:array, {GitHub.Repository, :t}},
       repository_selection: :string,
       single_file: :string,

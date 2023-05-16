@@ -11,7 +11,7 @@ defmodule GitHub.MovedColumnInProjectIssueEvent do
           event: String.t(),
           id: integer,
           node_id: String.t(),
-          performed_via_github_app: GitHub.Integration.t() | nil,
+          performed_via_github_app: GitHub.App.t() | nil,
           project_card: map | nil,
           url: String.t()
         }
@@ -42,7 +42,7 @@ defmodule GitHub.MovedColumnInProjectIssueEvent do
       event: :string,
       id: :integer,
       node_id: :string,
-      performed_via_github_app: {:nullable, {GitHub.Integration, :t}},
+      performed_via_github_app: {:nullable, {GitHub.App, :t}},
       project_card: :map,
       url: :string
     ]

@@ -13,7 +13,7 @@ defmodule GitHub.AssignedIssueEvent do
           event: String.t(),
           id: integer,
           node_id: String.t(),
-          performed_via_github_app: GitHub.Integration.t(),
+          performed_via_github_app: GitHub.App.t(),
           url: String.t()
         }
 
@@ -46,7 +46,7 @@ defmodule GitHub.AssignedIssueEvent do
       event: :string,
       id: :integer,
       node_id: :string,
-      performed_via_github_app: {GitHub.Integration, :t},
+      performed_via_github_app: {GitHub.App, :t},
       url: :string
     ]
   end

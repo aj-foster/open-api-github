@@ -12,7 +12,7 @@ defmodule GitHub.LockedIssueEvent do
           id: integer,
           lock_reason: String.t() | nil,
           node_id: String.t(),
-          performed_via_github_app: GitHub.Integration.t() | nil,
+          performed_via_github_app: GitHub.App.t() | nil,
           url: String.t()
         }
 
@@ -43,7 +43,7 @@ defmodule GitHub.LockedIssueEvent do
       id: :integer,
       lock_reason: {:nullable, :string},
       node_id: :string,
-      performed_via_github_app: {:nullable, {GitHub.Integration, :t}},
+      performed_via_github_app: {:nullable, {GitHub.App, :t}},
       url: :string
     ]
   end

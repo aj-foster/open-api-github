@@ -1,4 +1,4 @@
-defmodule GitHub.Integration do
+defmodule GitHub.App do
   @moduledoc """
   Provides struct and type for Integration
   """

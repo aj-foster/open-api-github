@@ -48,7 +48,7 @@ defmodule GitHub.Repos do
           String.t(),
           map | [String.t()],
           keyword
-        ) :: {:ok, [GitHub.Integration.t()]} | {:error, GitHub.Error.t()}
+        ) :: {:ok, [GitHub.App.t()]} | {:error, GitHub.Error.t()}
   def add_app_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -59,7 +59,7 @@ defmodule GitHub.Repos do
       body: body,
       method: :post,
       request: [{"application/json", {:union, [:map, array: :string]}}],
-      response: [{200, {:array, {GitHub.Integration, :t}}}, {422, {GitHub.ValidationError, :t}}],
+      response: [{200, {:array, {GitHub.App, :t}}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
   end
@@ -1908,7 +1908,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_apps_with_access_to_protected_branch(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Integration.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.App.t()]} | {:error, GitHub.Error.t()}
   def get_apps_with_access_to_protected_branch(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1917,7 +1917,7 @@ defmodule GitHub.Repos do
       call: {GitHub.Repos, :get_apps_with_access_to_protected_branch},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/apps",
       method: :get,
-      response: [{200, {:array, {GitHub.Integration, :t}}}, {404, {GitHub.BasicError, :t}}],
+      response: [{200, {:array, {GitHub.App, :t}}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -4288,7 +4288,7 @@ defmodule GitHub.Repos do
           String.t(),
           map | [String.t()],
           keyword
-        ) :: {:ok, [GitHub.Integration.t()]} | {:error, GitHub.Error.t()}
+        ) :: {:ok, [GitHub.App.t()]} | {:error, GitHub.Error.t()}
   def remove_app_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -4299,7 +4299,7 @@ defmodule GitHub.Repos do
       body: body,
       method: :delete,
       request: [{"application/json", {:union, [:map, array: :string]}}],
-      response: [{200, {:array, {GitHub.Integration, :t}}}, {422, {GitHub.ValidationError, :t}}],
+      response: [{200, {:array, {GitHub.App, :t}}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
   end
@@ -4564,7 +4564,7 @@ defmodule GitHub.Repos do
           String.t(),
           map | [String.t()],
           keyword
-        ) :: {:ok, [GitHub.Integration.t()]} | {:error, GitHub.Error.t()}
+        ) :: {:ok, [GitHub.App.t()]} | {:error, GitHub.Error.t()}
   def set_app_access_restrictions(owner, repo, branch, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -4575,7 +4575,7 @@ defmodule GitHub.Repos do
       body: body,
       method: :put,
       request: [{"application/json", {:union, [:map, array: :string]}}],
-      response: [{200, {:array, {GitHub.Integration, :t}}}, {422, {GitHub.ValidationError, :t}}],
+      response: [{200, {:array, {GitHub.App, :t}}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
   end

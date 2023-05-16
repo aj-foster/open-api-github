@@ -1,4 +1,4 @@
-defmodule GitHub.IntegrationInstallationRequest do
+defmodule GitHub.App.InstallationRequest do
   @moduledoc """
   Provides struct and type for IntegrationInstallationRequest
   """

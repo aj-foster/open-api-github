@@ -5,7 +5,7 @@ defmodule GitHub.Check.Suite do
 
   @type t :: %__MODULE__{
           after: String.t() | nil,
-          app: GitHub.Integration.t() | nil,
+          app: GitHub.App.t() | nil,
           before: String.t() | nil,
           check_runs_url: String.t(),
           conclusion: String.t() | nil,
@@ -54,7 +54,7 @@ defmodule GitHub.Check.Suite do
   def __fields__(:t) do
     [
       after: {:nullable, :string},
-      app: {:nullable, {GitHub.Integration, :t}},
+      app: {:nullable, {GitHub.App, :t}},
       before: {:nullable, :string},
       check_runs_url: :string,
       conclusion: {:nullable, :string},

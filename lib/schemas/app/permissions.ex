@@ -1,4 +1,4 @@
-defmodule GitHub.AppPermissions do
+defmodule GitHub.App.Permissions do
   @moduledoc """
   Provides struct and type for AppPermissions
   """

@@ -6,7 +6,7 @@ defmodule GitHub.ScopedInstallation do
   @type t :: %__MODULE__{
           account: GitHub.User.simple(),
           has_multiple_single_files: boolean | nil,
-          permissions: GitHub.AppPermissions.t(),
+          permissions: GitHub.App.Permissions.t(),
           repositories_url: String.t(),
           repository_selection: String.t(),
           single_file_name: String.t() | nil,
@@ -31,7 +31,7 @@ defmodule GitHub.ScopedInstallation do
     [
       account: {GitHub.User, :simple},
       has_multiple_single_files: :boolean,
-      permissions: {GitHub.AppPermissions, :t},
+      permissions: {GitHub.App.Permissions, :t},
       repositories_url: :string,
       repository_selection: :string,
       single_file_name: {:nullable, :string},

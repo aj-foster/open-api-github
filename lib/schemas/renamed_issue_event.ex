@@ -11,7 +11,7 @@ defmodule GitHub.RenamedIssueEvent do
           event: String.t(),
           id: integer,
           node_id: String.t(),
-          performed_via_github_app: GitHub.Integration.t() | nil,
+          performed_via_github_app: GitHub.App.t() | nil,
           rename: map,
           url: String.t()
         }
@@ -42,7 +42,7 @@ defmodule GitHub.RenamedIssueEvent do
       event: :string,
       id: :integer,
       node_id: :string,
-      performed_via_github_app: {:nullable, {GitHub.Integration, :t}},
+      performed_via_github_app: {:nullable, {GitHub.App, :t}},
       rename: :map,
       url: :string
     ]

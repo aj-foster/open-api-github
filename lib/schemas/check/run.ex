@@ -4,7 +4,7 @@ defmodule GitHub.Check.Run do
   """
 
   @type t :: %__MODULE__{
-          app: GitHub.Integration.t() | nil,
+          app: GitHub.App.t() | nil,
           check_suite: map | nil,
           completed_at: String.t() | nil,
           conclusion: String.t() | nil,
@@ -49,7 +49,7 @@ defmodule GitHub.Check.Run do
 
   def __fields__(:t) do
     [
-      app: {:nullable, {GitHub.Integration, :t}},
+      app: {:nullable, {GitHub.App, :t}},
       check_suite: {:nullable, :map},
       completed_at: {:nullable, :string},
       conclusion: {:nullable, :string},

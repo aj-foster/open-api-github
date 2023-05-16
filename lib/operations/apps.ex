@@ -197,7 +197,7 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps#get-the-authenticated-app)
 
   """
-  @spec get_authenticated(keyword) :: {:ok, GitHub.Integration.t()} | {:error, GitHub.Error.t()}
+  @spec get_authenticated(keyword) :: {:ok, GitHub.App.t()} | {:error, GitHub.Error.t()}
   def get_authenticated(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -205,7 +205,7 @@ defmodule GitHub.Apps do
       call: {GitHub.Apps, :get_authenticated},
       url: "/app",
       method: :get,
-      response: [{200, {GitHub.Integration, :t}}],
+      response: [{200, {GitHub.App, :t}}],
       opts: opts
     })
   end
@@ -218,8 +218,7 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/reference/apps/#get-an-app)
 
   """
-  @spec get_by_slug(String.t(), keyword) ::
-          {:ok, GitHub.Integration.t()} | {:error, GitHub.Error.t()}
+  @spec get_by_slug(String.t(), keyword) :: {:ok, GitHub.App.t()} | {:error, GitHub.Error.t()}
   def get_by_slug(app_slug, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -229,7 +228,7 @@ defmodule GitHub.Apps do
       url: "/apps/#{app_slug}",
       method: :get,
       response: [
-        {200, {GitHub.Integration, :t}},
+        {200, {GitHub.App, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],
@@ -557,7 +556,7 @@ defmodule GitHub.Apps do
 
   """
   @spec list_installation_requests_for_authenticated_app(keyword) ::
-          {:ok, [GitHub.IntegrationInstallationRequest.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.App.InstallationRequest.t()]} | {:error, GitHub.Error.t()}
   def list_installation_requests_for_authenticated_app(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -568,7 +567,7 @@ defmodule GitHub.Apps do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.IntegrationInstallationRequest, :t}}},
+        {200, {:array, {GitHub.App.InstallationRequest, :t}}},
         {304, nil},
         {401, {GitHub.BasicError, :t}}
       ],
