@@ -25,7 +25,8 @@ if Code.ensure_loaded?(Redix) do
 
       * `server`: **Required** global name of a Redis server, as found in the `name` option of
         `Redix.start_link/2`. This library is not responsible for starting the Redix app or
-        connecting to the server.
+        connecting to the server. This can be a single connection name or a list of connections
+        in a pool. If a list is provided, a random server will be chosen for each interaction.
 
       * `cache_prefix`: Prefix to use for all Redis cache keys. Defaults to `"oapi_github"`.
 
@@ -85,7 +86,7 @@ if Code.ensure_loaded?(Redix) do
     def check_cache(%Operation{request_method: :get} = operation, opts) do
       %Operation{private: %{__opts__: operation_opts}} = operation
       opts = Keyword.merge(opts, operation_opts)
-      server = Config.plugin_config!(opts, __MODULE__, :server)
+      server = redix_server(opts)
       key = cache_key(operation, opts)
 
       with {:ok, data} when is_binary(data) <- Redix.command(server, ["GET", key]),
@@ -129,7 +130,7 @@ if Code.ensure_loaded?(Redix) do
       content_type = Operation.get_response_header(operation, "content-type")
       etag = Operation.get_response_header(operation, "etag")
 
-      server = Config.plugin_config!(opts, __MODULE__, :server)
+      server = redix_server(opts)
       key = cache_key(operation, opts)
       expiration = Config.plugin_config(opts, __MODULE__, :expiration, @default_expiration_sec)
 
@@ -151,7 +152,7 @@ if Code.ensure_loaded?(Redix) do
         ) do
       %Operation{private: %{__opts__: operation_opts}} = operation
       opts = Keyword.merge(opts, operation_opts)
-      server = Config.plugin_config!(opts, __MODULE__, :server)
+      server = redix_server(opts)
       key = cache_key(operation, opts)
       expiration = Config.plugin_config(opts, __MODULE__, :expiration, @default_expiration_sec)
 
@@ -213,5 +214,13 @@ if Code.ensure_loaded?(Redix) do
 
     @spec cache_key_url(Operation.t()) :: String.t()
     defp cache_key_url(%Operation{request_url: url}), do: url
+
+    @spec redix_server(keyword) :: Redix.connection()
+    defp redix_server(opts) do
+      case Config.plugin_config!(opts, __MODULE__, :server) do
+        servers when is_list(servers) -> Enum.random(servers)
+        server -> server
+      end
+    end
   end
 end
