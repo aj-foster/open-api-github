@@ -11,7 +11,7 @@ defmodule GitHub.RepoRequiredWorkflow do
           name: String.t(),
           node_id: String.t(),
           path: String.t(),
-          source_repository: GitHub.MinimalRepository.t(),
+          source_repository: GitHub.Repository.minimal(),
           state: String.t(),
           updated_at: String.t(),
           url: String.t()
@@ -44,7 +44,7 @@ defmodule GitHub.RepoRequiredWorkflow do
       name: :string,
       node_id: :string,
       path: :string,
-      source_repository: {GitHub.MinimalRepository, :t},
+      source_repository: {GitHub.Repository, :minimal},
       state: :string,
       updated_at: :string,
       url: :string

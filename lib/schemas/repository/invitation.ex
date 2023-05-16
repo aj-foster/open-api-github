@@ -12,7 +12,7 @@ defmodule GitHub.Repository.Invitation do
           inviter: GitHub.User.simple() | nil,
           node_id: String.t(),
           permissions: String.t(),
-          repository: GitHub.MinimalRepository.t(),
+          repository: GitHub.Repository.minimal(),
           url: String.t()
         }
 
@@ -43,7 +43,7 @@ defmodule GitHub.Repository.Invitation do
       inviter: {:nullable, {GitHub.User, :simple}},
       node_id: :string,
       permissions: :string,
-      repository: {GitHub.MinimalRepository, :t},
+      repository: {GitHub.Repository, :minimal},
       url: :string
     ]
   end

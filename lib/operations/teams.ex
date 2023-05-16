@@ -298,8 +298,7 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams#create-a-team)
 
   """
-  @spec create(String.t(), map, keyword) ::
-          {:ok, GitHub.Team.Full.t()} | {:error, GitHub.Error.t()}
+  @spec create(String.t(), map, keyword) :: {:ok, GitHub.Team.full()} | {:error, GitHub.Error.t()}
   def create(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -311,7 +310,7 @@ defmodule GitHub.Teams do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {201, {GitHub.Team.Full, :t}},
+        {201, {GitHub.Team, :full}},
         {403, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
       ],
@@ -579,7 +578,7 @@ defmodule GitHub.Teams do
 
   """
   @spec get_by_name(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Team.Full.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Team.full()} | {:error, GitHub.Error.t()}
   def get_by_name(org, team_slug, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -588,7 +587,7 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :get_by_name},
       url: "/orgs/#{org}/teams/#{team_slug}",
       method: :get,
-      response: [{200, {GitHub.Team.Full, :t}}, {404, {GitHub.BasicError, :t}}],
+      response: [{200, {GitHub.Team, :full}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -703,7 +702,7 @@ defmodule GitHub.Teams do
     * [API method documentation](https://docs.github.com/rest/reference/teams/#get-a-team-legacy)
 
   """
-  @spec get_legacy(integer, keyword) :: {:ok, GitHub.Team.Full.t()} | {:error, GitHub.Error.t()}
+  @spec get_legacy(integer, keyword) :: {:ok, GitHub.Team.full()} | {:error, GitHub.Error.t()}
   def get_legacy(team_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -712,7 +711,7 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :get_legacy},
       url: "/teams/#{team_id}",
       method: :get,
-      response: [{200, {GitHub.Team.Full, :t}}, {404, {GitHub.BasicError, :t}}],
+      response: [{200, {GitHub.Team, :full}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -1018,7 +1017,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.Team.Full.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Team.full()]} | {:error, GitHub.Error.t()}
   def list_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1029,7 +1028,7 @@ defmodule GitHub.Teams do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Team.Full, :t}}},
+        {200, {:array, {GitHub.Team, :full}}},
         {304, nil},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -1234,7 +1233,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_repos_in_org(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Repository.minimal()]} | {:error, GitHub.Error.t()}
   def list_repos_in_org(org, team_slug, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1245,7 +1244,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}/repos",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.MinimalRepository, :t}}}],
+      response: [{200, {:array, {GitHub.Repository, :minimal}}}],
       opts: opts
     })
   end
@@ -1264,7 +1263,7 @@ defmodule GitHub.Teams do
 
   """
   @spec list_repos_legacy(integer, keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Repository.minimal()]} | {:error, GitHub.Error.t()}
   def list_repos_legacy(team_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -1275,7 +1274,7 @@ defmodule GitHub.Teams do
       url: "/teams/#{team_id}/repos",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.MinimalRepository, :t}}}, {404, {GitHub.BasicError, :t}}],
+      response: [{200, {:array, {GitHub.Repository, :minimal}}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -1571,7 +1570,7 @@ defmodule GitHub.Teams do
 
   """
   @spec update_in_org(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Team.Full.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Team.full()} | {:error, GitHub.Error.t()}
   def update_in_org(org, team_slug, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1583,8 +1582,8 @@ defmodule GitHub.Teams do
       method: :patch,
       request: [{"application/json", :map}],
       response: [
-        {200, {GitHub.Team.Full, :t}},
-        {201, {GitHub.Team.Full, :t}},
+        {200, {GitHub.Team, :full}},
+        {201, {GitHub.Team, :full}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
@@ -1602,7 +1601,7 @@ defmodule GitHub.Teams do
 
   """
   @spec update_legacy(integer, map, keyword) ::
-          {:ok, GitHub.Team.Full.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Team.full()} | {:error, GitHub.Error.t()}
   def update_legacy(team_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1614,8 +1613,8 @@ defmodule GitHub.Teams do
       method: :patch,
       request: [{"application/json", :map}],
       response: [
-        {200, {GitHub.Team.Full, :t}},
-        {201, {GitHub.Team.Full, :t}},
+        {200, {GitHub.Team, :full}},
+        {201, {GitHub.Team, :full}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}

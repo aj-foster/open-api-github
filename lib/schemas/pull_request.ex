@@ -1,7 +1,15 @@
 defmodule GitHub.PullRequest do
   @moduledoc """
-  Provides struct and types for PullRequest, PullRequestSimple
+  Provides struct and types for PullRequest, PullRequestMinimal, PullRequestSimple
   """
+
+  @type minimal :: %__MODULE__{
+          base: map,
+          head: map,
+          id: integer,
+          number: integer,
+          url: String.t()
+        }
 
   @type simple :: %__MODULE__{
           _links: map,
@@ -147,6 +155,10 @@ defmodule GitHub.PullRequest do
   @doc false
   @spec __fields__(atom) :: keyword
   def __fields__(type \\ :t)
+
+  def __fields__(:minimal) do
+    [base: :map, head: :map, id: :integer, number: :integer, url: :string]
+  end
 
   def __fields__(:simple) do
     [

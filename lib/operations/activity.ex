@@ -624,7 +624,7 @@ defmodule GitHub.Activity do
 
   """
   @spec list_repos_watched_by_user(String.t(), keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Repository.minimal()]} | {:error, GitHub.Error.t()}
   def list_repos_watched_by_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -635,7 +635,7 @@ defmodule GitHub.Activity do
       url: "/users/#{username}/subscriptions",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.MinimalRepository, :t}}}],
+      response: [{200, {:array, {GitHub.Repository, :minimal}}}],
       opts: opts
     })
   end
@@ -687,7 +687,7 @@ defmodule GitHub.Activity do
 
   """
   @spec list_watched_repos_for_authenticated_user(keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Repository.minimal()]} | {:error, GitHub.Error.t()}
   def list_watched_repos_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -698,7 +698,7 @@ defmodule GitHub.Activity do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.MinimalRepository, :t}}},
+        {200, {:array, {GitHub.Repository, :minimal}}},
         {304, nil},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}

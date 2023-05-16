@@ -5,7 +5,7 @@ defmodule GitHub.CombinedCommitStatus do
 
   @type t :: %__MODULE__{
           commit_url: String.t(),
-          repository: GitHub.MinimalRepository.t(),
+          repository: GitHub.Repository.minimal(),
           sha: String.t(),
           state: String.t(),
           statuses: [GitHub.Commit.Status.simple()],
@@ -22,7 +22,7 @@ defmodule GitHub.CombinedCommitStatus do
   def __fields__(:t) do
     [
       commit_url: :string,
-      repository: {GitHub.MinimalRepository, :t},
+      repository: {GitHub.Repository, :minimal},
       sha: :string,
       state: :string,
       statuses: {:array, {GitHub.Commit.Status, :simple}},

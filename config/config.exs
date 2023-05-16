@@ -49,7 +49,10 @@ config :oapi_generator,
       Webhook.Config
     ],
     merge: [
-      {"FullRepository", "Repository"},
+      {~r/^Full/, ""},
+      {~r/Full$/, ""},
+      {~r/^Minimal/, ""},
+      {~r/Minimal$/, ""},
       {~r/^Simple/, ""},
       {~r/Simple$/, ""},
       {"PrivateUser", "User"},

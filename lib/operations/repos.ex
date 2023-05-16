@@ -3701,7 +3701,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_for_org(String.t(), keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Repository.minimal()]} | {:error, GitHub.Error.t()}
   def list_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page, :sort, :type])
@@ -3712,7 +3712,7 @@ defmodule GitHub.Repos do
       url: "/orgs/#{org}/repos",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.MinimalRepository, :t}}}],
+      response: [{200, {:array, {GitHub.Repository, :minimal}}}],
       opts: opts
     })
   end
@@ -3734,7 +3734,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_for_user(String.t(), keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Repository.minimal()]} | {:error, GitHub.Error.t()}
   def list_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page, :sort, :type])
@@ -3745,7 +3745,7 @@ defmodule GitHub.Repos do
       url: "/users/#{username}/repos",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.MinimalRepository, :t}}}],
+      response: [{200, {:array, {GitHub.Repository, :minimal}}}],
       opts: opts
     })
   end
@@ -3765,7 +3765,7 @@ defmodule GitHub.Repos do
 
   """
   @spec list_forks(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Repository.minimal()]} | {:error, GitHub.Error.t()}
   def list_forks(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page, :sort])
@@ -3776,7 +3776,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/forks",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.MinimalRepository, :t}}}, {400, {GitHub.BasicError, :t}}],
+      response: [{200, {:array, {GitHub.Repository, :minimal}}}, {400, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -3911,7 +3911,7 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/reference/repos#list-public-repositories)
 
   """
-  @spec list_public(keyword) :: {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
+  @spec list_public(keyword) :: {:ok, [GitHub.Repository.minimal()]} | {:error, GitHub.Error.t()}
   def list_public(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:since])
@@ -3922,7 +3922,7 @@ defmodule GitHub.Repos do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.MinimalRepository, :t}}},
+        {200, {:array, {GitHub.Repository, :minimal}}},
         {304, nil},
         {422, {GitHub.ValidationError, :t}}
       ],
@@ -4702,7 +4702,7 @@ defmodule GitHub.Repos do
 
   """
   @spec transfer(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.MinimalRepository.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Repository.minimal()} | {:error, GitHub.Error.t()}
   def transfer(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -4713,7 +4713,7 @@ defmodule GitHub.Repos do
       body: body,
       method: :post,
       request: [{"application/json", :map}],
-      response: [{202, {GitHub.MinimalRepository, :t}}],
+      response: [{202, {GitHub.Repository, :minimal}}],
       opts: opts
     })
   end

@@ -307,8 +307,7 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/reference/orgs#get-an-organization)
 
   """
-  @spec get(String.t(), keyword) ::
-          {:ok, GitHub.Organization.Full.t()} | {:error, GitHub.Error.t()}
+  @spec get(String.t(), keyword) :: {:ok, GitHub.Organization.full()} | {:error, GitHub.Error.t()}
   def get(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -317,7 +316,7 @@ defmodule GitHub.Orgs do
       call: {GitHub.Orgs, :get},
       url: "/orgs/#{org}",
       method: :get,
-      response: [{200, {GitHub.Organization.Full, :t}}, {404, {GitHub.BasicError, :t}}],
+      response: [{200, {GitHub.Organization, :full}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -776,7 +775,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec list_pat_grant_repositories(String.t(), integer, keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Repository.minimal()]} | {:error, GitHub.Error.t()}
   def list_pat_grant_repositories(org, pat_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -788,7 +787,7 @@ defmodule GitHub.Orgs do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.MinimalRepository, :t}}},
+        {200, {:array, {GitHub.Repository, :minimal}}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {500, {GitHub.BasicError, :t}}
@@ -811,7 +810,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec list_pat_grant_request_repositories(String.t(), integer, keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Repository.minimal()]} | {:error, GitHub.Error.t()}
   def list_pat_grant_request_repositories(org, pat_request_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -823,7 +822,7 @@ defmodule GitHub.Orgs do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.MinimalRepository, :t}}},
+        {200, {:array, {GitHub.Repository, :minimal}}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {500, {GitHub.BasicError, :t}}
@@ -1400,7 +1399,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec update(String.t(), map, keyword) ::
-          {:ok, GitHub.Organization.Full.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Organization.full()} | {:error, GitHub.Error.t()}
   def update(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1412,7 +1411,7 @@ defmodule GitHub.Orgs do
       method: :patch,
       request: [{"application/json", :map}],
       response: [
-        {200, {GitHub.Organization.Full, :t}},
+        {200, {GitHub.Organization, :full}},
         {409, {GitHub.BasicError, :t}},
         {422, {:union, [{GitHub.ValidationError, :t}, {GitHub.ValidationError, :simple}]}}
       ],

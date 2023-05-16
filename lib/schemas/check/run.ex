@@ -17,7 +17,7 @@ defmodule GitHub.Check.Run do
           name: String.t(),
           node_id: String.t(),
           output: map,
-          pull_requests: [GitHub.PullRequest.Minimal.t()],
+          pull_requests: [GitHub.PullRequest.minimal()],
           started_at: String.t() | nil,
           status: String.t(),
           url: String.t()
@@ -62,7 +62,7 @@ defmodule GitHub.Check.Run do
       name: :string,
       node_id: :string,
       output: :map,
-      pull_requests: {:array, {GitHub.PullRequest.Minimal, :t}},
+      pull_requests: {:array, {GitHub.PullRequest, :minimal}},
       started_at: {:nullable, :string},
       status: :string,
       url: :string

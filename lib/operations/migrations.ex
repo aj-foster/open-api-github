@@ -353,7 +353,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec list_repos_for_authenticated_user(integer, keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Repository.minimal()]} | {:error, GitHub.Error.t()}
   def list_repos_for_authenticated_user(migration_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -364,7 +364,7 @@ defmodule GitHub.Migrations do
       url: "/user/migrations/#{migration_id}/repositories",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.MinimalRepository, :t}}}, {404, {GitHub.BasicError, :t}}],
+      response: [{200, {:array, {GitHub.Repository, :minimal}}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -383,7 +383,7 @@ defmodule GitHub.Migrations do
 
   """
   @spec list_repos_for_org(String.t(), integer, keyword) ::
-          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Repository.minimal()]} | {:error, GitHub.Error.t()}
   def list_repos_for_org(org, migration_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -394,7 +394,7 @@ defmodule GitHub.Migrations do
       url: "/orgs/#{org}/migrations/#{migration_id}/repositories",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.MinimalRepository, :t}}}, {404, {GitHub.BasicError, :t}}],
+      response: [{200, {:array, {GitHub.Repository, :minimal}}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
