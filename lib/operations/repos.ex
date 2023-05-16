@@ -53,7 +53,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :add_app_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/apps",
       body: body,
@@ -78,7 +78,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, username: username],
+      args: [owner: owner, repo: repo, username: username, body: body],
       call: {GitHub.Repos, :add_collaborator},
       url: "/repos/#{owner}/#{repo}/collaborators/#{username}",
       body: body,
@@ -108,7 +108,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :add_status_check_contexts},
       url:
         "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_status_checks/contexts",
@@ -144,7 +144,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :add_team_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/teams",
       body: body,
@@ -174,7 +174,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :add_user_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/users",
       body: body,
@@ -309,7 +309,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :create_autolink},
       url: "/repos/#{owner}/#{repo}/autolinks",
       body: body,
@@ -334,7 +334,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, commit_sha: commit_sha],
+      args: [owner: owner, repo: repo, commit_sha: commit_sha, body: body],
       call: {GitHub.Repos, :create_commit_comment},
       url: "/repos/#{owner}/#{repo}/commits/#{commit_sha}/comments",
       body: body,
@@ -389,7 +389,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, sha: sha],
+      args: [owner: owner, repo: repo, sha: sha, body: body],
       call: {GitHub.Repos, :create_commit_status},
       url: "/repos/#{owner}/#{repo}/statuses/#{sha}",
       body: body,
@@ -414,7 +414,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :create_deploy_key},
       url: "/repos/#{owner}/#{repo}/keys",
       body: body,
@@ -439,7 +439,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :create_deployment},
       url: "/repos/#{owner}/#{repo}/deployments",
       body: body,
@@ -474,7 +474,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, environment_name: environment_name],
+      args: [owner: owner, repo: repo, environment_name: environment_name, body: body],
       call: {GitHub.Repos, :create_deployment_branch_policy},
       url: "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment-branch-policies",
       body: body,
@@ -499,7 +499,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, environment_name: environment_name],
+      args: [owner: owner, repo: repo, environment_name: environment_name, body: body],
       call: {GitHub.Repos, :create_deployment_protection_rule},
       url: "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment_protection_rules",
       body: body,
@@ -524,7 +524,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, deployment_id: deployment_id],
+      args: [owner: owner, repo: repo, deployment_id: deployment_id, body: body],
       call: {GitHub.Repos, :create_deployment_status},
       url: "/repos/#{owner}/#{repo}/deployments/#{deployment_id}/statuses",
       body: body,
@@ -549,7 +549,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :create_dispatch_event},
       url: "/repos/#{owner}/#{repo}/dispatches",
       body: body,
@@ -574,6 +574,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Repos, :create_for_authenticated_user},
       url: "/user/repos",
       body: body,
@@ -606,7 +607,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :create_fork},
       url: "/repos/#{owner}/#{repo}/forks",
       body: body,
@@ -637,7 +638,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Repos, :create_in_org},
       url: "/orgs/#{org}/repos",
       body: body,
@@ -666,7 +667,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, environment_name: environment_name],
+      args: [owner: owner, repo: repo, environment_name: environment_name, body: body],
       call: {GitHub.Repos, :create_or_update_environment},
       url: "/repos/#{owner}/#{repo}/environments/#{environment_name}",
       body: body,
@@ -691,7 +692,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, path: path],
+      args: [owner: owner, repo: repo, path: path, body: body],
       call: {GitHub.Repos, :create_or_update_file_contents},
       url: "/repos/#{owner}/#{repo}/contents/#{path}",
       body: body,
@@ -722,7 +723,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Repos, :create_org_ruleset},
       url: "/orgs/#{org}/rulesets",
       body: body,
@@ -751,7 +752,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :create_pages_deployment},
       url: "/repos/#{owner}/#{repo}/pages/deployment",
       body: body,
@@ -781,7 +782,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :create_pages_site},
       url: "/repos/#{owner}/#{repo}/pages",
       body: body,
@@ -810,7 +811,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :create_release},
       url: "/repos/#{owner}/#{repo}/releases",
       body: body,
@@ -839,7 +840,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :create_repo_ruleset},
       url: "/repos/#{owner}/#{repo}/rulesets",
       body: body,
@@ -868,7 +869,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :create_tag_protection},
       url: "/repos/#{owner}/#{repo}/tags/protection",
       body: body,
@@ -897,7 +898,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [template_owner: template_owner, template_repo: template_repo],
+      args: [template_owner: template_owner, template_repo: template_repo, body: body],
       call: {GitHub.Repos, :create_using_template},
       url: "/repos/#{template_owner}/#{template_repo}/generate",
       body: body,
@@ -922,7 +923,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :create_webhook},
       url: "/repos/#{owner}/#{repo}/hooks",
       body: body,
@@ -1248,7 +1249,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, path: path],
+      args: [owner: owner, repo: repo, path: path, body: body],
       call: {GitHub.Repos, :delete_file},
       url: "/repos/#{owner}/#{repo}/contents/#{path}",
       body: body,
@@ -1707,7 +1708,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :generate_release_notes},
       url: "/repos/#{owner}/#{repo}/releases/generate-notes",
       body: body,
@@ -4186,7 +4187,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :merge},
       url: "/repos/#{owner}/#{repo}/merges",
       body: body,
@@ -4218,7 +4219,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :merge_upstream},
       url: "/repos/#{owner}/#{repo}/merge-upstream",
       body: body,
@@ -4293,7 +4294,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :remove_app_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/apps",
       body: body,
@@ -4346,7 +4347,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :remove_status_check_contexts},
       url:
         "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_status_checks/contexts",
@@ -4404,7 +4405,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :remove_team_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/teams",
       body: body,
@@ -4434,7 +4435,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :remove_user_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/users",
       body: body,
@@ -4459,7 +4460,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :rename_branch},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/rename",
       body: body,
@@ -4489,7 +4490,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :replace_all_topics},
       url: "/repos/#{owner}/#{repo}/topics",
       body: body,
@@ -4569,7 +4570,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :set_app_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/apps",
       body: body,
@@ -4594,7 +4595,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :set_status_check_contexts},
       url:
         "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_status_checks/contexts",
@@ -4629,7 +4630,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :set_team_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/teams",
       body: body,
@@ -4659,7 +4660,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :set_user_access_restrictions},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/restrictions/users",
       body: body,
@@ -4707,7 +4708,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :transfer},
       url: "/repos/#{owner}/#{repo}/transfer",
       body: body,
@@ -4732,7 +4733,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :update},
       url: "/repos/#{owner}/#{repo}",
       body: body,
@@ -4763,7 +4764,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :update_branch_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection",
       body: body,
@@ -4793,7 +4794,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, comment_id: comment_id],
+      args: [owner: owner, repo: repo, comment_id: comment_id, body: body],
       call: {GitHub.Repos, :update_commit_comment},
       url: "/repos/#{owner}/#{repo}/comments/#{comment_id}",
       body: body,
@@ -4835,7 +4836,8 @@ defmodule GitHub.Repos do
         owner: owner,
         repo: repo,
         environment_name: environment_name,
-        branch_policy_id: branch_policy_id
+        branch_policy_id: branch_policy_id,
+        body: body
       ],
       call: {GitHub.Repos, :update_deployment_branch_policy},
       url:
@@ -4862,7 +4864,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :update_information_about_pages_site},
       url: "/repos/#{owner}/#{repo}/pages",
       body: body,
@@ -4892,7 +4894,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, invitation_id: invitation_id],
+      args: [owner: owner, repo: repo, invitation_id: invitation_id, body: body],
       call: {GitHub.Repos, :update_invitation},
       url: "/repos/#{owner}/#{repo}/invitations/#{invitation_id}",
       body: body,
@@ -4917,7 +4919,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, ruleset_id: ruleset_id],
+      args: [org: org, ruleset_id: ruleset_id, body: body],
       call: {GitHub.Repos, :update_org_ruleset},
       url: "/orgs/#{org}/rulesets/#{ruleset_id}",
       body: body,
@@ -4946,7 +4948,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :update_pull_request_review_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_pull_request_reviews",
       body: body,
@@ -4974,7 +4976,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, release_id: release_id],
+      args: [owner: owner, repo: repo, release_id: release_id, body: body],
       call: {GitHub.Repos, :update_release},
       url: "/repos/#{owner}/#{repo}/releases/#{release_id}",
       body: body,
@@ -4999,7 +5001,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, asset_id: asset_id],
+      args: [owner: owner, repo: repo, asset_id: asset_id, body: body],
       call: {GitHub.Repos, :update_release_asset},
       url: "/repos/#{owner}/#{repo}/releases/assets/#{asset_id}",
       body: body,
@@ -5024,7 +5026,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, ruleset_id: ruleset_id],
+      args: [owner: owner, repo: repo, ruleset_id: ruleset_id, body: body],
       call: {GitHub.Repos, :update_repo_ruleset},
       url: "/repos/#{owner}/#{repo}/rulesets/#{ruleset_id}",
       body: body,
@@ -5053,7 +5055,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, branch: branch],
+      args: [owner: owner, repo: repo, branch: branch, body: body],
       call: {GitHub.Repos, :update_status_check_protection},
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection/required_status_checks",
       body: body,
@@ -5082,7 +5084,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, hook_id: hook_id],
+      args: [owner: owner, repo: repo, hook_id: hook_id, body: body],
       call: {GitHub.Repos, :update_webhook},
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}",
       body: body,
@@ -5111,7 +5113,7 @@ defmodule GitHub.Repos do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, hook_id: hook_id],
+      args: [owner: owner, repo: repo, hook_id: hook_id, body: body],
       call: {GitHub.Repos, :update_webhook_config_for_repo},
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}/config",
       body: body,
@@ -5142,7 +5144,7 @@ defmodule GitHub.Repos do
     query = Keyword.take(opts, [:label, :name])
 
     client.request(%{
-      args: [owner: owner, repo: repo, release_id: release_id],
+      args: [owner: owner, repo: repo, release_id: release_id, body: body],
       call: {GitHub.Repos, :upload_release_asset},
       url: "/repos/#{owner}/#{repo}/releases/#{release_id}/assets",
       body: body,

@@ -19,7 +19,7 @@ defmodule GitHub.Issues do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, issue_number: issue_number],
+      args: [owner: owner, repo: repo, issue_number: issue_number, body: body],
       call: {GitHub.Issues, :add_assignees},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/assignees",
       body: body,
@@ -49,7 +49,7 @@ defmodule GitHub.Issues do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, issue_number: issue_number],
+      args: [owner: owner, repo: repo, issue_number: issue_number, body: body],
       call: {GitHub.Issues, :add_labels},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/labels",
       body: body,
@@ -128,7 +128,7 @@ defmodule GitHub.Issues do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Issues, :create},
       url: "/repos/#{owner}/#{repo}/issues",
       body: body,
@@ -160,7 +160,7 @@ defmodule GitHub.Issues do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, issue_number: issue_number],
+      args: [owner: owner, repo: repo, issue_number: issue_number, body: body],
       call: {GitHub.Issues, :create_comment},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/comments",
       body: body,
@@ -191,7 +191,7 @@ defmodule GitHub.Issues do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Issues, :create_label},
       url: "/repos/#{owner}/#{repo}/labels",
       body: body,
@@ -220,7 +220,7 @@ defmodule GitHub.Issues do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Issues, :create_milestone},
       url: "/repos/#{owner}/#{repo}/milestones",
       body: body,
@@ -1050,7 +1050,7 @@ defmodule GitHub.Issues do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, issue_number: issue_number],
+      args: [owner: owner, repo: repo, issue_number: issue_number, body: body],
       call: {GitHub.Issues, :lock},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/lock",
       body: body,
@@ -1109,7 +1109,7 @@ defmodule GitHub.Issues do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, issue_number: issue_number],
+      args: [owner: owner, repo: repo, issue_number: issue_number, body: body],
       call: {GitHub.Issues, :remove_assignees},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/assignees",
       body: body,
@@ -1167,7 +1167,7 @@ defmodule GitHub.Issues do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, issue_number: issue_number],
+      args: [owner: owner, repo: repo, issue_number: issue_number, body: body],
       call: {GitHub.Issues, :set_labels},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/labels",
       body: body,
@@ -1222,7 +1222,7 @@ defmodule GitHub.Issues do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, issue_number: issue_number],
+      args: [owner: owner, repo: repo, issue_number: issue_number, body: body],
       call: {GitHub.Issues, :update},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}",
       body: body,
@@ -1255,7 +1255,7 @@ defmodule GitHub.Issues do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, comment_id: comment_id],
+      args: [owner: owner, repo: repo, comment_id: comment_id, body: body],
       call: {GitHub.Issues, :update_comment},
       url: "/repos/#{owner}/#{repo}/issues/comments/#{comment_id}",
       body: body,
@@ -1280,7 +1280,7 @@ defmodule GitHub.Issues do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, name: name],
+      args: [owner: owner, repo: repo, name: name, body: body],
       call: {GitHub.Issues, :update_label},
       url: "/repos/#{owner}/#{repo}/labels/#{name}",
       body: body,
@@ -1305,7 +1305,7 @@ defmodule GitHub.Issues do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, milestone_number: milestone_number],
+      args: [owner: owner, repo: repo, milestone_number: milestone_number, body: body],
       call: {GitHub.Issues, :update_milestone},
       url: "/repos/#{owner}/#{repo}/milestones/#{milestone_number}",
       body: body,

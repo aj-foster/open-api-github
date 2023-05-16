@@ -154,7 +154,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, username: username],
+      args: [org: org, username: username, body: body],
       call: {GitHub.Orgs, :convert_member_to_outside_collaborator},
       url: "/orgs/#{org}/outside_collaborators/#{username}",
       body: body,
@@ -179,7 +179,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Orgs, :create_invitation},
       url: "/orgs/#{org}/invitations",
       body: body,
@@ -208,7 +208,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Orgs, :create_webhook},
       url: "/orgs/#{org}/hooks",
       body: body,
@@ -1268,7 +1268,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, pat_request_id: pat_request_id],
+      args: [org: org, pat_request_id: pat_request_id, body: body],
       call: {GitHub.Orgs, :review_pat_grant_request},
       url: "/organizations/#{org}/personal-access-token-requests/#{pat_request_id}",
       body: body,
@@ -1299,7 +1299,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Orgs, :review_pat_grant_requests_in_bulk},
       url: "/organizations/#{org}/personal-access-token-requests",
       body: body,
@@ -1330,7 +1330,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, username: username],
+      args: [org: org, username: username, body: body],
       call: {GitHub.Orgs, :set_membership_for_user},
       url: "/orgs/#{org}/memberships/#{username}",
       body: body,
@@ -1404,7 +1404,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Orgs, :update},
       url: "/orgs/#{org}",
       body: body,
@@ -1433,7 +1433,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Orgs, :update_membership_for_authenticated_user},
       url: "/user/memberships/orgs/#{org}",
       body: body,
@@ -1462,7 +1462,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, pat_id: pat_id],
+      args: [org: org, pat_id: pat_id, body: body],
       call: {GitHub.Orgs, :update_pat_access},
       url: "/organizations/#{org}/personal-access-tokens/#{pat_id}",
       body: body,
@@ -1492,7 +1492,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Orgs, :update_pat_accesses},
       url: "/organizations/#{org}/personal-access-tokens",
       body: body,
@@ -1523,7 +1523,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, hook_id: hook_id],
+      args: [org: org, hook_id: hook_id, body: body],
       call: {GitHub.Orgs, :update_webhook},
       url: "/orgs/#{org}/hooks/#{hook_id}",
       body: body,
@@ -1552,7 +1552,7 @@ defmodule GitHub.Orgs do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, hook_id: hook_id],
+      args: [org: org, hook_id: hook_id, body: body],
       call: {GitHub.Orgs, :update_webhook_config_for_org},
       url: "/orgs/#{org}/hooks/#{hook_id}/config",
       body: body,

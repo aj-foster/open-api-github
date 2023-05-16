@@ -19,7 +19,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Git, :create_blob},
       url: "/repos/#{owner}/#{repo}/git/blobs",
       body: body,
@@ -50,7 +50,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Git, :create_commit},
       url: "/repos/#{owner}/#{repo}/git/commits",
       body: body,
@@ -79,7 +79,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Git, :create_ref},
       url: "/repos/#{owner}/#{repo}/git/refs",
       body: body,
@@ -104,7 +104,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Git, :create_tag},
       url: "/repos/#{owner}/#{repo}/git/tags",
       body: body,
@@ -129,7 +129,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Git, :create_tree},
       url: "/repos/#{owner}/#{repo}/git/trees",
       body: body,
@@ -335,7 +335,7 @@ defmodule GitHub.Git do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, ref: ref],
+      args: [owner: owner, repo: repo, ref: ref, body: body],
       call: {GitHub.Git, :update_ref},
       url: "/repos/#{owner}/#{repo}/git/refs/#{ref}",
       body: body,

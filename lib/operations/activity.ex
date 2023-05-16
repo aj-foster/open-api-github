@@ -750,6 +750,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Activity, :mark_notifications_as_read},
       url: "/notifications",
       body: body,
@@ -780,7 +781,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Activity, :mark_repo_notifications_as_read},
       url: "/repos/#{owner}/#{repo}/notifications",
       body: body,
@@ -827,7 +828,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Activity, :set_repo_subscription},
       url: "/repos/#{owner}/#{repo}/subscription",
       body: body,
@@ -852,7 +853,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [thread_id: thread_id],
+      args: [thread_id: thread_id, body: body],
       call: {GitHub.Activity, :set_thread_subscription},
       url: "/notifications/threads/#{thread_id}/subscription",
       body: body,

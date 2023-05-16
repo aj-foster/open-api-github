@@ -40,6 +40,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Gists, :create},
       url: "/gists",
       body: body,
@@ -70,7 +71,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [gist_id: gist_id],
+      args: [gist_id: gist_id, body: body],
       call: {GitHub.Gists, :create_comment},
       url: "/gists/#{gist_id}/comments",
       body: body,
@@ -556,7 +557,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [gist_id: gist_id],
+      args: [gist_id: gist_id, body: body],
       call: {GitHub.Gists, :update},
       url: "/gists/#{gist_id}",
       body: body,
@@ -585,7 +586,7 @@ defmodule GitHub.Gists do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [gist_id: gist_id, comment_id: comment_id],
+      args: [gist_id: gist_id, comment_id: comment_id, body: body],
       call: {GitHub.Gists, :update_comment},
       url: "/gists/#{gist_id}/comments/#{comment_id}",
       body: body,

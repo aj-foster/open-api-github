@@ -19,7 +19,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, comment_id: comment_id],
+      args: [owner: owner, repo: repo, comment_id: comment_id, body: body],
       call: {GitHub.Reactions, :create_for_commit_comment},
       url: "/repos/#{owner}/#{repo}/comments/#{comment_id}/reactions",
       body: body,
@@ -48,7 +48,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, issue_number: issue_number],
+      args: [owner: owner, repo: repo, issue_number: issue_number, body: body],
       call: {GitHub.Reactions, :create_for_issue},
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/reactions",
       body: body,
@@ -77,7 +77,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, comment_id: comment_id],
+      args: [owner: owner, repo: repo, comment_id: comment_id, body: body],
       call: {GitHub.Reactions, :create_for_issue_comment},
       url: "/repos/#{owner}/#{repo}/issues/comments/#{comment_id}/reactions",
       body: body,
@@ -106,7 +106,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, comment_id: comment_id],
+      args: [owner: owner, repo: repo, comment_id: comment_id, body: body],
       call: {GitHub.Reactions, :create_for_pull_request_review_comment},
       url: "/repos/#{owner}/#{repo}/pulls/comments/#{comment_id}/reactions",
       body: body,
@@ -135,7 +135,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, release_id: release_id],
+      args: [owner: owner, repo: repo, release_id: release_id, body: body],
       call: {GitHub.Reactions, :create_for_release},
       url: "/repos/#{owner}/#{repo}/releases/#{release_id}/reactions",
       body: body,
@@ -181,7 +181,8 @@ defmodule GitHub.Reactions do
         org: org,
         team_slug: team_slug,
         discussion_number: discussion_number,
-        comment_number: comment_number
+        comment_number: comment_number,
+        body: body
       ],
       call: {GitHub.Reactions, :create_for_team_discussion_comment_in_org},
       url:
@@ -217,7 +218,8 @@ defmodule GitHub.Reactions do
       args: [
         team_id: team_id,
         discussion_number: discussion_number,
-        comment_number: comment_number
+        comment_number: comment_number,
+        body: body
       ],
       call: {GitHub.Reactions, :create_for_team_discussion_comment_legacy},
       url:
@@ -244,7 +246,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, team_slug: team_slug, discussion_number: discussion_number],
+      args: [org: org, team_slug: team_slug, discussion_number: discussion_number, body: body],
       call: {GitHub.Reactions, :create_for_team_discussion_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/reactions",
       body: body,
@@ -269,7 +271,7 @@ defmodule GitHub.Reactions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [team_id: team_id, discussion_number: discussion_number],
+      args: [team_id: team_id, discussion_number: discussion_number, body: body],
       call: {GitHub.Reactions, :create_for_team_discussion_legacy},
       url: "/teams/#{team_id}/discussions/#{discussion_number}/reactions",
       body: body,

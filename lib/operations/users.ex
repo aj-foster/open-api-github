@@ -19,6 +19,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Users, :add_email_for_authenticated_user},
       url: "/user/emails",
       body: body,
@@ -50,6 +51,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Users, :add_social_account_for_authenticated_user},
       url: "/user/social_accounts",
       body: body,
@@ -190,6 +192,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Users, :create_gpg_key_for_authenticated_user},
       url: "/user/gpg_keys",
       body: body,
@@ -221,6 +224,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Users, :create_public_ssh_key_for_authenticated_user},
       url: "/user/keys",
       body: body,
@@ -252,6 +256,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Users, :create_ssh_signing_key_for_authenticated_user},
       url: "/user/ssh_signing_keys",
       body: body,
@@ -283,6 +288,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Users, :delete_email_for_authenticated_user},
       url: "/user/emails",
       body: body,
@@ -373,6 +379,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Users, :delete_social_account_for_authenticated_user},
       url: "/user/social_accounts",
       body: body,
@@ -1156,6 +1163,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Users, :set_primary_email_visibility_for_authenticated_user},
       url: "/user/email/visibility",
       body: body,
@@ -1243,6 +1251,7 @@ defmodule GitHub.Users do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Users, :update_authenticated},
       url: "/user",
       body: body,

@@ -106,6 +106,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Codespaces, :create_for_authenticated_user},
       url: "/user/codespaces",
       body: body,
@@ -137,7 +138,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, secret_name: secret_name],
+      args: [org: org, secret_name: secret_name, body: body],
       call: {GitHub.Codespaces, :create_or_update_org_secret},
       url: "/orgs/#{org}/codespaces/secrets/#{secret_name}",
       body: body,
@@ -167,7 +168,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, secret_name: secret_name],
+      args: [owner: owner, repo: repo, secret_name: secret_name, body: body],
       call: {GitHub.Codespaces, :create_or_update_repo_secret},
       url: "/repos/#{owner}/#{repo}/codespaces/secrets/#{secret_name}",
       body: body,
@@ -192,7 +193,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [secret_name: secret_name],
+      args: [secret_name: secret_name, body: body],
       call: {GitHub.Codespaces, :create_or_update_secret_for_authenticated_user},
       url: "/user/codespaces/secrets/#{secret_name}",
       body: body,
@@ -222,7 +223,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, pull_number: pull_number],
+      args: [owner: owner, repo: repo, pull_number: pull_number, body: body],
       call: {GitHub.Codespaces, :create_with_pr_for_authenticated_user},
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/codespaces",
       body: body,
@@ -254,7 +255,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Codespaces, :create_with_repo_for_authenticated_user},
       url: "/repos/#{owner}/#{repo}/codespaces",
       body: body,
@@ -287,7 +288,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Codespaces, :delete_codespaces_billing_users},
       url: "/orgs/#{org}/codespaces/billing/selected_users",
       body: body,
@@ -1030,7 +1031,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [codespace_name: codespace_name],
+      args: [codespace_name: codespace_name, body: body],
       call: {GitHub.Codespaces, :publish_for_authenticated_user},
       url: "/user/codespaces/#{codespace_name}/publish",
       body: body,
@@ -1154,7 +1155,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Codespaces, :set_codespaces_billing},
       url: "/orgs/#{org}/codespaces/billing",
       body: body,
@@ -1185,7 +1186,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Codespaces, :set_codespaces_billing_users},
       url: "/orgs/#{org}/codespaces/billing/selected_users",
       body: body,
@@ -1217,7 +1218,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [secret_name: secret_name],
+      args: [secret_name: secret_name, body: body],
       call: {GitHub.Codespaces, :set_repositories_for_secret_for_authenticated_user},
       url: "/user/codespaces/secrets/#{secret_name}/repositories",
       body: body,
@@ -1248,7 +1249,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, secret_name: secret_name],
+      args: [org: org, secret_name: secret_name, body: body],
       call: {GitHub.Codespaces, :set_selected_repos_for_org_secret},
       url: "/orgs/#{org}/codespaces/secrets/#{secret_name}/repositories",
       body: body,
@@ -1365,7 +1366,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [codespace_name: codespace_name],
+      args: [codespace_name: codespace_name, body: body],
       call: {GitHub.Codespaces, :update_for_authenticated_user},
       url: "/user/codespaces/#{codespace_name}",
       body: body,

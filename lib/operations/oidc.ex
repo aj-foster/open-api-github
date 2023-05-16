@@ -42,7 +42,7 @@ defmodule GitHub.Oidc do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Oidc, :update_oidc_custom_sub_template_for_org},
       url: "/orgs/#{org}/actions/oidc/customization/sub",
       body: body,

@@ -23,7 +23,7 @@ defmodule GitHub.SecurityAdvisories do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.SecurityAdvisories, :create_private_vulnerability_report},
       url: "/repos/#{owner}/#{repo}/security-advisories/reports",
       body: body,
@@ -57,7 +57,7 @@ defmodule GitHub.SecurityAdvisories do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.SecurityAdvisories, :create_repository_advisory},
       url: "/repos/#{owner}/#{repo}/security-advisories",
       body: body,
@@ -157,7 +157,7 @@ defmodule GitHub.SecurityAdvisories do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, ghsa_id: ghsa_id],
+      args: [owner: owner, repo: repo, ghsa_id: ghsa_id, body: body],
       call: {GitHub.SecurityAdvisories, :update_repository_advisory},
       url: "/repos/#{owner}/#{repo}/security-advisories/#{ghsa_id}",
       body: body,

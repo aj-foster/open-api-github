@@ -19,7 +19,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, runner_id: runner_id],
+      args: [org: org, runner_id: runner_id, body: body],
       call: {GitHub.Actions, :add_custom_labels_to_self_hosted_runner_for_org},
       url: "/orgs/#{org}/actions/runners/#{runner_id}/labels",
       body: body,
@@ -53,7 +53,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, runner_id: runner_id],
+      args: [owner: owner, repo: repo, runner_id: runner_id, body: body],
       call: {GitHub.Actions, :add_custom_labels_to_self_hosted_runner_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels",
       body: body,
@@ -202,7 +202,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [repository_id: repository_id, environment_name: environment_name],
+      args: [repository_id: repository_id, environment_name: environment_name, body: body],
       call: {GitHub.Actions, :create_environment_variable},
       url: "/repositories/#{repository_id}/environments/#{environment_name}/variables",
       body: body,
@@ -236,7 +236,8 @@ defmodule GitHub.Actions do
       args: [
         repository_id: repository_id,
         environment_name: environment_name,
-        secret_name: secret_name
+        secret_name: secret_name,
+        body: body
       ],
       call: {GitHub.Actions, :create_or_update_environment_secret},
       url:
@@ -263,7 +264,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, secret_name: secret_name],
+      args: [org: org, secret_name: secret_name, body: body],
       call: {GitHub.Actions, :create_or_update_org_secret},
       url: "/orgs/#{org}/actions/secrets/#{secret_name}",
       body: body,
@@ -288,7 +289,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, secret_name: secret_name],
+      args: [owner: owner, repo: repo, secret_name: secret_name, body: body],
       call: {GitHub.Actions, :create_or_update_repo_secret},
       url: "/repos/#{owner}/#{repo}/actions/secrets/#{secret_name}",
       body: body,
@@ -313,7 +314,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Actions, :create_org_variable},
       url: "/orgs/#{org}/actions/variables",
       body: body,
@@ -430,7 +431,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Actions, :create_repo_variable},
       url: "/repos/#{owner}/#{repo}/actions/variables",
       body: body,
@@ -455,7 +456,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Actions, :create_required_workflow},
       url: "/orgs/#{org}/actions/required_workflows",
       body: body,
@@ -480,7 +481,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, workflow_id: workflow_id],
+      args: [owner: owner, repo: repo, workflow_id: workflow_id, body: body],
       call: {GitHub.Actions, :create_workflow_dispatch},
       url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/dispatches",
       body: body,
@@ -2740,7 +2741,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, job_id: job_id],
+      args: [owner: owner, repo: repo, job_id: job_id, body: body],
       call: {GitHub.Actions, :re_run_job_for_workflow_run},
       url: "/repos/#{owner}/#{repo}/actions/jobs/#{job_id}/rerun",
       body: body,
@@ -2765,7 +2766,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, run_id: run_id],
+      args: [owner: owner, repo: repo, run_id: run_id, body: body],
       call: {GitHub.Actions, :re_run_workflow},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/rerun",
       body: body,
@@ -2790,7 +2791,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, run_id: run_id],
+      args: [owner: owner, repo: repo, run_id: run_id, body: body],
       call: {GitHub.Actions, :re_run_workflow_failed_jobs},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/rerun-failed-jobs",
       body: body,
@@ -3020,7 +3021,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, run_id: run_id],
+      args: [owner: owner, repo: repo, run_id: run_id, body: body],
       call: {GitHub.Actions, :review_custom_gates_for_run},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/deployment_protection_rule",
       body: body,
@@ -3052,7 +3053,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, run_id: run_id],
+      args: [owner: owner, repo: repo, run_id: run_id, body: body],
       call: {GitHub.Actions, :review_pending_deployments_for_run},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/pending_deployments",
       body: body,
@@ -3077,7 +3078,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Actions, :set_allowed_actions_organization},
       url: "/orgs/#{org}/actions/permissions/selected-actions",
       body: body,
@@ -3106,7 +3107,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Actions, :set_allowed_actions_repository},
       url: "/repos/#{owner}/#{repo}/actions/permissions/selected-actions",
       body: body,
@@ -3131,7 +3132,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, runner_id: runner_id],
+      args: [org: org, runner_id: runner_id, body: body],
       call: {GitHub.Actions, :set_custom_labels_for_self_hosted_runner_for_org},
       url: "/orgs/#{org}/actions/runners/#{runner_id}/labels",
       body: body,
@@ -3165,7 +3166,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, runner_id: runner_id],
+      args: [owner: owner, repo: repo, runner_id: runner_id, body: body],
       call: {GitHub.Actions, :set_custom_labels_for_self_hosted_runner_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels",
       body: body,
@@ -3194,7 +3195,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Actions, :set_custom_oidc_sub_claim_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/oidc/customization/sub",
       body: body,
@@ -3227,7 +3228,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Actions, :set_github_actions_default_workflow_permissions_organization},
       url: "/orgs/#{org}/actions/permissions/workflow",
       body: body,
@@ -3256,7 +3257,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Actions, :set_github_actions_default_workflow_permissions_repository},
       url: "/repos/#{owner}/#{repo}/actions/permissions/workflow",
       body: body,
@@ -3281,7 +3282,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Actions, :set_github_actions_permissions_organization},
       url: "/orgs/#{org}/actions/permissions",
       body: body,
@@ -3306,7 +3307,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Actions, :set_github_actions_permissions_repository},
       url: "/repos/#{owner}/#{repo}/actions/permissions",
       body: body,
@@ -3331,7 +3332,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, secret_name: secret_name],
+      args: [org: org, secret_name: secret_name, body: body],
       call: {GitHub.Actions, :set_selected_repos_for_org_secret},
       url: "/orgs/#{org}/actions/secrets/#{secret_name}/repositories",
       body: body,
@@ -3356,7 +3357,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, name: name],
+      args: [org: org, name: name, body: body],
       call: {GitHub.Actions, :set_selected_repos_for_org_variable},
       url: "/orgs/#{org}/actions/variables/#{name}/repositories",
       body: body,
@@ -3381,7 +3382,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, required_workflow_id: required_workflow_id],
+      args: [org: org, required_workflow_id: required_workflow_id, body: body],
       call: {GitHub.Actions, :set_selected_repos_to_required_workflow},
       url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}/repositories",
       body: body,
@@ -3406,7 +3407,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Actions, :set_selected_repositories_enabled_github_actions_organization},
       url: "/orgs/#{org}/actions/permissions/repositories",
       body: body,
@@ -3435,7 +3436,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Actions, :set_workflow_access_to_repository},
       url: "/repos/#{owner}/#{repo}/actions/permissions/access",
       body: body,
@@ -3460,7 +3461,12 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [repository_id: repository_id, environment_name: environment_name, name: name],
+      args: [
+        repository_id: repository_id,
+        environment_name: environment_name,
+        name: name,
+        body: body
+      ],
       call: {GitHub.Actions, :update_environment_variable},
       url: "/repositories/#{repository_id}/environments/#{environment_name}/variables/#{name}",
       body: body,
@@ -3485,7 +3491,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, name: name],
+      args: [org: org, name: name, body: body],
       call: {GitHub.Actions, :update_org_variable},
       url: "/orgs/#{org}/actions/variables/#{name}",
       body: body,
@@ -3510,7 +3516,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, name: name],
+      args: [owner: owner, repo: repo, name: name, body: body],
       call: {GitHub.Actions, :update_repo_variable},
       url: "/repos/#{owner}/#{repo}/actions/variables/#{name}",
       body: body,
@@ -3535,7 +3541,7 @@ defmodule GitHub.Actions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, required_workflow_id: required_workflow_id],
+      args: [org: org, required_workflow_id: required_workflow_id, body: body],
       call: {GitHub.Actions, :update_required_workflow},
       url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}",
       body: body,

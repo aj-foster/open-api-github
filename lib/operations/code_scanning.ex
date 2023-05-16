@@ -422,7 +422,7 @@ defmodule GitHub.CodeScanning do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, alert_number: alert_number],
+      args: [owner: owner, repo: repo, alert_number: alert_number, body: body],
       call: {GitHub.CodeScanning, :update_alert},
       url: "/repos/#{owner}/#{repo}/code-scanning/alerts/#{alert_number}",
       body: body,
@@ -458,7 +458,7 @@ defmodule GitHub.CodeScanning do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.CodeScanning, :update_default_setup},
       url: "/repos/#{owner}/#{repo}/code-scanning/default-setup",
       body: body,
@@ -490,7 +490,7 @@ defmodule GitHub.CodeScanning do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.CodeScanning, :upload_sarif},
       url: "/repos/#{owner}/#{repo}/code-scanning/sarifs",
       body: body,

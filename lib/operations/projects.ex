@@ -19,7 +19,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [project_id: project_id, username: username],
+      args: [project_id: project_id, username: username, body: body],
       call: {GitHub.Projects, :add_collaborator},
       url: "/projects/#{project_id}/collaborators/#{username}",
       body: body,
@@ -51,7 +51,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [column_id: column_id],
+      args: [column_id: column_id, body: body],
       call: {GitHub.Projects, :create_card},
       url: "/projects/columns/#{column_id}/cards",
       body: body,
@@ -83,7 +83,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [project_id: project_id],
+      args: [project_id: project_id, body: body],
       call: {GitHub.Projects, :create_column},
       url: "/projects/#{project_id}/columns",
       body: body,
@@ -114,6 +114,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Projects, :create_for_authenticated_user},
       url: "/user/projects",
       body: body,
@@ -144,7 +145,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Projects, :create_for_org},
       url: "/orgs/#{org}/projects",
       body: body,
@@ -176,7 +177,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Projects, :create_for_repo},
       url: "/repos/#{owner}/#{repo}/projects",
       body: body,
@@ -614,7 +615,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [card_id: card_id],
+      args: [card_id: card_id, body: body],
       call: {GitHub.Projects, :move_card},
       url: "/projects/columns/cards/#{card_id}/moves",
       body: body,
@@ -645,7 +646,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [column_id: column_id],
+      args: [column_id: column_id, body: body],
       call: {GitHub.Projects, :move_column},
       url: "/projects/columns/#{column_id}/moves",
       body: body,
@@ -704,7 +705,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [project_id: project_id],
+      args: [project_id: project_id, body: body],
       call: {GitHub.Projects, :update},
       url: "/projects/#{project_id}",
       body: body,
@@ -737,7 +738,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [card_id: card_id],
+      args: [card_id: card_id, body: body],
       call: {GitHub.Projects, :update_card},
       url: "/projects/columns/cards/#{card_id}",
       body: body,
@@ -769,7 +770,7 @@ defmodule GitHub.Projects do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [column_id: column_id],
+      args: [column_id: column_id, body: body],
       call: {GitHub.Projects, :update_column},
       url: "/projects/columns/#{column_id}",
       body: body,

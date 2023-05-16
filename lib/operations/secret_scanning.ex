@@ -231,7 +231,7 @@ defmodule GitHub.SecretScanning do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, alert_number: alert_number],
+      args: [owner: owner, repo: repo, alert_number: alert_number, body: body],
       call: {GitHub.SecretScanning, :update_alert},
       url: "/repos/#{owner}/#{repo}/secret-scanning/alerts/#{alert_number}",
       body: body,

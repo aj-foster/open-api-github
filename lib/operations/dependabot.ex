@@ -42,7 +42,7 @@ defmodule GitHub.Dependabot do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, secret_name: secret_name],
+      args: [org: org, secret_name: secret_name, body: body],
       call: {GitHub.Dependabot, :create_or_update_org_secret},
       url: "/orgs/#{org}/dependabot/secrets/#{secret_name}",
       body: body,
@@ -67,7 +67,7 @@ defmodule GitHub.Dependabot do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, secret_name: secret_name],
+      args: [owner: owner, repo: repo, secret_name: secret_name, body: body],
       call: {GitHub.Dependabot, :create_or_update_repo_secret},
       url: "/repos/#{owner}/#{repo}/dependabot/secrets/#{secret_name}",
       body: body,
@@ -594,7 +594,7 @@ defmodule GitHub.Dependabot do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, secret_name: secret_name],
+      args: [org: org, secret_name: secret_name, body: body],
       call: {GitHub.Dependabot, :set_selected_repos_for_org_secret},
       url: "/orgs/#{org}/dependabot/secrets/#{secret_name}/repositories",
       body: body,
@@ -619,7 +619,7 @@ defmodule GitHub.Dependabot do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, alert_number: alert_number],
+      args: [owner: owner, repo: repo, alert_number: alert_number, body: body],
       call: {GitHub.Dependabot, :update_alert},
       url: "/repos/#{owner}/#{repo}/dependabot/alerts/#{alert_number}",
       body: body,

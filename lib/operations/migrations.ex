@@ -413,7 +413,7 @@ defmodule GitHub.Migrations do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, author_id: author_id],
+      args: [owner: owner, repo: repo, author_id: author_id, body: body],
       call: {GitHub.Migrations, :map_commit_author},
       url: "/repos/#{owner}/#{repo}/import/authors/#{author_id}",
       body: body,
@@ -443,7 +443,7 @@ defmodule GitHub.Migrations do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Migrations, :set_lfs_preference},
       url: "/repos/#{owner}/#{repo}/import/lfs",
       body: body,
@@ -472,6 +472,7 @@ defmodule GitHub.Migrations do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Migrations, :start_for_authenticated_user},
       url: "/user/migrations",
       body: body,
@@ -502,7 +503,7 @@ defmodule GitHub.Migrations do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Migrations, :start_for_org},
       url: "/orgs/#{org}/migrations",
       body: body,
@@ -531,7 +532,7 @@ defmodule GitHub.Migrations do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Migrations, :start_import},
       url: "/repos/#{owner}/#{repo}/import",
       body: body,
@@ -613,7 +614,7 @@ defmodule GitHub.Migrations do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Migrations, :update_import},
       url: "/repos/#{owner}/#{repo}/import",
       body: body,

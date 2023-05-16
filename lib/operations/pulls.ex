@@ -42,7 +42,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Pulls, :create},
       url: "/repos/#{owner}/#{repo}/pulls",
       body: body,
@@ -71,7 +71,13 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, pull_number: pull_number, comment_id: comment_id],
+      args: [
+        owner: owner,
+        repo: repo,
+        pull_number: pull_number,
+        comment_id: comment_id,
+        body: body
+      ],
       call: {GitHub.Pulls, :create_reply_for_review_comment},
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/comments/#{comment_id}/replies",
       body: body,
@@ -96,7 +102,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, pull_number: pull_number],
+      args: [owner: owner, repo: repo, pull_number: pull_number, body: body],
       call: {GitHub.Pulls, :create_review},
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews",
       body: body,
@@ -125,7 +131,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, pull_number: pull_number],
+      args: [owner: owner, repo: repo, pull_number: pull_number, body: body],
       call: {GitHub.Pulls, :create_review_comment},
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/comments",
       body: body,
@@ -204,7 +210,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, pull_number: pull_number, review_id: review_id],
+      args: [owner: owner, repo: repo, pull_number: pull_number, review_id: review_id, body: body],
       call: {GitHub.Pulls, :dismiss_review},
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews/#{review_id}/dismissals",
       body: body,
@@ -561,7 +567,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, pull_number: pull_number],
+      args: [owner: owner, repo: repo, pull_number: pull_number, body: body],
       call: {GitHub.Pulls, :merge},
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/merge",
       body: body,
@@ -593,7 +599,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, pull_number: pull_number],
+      args: [owner: owner, repo: repo, pull_number: pull_number, body: body],
       call: {GitHub.Pulls, :remove_requested_reviewers},
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/requested_reviewers",
       body: body,
@@ -618,7 +624,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, pull_number: pull_number],
+      args: [owner: owner, repo: repo, pull_number: pull_number, body: body],
       call: {GitHub.Pulls, :request_reviewers},
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/requested_reviewers",
       body: body,
@@ -643,7 +649,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, pull_number: pull_number, review_id: review_id],
+      args: [owner: owner, repo: repo, pull_number: pull_number, review_id: review_id, body: body],
       call: {GitHub.Pulls, :submit_review},
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews/#{review_id}/events",
       body: body,
@@ -673,7 +679,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, pull_number: pull_number],
+      args: [owner: owner, repo: repo, pull_number: pull_number, body: body],
       call: {GitHub.Pulls, :update},
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}",
       body: body,
@@ -702,7 +708,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, pull_number: pull_number],
+      args: [owner: owner, repo: repo, pull_number: pull_number, body: body],
       call: {GitHub.Pulls, :update_branch},
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/update-branch",
       body: body,
@@ -727,7 +733,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, pull_number: pull_number, review_id: review_id],
+      args: [owner: owner, repo: repo, pull_number: pull_number, review_id: review_id, body: body],
       call: {GitHub.Pulls, :update_review},
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/reviews/#{review_id}",
       body: body,
@@ -752,7 +758,7 @@ defmodule GitHub.Pulls do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, comment_id: comment_id],
+      args: [owner: owner, repo: repo, comment_id: comment_id, body: body],
       call: {GitHub.Pulls, :update_review_comment},
       url: "/repos/#{owner}/#{repo}/pulls/comments/#{comment_id}",
       body: body,

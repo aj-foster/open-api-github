@@ -47,7 +47,7 @@ defmodule GitHub.Apps do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [client_id: client_id],
+      args: [client_id: client_id, body: body],
       call: {GitHub.Apps, :check_token},
       url: "/applications/#{client_id}/token",
       body: body,
@@ -102,7 +102,7 @@ defmodule GitHub.Apps do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [installation_id: installation_id],
+      args: [installation_id: installation_id, body: body],
       call: {GitHub.Apps, :create_installation_access_token},
       url: "/app/installations/#{installation_id}/access_tokens",
       body: body,
@@ -132,7 +132,7 @@ defmodule GitHub.Apps do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [client_id: client_id],
+      args: [client_id: client_id, body: body],
       call: {GitHub.Apps, :delete_authorization},
       url: "/applications/#{client_id}/grant",
       body: body,
@@ -178,7 +178,7 @@ defmodule GitHub.Apps do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [client_id: client_id],
+      args: [client_id: client_id, body: body],
       call: {GitHub.Apps, :delete_token},
       url: "/applications/#{client_id}/token",
       body: body,
@@ -907,7 +907,7 @@ defmodule GitHub.Apps do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [client_id: client_id],
+      args: [client_id: client_id, body: body],
       call: {GitHub.Apps, :reset_token},
       url: "/applications/#{client_id}/token",
       body: body,
@@ -953,7 +953,7 @@ defmodule GitHub.Apps do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [client_id: client_id],
+      args: [client_id: client_id, body: body],
       call: {GitHub.Apps, :scope_token},
       url: "/applications/#{client_id}/token/scoped",
       body: body,
@@ -1028,6 +1028,7 @@ defmodule GitHub.Apps do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Apps, :update_webhook_config_for_app},
       url: "/app/hook/config",
       body: body,

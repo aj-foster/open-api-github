@@ -19,7 +19,7 @@ defmodule GitHub.DependencyGraph do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.DependencyGraph, :create_repository_snapshot},
       url: "/repos/#{owner}/#{repo}/dependency-graph/snapshots",
       body: body,

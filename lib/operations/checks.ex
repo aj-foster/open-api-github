@@ -19,7 +19,7 @@ defmodule GitHub.Checks do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Checks, :create},
       url: "/repos/#{owner}/#{repo}/check-runs",
       body: body,
@@ -44,7 +44,7 @@ defmodule GitHub.Checks do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Checks, :create_suite},
       url: "/repos/#{owner}/#{repo}/check-suites",
       body: body,
@@ -295,7 +295,7 @@ defmodule GitHub.Checks do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Checks, :set_suites_preferences},
       url: "/repos/#{owner}/#{repo}/check-suites/preferences",
       body: body,
@@ -320,7 +320,7 @@ defmodule GitHub.Checks do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo, check_run_id: check_run_id],
+      args: [owner: owner, repo: repo, check_run_id: check_run_id, body: body],
       call: {GitHub.Checks, :update},
       url: "/repos/#{owner}/#{repo}/check-runs/#{check_run_id}",
       body: body,

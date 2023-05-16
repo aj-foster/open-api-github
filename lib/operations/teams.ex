@@ -41,7 +41,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, team_slug: team_slug, username: username],
+      args: [org: org, team_slug: team_slug, username: username, body: body],
       call: {GitHub.Teams, :add_or_update_membership_for_user_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/memberships/#{username}",
       body: body,
@@ -66,7 +66,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [team_id: team_id, username: username],
+      args: [team_id: team_id, username: username, body: body],
       call: {GitHub.Teams, :add_or_update_membership_for_user_legacy},
       url: "/teams/#{team_id}/memberships/#{username}",
       body: body,
@@ -101,7 +101,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, team_slug: team_slug, project_id: project_id],
+      args: [org: org, team_slug: team_slug, project_id: project_id, body: body],
       call: {GitHub.Teams, :add_or_update_project_permissions_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/projects/#{project_id}",
       body: body,
@@ -126,7 +126,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [team_id: team_id, project_id: project_id],
+      args: [team_id: team_id, project_id: project_id, body: body],
       call: {GitHub.Teams, :add_or_update_project_permissions_legacy},
       url: "/teams/#{team_id}/projects/#{project_id}",
       body: body,
@@ -162,7 +162,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, team_slug: team_slug, owner: owner, repo: repo],
+      args: [org: org, team_slug: team_slug, owner: owner, repo: repo, body: body],
       call: {GitHub.Teams, :add_or_update_repo_permissions_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/repos/#{owner}/#{repo}",
       body: body,
@@ -187,7 +187,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [team_id: team_id, owner: owner, repo: repo],
+      args: [team_id: team_id, owner: owner, repo: repo, body: body],
       call: {GitHub.Teams, :add_or_update_repo_permissions_legacy},
       url: "/teams/#{team_id}/repos/#{owner}/#{repo}",
       body: body,
@@ -303,7 +303,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Teams, :create},
       url: "/orgs/#{org}/teams",
       body: body,
@@ -332,7 +332,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, team_slug: team_slug, discussion_number: discussion_number],
+      args: [org: org, team_slug: team_slug, discussion_number: discussion_number, body: body],
       call: {GitHub.Teams, :create_discussion_comment_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments",
       body: body,
@@ -357,7 +357,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [team_id: team_id, discussion_number: discussion_number],
+      args: [team_id: team_id, discussion_number: discussion_number, body: body],
       call: {GitHub.Teams, :create_discussion_comment_legacy},
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments",
       body: body,
@@ -382,7 +382,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, team_slug: team_slug],
+      args: [org: org, team_slug: team_slug, body: body],
       call: {GitHub.Teams, :create_discussion_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/discussions",
       body: body,
@@ -407,7 +407,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [team_id: team_id],
+      args: [team_id: team_id, body: body],
       call: {GitHub.Teams, :create_discussion_legacy},
       url: "/teams/#{team_id}/discussions",
       body: body,
@@ -1463,7 +1463,8 @@ defmodule GitHub.Teams do
         org: org,
         team_slug: team_slug,
         discussion_number: discussion_number,
-        comment_number: comment_number
+        comment_number: comment_number,
+        body: body
       ],
       call: {GitHub.Teams, :update_discussion_comment_in_org},
       url:
@@ -1499,7 +1500,8 @@ defmodule GitHub.Teams do
       args: [
         team_id: team_id,
         discussion_number: discussion_number,
-        comment_number: comment_number
+        comment_number: comment_number,
+        body: body
       ],
       call: {GitHub.Teams, :update_discussion_comment_legacy},
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments/#{comment_number}",
@@ -1525,7 +1527,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, team_slug: team_slug, discussion_number: discussion_number],
+      args: [org: org, team_slug: team_slug, discussion_number: discussion_number, body: body],
       call: {GitHub.Teams, :update_discussion_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}",
       body: body,
@@ -1550,7 +1552,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [team_id: team_id, discussion_number: discussion_number],
+      args: [team_id: team_id, discussion_number: discussion_number, body: body],
       call: {GitHub.Teams, :update_discussion_legacy},
       url: "/teams/#{team_id}/discussions/#{discussion_number}",
       body: body,
@@ -1575,7 +1577,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, team_slug: team_slug],
+      args: [org: org, team_slug: team_slug, body: body],
       call: {GitHub.Teams, :update_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}",
       body: body,
@@ -1606,7 +1608,7 @@ defmodule GitHub.Teams do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [team_id: team_id],
+      args: [team_id: team_id, body: body],
       call: {GitHub.Teams, :update_legacy},
       url: "/teams/#{team_id}",
       body: body,

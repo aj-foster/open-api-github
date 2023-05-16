@@ -153,6 +153,7 @@ defmodule GitHub.Interactions do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [body: body],
       call: {GitHub.Interactions, :set_restrictions_for_authenticated_user},
       url: "/user/interaction-limits",
       body: body,
@@ -180,7 +181,7 @@ defmodule GitHub.Interactions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org],
+      args: [org: org, body: body],
       call: {GitHub.Interactions, :set_restrictions_for_org},
       url: "/orgs/#{org}/interaction-limits",
       body: body,
@@ -208,7 +209,7 @@ defmodule GitHub.Interactions do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [owner: owner, repo: repo],
+      args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Interactions, :set_restrictions_for_repo},
       url: "/repos/#{owner}/#{repo}/interaction-limits",
       body: body,
