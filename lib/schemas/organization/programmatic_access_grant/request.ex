@@ -1,4 +1,4 @@
-defmodule GitHub.Organization.ProgrammaticAccessGrantRequest do
+defmodule GitHub.Organization.ProgrammaticAccessGrant.Request do
   @moduledoc """
   Provides struct and type for OrganizationProgrammaticAccessGrantRequest
   """

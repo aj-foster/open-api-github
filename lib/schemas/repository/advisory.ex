@@ -8,7 +8,7 @@ defmodule GitHub.Repository.Advisory do
           closed_at: String.t() | nil,
           created_at: String.t() | nil,
           credits: [map] | nil,
-          credits_detailed: [GitHub.Repository.AdvisoryCredit.t()] | nil,
+          credits_detailed: [GitHub.Repository.Advisory.Credit.t()] | nil,
           cve_id: String.t() | nil,
           cvss: map | nil,
           cwe_ids: [String.t()] | nil,
@@ -25,7 +25,7 @@ defmodule GitHub.Repository.Advisory do
           summary: String.t(),
           updated_at: String.t() | nil,
           url: String.t(),
-          vulnerabilities: [GitHub.Repository.AdvisoryVulnerability.t()] | nil,
+          vulnerabilities: [GitHub.Repository.Advisory.Vulnerability.t()] | nil,
           withdrawn_at: String.t() | nil
         }
 
@@ -65,7 +65,7 @@ defmodule GitHub.Repository.Advisory do
       closed_at: {:nullable, :string},
       created_at: {:nullable, :string},
       credits: {:nullable, {:array, :map}},
-      credits_detailed: {:nullable, {:array, {GitHub.Repository.AdvisoryCredit, :t}}},
+      credits_detailed: {:nullable, {:array, {GitHub.Repository.Advisory.Credit, :t}}},
       cve_id: {:nullable, :string},
       cvss: {:nullable, :map},
       cwe_ids: {:nullable, {:array, :string}},
@@ -82,7 +82,7 @@ defmodule GitHub.Repository.Advisory do
       summary: :string,
       updated_at: {:nullable, :string},
       url: :string,
-      vulnerabilities: {:nullable, {:array, {GitHub.Repository.AdvisoryVulnerability, :t}}},
+      vulnerabilities: {:nullable, {:array, {GitHub.Repository.Advisory.Vulnerability, :t}}},
       withdrawn_at: {:nullable, :string}
     ]
   end

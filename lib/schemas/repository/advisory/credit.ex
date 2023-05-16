@@ -1,4 +1,4 @@
-defmodule GitHub.Repository.AdvisoryCredit do
+defmodule GitHub.Repository.Advisory.Credit do
   @moduledoc """
   Provides struct and type for RepositoryAdvisoryCredit
   """

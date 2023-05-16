@@ -1,6 +1,6 @@
-defmodule GitHub.Repository.AdvisoryUpdate do
+defmodule GitHub.Repository.Advisory.Create do
   @moduledoc """
-  Provides struct and type for RepositoryAdvisoryUpdate
+  Provides struct and type for RepositoryAdvisoryCreate
   """
 
   @type t :: %__MODULE__{
@@ -8,11 +8,10 @@ defmodule GitHub.Repository.AdvisoryUpdate do
           cve_id: String.t() | nil,
           cvss_vector_string: String.t() | nil,
           cwe_ids: [String.t()] | nil,
-          description: String.t() | nil,
+          description: String.t(),
           severity: String.t() | nil,
-          state: String.t() | nil,
-          summary: String.t() | nil,
-          vulnerabilities: [map] | nil
+          summary: String.t(),
+          vulnerabilities: [map]
         }
 
   defstruct [
@@ -22,7 +21,6 @@ defmodule GitHub.Repository.AdvisoryUpdate do
     :cwe_ids,
     :description,
     :severity,
-    :state,
     :summary,
     :vulnerabilities
   ]
@@ -39,7 +37,6 @@ defmodule GitHub.Repository.AdvisoryUpdate do
       cwe_ids: {:nullable, {:array, :string}},
       description: :string,
       severity: {:nullable, :string},
-      state: :string,
       summary: :string,
       vulnerabilities: {:array, :map}
     ]

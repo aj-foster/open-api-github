@@ -50,7 +50,7 @@ defmodule GitHub.SecurityAdvisories do
   @spec create_repository_advisory(
           String.t(),
           String.t(),
-          GitHub.Repository.AdvisoryCreate.t(),
+          GitHub.Repository.Advisory.Create.t(),
           keyword
         ) :: {:ok, GitHub.Repository.Advisory.t()} | {:error, GitHub.Error.t()}
   def create_repository_advisory(owner, repo, body, opts \\ []) do
@@ -62,7 +62,7 @@ defmodule GitHub.SecurityAdvisories do
       url: "/repos/#{owner}/#{repo}/security-advisories",
       body: body,
       method: :post,
-      request: [{"application/json", {GitHub.Repository.AdvisoryCreate, :t}}],
+      request: [{"application/json", {GitHub.Repository.Advisory.Create, :t}}],
       response: [
         {201, {GitHub.Repository.Advisory, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -150,7 +150,7 @@ defmodule GitHub.SecurityAdvisories do
           String.t(),
           String.t(),
           String.t(),
-          GitHub.Repository.AdvisoryUpdate.t(),
+          GitHub.Repository.Advisory.Update.t(),
           keyword
         ) :: {:ok, GitHub.Repository.Advisory.t()} | {:error, GitHub.Error.t()}
   def update_repository_advisory(owner, repo, ghsa_id, body, opts \\ []) do
@@ -162,7 +162,7 @@ defmodule GitHub.SecurityAdvisories do
       url: "/repos/#{owner}/#{repo}/security-advisories/#{ghsa_id}",
       body: body,
       method: :patch,
-      request: [{"application/json", {GitHub.Repository.AdvisoryUpdate, :t}}],
+      request: [{"application/json", {GitHub.Repository.Advisory.Update, :t}}],
       response: [
         {200, {GitHub.Repository.Advisory, :t}},
         {403, {GitHub.BasicError, :t}},

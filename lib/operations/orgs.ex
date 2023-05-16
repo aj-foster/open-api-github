@@ -852,7 +852,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec list_pat_grant_requests(String.t(), keyword) ::
-          {:ok, [GitHub.Organization.ProgrammaticAccessGrantRequest.t()]}
+          {:ok, [GitHub.Organization.ProgrammaticAccessGrant.Request.t()]}
           | {:error, GitHub.Error.t()}
   def list_pat_grant_requests(org, opts \\ []) do
     client = opts[:client] || @default_client
@@ -877,7 +877,7 @@ defmodule GitHub.Orgs do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Organization.ProgrammaticAccessGrantRequest, :t}}},
+        {200, {:array, {GitHub.Organization.ProgrammaticAccessGrant.Request, :t}}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}},
