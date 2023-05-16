@@ -42,6 +42,7 @@ defmodule GitHub.Testing do
         end
       end
 
+  The `use` macro also imports `mock_gh/3` and `generate_gh/2` for use in tests.
   """
   require ExUnit.Assertions
 
@@ -55,6 +56,8 @@ defmodule GitHub.Testing do
         only: [
           assert_gh_called: 1,
           assert_gh_called: 2,
+          generate_gh: 1,
+          generate_gh: 2,
           mock_gh: 2,
           mock_gh: 3
         ]
@@ -64,6 +67,30 @@ defmodule GitHub.Testing do
   #
   # Data Generation
   #
+
+  @doc """
+  Generate a struct for use in a test response
+
+  The first argument is the module / schema you would like to generate. If there are multiple
+  types available in the module, then the second argument can distinguish which to use (for
+  example, `:full` for the type `GitHub.PullRequest.full()`).
+
+  This function uses randomness to help avoid collisions in tests. For more information, see
+  `generate/3`.
+
+  ## Examples
+
+      iex> GitHub.Testing.generate(GitHub.PullRequest)
+      %GitHub.PullRequest{}
+
+      iex> GitHub.Testing.generate(GitHub.User, :private)
+      %GitHub.User{}
+
+  """
+  @spec generate_gh(module, atom) :: any
+  def generate_gh(schema, type \\ :t) do
+    generate(nil, nil, {schema, type})
+  end
 
   @doc """
   Generate random data for use in a test response

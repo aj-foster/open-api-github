@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* **Add**: Simplified `generate_gh/2` helper in `GitHub.Testing` for generating structs.
+
 ### 0.0.5 (2023-05-12)
 
 * **Breaking**: `GitHub.Plugin.TypedDecoder` now normalizes errors for all status codes greater than or equal to `400`.

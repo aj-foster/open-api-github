@@ -7,6 +7,15 @@ defmodule GitHub.TestingTest do
 
   @options [stack: [{GitHub.Plugin.TestClient, :request}]]
 
+  describe "generate_gh/2" do
+    test "generates a struct" do
+      assert %GitHub.PullRequest{} = generate_gh(GitHub.PullRequest)
+      assert %GitHub.User{two_factor_authentication: nil} = generate_gh(GitHub.User, :public)
+      assert %GitHub.User{two_factor_authentication: tfa?} = generate_gh(GitHub.User, :private)
+      assert is_boolean(tfa?)
+    end
+  end
+
   describe "assert_called_gh/2" do
     test "asserts on the call history of the process" do
       # Initial state: no calls
