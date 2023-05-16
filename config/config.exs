@@ -65,6 +65,7 @@ config :oapi_generator,
     rename: [
       {~r/^Codespaces/, "Codespace"},
       {"GitignoreTemplate", "GitIgnoreTemplate"},
+      {"Job", "Actions.Job"},
       {~r/Oidc/, "OIDC"},
       {~r/Page([A-Z])/, "Pages\\1"},
       {~r/RepositoryRule([A-Z])/, "RepositoryRule.\\1"},

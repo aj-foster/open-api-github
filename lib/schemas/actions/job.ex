@@ -1,4 +1,4 @@
-defmodule GitHub.Job do
+defmodule GitHub.Actions.Job do
   @moduledoc """
   Provides struct and type for Job
   """

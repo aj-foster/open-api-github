@@ -1390,7 +1390,7 @@ defmodule GitHub.Actions do
 
   """
   @spec get_job_for_workflow_run(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Job.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Actions.Job.t()} | {:error, GitHub.Error.t()}
   def get_job_for_workflow_run(owner, repo, job_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1399,7 +1399,7 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :get_job_for_workflow_run},
       url: "/repos/#{owner}/#{repo}/actions/jobs/#{job_id}",
       method: :get,
-      response: [{200, {GitHub.Job, :t}}],
+      response: [{200, {GitHub.Actions.Job, :t}}],
       opts: opts
     })
   end
