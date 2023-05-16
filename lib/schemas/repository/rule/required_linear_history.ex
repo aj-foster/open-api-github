@@ -1,6 +1,6 @@
-defmodule GitHub.Repository.RuleDeletion do
+defmodule GitHub.Repository.Rule.RequiredLinearHistory do
   @moduledoc """
-  Provides struct and type for RepositoryRuleDeletion
+  Provides struct and type for RepositoryRuleRequiredLinearHistory
   """
 
   @type t :: %__MODULE__{type: String.t()}

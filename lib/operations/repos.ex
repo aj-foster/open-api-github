@@ -717,7 +717,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_org_ruleset(String.t(), map, keyword) ::
-          {:ok, GitHub.Repository.Ruleset.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Repository.Rule.Set.t()} | {:error, GitHub.Error.t()}
   def create_org_ruleset(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -729,7 +729,7 @@ defmodule GitHub.Repos do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {201, {GitHub.Repository.Ruleset, :t}},
+        {201, {GitHub.Repository.Rule.Set, :t}},
         {404, {GitHub.BasicError, :t}},
         {500, {GitHub.BasicError, :t}}
       ],
@@ -834,7 +834,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_repo_ruleset(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Repository.Ruleset.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Repository.Rule.Set.t()} | {:error, GitHub.Error.t()}
   def create_repo_ruleset(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -846,7 +846,7 @@ defmodule GitHub.Repos do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {201, {GitHub.Repository.Ruleset, :t}},
+        {201, {GitHub.Repository.Rule.Set, :t}},
         {404, {GitHub.BasicError, :t}},
         {500, {GitHub.BasicError, :t}}
       ],
@@ -2006,20 +2006,20 @@ defmodule GitHub.Repos do
   @spec get_branch_rules(String.t(), String.t(), String.t(), keyword) ::
           {:ok,
            [
-             GitHub.Repository.RuleBranchNamePattern.t()
-             | GitHub.Repository.RuleCommitAuthorEmailPattern.t()
-             | GitHub.Repository.RuleCommitMessagePattern.t()
-             | GitHub.Repository.RuleCommitterEmailPattern.t()
-             | GitHub.Repository.RuleCreation.t()
-             | GitHub.Repository.RuleDeletion.t()
-             | GitHub.Repository.RuleNonFastForward.t()
-             | GitHub.Repository.RulePullRequest.t()
-             | GitHub.Repository.RuleRequiredDeployments.t()
-             | GitHub.Repository.RuleRequiredLinearHistory.t()
-             | GitHub.Repository.RuleRequiredSignatures.t()
-             | GitHub.Repository.RuleRequiredStatusChecks.t()
-             | GitHub.Repository.RuleTagNamePattern.t()
-             | GitHub.Repository.RuleUpdate.t()
+             GitHub.Repository.Rule.BranchNamePattern.t()
+             | GitHub.Repository.Rule.CommitAuthorEmailPattern.t()
+             | GitHub.Repository.Rule.CommitMessagePattern.t()
+             | GitHub.Repository.Rule.CommitterEmailPattern.t()
+             | GitHub.Repository.Rule.Creation.t()
+             | GitHub.Repository.Rule.Deletion.t()
+             | GitHub.Repository.Rule.NonFastForward.t()
+             | GitHub.Repository.Rule.PullRequest.t()
+             | GitHub.Repository.Rule.RequiredDeployments.t()
+             | GitHub.Repository.Rule.RequiredLinearHistory.t()
+             | GitHub.Repository.Rule.RequiredSignatures.t()
+             | GitHub.Repository.Rule.RequiredStatusChecks.t()
+             | GitHub.Repository.Rule.TagNamePattern.t()
+             | GitHub.Repository.Rule.Update.t()
            ]}
           | {:error, GitHub.Error.t()}
   def get_branch_rules(owner, repo, branch, opts \\ []) do
@@ -2035,20 +2035,20 @@ defmodule GitHub.Repos do
          {:array,
           {:union,
            [
-             {GitHub.Repository.RuleCreation, :t},
-             {GitHub.Repository.RuleUpdate, :t},
-             {GitHub.Repository.RuleDeletion, :t},
-             {GitHub.Repository.RuleRequiredLinearHistory, :t},
-             {GitHub.Repository.RuleRequiredDeployments, :t},
-             {GitHub.Repository.RuleRequiredSignatures, :t},
-             {GitHub.Repository.RulePullRequest, :t},
-             {GitHub.Repository.RuleRequiredStatusChecks, :t},
-             {GitHub.Repository.RuleNonFastForward, :t},
-             {GitHub.Repository.RuleCommitMessagePattern, :t},
-             {GitHub.Repository.RuleCommitAuthorEmailPattern, :t},
-             {GitHub.Repository.RuleCommitterEmailPattern, :t},
-             {GitHub.Repository.RuleBranchNamePattern, :t},
-             {GitHub.Repository.RuleTagNamePattern, :t}
+             {GitHub.Repository.Rule.Creation, :t},
+             {GitHub.Repository.Rule.Update, :t},
+             {GitHub.Repository.Rule.Deletion, :t},
+             {GitHub.Repository.Rule.RequiredLinearHistory, :t},
+             {GitHub.Repository.Rule.RequiredDeployments, :t},
+             {GitHub.Repository.Rule.RequiredSignatures, :t},
+             {GitHub.Repository.Rule.PullRequest, :t},
+             {GitHub.Repository.Rule.RequiredStatusChecks, :t},
+             {GitHub.Repository.Rule.NonFastForward, :t},
+             {GitHub.Repository.Rule.CommitMessagePattern, :t},
+             {GitHub.Repository.Rule.CommitAuthorEmailPattern, :t},
+             {GitHub.Repository.Rule.CommitterEmailPattern, :t},
+             {GitHub.Repository.Rule.BranchNamePattern, :t},
+             {GitHub.Repository.Rule.TagNamePattern, :t}
            ]}}}
       ],
       opts: opts
@@ -2579,7 +2579,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_org_ruleset(String.t(), integer, keyword) ::
-          {:ok, GitHub.Repository.Ruleset.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Repository.Rule.Set.t()} | {:error, GitHub.Error.t()}
   def get_org_ruleset(org, ruleset_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2589,7 +2589,7 @@ defmodule GitHub.Repos do
       url: "/orgs/#{org}/rulesets/#{ruleset_id}",
       method: :get,
       response: [
-        {200, {GitHub.Repository.Ruleset, :t}},
+        {200, {GitHub.Repository.Rule.Set, :t}},
         {404, {GitHub.BasicError, :t}},
         {500, {GitHub.BasicError, :t}}
       ],
@@ -2606,7 +2606,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_org_rulesets(String.t(), keyword) ::
-          {:ok, [GitHub.Repository.Ruleset.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Repository.Rule.Set.t()]} | {:error, GitHub.Error.t()}
   def get_org_rulesets(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2616,7 +2616,7 @@ defmodule GitHub.Repos do
       url: "/orgs/#{org}/rulesets",
       method: :get,
       response: [
-        {200, {:array, {GitHub.Repository.Ruleset, :t}}},
+        {200, {:array, {GitHub.Repository.Rule.Set, :t}}},
         {404, {GitHub.BasicError, :t}},
         {500, {GitHub.BasicError, :t}}
       ],
@@ -2917,7 +2917,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_repo_ruleset(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Repository.Ruleset.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Repository.Rule.Set.t()} | {:error, GitHub.Error.t()}
   def get_repo_ruleset(owner, repo, ruleset_id, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:includes_parents])
@@ -2929,7 +2929,7 @@ defmodule GitHub.Repos do
       method: :get,
       query: query,
       response: [
-        {200, {GitHub.Repository.Ruleset, :t}},
+        {200, {GitHub.Repository.Rule.Set, :t}},
         {404, {GitHub.BasicError, :t}},
         {500, {GitHub.BasicError, :t}}
       ],
@@ -2950,7 +2950,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_repo_rulesets(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Repository.Ruleset.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Repository.Rule.Set.t()]} | {:error, GitHub.Error.t()}
   def get_repo_rulesets(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:includes_parents])
@@ -2962,7 +2962,7 @@ defmodule GitHub.Repos do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Repository.Ruleset, :t}}},
+        {200, {:array, {GitHub.Repository.Rule.Set, :t}}},
         {404, {GitHub.BasicError, :t}},
         {500, {GitHub.BasicError, :t}}
       ],
@@ -4912,7 +4912,7 @@ defmodule GitHub.Repos do
 
   """
   @spec update_org_ruleset(String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Repository.Ruleset.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Repository.Rule.Set.t()} | {:error, GitHub.Error.t()}
   def update_org_ruleset(org, ruleset_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -4924,7 +4924,7 @@ defmodule GitHub.Repos do
       method: :put,
       request: [{"application/json", :map}],
       response: [
-        {200, {GitHub.Repository.Ruleset, :t}},
+        {200, {GitHub.Repository.Rule.Set, :t}},
         {404, {GitHub.BasicError, :t}},
         {500, {GitHub.BasicError, :t}}
       ],
@@ -5019,7 +5019,7 @@ defmodule GitHub.Repos do
 
   """
   @spec update_repo_ruleset(String.t(), String.t(), integer, map, keyword) ::
-          {:ok, GitHub.Repository.Ruleset.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Repository.Rule.Set.t()} | {:error, GitHub.Error.t()}
   def update_repo_ruleset(owner, repo, ruleset_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -5031,7 +5031,7 @@ defmodule GitHub.Repos do
       method: :put,
       request: [{"application/json", :map}],
       response: [
-        {200, {GitHub.Repository.Ruleset, :t}},
+        {200, {GitHub.Repository.Rule.Set, :t}},
         {404, {GitHub.BasicError, :t}},
         {500, {GitHub.BasicError, :t}}
       ],

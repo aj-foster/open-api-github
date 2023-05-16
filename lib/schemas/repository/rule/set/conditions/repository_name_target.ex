@@ -1,4 +1,4 @@
-defmodule GitHub.Repository.RulesetConditionsRepositoryNameTarget do
+defmodule GitHub.Repository.Rule.Set.Conditions.RepositoryNameTarget do
   @moduledoc """
   Provides struct and type for RepositoryRulesetConditionsRepositoryNameTarget
   """

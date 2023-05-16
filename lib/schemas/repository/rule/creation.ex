@@ -1,4 +1,4 @@
-defmodule GitHub.Repository.RuleCreation do
+defmodule GitHub.Repository.Rule.Creation do
   @moduledoc """
   Provides struct and type for RepositoryRuleCreation
   """

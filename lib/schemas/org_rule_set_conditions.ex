@@ -1,6 +1,6 @@
-defmodule GitHub.Repository.RuleEnforcement do
+defmodule GitHub.OrgRuleSetConditions do
   @moduledoc """
-  Provides struct and type for RepositoryRuleEnforcement
+  Provides struct and type for OrgRulesetConditions
   """
 
   @type t :: %__MODULE__{}

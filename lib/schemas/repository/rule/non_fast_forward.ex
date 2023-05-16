@@ -1,6 +1,6 @@
-defmodule GitHub.Repository.RuleRequiredSignatures do
+defmodule GitHub.Repository.Rule.NonFastForward do
   @moduledoc """
-  Provides struct and type for RepositoryRuleRequiredSignatures
+  Provides struct and type for RepositoryRuleNonFastForward
   """
 
   @type t :: %__MODULE__{type: String.t()}

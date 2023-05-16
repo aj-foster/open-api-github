@@ -1,4 +1,4 @@
-defmodule GitHub.Repository.RulesetBypassActor do
+defmodule GitHub.Repository.Rule.Set.BypassActor do
   @moduledoc """
   Provides struct and type for RepositoryRulesetBypassActor
   """

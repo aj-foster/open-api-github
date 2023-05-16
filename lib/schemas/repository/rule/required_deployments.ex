@@ -1,6 +1,6 @@
-defmodule GitHub.Repository.RulePullRequest do
+defmodule GitHub.Repository.Rule.RequiredDeployments do
   @moduledoc """
-  Provides struct and type for RepositoryRulePullRequest
+  Provides struct and type for RepositoryRuleRequiredDeployments
   """
 
   @type t :: %__MODULE__{parameters: map | nil, type: String.t()}

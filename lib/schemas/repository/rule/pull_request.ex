@@ -1,6 +1,6 @@
-defmodule GitHub.Repository.RuleBranchNamePattern do
+defmodule GitHub.Repository.Rule.PullRequest do
   @moduledoc """
-  Provides struct and type for RepositoryRuleBranchNamePattern
+  Provides struct and type for RepositoryRulePullRequest
   """
 
   @type t :: %__MODULE__{parameters: map | nil, type: String.t()}

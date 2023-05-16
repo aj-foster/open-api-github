@@ -1,4 +1,4 @@
-defmodule GitHub.Repository.RuleParamsStatusCheckConfiguration do
+defmodule GitHub.Repository.Rule.ParamsStatusCheckConfiguration do
   @moduledoc """
   Provides struct and type for RepositoryRuleParamsStatusCheckConfiguration
   """

@@ -1,6 +1,6 @@
-defmodule GitHub.Repository.RuleCommitMessagePattern do
+defmodule GitHub.Repository.Rule.CommitterEmailPattern do
   @moduledoc """
-  Provides struct and type for RepositoryRuleCommitMessagePattern
+  Provides struct and type for RepositoryRuleCommitterEmailPattern
   """
 
   @type t :: %__MODULE__{parameters: map | nil, type: String.t()}

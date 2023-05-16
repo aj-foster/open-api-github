@@ -1,6 +1,6 @@
-defmodule GitHub.Repository.RuleRequiredStatusChecks do
+defmodule GitHub.Repository.Rule.BranchNamePattern do
   @moduledoc """
-  Provides struct and type for RepositoryRuleRequiredStatusChecks
+  Provides struct and type for RepositoryRuleBranchNamePattern
   """
 
   @type t :: %__MODULE__{parameters: map | nil, type: String.t()}
