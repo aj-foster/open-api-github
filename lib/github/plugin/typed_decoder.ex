@@ -282,6 +282,52 @@ defmodule GitHub.Plugin.TypedDecoder do
     end
   end
 
+  defp choose_union(value, [{GitHub.Repository.Rule.Creation, :t} | _]) do
+    case value do
+      %{"type" => "creation"} ->
+        {GitHub.Repository.Rule.Creation, :t}
+
+      %{"type" => "update"} ->
+        {GitHub.Repository.Rule.Update, :t}
+
+      %{"type" => "deletion"} ->
+        {GitHub.Repository.Rule.Deletion, :t}
+
+      %{"type" => "required_linear_history"} ->
+        {GitHub.Repository.Rule.RequiredLinearHistory, :t}
+
+      %{"type" => "required_deployments"} ->
+        {GitHub.Repository.Rule.RequiredDeployments, :t}
+
+      %{"type" => "required_signatures"} ->
+        {GitHub.Repository.Rule.RequiredSignatures, :t}
+
+      %{"type" => "pull_request"} ->
+        {GitHub.Repository.Rule.PullRequest, :t}
+
+      %{"type" => "required_status_checks"} ->
+        {GitHub.Repository.Rule.RequiredStatusChecks, :t}
+
+      %{"type" => "non_fast_forward"} ->
+        {GitHub.Repository.Rule.NonFastForward, :t}
+
+      %{"type" => "commit_message_pattern"} ->
+        {GitHub.Repository.Rule.CommitMessagePattern, :t}
+
+      %{"type" => "commit_author_email_pattern"} ->
+        {GitHub.Repository.Rule.CommitAuthorEmailPattern, :t}
+
+      %{"type" => "committer_email_pattern"} ->
+        {GitHub.Repository.Rule.CommitterEmailPattern, :t}
+
+      %{"type" => "branch_name_pattern"} ->
+        {GitHub.Repository.Rule.BranchNamePattern, :t}
+
+      %{"type" => "tag_name_pattern"} ->
+        {GitHub.Repository.Rule.TagNamePattern, :t}
+    end
+  end
+
   defp choose_union(value, [{GitHub.User, :simple}, {GitHub.Enterprise, :t}]) do
     case value do
       %{"slug" => _} -> {GitHub.Enterprise, :t}
