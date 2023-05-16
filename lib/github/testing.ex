@@ -177,7 +177,7 @@ defmodule GitHub.Testing do
   def generate(_schema, _key, :unknown), do: nil
 
   # Compound types
-  def generate(schema, key, {:array, type}), do: generate(schema, key, type)
+  def generate(schema, key, {:array, type}), do: [generate(schema, key, type)]
 
   def generate(schema, key, {:union, types}) do
     Enum.map(types, fn type ->
