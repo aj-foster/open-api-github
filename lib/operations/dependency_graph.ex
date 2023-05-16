@@ -62,4 +62,31 @@ defmodule GitHub.DependencyGraph do
       opts: opts
     })
   end
+
+  @doc """
+  Export a software bill of materials (SBOM) for a repository.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/dependency-graph/sboms#export-a-software-bill-of-materials-sbom-for-a-repository)
+
+  """
+  @spec export_sbom(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.DependencyGraphSpdxSbom.t()} | {:error, GitHub.Error.t()}
+  def export_sbom(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo],
+      call: {GitHub.DependencyGraph, :export_sbom},
+      url: "/repos/#{owner}/#{repo}/dependency-graph/sbom",
+      method: :get,
+      response: [
+        {200, {GitHub.DependencyGraphSpdxSbom, :t}},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
 end

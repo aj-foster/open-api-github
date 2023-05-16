@@ -501,6 +501,82 @@ defmodule GitHub.Packages do
   end
 
   @doc """
+  Get list of conflicting packages during Docker migration for authenticated-user
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/packages#list-docker-migration-conflicting-packages-for-authenticated-user)
+
+  """
+  @spec list_docker_migration_conflicting_packages_for_authenticated_user(keyword) ::
+          {:ok, [GitHub.Package.t()]} | {:error, GitHub.Error.t()}
+  def list_docker_migration_conflicting_packages_for_authenticated_user(opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      call: {GitHub.Packages, :list_docker_migration_conflicting_packages_for_authenticated_user},
+      url: "/user/docker/conflicts",
+      method: :get,
+      response: [{200, {:array, {GitHub.Package, :t}}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get list of conflicting packages during Docker migration for organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/packages#list-docker-migration-conflicting-packages-for-organization)
+
+  """
+  @spec list_docker_migration_conflicting_packages_for_organization(String.t(), keyword) ::
+          {:ok, [GitHub.Package.t()]} | {:error, GitHub.Error.t()}
+  def list_docker_migration_conflicting_packages_for_organization(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org],
+      call: {GitHub.Packages, :list_docker_migration_conflicting_packages_for_organization},
+      url: "/orgs/#{org}/docker/conflicts",
+      method: :get,
+      response: [
+        {200, {:array, {GitHub.Package, :t}}},
+        {401, {GitHub.BasicError, :t}},
+        {403, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get list of conflicting packages during Docker migration for user
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/packages#list-docker-migration-conflicting-packages-for-user)
+
+  """
+  @spec list_docker_migration_conflicting_packages_for_user(String.t(), keyword) ::
+          {:ok, [GitHub.Package.t()]} | {:error, GitHub.Error.t()}
+  def list_docker_migration_conflicting_packages_for_user(username, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [username: username],
+      call: {GitHub.Packages, :list_docker_migration_conflicting_packages_for_user},
+      url: "/users/#{username}/docker/conflicts",
+      method: :get,
+      response: [
+        {200, {:array, {GitHub.Package, :t}}},
+        {401, {GitHub.BasicError, :t}},
+        {403, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   List packages for the authenticated user's namespace
 
   ## Options
@@ -510,6 +586,8 @@ defmodule GitHub.Packages do
 
   The `internal` visibility is only supported for GitHub Packages registries that allow for granular permissions. For other ecosystems `internal` is synonymous with `private`.
   For the list of GitHub Packages registries that support granular permissions, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#granular-permissions-for-userorganization-scoped-packages)."
+    * `page` (integer): Page number of the results to fetch.
+    * `per_page` (integer): The number of results per page (max 100).
 
   ## Resources
 
@@ -520,14 +598,14 @@ defmodule GitHub.Packages do
           {:ok, [GitHub.Package.t()]} | {:error, GitHub.Error.t()}
   def list_packages_for_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:package_type, :visibility])
+    query = Keyword.take(opts, [:package_type, :page, :per_page, :visibility])
 
     client.request(%{
       call: {GitHub.Packages, :list_packages_for_authenticated_user},
       url: "/user/packages",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Package, :t}}}],
+      response: [{200, {:array, {GitHub.Package, :t}}}, {400, nil}],
       opts: opts
     })
   end
@@ -564,6 +642,7 @@ defmodule GitHub.Packages do
       query: query,
       response: [
         {200, {:array, {GitHub.Package, :t}}},
+        {400, nil},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -581,6 +660,8 @@ defmodule GitHub.Packages do
 
   The `internal` visibility is only supported for GitHub Packages registries that allow for granular permissions. For other ecosystems `internal` is synonymous with `private`.
   For the list of GitHub Packages registries that support granular permissions, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#granular-permissions-for-userorganization-scoped-packages)."
+    * `page` (integer): Page number of the results to fetch.
+    * `per_page` (integer): The number of results per page (max 100).
 
   ## Resources
 
@@ -591,7 +672,7 @@ defmodule GitHub.Packages do
           {:ok, [GitHub.Package.t()]} | {:error, GitHub.Error.t()}
   def list_packages_for_user(username, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:package_type, :visibility])
+    query = Keyword.take(opts, [:package_type, :page, :per_page, :visibility])
 
     client.request(%{
       args: [username: username],
@@ -601,6 +682,7 @@ defmodule GitHub.Packages do
       query: query,
       response: [
         {200, {:array, {GitHub.Package, :t}}},
+        {400, nil},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],

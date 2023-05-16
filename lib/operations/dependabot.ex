@@ -250,7 +250,7 @@ defmodule GitHub.Dependabot do
 
     * `state` (String.t()): A comma-separated list of states. If specified, only alerts with these states will be returned.
 
-  Can be: `dismissed`, `fixed`, `open`
+  Can be: `auto_dismissed`, `dismissed`, `fixed`, `open`
     * `severity` (String.t()): A comma-separated list of severities. If specified, only alerts with these severities will be returned.
 
   Can be: `low`, `medium`, `high`, `critical`
@@ -263,8 +263,8 @@ defmodule GitHub.Dependabot do
   `created` means when the alert was created.
   `updated` means when the alert's state last changed.
     * `direction` (String.t()): The direction to sort the results by.
-    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for results before this cursor.
-    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for results after this cursor.
+    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
+    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
     * `first` (integer): **Deprecated**. The number of results per page (max 100), starting from the first matching result.
   This parameter must not be used in combination with `last`.
   Instead, use `per_page` in combination with `after` to fetch the first page of results.
@@ -323,7 +323,7 @@ defmodule GitHub.Dependabot do
 
     * `state` (String.t()): A comma-separated list of states. If specified, only alerts with these states will be returned.
 
-  Can be: `dismissed`, `fixed`, `open`
+  Can be: `auto_dismissed`, `dismissed`, `fixed`, `open`
     * `severity` (String.t()): A comma-separated list of severities. If specified, only alerts with these severities will be returned.
 
   Can be: `low`, `medium`, `high`, `critical`
@@ -336,8 +336,8 @@ defmodule GitHub.Dependabot do
   `created` means when the alert was created.
   `updated` means when the alert's state last changed.
     * `direction` (String.t()): The direction to sort the results by.
-    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for results before this cursor.
-    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for results after this cursor.
+    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
+    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
     * `first` (integer): **Deprecated**. The number of results per page (max 100), starting from the first matching result.
   This parameter must not be used in combination with `last`.
   Instead, use `per_page` in combination with `after` to fetch the first page of results.
@@ -397,7 +397,7 @@ defmodule GitHub.Dependabot do
 
     * `state` (String.t()): A comma-separated list of states. If specified, only alerts with these states will be returned.
 
-  Can be: `dismissed`, `fixed`, `open`
+  Can be: `auto_dismissed`, `dismissed`, `fixed`, `open`
     * `severity` (String.t()): A comma-separated list of severities. If specified, only alerts with these severities will be returned.
 
   Can be: `low`, `medium`, `high`, `critical`
@@ -413,8 +413,8 @@ defmodule GitHub.Dependabot do
     * `direction` (String.t()): The direction to sort the results by.
     * `page` (integer): **Deprecated**. Page number of the results to fetch. Use cursor-based pagination with `before` or `after` instead.
     * `per_page` (integer): The number of results per page (max 100).
-    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for results before this cursor.
-    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for results after this cursor.
+    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
+    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
     * `first` (integer): **Deprecated**. The number of results per page (max 100), starting from the first matching result.
   This parameter must not be used in combination with `last`.
   Instead, use `per_page` in combination with `after` to fetch the first page of results.

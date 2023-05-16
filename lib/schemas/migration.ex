@@ -6,7 +6,7 @@ defmodule GitHub.Migration do
   @type t :: %__MODULE__{
           archive_url: String.t() | nil,
           created_at: String.t(),
-          exclude: [map] | nil,
+          exclude: [String.t()] | nil,
           exclude_attachments: boolean,
           exclude_git_data: boolean,
           exclude_metadata: boolean,
@@ -53,7 +53,7 @@ defmodule GitHub.Migration do
     [
       archive_url: :string,
       created_at: :string,
-      exclude: {:array, :map},
+      exclude: {:array, :string},
       exclude_attachments: :boolean,
       exclude_git_data: :boolean,
       exclude_metadata: :boolean,

@@ -456,7 +456,7 @@ defmodule GitHub.Pulls do
 
   ## Options
 
-    * `sort` (String.t()): The property to sort the results by. `created` means when the repository was starred. `updated` means when the repository was last pushed to.
+    * `sort` (String.t()): The property to sort the results by.
     * `direction` (String.t()): The direction to sort results. Ignored without `sort` parameter.
     * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `per_page` (integer): The number of results per page (max 100).

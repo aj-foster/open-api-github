@@ -4,6 +4,7 @@ defmodule GitHub.Dependabot.Alert.WithRepository do
   """
 
   @type t :: %__MODULE__{
+          auto_dismissed_at: String.t() | nil,
           created_at: String.t(),
           dependency: map,
           dismissed_at: String.t() | nil,
@@ -22,6 +23,7 @@ defmodule GitHub.Dependabot.Alert.WithRepository do
         }
 
   defstruct [
+    :auto_dismissed_at,
     :created_at,
     :dependency,
     :dismissed_at,
@@ -45,6 +47,7 @@ defmodule GitHub.Dependabot.Alert.WithRepository do
 
   def __fields__(:t) do
     [
+      auto_dismissed_at: {:nullable, :string},
       created_at: :string,
       dependency: :map,
       dismissed_at: {:nullable, :string},

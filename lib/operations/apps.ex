@@ -441,7 +441,7 @@ defmodule GitHub.Apps do
 
   ## Options
 
-    * `sort` (String.t()): The property to sort the results by. `created` means when the repository was starred. `updated` means when the repository was last pushed to.
+    * `sort` (String.t()): The property to sort the results by.
     * `direction` (String.t()): To return the oldest accounts first, set to `asc`. Ignored without the `sort` parameter.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
@@ -478,7 +478,7 @@ defmodule GitHub.Apps do
 
   ## Options
 
-    * `sort` (String.t()): The property to sort the results by. `created` means when the repository was starred. `updated` means when the repository was last pushed to.
+    * `sort` (String.t()): The property to sort the results by.
     * `direction` (String.t()): To return the oldest accounts first, set to `asc`. Ignored without the `sort` parameter.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
@@ -538,6 +538,39 @@ defmodule GitHub.Apps do
         {304, nil},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List installation requests for the authenticated app
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/reference/apps#list-installation-requests-for-the-authenticated-app)
+
+  """
+  @spec list_installation_requests_for_authenticated_app(keyword) ::
+          {:ok, [GitHub.IntegrationInstallationRequest.t()]} | {:error, GitHub.Error.t()}
+  def list_installation_requests_for_authenticated_app(opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      call: {GitHub.Apps, :list_installation_requests_for_authenticated_app},
+      url: "/app/installation-requests",
+      method: :get,
+      query: query,
+      response: [
+        {200, {:array, {GitHub.IntegrationInstallationRequest, :t}}},
+        {304, nil},
+        {401, {GitHub.BasicError, :t}}
       ],
       opts: opts
     })

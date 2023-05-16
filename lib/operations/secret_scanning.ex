@@ -41,8 +41,8 @@ defmodule GitHub.SecretScanning do
     * `sort` (String.t()): The property to sort the results by. `created` means when the alert was created. `updated` means when the alert was updated or resolved.
     * `direction` (String.t()): The direction to sort the results by.
     * `per_page` (integer): The number of results per page (max 100).
-    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for results before this cursor.
-    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for results after this cursor.
+    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
+    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
 
   ## Resources
 
@@ -95,8 +95,8 @@ defmodule GitHub.SecretScanning do
     * `direction` (String.t()): The direction to sort the results by.
     * `page` (integer): Page number of the results to fetch.
     * `per_page` (integer): The number of results per page (max 100).
-    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for events before this cursor. To receive an initial cursor on your first request, include an empty "before" query string.
-    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for events after this cursor.  To receive an initial cursor on your first request, include an empty "after" query string.
+    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events before this cursor. To receive an initial cursor on your first request, include an empty "before" query string.
+    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events after this cursor.  To receive an initial cursor on your first request, include an empty "after" query string.
 
   ## Resources
 
@@ -150,8 +150,8 @@ defmodule GitHub.SecretScanning do
     * `direction` (String.t()): The direction to sort the results by.
     * `page` (integer): Page number of the results to fetch.
     * `per_page` (integer): The number of results per page (max 100).
-    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for events before this cursor. To receive an initial cursor on your first request, include an empty "before" query string.
-    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for events after this cursor.  To receive an initial cursor on your first request, include an empty "after" query string.
+    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events before this cursor. To receive an initial cursor on your first request, include an empty "before" query string.
+    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events after this cursor.  To receive an initial cursor on your first request, include an empty "after" query string.
 
   ## Resources
 

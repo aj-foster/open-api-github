@@ -520,7 +520,7 @@ defmodule GitHub.Actions do
   ## Options
 
     * `key` (String.t()): A key for identifying the cache.
-    * `ref` (String.t()): The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.
+    * `ref` (String.t()): The full Git reference for narrowing down the cache. The `ref` for a branch should be formatted as `refs/heads/<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.
 
   ## Resources
 
@@ -1013,7 +1013,7 @@ defmodule GitHub.Actions do
 
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
-    * `ref` (String.t()): The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.
+    * `ref` (String.t()): The full Git reference for narrowing down the cache. The `ref` for a branch should be formatted as `refs/heads/<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.
     * `key` (String.t()): An explicit key or prefix for identifying the cache
     * `sort` (String.t()): The property to sort the results by. `created_at` means when the cache was created. `last_accessed_at` means when the cache was last accessed. `size_in_bytes` is the size of the cache in bytes.
     * `direction` (String.t()): The direction to sort the results by.
@@ -2111,6 +2111,66 @@ defmodule GitHub.Actions do
   end
 
   @doc """
+  List repository organization secrets
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#list-repository-organization-secrets)
+
+  """
+  @spec list_repo_organization_secrets(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
+  def list_repo_organization_secrets(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :list_repo_organization_secrets},
+      url: "/repos/#{owner}/#{repo}/actions/organization-secrets",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List repository organization variables
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 30).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/variables#list-repository-organization-variables)
+
+  """
+  @spec list_repo_organization_variables(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
+  def list_repo_organization_variables(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      args: [owner: owner, repo: repo],
+      call: {GitHub.Actions, :list_repo_organization_variables},
+      url: "/repos/#{owner}/#{repo}/actions/organization-variables",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
   List repository required workflows
 
   ## Options
@@ -2936,6 +2996,43 @@ defmodule GitHub.Actions do
         "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}/repositories/#{repository_id}",
       method: :delete,
       response: [{204, nil}, {404, nil}, {422, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Review custom deployment protection rules for a workflow run
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#review-custom-deployment-protection-rules-for-a-workflow-run)
+
+  """
+  @spec review_custom_gates_for_run(
+          String.t(),
+          String.t(),
+          integer,
+          GitHub.ReviewCustomGatesCommentRequired.t() | GitHub.ReviewCustomGatesStateRequired.t(),
+          keyword
+        ) :: :ok | {:error, GitHub.Error.t()}
+  def review_custom_gates_for_run(owner, repo, run_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :review_custom_gates_for_run},
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/deployment_protection_rule",
+      body: body,
+      method: :post,
+      request: [
+        {"application/json",
+         {:union,
+          [
+            {GitHub.ReviewCustomGatesCommentRequired, :t},
+            {GitHub.ReviewCustomGatesStateRequired, :t}
+          ]}}
+      ],
+      response: [{204, nil}],
       opts: opts
     })
   end

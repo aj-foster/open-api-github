@@ -486,6 +486,31 @@ defmodule GitHub.Repos do
   end
 
   @doc """
+  Create a custom deployment protection rule on an environment
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/deployments/deployment-protection-rules#create-a-deployment-protection-rule)
+
+  """
+  @spec create_deployment_protection_rule(String.t(), String.t(), String.t(), map, keyword) ::
+          {:ok, GitHub.Deployment.ProtectionRule.t()} | {:error, GitHub.Error.t()}
+  def create_deployment_protection_rule(owner, repo, environment_name, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo, environment_name: environment_name],
+      call: {GitHub.Repos, :create_deployment_protection_rule},
+      url: "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment_protection_rules",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [{201, {GitHub.Deployment.ProtectionRule, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
   Create a deployment status
 
   ## Resources
@@ -684,6 +709,35 @@ defmodule GitHub.Repos do
   end
 
   @doc """
+  Create an organization repository ruleset
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/rules#create-organization-repository-ruleset)
+
+  """
+  @spec create_org_ruleset(String.t(), map, keyword) ::
+          {:ok, GitHub.Repository.Ruleset.t()} | {:error, GitHub.Error.t()}
+  def create_org_ruleset(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org],
+      call: {GitHub.Repos, :create_org_ruleset},
+      url: "/orgs/#{org}/rulesets",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {201, {GitHub.Repository.Ruleset, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   Create a GitHub Pages deployment
 
   ## Resources
@@ -766,6 +820,35 @@ defmodule GitHub.Repos do
         {201, {GitHub.Release, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create a repository ruleset
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/rules#create-repository-ruleset)
+
+  """
+  @spec create_repo_ruleset(String.t(), String.t(), map, keyword) ::
+          {:ok, GitHub.Repository.Ruleset.t()} | {:error, GitHub.Error.t()}
+  def create_repo_ruleset(owner, repo, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :create_repo_ruleset},
+      url: "/repos/#{owner}/#{repo}/rulesets",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {201, {GitHub.Repository.Ruleset, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {500, {GitHub.BasicError, :t}}
       ],
       opts: opts
     })
@@ -1206,6 +1289,28 @@ defmodule GitHub.Repos do
   end
 
   @doc """
+  Delete an organization repository ruleset
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/rules#delete-organization-ruleset)
+
+  """
+  @spec delete_org_ruleset(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
+  def delete_org_ruleset(org, ruleset_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, ruleset_id: ruleset_id],
+      call: {GitHub.Repos, :delete_org_ruleset},
+      url: "/orgs/#{org}/rulesets/#{ruleset_id}",
+      method: :delete,
+      response: [{204, nil}, {404, {GitHub.BasicError, :t}}, {500, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
   Delete a GitHub Pages site
 
   ## Resources
@@ -1302,6 +1407,29 @@ defmodule GitHub.Repos do
   end
 
   @doc """
+  Delete a repository ruleset
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/rules#delete-repository-ruleset)
+
+  """
+  @spec delete_repo_ruleset(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def delete_repo_ruleset(owner, repo, ruleset_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo, ruleset_id: ruleset_id],
+      call: {GitHub.Repos, :delete_repo_ruleset},
+      url: "/repos/#{owner}/#{repo}/rulesets/#{ruleset_id}",
+      method: :delete,
+      response: [{204, nil}, {404, {GitHub.BasicError, :t}}, {500, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
   Delete a tag protection state for a repository
 
   ## Resources
@@ -1364,6 +1492,41 @@ defmodule GitHub.Repos do
       args: [owner: owner, repo: repo],
       call: {GitHub.Repos, :disable_automated_security_fixes},
       url: "/repos/#{owner}/#{repo}/automated-security-fixes",
+      method: :delete,
+      response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Disable a custom protection rule for an environment
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/deployments/protection-rules#disable-deployment-protection-rule)
+
+  """
+  @spec disable_deployment_protection_rule(String.t(), String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def disable_deployment_protection_rule(
+        owner,
+        repo,
+        environment_name,
+        protection_rule_id,
+        opts \\ []
+      ) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [
+        owner: owner,
+        repo: repo,
+        environment_name: environment_name,
+        protection_rule_id: protection_rule_id
+      ],
+      call: {GitHub.Repos, :disable_deployment_protection_rule},
+      url:
+        "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment_protection_rules/#{protection_rule_id}",
       method: :delete,
       response: [{204, nil}],
       opts: opts
@@ -1630,6 +1793,29 @@ defmodule GitHub.Repos do
   end
 
   @doc """
+  Get all deployment protection rules for an environment
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/deployments/protection-rules#get-all-deployment-protection-rules)
+
+  """
+  @spec get_all_deployment_protection_rules(String.t(), String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
+  def get_all_deployment_protection_rules(owner, repo, environment_name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo, environment_name: environment_name],
+      call: {GitHub.Repos, :get_all_deployment_protection_rules},
+      url: "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment_protection_rules",
+      method: :get,
+      response: [{200, :map}],
+      opts: opts
+    })
+  end
+
+  @doc """
   List environments
 
   ## Options
@@ -1805,6 +1991,66 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/branches/#{branch}/protection",
       method: :get,
       response: [{200, {GitHub.Branch.Protection, :t}}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get rules for a branch
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/rules#get-rules-for-a-branch)
+
+  """
+  @spec get_branch_rules(String.t(), String.t(), String.t(), keyword) ::
+          {:ok,
+           [
+             GitHub.Repository.RuleBranchNamePattern.t()
+             | GitHub.Repository.RuleCommitAuthorEmailPattern.t()
+             | GitHub.Repository.RuleCommitMessagePattern.t()
+             | GitHub.Repository.RuleCommitterEmailPattern.t()
+             | GitHub.Repository.RuleCreation.t()
+             | GitHub.Repository.RuleDeletion.t()
+             | GitHub.Repository.RuleNonFastForward.t()
+             | GitHub.Repository.RulePullRequest.t()
+             | GitHub.Repository.RuleRequiredDeployments.t()
+             | GitHub.Repository.RuleRequiredLinearHistory.t()
+             | GitHub.Repository.RuleRequiredSignatures.t()
+             | GitHub.Repository.RuleRequiredStatusChecks.t()
+             | GitHub.Repository.RuleTagNamePattern.t()
+             | GitHub.Repository.RuleUpdate.t()
+           ]}
+          | {:error, GitHub.Error.t()}
+  def get_branch_rules(owner, repo, branch, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo, branch: branch],
+      call: {GitHub.Repos, :get_branch_rules},
+      url: "/repos/#{owner}/#{repo}/rules/branches/#{branch}",
+      method: :get,
+      response: [
+        {200,
+         {:array,
+          {:union,
+           [
+             {GitHub.Repository.RuleCreation, :t},
+             {GitHub.Repository.RuleUpdate, :t},
+             {GitHub.Repository.RuleDeletion, :t},
+             {GitHub.Repository.RuleRequiredLinearHistory, :t},
+             {GitHub.Repository.RuleRequiredDeployments, :t},
+             {GitHub.Repository.RuleRequiredSignatures, :t},
+             {GitHub.Repository.RulePullRequest, :t},
+             {GitHub.Repository.RuleRequiredStatusChecks, :t},
+             {GitHub.Repository.RuleNonFastForward, :t},
+             {GitHub.Repository.RuleCommitMessagePattern, :t},
+             {GitHub.Repository.RuleCommitAuthorEmailPattern, :t},
+             {GitHub.Repository.RuleCommitterEmailPattern, :t},
+             {GitHub.Repository.RuleBranchNamePattern, :t},
+             {GitHub.Repository.RuleTagNamePattern, :t}
+           ]}}}
+      ],
       opts: opts
     })
   end
@@ -2053,7 +2299,7 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `ref` (String.t()): The name of the commit/branch/tag. Default: the repository’s default branch (usually `master`)
+    * `ref` (String.t()): The name of the commit/branch/tag. Default: the repository’s default branch.
 
   ## Resources
 
@@ -2113,6 +2359,46 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/stats/contributors",
       method: :get,
       response: [{200, {:array, {GitHub.ContributorActivity, :t}}}, {202, :map}, {204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get a custom deployment protection rule
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/deployments/protection-rules#get-a-deployment-protection-rule)
+
+  """
+  @spec get_custom_deployment_protection_rule(
+          String.t(),
+          String.t(),
+          String.t(),
+          integer,
+          keyword
+        ) :: {:ok, GitHub.Deployment.ProtectionRule.t()} | {:error, GitHub.Error.t()}
+  def get_custom_deployment_protection_rule(
+        owner,
+        repo,
+        environment_name,
+        protection_rule_id,
+        opts \\ []
+      ) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [
+        owner: owner,
+        repo: repo,
+        environment_name: environment_name,
+        protection_rule_id: protection_rule_id
+      ],
+      call: {GitHub.Repos, :get_custom_deployment_protection_rule},
+      url:
+        "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment_protection_rules/#{protection_rule_id}",
+      method: :get,
+      response: [{200, {GitHub.Deployment.ProtectionRule, :t}}],
       opts: opts
     })
   end
@@ -2285,6 +2571,60 @@ defmodule GitHub.Repos do
   end
 
   @doc """
+  Get an organization repository ruleset
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/rules#get-organization-ruleset)
+
+  """
+  @spec get_org_ruleset(String.t(), integer, keyword) ::
+          {:ok, GitHub.Repository.Ruleset.t()} | {:error, GitHub.Error.t()}
+  def get_org_ruleset(org, ruleset_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, ruleset_id: ruleset_id],
+      call: {GitHub.Repos, :get_org_ruleset},
+      url: "/orgs/#{org}/rulesets/#{ruleset_id}",
+      method: :get,
+      response: [
+        {200, {GitHub.Repository.Ruleset, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get all organization repository rulesets
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/rules#get-organization-rulesets)
+
+  """
+  @spec get_org_rulesets(String.t(), keyword) ::
+          {:ok, [GitHub.Repository.Ruleset.t()]} | {:error, GitHub.Error.t()}
+  def get_org_rulesets(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org],
+      call: {GitHub.Repos, :get_org_rulesets},
+      url: "/orgs/#{org}/rulesets",
+      method: :get,
+      response: [
+        {200, {:array, {GitHub.Repository.Ruleset, :t}}},
+        {404, {GitHub.BasicError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   Get a GitHub Pages site
 
   ## Resources
@@ -2434,7 +2774,7 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `ref` (String.t()): The name of the commit/branch/tag. Default: the repository’s default branch (usually `master`)
+    * `ref` (String.t()): The name of the commit/branch/tag. Default: the repository’s default branch.
 
   ## Resources
 
@@ -2467,7 +2807,7 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `ref` (String.t()): The name of the commit/branch/tag. Default: the repository’s default branch (usually `master`)
+    * `ref` (String.t()): The name of the commit/branch/tag. Default: the repository’s default branch.
 
   ## Resources
 
@@ -2560,6 +2900,72 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/releases/tags/#{tag}",
       method: :get,
       response: [{200, {GitHub.Release, :t}}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get a repository ruleset
+
+  ## Options
+
+    * `includes_parents` (boolean): Include rulesets configured at higher levels that apply to this repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/rules#get-repository-ruleset)
+
+  """
+  @spec get_repo_ruleset(String.t(), String.t(), integer, keyword) ::
+          {:ok, GitHub.Repository.Ruleset.t()} | {:error, GitHub.Error.t()}
+  def get_repo_ruleset(owner, repo, ruleset_id, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:includes_parents])
+
+    client.request(%{
+      args: [owner: owner, repo: repo, ruleset_id: ruleset_id],
+      call: {GitHub.Repos, :get_repo_ruleset},
+      url: "/repos/#{owner}/#{repo}/rulesets/#{ruleset_id}",
+      method: :get,
+      query: query,
+      response: [
+        {200, {GitHub.Repository.Ruleset, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get all repository rulesets
+
+  ## Options
+
+    * `includes_parents` (boolean): Include rulesets configured at higher levels that apply to this repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/rules#get-repository-rulesets)
+
+  """
+  @spec get_repo_rulesets(String.t(), String.t(), keyword) ::
+          {:ok, [GitHub.Repository.Ruleset.t()]} | {:error, GitHub.Error.t()}
+  def get_repo_rulesets(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:includes_parents])
+
+    client.request(%{
+      args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_repo_rulesets},
+      url: "/repos/#{owner}/#{repo}/rulesets",
+      method: :get,
+      query: query,
+      response: [
+        {200, {:array, {GitHub.Repository.Ruleset, :t}}},
+        {404, {GitHub.BasicError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
@@ -2993,7 +3399,8 @@ defmodule GitHub.Repos do
 
     * `sha` (String.t()): SHA or branch to start listing commits from. Default: the repository’s default branch (usually `main`).
     * `path` (String.t()): Only commits containing this file path will be returned.
-    * `author` (String.t()): GitHub login or email address by which to filter by commit author.
+    * `author` (String.t()): GitHub username or email address to use to filter by commit author.
+    * `committer` (String.t()): GitHub username or email address to use to filter by commit committer.
     * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `until` (String.t()): Only commits before this date will be returned. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `per_page` (integer): The number of results per page (max 100).
@@ -3008,7 +3415,9 @@ defmodule GitHub.Repos do
           {:ok, [GitHub.Commit.t()]} | {:error, GitHub.Error.t()}
   def list_commits(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:author, :page, :path, :per_page, :sha, :since, :until])
+
+    query =
+      Keyword.take(opts, [:author, :committer, :page, :path, :per_page, :sha, :since, :until])
 
     client.request(%{
       args: [owner: owner, repo: repo],
@@ -3059,6 +3468,37 @@ defmodule GitHub.Repos do
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List custom deployment rule integrations available for an environment
+
+  ## Options
+
+    * `page` (integer): Page number of the results to fetch.
+    * `per_page` (integer): The number of results per page (max 100).
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/deployments/protection-rules#list-custom-deployment-rule-integrations)
+
+  """
+  @spec list_custom_deployment_rule_integrations(String.t(), String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
+  def list_custom_deployment_rule_integrations(owner, repo, environment_name, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      args: [owner: owner, repo: repo, environment_name: environment_name],
+      call: {GitHub.Repos, :list_custom_deployment_rule_integrations},
+      url:
+        "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment_protection_rules/apps",
+      method: :get,
+      query: query,
+      response: [{200, :map}],
       opts: opts
     })
   end
@@ -3202,8 +3642,8 @@ defmodule GitHub.Repos do
     * `direction` (String.t()): The order to sort by. Default: `asc` when using `full_name`, otherwise `desc`.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `before` (String.t()): Only show notifications updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show repositories updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `before` (String.t()): Only show repositories updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
 
   ## Resources
 
@@ -4464,6 +4904,35 @@ defmodule GitHub.Repos do
   end
 
   @doc """
+  Update an organization repository ruleset
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/rules#update-organization-ruleset)
+
+  """
+  @spec update_org_ruleset(String.t(), integer, map, keyword) ::
+          {:ok, GitHub.Repository.Ruleset.t()} | {:error, GitHub.Error.t()}
+  def update_org_ruleset(org, ruleset_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, ruleset_id: ruleset_id],
+      call: {GitHub.Repos, :update_org_ruleset},
+      url: "/orgs/#{org}/rulesets/#{ruleset_id}",
+      body: body,
+      method: :put,
+      request: [{"application/json", :map}],
+      response: [
+        {200, {GitHub.Repository.Ruleset, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   Update pull request review protection
 
   ## Resources
@@ -4537,6 +5006,35 @@ defmodule GitHub.Repos do
       method: :patch,
       request: [{"application/json", :map}],
       response: [{200, {GitHub.Release.Asset, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Update a repository ruleset
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/rules#update-repository-ruleset)
+
+  """
+  @spec update_repo_ruleset(String.t(), String.t(), integer, map, keyword) ::
+          {:ok, GitHub.Repository.Ruleset.t()} | {:error, GitHub.Error.t()}
+  def update_repo_ruleset(owner, repo, ruleset_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo, ruleset_id: ruleset_id],
+      call: {GitHub.Repos, :update_repo_ruleset},
+      url: "/repos/#{owner}/#{repo}/rulesets/#{ruleset_id}",
+      body: body,
+      method: :put,
+      request: [{"application/json", :map}],
+      response: [
+        {200, {GitHub.Repository.Ruleset, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end

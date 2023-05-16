@@ -9,10 +9,11 @@ defmodule GitHub.Actions.Runner do
           labels: [GitHub.Actions.Runner.Label.t()],
           name: String.t(),
           os: String.t(),
+          runner_group_id: integer | nil,
           status: String.t()
         }
 
-  defstruct [:busy, :id, :labels, :name, :os, :status]
+  defstruct [:busy, :id, :labels, :name, :os, :runner_group_id, :status]
 
   @doc false
   @spec __fields__(atom) :: keyword
@@ -25,6 +26,7 @@ defmodule GitHub.Actions.Runner do
       labels: {:array, {GitHub.Actions.Runner.Label, :t}},
       name: :string,
       os: :string,
+      runner_group_id: :integer,
       status: :string
     ]
   end

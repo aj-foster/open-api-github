@@ -90,7 +90,7 @@ defmodule GitHub.PullRequest do
           title: String.t(),
           updated_at: String.t(),
           url: String.t(),
-          user: GitHub.User.simple() | nil
+          user: GitHub.User.simple()
         }
 
   defstruct [
@@ -238,7 +238,7 @@ defmodule GitHub.PullRequest do
       title: :string,
       updated_at: :string,
       url: :string,
-      user: {:nullable, {GitHub.User, :simple}}
+      user: {GitHub.User, :simple}
     ]
   end
 end

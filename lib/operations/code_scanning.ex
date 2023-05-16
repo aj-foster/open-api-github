@@ -102,7 +102,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#get-codeql-database)
+    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#get-a-codeql-database-for-a-repository)
 
   """
   @spec get_codeql_database(String.t(), String.t(), String.t(), keyword) ::
@@ -127,11 +127,39 @@ defmodule GitHub.CodeScanning do
   end
 
   @doc """
+  Get a code scanning default setup configuration
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/code-scanning#get-a-code-scanning-default-setup-configuration)
+
+  """
+  @spec get_default_setup(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.CodeScanning.DefaultSetup.t()} | {:error, GitHub.Error.t()}
+  def get_default_setup(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo],
+      call: {GitHub.CodeScanning, :get_default_setup},
+      url: "/repos/#{owner}/#{repo}/code-scanning/default-setup",
+      method: :get,
+      response: [
+        {200, {GitHub.CodeScanning.DefaultSetup, :t}},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {503, :map}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   Get information about a SARIF upload
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-recent-code-scanning-analyses-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#get-information-about-a-sarif-upload)
 
   """
   @spec get_sarif(String.t(), String.t(), String.t(), keyword) ::
@@ -197,8 +225,8 @@ defmodule GitHub.CodeScanning do
 
     * `tool_name` (String.t()): The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool by using either `tool_name` or `tool_guid`, but not both.
     * `tool_guid` (String.t() | nil): The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both.
-    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for results before this cursor.
-    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/overview/resources-in-the-rest-api#link-header). If specified, the query only searches for results after this cursor.
+    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
+    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
     * `page` (integer): Page number of the results to fetch.
     * `per_page` (integer): The number of results per page (max 100).
     * `direction` (String.t()): The direction to sort the results by.
@@ -208,7 +236,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-code-scanning-alerts-by-organization)
+    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-code-scanning-alerts-for-an-organization)
 
   """
   @spec list_alerts_for_org(String.t(), keyword) ::
@@ -305,7 +333,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-codeql-databases)
+    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-codeql-databases-for-a-repository)
 
   """
   @spec list_codeql_databases(String.t(), String.t(), keyword) ::
@@ -411,11 +439,49 @@ defmodule GitHub.CodeScanning do
   end
 
   @doc """
+  Update a code scanning default setup configuration
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/code-scanning#update-a-code-scanning-default-setup-configuration)
+
+  """
+  @spec update_default_setup(
+          String.t(),
+          String.t(),
+          GitHub.CodeScanning.DefaultSetupUpdate.t(),
+          keyword
+        ) ::
+          {:ok, GitHub.CodeScanning.DefaultSetupUpdateResponse.t() | GitHub.EmptyObject.t()}
+          | {:error, GitHub.Error.t()}
+  def update_default_setup(owner, repo, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo],
+      call: {GitHub.CodeScanning, :update_default_setup},
+      url: "/repos/#{owner}/#{repo}/code-scanning/default-setup",
+      body: body,
+      method: :patch,
+      request: [{"application/json", {GitHub.CodeScanning.DefaultSetupUpdate, :t}}],
+      response: [
+        {200, {GitHub.EmptyObject, :t}},
+        {202, {GitHub.CodeScanning.DefaultSetupUpdateResponse, :t}},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {409, {GitHub.BasicError, :t}},
+        {503, :map}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   Upload an analysis as SARIF data
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#upload-a-sarif-file)
+    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#upload-an-analysis-as-sarif-data)
 
   """
   @spec upload_sarif(String.t(), String.t(), map, keyword) ::

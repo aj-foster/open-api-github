@@ -37,6 +37,37 @@ defmodule GitHub.Users do
   end
 
   @doc """
+  Add social accounts for the authenticated user
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/users/social-accounts#add-social-account-for-authenticated-user)
+
+  """
+  @spec add_social_account_for_authenticated_user(map, keyword) ::
+          {:ok, [GitHub.SocialAccount.t()]} | {:error, GitHub.Error.t()}
+  def add_social_account_for_authenticated_user(body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      call: {GitHub.Users, :add_social_account_for_authenticated_user},
+      url: "/user/social_accounts",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {201, {:array, {GitHub.SocialAccount, :t}}},
+        {304, nil},
+        {401, {GitHub.BasicError, :t}},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   Block a user
 
   ## Resources
@@ -323,6 +354,37 @@ defmodule GitHub.Users do
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Delete social accounts for the authenticated user
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/users/social-accounts#delete-social-account-for-authenticated-user)
+
+  """
+  @spec delete_social_account_for_authenticated_user(map, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def delete_social_account_for_authenticated_user(body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      call: {GitHub.Users, :delete_social_account_for_authenticated_user},
+      url: "/user/social_accounts",
+      body: body,
+      method: :delete,
+      request: [{"application/json", :map}],
+      response: [
+        {204, nil},
+        {304, nil},
+        {401, {GitHub.BasicError, :t}},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
       ],
       opts: opts
     })
@@ -946,6 +1008,71 @@ defmodule GitHub.Users do
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List social accounts for the authenticated user
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/users/social-accounts#list-social-accounts-for-the-authenticated-user)
+
+  """
+  @spec list_social_accounts_for_authenticated_user(keyword) ::
+          {:ok, [GitHub.SocialAccount.t()]} | {:error, GitHub.Error.t()}
+  def list_social_accounts_for_authenticated_user(opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      call: {GitHub.Users, :list_social_accounts_for_authenticated_user},
+      url: "/user/social_accounts",
+      method: :get,
+      query: query,
+      response: [
+        {200, {:array, {GitHub.SocialAccount, :t}}},
+        {304, nil},
+        {401, {GitHub.BasicError, :t}},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List social accounts for a user
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/users/social-accounts#list-social-accounts-for-a-user)
+
+  """
+  @spec list_social_accounts_for_user(String.t(), keyword) ::
+          {:ok, [GitHub.SocialAccount.t()]} | {:error, GitHub.Error.t()}
+  def list_social_accounts_for_user(username, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      args: [username: username],
+      call: {GitHub.Users, :list_social_accounts_for_user},
+      url: "/users/#{username}/social_accounts",
+      method: :get,
+      query: query,
+      response: [{200, {:array, {GitHub.SocialAccount, :t}}}],
       opts: opts
     })
   end

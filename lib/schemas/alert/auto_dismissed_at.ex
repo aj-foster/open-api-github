@@ -1,6 +1,6 @@
-defmodule GitHub.EnabledOrganizations do
+defmodule GitHub.Alert.AutoDismissedAt do
   @moduledoc """
-  Provides struct and type for EnabledOrganizations
+  Provides struct and type for AlertAutoDismissedAt
   """
 
   @type t :: %__MODULE__{}

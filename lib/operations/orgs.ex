@@ -224,6 +224,28 @@ defmodule GitHub.Orgs do
   end
 
   @doc """
+  Delete an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs/#delete-an-organization)
+
+  """
+  @spec delete(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
+  def delete(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org],
+      call: {GitHub.Orgs, :delete},
+      url: "/orgs/#{org}",
+      method: :delete,
+      response: [{202, :map}, {403, {GitHub.BasicError, :t}}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
   Delete an organization webhook
 
   ## Resources
@@ -741,6 +763,187 @@ defmodule GitHub.Orgs do
   end
 
   @doc """
+  List repositories a fine-grained personal access token has access to
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#list-repositories-a-fine-grained-personal-access-token-has-access-to)
+
+  """
+  @spec list_pat_grant_repositories(String.t(), integer, keyword) ::
+          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
+  def list_pat_grant_repositories(org, pat_id, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      args: [org: org, pat_id: pat_id],
+      call: {GitHub.Orgs, :list_pat_grant_repositories},
+      url: "/organizations/#{org}/personal-access-tokens/#{pat_id}/repositories",
+      method: :get,
+      query: query,
+      response: [
+        {200, {:array, {GitHub.MinimalRepository, :t}}},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List repositories requested to be accessed by a fine-grained personal access token
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#list-repositories-requested-to-be-accessed-by-a-fine-grained-personal-access-token)
+
+  """
+  @spec list_pat_grant_request_repositories(String.t(), integer, keyword) ::
+          {:ok, [GitHub.MinimalRepository.t()]} | {:error, GitHub.Error.t()}
+  def list_pat_grant_request_repositories(org, pat_request_id, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      args: [org: org, pat_request_id: pat_request_id],
+      call: {GitHub.Orgs, :list_pat_grant_request_repositories},
+      url: "/organizations/#{org}/personal-access-token-requests/#{pat_request_id}/repositories",
+      method: :get,
+      query: query,
+      response: [
+        {200, {:array, {GitHub.MinimalRepository, :t}}},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List requests to access organization resources with fine-grained personal access tokens
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+    * `sort` (String.t()): The property by which to sort the results.
+    * `direction` (String.t()): The direction to sort the results by.
+    * `owner` ([String.t()]): A list of owner usernames to use to filter the results.
+    * `repository` (String.t()): The name of the repository to use to filter the results.
+    * `permission` (String.t()): The permission to use to filter the results.
+    * `last_used_before` (String.t()): Only show fine-grained personal access tokens used before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `last_used_after` (String.t()): Only show fine-grained personal access tokens used after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#list-requests-to-access-organization-resources-with-fine-grained-personal-access-tokens)
+
+  """
+  @spec list_pat_grant_requests(String.t(), keyword) ::
+          {:ok, [GitHub.Organization.ProgrammaticAccessGrantRequest.t()]}
+          | {:error, GitHub.Error.t()}
+  def list_pat_grant_requests(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    query =
+      Keyword.take(opts, [
+        :direction,
+        :last_used_after,
+        :last_used_before,
+        :owner,
+        :page,
+        :per_page,
+        :permission,
+        :repository,
+        :sort
+      ])
+
+    client.request(%{
+      args: [org: org],
+      call: {GitHub.Orgs, :list_pat_grant_requests},
+      url: "/organizations/#{org}/personal-access-token-requests",
+      method: :get,
+      query: query,
+      response: [
+        {200, {:array, {GitHub.Organization.ProgrammaticAccessGrantRequest, :t}}},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List fine-grained personal access tokens with access to organization resources
+
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+    * `sort` (String.t()): The property by which to sort the results.
+    * `direction` (String.t()): The direction to sort the results by.
+    * `owner` ([String.t()]): A list of owner usernames to use to filter the results.
+    * `repository` (String.t()): The name of the repository to use to filter the results.
+    * `permission` (String.t()): The permission to use to filter the results.
+    * `last_used_before` (String.t()): Only show fine-grained personal access tokens used before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `last_used_after` (String.t()): Only show fine-grained personal access tokens used after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#list-fine-grained-personal-access-tokens-with-access-to-organization-resources)
+
+  """
+  @spec list_pat_grants(String.t(), keyword) ::
+          {:ok, [GitHub.Organization.ProgrammaticAccessGrant.t()]} | {:error, GitHub.Error.t()}
+  def list_pat_grants(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    query =
+      Keyword.take(opts, [
+        :direction,
+        :last_used_after,
+        :last_used_before,
+        :owner,
+        :page,
+        :per_page,
+        :permission,
+        :repository,
+        :sort
+      ])
+
+    client.request(%{
+      args: [org: org],
+      call: {GitHub.Orgs, :list_pat_grants},
+      url: "/organizations/#{org}/personal-access-tokens",
+      method: :get,
+      query: query,
+      response: [
+        {200, {:array, {GitHub.Organization.ProgrammaticAccessGrant, :t}}},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   List pending organization invitations
 
   ## Options
@@ -1053,6 +1256,68 @@ defmodule GitHub.Orgs do
   end
 
   @doc """
+  Review a request to access organization resources with a fine-grained personal access token
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#review-a-request-to-access-organization-resources-with-a-fine-grained-personal-access-token)
+
+  """
+  @spec review_pat_grant_request(String.t(), integer, map, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def review_pat_grant_request(org, pat_request_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, pat_request_id: pat_request_id],
+      call: {GitHub.Orgs, :review_pat_grant_request},
+      url: "/organizations/#{org}/personal-access-token-requests/#{pat_request_id}",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {204, nil},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Review requests to access organization resources with fine-grained personal access tokens
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#review-requests-to-access-organization-resources-with-a-fine-grained-personal-access-token)
+
+  """
+  @spec review_pat_grant_requests_in_bulk(String.t(), map, keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
+  def review_pat_grant_requests_in_bulk(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org],
+      call: {GitHub.Orgs, :review_pat_grant_requests_in_bulk},
+      url: "/organizations/#{org}/personal-access-token-requests",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {202, :map},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   Set organization membership for a user
 
   ## Resources
@@ -1180,6 +1445,66 @@ defmodule GitHub.Orgs do
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Update the access a fine-grained personal access token has to organization resources
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#update-the-access-a-fine-grained-personal-access-token-has-to-organization-resources)
+
+  """
+  @spec update_pat_access(String.t(), integer, map, keyword) :: :ok | {:error, GitHub.Error.t()}
+  def update_pat_access(org, pat_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, pat_id: pat_id],
+      call: {GitHub.Orgs, :update_pat_access},
+      url: "/organizations/#{org}/personal-access-tokens/#{pat_id}",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {204, nil},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Update the access to organization resources via fine-grained personal access tokens
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#update-the-access-to-organization-resources-via-fine-grained-personal-access-tokens)
+
+  """
+  @spec update_pat_accesses(String.t(), map, keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
+  def update_pat_accesses(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org],
+      call: {GitHub.Orgs, :update_pat_accesses},
+      url: "/organizations/#{org}/personal-access-tokens",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {202, :map},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}},
+        {500, {GitHub.BasicError, :t}}
       ],
       opts: opts
     })
