@@ -1,7 +1,7 @@
 defmodule GitHub.MixProject do
   use Mix.Project
 
-  @version "0.0.5"
+  @version "0.0.6"
   @source_url "https://github.com/aj-foster/open-api-github"
 
   def project do
@@ -60,7 +60,8 @@ defmodule GitHub.MixProject do
           GitHub.Operation
         ],
         Testing: [
-          ~r/GitHub.Testing/
+          ~r/GitHub.Testing/,
+          GitHub.Plugin.TestClient
         ],
         Plugins: ~r/GitHub.Plugin/,
         Operations: [
@@ -75,7 +76,6 @@ defmodule GitHub.MixProject do
           GitHub.Dependabot,
           GitHub.DependencyGraph,
           GitHub.Emojis,
-          GitHub.EnterpriseAdmin,
           GitHub.Gists,
           GitHub.Git,
           GitHub.Gitignore,
@@ -86,6 +86,7 @@ defmodule GitHub.MixProject do
           GitHub.Meta,
           GitHub.Migrations,
           GitHub.Oidc,
+          GitHub.Orgs,
           GitHub.Packages,
           GitHub.Projects,
           GitHub.Pulls,
@@ -94,7 +95,7 @@ defmodule GitHub.MixProject do
           GitHub.Repos,
           GitHub.Search,
           GitHub.SecretScanning,
-          GitHub.ServerStatistics,
+          GitHub.SecurityAdvisories,
           GitHub.Teams,
           GitHub.Users
         ],

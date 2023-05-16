@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 0.0.6 (2023-05-16)
+
+* **Breaking**: Perform major housecleaning on module naming, groups, etc.
+  Most notable is the merging of `Team.Full` to `Team` and `MinimalRepository` to `Repository`.
+  Several schemas have been placed into better groups, and some have been moved (for example, `Job` is now `Actions.Job`).
+  Not all changes are documented here because this library is in early beta and this type of movement is expected.
+* **Breaking**: Update to the latest version of the API description, which removes several operations and adds several schemas.
 * **Add**: Simplified `generate_gh/2` helper in `GitHub.Testing` for generating structs.
+* **Add**: Upgrade to `oapi_generator` version `0.0.5` with support for null unions, as found in the latest API description.
 
 ### 0.0.5 (2023-05-12)
 
