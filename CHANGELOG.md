@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* **Add**: Correctly decode repository rule unions in `GitHub.Plugin.TypedDecoder`.
+* **Fix**: Correctly decode array types in `GitHub.Plugin.TypedDecoder`.
+
 ### 0.0.6 (2023-05-16)
 
 * **Breaking**: Perform major housecleaning on module naming, groups, etc.

@@ -53,6 +53,7 @@ defmodule GitHub.Plugin.TypedDecoder do
     end
   end
 
+  defp do_decode(value, {:array, type}), do: Enum.map(value, &do_decode(&1, type))
   defp do_decode(nil, {:nullable, _type}), do: nil
   defp do_decode(value, {:nullable, type}), do: do_decode(value, type)
   defp do_decode(value, {:union, types}), do: do_decode(value, choose_union(value, types))
