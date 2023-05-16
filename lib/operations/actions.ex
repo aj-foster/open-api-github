@@ -3012,7 +3012,8 @@ defmodule GitHub.Actions do
           String.t(),
           String.t(),
           integer,
-          GitHub.ReviewCustomGatesCommentRequired.t() | GitHub.ReviewCustomGatesStateRequired.t(),
+          GitHub.Actions.ReviewCustomGates.CommentRequired.t()
+          | GitHub.Actions.ReviewCustomGates.StateRequired.t(),
           keyword
         ) :: :ok | {:error, GitHub.Error.t()}
   def review_custom_gates_for_run(owner, repo, run_id, body, opts \\ []) do
@@ -3028,8 +3029,8 @@ defmodule GitHub.Actions do
         {"application/json",
          {:union,
           [
-            {GitHub.ReviewCustomGatesCommentRequired, :t},
-            {GitHub.ReviewCustomGatesStateRequired, :t}
+            {GitHub.Actions.ReviewCustomGates.CommentRequired, :t},
+            {GitHub.Actions.ReviewCustomGates.StateRequired, :t}
           ]}}
       ],
       response: [{204, nil}],

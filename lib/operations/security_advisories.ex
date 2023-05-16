@@ -16,7 +16,7 @@ defmodule GitHub.SecurityAdvisories do
   @spec create_private_vulnerability_report(
           String.t(),
           String.t(),
-          GitHub.PrivateVulnerabilityReportCreate.t(),
+          GitHub.PrivateVulnerabilityReport.Create.t(),
           keyword
         ) :: {:ok, GitHub.Repository.Advisory.t()} | {:error, GitHub.Error.t()}
   def create_private_vulnerability_report(owner, repo, body, opts \\ []) do
@@ -28,7 +28,7 @@ defmodule GitHub.SecurityAdvisories do
       url: "/repos/#{owner}/#{repo}/security-advisories/reports",
       body: body,
       method: :post,
-      request: [{"application/json", {GitHub.PrivateVulnerabilityReportCreate, :t}}],
+      request: [{"application/json", {GitHub.PrivateVulnerabilityReport.Create, :t}}],
       response: [
         {201, {GitHub.Repository.Advisory, :t}},
         {403, {GitHub.BasicError, :t}},

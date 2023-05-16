@@ -1,4 +1,4 @@
-defmodule GitHub.ReviewCustomGatesStateRequired do
+defmodule GitHub.Actions.ReviewCustomGates.StateRequired do
   @moduledoc """
   Provides struct and type for ReviewCustomGatesStateRequired
   """

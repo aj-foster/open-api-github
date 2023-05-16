@@ -1,4 +1,4 @@
-defmodule GitHub.ReviewCustomGatesCommentRequired do
+defmodule GitHub.Actions.ReviewCustomGates.CommentRequired do
   @moduledoc """
   Provides struct and type for ReviewCustomGatesCommentRequired
   """
