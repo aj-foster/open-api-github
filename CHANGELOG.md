@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* **Fix**: Include formatter configuration in published package.
+  This allows use of `mock_gh` and other imported test helpers without parens.
+
 ### 0.0.8 (2023-05-16)
 
 * **Fix**: Correctly generate array types using single element lists in `GitHub.Testing`.
