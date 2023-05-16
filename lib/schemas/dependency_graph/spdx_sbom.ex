@@ -1,4 +1,4 @@
-defmodule GitHub.DependencyGraphSpdxSbom do
+defmodule GitHub.DependencyGraph.SpdxSbom do
   @moduledoc """
   Provides struct and type for DependencyGraphSpdxSbom
   """

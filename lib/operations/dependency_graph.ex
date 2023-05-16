@@ -72,7 +72,7 @@ defmodule GitHub.DependencyGraph do
 
   """
   @spec export_sbom(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.DependencyGraphSpdxSbom.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.DependencyGraph.SpdxSbom.t()} | {:error, GitHub.Error.t()}
   def export_sbom(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -82,7 +82,7 @@ defmodule GitHub.DependencyGraph do
       url: "/repos/#{owner}/#{repo}/dependency-graph/sbom",
       method: :get,
       response: [
-        {200, {GitHub.DependencyGraphSpdxSbom, :t}},
+        {200, {GitHub.DependencyGraph.SpdxSbom, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],

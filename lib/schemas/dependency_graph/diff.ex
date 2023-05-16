@@ -1,4 +1,4 @@
-defmodule GitHub.DependencyGraphDiff do
+defmodule GitHub.DependencyGraph.Diff do
   @moduledoc """
   Provides struct and type for DependencyGraphDiff
   """
