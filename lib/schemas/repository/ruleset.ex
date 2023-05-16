@@ -1,14 +1,14 @@
-defmodule GitHub.Repository.Rule.Set do
+defmodule GitHub.Repository.Ruleset do
   @moduledoc """
   Provides struct and type for RepositoryRuleset
   """
 
   @type t :: %__MODULE__{
           _links: map | nil,
-          bypass_actors: [GitHub.Repository.Rule.Set.BypassActor.t()] | nil,
+          bypass_actors: [GitHub.Repository.Ruleset.BypassActor.t()] | nil,
           bypass_mode: String.t() | nil,
           conditions:
-            (GitHub.OrgRuleSetConditions.t() | GitHub.Repository.Rule.Set.Conditions.t()) | nil,
+            (GitHub.OrgRuleset.Conditions.t() | GitHub.Repository.Ruleset.Conditions.t()) | nil,
           enforcement: String.t(),
           id: integer,
           name: String.t(),
@@ -58,10 +58,10 @@ defmodule GitHub.Repository.Rule.Set do
   def __fields__(:t) do
     [
       _links: :map,
-      bypass_actors: {:array, {GitHub.Repository.Rule.Set.BypassActor, :t}},
+      bypass_actors: {:array, {GitHub.Repository.Ruleset.BypassActor, :t}},
       bypass_mode: :string,
       conditions:
-        {:union, [{GitHub.Repository.Rule.Set.Conditions, :t}, {GitHub.OrgRuleSetConditions, :t}]},
+        {:union, [{GitHub.Repository.Ruleset.Conditions, :t}, {GitHub.OrgRuleset.Conditions, :t}]},
       enforcement: :string,
       id: :integer,
       name: :string,

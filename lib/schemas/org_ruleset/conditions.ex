@@ -1,4 +1,4 @@
-defmodule GitHub.OrgRuleSetConditions do
+defmodule GitHub.OrgRuleset.Conditions do
   @moduledoc """
   Provides struct and type for OrgRulesetConditions
   """

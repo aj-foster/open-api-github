@@ -1,4 +1,4 @@
-defmodule GitHub.Repository.Rule.Set.Conditions do
+defmodule GitHub.Repository.Ruleset.Conditions do
   @moduledoc """
   Provides struct and type for RepositoryRulesetConditions
   """
