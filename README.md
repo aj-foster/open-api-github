@@ -22,7 +22,7 @@ Add the dependency in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:oapi_github, "~> 0.0.8"}
+    {:oapi_github, "~> 0.0.9"}
   ]
 end
 ```
