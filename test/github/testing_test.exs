@@ -14,6 +14,30 @@ defmodule GitHub.TestingTest do
       assert %GitHub.User{two_factor_authentication: tfa?} = generate_gh(GitHub.User, :private)
       assert is_boolean(tfa?)
     end
+
+    test "generates a struct with overrides" do
+      body = Faker.Lorem.Shakespeare.hamlet()
+      assert %GitHub.PullRequest{body: ^body} = generate_gh(GitHub.PullRequest, body: body)
+      assert %GitHub.PullRequest{body: ^body} = generate_gh(GitHub.PullRequest, %{body: body})
+
+      bio = Faker.Lorem.Shakespeare.hamlet()
+
+      assert %GitHub.User{bio: ^bio, two_factor_authentication: nil} =
+               generate_gh(GitHub.User, :public, bio: bio)
+
+      assert %GitHub.User{bio: ^bio, two_factor_authentication: nil} =
+               generate_gh(GitHub.User, :public, %{bio: bio})
+
+      assert %GitHub.User{bio: ^bio, two_factor_authentication: tfa?} =
+               generate_gh(GitHub.User, :private, bio: bio)
+
+      assert is_boolean(tfa?)
+
+      assert %GitHub.User{bio: ^bio, two_factor_authentication: tfa?} =
+               generate_gh(GitHub.User, :private, %{bio: bio})
+
+      assert is_boolean(tfa?)
+    end
   end
 
   describe "assert_called_gh/2" do

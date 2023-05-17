@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* **Add**: Generated data from `GitHub.Testing.generate_gh/3` now accepts optional overrides.
 * **Fix**: Include formatter configuration in published package.
   This allows use of `mock_gh` and other imported test helpers without parens.
 

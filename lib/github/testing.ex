@@ -58,11 +58,15 @@ defmodule GitHub.Testing do
           assert_gh_called: 2,
           generate_gh: 1,
           generate_gh: 2,
+          generate_gh: 3,
           mock_gh: 2,
           mock_gh: 3
         ]
     end
   end
+
+  # Convenience guard for generate_gh/3
+  defguardp is_enum(value) when is_map(value) or is_list(value)
 
   #
   # Data Generation
@@ -73,7 +77,8 @@ defmodule GitHub.Testing do
 
   The first argument is the module / schema you would like to generate. If there are multiple
   types available in the module, then the second argument can distinguish which to use (for
-  example, `:full` for the type `GitHub.PullRequest.full()`).
+  example, `:full` for the type `GitHub.PullRequest.full()`). It is also possible to override
+  the generated fields with custom data.
 
   This function uses randomness to help avoid collisions in tests. For more information, see
   `generate/3`.
@@ -86,11 +91,46 @@ defmodule GitHub.Testing do
       iex> GitHub.Testing.generate(GitHub.User, :private)
       %GitHub.User{}
 
+      iex> GitHub.Testing.generate(GitHub.User, bio: "This is a custom bio")
+      %GitHub.User{bio: "This is a custom bio"}
+
+      iex> GitHub.Testing.generate(GitHub.User, :private, bio: "This is a custom bio")
+      %GitHub.User{bio: "This is a custom bio"}
+
   """
-  @spec generate_gh(module, atom) :: any
-  def generate_gh(schema, type \\ :t) do
-    generate(nil, nil, {schema, type})
+  @spec generate_gh(module, atom, map | keyword) :: any
+  def generate_gh(schema, type \\ :t, overrides \\ %{})
+
+  def generate_gh(schema, overrides, _overrides) when is_enum(overrides) do
+    overrides = if is_map(overrides), do: overrides, else: Enum.into(overrides, %{})
+
+    generate(nil, nil, {schema, :t})
+    |> override_fields(overrides)
   end
+
+  def generate_gh(schema, type, overrides) when is_atom(type) and is_enum(overrides) do
+    overrides = if is_map(overrides), do: overrides, else: Enum.into(overrides, %{})
+
+    generate(nil, nil, {schema, type})
+    |> override_fields(overrides)
+  end
+
+  def generate_gh(_schema, _type, _overrides) do
+    raise ArgumentError, """
+    Expected one of the following forms when calling generate_gh(...):
+
+        generate_gh(SchemaModule)
+        generate_gh(SchemaModule, :type)
+        generate_gh(SchemaModule, :type, overrides)
+        generate_gh(SchemaModule, overrides)
+
+    Where overrides is an atom-keyed map or keyword list of fields to change in the result.
+    """
+  end
+
+  @spec override_fields(struct | map, map) :: struct | map | no_return
+  defp override_fields(%_{} = record, attrs), do: struct!(record, attrs)
+  defp override_fields(%{} = record, attrs), do: Map.merge(record, attrs)
 
   @doc """
   Generate random data for use in a test response
