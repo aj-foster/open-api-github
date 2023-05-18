@@ -173,10 +173,25 @@ defmodule GitHub.Testing do
   def generate(schema, key, type)
 
   # Special cases
-  def generate(_schema, :email, :string), do: Faker.Internet.email()
   def generate(_schema, :id, :integer), do: System.unique_integer([:positive])
   def generate(_schema, :login, :string), do: Faker.Internet.user_name()
-  def generate(_schema, :url, :string), do: Faker.Internet.url()
+
+  def generate(GitHub.PullRequest, base_or_head, :map) when base_or_head in [:base, :head] do
+    %{
+      label: generate(:_, :label, :string),
+      ref: generate(:_, :ref, :string),
+      repo: generate(:_, :repo, {GitHub.Repository, :t}),
+      sha: generate(:_, :sha, :string)
+    }
+  end
+
+  def generate(GitHub.Repository, :created_at, {:nullable, :string}),
+    do: generate(GitHub.Repository, :created_at, :string)
+
+  def generate(GitHub.Repository, :fork, :boolean), do: false
+  def generate(GitHub.Repository, :parent, _), do: nil
+  def generate(GitHub.Repository, :source, _), do: nil
+  def generate(GitHub.Repository, :template_repository, _), do: nil
 
   def generate(GitHub.User, :name, :string), do: Faker.Person.name()
   def generate(GitHub.User, :type, :string), do: Enum.random(["User", "Bot", "Organization"])
@@ -205,7 +220,16 @@ defmodule GitHub.Testing do
         Faker.DateTime.between(yesterday, now)
         |> DateTime.to_iso8601()
 
-      String.ends_with?(string_key, "_url") ->
+      String.ends_with?(string_key, "_email") or string_key == "email" ->
+        Faker.Internet.email()
+
+      String.ends_with?(string_key, "_ref") or string_key == "ref" ->
+        Faker.Internet.slug()
+
+      String.ends_with?(string_key, "_sha") or string_key == "sha" ->
+        Faker.random_bytes(20) |> Base.encode16(case: :lower)
+
+      String.ends_with?(string_key, "_url") or string_key == "url" ->
         Faker.Internet.url()
 
       :else ->
@@ -238,6 +262,7 @@ defmodule GitHub.Testing do
     apply(module, :__fields__, [struct_type])
     |> Enum.map(fn {key, field_type} -> {key, generate(module, key, field_type)} end)
     |> then(fn fields -> struct!(module, fields) end)
+    |> Map.put(:__info__, %{generated: true})
   end
 
   #
