@@ -1,7 +1,7 @@
 defmodule GitHub.MixProject do
   use Mix.Project
 
-  @version "0.0.9"
+  @version "0.0.10"
   @source_url "https://github.com/aj-foster/open-api-github"
 
   def project do

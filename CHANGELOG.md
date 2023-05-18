@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+_Nothing yet._
+
+### 0.0.10 (2023-05-18)
+
 * **Add**: New `__info__` key on every struct to contain library and plugin data.
 * **Add**: Preserve important response headers in `GitHub.Plugin.RedixFullResponseCache`.
 
