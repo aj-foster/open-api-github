@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+_Nothing yet_.
+
+### 0.0.11 (2023-05-18)
+
 * **Add**: Improvements to the test data generator.
   Repositories now always have `created_at` dates despite their typing, and Pull Requests have proper `base` and `head` maps.
 
