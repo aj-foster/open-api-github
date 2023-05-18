@@ -21,6 +21,9 @@ if Code.ensure_loaded?(Redix) do
     response body and reset the status to `200`. Otherwise, if the API returns a `200` response with
     new data, that response will be placed in the cache.
 
+    In addition to the response body, the cache will also fill in the `Content-Length`,
+    `Content-Type`, `X-Accepted-OAuth-Scopes`, and `X-OAuth-Scopes` headers, if available.
+
     ## Configuration
 
       * `server`: **Required** global name of a Redis server, as found in the `name` option of
@@ -90,13 +93,20 @@ if Code.ensure_loaded?(Redix) do
       key = cache_key(operation, opts)
 
       with {:ok, data} when is_binary(data) <- Redix.command(server, ["GET", key]),
-           {:ok, %{"content_type" => content_type, "etag" => etag, "response" => response}} <-
-             Jason.decode(data) do
+           {:ok, %{"etag" => etag, "response" => response} = cached_data} <- Jason.decode(data) do
+        accepted_oauth_scopes = Map.get(cached_data, "accepted_oauth_scopes", "")
+        content_length = Map.get(cached_data, "content_length", to_string(byte_size(response)))
+        content_type = Map.get(cached_data, "content_type", "application/json")
+        oauth_scopes = Map.get(cached_data, "oauth_scopes", "")
+
         operation =
           operation
           |> Operation.put_private(@private_key, %{
+            accepted_oauth_scopes: accepted_oauth_scopes,
+            content_length: content_length,
             content_type: content_type,
             etag: etag,
+            oauth_scopes: oauth_scopes,
             response: response
           })
           |> Operation.put_request_header("If-None-Match", etag)
@@ -127,30 +137,53 @@ if Code.ensure_loaded?(Redix) do
     def use_cache(%Operation{request_method: :get, response_code: 200} = operation, opts) do
       %Operation{private: %{__opts__: operation_opts}, response_body: response} = operation
       opts = Keyword.merge(opts, operation_opts)
+
+      accepted_oauth_scopes = Operation.get_response_header(operation, "x-accepted-oauth-scopes")
+      content_length = Operation.get_response_header(operation, "content-length")
       content_type = Operation.get_response_header(operation, "content-type")
       etag = Operation.get_response_header(operation, "etag")
+      oauth_scopes = Operation.get_response_header(operation, "x-oauth-scopes")
 
       server = redix_server(opts)
       key = cache_key(operation, opts)
       expiration = Config.plugin_config(opts, __MODULE__, :expiration, @default_expiration_sec)
 
       with {:ok, data} <-
-             Jason.encode(%{content_type: content_type, etag: etag, response: response}) do
+             Jason.encode(%{
+               accepted_oauth_scopes: accepted_oauth_scopes,
+               content_length: content_length,
+               content_type: content_type,
+               etag: etag,
+               oauth_scopes: oauth_scopes,
+               response: response
+             }) do
         Redix.noreply_command(server, ["SET", key, data, "EX", expiration])
       end
 
-      {:ok, operation}
+      {:ok, Operation.put_private(operation, :cached, false)}
     end
 
     def use_cache(
           %Operation{
-            private: %{@private_key => %{content_type: content_type, response: response}},
-            response_code: 304,
-            response_headers: headers
+            private: %{@private_key => %{response: response} = cached_data},
+            response_code: 304
           } = operation,
           opts
         ) do
-      %Operation{private: %{__opts__: operation_opts}} = operation
+      %Operation{private: %{__opts__: operation_opts}, response_headers: headers} = operation
+
+      accepted_oauth_scopes = Map.get(cached_data, :accepted_oauth_scopes)
+      content_length = Map.get(cached_data, :content_length)
+      content_type = Map.get(cached_data, :content_type, "application/json")
+      oauth_scopes = Map.get(cached_data, :oauth_scopes)
+
+      headers =
+        headers
+        |> maybe_add_header("Content-Length", content_length)
+        |> maybe_add_header("Content-Type", content_type)
+        |> maybe_add_header("X-Accepted-OAuth-Scopes", accepted_oauth_scopes)
+        |> maybe_add_header("X-OAuth-Scopes", oauth_scopes)
+
       opts = Keyword.merge(opts, operation_opts)
       server = redix_server(opts)
       key = cache_key(operation, opts)
@@ -162,10 +195,10 @@ if Code.ensure_loaded?(Redix) do
         operation
         | response_body: response,
           response_code: 200,
-          response_headers: [{"Content-Type", content_type} | headers]
+          response_headers: headers
       }
 
-      {:ok, operation}
+      {:ok, Operation.put_private(operation, :cached, true)}
     end
 
     def use_cache(operation, _opts), do: {:ok, operation}
@@ -214,6 +247,11 @@ if Code.ensure_loaded?(Redix) do
 
     @spec cache_key_url(Operation.t()) :: String.t()
     defp cache_key_url(%Operation{request_url: url}), do: url
+
+    @spec maybe_add_header(Operation.headers(), String.t(), String.t() | nil) ::
+            Operation.headers()
+    defp maybe_add_header(headers, _key, nil), do: headers
+    defp maybe_add_header(headers, key, value), do: [{key, value} | headers]
 
     @spec redix_server(keyword) :: Redix.connection()
     defp redix_server(opts) do
