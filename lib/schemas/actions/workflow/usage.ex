@@ -3,9 +3,9 @@ defmodule GitHub.Actions.Workflow.Usage do
   Provides struct and type for WorkflowUsage
   """
 
-  @type t :: %__MODULE__{billable: map}
+  @type t :: %__MODULE__{__info__: map, billable: map}
 
-  defstruct [:billable]
+  defstruct [:__info__, :billable]
 
   @doc false
   @spec __fields__(atom) :: keyword

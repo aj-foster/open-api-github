@@ -4,6 +4,7 @@ defmodule GitHub.Release.Asset do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           browser_download_url: String.t(),
           content_type: String.t(),
           created_at: String.t(),
@@ -20,6 +21,7 @@ defmodule GitHub.Release.Asset do
         }
 
   defstruct [
+    :__info__,
     :browser_download_url,
     :content_type,
     :created_at,

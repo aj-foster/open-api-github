@@ -3,9 +3,9 @@ defmodule GitHub.SecurityAdvisoryEcosystems do
   Provides struct and type for SecurityAdvisoryEcosystems
   """
 
-  @type t :: %__MODULE__{}
+  @type t :: %__MODULE__{__info__: map}
 
-  defstruct []
+  defstruct [:__info__]
 
   @doc false
   @spec __fields__(atom) :: keyword

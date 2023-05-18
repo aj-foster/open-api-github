@@ -3,9 +3,9 @@ defmodule GitHub.Repository.Rule.RequiredLinearHistory do
   Provides struct and type for RepositoryRuleRequiredLinearHistory
   """
 
-  @type t :: %__MODULE__{type: String.t()}
+  @type t :: %__MODULE__{__info__: map, type: String.t()}
 
-  defstruct [:type]
+  defstruct [:__info__, :type]
 
   @doc false
   @spec __fields__(atom) :: keyword

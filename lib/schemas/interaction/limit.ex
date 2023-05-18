@@ -3,9 +3,9 @@ defmodule GitHub.Interaction.Limit do
   Provides struct and type for InteractionLimit
   """
 
-  @type t :: %__MODULE__{expiry: String.t() | nil, limit: String.t()}
+  @type t :: %__MODULE__{__info__: map, expiry: String.t() | nil, limit: String.t()}
 
-  defstruct [:expiry, :limit]
+  defstruct [:__info__, :expiry, :limit]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -4,6 +4,7 @@ defmodule GitHub.GpgKey do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           can_certify: boolean,
           can_encrypt_comms: boolean,
           can_encrypt_storage: boolean,
@@ -22,6 +23,7 @@ defmodule GitHub.GpgKey do
         }
 
   defstruct [
+    :__info__,
     :can_certify,
     :can_encrypt_comms,
     :can_encrypt_storage,

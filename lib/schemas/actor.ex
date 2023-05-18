@@ -4,6 +4,7 @@ defmodule GitHub.Actor do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           avatar_url: String.t(),
           display_login: String.t() | nil,
           gravatar_id: String.t() | nil,
@@ -12,7 +13,7 @@ defmodule GitHub.Actor do
           url: String.t()
         }
 
-  defstruct [:avatar_url, :display_login, :gravatar_id, :id, :login, :url]
+  defstruct [:__info__, :avatar_url, :display_login, :gravatar_id, :id, :login, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

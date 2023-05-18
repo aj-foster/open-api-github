@@ -4,6 +4,7 @@ defmodule GitHub.Timeline.ReviewedEvent do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           _links: map,
           author_association: String.t(),
           body: String.t() | nil,
@@ -21,6 +22,7 @@ defmodule GitHub.Timeline.ReviewedEvent do
         }
 
   defstruct [
+    :__info__,
     :_links,
     :author_association,
     :body,

@@ -4,6 +4,7 @@ defmodule GitHub.Repository.Invitation do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t(),
           expired: boolean | nil,
           html_url: String.t(),
@@ -17,6 +18,7 @@ defmodule GitHub.Repository.Invitation do
         }
 
   defstruct [
+    :__info__,
     :created_at,
     :expired,
     :html_url,

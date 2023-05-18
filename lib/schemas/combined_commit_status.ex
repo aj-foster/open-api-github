@@ -4,6 +4,7 @@ defmodule GitHub.CombinedCommitStatus do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           commit_url: String.t(),
           repository: GitHub.Repository.minimal(),
           sha: String.t(),
@@ -13,7 +14,7 @@ defmodule GitHub.CombinedCommitStatus do
           url: String.t()
         }
 
-  defstruct [:commit_url, :repository, :sha, :state, :statuses, :total_count, :url]
+  defstruct [:__info__, :commit_url, :repository, :sha, :state, :statuses, :total_count, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

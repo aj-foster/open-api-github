@@ -4,6 +4,7 @@ defmodule GitHub.CodeScanning.AlertRuleSummary do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           description: String.t() | nil,
           id: String.t() | nil,
           name: String.t() | nil,
@@ -11,7 +12,7 @@ defmodule GitHub.CodeScanning.AlertRuleSummary do
           tags: [String.t()] | nil
         }
 
-  defstruct [:description, :id, :name, :severity, :tags]
+  defstruct [:__info__, :description, :id, :name, :severity, :tags]
 
   @doc false
   @spec __fields__(atom) :: keyword

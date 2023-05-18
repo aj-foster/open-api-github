@@ -3,9 +3,9 @@ defmodule GitHub.Dependabot.Alert.Package do
   Provides struct and type for DependabotAlertPackage
   """
 
-  @type t :: %__MODULE__{ecosystem: String.t(), name: String.t()}
+  @type t :: %__MODULE__{__info__: map, ecosystem: String.t(), name: String.t()}
 
-  defstruct [:ecosystem, :name]
+  defstruct [:__info__, :ecosystem, :name]
 
   @doc false
   @spec __fields__(atom) :: keyword

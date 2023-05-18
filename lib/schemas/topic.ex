@@ -3,9 +3,9 @@ defmodule GitHub.Topic do
   Provides struct and type for Topic
   """
 
-  @type t :: %__MODULE__{names: [String.t()]}
+  @type t :: %__MODULE__{__info__: map, names: [String.t()]}
 
-  defstruct [:names]
+  defstruct [:__info__, :names]
 
   @doc false
   @spec __fields__(atom) :: keyword

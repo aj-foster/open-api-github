@@ -4,6 +4,7 @@ defmodule GitHub.Issue do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           active_lock_reason: String.t() | nil,
           assignee: GitHub.User.simple() | nil,
           assignees: [GitHub.User.simple()] | nil,
@@ -41,6 +42,7 @@ defmodule GitHub.Issue do
         }
 
   defstruct [
+    :__info__,
     :active_lock_reason,
     :assignee,
     :assignees,

@@ -4,6 +4,7 @@ defmodule GitHub.CodeScanning.OrganizationAlertItems do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t(),
           dismissed_at: String.t() | nil,
           dismissed_by: GitHub.User.simple() | nil,
@@ -23,6 +24,7 @@ defmodule GitHub.CodeScanning.OrganizationAlertItems do
         }
 
   defstruct [
+    :__info__,
     :created_at,
     :dismissed_at,
     :dismissed_by,

@@ -4,6 +4,7 @@ defmodule GitHub.AssignedIssueEvent do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           actor: GitHub.User.simple(),
           assignee: GitHub.User.simple(),
           assigner: GitHub.User.simple(),
@@ -18,6 +19,7 @@ defmodule GitHub.AssignedIssueEvent do
         }
 
   defstruct [
+    :__info__,
     :actor,
     :assignee,
     :assigner,

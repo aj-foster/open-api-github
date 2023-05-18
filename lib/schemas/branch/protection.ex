@@ -4,6 +4,7 @@ defmodule GitHub.Branch.Protection do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           allow_deletions: map | nil,
           allow_force_pushes: map | nil,
           allow_fork_syncing: map | nil,
@@ -23,6 +24,7 @@ defmodule GitHub.Branch.Protection do
         }
 
   defstruct [
+    :__info__,
     :allow_deletions,
     :allow_force_pushes,
     :allow_fork_syncing,

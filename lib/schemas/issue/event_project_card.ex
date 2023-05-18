@@ -4,6 +4,7 @@ defmodule GitHub.Issue.EventProjectCard do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           column_name: String.t(),
           id: integer,
           previous_column_name: String.t() | nil,
@@ -12,7 +13,7 @@ defmodule GitHub.Issue.EventProjectCard do
           url: String.t()
         }
 
-  defstruct [:column_name, :id, :previous_column_name, :project_id, :project_url, :url]
+  defstruct [:__info__, :column_name, :id, :previous_column_name, :project_id, :project_url, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

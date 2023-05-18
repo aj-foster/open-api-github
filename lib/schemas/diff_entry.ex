@@ -4,6 +4,7 @@ defmodule GitHub.DiffEntry do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           additions: integer,
           blob_url: String.t(),
           changes: integer,
@@ -18,6 +19,7 @@ defmodule GitHub.DiffEntry do
         }
 
   defstruct [
+    :__info__,
     :additions,
     :blob_url,
     :changes,

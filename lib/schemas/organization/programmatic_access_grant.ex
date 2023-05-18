@@ -4,6 +4,7 @@ defmodule GitHub.Organization.ProgrammaticAccessGrant do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           access_granted_at: String.t(),
           id: integer,
           owner: GitHub.User.simple(),
@@ -16,6 +17,7 @@ defmodule GitHub.Organization.ProgrammaticAccessGrant do
         }
 
   defstruct [
+    :__info__,
     :access_granted_at,
     :id,
     :owner,

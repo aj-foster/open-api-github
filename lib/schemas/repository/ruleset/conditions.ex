@@ -3,9 +3,9 @@ defmodule GitHub.Repository.Ruleset.Conditions do
   Provides struct and type for RepositoryRulesetConditions
   """
 
-  @type t :: %__MODULE__{ref_name: map | nil}
+  @type t :: %__MODULE__{__info__: map, ref_name: map | nil}
 
-  defstruct [:ref_name]
+  defstruct [:__info__, :ref_name]
 
   @doc false
   @spec __fields__(atom) :: keyword

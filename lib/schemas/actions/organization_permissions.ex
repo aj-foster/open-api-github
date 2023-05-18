@@ -4,6 +4,7 @@ defmodule GitHub.Actions.OrganizationPermissions do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           allowed_actions: String.t() | nil,
           enabled_repositories: String.t(),
           selected_actions_url: String.t() | nil,
@@ -11,6 +12,7 @@ defmodule GitHub.Actions.OrganizationPermissions do
         }
 
   defstruct [
+    :__info__,
     :allowed_actions,
     :enabled_repositories,
     :selected_actions_url,

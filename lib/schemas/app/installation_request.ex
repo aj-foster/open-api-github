@@ -4,6 +4,7 @@ defmodule GitHub.App.InstallationRequest do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           account: GitHub.Enterprise.t() | GitHub.User.simple(),
           created_at: String.t(),
           id: integer,
@@ -11,7 +12,7 @@ defmodule GitHub.App.InstallationRequest do
           requester: GitHub.User.simple()
         }
 
-  defstruct [:account, :created_at, :id, :node_id, :requester]
+  defstruct [:__info__, :account, :created_at, :id, :node_id, :requester]
 
   @doc false
   @spec __fields__(atom) :: keyword

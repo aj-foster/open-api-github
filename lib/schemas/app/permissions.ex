@@ -4,6 +4,7 @@ defmodule GitHub.App.Permissions do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           actions: String.t() | nil,
           administration: String.t() | nil,
           checks: String.t() | nil,
@@ -41,6 +42,7 @@ defmodule GitHub.App.Permissions do
         }
 
   defstruct [
+    :__info__,
     :actions,
     :administration,
     :checks,

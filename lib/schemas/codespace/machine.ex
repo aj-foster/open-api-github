@@ -4,6 +4,7 @@ defmodule GitHub.Codespace.Machine do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           cpus: integer,
           display_name: String.t(),
           memory_in_bytes: integer,
@@ -14,6 +15,7 @@ defmodule GitHub.Codespace.Machine do
         }
 
   defstruct [
+    :__info__,
     :cpus,
     :display_name,
     :memory_in_bytes,

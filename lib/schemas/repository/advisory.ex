@@ -4,6 +4,7 @@ defmodule GitHub.Repository.Advisory do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           author: nil,
           closed_at: String.t() | nil,
           created_at: String.t() | nil,
@@ -30,6 +31,7 @@ defmodule GitHub.Repository.Advisory do
         }
 
   defstruct [
+    :__info__,
     :author,
     :closed_at,
     :created_at,

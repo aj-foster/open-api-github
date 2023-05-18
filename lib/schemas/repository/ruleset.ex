@@ -4,6 +4,7 @@ defmodule GitHub.Repository.Ruleset do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           _links: map | nil,
           bypass_actors: [GitHub.Repository.Ruleset.BypassActor.t()] | nil,
           bypass_mode: String.t() | nil,
@@ -37,6 +38,7 @@ defmodule GitHub.Repository.Ruleset do
         }
 
   defstruct [
+    :__info__,
     :_links,
     :bypass_actors,
     :bypass_mode,

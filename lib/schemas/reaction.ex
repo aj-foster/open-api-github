@@ -4,6 +4,7 @@ defmodule GitHub.Reaction do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           content: String.t(),
           created_at: String.t(),
           id: integer,
@@ -11,7 +12,7 @@ defmodule GitHub.Reaction do
           user: GitHub.User.simple() | nil
         }
 
-  defstruct [:content, :created_at, :id, :node_id, :user]
+  defstruct [:__info__, :content, :created_at, :id, :node_id, :user]
 
   @doc false
   @spec __fields__(atom) :: keyword

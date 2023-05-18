@@ -4,6 +4,7 @@ defmodule GitHub.TopicSearchResultItem do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           aliases: [map] | nil,
           created_at: String.t(),
           created_by: String.t() | nil,
@@ -23,6 +24,7 @@ defmodule GitHub.TopicSearchResultItem do
         }
 
   defstruct [
+    :__info__,
     :aliases,
     :created_at,
     :created_by,

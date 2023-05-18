@@ -3,9 +3,9 @@ defmodule GitHub.StarredRepository do
   Provides struct and type for StarredRepository
   """
 
-  @type t :: %__MODULE__{repo: GitHub.Repository.t(), starred_at: String.t()}
+  @type t :: %__MODULE__{__info__: map, repo: GitHub.Repository.t(), starred_at: String.t()}
 
-  defstruct [:repo, :starred_at]
+  defstruct [:__info__, :repo, :starred_at]
 
   @doc false
   @spec __fields__(atom) :: keyword

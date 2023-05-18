@@ -4,6 +4,7 @@ defmodule GitHub.CodeSearchResultItem do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           file_size: integer | nil,
           git_url: String.t(),
           html_url: String.t(),
@@ -20,6 +21,7 @@ defmodule GitHub.CodeSearchResultItem do
         }
 
   defstruct [
+    :__info__,
     :file_size,
     :git_url,
     :html_url,

@@ -4,6 +4,7 @@ defmodule GitHub.Authorization do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           app: map,
           created_at: String.t(),
           expires_at: String.t() | nil,
@@ -22,6 +23,7 @@ defmodule GitHub.Authorization do
         }
 
   defstruct [
+    :__info__,
     :app,
     :created_at,
     :expires_at,

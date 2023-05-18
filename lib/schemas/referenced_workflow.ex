@@ -3,9 +3,9 @@ defmodule GitHub.ReferencedWorkflow do
   Provides struct and type for ReferencedWorkflow
   """
 
-  @type t :: %__MODULE__{path: String.t(), ref: String.t() | nil, sha: String.t()}
+  @type t :: %__MODULE__{__info__: map, path: String.t(), ref: String.t() | nil, sha: String.t()}
 
-  defstruct [:path, :ref, :sha]
+  defstruct [:__info__, :path, :ref, :sha]
 
   @doc false
   @spec __fields__(atom) :: keyword

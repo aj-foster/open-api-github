@@ -4,6 +4,7 @@ defmodule GitHub.CodeOfConduct do
   """
 
   @type simple :: %__MODULE__{
+          __info__: map,
           html_url: String.t() | nil,
           key: String.t(),
           name: String.t(),
@@ -11,6 +12,7 @@ defmodule GitHub.CodeOfConduct do
         }
 
   @type t :: %__MODULE__{
+          __info__: map,
           body: String.t() | nil,
           html_url: String.t() | nil,
           key: String.t(),
@@ -18,7 +20,7 @@ defmodule GitHub.CodeOfConduct do
           url: String.t()
         }
 
-  defstruct [:body, :html_url, :key, :name, :url]
+  defstruct [:__info__, :body, :html_url, :key, :name, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

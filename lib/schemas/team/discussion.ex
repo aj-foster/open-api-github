@@ -4,6 +4,7 @@ defmodule GitHub.Team.Discussion do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           author: GitHub.User.simple() | nil,
           body: String.t(),
           body_html: String.t(),
@@ -25,6 +26,7 @@ defmodule GitHub.Team.Discussion do
         }
 
   defstruct [
+    :__info__,
     :author,
     :body,
     :body_html,

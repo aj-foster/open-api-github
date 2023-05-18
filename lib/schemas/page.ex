@@ -4,6 +4,7 @@ defmodule GitHub.Page do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           build_type: String.t() | nil,
           cname: String.t() | nil,
           custom_404: boolean,
@@ -19,6 +20,7 @@ defmodule GitHub.Page do
         }
 
   defstruct [
+    :__info__,
     :build_type,
     :cname,
     :custom_404,

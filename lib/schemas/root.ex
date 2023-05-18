@@ -4,6 +4,7 @@ defmodule GitHub.Root do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           authorizations_url: String.t(),
           code_search_url: String.t(),
           commit_search_url: String.t(),
@@ -40,6 +41,7 @@ defmodule GitHub.Root do
         }
 
   defstruct [
+    :__info__,
     :authorizations_url,
     :code_search_url,
     :commit_search_url,

@@ -3,9 +3,9 @@ defmodule GitHub.Repository.Rule.ParamsStatusCheckConfiguration do
   Provides struct and type for RepositoryRuleParamsStatusCheckConfiguration
   """
 
-  @type t :: %__MODULE__{context: String.t(), integration_id: integer | nil}
+  @type t :: %__MODULE__{__info__: map, context: String.t(), integration_id: integer | nil}
 
-  defstruct [:context, :integration_id]
+  defstruct [:__info__, :context, :integration_id]
 
   @doc false
   @spec __fields__(atom) :: keyword

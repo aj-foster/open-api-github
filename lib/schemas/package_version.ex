@@ -4,6 +4,7 @@ defmodule GitHub.PackageVersion do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t(),
           deleted_at: String.t() | nil,
           description: String.t() | nil,
@@ -18,6 +19,7 @@ defmodule GitHub.PackageVersion do
         }
 
   defstruct [
+    :__info__,
     :created_at,
     :deleted_at,
     :description,

@@ -4,6 +4,7 @@ defmodule GitHub.Actions.BillingUsage do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           included_minutes: integer,
           minutes_used_breakdown: map,
           total_minutes_used: integer,
@@ -11,6 +12,7 @@ defmodule GitHub.Actions.BillingUsage do
         }
 
   defstruct [
+    :__info__,
     :included_minutes,
     :minutes_used_breakdown,
     :total_minutes_used,

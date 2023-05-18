@@ -4,6 +4,7 @@ defmodule GitHub.Installation.Token do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           expires_at: String.t(),
           has_multiple_single_files: boolean | nil,
           permissions: GitHub.App.Permissions.t() | nil,
@@ -15,6 +16,7 @@ defmodule GitHub.Installation.Token do
         }
 
   defstruct [
+    :__info__,
     :expires_at,
     :has_multiple_single_files,
     :permissions,

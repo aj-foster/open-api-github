@@ -4,6 +4,7 @@ defmodule GitHub.Hook.DeliveryItem do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           action: String.t() | nil,
           delivered_at: String.t(),
           duration: number,
@@ -18,6 +19,7 @@ defmodule GitHub.Hook.DeliveryItem do
         }
 
   defstruct [
+    :__info__,
     :action,
     :delivered_at,
     :duration,

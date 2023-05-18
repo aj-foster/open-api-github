@@ -4,6 +4,7 @@ defmodule GitHub.TagProtection do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t() | nil,
           enabled: boolean | nil,
           id: integer | nil,
@@ -11,7 +12,7 @@ defmodule GitHub.TagProtection do
           updated_at: String.t() | nil
         }
 
-  defstruct [:created_at, :enabled, :id, :pattern, :updated_at]
+  defstruct [:__info__, :created_at, :enabled, :id, :pattern, :updated_at]
 
   @doc false
   @spec __fields__(atom) :: keyword

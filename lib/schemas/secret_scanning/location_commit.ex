@@ -4,6 +4,7 @@ defmodule GitHub.SecretScanning.LocationCommit do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           blob_sha: String.t(),
           blob_url: String.t(),
           commit_sha: String.t(),
@@ -16,6 +17,7 @@ defmodule GitHub.SecretScanning.LocationCommit do
         }
 
   defstruct [
+    :__info__,
     :blob_sha,
     :blob_url,
     :commit_sha,

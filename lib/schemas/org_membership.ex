@@ -4,6 +4,7 @@ defmodule GitHub.OrgMembership do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           organization: GitHub.Organization.simple(),
           organization_url: String.t(),
           permissions: map | nil,
@@ -13,7 +14,16 @@ defmodule GitHub.OrgMembership do
           user: GitHub.User.simple() | nil
         }
 
-  defstruct [:organization, :organization_url, :permissions, :role, :state, :url, :user]
+  defstruct [
+    :__info__,
+    :organization,
+    :organization_url,
+    :permissions,
+    :role,
+    :state,
+    :url,
+    :user
+  ]
 
   @doc false
   @spec __fields__(atom) :: keyword

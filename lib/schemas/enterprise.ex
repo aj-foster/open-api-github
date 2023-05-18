@@ -4,6 +4,7 @@ defmodule GitHub.Enterprise do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           avatar_url: String.t(),
           created_at: String.t() | nil,
           description: String.t() | nil,
@@ -17,6 +18,7 @@ defmodule GitHub.Enterprise do
         }
 
   defstruct [
+    :__info__,
     :avatar_url,
     :created_at,
     :description,

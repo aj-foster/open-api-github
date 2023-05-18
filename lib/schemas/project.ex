@@ -4,6 +4,7 @@ defmodule GitHub.Project do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           body: String.t() | nil,
           columns_url: String.t(),
           created_at: String.t(),
@@ -22,6 +23,7 @@ defmodule GitHub.Project do
         }
 
   defstruct [
+    :__info__,
     :body,
     :columns_url,
     :created_at,

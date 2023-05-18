@@ -4,6 +4,7 @@ defmodule GitHub.Timeline.CommittedEvent do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           author: map,
           committer: map,
           event: String.t() | nil,
@@ -18,6 +19,7 @@ defmodule GitHub.Timeline.CommittedEvent do
         }
 
   defstruct [
+    :__info__,
     :author,
     :committer,
     :event,

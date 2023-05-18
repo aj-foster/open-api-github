@@ -4,6 +4,7 @@ defmodule GitHub.Deployment.Status do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t(),
           creator: GitHub.User.simple() | nil,
           deployment_url: String.t(),
@@ -22,6 +23,7 @@ defmodule GitHub.Deployment.Status do
         }
 
   defstruct [
+    :__info__,
     :created_at,
     :creator,
     :deployment_url,

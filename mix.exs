@@ -37,7 +37,7 @@ defmodule GitHub.MixProject do
       {:faker, "~> 0.15"},
       {:jason, "~> 1.0", optional: true},
       {:httpoison, "~> 1.7 or ~> 2.0", optional: true},
-      {:oapi_generator, "0.0.5", only: [:dev, :test], runtime: false},
+      {:oapi_generator, "0.0.6", only: [:dev, :test], runtime: false},
       {:redix, "~> 1.0", optional: true}
     ]
   end

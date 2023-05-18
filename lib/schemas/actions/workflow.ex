@@ -4,6 +4,7 @@ defmodule GitHub.Actions.Workflow do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           badge_url: String.t(),
           created_at: String.t(),
           deleted_at: String.t() | nil,
@@ -18,6 +19,7 @@ defmodule GitHub.Actions.Workflow do
         }
 
   defstruct [
+    :__info__,
     :badge_url,
     :created_at,
     :deleted_at,

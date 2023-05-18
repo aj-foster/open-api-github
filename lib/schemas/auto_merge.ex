@@ -4,13 +4,14 @@ defmodule GitHub.AutoMerge do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           commit_message: String.t(),
           commit_title: String.t(),
           enabled_by: GitHub.User.simple(),
           merge_method: String.t()
         }
 
-  defstruct [:commit_message, :commit_title, :enabled_by, :merge_method]
+  defstruct [:__info__, :commit_message, :commit_title, :enabled_by, :merge_method]
 
   @doc false
   @spec __fields__(atom) :: keyword

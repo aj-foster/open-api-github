@@ -4,6 +4,7 @@ defmodule GitHub.RequiredWorkflow do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t(),
           id: number,
           name: String.t(),
@@ -17,6 +18,7 @@ defmodule GitHub.RequiredWorkflow do
         }
 
   defstruct [
+    :__info__,
     :created_at,
     :id,
     :name,

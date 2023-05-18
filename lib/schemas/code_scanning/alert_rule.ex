@@ -4,6 +4,7 @@ defmodule GitHub.CodeScanning.AlertRule do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           description: String.t() | nil,
           full_description: String.t() | nil,
           help: String.t() | nil,
@@ -16,6 +17,7 @@ defmodule GitHub.CodeScanning.AlertRule do
         }
 
   defstruct [
+    :__info__,
     :description,
     :full_description,
     :help,

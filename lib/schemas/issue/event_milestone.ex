@@ -3,9 +3,9 @@ defmodule GitHub.Issue.EventMilestone do
   Provides struct and type for IssueEventMilestone
   """
 
-  @type t :: %__MODULE__{title: String.t()}
+  @type t :: %__MODULE__{__info__: map, title: String.t()}
 
-  defstruct [:title]
+  defstruct [:__info__, :title]
 
   @doc false
   @spec __fields__(atom) :: keyword

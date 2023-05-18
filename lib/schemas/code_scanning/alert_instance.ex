@@ -4,6 +4,7 @@ defmodule GitHub.CodeScanning.AlertInstance do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           analysis_key: String.t() | nil,
           category: String.t() | nil,
           classifications: [String.t() | nil] | nil,
@@ -17,6 +18,7 @@ defmodule GitHub.CodeScanning.AlertInstance do
         }
 
   defstruct [
+    :__info__,
     :analysis_key,
     :category,
     :classifications,

@@ -4,6 +4,7 @@ defmodule GitHub.Commit.Comment do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           author_association: String.t(),
           body: String.t(),
           commit_id: String.t(),
@@ -21,6 +22,7 @@ defmodule GitHub.Commit.Comment do
         }
 
   defstruct [
+    :__info__,
     :author_association,
     :body,
     :commit_id,

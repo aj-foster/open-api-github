@@ -3,9 +3,14 @@ defmodule GitHub.ContributorActivity do
   Provides struct and type for ContributorActivity
   """
 
-  @type t :: %__MODULE__{author: GitHub.User.simple() | nil, total: integer, weeks: [map]}
+  @type t :: %__MODULE__{
+          __info__: map,
+          author: GitHub.User.simple() | nil,
+          total: integer,
+          weeks: [map]
+        }
 
-  defstruct [:author, :total, :weeks]
+  defstruct [:__info__, :author, :total, :weeks]
 
   @doc false
   @spec __fields__(atom) :: keyword

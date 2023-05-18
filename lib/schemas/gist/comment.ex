@@ -4,6 +4,7 @@ defmodule GitHub.Gist.Comment do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           author_association: String.t(),
           body: String.t(),
           created_at: String.t(),
@@ -14,7 +15,17 @@ defmodule GitHub.Gist.Comment do
           user: GitHub.User.simple() | nil
         }
 
-  defstruct [:author_association, :body, :created_at, :id, :node_id, :updated_at, :url, :user]
+  defstruct [
+    :__info__,
+    :author_association,
+    :body,
+    :created_at,
+    :id,
+    :node_id,
+    :updated_at,
+    :url,
+    :user
+  ]
 
   @doc false
   @spec __fields__(atom) :: keyword

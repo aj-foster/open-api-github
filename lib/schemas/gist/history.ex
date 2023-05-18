@@ -4,6 +4,7 @@ defmodule GitHub.Gist.History do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           change_status: map | nil,
           committed_at: String.t() | nil,
           url: String.t() | nil,
@@ -11,7 +12,7 @@ defmodule GitHub.Gist.History do
           version: String.t() | nil
         }
 
-  defstruct [:change_status, :committed_at, :url, :user, :version]
+  defstruct [:__info__, :change_status, :committed_at, :url, :user, :version]
 
   @doc false
   @spec __fields__(atom) :: keyword

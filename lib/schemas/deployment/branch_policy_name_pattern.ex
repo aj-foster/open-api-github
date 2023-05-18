@@ -3,9 +3,9 @@ defmodule GitHub.Deployment.BranchPolicyNamePattern do
   Provides struct and type for DeploymentBranchPolicyNamePattern
   """
 
-  @type t :: %__MODULE__{name: String.t()}
+  @type t :: %__MODULE__{__info__: map, name: String.t()}
 
-  defstruct [:name]
+  defstruct [:__info__, :name]
 
   @doc false
   @spec __fields__(atom) :: keyword

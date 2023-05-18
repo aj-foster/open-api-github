@@ -4,12 +4,13 @@ defmodule GitHub.CodeScanning.SarifsStatus do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           analyses_url: String.t() | nil,
           errors: [String.t()] | nil,
           processing_status: String.t() | nil
         }
 
-  defstruct [:analyses_url, :errors, :processing_status]
+  defstruct [:__info__, :analyses_url, :errors, :processing_status]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -4,6 +4,7 @@ defmodule GitHub.Artifact do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           archive_download_url: String.t(),
           created_at: String.t() | nil,
           expired: boolean,
@@ -18,6 +19,7 @@ defmodule GitHub.Artifact do
         }
 
   defstruct [
+    :__info__,
     :archive_download_url,
     :created_at,
     :expired,

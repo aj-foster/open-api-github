@@ -3,9 +3,9 @@ defmodule GitHub.ReferrerTraffic do
   Provides struct and type for ReferrerTraffic
   """
 
-  @type t :: %__MODULE__{count: integer, referrer: String.t(), uniques: integer}
+  @type t :: %__MODULE__{__info__: map, count: integer, referrer: String.t(), uniques: integer}
 
-  defstruct [:count, :referrer, :uniques]
+  defstruct [:__info__, :count, :referrer, :uniques]
 
   @doc false
   @spec __fields__(atom) :: keyword

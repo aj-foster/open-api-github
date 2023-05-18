@@ -4,6 +4,7 @@ defmodule GitHub.Tag do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           commit: map,
           name: String.t(),
           node_id: String.t(),
@@ -11,7 +12,7 @@ defmodule GitHub.Tag do
           zipball_url: String.t()
         }
 
-  defstruct [:commit, :name, :node_id, :tarball_url, :zipball_url]
+  defstruct [:__info__, :commit, :name, :node_id, :tarball_url, :zipball_url]
 
   @doc false
   @spec __fields__(atom) :: keyword

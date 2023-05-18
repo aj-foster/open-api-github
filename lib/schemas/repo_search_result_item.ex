@@ -4,6 +4,7 @@ defmodule GitHub.RepoSearchResultItem do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           allow_auto_merge: boolean | nil,
           allow_forking: boolean | nil,
           allow_merge_commit: boolean | nil,
@@ -96,6 +97,7 @@ defmodule GitHub.RepoSearchResultItem do
         }
 
   defstruct [
+    :__info__,
     :allow_auto_merge,
     :allow_forking,
     :allow_merge_commit,

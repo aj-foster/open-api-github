@@ -3,9 +3,9 @@ defmodule GitHub.Traffic do
   Provides struct and type for Traffic
   """
 
-  @type t :: %__MODULE__{count: integer, timestamp: String.t(), uniques: integer}
+  @type t :: %__MODULE__{__info__: map, count: integer, timestamp: String.t(), uniques: integer}
 
-  defstruct [:count, :timestamp, :uniques]
+  defstruct [:__info__, :count, :timestamp, :uniques]
 
   @doc false
   @spec __fields__(atom) :: keyword

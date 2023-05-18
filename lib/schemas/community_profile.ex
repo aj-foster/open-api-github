@@ -4,6 +4,7 @@ defmodule GitHub.CommunityProfile do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           content_reports_enabled: boolean | nil,
           description: String.t() | nil,
           documentation: String.t() | nil,
@@ -13,6 +14,7 @@ defmodule GitHub.CommunityProfile do
         }
 
   defstruct [
+    :__info__,
     :content_reports_enabled,
     :description,
     :documentation,

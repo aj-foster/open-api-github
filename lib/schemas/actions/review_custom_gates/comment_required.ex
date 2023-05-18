@@ -3,9 +3,9 @@ defmodule GitHub.Actions.ReviewCustomGates.CommentRequired do
   Provides struct and type for ReviewCustomGatesCommentRequired
   """
 
-  @type t :: %__MODULE__{comment: String.t(), environment_name: String.t()}
+  @type t :: %__MODULE__{__info__: map, comment: String.t(), environment_name: String.t()}
 
-  defstruct [:comment, :environment_name]
+  defstruct [:__info__, :comment, :environment_name]
 
   @doc false
   @spec __fields__(atom) :: keyword

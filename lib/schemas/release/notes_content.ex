@@ -3,9 +3,9 @@ defmodule GitHub.Release.NotesContent do
   Provides struct and type for ReleaseNotesContent
   """
 
-  @type t :: %__MODULE__{body: String.t(), name: String.t()}
+  @type t :: %__MODULE__{__info__: map, body: String.t(), name: String.t()}
 
-  defstruct [:body, :name]
+  defstruct [:__info__, :body, :name]
 
   @doc false
   @spec __fields__(atom) :: keyword

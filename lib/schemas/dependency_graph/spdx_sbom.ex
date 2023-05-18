@@ -3,9 +3,9 @@ defmodule GitHub.DependencyGraph.SpdxSbom do
   Provides struct and type for DependencyGraphSpdxSbom
   """
 
-  @type t :: %__MODULE__{sbom: map}
+  @type t :: %__MODULE__{__info__: map, sbom: map}
 
-  defstruct [:sbom]
+  defstruct [:__info__, :sbom]
 
   @doc false
   @spec __fields__(atom) :: keyword

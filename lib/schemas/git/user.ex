@@ -3,9 +3,14 @@ defmodule GitHub.Git.User do
   Provides struct and type for GitUser
   """
 
-  @type t :: %__MODULE__{date: String.t() | nil, email: String.t() | nil, name: String.t() | nil}
+  @type t :: %__MODULE__{
+          __info__: map,
+          date: String.t() | nil,
+          email: String.t() | nil,
+          name: String.t() | nil
+        }
 
-  defstruct [:date, :email, :name]
+  defstruct [:__info__, :date, :email, :name]
 
   @doc false
   @spec __fields__(atom) :: keyword

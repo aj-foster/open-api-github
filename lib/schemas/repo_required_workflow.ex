@@ -4,6 +4,7 @@ defmodule GitHub.RepoRequiredWorkflow do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           badge_url: String.t(),
           created_at: String.t(),
           html_url: String.t(),
@@ -18,6 +19,7 @@ defmodule GitHub.RepoRequiredWorkflow do
         }
 
   defstruct [
+    :__info__,
     :badge_url,
     :created_at,
     :html_url,

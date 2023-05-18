@@ -4,6 +4,7 @@ defmodule GitHub.BaseGist do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           comments: integer,
           comments_url: String.t(),
           commits_url: String.t(),
@@ -27,6 +28,7 @@ defmodule GitHub.BaseGist do
         }
 
   defstruct [
+    :__info__,
     :comments,
     :comments_url,
     :commits_url,

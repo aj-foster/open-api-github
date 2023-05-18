@@ -4,13 +4,14 @@ defmodule GitHub.CodeScanning.DefaultSetup do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           languages: [String.t()] | nil,
           query_suite: String.t() | nil,
           state: String.t() | nil,
           updated_at: String.t() | nil
         }
 
-  defstruct [:languages, :query_suite, :state, :updated_at]
+  defstruct [:__info__, :languages, :query_suite, :state, :updated_at]
 
   @doc false
   @spec __fields__(atom) :: keyword

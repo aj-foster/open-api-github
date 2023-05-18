@@ -4,6 +4,7 @@ defmodule GitHub.Git.Commit do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           author: map,
           committer: map,
           html_url: String.t(),
@@ -17,6 +18,7 @@ defmodule GitHub.Git.Commit do
         }
 
   defstruct [
+    :__info__,
     :author,
     :committer,
     :html_url,

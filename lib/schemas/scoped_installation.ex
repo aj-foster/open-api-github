@@ -4,6 +4,7 @@ defmodule GitHub.ScopedInstallation do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           account: GitHub.User.simple(),
           has_multiple_single_files: boolean | nil,
           permissions: GitHub.App.Permissions.t(),
@@ -14,6 +15,7 @@ defmodule GitHub.ScopedInstallation do
         }
 
   defstruct [
+    :__info__,
     :account,
     :has_multiple_single_files,
     :permissions,

@@ -4,6 +4,7 @@ defmodule GitHub.SecretScanning.Location do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           details:
             GitHub.SecretScanning.LocationCommit.t()
             | GitHub.SecretScanning.LocationIssueBody.t()
@@ -12,7 +13,7 @@ defmodule GitHub.SecretScanning.Location do
           type: String.t()
         }
 
-  defstruct [:details, :type]
+  defstruct [:__info__, :details, :type]
 
   @doc false
   @spec __fields__(atom) :: keyword

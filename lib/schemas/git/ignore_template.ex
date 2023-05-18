@@ -3,9 +3,9 @@ defmodule GitHub.Git.IgnoreTemplate do
   Provides struct and type for GitignoreTemplate
   """
 
-  @type t :: %__MODULE__{name: String.t(), source: String.t()}
+  @type t :: %__MODULE__{__info__: map, name: String.t(), source: String.t()}
 
-  defstruct [:name, :source]
+  defstruct [:__info__, :name, :source]
 
   @doc false
   @spec __fields__(atom) :: keyword

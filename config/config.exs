@@ -5,6 +5,7 @@ config :oapi_generator,
   default: [
     base_location: "lib/",
     base_module: GitHub,
+    extra_fields: [__info__: :map],
     group: [
       Actions,
       Actions.ReviewCustomGates,

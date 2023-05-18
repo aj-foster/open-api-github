@@ -4,6 +4,7 @@ defmodule GitHub.PorterAuthor do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           email: String.t(),
           id: integer,
           import_url: String.t(),
@@ -13,7 +14,7 @@ defmodule GitHub.PorterAuthor do
           url: String.t()
         }
 
-  defstruct [:email, :id, :import_url, :name, :remote_id, :remote_name, :url]
+  defstruct [:__info__, :email, :id, :import_url, :name, :remote_id, :remote_name, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

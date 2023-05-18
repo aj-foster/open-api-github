@@ -3,9 +3,9 @@ defmodule GitHub.Issue.EventLabel do
   Provides struct and type for IssueEventLabel
   """
 
-  @type t :: %__MODULE__{color: String.t() | nil, name: String.t() | nil}
+  @type t :: %__MODULE__{__info__: map, color: String.t() | nil, name: String.t() | nil}
 
-  defstruct [:color, :name]
+  defstruct [:__info__, :color, :name]
 
   @doc false
   @spec __fields__(atom) :: keyword

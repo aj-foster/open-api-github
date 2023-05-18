@@ -3,9 +3,10 @@ defmodule GitHub.Key do
   Provides struct and types for Key, KeySimple
   """
 
-  @type simple :: %__MODULE__{id: integer, key: String.t()}
+  @type simple :: %__MODULE__{__info__: map, id: integer, key: String.t()}
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t(),
           id: integer,
           key: String.t(),
@@ -15,7 +16,7 @@ defmodule GitHub.Key do
           verified: boolean
         }
 
-  defstruct [:created_at, :id, :key, :read_only, :title, :url, :verified]
+  defstruct [:__info__, :created_at, :id, :key, :read_only, :title, :url, :verified]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -4,6 +4,7 @@ defmodule GitHub.Actions.Runner.Application do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           architecture: String.t(),
           download_url: String.t(),
           filename: String.t(),
@@ -12,7 +13,15 @@ defmodule GitHub.Actions.Runner.Application do
           temp_download_token: String.t() | nil
         }
 
-  defstruct [:architecture, :download_url, :filename, :os, :sha256_checksum, :temp_download_token]
+  defstruct [
+    :__info__,
+    :architecture,
+    :download_url,
+    :filename,
+    :os,
+    :sha256_checksum,
+    :temp_download_token
+  ]
 
   @doc false
   @spec __fields__(atom) :: keyword

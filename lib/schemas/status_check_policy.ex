@@ -4,6 +4,7 @@ defmodule GitHub.StatusCheckPolicy do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           checks: [map],
           contexts: [String.t()],
           contexts_url: String.t(),
@@ -11,7 +12,7 @@ defmodule GitHub.StatusCheckPolicy do
           url: String.t()
         }
 
-  defstruct [:checks, :contexts, :contexts_url, :strict, :url]
+  defstruct [:__info__, :checks, :contexts, :contexts_url, :strict, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

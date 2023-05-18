@@ -3,9 +3,9 @@ defmodule GitHub.SecretScanning.LocationIssueTitle do
   Provides struct and type for SecretScanningLocationIssueTitle
   """
 
-  @type t :: %__MODULE__{issue_title_url: String.t()}
+  @type t :: %__MODULE__{__info__: map, issue_title_url: String.t()}
 
-  defstruct [:issue_title_url]
+  defstruct [:__info__, :issue_title_url]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -4,6 +4,7 @@ defmodule GitHub.Commit.Comparison do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           ahead_by: integer,
           base_commit: GitHub.Commit.t(),
           behind_by: integer,
@@ -20,6 +21,7 @@ defmodule GitHub.Commit.Comparison do
         }
 
   defstruct [
+    :__info__,
     :ahead_by,
     :base_commit,
     :behind_by,

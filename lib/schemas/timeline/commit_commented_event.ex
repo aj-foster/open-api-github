@@ -4,13 +4,14 @@ defmodule GitHub.Timeline.CommitCommentedEvent do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           comments: [GitHub.Commit.Comment.t()] | nil,
           commit_id: String.t() | nil,
           event: String.t() | nil,
           node_id: String.t() | nil
         }
 
-  defstruct [:comments, :commit_id, :event, :node_id]
+  defstruct [:__info__, :comments, :commit_id, :event, :node_id]
 
   @doc false
   @spec __fields__(atom) :: keyword

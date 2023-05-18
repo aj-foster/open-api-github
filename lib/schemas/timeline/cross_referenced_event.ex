@@ -4,6 +4,7 @@ defmodule GitHub.Timeline.CrossReferencedEvent do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           actor: GitHub.User.simple() | nil,
           created_at: String.t(),
           event: String.t(),
@@ -11,7 +12,7 @@ defmodule GitHub.Timeline.CrossReferencedEvent do
           updated_at: String.t()
         }
 
-  defstruct [:actor, :created_at, :event, :source, :updated_at]
+  defstruct [:__info__, :actor, :created_at, :event, :source, :updated_at]
 
   @doc false
   @spec __fields__(atom) :: keyword

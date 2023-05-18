@@ -4,6 +4,7 @@ defmodule GitHub.ApiOverview do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           actions: [String.t()] | nil,
           api: [String.t()] | nil,
           dependabot: [String.t()] | nil,
@@ -19,6 +20,7 @@ defmodule GitHub.ApiOverview do
         }
 
   defstruct [
+    :__info__,
     :actions,
     :api,
     :dependabot,

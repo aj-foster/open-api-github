@@ -4,6 +4,7 @@ defmodule GitHub.Marketplace.ListingPlan do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           accounts_url: String.t(),
           bullets: [String.t()],
           description: String.t(),
@@ -20,6 +21,7 @@ defmodule GitHub.Marketplace.ListingPlan do
         }
 
   defstruct [
+    :__info__,
     :accounts_url,
     :bullets,
     :description,

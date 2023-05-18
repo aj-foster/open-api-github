@@ -4,6 +4,7 @@ defmodule GitHub.Dependency do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           dependencies: [String.t()] | nil,
           metadata: GitHub.Metadata.t() | nil,
           package_url: String.t() | nil,
@@ -11,7 +12,7 @@ defmodule GitHub.Dependency do
           scope: String.t() | nil
         }
 
-  defstruct [:dependencies, :metadata, :package_url, :relationship, :scope]
+  defstruct [:__info__, :dependencies, :metadata, :package_url, :relationship, :scope]
 
   @doc false
   @spec __fields__(atom) :: keyword

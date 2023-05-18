@@ -3,9 +3,9 @@ defmodule GitHub.Repository.Rule.CommitAuthorEmailPattern do
   Provides struct and type for RepositoryRuleCommitAuthorEmailPattern
   """
 
-  @type t :: %__MODULE__{parameters: map | nil, type: String.t()}
+  @type t :: %__MODULE__{__info__: map, parameters: map | nil, type: String.t()}
 
-  defstruct [:parameters, :type]
+  defstruct [:__info__, :parameters, :type]
 
   @doc false
   @spec __fields__(atom) :: keyword

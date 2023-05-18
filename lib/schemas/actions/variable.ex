@@ -4,13 +4,14 @@ defmodule GitHub.Actions.Variable do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t(),
           name: String.t(),
           updated_at: String.t(),
           value: String.t()
         }
 
-  defstruct [:created_at, :name, :updated_at, :value]
+  defstruct [:__info__, :created_at, :name, :updated_at, :value]
 
   @doc false
   @spec __fields__(atom) :: keyword

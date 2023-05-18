@@ -3,9 +3,9 @@ defmodule GitHub.CodeScanning.AnalysisUrl do
   Provides struct and type for CodeScanningAnalysisUrl
   """
 
-  @type t :: %__MODULE__{}
+  @type t :: %__MODULE__{__info__: map}
 
-  defstruct []
+  defstruct [:__info__]
 
   @doc false
   @spec __fields__(atom) :: keyword

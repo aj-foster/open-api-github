@@ -3,9 +3,9 @@ defmodule GitHub.RateLimit.Overview do
   Provides struct and type for RateLimitOverview
   """
 
-  @type t :: %__MODULE__{rate: GitHub.RateLimit.t(), resources: map}
+  @type t :: %__MODULE__{__info__: map, rate: GitHub.RateLimit.t(), resources: map}
 
-  defstruct [:rate, :resources]
+  defstruct [:__info__, :rate, :resources]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -4,6 +4,7 @@ defmodule GitHub.Timeline.AssignedIssueEvent do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           actor: GitHub.User.simple(),
           assignee: GitHub.User.simple(),
           commit_id: String.t() | nil,
@@ -17,6 +18,7 @@ defmodule GitHub.Timeline.AssignedIssueEvent do
         }
 
   defstruct [
+    :__info__,
     :actor,
     :assignee,
     :commit_id,

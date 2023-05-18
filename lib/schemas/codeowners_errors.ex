@@ -3,9 +3,9 @@ defmodule GitHub.CodeownersErrors do
   Provides struct and type for CodeownersErrors
   """
 
-  @type t :: %__MODULE__{errors: [map]}
+  @type t :: %__MODULE__{__info__: map, errors: [map]}
 
-  defstruct [:errors]
+  defstruct [:__info__, :errors]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -4,6 +4,7 @@ defmodule GitHub.Repository.Subscription do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t(),
           ignored: boolean,
           reason: String.t() | nil,
@@ -12,7 +13,7 @@ defmodule GitHub.Repository.Subscription do
           url: String.t()
         }
 
-  defstruct [:created_at, :ignored, :reason, :repository_url, :subscribed, :url]
+  defstruct [:__info__, :created_at, :ignored, :reason, :repository_url, :subscribed, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

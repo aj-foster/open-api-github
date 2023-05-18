@@ -4,6 +4,7 @@ defmodule GitHub.Commit.Status do
   """
 
   @type simple :: %__MODULE__{
+          __info__: map,
           avatar_url: String.t() | nil,
           context: String.t(),
           created_at: String.t(),
@@ -18,6 +19,7 @@ defmodule GitHub.Commit.Status do
         }
 
   defstruct [
+    :__info__,
     :avatar_url,
     :context,
     :created_at,

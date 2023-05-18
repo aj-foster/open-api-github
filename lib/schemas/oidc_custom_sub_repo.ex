@@ -3,9 +3,13 @@ defmodule GitHub.OIDCCustomSubRepo do
   Provides struct and type for OidcCustomSubRepo
   """
 
-  @type t :: %__MODULE__{include_claim_keys: [String.t()] | nil, use_default: boolean}
+  @type t :: %__MODULE__{
+          __info__: map,
+          include_claim_keys: [String.t()] | nil,
+          use_default: boolean
+        }
 
-  defstruct [:include_claim_keys, :use_default]
+  defstruct [:__info__, :include_claim_keys, :use_default]
 
   @doc false
   @spec __fields__(atom) :: keyword

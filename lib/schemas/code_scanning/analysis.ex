@@ -4,6 +4,7 @@ defmodule GitHub.CodeScanning.Analysis do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           analysis_key: String.t(),
           category: String.t() | nil,
           commit_sha: String.t(),
@@ -22,6 +23,7 @@ defmodule GitHub.CodeScanning.Analysis do
         }
 
   defstruct [
+    :__info__,
     :analysis_key,
     :category,
     :commit_sha,

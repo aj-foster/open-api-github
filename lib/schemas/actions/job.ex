@@ -4,6 +4,7 @@ defmodule GitHub.Actions.Job do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           check_run_url: String.t(),
           completed_at: String.t() | nil,
           conclusion: String.t() | nil,
@@ -30,6 +31,7 @@ defmodule GitHub.Actions.Job do
         }
 
   defstruct [
+    :__info__,
     :check_run_url,
     :completed_at,
     :conclusion,

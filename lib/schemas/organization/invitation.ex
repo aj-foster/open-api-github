@@ -4,6 +4,7 @@ defmodule GitHub.Organization.Invitation do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t(),
           email: String.t() | nil,
           failed_at: String.t() | nil,
@@ -19,6 +20,7 @@ defmodule GitHub.Organization.Invitation do
         }
 
   defstruct [
+    :__info__,
     :created_at,
     :email,
     :failed_at,

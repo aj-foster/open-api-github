@@ -4,12 +4,13 @@ defmodule GitHub.SecurityAndAnalysis do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           advanced_security: map | nil,
           secret_scanning: map | nil,
           secret_scanning_push_protection: map | nil
         }
 
-  defstruct [:advanced_security, :secret_scanning, :secret_scanning_push_protection]
+  defstruct [:__info__, :advanced_security, :secret_scanning, :secret_scanning_push_protection]
 
   @doc false
   @spec __fields__(atom) :: keyword

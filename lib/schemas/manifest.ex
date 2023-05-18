@@ -4,13 +4,14 @@ defmodule GitHub.Manifest do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           file: map | nil,
           metadata: GitHub.Metadata.t() | nil,
           name: String.t(),
           resolved: map | nil
         }
 
-  defstruct [:file, :metadata, :name, :resolved]
+  defstruct [:__info__, :file, :metadata, :name, :resolved]
 
   @doc false
   @spec __fields__(atom) :: keyword

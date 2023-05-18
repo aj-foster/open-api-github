@@ -4,6 +4,7 @@ defmodule GitHub.Gist.Commit do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           change_status: map,
           committed_at: String.t(),
           url: String.t(),
@@ -11,7 +12,7 @@ defmodule GitHub.Gist.Commit do
           version: String.t()
         }
 
-  defstruct [:change_status, :committed_at, :url, :user, :version]
+  defstruct [:__info__, :change_status, :committed_at, :url, :user, :version]
 
   @doc false
   @spec __fields__(atom) :: keyword

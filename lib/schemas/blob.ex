@@ -4,6 +4,7 @@ defmodule GitHub.Blob do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           content: String.t(),
           encoding: String.t(),
           highlighted_content: String.t() | nil,
@@ -13,7 +14,7 @@ defmodule GitHub.Blob do
           url: String.t()
         }
 
-  defstruct [:content, :encoding, :highlighted_content, :node_id, :sha, :size, :url]
+  defstruct [:__info__, :content, :encoding, :highlighted_content, :node_id, :sha, :size, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -4,13 +4,14 @@ defmodule GitHub.Email do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           email: String.t(),
           primary: boolean,
           verified: boolean,
           visibility: String.t() | nil
         }
 
-  defstruct [:email, :primary, :verified, :visibility]
+  defstruct [:__info__, :email, :primary, :verified, :visibility]
 
   @doc false
   @spec __fields__(atom) :: keyword

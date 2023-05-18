@@ -4,12 +4,13 @@ defmodule GitHub.Actions.ReviewCustomGates.StateRequired do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           comment: String.t() | nil,
           environment_name: String.t(),
           state: String.t()
         }
 
-  defstruct [:comment, :environment_name, :state]
+  defstruct [:__info__, :comment, :environment_name, :state]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -4,6 +4,7 @@ defmodule GitHub.Git.Tag do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           message: String.t(),
           node_id: String.t(),
           object: map,
@@ -14,7 +15,7 @@ defmodule GitHub.Git.Tag do
           verification: GitHub.Verification.t() | nil
         }
 
-  defstruct [:message, :node_id, :object, :sha, :tag, :tagger, :url, :verification]
+  defstruct [:__info__, :message, :node_id, :object, :sha, :tag, :tagger, :url, :verification]
 
   @doc false
   @spec __fields__(atom) :: keyword

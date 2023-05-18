@@ -4,6 +4,7 @@ defmodule GitHub.Installation do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           access_tokens_url: String.t(),
           account: (GitHub.Enterprise.t() | GitHub.User.simple()) | nil,
           app_id: integer,
@@ -27,6 +28,7 @@ defmodule GitHub.Installation do
         }
 
   defstruct [
+    :__info__,
     :access_tokens_url,
     :account,
     :app_id,

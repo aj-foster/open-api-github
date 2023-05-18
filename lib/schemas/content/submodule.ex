@@ -4,6 +4,7 @@ defmodule GitHub.Content.Submodule do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           _links: map,
           download_url: String.t() | nil,
           git_url: String.t() | nil,
@@ -18,6 +19,7 @@ defmodule GitHub.Content.Submodule do
         }
 
   defstruct [
+    :__info__,
     :_links,
     :download_url,
     :git_url,

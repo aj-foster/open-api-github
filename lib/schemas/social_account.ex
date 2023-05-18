@@ -3,9 +3,9 @@ defmodule GitHub.SocialAccount do
   Provides struct and type for SocialAccount
   """
 
-  @type t :: %__MODULE__{provider: String.t(), url: String.t()}
+  @type t :: %__MODULE__{__info__: map, provider: String.t(), url: String.t()}
 
-  defstruct [:provider, :url]
+  defstruct [:__info__, :provider, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -3,9 +3,9 @@ defmodule GitHub.Hovercard do
   Provides struct and type for Hovercard
   """
 
-  @type t :: %__MODULE__{contexts: [map]}
+  @type t :: %__MODULE__{__info__: map, contexts: [map]}
 
-  defstruct [:contexts]
+  defstruct [:__info__, :contexts]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -3,9 +3,9 @@ defmodule GitHub.PullRequest.ReviewRequest do
   Provides struct and type for PullRequestReviewRequest
   """
 
-  @type t :: %__MODULE__{teams: [GitHub.Team.t()], users: [GitHub.User.simple()]}
+  @type t :: %__MODULE__{__info__: map, teams: [GitHub.Team.t()], users: [GitHub.User.simple()]}
 
-  defstruct [:teams, :users]
+  defstruct [:__info__, :teams, :users]
 
   @doc false
   @spec __fields__(atom) :: keyword

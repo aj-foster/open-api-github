@@ -6,6 +6,7 @@ defmodule GitHub.Reaction.Rollup do
   @type t :: %__MODULE__{
           "+1": integer,
           "-1": integer,
+          __info__: map,
           confused: integer,
           eyes: integer,
           heart: integer,
@@ -16,7 +17,19 @@ defmodule GitHub.Reaction.Rollup do
           url: String.t()
         }
 
-  defstruct [:"+1", :"-1", :confused, :eyes, :heart, :hooray, :laugh, :rocket, :total_count, :url]
+  defstruct [
+    :"+1",
+    :"-1",
+    :__info__,
+    :confused,
+    :eyes,
+    :heart,
+    :hooray,
+    :laugh,
+    :rocket,
+    :total_count,
+    :url
+  ]
 
   @doc false
   @spec __fields__(atom) :: keyword

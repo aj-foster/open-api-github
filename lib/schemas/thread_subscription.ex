@@ -4,6 +4,7 @@ defmodule GitHub.ThreadSubscription do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t() | nil,
           ignored: boolean,
           reason: String.t() | nil,
@@ -13,7 +14,16 @@ defmodule GitHub.ThreadSubscription do
           url: String.t()
         }
 
-  defstruct [:created_at, :ignored, :reason, :repository_url, :subscribed, :thread_url, :url]
+  defstruct [
+    :__info__,
+    :created_at,
+    :ignored,
+    :reason,
+    :repository_url,
+    :subscribed,
+    :thread_url,
+    :url
+  ]
 
   @doc false
   @spec __fields__(atom) :: keyword

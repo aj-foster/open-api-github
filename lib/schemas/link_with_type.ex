@@ -3,9 +3,9 @@ defmodule GitHub.LinkWithType do
   Provides struct and type for LinkWithType
   """
 
-  @type t :: %__MODULE__{href: String.t(), type: String.t()}
+  @type t :: %__MODULE__{__info__: map, href: String.t(), type: String.t()}
 
-  defstruct [:href, :type]
+  defstruct [:__info__, :href, :type]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -3,9 +3,14 @@ defmodule GitHub.Dependabot.Secret do
   Provides struct and type for DependabotSecret
   """
 
-  @type t :: %__MODULE__{created_at: String.t(), name: String.t(), updated_at: String.t()}
+  @type t :: %__MODULE__{
+          __info__: map,
+          created_at: String.t(),
+          name: String.t(),
+          updated_at: String.t()
+        }
 
-  defstruct [:created_at, :name, :updated_at]
+  defstruct [:__info__, :created_at, :name, :updated_at]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -3,9 +3,9 @@ defmodule GitHub.Pages.HealthCheck do
   Provides struct and type for PagesHealthCheck
   """
 
-  @type t :: %__MODULE__{alt_domain: map | nil, domain: map | nil}
+  @type t :: %__MODULE__{__info__: map, alt_domain: map | nil, domain: map | nil}
 
-  defstruct [:alt_domain, :domain]
+  defstruct [:__info__, :alt_domain, :domain]
 
   @doc false
   @spec __fields__(atom) :: keyword

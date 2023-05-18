@@ -3,9 +3,9 @@ defmodule GitHub.ShortBlob do
   Provides struct and type for ShortBlob
   """
 
-  @type t :: %__MODULE__{sha: String.t(), url: String.t()}
+  @type t :: %__MODULE__{__info__: map, sha: String.t(), url: String.t()}
 
-  defstruct [:sha, :url]
+  defstruct [:__info__, :sha, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

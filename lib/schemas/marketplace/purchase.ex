@@ -4,6 +4,7 @@ defmodule GitHub.Marketplace.Purchase do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           email: String.t() | nil,
           id: integer,
           login: String.t(),
@@ -15,6 +16,7 @@ defmodule GitHub.Marketplace.Purchase do
         }
 
   defstruct [
+    :__info__,
     :email,
     :id,
     :login,

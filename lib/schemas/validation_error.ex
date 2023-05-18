@@ -4,14 +4,20 @@ defmodule GitHub.ValidationError do
   """
 
   @type simple :: %__MODULE__{
+          __info__: map,
           documentation_url: String.t(),
           errors: [String.t()] | nil,
           message: String.t()
         }
 
-  @type t :: %__MODULE__{documentation_url: String.t(), errors: [map] | nil, message: String.t()}
+  @type t :: %__MODULE__{
+          __info__: map,
+          documentation_url: String.t(),
+          errors: [map] | nil,
+          message: String.t()
+        }
 
-  defstruct [:documentation_url, :errors, :message]
+  defstruct [:__info__, :documentation_url, :errors, :message]
 
   @doc false
   @spec __fields__(atom) :: keyword

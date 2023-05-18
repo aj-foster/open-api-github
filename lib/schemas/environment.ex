@@ -4,6 +4,7 @@ defmodule GitHub.Environment do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t(),
           deployment_branch_policy: GitHub.Deployment.BranchPolicySettings.t() | nil,
           html_url: String.t(),
@@ -16,6 +17,7 @@ defmodule GitHub.Environment do
         }
 
   defstruct [
+    :__info__,
     :created_at,
     :deployment_branch_policy,
     :html_url,

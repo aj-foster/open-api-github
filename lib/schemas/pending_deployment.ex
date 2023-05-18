@@ -4,6 +4,7 @@ defmodule GitHub.PendingDeployment do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           current_user_can_approve: boolean,
           environment: map,
           reviewers: [map],
@@ -12,6 +13,7 @@ defmodule GitHub.PendingDeployment do
         }
 
   defstruct [
+    :__info__,
     :current_user_can_approve,
     :environment,
     :reviewers,

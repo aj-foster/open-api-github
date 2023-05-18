@@ -3,9 +3,14 @@ defmodule GitHub.Repository.Advisory.Credit do
   Provides struct and type for RepositoryAdvisoryCredit
   """
 
-  @type t :: %__MODULE__{state: String.t(), type: String.t(), user: GitHub.User.simple()}
+  @type t :: %__MODULE__{
+          __info__: map,
+          state: String.t(),
+          type: String.t(),
+          user: GitHub.User.simple()
+        }
 
-  defstruct [:state, :type, :user]
+  defstruct [:__info__, :state, :type, :user]
 
   @doc false
   @spec __fields__(atom) :: keyword

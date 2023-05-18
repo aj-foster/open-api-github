@@ -3,9 +3,15 @@ defmodule GitHub.Content.Traffic do
   Provides struct and type for ContentTraffic
   """
 
-  @type t :: %__MODULE__{count: integer, path: String.t(), title: String.t(), uniques: integer}
+  @type t :: %__MODULE__{
+          __info__: map,
+          count: integer,
+          path: String.t(),
+          title: String.t(),
+          uniques: integer
+        }
 
-  defstruct [:count, :path, :title, :uniques]
+  defstruct [:__info__, :count, :path, :title, :uniques]
 
   @doc false
   @spec __fields__(atom) :: keyword

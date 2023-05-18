@@ -3,9 +3,9 @@ defmodule GitHub.ProtectedBranch.AdminEnforced do
   Provides struct and type for ProtectedBranchAdminEnforced
   """
 
-  @type t :: %__MODULE__{enabled: boolean, url: String.t()}
+  @type t :: %__MODULE__{__info__: map, enabled: boolean, url: String.t()}
 
-  defstruct [:enabled, :url]
+  defstruct [:__info__, :enabled, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

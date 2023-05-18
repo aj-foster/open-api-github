@@ -3,9 +3,9 @@ defmodule GitHub.CodeScanning.AnalysisEnvironment do
   Provides struct and type for CodeScanningAnalysisEnvironment
   """
 
-  @type t :: %__MODULE__{}
+  @type t :: %__MODULE__{__info__: map}
 
-  defstruct []
+  defstruct [:__info__]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -4,12 +4,13 @@ defmodule GitHub.Repository.CollaboratorPermission do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           permission: String.t(),
           role_name: String.t(),
           user: GitHub.Collaborator.t() | nil
         }
 
-  defstruct [:permission, :role_name, :user]
+  defstruct [:__info__, :permission, :role_name, :user]
 
   @doc false
   @spec __fields__(atom) :: keyword

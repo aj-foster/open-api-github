@@ -4,6 +4,7 @@ defmodule GitHub.Project.Column do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           cards_url: String.t(),
           created_at: String.t(),
           id: integer,
@@ -14,7 +15,17 @@ defmodule GitHub.Project.Column do
           url: String.t()
         }
 
-  defstruct [:cards_url, :created_at, :id, :name, :node_id, :project_url, :updated_at, :url]
+  defstruct [
+    :__info__,
+    :cards_url,
+    :created_at,
+    :id,
+    :name,
+    :node_id,
+    :project_url,
+    :updated_at,
+    :url
+  ]
 
   @doc false
   @spec __fields__(atom) :: keyword

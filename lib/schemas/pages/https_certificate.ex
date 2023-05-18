@@ -4,13 +4,14 @@ defmodule GitHub.Pages.HttpsCertificate do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           description: String.t(),
           domains: [String.t()],
           expires_at: String.t() | nil,
           state: String.t()
         }
 
-  defstruct [:description, :domains, :expires_at, :state]
+  defstruct [:__info__, :description, :domains, :expires_at, :state]
 
   @doc false
   @spec __fields__(atom) :: keyword

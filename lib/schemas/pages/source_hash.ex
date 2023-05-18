@@ -3,9 +3,9 @@ defmodule GitHub.Pages.SourceHash do
   Provides struct and type for PagesSourceHash
   """
 
-  @type t :: %__MODULE__{branch: String.t(), path: String.t()}
+  @type t :: %__MODULE__{__info__: map, branch: String.t(), path: String.t()}
 
-  defstruct [:branch, :path]
+  defstruct [:__info__, :branch, :path]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -4,6 +4,7 @@ defmodule GitHub.Dependabot.Alert.SecurityAdvisory do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           cve_id: String.t() | nil,
           cvss: map,
           cwes: [map],
@@ -20,6 +21,7 @@ defmodule GitHub.Dependabot.Alert.SecurityAdvisory do
         }
 
   defstruct [
+    :__info__,
     :cve_id,
     :cvss,
     :cwes,

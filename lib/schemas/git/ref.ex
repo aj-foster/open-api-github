@@ -3,9 +3,15 @@ defmodule GitHub.Git.Ref do
   Provides struct and type for GitRef
   """
 
-  @type t :: %__MODULE__{node_id: String.t(), object: map, ref: String.t(), url: String.t()}
+  @type t :: %__MODULE__{
+          __info__: map,
+          node_id: String.t(),
+          object: map,
+          ref: String.t(),
+          url: String.t()
+        }
 
-  defstruct [:node_id, :object, :ref, :url]
+  defstruct [:__info__, :node_id, :object, :ref, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

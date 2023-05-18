@@ -3,9 +3,9 @@ defmodule GitHub.Actions.Workflow.AccessToRepository do
   Provides struct and type for ActionsWorkflowAccessToRepository
   """
 
-  @type t :: %__MODULE__{access_level: String.t()}
+  @type t :: %__MODULE__{__info__: map, access_level: String.t()}
 
-  defstruct [:access_level]
+  defstruct [:__info__, :access_level]
 
   @doc false
   @spec __fields__(atom) :: keyword

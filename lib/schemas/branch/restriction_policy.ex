@@ -4,6 +4,7 @@ defmodule GitHub.Branch.RestrictionPolicy do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           apps: [map],
           apps_url: String.t(),
           teams: [map],
@@ -13,7 +14,7 @@ defmodule GitHub.Branch.RestrictionPolicy do
           users_url: String.t()
         }
 
-  defstruct [:apps, :apps_url, :teams, :teams_url, :url, :users, :users_url]
+  defstruct [:__info__, :apps, :apps_url, :teams, :teams_url, :url, :users, :users_url]
 
   @doc false
   @spec __fields__(atom) :: keyword

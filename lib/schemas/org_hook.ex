@@ -4,6 +4,7 @@ defmodule GitHub.OrgHook do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           active: boolean,
           config: map,
           created_at: String.t(),
@@ -18,6 +19,7 @@ defmodule GitHub.OrgHook do
         }
 
   defstruct [
+    :__info__,
     :active,
     :config,
     :created_at,

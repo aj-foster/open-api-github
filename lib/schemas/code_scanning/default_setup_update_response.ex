@@ -3,9 +3,9 @@ defmodule GitHub.CodeScanning.DefaultSetupUpdateResponse do
   Provides struct and type for CodeScanningDefaultSetupUpdateResponse
   """
 
-  @type t :: %__MODULE__{run_id: integer | nil, run_url: String.t() | nil}
+  @type t :: %__MODULE__{__info__: map, run_id: integer | nil, run_url: String.t() | nil}
 
-  defstruct [:run_id, :run_url]
+  defstruct [:__info__, :run_id, :run_url]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -3,9 +3,14 @@ defmodule GitHub.ViewTraffic do
   Provides struct and type for ViewTraffic
   """
 
-  @type t :: %__MODULE__{count: integer, uniques: integer, views: [GitHub.Traffic.t()]}
+  @type t :: %__MODULE__{
+          __info__: map,
+          count: integer,
+          uniques: integer,
+          views: [GitHub.Traffic.t()]
+        }
 
-  defstruct [:count, :uniques, :views]
+  defstruct [:__info__, :count, :uniques, :views]
 
   @doc false
   @spec __fields__(atom) :: keyword

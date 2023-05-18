@@ -4,6 +4,7 @@ defmodule GitHub.ShortBranch do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           commit: map,
           name: String.t(),
           protected: boolean,
@@ -11,7 +12,7 @@ defmodule GitHub.ShortBranch do
           protection_url: String.t() | nil
         }
 
-  defstruct [:commit, :name, :protected, :protection, :protection_url]
+  defstruct [:__info__, :commit, :name, :protected, :protection, :protection_url]
 
   @doc false
   @spec __fields__(atom) :: keyword

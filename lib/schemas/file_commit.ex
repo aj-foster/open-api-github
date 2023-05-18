@@ -3,9 +3,9 @@ defmodule GitHub.FileCommit do
   Provides struct and type for FileCommit
   """
 
-  @type t :: %__MODULE__{commit: map, content: map | nil}
+  @type t :: %__MODULE__{__info__: map, commit: map, content: map | nil}
 
-  defstruct [:commit, :content]
+  defstruct [:__info__, :commit, :content]
 
   @doc false
   @spec __fields__(atom) :: keyword

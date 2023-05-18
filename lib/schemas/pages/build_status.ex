@@ -3,9 +3,9 @@ defmodule GitHub.Pages.BuildStatus do
   Provides struct and type for PageBuildStatus
   """
 
-  @type t :: %__MODULE__{status: String.t(), url: String.t()}
+  @type t :: %__MODULE__{__info__: map, status: String.t(), url: String.t()}
 
-  defstruct [:status, :url]
+  defstruct [:__info__, :status, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

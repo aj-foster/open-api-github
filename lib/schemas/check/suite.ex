@@ -4,6 +4,7 @@ defmodule GitHub.Check.Suite do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           after: String.t() | nil,
           app: GitHub.App.t() | nil,
           before: String.t() | nil,
@@ -26,6 +27,7 @@ defmodule GitHub.Check.Suite do
         }
 
   defstruct [
+    :__info__,
     :after,
     :app,
     :before,

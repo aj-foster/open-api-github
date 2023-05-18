@@ -4,6 +4,7 @@ defmodule GitHub.Feed do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           _links: map,
           current_user_actor_url: String.t() | nil,
           current_user_organization_url: String.t() | nil,
@@ -18,6 +19,7 @@ defmodule GitHub.Feed do
         }
 
   defstruct [
+    :__info__,
     :_links,
     :current_user_actor_url,
     :current_user_organization_url,

@@ -4,6 +4,7 @@ defmodule GitHub.Branch.WithProtection do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           _links: map,
           commit: GitHub.Commit.t(),
           name: String.t(),
@@ -15,6 +16,7 @@ defmodule GitHub.Branch.WithProtection do
         }
 
   defstruct [
+    :__info__,
     :_links,
     :commit,
     :name,

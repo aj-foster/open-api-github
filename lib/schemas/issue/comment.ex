@@ -4,6 +4,7 @@ defmodule GitHub.Issue.Comment do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           author_association: String.t(),
           body: String.t() | nil,
           body_html: String.t() | nil,
@@ -21,6 +22,7 @@ defmodule GitHub.Issue.Comment do
         }
 
   defstruct [
+    :__info__,
     :author_association,
     :body,
     :body_html,

@@ -4,6 +4,7 @@ defmodule GitHub.Package do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t(),
           html_url: String.t(),
           id: integer,
@@ -18,6 +19,7 @@ defmodule GitHub.Package do
         }
 
   defstruct [
+    :__info__,
     :created_at,
     :html_url,
     :id,

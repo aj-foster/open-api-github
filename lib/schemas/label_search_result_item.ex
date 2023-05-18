@@ -4,6 +4,7 @@ defmodule GitHub.LabelSearchResultItem do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           color: String.t(),
           default: boolean,
           description: String.t() | nil,
@@ -15,7 +16,18 @@ defmodule GitHub.LabelSearchResultItem do
           url: String.t()
         }
 
-  defstruct [:color, :default, :description, :id, :name, :node_id, :score, :text_matches, :url]
+  defstruct [
+    :__info__,
+    :color,
+    :default,
+    :description,
+    :id,
+    :name,
+    :node_id,
+    :score,
+    :text_matches,
+    :url
+  ]
 
   @doc false
   @spec __fields__(atom) :: keyword

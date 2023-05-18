@@ -4,6 +4,7 @@ defmodule GitHub.Release do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           assets: [GitHub.Release.Asset.t()],
           assets_url: String.t(),
           author: GitHub.User.simple(),
@@ -30,6 +31,7 @@ defmodule GitHub.Release do
         }
 
   defstruct [
+    :__info__,
     :assets,
     :assets_url,
     :author,

@@ -3,9 +3,9 @@ defmodule GitHub.Actions.Workflow.RunUsage do
   Provides struct and type for WorkflowRunUsage
   """
 
-  @type t :: %__MODULE__{billable: map, run_duration_ms: integer | nil}
+  @type t :: %__MODULE__{__info__: map, billable: map, run_duration_ms: integer | nil}
 
-  defstruct [:billable, :run_duration_ms]
+  defstruct [:__info__, :billable, :run_duration_ms]
 
   @doc false
   @spec __fields__(atom) :: keyword

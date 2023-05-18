@@ -3,9 +3,9 @@ defmodule GitHub.Check.SuitePreference do
   Provides struct and type for CheckSuitePreference
   """
 
-  @type t :: %__MODULE__{preferences: map, repository: GitHub.Repository.minimal()}
+  @type t :: %__MODULE__{__info__: map, preferences: map, repository: GitHub.Repository.minimal()}
 
-  defstruct [:preferences, :repository]
+  defstruct [:__info__, :preferences, :repository]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -4,6 +4,7 @@ defmodule GitHub.License do
   """
 
   @type simple :: %__MODULE__{
+          __info__: map,
           html_url: String.t() | nil,
           key: String.t(),
           name: String.t(),
@@ -13,6 +14,7 @@ defmodule GitHub.License do
         }
 
   @type t :: %__MODULE__{
+          __info__: map,
           body: String.t(),
           conditions: [String.t()],
           description: String.t(),
@@ -29,6 +31,7 @@ defmodule GitHub.License do
         }
 
   defstruct [
+    :__info__,
     :body,
     :conditions,
     :description,

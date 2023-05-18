@@ -4,6 +4,7 @@ defmodule GitHub.Repository.Advisory.Update do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           credits: [map] | nil,
           cve_id: String.t() | nil,
           cvss_vector_string: String.t() | nil,
@@ -16,6 +17,7 @@ defmodule GitHub.Repository.Advisory.Update do
         }
 
   defstruct [
+    :__info__,
     :credits,
     :cve_id,
     :cvss_vector_string,

@@ -4,13 +4,14 @@ defmodule GitHub.Issue.EventDismissedReview do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           dismissal_commit_id: String.t() | nil,
           dismissal_message: String.t() | nil,
           review_id: integer,
           state: String.t()
         }
 
-  defstruct [:dismissal_commit_id, :dismissal_message, :review_id, :state]
+  defstruct [:__info__, :dismissal_commit_id, :dismissal_message, :review_id, :state]
 
   @doc false
   @spec __fields__(atom) :: keyword

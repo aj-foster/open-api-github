@@ -4,6 +4,7 @@ defmodule GitHub.ProtectedBranch.PullRequestReview do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           bypass_pull_request_allowances: map | nil,
           dismiss_stale_reviews: boolean,
           dismissal_restrictions: map | nil,
@@ -14,6 +15,7 @@ defmodule GitHub.ProtectedBranch.PullRequestReview do
         }
 
   defstruct [
+    :__info__,
     :bypass_pull_request_allowances,
     :dismiss_stale_reviews,
     :dismissal_restrictions,

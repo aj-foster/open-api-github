@@ -3,9 +3,9 @@ defmodule GitHub.CommunityHealthFile do
   Provides struct and type for CommunityHealthFile
   """
 
-  @type t :: %__MODULE__{html_url: String.t(), url: String.t()}
+  @type t :: %__MODULE__{__info__: map, html_url: String.t(), url: String.t()}
 
-  defstruct [:html_url, :url]
+  defstruct [:__info__, :html_url, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

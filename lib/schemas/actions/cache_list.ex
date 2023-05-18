@@ -3,9 +3,9 @@ defmodule GitHub.Actions.CacheList do
   Provides struct and type for ActionsCacheList
   """
 
-  @type t :: %__MODULE__{actions_caches: [map], total_count: integer}
+  @type t :: %__MODULE__{__info__: map, actions_caches: [map], total_count: integer}
 
-  defstruct [:actions_caches, :total_count]
+  defstruct [:__info__, :actions_caches, :total_count]
 
   @doc false
   @spec __fields__(atom) :: keyword

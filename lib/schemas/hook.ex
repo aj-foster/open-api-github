@@ -4,6 +4,7 @@ defmodule GitHub.Hook do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           active: boolean,
           config: map,
           created_at: String.t(),
@@ -20,6 +21,7 @@ defmodule GitHub.Hook do
         }
 
   defstruct [
+    :__info__,
     :active,
     :config,
     :created_at,

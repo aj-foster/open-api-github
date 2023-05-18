@@ -3,9 +3,9 @@ defmodule GitHub.SecretScanning.LocationIssueBody do
   Provides struct and type for SecretScanningLocationIssueBody
   """
 
-  @type t :: %__MODULE__{issue_body_url: String.t()}
+  @type t :: %__MODULE__{__info__: map, issue_body_url: String.t()}
 
-  defstruct [:issue_body_url]
+  defstruct [:__info__, :issue_body_url]
 
   @doc false
   @spec __fields__(atom) :: keyword

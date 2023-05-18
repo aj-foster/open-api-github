@@ -4,11 +4,12 @@ defmodule GitHub.CodeScanning.AnalysisDeletion do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           confirm_delete_url: String.t() | nil,
           next_analysis_url: String.t() | nil
         }
 
-  defstruct [:confirm_delete_url, :next_analysis_url]
+  defstruct [:__info__, :confirm_delete_url, :next_analysis_url]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -4,12 +4,13 @@ defmodule GitHub.Timeline.LineCommentedEvent do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           comments: [GitHub.PullRequest.ReviewComment.t()] | nil,
           event: String.t() | nil,
           node_id: String.t() | nil
         }
 
-  defstruct [:comments, :event, :node_id]
+  defstruct [:__info__, :comments, :event, :node_id]
 
   @doc false
   @spec __fields__(atom) :: keyword

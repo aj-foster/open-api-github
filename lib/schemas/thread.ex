@@ -4,6 +4,7 @@ defmodule GitHub.Thread do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           id: String.t(),
           last_read_at: String.t() | nil,
           reason: String.t(),
@@ -16,6 +17,7 @@ defmodule GitHub.Thread do
         }
 
   defstruct [
+    :__info__,
     :id,
     :last_read_at,
     :reason,

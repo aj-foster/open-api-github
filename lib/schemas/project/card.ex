@@ -4,6 +4,7 @@ defmodule GitHub.Project.Card do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           archived: boolean | nil,
           column_name: String.t() | nil,
           column_url: String.t(),
@@ -20,6 +21,7 @@ defmodule GitHub.Project.Card do
         }
 
   defstruct [
+    :__info__,
     :archived,
     :column_name,
     :column_url,

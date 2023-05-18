@@ -3,9 +3,9 @@ defmodule GitHub.Repository.Ruleset.BypassActor do
   Provides struct and type for RepositoryRulesetBypassActor
   """
 
-  @type t :: %__MODULE__{actor_id: integer | nil, actor_type: String.t() | nil}
+  @type t :: %__MODULE__{__info__: map, actor_id: integer | nil, actor_type: String.t() | nil}
 
-  defstruct [:actor_id, :actor_type]
+  defstruct [:__info__, :actor_id, :actor_type]
 
   @doc false
   @spec __fields__(atom) :: keyword

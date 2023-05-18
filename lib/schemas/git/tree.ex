@@ -3,9 +3,15 @@ defmodule GitHub.Git.Tree do
   Provides struct and type for GitTree
   """
 
-  @type t :: %__MODULE__{sha: String.t(), tree: [map], truncated: boolean, url: String.t()}
+  @type t :: %__MODULE__{
+          __info__: map,
+          sha: String.t(),
+          tree: [map],
+          truncated: boolean,
+          url: String.t()
+        }
 
-  defstruct [:sha, :tree, :truncated, :url]
+  defstruct [:__info__, :sha, :tree, :truncated, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

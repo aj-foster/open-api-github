@@ -4,6 +4,7 @@ defmodule GitHub.Codespace.ExportDetails do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           branch: String.t() | nil,
           completed_at: String.t() | nil,
           export_url: String.t() | nil,
@@ -13,7 +14,7 @@ defmodule GitHub.Codespace.ExportDetails do
           state: String.t() | nil
         }
 
-  defstruct [:branch, :completed_at, :export_url, :html_url, :id, :sha, :state]
+  defstruct [:__info__, :branch, :completed_at, :export_url, :html_url, :id, :sha, :state]
 
   @doc false
   @spec __fields__(atom) :: keyword

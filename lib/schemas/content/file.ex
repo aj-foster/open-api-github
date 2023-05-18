@@ -4,6 +4,7 @@ defmodule GitHub.Content.File do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           _links: map,
           content: String.t(),
           download_url: String.t() | nil,
@@ -21,6 +22,7 @@ defmodule GitHub.Content.File do
         }
 
   defstruct [
+    :__info__,
     :_links,
     :content,
     :download_url,

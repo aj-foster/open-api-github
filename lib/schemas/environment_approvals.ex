@@ -4,13 +4,14 @@ defmodule GitHub.EnvironmentApprovals do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           comment: String.t(),
           environments: [map],
           state: String.t(),
           user: GitHub.User.simple()
         }
 
-  defstruct [:comment, :environments, :state, :user]
+  defstruct [:__info__, :comment, :environments, :state, :user]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -3,9 +3,9 @@ defmodule GitHub.Branch.Short do
   Provides struct and type for BranchShort
   """
 
-  @type t :: %__MODULE__{commit: map, name: String.t(), protected: boolean}
+  @type t :: %__MODULE__{__info__: map, commit: map, name: String.t(), protected: boolean}
 
-  defstruct [:commit, :name, :protected]
+  defstruct [:__info__, :commit, :name, :protected]
 
   @doc false
   @spec __fields__(atom) :: keyword

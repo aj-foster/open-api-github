@@ -3,9 +3,9 @@ defmodule GitHub.Dependabot.PublicKey do
   Provides struct and type for DependabotPublicKey
   """
 
-  @type t :: %__MODULE__{key: String.t(), key_id: String.t()}
+  @type t :: %__MODULE__{__info__: map, key: String.t(), key_id: String.t()}
 
-  defstruct [:key, :key_id]
+  defstruct [:__info__, :key, :key_id]
 
   @doc false
   @spec __fields__(atom) :: keyword

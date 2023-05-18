@@ -4,6 +4,7 @@ defmodule GitHub.Label do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           color: String.t(),
           default: boolean,
           description: String.t() | nil,
@@ -13,7 +14,7 @@ defmodule GitHub.Label do
           url: String.t()
         }
 
-  defstruct [:color, :default, :description, :id, :name, :node_id, :url]
+  defstruct [:__info__, :color, :default, :description, :id, :name, :node_id, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

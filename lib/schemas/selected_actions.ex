@@ -4,12 +4,13 @@ defmodule GitHub.SelectedActions do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           github_owned_allowed: boolean | nil,
           patterns_allowed: [String.t()] | nil,
           verified_allowed: boolean | nil
         }
 
-  defstruct [:github_owned_allowed, :patterns_allowed, :verified_allowed]
+  defstruct [:__info__, :github_owned_allowed, :patterns_allowed, :verified_allowed]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -3,9 +3,9 @@ defmodule GitHub.PullRequest.MergeResult do
   Provides struct and type for PullRequestMergeResult
   """
 
-  @type t :: %__MODULE__{merged: boolean, message: String.t(), sha: String.t()}
+  @type t :: %__MODULE__{__info__: map, merged: boolean, message: String.t(), sha: String.t()}
 
-  defstruct [:merged, :message, :sha]
+  defstruct [:__info__, :merged, :message, :sha]
 
   @doc false
   @spec __fields__(atom) :: keyword

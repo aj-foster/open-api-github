@@ -4,6 +4,7 @@ defmodule GitHub.Milestone do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           closed_at: String.t() | nil,
           closed_issues: integer,
           created_at: String.t(),
@@ -23,6 +24,7 @@ defmodule GitHub.Milestone do
         }
 
   defstruct [
+    :__info__,
     :closed_at,
     :closed_issues,
     :created_at,

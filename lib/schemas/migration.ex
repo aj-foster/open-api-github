@@ -4,6 +4,7 @@ defmodule GitHub.Migration do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           archive_url: String.t() | nil,
           created_at: String.t(),
           exclude: [String.t()] | nil,
@@ -25,6 +26,7 @@ defmodule GitHub.Migration do
         }
 
   defstruct [
+    :__info__,
     :archive_url,
     :created_at,
     :exclude,

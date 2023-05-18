@@ -4,6 +4,7 @@ defmodule GitHub.AuthenticationToken do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           expires_at: String.t(),
           permissions: map | nil,
           repositories: [GitHub.Repository.t()] | nil,
@@ -13,6 +14,7 @@ defmodule GitHub.AuthenticationToken do
         }
 
   defstruct [
+    :__info__,
     :expires_at,
     :permissions,
     :repositories,

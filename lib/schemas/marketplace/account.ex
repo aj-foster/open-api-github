@@ -4,6 +4,7 @@ defmodule GitHub.Marketplace.Account do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           email: String.t() | nil,
           id: integer,
           login: String.t(),
@@ -13,7 +14,7 @@ defmodule GitHub.Marketplace.Account do
           url: String.t()
         }
 
-  defstruct [:email, :id, :login, :node_id, :organization_billing_email, :type, :url]
+  defstruct [:__info__, :email, :id, :login, :node_id, :organization_billing_email, :type, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

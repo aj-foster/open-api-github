@@ -4,6 +4,7 @@ defmodule GitHub.Check.Run do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           app: GitHub.App.t() | nil,
           check_suite: map | nil,
           completed_at: String.t() | nil,
@@ -24,6 +25,7 @@ defmodule GitHub.Check.Run do
         }
 
   defstruct [
+    :__info__,
     :app,
     :check_suite,
     :completed_at,

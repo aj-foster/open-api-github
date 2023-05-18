@@ -3,9 +3,15 @@ defmodule GitHub.SSHSigningKey do
   Provides struct and type for SshSigningKey
   """
 
-  @type t :: %__MODULE__{created_at: String.t(), id: integer, key: String.t(), title: String.t()}
+  @type t :: %__MODULE__{
+          __info__: map,
+          created_at: String.t(),
+          id: integer,
+          key: String.t(),
+          title: String.t()
+        }
 
-  defstruct [:created_at, :id, :key, :title]
+  defstruct [:__info__, :created_at, :id, :key, :title]
 
   @doc false
   @spec __fields__(atom) :: keyword

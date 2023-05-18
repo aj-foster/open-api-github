@@ -4,6 +4,7 @@ defmodule GitHub.User do
   """
 
   @type private :: %__MODULE__{
+          __info__: map,
           avatar_url: String.t(),
           bio: String.t() | nil,
           blog: String.t() | nil,
@@ -49,6 +50,7 @@ defmodule GitHub.User do
         }
 
   @type public :: %__MODULE__{
+          __info__: map,
           avatar_url: String.t(),
           bio: String.t() | nil,
           blog: String.t() | nil,
@@ -91,6 +93,7 @@ defmodule GitHub.User do
         }
 
   @type simple :: %__MODULE__{
+          __info__: map,
           avatar_url: String.t(),
           email: String.t() | nil,
           events_url: String.t(),
@@ -115,6 +118,7 @@ defmodule GitHub.User do
         }
 
   defstruct [
+    :__info__,
     :avatar_url,
     :bio,
     :blog,

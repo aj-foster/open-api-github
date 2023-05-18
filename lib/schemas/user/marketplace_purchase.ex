@@ -4,6 +4,7 @@ defmodule GitHub.User.MarketplacePurchase do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           account: GitHub.Marketplace.Account.t(),
           billing_cycle: String.t(),
           free_trial_ends_on: String.t() | nil,
@@ -15,6 +16,7 @@ defmodule GitHub.User.MarketplacePurchase do
         }
 
   defstruct [
+    :__info__,
     :account,
     :billing_cycle,
     :free_trial_ends_on,

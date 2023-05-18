@@ -4,6 +4,7 @@ defmodule GitHub.Team do
   """
 
   @type full :: %__MODULE__{
+          __info__: map,
           created_at: String.t(),
           description: String.t() | nil,
           html_url: String.t(),
@@ -26,6 +27,7 @@ defmodule GitHub.Team do
         }
 
   @type simple :: %__MODULE__{
+          __info__: map,
           description: String.t() | nil,
           html_url: String.t(),
           id: integer,
@@ -42,6 +44,7 @@ defmodule GitHub.Team do
         }
 
   @type t :: %__MODULE__{
+          __info__: map,
           description: String.t() | nil,
           html_url: String.t(),
           id: integer,
@@ -59,6 +62,7 @@ defmodule GitHub.Team do
         }
 
   defstruct [
+    :__info__,
     :created_at,
     :description,
     :html_url,

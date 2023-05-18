@@ -4,6 +4,7 @@ defmodule GitHub.Codespace do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           billable_owner: GitHub.User.simple(),
           created_at: String.t(),
           devcontainer_path: String.t() | nil,
@@ -39,6 +40,7 @@ defmodule GitHub.Codespace do
         }
 
   defstruct [
+    :__info__,
     :billable_owner,
     :created_at,
     :devcontainer_path,

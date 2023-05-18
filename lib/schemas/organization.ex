@@ -4,6 +4,7 @@ defmodule GitHub.Organization do
   """
 
   @type full :: %__MODULE__{
+          __info__: map,
           advanced_security_enabled_for_new_repositories: boolean | nil,
           avatar_url: String.t(),
           billing_email: String.t() | nil,
@@ -63,6 +64,7 @@ defmodule GitHub.Organization do
         }
 
   @type simple :: %__MODULE__{
+          __info__: map,
           avatar_url: String.t(),
           description: String.t() | nil,
           events_url: String.t(),
@@ -78,6 +80,7 @@ defmodule GitHub.Organization do
         }
 
   defstruct [
+    :__info__,
     :advanced_security_enabled_for_new_repositories,
     :avatar_url,
     :billing_email,

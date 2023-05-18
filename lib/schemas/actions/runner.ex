@@ -4,6 +4,7 @@ defmodule GitHub.Actions.Runner do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           busy: boolean,
           id: integer,
           labels: [GitHub.Actions.Runner.Label.t()],
@@ -13,7 +14,7 @@ defmodule GitHub.Actions.Runner do
           status: String.t()
         }
 
-  defstruct [:busy, :id, :labels, :name, :os, :runner_group_id, :status]
+  defstruct [:__info__, :busy, :id, :labels, :name, :os, :runner_group_id, :status]
 
   @doc false
   @spec __fields__(atom) :: keyword

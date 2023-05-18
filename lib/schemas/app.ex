@@ -4,6 +4,7 @@ defmodule GitHub.App do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           client_id: String.t() | nil,
           client_secret: String.t() | nil,
           created_at: String.t(),
@@ -24,6 +25,7 @@ defmodule GitHub.App do
         }
 
   defstruct [
+    :__info__,
     :client_id,
     :client_secret,
     :created_at,

@@ -4,6 +4,7 @@ defmodule GitHub.Content.Tree do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           _links: map,
           download_url: String.t() | nil,
           entries: [map] | nil,
@@ -18,6 +19,7 @@ defmodule GitHub.Content.Tree do
         }
 
   defstruct [
+    :__info__,
     :_links,
     :download_url,
     :entries,

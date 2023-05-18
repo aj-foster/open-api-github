@@ -4,6 +4,7 @@ defmodule GitHub.Event do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           actor: GitHub.Actor.t(),
           created_at: String.t() | nil,
           id: String.t(),
@@ -14,7 +15,7 @@ defmodule GitHub.Event do
           type: String.t() | nil
         }
 
-  defstruct [:actor, :created_at, :id, :org, :payload, :public, :repo, :type]
+  defstruct [:__info__, :actor, :created_at, :id, :org, :payload, :public, :repo, :type]
 
   @doc false
   @spec __fields__(atom) :: keyword

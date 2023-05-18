@@ -4,13 +4,14 @@ defmodule GitHub.Verification do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           payload: String.t() | nil,
           reason: String.t(),
           signature: String.t() | nil,
           verified: boolean
         }
 
-  defstruct [:payload, :reason, :signature, :verified]
+  defstruct [:__info__, :payload, :reason, :signature, :verified]
 
   @doc false
   @spec __fields__(atom) :: keyword

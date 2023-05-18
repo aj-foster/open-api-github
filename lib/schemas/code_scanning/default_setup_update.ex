@@ -3,9 +3,9 @@ defmodule GitHub.CodeScanning.DefaultSetupUpdate do
   Provides struct and type for CodeScanningDefaultSetupUpdate
   """
 
-  @type t :: %__MODULE__{query_suite: String.t() | nil, state: String.t()}
+  @type t :: %__MODULE__{__info__: map, query_suite: String.t() | nil, state: String.t()}
 
-  defstruct [:query_suite, :state]
+  defstruct [:__info__, :query_suite, :state]
 
   @doc false
   @spec __fields__(atom) :: keyword

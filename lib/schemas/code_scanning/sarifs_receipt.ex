@@ -3,9 +3,9 @@ defmodule GitHub.CodeScanning.SarifsReceipt do
   Provides struct and type for CodeScanningSarifsReceipt
   """
 
-  @type t :: %__MODULE__{id: String.t() | nil, url: String.t() | nil}
+  @type t :: %__MODULE__{__info__: map, id: String.t() | nil, url: String.t() | nil}
 
-  defstruct [:id, :url]
+  defstruct [:__info__, :id, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

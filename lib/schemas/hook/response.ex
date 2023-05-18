@@ -3,9 +3,14 @@ defmodule GitHub.Hook.Response do
   Provides struct and type for HookResponse
   """
 
-  @type t :: %__MODULE__{code: integer | nil, message: String.t() | nil, status: String.t() | nil}
+  @type t :: %__MODULE__{
+          __info__: map,
+          code: integer | nil,
+          message: String.t() | nil,
+          status: String.t() | nil
+        }
 
-  defstruct [:code, :message, :status]
+  defstruct [:__info__, :code, :message, :status]
 
   @doc false
   @spec __fields__(atom) :: keyword

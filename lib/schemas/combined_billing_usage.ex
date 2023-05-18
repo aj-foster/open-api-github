@@ -4,12 +4,14 @@ defmodule GitHub.CombinedBillingUsage do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           days_left_in_billing_cycle: integer,
           estimated_paid_storage_for_month: integer,
           estimated_storage_for_month: integer
         }
 
   defstruct [
+    :__info__,
     :days_left_in_billing_cycle,
     :estimated_paid_storage_for_month,
     :estimated_storage_for_month

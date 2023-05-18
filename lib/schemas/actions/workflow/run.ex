@@ -4,6 +4,7 @@ defmodule GitHub.Actions.Workflow.Run do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           actor: GitHub.User.simple() | nil,
           artifacts_url: String.t(),
           cancel_url: String.t(),
@@ -43,6 +44,7 @@ defmodule GitHub.Actions.Workflow.Run do
         }
 
   defstruct [
+    :__info__,
     :actor,
     :artifacts_url,
     :cancel_url,

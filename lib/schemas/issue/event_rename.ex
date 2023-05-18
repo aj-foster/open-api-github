@@ -3,9 +3,9 @@ defmodule GitHub.Issue.EventRename do
   Provides struct and type for IssueEventRename
   """
 
-  @type t :: %__MODULE__{from: String.t(), to: String.t()}
+  @type t :: %__MODULE__{__info__: map, from: String.t(), to: String.t()}
 
-  defstruct [:from, :to]
+  defstruct [:__info__, :from, :to]
 
   @doc false
   @spec __fields__(atom) :: keyword

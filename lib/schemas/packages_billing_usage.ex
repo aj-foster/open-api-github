@@ -4,12 +4,14 @@ defmodule GitHub.PackagesBillingUsage do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           included_gigabytes_bandwidth: integer,
           total_gigabytes_bandwidth_used: integer,
           total_paid_gigabytes_bandwidth_used: integer
         }
 
   defstruct [
+    :__info__,
     :included_gigabytes_bandwidth,
     :total_gigabytes_bandwidth_used,
     :total_paid_gigabytes_bandwidth_used

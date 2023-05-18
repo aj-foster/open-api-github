@@ -3,9 +3,9 @@ defmodule GitHub.Commit.Activity do
   Provides struct and type for CommitActivity
   """
 
-  @type t :: %__MODULE__{days: [integer], total: integer, week: integer}
+  @type t :: %__MODULE__{__info__: map, days: [integer], total: integer, week: integer}
 
-  defstruct [:days, :total, :week]
+  defstruct [:__info__, :days, :total, :week]
 
   @doc false
   @spec __fields__(atom) :: keyword

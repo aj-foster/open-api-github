@@ -3,9 +3,9 @@ defmodule GitHub.Webhook.Config.Secret do
   Provides struct and type for WebhookConfigSecret
   """
 
-  @type t :: %__MODULE__{}
+  @type t :: %__MODULE__{__info__: map}
 
-  defstruct []
+  defstruct [:__info__]
 
   @doc false
   @spec __fields__(atom) :: keyword

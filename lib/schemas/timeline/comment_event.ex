@@ -4,6 +4,7 @@ defmodule GitHub.Timeline.CommentEvent do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           actor: GitHub.User.simple(),
           author_association: String.t(),
           body: String.t() | nil,
@@ -23,6 +24,7 @@ defmodule GitHub.Timeline.CommentEvent do
         }
 
   defstruct [
+    :__info__,
     :actor,
     :author_association,
     :body,

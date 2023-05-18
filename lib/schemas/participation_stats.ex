@@ -3,9 +3,9 @@ defmodule GitHub.ParticipationStats do
   Provides struct and type for ParticipationStats
   """
 
-  @type t :: %__MODULE__{all: [integer], owner: [integer]}
+  @type t :: %__MODULE__{__info__: map, all: [integer], owner: [integer]}
 
-  defstruct [:all, :owner]
+  defstruct [:__info__, :all, :owner]
 
   @doc false
   @spec __fields__(atom) :: keyword

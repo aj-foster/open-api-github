@@ -4,6 +4,7 @@ defmodule GitHub.CodeScanning.CodeqlDatabase do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           content_type: String.t(),
           created_at: String.t(),
           id: integer,
@@ -16,6 +17,7 @@ defmodule GitHub.CodeScanning.CodeqlDatabase do
         }
 
   defstruct [
+    :__info__,
     :content_type,
     :created_at,
     :id,

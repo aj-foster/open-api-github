@@ -4,6 +4,7 @@ defmodule GitHub.SCIM.Error do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           detail: String.t() | nil,
           documentation_url: String.t() | nil,
           message: String.t() | nil,
@@ -12,7 +13,7 @@ defmodule GitHub.SCIM.Error do
           status: integer | nil
         }
 
-  defstruct [:detail, :documentation_url, :message, :schemas, :scimType, :status]
+  defstruct [:__info__, :detail, :documentation_url, :message, :schemas, :scimType, :status]
 
   @doc false
   @spec __fields__(atom) :: keyword

@@ -4,6 +4,7 @@ defmodule GitHub.Pages.Build do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           commit: String.t(),
           created_at: String.t(),
           duration: integer,
@@ -14,7 +15,17 @@ defmodule GitHub.Pages.Build do
           url: String.t()
         }
 
-  defstruct [:commit, :created_at, :duration, :error, :pusher, :status, :updated_at, :url]
+  defstruct [
+    :__info__,
+    :commit,
+    :created_at,
+    :duration,
+    :error,
+    :pusher,
+    :status,
+    :updated_at,
+    :url
+  ]
 
   @doc false
   @spec __fields__(atom) :: keyword

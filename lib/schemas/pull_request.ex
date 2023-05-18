@@ -4,6 +4,7 @@ defmodule GitHub.PullRequest do
   """
 
   @type minimal :: %__MODULE__{
+          __info__: map,
           base: map,
           head: map,
           id: integer,
@@ -12,6 +13,7 @@ defmodule GitHub.PullRequest do
         }
 
   @type simple :: %__MODULE__{
+          __info__: map,
           _links: map,
           active_lock_reason: String.t() | nil,
           assignee: GitHub.User.simple() | nil,
@@ -51,6 +53,7 @@ defmodule GitHub.PullRequest do
         }
 
   @type t :: %__MODULE__{
+          __info__: map,
           _links: map,
           active_lock_reason: String.t() | nil,
           additions: integer,
@@ -102,6 +105,7 @@ defmodule GitHub.PullRequest do
         }
 
   defstruct [
+    :__info__,
     :_links,
     :active_lock_reason,
     :additions,

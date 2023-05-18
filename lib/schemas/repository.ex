@@ -4,6 +4,7 @@ defmodule GitHub.Repository do
   """
 
   @type full :: %__MODULE__{
+          __info__: map,
           allow_auto_merge: boolean | nil,
           allow_forking: boolean | nil,
           allow_merge_commit: boolean | nil,
@@ -109,6 +110,7 @@ defmodule GitHub.Repository do
         }
 
   @type minimal :: %__MODULE__{
+          __info__: map,
           allow_forking: boolean | nil,
           archive_url: String.t(),
           archived: boolean | nil,
@@ -199,6 +201,7 @@ defmodule GitHub.Repository do
         }
 
   @type simple :: %__MODULE__{
+          __info__: map,
           archive_url: String.t(),
           assignees_url: String.t(),
           blobs_url: String.t(),
@@ -248,6 +251,7 @@ defmodule GitHub.Repository do
         }
 
   @type t :: %__MODULE__{
+          __info__: map,
           allow_auto_merge: boolean | nil,
           allow_forking: boolean | nil,
           allow_merge_commit: boolean | nil,
@@ -350,6 +354,7 @@ defmodule GitHub.Repository do
         }
 
   defstruct [
+    :__info__,
     :allow_auto_merge,
     :allow_forking,
     :allow_merge_commit,

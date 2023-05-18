@@ -4,6 +4,7 @@ defmodule GitHub.Import do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           authors_count: integer | nil,
           authors_url: String.t(),
           commit_count: integer | nil,
@@ -30,6 +31,7 @@ defmodule GitHub.Import do
         }
 
   defstruct [
+    :__info__,
     :authors_count,
     :authors_url,
     :commit_count,

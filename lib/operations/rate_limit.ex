@@ -5,9 +5,15 @@ defmodule GitHub.RateLimit do
 
   @default_client GitHub.Client
 
-  @type t :: %__MODULE__{limit: integer, remaining: integer, reset: integer, used: integer}
+  @type t :: %__MODULE__{
+          __info__: map,
+          limit: integer,
+          remaining: integer,
+          reset: integer,
+          used: integer
+        }
 
-  defstruct [:limit, :remaining, :reset, :used]
+  defstruct [:__info__, :limit, :remaining, :reset, :used]
 
   @doc false
   @spec __fields__(atom) :: keyword

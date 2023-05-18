@@ -4,6 +4,7 @@ defmodule GitHub.SecretScanning.Alert do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t() | nil,
           html_url: String.t() | nil,
           locations_url: String.t() | nil,
@@ -24,6 +25,7 @@ defmodule GitHub.SecretScanning.Alert do
         }
 
   defstruct [
+    :__info__,
     :created_at,
     :html_url,
     :locations_url,

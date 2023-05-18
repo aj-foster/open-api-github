@@ -4,6 +4,7 @@ defmodule GitHub.Collaborator do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           avatar_url: String.t(),
           email: String.t() | nil,
           events_url: String.t(),
@@ -29,6 +30,7 @@ defmodule GitHub.Collaborator do
         }
 
   defstruct [
+    :__info__,
     :avatar_url,
     :email,
     :events_url,

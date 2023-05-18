@@ -4,6 +4,7 @@ defmodule GitHub.Team.Organization do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           avatar_url: String.t(),
           billing_email: String.t() | nil,
           blog: String.t() | nil,
@@ -55,6 +56,7 @@ defmodule GitHub.Team.Organization do
         }
 
   defstruct [
+    :__info__,
     :avatar_url,
     :billing_email,
     :blog,

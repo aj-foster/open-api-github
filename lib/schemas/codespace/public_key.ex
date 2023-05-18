@@ -4,6 +4,7 @@ defmodule GitHub.Codespace.PublicKey do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t() | nil,
           id: integer | nil,
           key: String.t(),
@@ -12,7 +13,7 @@ defmodule GitHub.Codespace.PublicKey do
           url: String.t() | nil
         }
 
-  defstruct [:created_at, :id, :key, :key_id, :title, :url]
+  defstruct [:__info__, :created_at, :id, :key, :key_id, :title, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

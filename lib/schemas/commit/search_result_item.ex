@@ -4,6 +4,7 @@ defmodule GitHub.Commit.SearchResultItem do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           author: GitHub.User.simple() | nil,
           comments_url: String.t(),
           commit: map,
@@ -19,6 +20,7 @@ defmodule GitHub.Commit.SearchResultItem do
         }
 
   defstruct [
+    :__info__,
     :author,
     :comments_url,
     :commit,

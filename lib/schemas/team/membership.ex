@@ -3,9 +3,9 @@ defmodule GitHub.Team.Membership do
   Provides struct and type for TeamMembership
   """
 
-  @type t :: %__MODULE__{role: String.t(), state: String.t(), url: String.t()}
+  @type t :: %__MODULE__{__info__: map, role: String.t(), state: String.t(), url: String.t()}
 
-  defstruct [:role, :state, :url]
+  defstruct [:__info__, :role, :state, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword

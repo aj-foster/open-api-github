@@ -3,9 +3,9 @@ defmodule GitHub.Stargazer do
   Provides struct and type for Stargazer
   """
 
-  @type t :: %__MODULE__{starred_at: String.t(), user: GitHub.User.simple() | nil}
+  @type t :: %__MODULE__{__info__: map, starred_at: String.t(), user: GitHub.User.simple() | nil}
 
-  defstruct [:starred_at, :user]
+  defstruct [:__info__, :starred_at, :user]
 
   @doc false
   @spec __fields__(atom) :: keyword

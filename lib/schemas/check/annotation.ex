@@ -4,6 +4,7 @@ defmodule GitHub.Check.Annotation do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           annotation_level: String.t() | nil,
           blob_href: String.t(),
           end_column: integer | nil,
@@ -17,6 +18,7 @@ defmodule GitHub.Check.Annotation do
         }
 
   defstruct [
+    :__info__,
     :annotation_level,
     :blob_href,
     :end_column,

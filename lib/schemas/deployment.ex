@@ -4,6 +4,7 @@ defmodule GitHub.Deployment do
   """
 
   @type simple :: %__MODULE__{
+          __info__: map,
           created_at: String.t(),
           description: String.t() | nil,
           environment: String.t(),
@@ -21,6 +22,7 @@ defmodule GitHub.Deployment do
         }
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t(),
           creator: GitHub.User.simple() | nil,
           description: String.t() | nil,
@@ -42,6 +44,7 @@ defmodule GitHub.Deployment do
         }
 
   defstruct [
+    :__info__,
     :created_at,
     :creator,
     :description,

@@ -4,6 +4,7 @@ defmodule GitHub.Dependabot.Alert do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           auto_dismissed_at: String.t() | nil,
           created_at: String.t(),
           dependency: map,
@@ -22,6 +23,7 @@ defmodule GitHub.Dependabot.Alert do
         }
 
   defstruct [
+    :__info__,
     :auto_dismissed_at,
     :created_at,
     :dependency,

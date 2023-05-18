@@ -4,6 +4,7 @@ defmodule GitHub.DeployKey do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           added_by: String.t() | nil,
           created_at: String.t(),
           id: integer,
@@ -15,7 +16,18 @@ defmodule GitHub.DeployKey do
           verified: boolean
         }
 
-  defstruct [:added_by, :created_at, :id, :key, :last_used, :read_only, :title, :url, :verified]
+  defstruct [
+    :__info__,
+    :added_by,
+    :created_at,
+    :id,
+    :key,
+    :last_used,
+    :read_only,
+    :title,
+    :url,
+    :verified
+  ]
 
   @doc false
   @spec __fields__(atom) :: keyword

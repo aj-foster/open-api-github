@@ -4,6 +4,7 @@ defmodule GitHub.Codespace.OrgSecret do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           created_at: String.t(),
           name: String.t(),
           selected_repositories_url: String.t() | nil,
@@ -11,7 +12,7 @@ defmodule GitHub.Codespace.OrgSecret do
           visibility: String.t()
         }
 
-  defstruct [:created_at, :name, :selected_repositories_url, :updated_at, :visibility]
+  defstruct [:__info__, :created_at, :name, :selected_repositories_url, :updated_at, :visibility]
 
   @doc false
   @spec __fields__(atom) :: keyword

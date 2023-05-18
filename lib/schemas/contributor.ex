@@ -4,6 +4,7 @@ defmodule GitHub.Contributor do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           avatar_url: String.t() | nil,
           contributions: integer,
           email: String.t() | nil,
@@ -28,6 +29,7 @@ defmodule GitHub.Contributor do
         }
 
   defstruct [
+    :__info__,
     :avatar_url,
     :contributions,
     :email,

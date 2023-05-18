@@ -4,6 +4,7 @@ defmodule GitHub.AddedToProjectIssueEvent do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           actor: GitHub.User.simple(),
           commit_id: String.t() | nil,
           commit_url: String.t() | nil,
@@ -17,6 +18,7 @@ defmodule GitHub.AddedToProjectIssueEvent do
         }
 
   defstruct [
+    :__info__,
     :actor,
     :commit_id,
     :commit_url,

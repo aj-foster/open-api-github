@@ -4,6 +4,7 @@ defmodule GitHub.ReviewComment do
   """
 
   @type t :: %__MODULE__{
+          __info__: map,
           _links: map,
           author_association: String.t(),
           body: String.t(),
@@ -35,6 +36,7 @@ defmodule GitHub.ReviewComment do
         }
 
   defstruct [
+    :__info__,
     :_links,
     :author_association,
     :body,

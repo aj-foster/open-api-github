@@ -3,9 +3,13 @@ defmodule GitHub.Deployment.BranchPolicySettings do
   Provides struct and type for DeploymentBranchPolicySettings
   """
 
-  @type t :: %__MODULE__{custom_branch_policies: boolean, protected_branches: boolean}
+  @type t :: %__MODULE__{
+          __info__: map,
+          custom_branch_policies: boolean,
+          protected_branches: boolean
+        }
 
-  defstruct [:custom_branch_policies, :protected_branches]
+  defstruct [:__info__, :custom_branch_policies, :protected_branches]
 
   @doc false
   @spec __fields__(atom) :: keyword
