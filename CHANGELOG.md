@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Nothing yet_.
 
+### 0.0.12 (2023-05-18)
+
+* **Fix**: Support generating empty responses in test data generator.
+
 ### 0.0.11 (2023-05-18)
 
 * **Add**: Improvements to the test data generator.

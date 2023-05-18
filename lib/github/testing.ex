@@ -237,6 +237,7 @@ defmodule GitHub.Testing do
     end
   end
 
+  def generate(_schema, _key, nil), do: nil
   def generate(_schema, _key, :null), do: nil
   def generate(_schema, _key, :unknown), do: nil
 
