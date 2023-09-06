@@ -2,6 +2,7 @@ defmodule GitHub.CloneTraffic do
   @moduledoc """
   Provides struct and type for CloneTraffic
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

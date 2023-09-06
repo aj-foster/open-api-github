@@ -2,6 +2,7 @@ defmodule GitHub.Blob do
   @moduledoc """
   Provides struct and type for Blob
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

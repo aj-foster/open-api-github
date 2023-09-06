@@ -2,6 +2,7 @@ defmodule GitHub.MergedUpstream do
   @moduledoc """
   Provides struct and type for MergedUpstream
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

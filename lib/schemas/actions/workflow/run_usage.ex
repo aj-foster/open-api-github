@@ -2,6 +2,7 @@ defmodule GitHub.Actions.Workflow.RunUsage do
   @moduledoc """
   Provides struct and type for WorkflowRunUsage
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, billable: map, run_duration_ms: integer | nil}
 

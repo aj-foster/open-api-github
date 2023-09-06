@@ -2,6 +2,7 @@ defmodule GitHub.PullRequest.ReviewRequest do
   @moduledoc """
   Provides struct and type for PullRequestReviewRequest
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, teams: [GitHub.Team.t()], users: [GitHub.User.simple()]}
 

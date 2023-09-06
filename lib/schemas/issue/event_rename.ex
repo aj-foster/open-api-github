@@ -2,6 +2,7 @@ defmodule GitHub.Issue.EventRename do
   @moduledoc """
   Provides struct and type for IssueEventRename
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, from: String.t(), to: String.t()}
 

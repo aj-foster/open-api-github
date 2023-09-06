@@ -2,6 +2,7 @@ defmodule GitHub.CombinedBillingUsage do
   @moduledoc """
   Provides struct and type for CombinedBillingUsage
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

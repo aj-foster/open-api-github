@@ -2,6 +2,7 @@ defmodule GitHub.Content.Symlink do
   @moduledoc """
   Provides struct and type for ContentSymlink
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

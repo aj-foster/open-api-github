@@ -2,6 +2,7 @@ defmodule GitHub.Repository.Rule.NonFastForward do
   @moduledoc """
   Provides struct and type for RepositoryRuleNonFastForward
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, type: String.t()}
 

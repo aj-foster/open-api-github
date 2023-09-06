@@ -2,6 +2,7 @@ defmodule GitHub.DependencyGraph.SpdxSbom do
   @moduledoc """
   Provides struct and type for DependencyGraphSpdxSbom
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, sbom: map}
 

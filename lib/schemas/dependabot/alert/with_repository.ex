@@ -2,6 +2,7 @@ defmodule GitHub.Dependabot.Alert.WithRepository do
   @moduledoc """
   Provides struct and type for DependabotAlertWithRepository
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

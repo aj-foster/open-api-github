@@ -2,6 +2,7 @@ defmodule GitHub.Deployment.BranchPolicyNamePattern do
   @moduledoc """
   Provides struct and type for DeploymentBranchPolicyNamePattern
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, name: String.t()}
 

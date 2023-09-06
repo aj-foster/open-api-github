@@ -2,6 +2,7 @@ defmodule GitHub.License.Content do
   @moduledoc """
   Provides struct and type for LicenseContent
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

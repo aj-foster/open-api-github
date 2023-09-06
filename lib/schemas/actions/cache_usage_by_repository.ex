@@ -2,6 +2,7 @@ defmodule GitHub.Actions.CacheUsageByRepository do
   @moduledoc """
   Provides struct and type for ActionsCacheUsageByRepository
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

@@ -2,6 +2,7 @@ defmodule GitHub.Actions.GetDefaultWorkflowPermissions do
   @moduledoc """
   Provides struct and type for ActionsGetDefaultWorkflowPermissions
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

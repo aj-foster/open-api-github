@@ -2,6 +2,7 @@ defmodule GitHub.Alert.Number do
   @moduledoc """
   Provides struct and type for AlertNumber
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map}
 

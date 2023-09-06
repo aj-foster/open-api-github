@@ -2,6 +2,7 @@ defmodule GitHub.Marketplace.ListingPlan do
   @moduledoc """
   Provides struct and type for MarketplaceListingPlan
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

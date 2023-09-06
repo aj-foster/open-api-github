@@ -2,6 +2,7 @@ defmodule GitHub.Actions.CacheList do
   @moduledoc """
   Provides struct and type for ActionsCacheList
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, actions_caches: [map], total_count: integer}
 

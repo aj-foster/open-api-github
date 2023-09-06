@@ -2,6 +2,7 @@ defmodule GitHub.Deployment do
   @moduledoc """
   Provides struct and types for Deployment, DeploymentSimple
   """
+  use GitHub.Encoder
 
   @type simple :: %__MODULE__{
           __info__: map,

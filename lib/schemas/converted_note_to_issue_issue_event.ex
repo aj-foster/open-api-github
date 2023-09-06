@@ -2,6 +2,7 @@ defmodule GitHub.ConvertedNoteToIssueIssueEvent do
   @moduledoc """
   Provides struct and type for ConvertedNoteToIssueIssueEvent
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

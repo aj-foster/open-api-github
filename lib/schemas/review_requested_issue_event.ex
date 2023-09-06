@@ -2,6 +2,7 @@ defmodule GitHub.ReviewRequestedIssueEvent do
   @moduledoc """
   Provides struct and type for ReviewRequestedIssueEvent
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

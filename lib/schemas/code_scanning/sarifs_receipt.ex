@@ -2,6 +2,7 @@ defmodule GitHub.CodeScanning.SarifsReceipt do
   @moduledoc """
   Provides struct and type for CodeScanningSarifsReceipt
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, id: String.t() | nil, url: String.t() | nil}
 

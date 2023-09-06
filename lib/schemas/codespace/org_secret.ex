@@ -2,6 +2,7 @@ defmodule GitHub.Codespace.OrgSecret do
   @moduledoc """
   Provides struct and type for CodespacesOrgSecret
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

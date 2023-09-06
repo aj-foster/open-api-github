@@ -2,6 +2,7 @@ defmodule GitHub.Branch.Short do
   @moduledoc """
   Provides struct and type for BranchShort
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, commit: map, name: String.t(), protected: boolean}
 

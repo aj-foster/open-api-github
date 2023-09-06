@@ -2,6 +2,7 @@ defmodule GitHub.RateLimit do
   @moduledoc """
   Provides API endpoint, struct, and type related to rate limit
   """
+  use GitHub.Encoder
 
   @default_client GitHub.Client
 

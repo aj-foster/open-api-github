@@ -2,6 +2,7 @@ defmodule GitHub.ValidationError do
   @moduledoc """
   Provides struct and types for ValidationError, ValidationErrorSimple
   """
+  use GitHub.Encoder
 
   @type simple :: %__MODULE__{
           __info__: map,

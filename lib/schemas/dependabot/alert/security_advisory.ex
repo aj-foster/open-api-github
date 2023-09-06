@@ -2,6 +2,7 @@ defmodule GitHub.Dependabot.Alert.SecurityAdvisory do
   @moduledoc """
   Provides struct and type for DependabotAlertSecurityAdvisory
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

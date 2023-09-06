@@ -2,6 +2,7 @@ defmodule GitHub.Key do
   @moduledoc """
   Provides struct and types for Key, KeySimple
   """
+  use GitHub.Encoder
 
   @type simple :: %__MODULE__{__info__: map, id: integer, key: String.t()}
 

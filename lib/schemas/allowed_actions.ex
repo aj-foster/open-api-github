@@ -2,6 +2,7 @@ defmodule GitHub.AllowedActions do
   @moduledoc """
   Provides struct and type for AllowedActions
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map}
 

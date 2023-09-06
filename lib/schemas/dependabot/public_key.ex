@@ -2,6 +2,7 @@ defmodule GitHub.Dependabot.PublicKey do
   @moduledoc """
   Provides struct and type for DependabotPublicKey
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, key: String.t(), key_id: String.t()}
 

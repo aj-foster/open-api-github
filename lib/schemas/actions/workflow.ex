@@ -2,6 +2,7 @@ defmodule GitHub.Actions.Workflow do
   @moduledoc """
   Provides struct and type for Workflow
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

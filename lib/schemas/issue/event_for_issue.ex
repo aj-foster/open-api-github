@@ -2,6 +2,7 @@ defmodule GitHub.Issue.EventForIssue do
   @moduledoc """
   Provides struct and type for IssueEventForIssue
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map}
 

@@ -2,6 +2,7 @@ defmodule GitHub.DiffEntry do
   @moduledoc """
   Provides struct and type for DiffEntry
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

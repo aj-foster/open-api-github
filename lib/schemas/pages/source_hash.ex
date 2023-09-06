@@ -2,6 +2,7 @@ defmodule GitHub.Pages.SourceHash do
   @moduledoc """
   Provides struct and type for PagesSourceHash
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, branch: String.t(), path: String.t()}
 

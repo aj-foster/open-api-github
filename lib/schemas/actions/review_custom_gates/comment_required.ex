@@ -2,6 +2,7 @@ defmodule GitHub.Actions.ReviewCustomGates.CommentRequired do
   @moduledoc """
   Provides struct and type for ReviewCustomGatesCommentRequired
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, comment: String.t(), environment_name: String.t()}
 

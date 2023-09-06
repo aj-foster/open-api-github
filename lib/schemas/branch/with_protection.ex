@@ -2,6 +2,7 @@ defmodule GitHub.Branch.WithProtection do
   @moduledoc """
   Provides struct and type for BranchWithProtection
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

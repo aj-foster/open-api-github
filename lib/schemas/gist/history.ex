@@ -2,6 +2,7 @@ defmodule GitHub.Gist.History do
   @moduledoc """
   Provides struct and type for GistHistory
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

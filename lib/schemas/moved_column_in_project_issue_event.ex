@@ -2,6 +2,7 @@ defmodule GitHub.MovedColumnInProjectIssueEvent do
   @moduledoc """
   Provides struct and type for MovedColumnInProjectIssueEvent
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

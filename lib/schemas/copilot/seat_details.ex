@@ -2,6 +2,7 @@ defmodule GitHub.Copilot.SeatDetails do
   @moduledoc """
   Provides struct and type for CopilotSeatDetails
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

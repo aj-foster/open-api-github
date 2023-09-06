@@ -2,6 +2,7 @@ defmodule GitHub.App.InstallationRequest do
   @moduledoc """
   Provides struct and type for IntegrationInstallationRequest
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

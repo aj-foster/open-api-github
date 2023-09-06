@@ -2,6 +2,7 @@ defmodule GitHub.ShortBlob do
   @moduledoc """
   Provides struct and type for ShortBlob
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, sha: String.t(), url: String.t()}
 

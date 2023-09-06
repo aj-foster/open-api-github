@@ -2,6 +2,7 @@ defmodule GitHub.Content.Submodule do
   @moduledoc """
   Provides struct and type for ContentSubmodule
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

@@ -2,6 +2,7 @@ defmodule GitHub.SelectedActions do
   @moduledoc """
   Provides struct and type for SelectedActions
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

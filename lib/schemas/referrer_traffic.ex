@@ -2,6 +2,7 @@ defmodule GitHub.ReferrerTraffic do
   @moduledoc """
   Provides struct and type for ReferrerTraffic
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, count: integer, referrer: String.t(), uniques: integer}
 

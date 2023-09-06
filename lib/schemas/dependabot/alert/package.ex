@@ -2,6 +2,7 @@ defmodule GitHub.Dependabot.Alert.Package do
   @moduledoc """
   Provides struct and type for DependabotAlertPackage
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, ecosystem: String.t(), name: String.t()}
 

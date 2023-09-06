@@ -2,6 +2,7 @@ defmodule GitHub.Content.Traffic do
   @moduledoc """
   Provides struct and type for ContentTraffic
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

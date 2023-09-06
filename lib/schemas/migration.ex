@@ -2,6 +2,7 @@ defmodule GitHub.Migration do
   @moduledoc """
   Provides struct and type for Migration
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

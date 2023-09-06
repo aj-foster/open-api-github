@@ -2,6 +2,7 @@ defmodule GitHub.Repository.Rule.RequiredLinearHistory do
   @moduledoc """
   Provides struct and type for RepositoryRuleRequiredLinearHistory
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, type: String.t()}
 

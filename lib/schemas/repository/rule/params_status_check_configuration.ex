@@ -2,6 +2,7 @@ defmodule GitHub.Repository.Rule.ParamsStatusCheckConfiguration do
   @moduledoc """
   Provides struct and type for RepositoryRuleParamsStatusCheckConfiguration
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, context: String.t(), integration_id: integer | nil}
 

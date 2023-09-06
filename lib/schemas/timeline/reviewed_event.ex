@@ -2,6 +2,7 @@ defmodule GitHub.Timeline.ReviewedEvent do
   @moduledoc """
   Provides struct and type for TimelineReviewedEvent
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

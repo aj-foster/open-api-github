@@ -2,6 +2,7 @@ defmodule GitHub.OrgMembership do
   @moduledoc """
   Provides struct and type for OrgMembership
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

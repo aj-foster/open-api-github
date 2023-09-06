@@ -2,6 +2,7 @@ defmodule GitHub.SecretScanning.LocationIssueComment do
   @moduledoc """
   Provides struct and type for SecretScanningLocationIssueComment
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, issue_comment_url: String.t()}
 

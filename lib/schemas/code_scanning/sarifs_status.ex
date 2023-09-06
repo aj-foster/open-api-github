@@ -2,6 +2,7 @@ defmodule GitHub.CodeScanning.SarifsStatus do
   @moduledoc """
   Provides struct and type for CodeScanningSarifsStatus
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

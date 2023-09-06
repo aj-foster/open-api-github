@@ -2,6 +2,7 @@ defmodule GitHub.LockedIssueEvent do
   @moduledoc """
   Provides struct and type for LockedIssueEvent
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

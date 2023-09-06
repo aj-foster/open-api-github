@@ -2,6 +2,7 @@ defmodule GitHub.SecretScanning.LocationIssueTitle do
   @moduledoc """
   Provides struct and type for SecretScanningLocationIssueTitle
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, issue_title_url: String.t()}
 

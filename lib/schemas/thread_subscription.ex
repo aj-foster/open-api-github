@@ -2,6 +2,7 @@ defmodule GitHub.ThreadSubscription do
   @moduledoc """
   Provides struct and type for ThreadSubscription
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

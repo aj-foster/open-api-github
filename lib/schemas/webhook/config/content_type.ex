@@ -2,6 +2,7 @@ defmodule GitHub.Webhook.Config.ContentType do
   @moduledoc """
   Provides struct and type for WebhookConfigContentType
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map}
 

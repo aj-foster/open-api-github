@@ -2,6 +2,7 @@ defmodule GitHub.Issue.EventLabel do
   @moduledoc """
   Provides struct and type for IssueEventLabel
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, color: String.t() | nil, name: String.t() | nil}
 

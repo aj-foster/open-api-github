@@ -2,6 +2,7 @@ defmodule GitHub.Pages.HealthCheck do
   @moduledoc """
   Provides struct and type for PagesHealthCheck
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, alt_domain: map | nil, domain: map | nil}
 

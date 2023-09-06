@@ -2,6 +2,7 @@ defmodule GitHub.Actions.ReviewCustomGates.StateRequired do
   @moduledoc """
   Provides struct and type for ReviewCustomGatesStateRequired
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

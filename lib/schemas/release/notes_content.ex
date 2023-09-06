@@ -2,6 +2,7 @@ defmodule GitHub.Release.NotesContent do
   @moduledoc """
   Provides struct and type for ReleaseNotesContent
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, body: String.t(), name: String.t()}
 

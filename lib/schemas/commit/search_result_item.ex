@@ -2,6 +2,7 @@ defmodule GitHub.Commit.SearchResultItem do
   @moduledoc """
   Provides struct and type for CommitSearchResultItem
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

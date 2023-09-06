@@ -2,6 +2,7 @@ defmodule GitHub.CodeScanning.CodeqlDatabase do
   @moduledoc """
   Provides struct and type for CodeScanningCodeqlDatabase
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

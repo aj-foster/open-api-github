@@ -2,6 +2,7 @@ defmodule GitHub.StarredRepository do
   @moduledoc """
   Provides struct and type for StarredRepository
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, repo: GitHub.Repository.t(), starred_at: String.t()}
 

@@ -2,6 +2,7 @@ defmodule GitHub.CommunityHealthFile do
   @moduledoc """
   Provides struct and type for CommunityHealthFile
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, html_url: String.t(), url: String.t()}
 

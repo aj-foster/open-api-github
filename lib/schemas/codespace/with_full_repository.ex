@@ -2,6 +2,7 @@ defmodule GitHub.Codespace.WithFullRepository do
   @moduledoc """
   Provides struct and type for CodespaceWithFullRepository
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

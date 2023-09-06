@@ -2,6 +2,7 @@ defmodule GitHub.CodeScanning.AnalysisToolGuid do
   @moduledoc """
   Provides struct and type for CodeScanningAnalysisToolGuid
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map}
 

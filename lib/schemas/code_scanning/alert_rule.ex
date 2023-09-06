@@ -2,6 +2,7 @@ defmodule GitHub.CodeScanning.AlertRule do
   @moduledoc """
   Provides struct and type for CodeScanningAlertRule
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

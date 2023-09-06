@@ -2,6 +2,7 @@ defmodule GitHub.Reaction.Rollup do
   @moduledoc """
   Provides struct and type for ReactionRollup
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           "+1": integer,

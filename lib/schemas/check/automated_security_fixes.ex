@@ -2,6 +2,7 @@ defmodule GitHub.Check.AutomatedSecurityFixes do
   @moduledoc """
   Provides struct and type for CheckAutomatedSecurityFixes
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, enabled: boolean, paused: boolean}
 

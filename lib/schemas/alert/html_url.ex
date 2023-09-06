@@ -2,6 +2,7 @@ defmodule GitHub.Alert.HtmlUrl do
   @moduledoc """
   Provides struct and type for AlertHtmlUrl
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map}
 

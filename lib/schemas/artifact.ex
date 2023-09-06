@@ -2,6 +2,7 @@ defmodule GitHub.Artifact do
   @moduledoc """
   Provides struct and type for Artifact
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

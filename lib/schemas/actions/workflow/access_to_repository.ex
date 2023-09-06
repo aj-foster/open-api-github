@@ -2,6 +2,7 @@ defmodule GitHub.Actions.Workflow.AccessToRepository do
   @moduledoc """
   Provides struct and type for ActionsWorkflowAccessToRepository
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, access_level: String.t()}
 

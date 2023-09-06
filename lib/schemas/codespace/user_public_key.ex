@@ -2,6 +2,7 @@ defmodule GitHub.Codespace.UserPublicKey do
   @moduledoc """
   Provides struct and type for CodespacesUserPublicKey
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, key: String.t(), key_id: String.t()}
 

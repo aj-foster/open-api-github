@@ -2,6 +2,7 @@ defmodule GitHub.Project.CollaboratorPermission do
   @moduledoc """
   Provides struct and type for ProjectCollaboratorPermission
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, permission: String.t(), user: GitHub.User.simple() | nil}
 

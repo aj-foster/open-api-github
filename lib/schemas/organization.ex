@@ -2,6 +2,7 @@ defmodule GitHub.Organization do
   @moduledoc """
   Provides struct and types for OrganizationFull, OrganizationSimple
   """
+  use GitHub.Encoder
 
   @type full :: %__MODULE__{
           __info__: map,

@@ -2,6 +2,7 @@ defmodule GitHub.Project.Card do
   @moduledoc """
   Provides struct and type for ProjectCard
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

@@ -2,6 +2,7 @@ defmodule GitHub.Branch.RestrictionPolicy do
   @moduledoc """
   Provides struct and type for BranchRestrictionPolicy
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

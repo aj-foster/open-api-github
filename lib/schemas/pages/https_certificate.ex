@@ -2,6 +2,7 @@ defmodule GitHub.Pages.HttpsCertificate do
   @moduledoc """
   Provides struct and type for PagesHttpsCertificate
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

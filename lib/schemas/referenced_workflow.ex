@@ -2,6 +2,7 @@ defmodule GitHub.ReferencedWorkflow do
   @moduledoc """
   Provides struct and type for ReferencedWorkflow
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, path: String.t(), ref: String.t() | nil, sha: String.t()}
 

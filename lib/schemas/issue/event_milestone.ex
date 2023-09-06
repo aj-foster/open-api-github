@@ -2,6 +2,7 @@ defmodule GitHub.Issue.EventMilestone do
   @moduledoc """
   Provides struct and type for IssueEventMilestone
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, title: String.t()}
 

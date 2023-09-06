@@ -2,6 +2,7 @@ defmodule GitHub.Codespace.Machine do
   @moduledoc """
   Provides struct and type for CodespaceMachine
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

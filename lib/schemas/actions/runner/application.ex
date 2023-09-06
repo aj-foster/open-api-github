@@ -2,6 +2,7 @@ defmodule GitHub.Actions.Runner.Application do
   @moduledoc """
   Provides struct and type for RunnerApplication
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

@@ -2,6 +2,7 @@ defmodule GitHub.Deployment.ReviewerType do
   @moduledoc """
   Provides struct and type for DeploymentReviewerType
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map}
 

@@ -2,6 +2,7 @@ defmodule GitHub.Repository.Rule.CommitMessagePattern do
   @moduledoc """
   Provides struct and type for RepositoryRuleCommitMessagePattern
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, parameters: map | nil, type: String.t()}
 

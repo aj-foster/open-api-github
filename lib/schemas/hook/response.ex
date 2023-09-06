@@ -2,6 +2,7 @@ defmodule GitHub.Hook.Response do
   @moduledoc """
   Provides struct and type for HookResponse
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

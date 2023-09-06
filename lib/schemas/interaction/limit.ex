@@ -2,6 +2,7 @@ defmodule GitHub.Interaction.Limit do
   @moduledoc """
   Provides struct and type for InteractionLimit
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, expiry: String.t() | nil, limit: String.t()}
 

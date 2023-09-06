@@ -2,6 +2,7 @@ defmodule GitHub.ProtectedBranch.AdminEnforced do
   @moduledoc """
   Provides struct and type for ProtectedBranchAdminEnforced
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, enabled: boolean, url: String.t()}
 

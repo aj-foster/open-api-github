@@ -2,6 +2,7 @@ defmodule GitHub.Commit.Activity do
   @moduledoc """
   Provides struct and type for CommitActivity
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, days: [integer], total: integer, week: integer}
 

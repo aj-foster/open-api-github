@@ -2,6 +2,7 @@ defmodule GitHub.Release.Asset do
   @moduledoc """
   Provides struct and type for ReleaseAsset
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

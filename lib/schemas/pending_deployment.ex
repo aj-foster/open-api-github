@@ -2,6 +2,7 @@ defmodule GitHub.PendingDeployment do
   @moduledoc """
   Provides struct and type for PendingDeployment
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

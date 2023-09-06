@@ -2,6 +2,7 @@ defmodule GitHub.RateLimit.Overview do
   @moduledoc """
   Provides struct and type for RateLimitOverview
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, rate: GitHub.RateLimit.t(), resources: map}
 

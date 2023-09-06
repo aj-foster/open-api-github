@@ -2,6 +2,7 @@ defmodule GitHub.Environment do
   @moduledoc """
   Provides struct and type for Environment
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

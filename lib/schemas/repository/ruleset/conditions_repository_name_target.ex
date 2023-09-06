@@ -2,6 +2,7 @@ defmodule GitHub.Repository.Ruleset.ConditionsRepositoryNameTarget do
   @moduledoc """
   Provides struct and type for RepositoryRulesetConditionsRepositoryNameTarget
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, repository_name: map}
 

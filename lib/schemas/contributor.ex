@@ -2,6 +2,7 @@ defmodule GitHub.Contributor do
   @moduledoc """
   Provides struct and type for Contributor
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

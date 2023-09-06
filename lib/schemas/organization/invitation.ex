@@ -2,6 +2,7 @@ defmodule GitHub.Organization.Invitation do
   @moduledoc """
   Provides struct and type for OrganizationInvitation
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

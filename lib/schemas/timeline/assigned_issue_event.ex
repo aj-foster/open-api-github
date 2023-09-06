@@ -2,6 +2,7 @@ defmodule GitHub.Timeline.AssignedIssueEvent do
   @moduledoc """
   Provides struct and type for TimelineAssignedIssueEvent
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

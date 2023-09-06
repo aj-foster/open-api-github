@@ -2,6 +2,7 @@ defmodule GitHub.Organization.ActionsSecret do
   @moduledoc """
   Provides struct and type for OrganizationActionsSecret
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

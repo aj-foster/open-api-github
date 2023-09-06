@@ -2,6 +2,7 @@ defmodule GitHub.CodeScanning.AlertDismissedReason do
   @moduledoc """
   Provides struct and type for CodeScanningAlertDismissedReason
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map}
 

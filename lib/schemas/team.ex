@@ -2,6 +2,7 @@ defmodule GitHub.Team do
   @moduledoc """
   Provides struct and types for Team, TeamFull, TeamSimple
   """
+  use GitHub.Encoder
 
   @type full :: %__MODULE__{
           __info__: map,

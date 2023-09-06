@@ -2,6 +2,7 @@ defmodule GitHub.PullRequest.MergeResult do
   @moduledoc """
   Provides struct and type for PullRequestMergeResult
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, merged: boolean, message: String.t(), sha: String.t()}
 

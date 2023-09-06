@@ -2,6 +2,7 @@ defmodule GitHub.Actions.RepositoryPermissions do
   @moduledoc """
   Provides struct and type for ActionsRepositoryPermissions
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

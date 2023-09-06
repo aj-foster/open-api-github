@@ -2,6 +2,7 @@ defmodule GitHub.Team.Membership do
   @moduledoc """
   Provides struct and type for TeamMembership
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, role: String.t(), state: String.t(), url: String.t()}
 

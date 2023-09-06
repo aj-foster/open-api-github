@@ -2,6 +2,7 @@ defmodule GitHub.Label do
   @moduledoc """
   Provides struct and type for Label
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

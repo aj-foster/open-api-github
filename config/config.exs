@@ -84,6 +84,7 @@ config :oapi_generator,
       {~r/^Workflow/, "Actions.Workflow"}
     ],
     schema_location: "schemas/",
+    schema_use: GitHub.Encoder,
     types: [
       error: {GitHub.Error, :t}
     ]

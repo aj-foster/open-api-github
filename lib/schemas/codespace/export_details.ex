@@ -2,6 +2,7 @@ defmodule GitHub.Codespace.ExportDetails do
   @moduledoc """
   Provides struct and type for CodespaceExportDetails
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

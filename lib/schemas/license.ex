@@ -2,6 +2,7 @@ defmodule GitHub.License do
   @moduledoc """
   Provides struct and types for License, LicenseSimple
   """
+  use GitHub.Encoder
 
   @type simple :: %__MODULE__{
           __info__: map,

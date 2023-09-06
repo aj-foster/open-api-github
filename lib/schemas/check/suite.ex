@@ -2,6 +2,7 @@ defmodule GitHub.Check.Suite do
   @moduledoc """
   Provides struct and type for CheckSuite
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

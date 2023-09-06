@@ -2,6 +2,7 @@ defmodule GitHub.Traffic do
   @moduledoc """
   Provides struct and type for Traffic
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, count: integer, timestamp: String.t(), uniques: integer}
 

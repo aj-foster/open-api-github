@@ -2,6 +2,7 @@ defmodule GitHub.Issue do
   @moduledoc """
   Provides struct and type for Issue
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

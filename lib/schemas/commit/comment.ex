@@ -2,6 +2,7 @@ defmodule GitHub.Commit.Comment do
   @moduledoc """
   Provides struct and type for CommitComment
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

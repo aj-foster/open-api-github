@@ -2,6 +2,7 @@ defmodule GitHub.CodeOfConduct do
   @moduledoc """
   Provides struct and types for CodeOfConduct, CodeOfConductSimple
   """
+  use GitHub.Encoder
 
   @type simple :: %__MODULE__{
           __info__: map,

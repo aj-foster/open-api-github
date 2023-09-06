@@ -2,6 +2,7 @@ defmodule GitHub.RepoCodespacesSecret do
   @moduledoc """
   Provides struct and type for RepoCodespacesSecret
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

@@ -2,6 +2,7 @@ defmodule GitHub.AuthenticationToken do
   @moduledoc """
   Provides struct and type for AuthenticationToken
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

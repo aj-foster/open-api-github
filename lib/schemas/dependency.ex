@@ -2,6 +2,7 @@ defmodule GitHub.Dependency do
   @moduledoc """
   Provides struct and type for Dependency
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

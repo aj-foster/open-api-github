@@ -2,6 +2,7 @@ defmodule GitHub.CommunityProfile do
   @moduledoc """
   Provides struct and type for CommunityProfile
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

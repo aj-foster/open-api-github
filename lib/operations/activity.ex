@@ -2,6 +2,7 @@ defmodule GitHub.Activity do
   @moduledoc """
   Provides API endpoints, struct, and type related to activity
   """
+  use GitHub.Encoder
 
   @default_client GitHub.Client
 

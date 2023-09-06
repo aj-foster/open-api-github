@@ -2,6 +2,7 @@ defmodule GitHub.Snapshot do
   @moduledoc """
   Provides struct and type for Snapshot
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

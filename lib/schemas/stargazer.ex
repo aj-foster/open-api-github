@@ -2,6 +2,7 @@ defmodule GitHub.Stargazer do
   @moduledoc """
   Provides struct and type for Stargazer
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, starred_at: String.t(), user: GitHub.User.simple() | nil}
 

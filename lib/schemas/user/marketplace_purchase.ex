@@ -2,6 +2,7 @@ defmodule GitHub.User.MarketplacePurchase do
   @moduledoc """
   Provides struct and type for UserMarketplacePurchase
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

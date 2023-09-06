@@ -2,6 +2,7 @@ defmodule GitHub.Pages.BuildStatus do
   @moduledoc """
   Provides struct and type for PageBuildStatus
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, status: String.t(), url: String.t()}
 

@@ -2,6 +2,7 @@ defmodule GitHub.OIDCCustomSubRepo do
   @moduledoc """
   Provides struct and type for OidcCustomSubRepo
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

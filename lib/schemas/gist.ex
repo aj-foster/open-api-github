@@ -2,6 +2,7 @@ defmodule GitHub.Gist do
   @moduledoc """
   Provides struct and type for GistSimple
   """
+  use GitHub.Encoder
 
   @type simple :: %__MODULE__{
           __info__: map,

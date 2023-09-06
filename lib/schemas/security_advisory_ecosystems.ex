@@ -2,6 +2,7 @@ defmodule GitHub.SecurityAdvisoryEcosystems do
   @moduledoc """
   Provides struct and type for SecurityAdvisoryEcosystems
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map}
 

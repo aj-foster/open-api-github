@@ -2,6 +2,7 @@ defmodule GitHub.CodeScanning.DefaultSetup do
   @moduledoc """
   Provides struct and type for CodeScanningDefaultSetup
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

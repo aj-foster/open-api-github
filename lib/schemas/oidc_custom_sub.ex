@@ -2,6 +2,7 @@ defmodule GitHub.OIDCCustomSub do
   @moduledoc """
   Provides struct and type for OidcCustomSub
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, include_claim_keys: [String.t()]}
 

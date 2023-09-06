@@ -2,6 +2,7 @@ defmodule GitHub.Repository do
   @moduledoc """
   Provides struct and types for FullRepository, MinimalRepository, Repository, SimpleRepository
   """
+  use GitHub.Encoder
 
   @type full :: %__MODULE__{
           __info__: map,

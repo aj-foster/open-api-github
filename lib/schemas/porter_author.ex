@@ -2,6 +2,7 @@ defmodule GitHub.PorterAuthor do
   @moduledoc """
   Provides struct and type for PorterAuthor
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

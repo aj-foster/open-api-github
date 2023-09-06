@@ -2,6 +2,7 @@ defmodule GitHub.ProtectedBranch do
   @moduledoc """
   Provides struct and type for ProtectedBranch
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

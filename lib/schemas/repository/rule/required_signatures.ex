@@ -2,6 +2,7 @@ defmodule GitHub.Repository.Rule.RequiredSignatures do
   @moduledoc """
   Provides struct and type for RepositoryRuleRequiredSignatures
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, type: String.t()}
 

@@ -2,6 +2,7 @@ defmodule GitHub.Commit do
   @moduledoc """
   Provides struct and types for Commit, SimpleCommit
   """
+  use GitHub.Encoder
 
   @type simple :: %__MODULE__{
           __info__: map,

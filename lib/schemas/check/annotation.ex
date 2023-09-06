@@ -2,6 +2,7 @@ defmodule GitHub.Check.Annotation do
   @moduledoc """
   Provides struct and type for CheckAnnotation
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

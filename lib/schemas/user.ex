@@ -2,6 +2,7 @@ defmodule GitHub.User do
   @moduledoc """
   Provides struct and types for PrivateUser, PublicUser, SimpleUser
   """
+  use GitHub.Encoder
 
   @type private :: %__MODULE__{
           __info__: map,

@@ -2,6 +2,7 @@ defmodule GitHub.Actions.BillingUsage do
   @moduledoc """
   Provides struct and type for ActionsBillingUsage
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

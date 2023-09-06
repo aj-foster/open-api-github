@@ -2,6 +2,7 @@ defmodule GitHub.SCIM.Error do
   @moduledoc """
   Provides struct and type for ScimError
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

@@ -2,6 +2,7 @@ defmodule GitHub.PullRequest do
   @moduledoc """
   Provides struct and types for PullRequest, PullRequestMinimal, PullRequestSimple
   """
+  use GitHub.Encoder
 
   @type minimal :: %__MODULE__{
           __info__: map,

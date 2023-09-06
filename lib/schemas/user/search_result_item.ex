@@ -2,6 +2,7 @@ defmodule GitHub.User.SearchResultItem do
   @moduledoc """
   Provides struct and type for UserSearchResultItem
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

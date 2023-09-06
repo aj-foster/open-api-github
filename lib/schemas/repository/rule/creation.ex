@@ -2,6 +2,7 @@ defmodule GitHub.Repository.Rule.Creation do
   @moduledoc """
   Provides struct and type for RepositoryRuleCreation
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map, type: String.t()}
 

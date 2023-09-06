@@ -2,6 +2,7 @@ defmodule GitHub.Alert.UpdatedAt do
   @moduledoc """
   Provides struct and type for AlertUpdatedAt
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map}
 

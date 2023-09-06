@@ -2,6 +2,7 @@ defmodule GitHub.CodeScanning.AlertState do
   @moduledoc """
   Provides struct and type for CodeScanningAlertState
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map}
 

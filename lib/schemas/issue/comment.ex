@@ -2,6 +2,7 @@ defmodule GitHub.Issue.Comment do
   @moduledoc """
   Provides struct and type for IssueComment
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

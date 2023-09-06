@@ -2,6 +2,7 @@ defmodule GitHub.EnabledRepositories do
   @moduledoc """
   Provides struct and type for EnabledRepositories
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{__info__: map}
 

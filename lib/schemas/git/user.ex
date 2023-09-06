@@ -2,6 +2,7 @@ defmodule GitHub.Git.User do
   @moduledoc """
   Provides struct and type for GitUser
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

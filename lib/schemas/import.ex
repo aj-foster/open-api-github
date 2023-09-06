@@ -2,6 +2,7 @@ defmodule GitHub.Import do
   @moduledoc """
   Provides struct and type for Import
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,

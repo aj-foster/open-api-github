@@ -2,6 +2,7 @@ defmodule GitHub.Feed do
   @moduledoc """
   Provides struct and type for Feed
   """
+  use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
