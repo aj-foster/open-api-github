@@ -10,7 +10,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#add-custom-labels-to-a-self-hosted-runner-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#add-custom-labels-to-a-self-hosted-runner-for-an-organization)
 
   """
   @spec add_custom_labels_to_self_hosted_runner_for_org(String.t(), integer, map, keyword) ::
@@ -39,7 +39,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#add-custom-labels-to-a-self-hosted-runner-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#add-custom-labels-to-a-self-hosted-runner-for-a-repository)
 
   """
   @spec add_custom_labels_to_self_hosted_runner_for_repo(
@@ -73,7 +73,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#add-selected-repository-to-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#add-selected-repository-to-an-organization-secret)
 
   """
   @spec add_selected_repo_to_org_secret(String.t(), String.t(), integer, keyword) ::
@@ -115,35 +115,11 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  Add a repository to a required workflow
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#add-a-repository-to-selected-repositories-list-for-a-required-workflow)
-
-  """
-  @spec add_selected_repo_to_required_workflow(String.t(), integer, integer, keyword) ::
-          :ok | {:error, GitHub.Error.t()}
-  def add_selected_repo_to_required_workflow(org, required_workflow_id, repository_id, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [org: org, required_workflow_id: required_workflow_id, repository_id: repository_id],
-      call: {GitHub.Actions, :add_selected_repo_to_required_workflow},
-      url:
-        "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}/repositories/#{repository_id}",
-      method: :put,
-      response: [{204, nil}, {404, nil}, {422, nil}],
-      opts: opts
-    })
-  end
-
-  @doc """
   Approve a workflow run for a fork pull request
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#approve-a-workflow-run-for-a-fork-pull-request)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#approve-a-workflow-run-for-a-fork-pull-request)
 
   """
   @spec approve_workflow_run(String.t(), String.t(), integer, keyword) ::
@@ -170,7 +146,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#cancel-a-workflow-run)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#cancel-a-workflow-run)
 
   """
   @spec cancel_workflow_run(String.t(), String.t(), integer, keyword) ::
@@ -218,7 +194,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#create-or-update-an-environment-secret)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#create-or-update-an-environment-secret)
 
   """
   @spec create_or_update_environment_secret(integer, String.t(), String.t(), map, keyword) ::
@@ -255,7 +231,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#create-or-update-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret)
 
   """
   @spec create_or_update_org_secret(String.t(), String.t(), map, keyword) ::
@@ -280,7 +256,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#create-or-update-a-repository-secret)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#create-or-update-a-repository-secret)
 
   """
   @spec create_or_update_repo_secret(String.t(), String.t(), String.t(), map, keyword) ::
@@ -330,7 +306,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#create-a-registration-token-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#create-a-registration-token-for-an-organization)
 
   """
   @spec create_registration_token_for_org(String.t(), keyword) ::
@@ -353,7 +329,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#create-a-registration-token-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#create-a-registration-token-for-a-repository)
 
   """
   @spec create_registration_token_for_repo(String.t(), String.t(), keyword) ::
@@ -376,7 +352,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#create-a-remove-token-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#create-a-remove-token-for-an-organization)
 
   """
   @spec create_remove_token_for_org(String.t(), keyword) ::
@@ -399,7 +375,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#create-a-remove-token-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#create-a-remove-token-for-a-repository)
 
   """
   @spec create_remove_token_for_repo(String.t(), String.t(), keyword) ::
@@ -443,36 +419,11 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  Create a required workflow
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#create-a-required-workflow)
-
-  """
-  @spec create_required_workflow(String.t(), map, keyword) ::
-          {:ok, GitHub.RequiredWorkflow.t()} | {:error, GitHub.Error.t()}
-  def create_required_workflow(org, body, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [org: org, body: body],
-      call: {GitHub.Actions, :create_required_workflow},
-      url: "/orgs/#{org}/actions/required_workflows",
-      body: body,
-      method: :post,
-      request: [{"application/json", :map}],
-      response: [{201, {GitHub.RequiredWorkflow, :t}}, {422, {GitHub.ValidationError, :simple}}],
-      opts: opts
-    })
-  end
-
-  @doc """
   Create a workflow dispatch event
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#create-a-workflow-dispatch-event)
+    * [API method documentation](https://docs.github.com/rest/actions/workflows#create-a-workflow-dispatch-event)
 
   """
   @spec create_workflow_dispatch(String.t(), String.t(), integer | String.t(), map, keyword) ::
@@ -550,7 +501,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-an-artifact)
+    * [API method documentation](https://docs.github.com/rest/actions/artifacts#delete-an-artifact)
 
   """
   @spec delete_artifact(String.t(), String.t(), integer, keyword) ::
@@ -573,7 +524,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-an-environment-secret)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#delete-an-environment-secret)
 
   """
   @spec delete_environment_secret(integer, String.t(), String.t(), keyword) ::
@@ -624,7 +575,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#delete-an-organization-secret)
 
   """
   @spec delete_org_secret(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -668,7 +619,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-repository-secret)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#delete-a-repository-secret)
 
   """
   @spec delete_repo_secret(String.t(), String.t(), String.t(), keyword) ::
@@ -710,33 +661,11 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  Delete a required workflow
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-required-workflow)
-
-  """
-  @spec delete_required_workflow(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
-  def delete_required_workflow(org, required_workflow_id, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [org: org, required_workflow_id: required_workflow_id],
-      call: {GitHub.Actions, :delete_required_workflow},
-      url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}",
-      method: :delete,
-      response: [{204, nil}],
-      opts: opts
-    })
-  end
-
-  @doc """
   Delete a self-hosted runner from an organization
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-self-hosted-runner-from-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#delete-a-self-hosted-runner-from-an-organization)
 
   """
   @spec delete_self_hosted_runner_from_org(String.t(), integer, keyword) ::
@@ -759,7 +688,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-self-hosted-runner-from-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#delete-a-self-hosted-runner-from-a-repository)
 
   """
   @spec delete_self_hosted_runner_from_repo(String.t(), String.t(), integer, keyword) ::
@@ -782,7 +711,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-a-workflow-run)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#delete-a-workflow-run)
 
   """
   @spec delete_workflow_run(String.t(), String.t(), integer, keyword) ::
@@ -805,7 +734,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#delete-workflow-run-logs)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#delete-workflow-run-logs)
 
   """
   @spec delete_workflow_run_logs(String.t(), String.t(), integer, keyword) ::
@@ -828,7 +757,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#disable-a-selected-repository-for-github-actions-in-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#disable-a-selected-repository-for-github-actions-in-an-organization)
 
   """
   @spec disable_selected_repository_github_actions_organization(String.t(), integer, keyword) ::
@@ -851,7 +780,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#disable-a-workflow)
+    * [API method documentation](https://docs.github.com/rest/actions/workflows#disable-a-workflow)
 
   """
   @spec disable_workflow(String.t(), String.t(), integer | String.t(), keyword) ::
@@ -874,7 +803,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#download-an-artifact)
+    * [API method documentation](https://docs.github.com/rest/actions/artifacts#download-an-artifact)
 
   """
   @spec download_artifact(String.t(), String.t(), integer, String.t(), keyword) ::
@@ -897,7 +826,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#download-job-logs-for-a-workflow-run)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-jobs#download-job-logs-for-a-workflow-run)
 
   """
   @spec download_job_logs_for_workflow_run(String.t(), String.t(), integer, keyword) ::
@@ -920,7 +849,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#download-workflow-run-attempt-logs)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#download-workflow-run-attempt-logs)
 
   """
   @spec download_workflow_run_attempt_logs(String.t(), String.t(), integer, integer, keyword) ::
@@ -943,7 +872,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#download-workflow-run-logs)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#download-workflow-run-logs)
 
   """
   @spec download_workflow_run_logs(String.t(), String.t(), integer, keyword) ::
@@ -966,7 +895,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#enable-a-selected-repository-for-github-actions-in-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#enable-a-selected-repository-for-github-actions-in-an-organization)
 
   """
   @spec enable_selected_repository_github_actions_organization(String.t(), integer, keyword) ::
@@ -989,7 +918,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#enable-a-workflow)
+    * [API method documentation](https://docs.github.com/rest/actions/workflows#enable-a-workflow)
 
   """
   @spec enable_workflow(String.t(), String.t(), integer | String.t(), keyword) ::
@@ -1003,6 +932,64 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/enable",
       method: :put,
       response: [{204, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create configuration for a just-in-time runner for an organization
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#create-configuration-for-a-just-in-time-runner-for-an-organization)
+
+  """
+  @spec generate_runner_jitconfig_for_org(String.t(), map, keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
+  def generate_runner_jitconfig_for_org(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, body: body],
+      call: {GitHub.Actions, :generate_runner_jitconfig_for_org},
+      url: "/orgs/#{org}/actions/runners/generate-jitconfig",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {201, :map},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :simple}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create configuration for a just-in-time runner for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#create-configuration-for-a-just-in-time-runner-for-a-repository)
+
+  """
+  @spec generate_runner_jitconfig_for_repo(String.t(), String.t(), map, keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
+  def generate_runner_jitconfig_for_repo(owner, repo, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo, body: body],
+      call: {GitHub.Actions, :generate_runner_jitconfig_for_repo},
+      url: "/repos/#{owner}/#{repo}/actions/runners/generate-jitconfig",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {201, :map},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :simple}}
+      ],
       opts: opts
     })
   end
@@ -1046,7 +1033,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-github-actions-cache-usage-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/cache#get-github-actions-cache-usage-for-a-repository)
 
   """
   @spec get_actions_cache_usage(String.t(), String.t(), keyword) ::
@@ -1074,7 +1061,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-repositories-with-github-actions-cache-usage-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/cache#list-repositories-with-github-actions-cache-usage-for-an-organization)
 
   """
   @spec get_actions_cache_usage_by_repo_for_org(String.t(), keyword) ::
@@ -1099,7 +1086,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-github-actions-cache-usage-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/cache#get-github-actions-cache-usage-for-an-organization)
 
   """
   @spec get_actions_cache_usage_for_org(String.t(), keyword) ::
@@ -1122,7 +1109,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-allowed-actions-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#get-allowed-actions-and-reusable-workflows-for-an-organization)
 
   """
   @spec get_allowed_actions_organization(String.t(), keyword) ::
@@ -1145,7 +1132,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-allowed-actions-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#get-allowed-actions-and-reusable-workflows-for-a-repository)
 
   """
   @spec get_allowed_actions_repository(String.t(), String.t(), keyword) ::
@@ -1168,7 +1155,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-an-artifact)
+    * [API method documentation](https://docs.github.com/rest/actions/artifacts#get-an-artifact)
 
   """
   @spec get_artifact(String.t(), String.t(), integer, keyword) ::
@@ -1218,7 +1205,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-an-environment-public-key)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#get-an-environment-public-key)
 
   """
   @spec get_environment_public_key(integer, String.t(), keyword) ::
@@ -1241,7 +1228,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-an-environment-secret)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#get-an-environment-secret)
 
   """
   @spec get_environment_secret(integer, String.t(), String.t(), keyword) ::
@@ -1292,7 +1279,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-default-workflow-permissions)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#get-default-workflow-permissions-for-an-organization)
 
   """
   @spec get_github_actions_default_workflow_permissions_organization(String.t(), keyword) ::
@@ -1315,7 +1302,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-default-workflow-permissions-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#get-default-workflow-permissions-for-a-repository)
 
   """
   @spec get_github_actions_default_workflow_permissions_repository(
@@ -1341,7 +1328,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-github-actions-permissions-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#get-github-actions-permissions-for-an-organization)
 
   """
   @spec get_github_actions_permissions_organization(String.t(), keyword) ::
@@ -1364,7 +1351,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-github-actions-permissions-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#get-github-actions-permissions-for-a-repository)
 
   """
   @spec get_github_actions_permissions_repository(String.t(), String.t(), keyword) ::
@@ -1387,7 +1374,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-job-for-a-workflow-run)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-jobs#get-a-job-for-a-workflow-run)
 
   """
   @spec get_job_for_workflow_run(String.t(), String.t(), integer, keyword) ::
@@ -1410,7 +1397,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-an-organization-public-key)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#get-an-organization-public-key)
 
   """
   @spec get_org_public_key(String.t(), keyword) ::
@@ -1433,7 +1420,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#get-an-organization-secret)
 
   """
   @spec get_org_secret(String.t(), String.t(), keyword) ::
@@ -1479,7 +1466,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-pending-deployments-for-a-workflow-run)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#get-pending-deployments-for-a-workflow-run)
 
   """
   @spec get_pending_deployments_for_run(String.t(), String.t(), integer, keyword) ::
@@ -1502,7 +1489,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-repository-public-key)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#get-a-repository-public-key)
 
   """
   @spec get_repo_public_key(String.t(), String.t(), keyword) ::
@@ -1521,58 +1508,11 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  Get a required workflow entity for a repository
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-repository-required-workflow)
-
-  """
-  @spec get_repo_required_workflow(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.RepoRequiredWorkflow.t()} | {:error, GitHub.Error.t()}
-  def get_repo_required_workflow(org, repo, required_workflow_id_for_repo, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [org: org, repo: repo, required_workflow_id_for_repo: required_workflow_id_for_repo],
-      call: {GitHub.Actions, :get_repo_required_workflow},
-      url: "/repos/#{org}/#{repo}/actions/required_workflows/#{required_workflow_id_for_repo}",
-      method: :get,
-      response: [{200, {GitHub.RepoRequiredWorkflow, :t}}, {404, {GitHub.BasicError, :t}}],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Get required workflow usage
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-repository-required-workflow-usage)
-
-  """
-  @spec get_repo_required_workflow_usage(String.t(), String.t(), integer, keyword) ::
-          {:ok, GitHub.Actions.Workflow.Usage.t()} | {:error, GitHub.Error.t()}
-  def get_repo_required_workflow_usage(org, repo, required_workflow_id_for_repo, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [org: org, repo: repo, required_workflow_id_for_repo: required_workflow_id_for_repo],
-      call: {GitHub.Actions, :get_repo_required_workflow_usage},
-      url:
-        "/repos/#{org}/#{repo}/actions/required_workflows/#{required_workflow_id_for_repo}/timing",
-      method: :get,
-      response: [{200, {GitHub.Actions.Workflow.Usage, :t}}, {404, {GitHub.BasicError, :t}}],
-      opts: opts
-    })
-  end
-
-  @doc """
   Get a repository secret
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-repository-secret)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#get-a-repository-secret)
 
   """
   @spec get_repo_secret(String.t(), String.t(), String.t(), keyword) ::
@@ -1614,34 +1554,11 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  Get a required workflow
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-required-workflow)
-
-  """
-  @spec get_required_workflow(String.t(), integer, keyword) ::
-          {:ok, GitHub.RequiredWorkflow.t()} | {:error, GitHub.Error.t()}
-  def get_required_workflow(org, required_workflow_id, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [org: org, required_workflow_id: required_workflow_id],
-      call: {GitHub.Actions, :get_required_workflow},
-      url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}",
-      method: :get,
-      response: [{200, {GitHub.RequiredWorkflow, :t}}],
-      opts: opts
-    })
-  end
-
-  @doc """
   Get the review history for a workflow run
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-the-review-history-for-a-workflow-run)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#get-the-review-history-for-a-workflow-run)
 
   """
   @spec get_reviews_for_run(String.t(), String.t(), integer, keyword) ::
@@ -1664,7 +1581,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-self-hosted-runner-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#get-a-self-hosted-runner-for-an-organization)
 
   """
   @spec get_self_hosted_runner_for_org(String.t(), integer, keyword) ::
@@ -1687,7 +1604,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-self-hosted-runner-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#get-a-self-hosted-runner-for-a-repository)
 
   """
   @spec get_self_hosted_runner_for_repo(String.t(), String.t(), integer, keyword) ::
@@ -1710,7 +1627,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-workflow)
+    * [API method documentation](https://docs.github.com/rest/actions/workflows#get-a-workflow)
 
   """
   @spec get_workflow(String.t(), String.t(), integer | String.t(), keyword) ::
@@ -1733,7 +1650,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-workflow-access-level-to-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#get-the-level-of-access-for-workflows-outside-of-the-repository)
 
   """
   @spec get_workflow_access_to_repository(String.t(), String.t(), keyword) ::
@@ -1760,7 +1677,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-workflow-run)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#get-a-workflow-run)
 
   """
   @spec get_workflow_run(String.t(), String.t(), integer, keyword) ::
@@ -1789,7 +1706,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-a-workflow-run-attempt)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#get-a-workflow-run-attempt)
 
   """
   @spec get_workflow_run_attempt(String.t(), String.t(), integer, integer, keyword) ::
@@ -1814,7 +1731,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-workflow-run-usage)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#get-workflow-run-usage)
 
   """
   @spec get_workflow_run_usage(String.t(), String.t(), integer, keyword) ::
@@ -1837,7 +1754,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#get-workflow-usage)
+    * [API method documentation](https://docs.github.com/rest/actions/workflows#get-workflow-usage)
 
   """
   @spec get_workflow_usage(String.t(), String.t(), integer | String.t(), keyword) ::
@@ -1862,11 +1779,11 @@ defmodule GitHub.Actions do
 
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
-    * `name` (String.t()): Filters artifacts by exact match on their name field.
+    * `name` (String.t()): The name field of an artifact. When specified, only artifacts with this name will be returned.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-artifacts-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/artifacts#list-artifacts-for-a-repository)
 
   """
   @spec list_artifacts_for_repo(String.t(), String.t(), keyword) ::
@@ -1896,7 +1813,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-environment-secrets)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#list-environment-secrets)
 
   """
   @spec list_environment_secrets(integer, String.t(), keyword) ::
@@ -1957,7 +1874,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-jobs-for-a-workflow-run)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-jobs#list-jobs-for-a-workflow-run)
 
   """
   @spec list_jobs_for_workflow_run(String.t(), String.t(), integer, keyword) ::
@@ -1987,7 +1904,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-jobs-for-a-workflow-run-attempt)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-jobs#list-jobs-for-a-workflow-run-attempt)
 
   """
   @spec list_jobs_for_workflow_run_attempt(String.t(), String.t(), integer, integer, keyword) ::
@@ -2012,7 +1929,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-labels-for-a-self-hosted-runner-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#list-labels-for-a-self-hosted-runner-for-an-organization)
 
   """
   @spec list_labels_for_self_hosted_runner_for_org(String.t(), integer, keyword) ::
@@ -2035,7 +1952,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-labels-for-a-self-hosted-runner-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#list-labels-for-a-self-hosted-runner-for-a-repository)
 
   """
   @spec list_labels_for_self_hosted_runner_for_repo(String.t(), String.t(), integer, keyword) ::
@@ -2063,7 +1980,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-organization-secrets)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#list-organization-secrets)
 
   """
   @spec list_org_secrets(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
@@ -2172,36 +2089,6 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  List repository required workflows
-
-  ## Options
-
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-repository-required-workflows)
-
-  """
-  @spec list_repo_required_workflows(String.t(), String.t(), keyword) ::
-          {:ok, map} | {:error, GitHub.Error.t()}
-  def list_repo_required_workflows(org, repo, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:page, :per_page])
-
-    client.request(%{
-      args: [org: org, repo: repo],
-      call: {GitHub.Actions, :list_repo_required_workflows},
-      url: "/repos/#{org}/#{repo}/actions/required_workflows",
-      method: :get,
-      query: query,
-      response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
-      opts: opts
-    })
-  end
-
-  @doc """
   List repository secrets
 
   ## Options
@@ -2211,7 +2098,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-repository-secrets)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#list-repository-secrets)
 
   """
   @spec list_repo_secrets(String.t(), String.t(), keyword) ::
@@ -2271,7 +2158,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-repository-workflows)
+    * [API method documentation](https://docs.github.com/rest/actions/workflows#list-repository-workflows)
 
   """
   @spec list_repo_workflows(String.t(), String.t(), keyword) ::
@@ -2292,96 +2179,11 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  List workflow runs for a required workflow
-
-  ## Options
-
-    * `actor` (String.t()): Returns someone's workflow runs. Use the login for the user who created the `push` associated with the check suite or workflow run.
-    * `branch` (String.t()): Returns workflow runs associated with a branch. Use the name of the branch of the `push`.
-    * `event` (String.t()): Returns workflow run triggered by the event you specify. For example, `push`, `pull_request` or `issue`. For more information, see "[Events that trigger workflows](https://docs.github.com/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows)."
-    * `status` (String.t()): Returns workflow runs with the check run `status` or `conclusion` that you specify. For example, a conclusion can be `success` or a status can be `in_progress`. Only GitHub can set a status of `waiting` or `requested`.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
-    * `created` (String.t()): Returns workflow runs created within the given date-time range. For more information on the syntax, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)."
-    * `exclude_pull_requests` (boolean): If `true` pull requests are omitted from the response (empty array).
-    * `check_suite_id` (integer): Returns workflow runs with the `check_suite_id` that you specify.
-    * `head_sha` (String.t()): Only returns workflow runs that are associated with the specified `head_sha`.
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-required-workflow-runs)
-
-  """
-  @spec list_required_workflow_runs(String.t(), String.t(), integer, keyword) ::
-          {:ok, map} | {:error, GitHub.Error.t()}
-  def list_required_workflow_runs(owner, repo, required_workflow_id_for_repo, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    query =
-      Keyword.take(opts, [
-        :actor,
-        :branch,
-        :check_suite_id,
-        :created,
-        :event,
-        :exclude_pull_requests,
-        :head_sha,
-        :page,
-        :per_page,
-        :status
-      ])
-
-    client.request(%{
-      args: [
-        owner: owner,
-        repo: repo,
-        required_workflow_id_for_repo: required_workflow_id_for_repo
-      ],
-      call: {GitHub.Actions, :list_required_workflow_runs},
-      url:
-        "/repos/#{owner}/#{repo}/actions/required_workflows/#{required_workflow_id_for_repo}/runs",
-      method: :get,
-      query: query,
-      response: [{200, :map}],
-      opts: opts
-    })
-  end
-
-  @doc """
-  List required workflows
-
-  ## Options
-
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-required-workflows)
-
-  """
-  @spec list_required_workflows(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
-  def list_required_workflows(org, opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:page, :per_page])
-
-    client.request(%{
-      args: [org: org],
-      call: {GitHub.Actions, :list_required_workflows},
-      url: "/orgs/#{org}/actions/required_workflows",
-      method: :get,
-      query: query,
-      response: [{200, :map}],
-      opts: opts
-    })
-  end
-
-  @doc """
   List runner applications for an organization
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-runner-applications-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#list-runner-applications-for-an-organization)
 
   """
   @spec list_runner_applications_for_org(String.t(), keyword) ::
@@ -2404,7 +2206,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-runner-applications-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#list-runner-applications-for-a-repository)
 
   """
   @spec list_runner_applications_for_repo(String.t(), String.t(), keyword) ::
@@ -2432,7 +2234,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-selected-repositories-for-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#list-selected-repositories-for-an-organization-secret)
 
   """
   @spec list_selected_repos_for_org_secret(String.t(), String.t(), keyword) ::
@@ -2492,7 +2294,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-selected-repositories-enabled-for-github-actions-in-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#list-selected-repositories-enabled-for-github-actions-in-an-organization)
 
   """
   @spec list_selected_repositories_enabled_github_actions_organization(String.t(), keyword) ::
@@ -2513,29 +2315,6 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  List selected repositories for a required workflow
-
-  ## Resources
-
-    * [API method documentation https://docs.github.com/rest/reference/actions#list-selected-repositories-required-workflows](https://docs.github.com/rest/reference/actions#list-selected-repositories-required-workflows)
-
-  """
-  @spec list_selected_repositories_required_workflow(String.t(), integer, keyword) ::
-          {:ok, map} | {:error, GitHub.Error.t()}
-  def list_selected_repositories_required_workflow(org, required_workflow_id, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [org: org, required_workflow_id: required_workflow_id],
-      call: {GitHub.Actions, :list_selected_repositories_required_workflow},
-      url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}/repositories",
-      method: :get,
-      response: [{200, :map}, {404, nil}],
-      opts: opts
-    })
-  end
-
-  @doc """
   List self-hosted runners for an organization
 
   ## Options
@@ -2545,7 +2324,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runners-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#list-self-hosted-runners-for-an-organization)
 
   """
   @spec list_self_hosted_runners_for_org(String.t(), keyword) ::
@@ -2575,7 +2354,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-self-hosted-runners-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#list-self-hosted-runners-for-a-repository)
 
   """
   @spec list_self_hosted_runners_for_repo(String.t(), String.t(), keyword) ::
@@ -2602,17 +2381,18 @@ defmodule GitHub.Actions do
 
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
+    * `name` (String.t()): The name field of an artifact. When specified, only artifacts with this name will be returned.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-workflow-run-artifacts)
+    * [API method documentation](https://docs.github.com/rest/actions/artifacts#list-workflow-run-artifacts)
 
   """
   @spec list_workflow_run_artifacts(String.t(), String.t(), integer, keyword) ::
           {:ok, map} | {:error, GitHub.Error.t()}
   def list_workflow_run_artifacts(owner, repo, run_id, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:page, :per_page])
+    query = Keyword.take(opts, [:name, :page, :per_page])
 
     client.request(%{
       args: [owner: owner, repo: repo, run_id: run_id],
@@ -2643,7 +2423,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-workflow-runs)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#list-workflow-runs-for-a-workflow)
 
   """
   @spec list_workflow_runs(String.t(), String.t(), integer | String.t(), keyword) ::
@@ -2694,7 +2474,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#list-workflow-runs-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#list-workflow-runs-for-a-repository)
 
   """
   @spec list_workflow_runs_for_repo(String.t(), String.t(), keyword) ::
@@ -2732,7 +2512,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#re-run-job-for-workflow-run)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#re-run-a-job-from-a-workflow-run)
 
   """
   @spec re_run_job_for_workflow_run(String.t(), String.t(), integer, map | nil, keyword) ::
@@ -2757,7 +2537,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#re-run-a-workflow)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#re-run-a-workflow)
 
   """
   @spec re_run_workflow(String.t(), String.t(), integer, map | nil, keyword) ::
@@ -2782,7 +2562,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#re-run-workflow-failed-jobs)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#re-run-failed-jobs-from-a-workflow-run)
 
   """
   @spec re_run_workflow_failed_jobs(String.t(), String.t(), integer, map | nil, keyword) ::
@@ -2807,7 +2587,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-all-custom-labels-from-a-self-hosted-runner-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#remove-all-custom-labels-from-a-self-hosted-runner-for-an-organization)
 
   """
   @spec remove_all_custom_labels_from_self_hosted_runner_for_org(String.t(), integer, keyword) ::
@@ -2830,7 +2610,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-all-custom-labels-from-a-self-hosted-runner-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#remove-all-custom-labels-from-a-self-hosted-runner-for-a-repository)
 
   """
   @spec remove_all_custom_labels_from_self_hosted_runner_for_repo(
@@ -2862,7 +2642,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-a-custom-label-from-a-self-hosted-runner-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#remove-a-custom-label-from-a-self-hosted-runner-for-an-organization)
 
   """
   @spec remove_custom_label_from_self_hosted_runner_for_org(
@@ -2893,7 +2673,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-a-custom-label-from-a-self-hosted-runner-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#remove-a-custom-label-from-a-self-hosted-runner-for-a-repository)
 
   """
   @spec remove_custom_label_from_self_hosted_runner_for_repo(
@@ -2931,7 +2711,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-selected-repository-from-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#remove-selected-repository-from-an-organization-secret)
 
   """
   @spec remove_selected_repo_from_org_secret(String.t(), String.t(), integer, keyword) ::
@@ -2968,35 +2748,6 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/variables/#{name}/repositories/#{repository_id}",
       method: :delete,
       response: [{204, nil}, {409, nil}],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Remove a selected repository from required workflow
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#remove-a-repository-from-selected-repositories-list-for-a-required-workflow)
-
-  """
-  @spec remove_selected_repo_from_required_workflow(String.t(), integer, integer, keyword) ::
-          :ok | {:error, GitHub.Error.t()}
-  def remove_selected_repo_from_required_workflow(
-        org,
-        required_workflow_id,
-        repository_id,
-        opts \\ []
-      ) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [org: org, required_workflow_id: required_workflow_id, repository_id: repository_id],
-      call: {GitHub.Actions, :remove_selected_repo_from_required_workflow},
-      url:
-        "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}/repositories/#{repository_id}",
-      method: :delete,
-      response: [{204, nil}, {404, nil}, {422, nil}],
       opts: opts
     })
   end
@@ -3044,7 +2795,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#review-pending-deployments-for-a-workflow-run)
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#review-pending-deployments-for-a-workflow-run)
 
   """
   @spec review_pending_deployments_for_run(String.t(), String.t(), integer, map, keyword) ::
@@ -3069,7 +2820,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#set-allowed-actions-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#set-allowed-actions-and-reusable-workflows-for-an-organization)
 
   """
   @spec set_allowed_actions_organization(String.t(), GitHub.SelectedActions.t(), keyword) ::
@@ -3094,7 +2845,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#set-allowed-actions-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#set-allowed-actions-and-reusable-workflows-for-a-repository)
 
   """
   @spec set_allowed_actions_repository(
@@ -3123,7 +2874,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#set-custom-labels-for-a-self-hosted-runner-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#set-custom-labels-for-a-self-hosted-runner-for-an-organization)
 
   """
   @spec set_custom_labels_for_self_hosted_runner_for_org(String.t(), integer, map, keyword) ::
@@ -3152,7 +2903,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#set-custom-labels-for-a-self-hosted-runner-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#set-custom-labels-for-a-self-hosted-runner-for-a-repository)
 
   """
   @spec set_custom_labels_for_self_hosted_runner_for_repo(
@@ -3216,7 +2967,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#set-default-workflow-permissions)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#set-default-workflow-permissions-for-an-organization)
 
   """
   @spec set_github_actions_default_workflow_permissions_organization(
@@ -3244,7 +2995,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#set-default-workflow-permissions-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#set-default-workflow-permissions-for-a-repository)
 
   """
   @spec set_github_actions_default_workflow_permissions_repository(
@@ -3273,7 +3024,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#set-github-actions-permissions-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#set-github-actions-permissions-for-an-organization)
 
   """
   @spec set_github_actions_permissions_organization(String.t(), map, keyword) ::
@@ -3298,7 +3049,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#set-github-actions-permissions-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#set-github-actions-permissions-for-a-repository)
 
   """
   @spec set_github_actions_permissions_repository(String.t(), String.t(), map, keyword) ::
@@ -3323,7 +3074,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#set-selected-repositories-for-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/actions/secrets#set-selected-repositories-for-an-organization-secret)
 
   """
   @spec set_selected_repos_for_org_secret(String.t(), String.t(), map, keyword) ::
@@ -3369,36 +3120,11 @@ defmodule GitHub.Actions do
   end
 
   @doc """
-  Sets repositories for a required workflow
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#set-selected-repositories-for-a-required-workflow)
-
-  """
-  @spec set_selected_repos_to_required_workflow(String.t(), integer, map, keyword) ::
-          :ok | {:error, GitHub.Error.t()}
-  def set_selected_repos_to_required_workflow(org, required_workflow_id, body, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [org: org, required_workflow_id: required_workflow_id, body: body],
-      call: {GitHub.Actions, :set_selected_repos_to_required_workflow},
-      url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}/repositories",
-      body: body,
-      method: :put,
-      request: [{"application/json", :map}],
-      response: [{204, nil}],
-      opts: opts
-    })
-  end
-
-  @doc """
   Set selected repositories enabled for GitHub Actions in an organization
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#set-selected-repositories-enabled-for-github-actions-in-an-organization)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#set-selected-repositories-enabled-for-github-actions-in-an-organization)
 
   """
   @spec set_selected_repositories_enabled_github_actions_organization(String.t(), map, keyword) ::
@@ -3423,7 +3149,7 @@ defmodule GitHub.Actions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/actions#set-workflow-access-to-a-repository)
+    * [API method documentation](https://docs.github.com/rest/actions/permissions#set-the-level-of-access-for-workflows-outside-of-the-repository)
 
   """
   @spec set_workflow_access_to_repository(
@@ -3523,31 +3249,6 @@ defmodule GitHub.Actions do
       method: :patch,
       request: [{"application/json", :map}],
       response: [{204, nil}],
-      opts: opts
-    })
-  end
-
-  @doc """
-  Update a required workflow
-
-  ## Resources
-
-    * [API method documentation](https://docs.github.com/rest/reference/actions#update-a-required-workflow)
-
-  """
-  @spec update_required_workflow(String.t(), integer, map, keyword) ::
-          {:ok, GitHub.RequiredWorkflow.t()} | {:error, GitHub.Error.t()}
-  def update_required_workflow(org, required_workflow_id, body, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [org: org, required_workflow_id: required_workflow_id, body: body],
-      call: {GitHub.Actions, :update_required_workflow},
-      url: "/orgs/#{org}/actions/required_workflows/#{required_workflow_id}",
-      body: body,
-      method: :patch,
-      request: [{"application/json", :map}],
-      response: [{200, {GitHub.RequiredWorkflow, :t}}, {422, {GitHub.ValidationError, :simple}}],
       opts: opts
     })
   end

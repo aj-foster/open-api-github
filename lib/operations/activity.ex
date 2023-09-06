@@ -1,16 +1,47 @@
 defmodule GitHub.Activity do
   @moduledoc """
-  Provides API endpoints related to activity
+  Provides API endpoints, struct, and type related to activity
   """
 
   @default_client GitHub.Client
+
+  @type t :: %__MODULE__{
+          __info__: map,
+          activity_type: String.t(),
+          actor: GitHub.User.simple() | nil,
+          after: String.t(),
+          before: String.t(),
+          id: integer,
+          node_id: String.t(),
+          ref: String.t(),
+          timestamp: String.t()
+        }
+
+  defstruct [:__info__, :activity_type, :actor, :after, :before, :id, :node_id, :ref, :timestamp]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(type \\ :t)
+
+  def __fields__(:t) do
+    [
+      activity_type: :string,
+      actor: {:nullable, {GitHub.User, :simple}},
+      after: :string,
+      before: :string,
+      id: :integer,
+      node_id: :string,
+      ref: :string,
+      timestamp: :string
+    ]
+  end
 
   @doc """
   Check if a repository is starred by the authenticated user
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#check-if-a-repository-is-starred-by-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/activity/starring#check-if-a-repository-is-starred-by-the-authenticated-user)
 
   """
   @spec check_repo_is_starred_by_authenticated_user(String.t(), String.t(), keyword) ::
@@ -39,7 +70,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#delete-a-repository-subscription)
+    * [API method documentation](https://docs.github.com/rest/activity/watching#delete-a-repository-subscription)
 
   """
   @spec delete_repo_subscription(String.t(), String.t(), keyword) ::
@@ -62,7 +93,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#delete-a-thread-subscription)
+    * [API method documentation](https://docs.github.com/rest/activity/notifications#delete-a-thread-subscription)
 
   """
   @spec delete_thread_subscription(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -89,7 +120,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#get-feeds)
+    * [API method documentation](https://docs.github.com/rest/activity/feeds#get-feeds)
 
   """
   @spec get_feeds(keyword) :: {:ok, GitHub.Feed.t()} | {:error, GitHub.Error.t()}
@@ -110,7 +141,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#get-a-repository-subscription)
+    * [API method documentation](https://docs.github.com/rest/activity/watching#get-a-repository-subscription)
 
   """
   @spec get_repo_subscription(String.t(), String.t(), keyword) ::
@@ -137,7 +168,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#get-a-thread)
+    * [API method documentation](https://docs.github.com/rest/activity/notifications#get-a-thread)
 
   """
   @spec get_thread(integer, keyword) :: {:ok, GitHub.Thread.t()} | {:error, GitHub.Error.t()}
@@ -164,7 +195,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#get-a-thread-subscription-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/activity/notifications#get-a-thread-subscription-for-the-authenticated-user)
 
   """
   @spec get_thread_subscription_for_authenticated_user(integer, keyword) ::
@@ -197,7 +228,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-events-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/activity/events#list-events-for-the-authenticated-user)
 
   """
   @spec list_events_for_authenticated_user(String.t(), keyword) ::
@@ -224,14 +255,14 @@ defmodule GitHub.Activity do
 
     * `all` (boolean): If `true`, show notifications marked as read.
     * `participating` (boolean): If `true`, only shows notifications in which the user is directly participating or mentioned.
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `before` (String.t()): Only show notifications updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `page` (integer): Page number of the results to fetch.
     * `per_page` (integer): The number of results per page (max 50).
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-notifications-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/activity/notifications#list-notifications-for-the-authenticated-user)
 
   """
   @spec list_notifications_for_authenticated_user(keyword) ::
@@ -266,7 +297,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-organization-events-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/activity/events#list-organization-events-for-the-authenticated-user)
 
   """
   @spec list_org_events_for_authenticated_user(String.t(), String.t(), keyword) ::
@@ -296,7 +327,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-public-events)
+    * [API method documentation](https://docs.github.com/rest/activity/events#list-public-events)
 
   """
   @spec list_public_events(keyword) :: {:ok, [GitHub.Event.t()]} | {:error, GitHub.Error.t()}
@@ -329,7 +360,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-public-events-for-a-network-of-repositories)
+    * [API method documentation](https://docs.github.com/rest/activity/events#list-public-events-for-a-network-of-repositories)
 
   """
   @spec list_public_events_for_repo_network(String.t(), String.t(), keyword) ::
@@ -365,7 +396,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-public-events-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/activity/events#list-public-events-for-a-user)
 
   """
   @spec list_public_events_for_user(String.t(), keyword) ::
@@ -395,7 +426,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-public-organization-events)
+    * [API method documentation](https://docs.github.com/rest/activity/events#list-public-organization-events)
 
   """
   @spec list_public_org_events(String.t(), keyword) ::
@@ -425,7 +456,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-events-received-by-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/activity/events#list-events-received-by-the-authenticated-user)
 
   """
   @spec list_received_events_for_user(String.t(), keyword) ::
@@ -455,7 +486,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-public-events-received-by-a-user)
+    * [API method documentation](https://docs.github.com/rest/activity/events#list-public-events-received-by-a-user)
 
   """
   @spec list_received_public_events_for_user(String.t(), keyword) ::
@@ -485,7 +516,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-repository-events)
+    * [API method documentation](https://docs.github.com/rest/activity/events#list-repository-events)
 
   """
   @spec list_repo_events(String.t(), String.t(), keyword) ::
@@ -512,14 +543,14 @@ defmodule GitHub.Activity do
 
     * `all` (boolean): If `true`, show notifications marked as read.
     * `participating` (boolean): If `true`, only shows notifications in which the user is directly participating or mentioned.
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `before` (String.t()): Only show notifications updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-repository-notifications-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/activity/notifications#list-repository-notifications-for-the-authenticated-user)
 
   """
   @spec list_repo_notifications_for_authenticated_user(String.t(), String.t(), keyword) ::
@@ -551,7 +582,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-repositories-starred-by-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/activity/starring#list-repositories-starred-by-the-authenticated-user)
 
   """
   @spec list_repos_starred_by_authenticated_user(keyword) ::
@@ -587,7 +618,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-repositories-starred-by-a-user)
+    * [API method documentation](https://docs.github.com/rest/activity/starring#list-repositories-starred-by-a-user)
 
   """
   @spec list_repos_starred_by_user(String.t(), keyword) ::
@@ -620,7 +651,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-repositories-watched-by-a-user)
+    * [API method documentation](https://docs.github.com/rest/activity/watching#list-repositories-watched-by-a-user)
 
   """
   @spec list_repos_watched_by_user(String.t(), keyword) ::
@@ -650,7 +681,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-stargazers)
+    * [API method documentation](https://docs.github.com/rest/activity/starring#list-stargazers)
 
   """
   @spec list_stargazers_for_repo(String.t(), String.t(), keyword) ::
@@ -683,7 +714,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-repositories-watched-by-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/activity/watching#list-repositories-watched-by-the-authenticated-user)
 
   """
   @spec list_watched_repos_for_authenticated_user(keyword) ::
@@ -717,7 +748,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#list-watchers)
+    * [API method documentation](https://docs.github.com/rest/activity/watching#list-watchers)
 
   """
   @spec list_watchers_for_repo(String.t(), String.t(), keyword) ::
@@ -742,7 +773,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#mark-notifications-as-read)
+    * [API method documentation](https://docs.github.com/rest/activity/notifications#mark-notifications-as-read)
 
   """
   @spec mark_notifications_as_read(map, keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
@@ -772,7 +803,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#mark-repository-notifications-as-read)
+    * [API method documentation](https://docs.github.com/rest/activity/notifications#mark-repository-notifications-as-read)
 
   """
   @spec mark_repo_notifications_as_read(String.t(), String.t(), map, keyword) ::
@@ -797,7 +828,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#mark-a-thread-as-read)
+    * [API method documentation](https://docs.github.com/rest/activity/notifications#mark-a-thread-as-read)
 
   """
   @spec mark_thread_as_read(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -819,7 +850,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#set-a-repository-subscription)
+    * [API method documentation](https://docs.github.com/rest/activity/watching#set-a-repository-subscription)
 
   """
   @spec set_repo_subscription(String.t(), String.t(), map, keyword) ::
@@ -844,7 +875,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#set-a-thread-subscription)
+    * [API method documentation](https://docs.github.com/rest/activity/notifications#set-a-thread-subscription)
 
   """
   @spec set_thread_subscription(integer, map, keyword) ::
@@ -874,7 +905,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#star-a-repository-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/activity/starring#star-a-repository-for-the-authenticated-user)
 
   """
   @spec star_repo_for_authenticated_user(String.t(), String.t(), keyword) ::
@@ -903,7 +934,7 @@ defmodule GitHub.Activity do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/activity#unstar-a-repository-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/activity/starring#unstar-a-repository-for-the-authenticated-user)
 
   """
   @spec unstar_repo_for_authenticated_user(String.t(), String.t(), keyword) ::

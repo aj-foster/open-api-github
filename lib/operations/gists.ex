@@ -10,7 +10,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#check-if-a-gist-is-starred)
+    * [API method documentation](https://docs.github.com/rest/gists/gists#check-if-a-gist-is-starred)
 
   """
   @spec check_is_starred(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -32,7 +32,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#create-a-gist)
+    * [API method documentation](https://docs.github.com/rest/gists/gists#create-a-gist)
 
   """
   @spec create(map, keyword) :: {:ok, GitHub.Gist.simple()} | {:error, GitHub.Error.t()}
@@ -62,7 +62,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#create-a-gist-comment)
+    * [API method documentation](https://docs.github.com/rest/gists/comments#create-a-gist-comment)
 
   """
   @spec create_comment(String.t(), map, keyword) ::
@@ -92,7 +92,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#delete-a-gist)
+    * [API method documentation](https://docs.github.com/rest/gists/gists#delete-a-gist)
 
   """
   @spec delete(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -119,7 +119,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#delete-a-gist-comment)
+    * [API method documentation](https://docs.github.com/rest/gists/comments#delete-a-gist-comment)
 
   """
   @spec delete_comment(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -146,7 +146,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#fork-a-gist)
+    * [API method documentation](https://docs.github.com/rest/gists/gists#fork-a-gist)
 
   """
   @spec fork(String.t(), keyword) :: {:ok, GitHub.BaseGist.t()} | {:error, GitHub.Error.t()}
@@ -174,7 +174,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#get-a-gist)
+    * [API method documentation](https://docs.github.com/rest/gists/gists#get-a-gist)
 
   """
   @spec get(String.t(), keyword) :: {:ok, GitHub.Gist.simple()} | {:error, GitHub.Error.t()}
@@ -201,7 +201,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#get-a-gist-comment)
+    * [API method documentation](https://docs.github.com/rest/gists/comments#get-a-gist-comment)
 
   """
   @spec get_comment(String.t(), integer, keyword) ::
@@ -229,7 +229,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#get-a-gist-revision)
+    * [API method documentation](https://docs.github.com/rest/gists/gists#get-a-gist-revision)
 
   """
   @spec get_revision(String.t(), String.t(), keyword) ::
@@ -257,13 +257,13 @@ defmodule GitHub.Gists do
 
   ## Options
 
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#list-gists-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/gists/gists#list-gists-for-the-authenticated-user)
 
   """
   @spec list(keyword) :: {:ok, [GitHub.BaseGist.t()]} | {:error, GitHub.Error.t()}
@@ -295,7 +295,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#list-gist-comments)
+    * [API method documentation](https://docs.github.com/rest/gists/comments#list-gist-comments)
 
   """
   @spec list_comments(String.t(), keyword) ::
@@ -330,7 +330,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#list-gist-commits)
+    * [API method documentation](https://docs.github.com/rest/gists/gists#list-gist-commits)
 
   """
   @spec list_commits(String.t(), keyword) ::
@@ -360,13 +360,13 @@ defmodule GitHub.Gists do
 
   ## Options
 
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#list-gists-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/gists/gists#list-gists-for-a-user)
 
   """
   @spec list_for_user(String.t(), keyword) ::
@@ -396,7 +396,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#list-gist-forks)
+    * [API method documentation](https://docs.github.com/rest/gists/gists#list-gist-forks)
 
   """
   @spec list_forks(String.t(), keyword) ::
@@ -426,13 +426,13 @@ defmodule GitHub.Gists do
 
   ## Options
 
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#list-public-gists)
+    * [API method documentation](https://docs.github.com/rest/gists/gists#list-public-gists)
 
   """
   @spec list_public(keyword) :: {:ok, [GitHub.BaseGist.t()]} | {:error, GitHub.Error.t()}
@@ -460,13 +460,13 @@ defmodule GitHub.Gists do
 
   ## Options
 
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#list-starred-gists)
+    * [API method documentation](https://docs.github.com/rest/gists/gists#list-starred-gists)
 
   """
   @spec list_starred(keyword) :: {:ok, [GitHub.BaseGist.t()]} | {:error, GitHub.Error.t()}
@@ -494,7 +494,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#star-a-gist)
+    * [API method documentation](https://docs.github.com/rest/gists/gists#star-a-gist)
 
   """
   @spec star(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -521,7 +521,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#unstar-a-gist)
+    * [API method documentation](https://docs.github.com/rest/gists/gists#unstar-a-gist)
 
   """
   @spec unstar(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -548,7 +548,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists/#update-a-gist)
+    * [API method documentation](https://docs.github.com/rest/gists/gists#update-a-gist)
 
   """
   @spec update(String.t(), map | nil, keyword) ::
@@ -577,7 +577,7 @@ defmodule GitHub.Gists do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gists#update-a-gist-comment)
+    * [API method documentation](https://docs.github.com/rest/gists/comments#update-a-gist-comment)
 
   """
   @spec update_comment(String.t(), integer, map, keyword) ::

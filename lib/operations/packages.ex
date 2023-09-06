@@ -10,7 +10,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#delete-a-package-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#delete-a-package-for-the-authenticated-user)
 
   """
   @spec delete_package_for_authenticated_user(String.t(), String.t(), keyword) ::
@@ -38,7 +38,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#delete-a-package-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#delete-a-package-for-an-organization)
 
   """
   @spec delete_package_for_org(String.t(), String.t(), String.t(), keyword) ::
@@ -66,7 +66,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#delete-a-package-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#delete-a-package-for-a-user)
 
   """
   @spec delete_package_for_user(String.t(), String.t(), String.t(), keyword) ::
@@ -94,7 +94,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#delete-a-package-version-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#delete-a-package-version-for-the-authenticated-user)
 
   """
   @spec delete_package_version_for_authenticated_user(String.t(), String.t(), integer, keyword) ::
@@ -131,7 +131,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#delete-a-package-version-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#delete-package-version-for-an-organization)
 
   """
   @spec delete_package_version_for_org(String.t(), String.t(), String.t(), integer, keyword) ::
@@ -170,7 +170,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#delete-a-package-version-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#delete-package-version-for-a-user)
 
   """
   @spec delete_package_version_for_user(String.t(), String.t(), String.t(), integer, keyword) ::
@@ -216,7 +216,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/packages#get-all-package-versions-for-a-package-owned-by-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#list-package-versions-for-a-package-owned-by-the-authenticated-user)
 
   """
   @spec get_all_package_versions_for_package_owned_by_authenticated_user(
@@ -259,7 +259,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/packages#get-all-package-versions-for-a-package-owned-by-an-organization)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#list-package-versions-for-a-package-owned-by-an-organization)
 
   """
   @spec get_all_package_versions_for_package_owned_by_org(
@@ -298,7 +298,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/packages#get-all-package-versions-for-a-package-owned-by-a-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#list-package-versions-for-a-package-owned-by-a-user)
 
   """
   @spec get_all_package_versions_for_package_owned_by_user(
@@ -335,7 +335,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#get-a-package-for-the-authenticated-user)
 
   """
   @spec get_package_for_authenticated_user(String.t(), String.t(), keyword) ::
@@ -358,7 +358,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#get-a-package-for-an-organization)
 
   """
   @spec get_package_for_organization(String.t(), String.t(), String.t(), keyword) ::
@@ -381,7 +381,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#get-a-package-for-a-user)
 
   """
   @spec get_package_for_user(String.t(), String.t(), String.t(), keyword) ::
@@ -404,7 +404,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-version-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#get-a-package-version-for-the-authenticated-user)
 
   """
   @spec get_package_version_for_authenticated_user(String.t(), String.t(), integer, keyword) ::
@@ -436,7 +436,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-version-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#get-a-package-version-for-an-organization)
 
   """
   @spec get_package_version_for_organization(String.t(), String.t(), String.t(), integer, keyword) ::
@@ -470,7 +470,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#get-a-package-version-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#get-a-package-version-for-a-user)
 
   """
   @spec get_package_version_for_user(String.t(), String.t(), String.t(), integer, keyword) ::
@@ -505,7 +505,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/packages#list-docker-migration-conflicting-packages-for-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#get-list-of-conflicting-packages-during-docker-migration-for-authenticated-user)
 
   """
   @spec list_docker_migration_conflicting_packages_for_authenticated_user(keyword) ::
@@ -527,7 +527,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#list-docker-migration-conflicting-packages-for-organization)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#get-list-of-conflicting-packages-during-docker-migration-for-organization)
 
   """
   @spec list_docker_migration_conflicting_packages_for_organization(String.t(), keyword) ::
@@ -554,7 +554,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#list-docker-migration-conflicting-packages-for-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#get-list-of-conflicting-packages-during-docker-migration-for-user)
 
   """
   @spec list_docker_migration_conflicting_packages_for_user(String.t(), keyword) ::
@@ -591,7 +591,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#list-packages-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#list-packages-for-the-authenticated-users-namespace)
 
   """
   @spec list_packages_for_authenticated_user(keyword) ::
@@ -625,7 +625,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#list-packages-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#list-packages-for-an-organization)
 
   """
   @spec list_packages_for_organization(String.t(), keyword) ::
@@ -665,7 +665,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#list-packages-for-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#list-packages-for-a-user)
 
   """
   @spec list_packages_for_user(String.t(), keyword) ::
@@ -699,7 +699,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#restore-a-package-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#restore-a-package-for-the-authenticated-user)
 
   """
   @spec restore_package_for_authenticated_user(String.t(), String.t(), keyword) ::
@@ -733,7 +733,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#restore-a-package-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#restore-a-package-for-an-organization)
 
   """
   @spec restore_package_for_org(String.t(), String.t(), String.t(), keyword) ::
@@ -767,7 +767,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#restore-a-package-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#restore-a-package-for-a-user)
 
   """
   @spec restore_package_for_user(String.t(), String.t(), String.t(), keyword) ::
@@ -797,7 +797,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#restore-a-package-version-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#restore-a-package-version-for-the-authenticated-user)
 
   """
   @spec restore_package_version_for_authenticated_user(String.t(), String.t(), integer, keyword) ::
@@ -835,7 +835,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#restore-a-package-version-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#restore-package-version-for-an-organization)
 
   """
   @spec restore_package_version_for_org(String.t(), String.t(), String.t(), integer, keyword) ::
@@ -875,7 +875,7 @@ defmodule GitHub.Packages do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/packages#restore-a-package-version-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/packages/packages#restore-package-version-for-a-user)
 
   """
   @spec restore_package_version_for_user(String.t(), String.t(), String.t(), integer, keyword) ::

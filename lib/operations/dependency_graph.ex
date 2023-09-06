@@ -10,7 +10,7 @@ defmodule GitHub.DependencyGraph do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependency-graph#create-a-snapshot-of-dependencies-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/dependency-graph/dependency-submission#create-a-snapshot-of-dependencies-for-a-repository)
 
   """
   @spec create_repository_snapshot(String.t(), String.t(), GitHub.Snapshot.t(), keyword) ::
@@ -39,7 +39,7 @@ defmodule GitHub.DependencyGraph do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependency-graph#get-a-diff-of-the-dependencies-between-commits)
+    * [API method documentation](https://docs.github.com/rest/dependency-graph/dependency-review#get-a-diff-of-the-dependencies-between-commits)
 
   """
   @spec diff_range(String.t(), String.t(), String.t(), keyword) ::

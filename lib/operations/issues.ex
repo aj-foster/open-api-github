@@ -10,7 +10,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#add-assignees-to-an-issue)
+    * [API method documentation](https://docs.github.com/rest/issues/assignees#add-assignees-to-an-issue)
 
   """
   @spec add_assignees(String.t(), String.t(), integer, map, keyword) ::
@@ -35,7 +35,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#add-labels-to-an-issue)
+    * [API method documentation](https://docs.github.com/rest/issues/labels#add-labels-to-an-issue)
 
   """
   @spec add_labels(
@@ -73,7 +73,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#check-if-a-user-can-be-assigned)
+    * [API method documentation](https://docs.github.com/rest/issues/assignees#check-if-a-user-can-be-assigned)
 
   """
   @spec check_user_can_be_assigned(String.t(), String.t(), String.t(), keyword) ::
@@ -96,7 +96,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#check-if-a-user-can-be-assigned-to-a-issue)
+    * [API method documentation](https://docs.github.com/rest/issues/assignees#check-if-a-user-can-be-assigned-to-a-issue)
 
   """
   @spec check_user_can_be_assigned_to_issue(String.t(), String.t(), integer, String.t(), keyword) ::
@@ -119,7 +119,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#create-an-issue)
+    * [API method documentation](https://docs.github.com/rest/issues/issues#create-an-issue)
 
   """
   @spec create(String.t(), String.t(), map, keyword) ::
@@ -136,6 +136,7 @@ defmodule GitHub.Issues do
       request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Issue, :t}},
+        {400, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {410, {GitHub.BasicError, :t}},
@@ -151,7 +152,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#create-an-issue-comment)
+    * [API method documentation](https://docs.github.com/rest/issues/comments#create-an-issue-comment)
 
   """
   @spec create_comment(String.t(), String.t(), integer, map, keyword) ::
@@ -182,7 +183,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#create-a-label)
+    * [API method documentation](https://docs.github.com/rest/issues/labels#create-a-label)
 
   """
   @spec create_label(String.t(), String.t(), map, keyword) ::
@@ -211,7 +212,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#create-a-milestone)
+    * [API method documentation](https://docs.github.com/rest/issues/milestones#create-a-milestone)
 
   """
   @spec create_milestone(String.t(), String.t(), map, keyword) ::
@@ -240,7 +241,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#delete-an-issue-comment)
+    * [API method documentation](https://docs.github.com/rest/issues/comments#delete-an-issue-comment)
 
   """
   @spec delete_comment(String.t(), String.t(), integer, keyword) ::
@@ -263,7 +264,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#delete-a-label)
+    * [API method documentation](https://docs.github.com/rest/issues/labels#delete-a-label)
 
   """
   @spec delete_label(String.t(), String.t(), String.t(), keyword) ::
@@ -286,7 +287,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#delete-a-milestone)
+    * [API method documentation](https://docs.github.com/rest/issues/milestones#delete-a-milestone)
 
   """
   @spec delete_milestone(String.t(), String.t(), integer, keyword) ::
@@ -309,7 +310,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#get-an-issue)
+    * [API method documentation](https://docs.github.com/rest/issues/issues#get-an-issue)
 
   """
   @spec get(String.t(), String.t(), integer, keyword) ::
@@ -338,7 +339,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#get-an-issue-comment)
+    * [API method documentation](https://docs.github.com/rest/issues/comments#get-an-issue-comment)
 
   """
   @spec get_comment(String.t(), String.t(), integer, keyword) ::
@@ -361,7 +362,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#get-an-issue-event)
+    * [API method documentation](https://docs.github.com/rest/issues/events#get-an-issue-event)
 
   """
   @spec get_event(String.t(), String.t(), integer, keyword) ::
@@ -389,7 +390,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#get-a-label)
+    * [API method documentation](https://docs.github.com/rest/issues/labels#get-a-label)
 
   """
   @spec get_label(String.t(), String.t(), String.t(), keyword) ::
@@ -412,7 +413,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#get-a-milestone)
+    * [API method documentation](https://docs.github.com/rest/issues/milestones#get-a-milestone)
 
   """
   @spec get_milestone(String.t(), String.t(), integer, keyword) ::
@@ -440,7 +441,7 @@ defmodule GitHub.Issues do
     * `labels` (String.t()): A list of comma separated label names. Example: `bug,ui,@high`
     * `sort` (String.t()): What to sort results by.
     * `direction` (String.t()): The direction to sort the results by.
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `collab` (boolean): 
     * `orgs` (boolean): 
     * `owned` (boolean): 
@@ -450,7 +451,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#list-issues-assigned-to-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/issues/issues#list-issues-assigned-to-the-authenticated-user)
 
   """
   @spec list(keyword) :: {:ok, [GitHub.Issue.t()]} | {:error, GitHub.Error.t()}
@@ -498,7 +499,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#list-assignees)
+    * [API method documentation](https://docs.github.com/rest/issues/assignees#list-assignees)
 
   """
   @spec list_assignees(String.t(), String.t(), keyword) ::
@@ -523,13 +524,13 @@ defmodule GitHub.Issues do
 
   ## Options
 
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#list-issue-comments)
+    * [API method documentation](https://docs.github.com/rest/issues/comments#list-issue-comments)
 
   """
   @spec list_comments(String.t(), String.t(), integer, keyword) ::
@@ -560,13 +561,13 @@ defmodule GitHub.Issues do
 
     * `sort` (String.t()): The property to sort the results by.
     * `direction` (String.t()): Either `asc` or `desc`. Ignored without the `sort` parameter.
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#list-issue-comments-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/issues/comments#list-issue-comments-for-a-repository)
 
   """
   @spec list_comments_for_repo(String.t(), String.t(), keyword) ::
@@ -600,7 +601,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#list-issue-events)
+    * [API method documentation](https://docs.github.com/rest/issues/events#list-issue-events)
 
   """
   @spec list_events(String.t(), String.t(), integer, keyword) ::
@@ -670,7 +671,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#list-issue-events-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/issues/events#list-issue-events-for-a-repository)
 
   """
   @spec list_events_for_repo(String.t(), String.t(), keyword) ::
@@ -700,7 +701,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#list-timeline-events-for-an-issue)
+    * [API method documentation](https://docs.github.com/rest/issues/timeline#list-timeline-events-for-an-issue)
 
   """
   @spec list_events_for_timeline(String.t(), String.t(), integer, keyword) ::
@@ -785,13 +786,13 @@ defmodule GitHub.Issues do
     * `labels` (String.t()): A list of comma separated label names. Example: `bug,ui,@high`
     * `sort` (String.t()): What to sort results by.
     * `direction` (String.t()): The direction to sort the results by.
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#list-user-account-issues-assigned-to-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/issues/issues#list-user-account-issues-assigned-to-the-authenticated-user)
 
   """
   @spec list_for_authenticated_user(keyword) ::
@@ -822,13 +823,13 @@ defmodule GitHub.Issues do
     * `labels` (String.t()): A list of comma separated label names. Example: `bug,ui,@high`
     * `sort` (String.t()): What to sort results by.
     * `direction` (String.t()): The direction to sort the results by.
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#list-organization-issues-assigned-to-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/issues/issues#list-organization-issues-assigned-to-the-authenticated-user)
 
   """
   @spec list_for_org(String.t(), keyword) ::
@@ -863,13 +864,13 @@ defmodule GitHub.Issues do
     * `labels` (String.t()): A list of comma separated label names. Example: `bug,ui,@high`
     * `sort` (String.t()): What to sort results by.
     * `direction` (String.t()): The direction to sort the results by.
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#list-repository-issues)
+    * [API method documentation](https://docs.github.com/rest/issues/issues#list-repository-issues)
 
   """
   @spec list_for_repo(String.t(), String.t(), keyword) ::
@@ -918,7 +919,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#list-labels-for-issues-in-a-milestone)
+    * [API method documentation](https://docs.github.com/rest/issues/labels#list-labels-for-issues-in-a-milestone)
 
   """
   @spec list_labels_for_milestone(String.t(), String.t(), integer, keyword) ::
@@ -948,7 +949,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#list-labels-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/issues/labels#list-labels-for-a-repository)
 
   """
   @spec list_labels_for_repo(String.t(), String.t(), keyword) ::
@@ -978,7 +979,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#list-labels-for-an-issue)
+    * [API method documentation](https://docs.github.com/rest/issues/labels#list-labels-for-an-issue)
 
   """
   @spec list_labels_on_issue(String.t(), String.t(), integer, keyword) ::
@@ -1016,7 +1017,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#list-milestones)
+    * [API method documentation](https://docs.github.com/rest/issues/milestones#list-milestones)
 
   """
   @spec list_milestones(String.t(), String.t(), keyword) ::
@@ -1041,7 +1042,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#lock-an-issue)
+    * [API method documentation](https://docs.github.com/rest/issues/issues#lock-an-issue)
 
   """
   @spec lock(String.t(), String.t(), integer, map | nil, keyword) ::
@@ -1072,7 +1073,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#remove-all-labels-from-an-issue)
+    * [API method documentation](https://docs.github.com/rest/issues/labels#remove-all-labels-from-an-issue)
 
   """
   @spec remove_all_labels(String.t(), String.t(), integer, keyword) ::
@@ -1100,7 +1101,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#remove-assignees-from-an-issue)
+    * [API method documentation](https://docs.github.com/rest/issues/assignees#remove-assignees-from-an-issue)
 
   """
   @spec remove_assignees(String.t(), String.t(), integer, map, keyword) ::
@@ -1125,7 +1126,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#remove-a-label-from-an-issue)
+    * [API method documentation](https://docs.github.com/rest/issues/labels#remove-a-label-from-an-issue)
 
   """
   @spec remove_label(String.t(), String.t(), integer, String.t(), keyword) ::
@@ -1153,7 +1154,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#set-labels-for-an-issue)
+    * [API method documentation](https://docs.github.com/rest/issues/labels#set-labels-for-an-issue)
 
   """
   @spec set_labels(
@@ -1191,7 +1192,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#unlock-an-issue)
+    * [API method documentation](https://docs.github.com/rest/issues/issues#unlock-an-issue)
 
   """
   @spec unlock(String.t(), String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -1213,7 +1214,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#update-an-issue)
+    * [API method documentation](https://docs.github.com/rest/issues/issues#update-an-issue)
 
   """
   @spec update(String.t(), String.t(), integer, map, keyword) ::
@@ -1246,7 +1247,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#update-an-issue-comment)
+    * [API method documentation](https://docs.github.com/rest/issues/comments#update-an-issue-comment)
 
   """
   @spec update_comment(String.t(), String.t(), integer, map, keyword) ::
@@ -1271,7 +1272,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#update-a-label)
+    * [API method documentation](https://docs.github.com/rest/issues/labels#update-a-label)
 
   """
   @spec update_label(String.t(), String.t(), String.t(), map, keyword) ::
@@ -1296,7 +1297,7 @@ defmodule GitHub.Issues do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/issues#update-a-milestone)
+    * [API method documentation](https://docs.github.com/rest/issues/milestones#update-a-milestone)
 
   """
   @spec update_milestone(String.t(), String.t(), integer, map, keyword) ::

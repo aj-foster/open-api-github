@@ -10,7 +10,7 @@ defmodule GitHub.Licenses do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/licenses#get-a-license)
+    * [API method documentation](https://docs.github.com/rest/licenses/licenses#get-a-license)
 
   """
   @spec get(String.t(), keyword) :: {:ok, GitHub.License.t()} | {:error, GitHub.Error.t()}
@@ -43,7 +43,7 @@ defmodule GitHub.Licenses do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/licenses#get-all-commonly-used-licenses)
+    * [API method documentation](https://docs.github.com/rest/licenses/licenses#get-all-commonly-used-licenses)
 
   """
   @spec get_all_commonly_used(keyword) ::
@@ -67,7 +67,7 @@ defmodule GitHub.Licenses do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/licenses/#get-the-license-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/licenses/licenses#get-the-license-for-a-repository)
 
   """
   @spec get_for_repo(String.t(), String.t(), keyword) ::

@@ -186,6 +186,29 @@ defmodule GitHub.Repos do
   end
 
   @doc """
+  Check if automated security fixes are enabled for a repository
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/repos#check-if-automated-security-fixes-are-enabled-for-a-repository)
+
+  """
+  @spec check_automated_security_fixes(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Check.AutomatedSecurityFixes.t()} | {:error, GitHub.Error.t()}
+  def check_automated_security_fixes(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :check_automated_security_fixes},
+      url: "/repos/#{owner}/#{repo}/automated-security-fixes",
+      method: :get,
+      response: [{200, {GitHub.Check.AutomatedSecurityFixes, :t}}, {404, nil}],
+      opts: opts
+    })
+  end
+
+  @doc """
   Check if a user is a repository collaborator
 
   ## Resources
@@ -213,7 +236,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#check-if-vulnerability-alerts-are-enabled-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#check-if-vulnerability-alerts-are-enabled-for-a-repository)
 
   """
   @spec check_vulnerability_alerts(String.t(), String.t(), keyword) ::
@@ -240,7 +263,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-codeowners-errors)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#list-codeowners-errors)
 
   """
   @spec codeowners_errors(String.t(), String.t(), keyword) ::
@@ -405,7 +428,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/deploy-keys#create-a-deploy-key)
+    * [API method documentation](https://docs.github.com/rest/deploy-keys/deploy-keys#create-a-deploy-key)
 
   """
   @spec create_deploy_key(String.t(), String.t(), map, keyword) ::
@@ -460,7 +483,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/deployments/branch-policies#create-deployment-branch-policy)
+    * [API method documentation](https://docs.github.com/rest/deployments/branch-policies#create-a-deployment-branch-policy)
 
   """
   @spec create_deployment_branch_policy(
@@ -490,7 +513,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/deployments/deployment-protection-rules#create-a-deployment-protection-rule)
+    * [API method documentation](https://docs.github.com/rest/deployments/protection-rules#create-a-custom-deployment-protection-rule-on-an-environment)
 
   """
   @spec create_deployment_protection_rule(String.t(), String.t(), String.t(), map, keyword) ::
@@ -540,7 +563,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#create-a-repository-dispatch-event)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#create-a-repository-dispatch-event)
 
   """
   @spec create_dispatch_event(String.t(), String.t(), map, keyword) ::
@@ -565,7 +588,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#create-a-repository-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#create-a-repository-for-the-authenticated-user)
 
   """
   @spec create_for_authenticated_user(map, keyword) ::
@@ -598,7 +621,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#create-a-fork)
+    * [API method documentation](https://docs.github.com/rest/repos/forks#create-a-fork)
 
   """
   @spec create_fork(String.t(), String.t(), map | nil, keyword) ::
@@ -629,7 +652,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#create-an-organization-repository)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#create-an-organization-repository)
 
   """
   @spec create_in_org(String.t(), map, keyword) ::
@@ -683,7 +706,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#create-or-update-file-contents)
+    * [API method documentation](https://docs.github.com/rest/repos/contents#create-or-update-file-contents)
 
   """
   @spec create_or_update_file_contents(String.t(), String.t(), String.t(), map, keyword) ::
@@ -714,7 +737,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/repos/rules#create-organization-repository-ruleset)
+    * [API method documentation](https://docs.github.com/rest/orgs/rules#create-an-organization-repository-ruleset)
 
   """
   @spec create_org_ruleset(String.t(), map, keyword) ::
@@ -743,7 +766,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/pages#create-a-github-pages-deployment)
+    * [API method documentation](https://docs.github.com/rest/pages/pages#create-a-github-pages-deployment)
 
   """
   @spec create_pages_deployment(String.t(), String.t(), map, keyword) ::
@@ -773,7 +796,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/pages#create-a-github-pages-site)
+    * [API method documentation](https://docs.github.com/rest/pages/pages#create-a-apiname-pages-site)
 
   """
   @spec create_pages_site(String.t(), String.t(), map | nil, keyword) ::
@@ -831,7 +854,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/repos/rules#create-repository-ruleset)
+    * [API method documentation](https://docs.github.com/rest/repos/rules#create-a-repository-ruleset)
 
   """
   @spec create_repo_ruleset(String.t(), String.t(), map, keyword) ::
@@ -860,7 +883,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#create-tag-protection-state-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/repos/tags#create-a-tag-protection-state-for-a-repository)
 
   """
   @spec create_tag_protection(String.t(), String.t(), map, keyword) ::
@@ -889,7 +912,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#create-a-repository-using-a-template)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#create-a-repository-using-a-template)
 
   """
   @spec create_using_template(String.t(), String.t(), map, keyword) ::
@@ -973,7 +996,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-repository)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#delete-a-repository)
 
   """
   @spec delete(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -1161,7 +1184,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/deploy-keys#delete-a-deploy-key)
+    * [API method documentation](https://docs.github.com/rest/deploy-keys/deploy-keys#delete-a-deploy-key)
 
   """
   @spec delete_deploy_key(String.t(), String.t(), integer, keyword) ::
@@ -1211,7 +1234,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/deployments/branch-policies#delete-deployment-branch-policy)
+    * [API method documentation](https://docs.github.com/rest/deployments/branch-policies#delete-a-deployment-branch-policy)
 
   """
   @spec delete_deployment_branch_policy(String.t(), String.t(), String.t(), integer, keyword) ::
@@ -1240,7 +1263,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-file)
+    * [API method documentation](https://docs.github.com/rest/repos/contents#delete-a-file)
 
   """
   @spec delete_file(String.t(), String.t(), String.t(), map, keyword) ::
@@ -1294,7 +1317,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/repos/rules#delete-organization-ruleset)
+    * [API method documentation](https://docs.github.com/rest/orgs/rules#delete-an-organization-repository-ruleset)
 
   """
   @spec delete_org_ruleset(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -1316,7 +1339,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/pages#delete-a-github-pages-site)
+    * [API method documentation](https://docs.github.com/rest/pages/pages#delete-a-apiname-pages-site)
 
   """
   @spec delete_pages_site(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -1366,7 +1389,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-release)
+    * [API method documentation](https://docs.github.com/rest/releases/releases#delete-a-release)
 
   """
   @spec delete_release(String.t(), String.t(), integer, keyword) ::
@@ -1389,7 +1412,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#delete-a-release-asset)
+    * [API method documentation](https://docs.github.com/rest/releases/assets#delete-a-release-asset)
 
   """
   @spec delete_release_asset(String.t(), String.t(), integer, keyword) ::
@@ -1412,7 +1435,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/repos/rules#delete-repository-ruleset)
+    * [API method documentation](https://docs.github.com/rest/repos/rules#delete-a-repository-ruleset)
 
   """
   @spec delete_repo_ruleset(String.t(), String.t(), integer, keyword) ::
@@ -1435,7 +1458,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#delete-tag-protection-state-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/repos/tags#delete-a-tag-protection-state-for-a-repository)
 
   """
   @spec delete_tag_protection(String.t(), String.t(), integer, keyword) ::
@@ -1481,7 +1504,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#disable-automated-security-fixes)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#disable-automated-security-fixes)
 
   """
   @spec disable_automated_security_fixes(String.t(), String.t(), keyword) ::
@@ -1504,7 +1527,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/deployments/protection-rules#disable-deployment-protection-rule)
+    * [API method documentation](https://docs.github.com/rest/deployments/protection-rules#disable-a-custom-protection-rule-for-an-environment)
 
   """
   @spec disable_deployment_protection_rule(String.t(), String.t(), String.t(), integer, keyword) ::
@@ -1535,23 +1558,24 @@ defmodule GitHub.Repos do
   end
 
   @doc """
-  Disable Git LFS for a repository
+  Disable private vulnerability reporting for a repository
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#disable-git-lfs-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#disable-private-vulnerability-reporting-for-a-repository)
 
   """
-  @spec disable_lfs_for_repo(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
-  def disable_lfs_for_repo(owner, repo, opts \\ []) do
+  @spec disable_private_vulnerability_reporting(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def disable_private_vulnerability_reporting(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [owner: owner, repo: repo],
-      call: {GitHub.Repos, :disable_lfs_for_repo},
-      url: "/repos/#{owner}/#{repo}/lfs",
+      call: {GitHub.Repos, :disable_private_vulnerability_reporting},
+      url: "/repos/#{owner}/#{repo}/private-vulnerability-reporting",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, nil}, {422, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -1561,7 +1585,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#disable-vulnerability-alerts)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#disable-vulnerability-alerts)
 
   """
   @spec disable_vulnerability_alerts(String.t(), String.t(), keyword) ::
@@ -1584,7 +1608,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#download-a-repository-archive)
+    * [API method documentation](https://docs.github.com/rest/repos/contents#download-a-repository-archive-tar)
 
   """
   @spec download_tarball_archive(String.t(), String.t(), String.t(), keyword) ::
@@ -1607,7 +1631,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#download-a-repository-archive)
+    * [API method documentation](https://docs.github.com/rest/repos/contents#download-a-repository-archive-zip)
 
   """
   @spec download_zipball_archive(String.t(), String.t(), String.t(), keyword) ::
@@ -1630,7 +1654,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#enable-automated-security-fixes)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#enable-automated-security-fixes)
 
   """
   @spec enable_automated_security_fixes(String.t(), String.t(), keyword) ::
@@ -1649,24 +1673,24 @@ defmodule GitHub.Repos do
   end
 
   @doc """
-  Enable Git LFS for a repository
+  Enable private vulnerability reporting for a repository
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#enable-git-lfs-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#enable-private-vulnerability-reporting-for-a-repository)
 
   """
-  @spec enable_lfs_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, map} | {:error, GitHub.Error.t()}
-  def enable_lfs_for_repo(owner, repo, opts \\ []) do
+  @spec enable_private_vulnerability_reporting(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def enable_private_vulnerability_reporting(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [owner: owner, repo: repo],
-      call: {GitHub.Repos, :enable_lfs_for_repo},
-      url: "/repos/#{owner}/#{repo}/lfs",
+      call: {GitHub.Repos, :enable_private_vulnerability_reporting},
+      url: "/repos/#{owner}/#{repo}/private-vulnerability-reporting",
       method: :put,
-      response: [{202, :map}, {403, nil}],
+      response: [{204, nil}, {422, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -1676,7 +1700,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#enable-vulnerability-alerts)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#enable-vulnerability-alerts)
 
   """
   @spec enable_vulnerability_alerts(String.t(), String.t(), keyword) ::
@@ -1699,7 +1723,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#generate-release-notes)
+    * [API method documentation](https://docs.github.com/rest/releases/releases#generate-release-notes-content-for-a-release)
 
   """
   @spec generate_release_notes(String.t(), String.t(), map, keyword) ::
@@ -1724,7 +1748,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#get-a-repository)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#get-a-repository)
 
   """
   @spec get(String.t(), String.t(), keyword) ::
@@ -1798,7 +1822,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/deployments/protection-rules#get-all-deployment-protection-rules)
+    * [API method documentation](https://docs.github.com/rest/deployments/protection-rules#get-all-deployment-protection-rules-for-an-environment)
 
   """
   @spec get_all_deployment_protection_rules(String.t(), String.t(), String.t(), keyword) ::
@@ -1880,7 +1904,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#get-all-repository-topics)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#get-all-repository-topics)
 
   """
   @spec get_all_topics(String.t(), String.t(), keyword) ::
@@ -1905,7 +1929,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/branches/branch-protection#list-apps-with-access-to-the-protected-branch)
+    * [API method documentation](https://docs.github.com/rest/branches/branch-protection#get-apps-with-access-to-the-protected-branch)
 
   """
   @spec get_apps_with_access_to_protected_branch(String.t(), String.t(), String.t(), keyword) ::
@@ -1999,59 +2023,29 @@ defmodule GitHub.Repos do
   @doc """
   Get rules for a branch
 
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/repos/rules#get-rules-for-a-branch)
 
   """
   @spec get_branch_rules(String.t(), String.t(), String.t(), keyword) ::
-          {:ok,
-           [
-             GitHub.Repository.Rule.BranchNamePattern.t()
-             | GitHub.Repository.Rule.CommitAuthorEmailPattern.t()
-             | GitHub.Repository.Rule.CommitMessagePattern.t()
-             | GitHub.Repository.Rule.CommitterEmailPattern.t()
-             | GitHub.Repository.Rule.Creation.t()
-             | GitHub.Repository.Rule.Deletion.t()
-             | GitHub.Repository.Rule.NonFastForward.t()
-             | GitHub.Repository.Rule.PullRequest.t()
-             | GitHub.Repository.Rule.RequiredDeployments.t()
-             | GitHub.Repository.Rule.RequiredLinearHistory.t()
-             | GitHub.Repository.Rule.RequiredSignatures.t()
-             | GitHub.Repository.Rule.RequiredStatusChecks.t()
-             | GitHub.Repository.Rule.TagNamePattern.t()
-             | GitHub.Repository.Rule.Update.t()
-           ]}
-          | {:error, GitHub.Error.t()}
+          {:ok, [map]} | {:error, GitHub.Error.t()}
   def get_branch_rules(owner, repo, branch, opts \\ []) do
     client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
       args: [owner: owner, repo: repo, branch: branch],
       call: {GitHub.Repos, :get_branch_rules},
       url: "/repos/#{owner}/#{repo}/rules/branches/#{branch}",
       method: :get,
-      response: [
-        {200,
-         {:array,
-          {:union,
-           [
-             {GitHub.Repository.Rule.Creation, :t},
-             {GitHub.Repository.Rule.Update, :t},
-             {GitHub.Repository.Rule.Deletion, :t},
-             {GitHub.Repository.Rule.RequiredLinearHistory, :t},
-             {GitHub.Repository.Rule.RequiredDeployments, :t},
-             {GitHub.Repository.Rule.RequiredSignatures, :t},
-             {GitHub.Repository.Rule.PullRequest, :t},
-             {GitHub.Repository.Rule.RequiredStatusChecks, :t},
-             {GitHub.Repository.Rule.NonFastForward, :t},
-             {GitHub.Repository.Rule.CommitMessagePattern, :t},
-             {GitHub.Repository.Rule.CommitAuthorEmailPattern, :t},
-             {GitHub.Repository.Rule.CommitterEmailPattern, :t},
-             {GitHub.Repository.Rule.BranchNamePattern, :t},
-             {GitHub.Repository.Rule.TagNamePattern, :t}
-           ]}}}
-      ],
+      query: query,
+      response: [{200, {:array, :map}}],
       opts: opts
     })
   end
@@ -2304,7 +2298,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#get-repository-content)
+    * [API method documentation](https://docs.github.com/rest/repos/contents#get-repository-content)
 
   """
   @spec get_content(String.t(), String.t(), String.t(), keyword) ::
@@ -2369,7 +2363,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/deployments/protection-rules#get-a-deployment-protection-rule)
+    * [API method documentation](https://docs.github.com/rest/deployments/protection-rules#get-a-custom-deployment-protection-rule)
 
   """
   @spec get_custom_deployment_protection_rule(
@@ -2409,7 +2403,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/deploy-keys#get-a-deploy-key)
+    * [API method documentation](https://docs.github.com/rest/deploy-keys/deploy-keys#get-a-deploy-key)
 
   """
   @spec get_deploy_key(String.t(), String.t(), integer, keyword) ::
@@ -2455,7 +2449,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/deployments/branch-policies#get-deployment-branch-policy)
+    * [API method documentation](https://docs.github.com/rest/deployments/branch-policies#get-a-deployment-branch-policy)
 
   """
   @spec get_deployment_branch_policy(String.t(), String.t(), String.t(), integer, keyword) ::
@@ -2530,7 +2524,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/pages#get-latest-pages-build)
+    * [API method documentation](https://docs.github.com/rest/pages/pages#get-latest-pages-build)
 
   """
   @spec get_latest_pages_build(String.t(), String.t(), keyword) ::
@@ -2553,7 +2547,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#get-the-latest-release)
+    * [API method documentation](https://docs.github.com/rest/releases/releases#get-the-latest-release)
 
   """
   @spec get_latest_release(String.t(), String.t(), keyword) ::
@@ -2576,7 +2570,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/repos/rules#get-organization-ruleset)
+    * [API method documentation](https://docs.github.com/rest/orgs/rules#get-an-organization-repository-ruleset)
 
   """
   @spec get_org_ruleset(String.t(), integer, keyword) ::
@@ -2601,21 +2595,28 @@ defmodule GitHub.Repos do
   @doc """
   Get all organization repository rulesets
 
+  ## Options
+
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
+
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/repos/rules#get-organization-rulesets)
+    * [API method documentation](https://docs.github.com/rest/orgs/rules#get-all-organization-repository-rulesets)
 
   """
   @spec get_org_rulesets(String.t(), keyword) ::
           {:ok, [GitHub.Repository.Ruleset.t()]} | {:error, GitHub.Error.t()}
   def get_org_rulesets(org, opts \\ []) do
     client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
       args: [org: org],
       call: {GitHub.Repos, :get_org_rulesets},
       url: "/orgs/#{org}/rulesets",
       method: :get,
+      query: query,
       response: [
         {200, {:array, {GitHub.Repository.Ruleset, :t}}},
         {404, {GitHub.BasicError, :t}},
@@ -2630,7 +2631,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/pages#get-a-github-pages-site)
+    * [API method documentation](https://docs.github.com/rest/pages/pages#get-a-apiname-pages-site)
 
   """
   @spec get_pages(String.t(), String.t(), keyword) ::
@@ -2653,7 +2654,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/pages#get-github-pages-build)
+    * [API method documentation](https://docs.github.com/rest/pages/pages#get-apiname-pages-build)
 
   """
   @spec get_pages_build(String.t(), String.t(), integer, keyword) ::
@@ -2676,7 +2677,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/pages#get-a-dns-health-check-for-github-pages)
+    * [API method documentation](https://docs.github.com/rest/pages/pages#get-a-dns-health-check-for-github-pages)
 
   """
   @spec get_pages_health_check(String.t(), String.t(), keyword) ::
@@ -2779,7 +2780,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#get-a-repository-readme)
+    * [API method documentation](https://docs.github.com/rest/repos/contents#get-a-repository-readme)
 
   """
   @spec get_readme(String.t(), String.t(), keyword) ::
@@ -2812,7 +2813,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#get-a-repository-directory-readme)
+    * [API method documentation](https://docs.github.com/rest/repos/contents#get-a-repository-readme-for-a-directory)
 
   """
   @spec get_readme_in_directory(String.t(), String.t(), String.t(), keyword) ::
@@ -2841,7 +2842,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#get-a-release)
+    * [API method documentation](https://docs.github.com/rest/releases/releases#get-a-release)
 
   """
   @spec get_release(String.t(), String.t(), integer, keyword) ::
@@ -2854,7 +2855,7 @@ defmodule GitHub.Repos do
       call: {GitHub.Repos, :get_release},
       url: "/repos/#{owner}/#{repo}/releases/#{release_id}",
       method: :get,
-      response: [{200, {GitHub.Release, :t}}, {404, {GitHub.BasicError, :t}}],
+      response: [{200, {GitHub.Release, :t}}, {401, nil}],
       opts: opts
     })
   end
@@ -2864,7 +2865,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#get-a-release-asset)
+    * [API method documentation](https://docs.github.com/rest/releases/assets#get-a-release-asset)
 
   """
   @spec get_release_asset(String.t(), String.t(), integer, keyword) ::
@@ -2887,7 +2888,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#get-a-release-by-tag-name)
+    * [API method documentation](https://docs.github.com/rest/releases/releases#get-a-release-by-tag-name)
 
   """
   @spec get_release_by_tag(String.t(), String.t(), String.t(), keyword) ::
@@ -2914,7 +2915,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/repos/rules#get-repository-ruleset)
+    * [API method documentation](https://docs.github.com/rest/repos/rules#get-a-repository-ruleset)
 
   """
   @spec get_repo_ruleset(String.t(), String.t(), integer, keyword) ::
@@ -2943,18 +2944,20 @@ defmodule GitHub.Repos do
 
   ## Options
 
+    * `per_page` (integer): The number of results per page (max 100).
+    * `page` (integer): Page number of the results to fetch.
     * `includes_parents` (boolean): Include rulesets configured at higher levels that apply to this repository
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/repos/rules#get-repository-rulesets)
+    * [API method documentation](https://docs.github.com/rest/repos/rules#get-all-repository-rulesets)
 
   """
   @spec get_repo_rulesets(String.t(), String.t(), keyword) ::
           {:ok, [GitHub.Repository.Ruleset.t()]} | {:error, GitHub.Error.t()}
   def get_repo_rulesets(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:includes_parents])
+    query = Keyword.take(opts, [:includes_parents, :page, :per_page])
 
     client.request(%{
       args: [owner: owner, repo: repo],
@@ -2999,7 +3002,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/branches/branch-protection#list-teams-with-access-to-the-protected-branch)
+    * [API method documentation](https://docs.github.com/rest/branches/branch-protection#get-teams-with-access-to-the-protected-branch)
 
   """
   @spec get_teams_with_access_to_protected_branch(String.t(), String.t(), String.t(), keyword) ::
@@ -3068,7 +3071,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/branches/branch-protection#list-users-with-access-to-the-protected-branch)
+    * [API method documentation](https://docs.github.com/rest/branches/branch-protection#get-users-with-access-to-the-protected-branch)
 
   """
   @spec get_users_with_access_to_protected_branch(String.t(), String.t(), String.t(), keyword) ::
@@ -3184,6 +3187,59 @@ defmodule GitHub.Repos do
         {400, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
       ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List repository activities
+
+  ## Options
+
+    * `direction` (String.t()): The direction to sort the results by.
+    * `per_page` (integer): The number of results per page (max 100).
+    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
+    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
+    * `ref` (String.t()): The Git reference for the activities you want to list.
+
+  The `ref` for a branch can be formatted either as `refs/heads/BRANCH_NAME` or `BRANCH_NAME`, where `BRANCH_NAME` is the name of your branch.
+    * `actor` (String.t()): The GitHub username to use to filter by the actor who performed the activity.
+    * `time_period` (String.t()): The time period to filter by.
+
+  For example, `day` will filter for activity that occurred in the past 24 hours, and `week` will filter for activity that occurred in the past 7 days (168 hours).
+    * `activity_type` (String.t()): The activity type to filter by.
+
+  For example, you can choose to filter by "force_push", to see all force pushes to the repository.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/repos#list-repository-activities)
+
+  """
+  @spec list_activities(String.t(), String.t(), keyword) ::
+          {:ok, [GitHub.Activity.t()]} | {:error, GitHub.Error.t()}
+  def list_activities(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    query =
+      Keyword.take(opts, [
+        :activity_type,
+        :actor,
+        :after,
+        :before,
+        :direction,
+        :per_page,
+        :ref,
+        :time_period
+      ])
+
+    client.request(%{
+      args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :list_activities},
+      url: "/repos/#{owner}/#{repo}/activity",
+      method: :get,
+      query: query,
+      response: [{200, {:array, {GitHub.Activity, :t}}}, {422, {GitHub.ValidationError, :simple}}],
       opts: opts
     })
   end
@@ -3402,7 +3458,7 @@ defmodule GitHub.Repos do
     * `path` (String.t()): Only commits containing this file path will be returned.
     * `author` (String.t()): GitHub username or email address to use to filter by commit author.
     * `committer` (String.t()): GitHub username or email address to use to filter by commit committer.
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `until` (String.t()): Only commits before this date will be returned. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
@@ -3448,7 +3504,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-repository-contributors)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#list-repository-contributors)
 
   """
   @spec list_contributors(String.t(), String.t(), keyword) ::
@@ -3483,7 +3539,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/deployments/protection-rules#list-custom-deployment-rule-integrations)
+    * [API method documentation](https://docs.github.com/rest/deployments/protection-rules#list-custom-deployment-rule-integrations-available-for-an-environment)
 
   """
   @spec list_custom_deployment_rule_integrations(String.t(), String.t(), String.t(), keyword) ::
@@ -3514,7 +3570,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/deploy-keys#list-deploy-keys)
+    * [API method documentation](https://docs.github.com/rest/deploy-keys/deploy-keys#list-deploy-keys)
 
   """
   @spec list_deploy_keys(String.t(), String.t(), keyword) ::
@@ -3648,7 +3704,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-repositories-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#list-repositories-for-the-authenticated-user)
 
   """
   @spec list_for_authenticated_user(keyword) ::
@@ -3698,7 +3754,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-organization-repositories)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#list-organization-repositories)
 
   """
   @spec list_for_org(String.t(), keyword) ::
@@ -3731,7 +3787,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-repositories-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#list-repositories-for-a-user)
 
   """
   @spec list_for_user(String.t(), keyword) ::
@@ -3762,7 +3818,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-forks)
+    * [API method documentation](https://docs.github.com/rest/repos/forks#list-forks)
 
   """
   @spec list_forks(String.t(), String.t(), keyword) ::
@@ -3852,7 +3908,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-repository-languages)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#list-repository-languages)
 
   """
   @spec list_languages(String.t(), String.t(), keyword) ::
@@ -3880,7 +3936,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/pages#list-github-pages-builds)
+    * [API method documentation](https://docs.github.com/rest/pages/pages#list-apiname-pages-builds)
 
   """
   @spec list_pages_builds(String.t(), String.t(), keyword) ::
@@ -3909,7 +3965,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-public-repositories)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#list-public-repositories)
 
   """
   @spec list_public(keyword) :: {:ok, [GitHub.Repository.minimal()]} | {:error, GitHub.Error.t()}
@@ -3971,7 +4027,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-release-assets)
+    * [API method documentation](https://docs.github.com/rest/releases/assets#list-release-assets)
 
   """
   @spec list_release_assets(String.t(), String.t(), integer, keyword) ::
@@ -4001,7 +4057,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-releases)
+    * [API method documentation](https://docs.github.com/rest/releases/releases#list-releases)
 
   """
   @spec list_releases(String.t(), String.t(), keyword) ::
@@ -4026,7 +4082,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-tag-protection-state-of-a-repository)
+    * [API method documentation](https://docs.github.com/rest/repos/tags#list-tag-protection-states-for-a-repository)
 
   """
   @spec list_tag_protection(String.t(), String.t(), keyword) ::
@@ -4058,7 +4114,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-repository-tags)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#list-repository-tags)
 
   """
   @spec list_tags(String.t(), String.t(), keyword) ::
@@ -4088,7 +4144,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#list-repository-teams)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#list-repository-teams)
 
   """
   @spec list_teams(String.t(), String.t(), keyword) ::
@@ -4103,7 +4159,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/teams",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Team, :t}}}],
+      response: [{200, {:array, {GitHub.Team, :t}}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -4323,7 +4379,7 @@ defmodule GitHub.Repos do
       call: {GitHub.Repos, :remove_collaborator},
       url: "/repos/#{owner}/#{repo}/collaborators/#{username}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, nil}, {403, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
   end
@@ -4481,7 +4537,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#replace-all-repository-topics)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#replace-all-repository-topics)
 
   """
   @spec replace_all_topics(String.t(), String.t(), map, keyword) ::
@@ -4510,7 +4566,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/pages#request-a-github-pages-build)
+    * [API method documentation](https://docs.github.com/rest/pages/pages#request-a-apiname-pages-build)
 
   """
   @spec request_pages_build(String.t(), String.t(), keyword) ::
@@ -4699,7 +4755,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#transfer-a-repository)
+    * [API method documentation](https://docs.github.com/rest/repos/repos#transfer-a-repository)
 
   """
   @spec transfer(String.t(), String.t(), map, keyword) ::
@@ -4810,7 +4866,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/deployments/branch-policies#update-deployment-branch-policy)
+    * [API method documentation](https://docs.github.com/rest/deployments/branch-policies#update-a-deployment-branch-policy)
 
   """
   @spec update_deployment_branch_policy(
@@ -4855,7 +4911,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/pages#update-information-about-a-github-pages-site)
+    * [API method documentation](https://docs.github.com/rest/pages/pages#update-information-about-a-apiname-pages-site)
 
   """
   @spec update_information_about_pages_site(String.t(), String.t(), map, keyword) ::
@@ -4910,7 +4966,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/repos/rules#update-organization-ruleset)
+    * [API method documentation](https://docs.github.com/rest/orgs/rules#update-an-organization-repository-ruleset)
 
   """
   @spec update_org_ruleset(String.t(), integer, map, keyword) ::
@@ -4967,7 +5023,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#update-a-release)
+    * [API method documentation](https://docs.github.com/rest/releases/releases#update-a-release)
 
   """
   @spec update_release(String.t(), String.t(), integer, map, keyword) ::
@@ -4992,7 +5048,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#update-a-release-asset)
+    * [API method documentation](https://docs.github.com/rest/releases/assets#update-a-release-asset)
 
   """
   @spec update_release_asset(String.t(), String.t(), integer, map, keyword) ::
@@ -5017,7 +5073,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/repos/rules#update-repository-ruleset)
+    * [API method documentation](https://docs.github.com/rest/repos/rules#update-a-repository-ruleset)
 
   """
   @spec update_repo_ruleset(String.t(), String.t(), integer, map, keyword) ::
@@ -5134,7 +5190,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/repos#upload-a-release-asset)
+    * [API method documentation](https://docs.github.com/rest/releases/assets#upload-a-release-asset)
 
   """
   @spec upload_release_asset(String.t(), String.t(), integer, String.t(), keyword) ::

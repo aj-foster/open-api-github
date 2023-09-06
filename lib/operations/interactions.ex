@@ -10,7 +10,7 @@ defmodule GitHub.Interactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/interactions#get-interaction-restrictions-for-your-public-repositories)
+    * [API method documentation](https://docs.github.com/rest/interactions/user#get-interaction-restrictions-for-your-public-repositories)
 
   """
   @spec get_restrictions_for_authenticated_user(keyword) ::
@@ -32,7 +32,7 @@ defmodule GitHub.Interactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/interactions#get-interaction-restrictions-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/interactions/orgs#get-interaction-restrictions-for-an-organization)
 
   """
   @spec get_restrictions_for_org(String.t(), keyword) ::
@@ -55,7 +55,7 @@ defmodule GitHub.Interactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/interactions#get-interaction-restrictions-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/interactions/repos#get-interaction-restrictions-for-a-repository)
 
   """
   @spec get_restrictions_for_repo(String.t(), String.t(), keyword) ::
@@ -78,7 +78,7 @@ defmodule GitHub.Interactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/interactions#remove-interaction-restrictions-from-your-public-repositories)
+    * [API method documentation](https://docs.github.com/rest/interactions/user#remove-interaction-restrictions-from-your-public-repositories)
 
   """
   @spec remove_restrictions_for_authenticated_user(keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -99,7 +99,7 @@ defmodule GitHub.Interactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/interactions#remove-interaction-restrictions-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/interactions/orgs#remove-interaction-restrictions-for-an-organization)
 
   """
   @spec remove_restrictions_for_org(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -121,7 +121,7 @@ defmodule GitHub.Interactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/interactions#remove-interaction-restrictions-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/interactions/repos#remove-interaction-restrictions-for-a-repository)
 
   """
   @spec remove_restrictions_for_repo(String.t(), String.t(), keyword) ::
@@ -144,7 +144,7 @@ defmodule GitHub.Interactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/interactions#set-interaction-restrictions-for-your-public-repositories)
+    * [API method documentation](https://docs.github.com/rest/interactions/user#set-interaction-restrictions-for-your-public-repositories)
 
   """
   @spec set_restrictions_for_authenticated_user(GitHub.Interaction.Limit.t(), keyword) ::
@@ -172,7 +172,7 @@ defmodule GitHub.Interactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/interactions#set-interaction-restrictions-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/interactions/orgs#set-interaction-restrictions-for-an-organization)
 
   """
   @spec set_restrictions_for_org(String.t(), GitHub.Interaction.Limit.t(), keyword) ::
@@ -200,7 +200,7 @@ defmodule GitHub.Interactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/interactions#set-interaction-restrictions-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/interactions/repos#set-interaction-restrictions-for-a-repository)
 
   """
   @spec set_restrictions_for_repo(String.t(), String.t(), GitHub.Interaction.Limit.t(), keyword) ::

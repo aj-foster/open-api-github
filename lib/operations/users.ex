@@ -10,7 +10,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#add-an-email-address-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/emails#add-an-email-address-for-the-authenticated-user)
 
   """
   @spec add_email_for_authenticated_user(map | String.t() | [String.t()], keyword) ::
@@ -42,7 +42,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/users/social-accounts#add-social-account-for-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/social-accounts#add-social-accounts-for-the-authenticated-user)
 
   """
   @spec add_social_account_for_authenticated_user(map, keyword) ::
@@ -74,7 +74,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#block-a-user)
+    * [API method documentation](https://docs.github.com/rest/users/blocking#block-a-user)
 
   """
   @spec block(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -103,7 +103,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#check-if-a-user-is-blocked-by-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/blocking#check-if-a-user-is-blocked-by-the-authenticated-user)
 
   """
   @spec check_blocked(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -131,7 +131,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#check-if-a-user-follows-another-user)
+    * [API method documentation](https://docs.github.com/rest/users/followers#check-if-a-user-follows-another-user)
 
   """
   @spec check_following_for_user(String.t(), String.t(), keyword) ::
@@ -154,7 +154,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#check-if-a-person-is-followed-by-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/followers#check-if-a-person-is-followed-by-the-authenticated-user)
 
   """
   @spec check_person_is_followed_by_authenticated(String.t(), keyword) ::
@@ -183,7 +183,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#create-a-gpg-key-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/gpg-keys#create-a-gpg-key-for-the-authenticated-user)
 
   """
   @spec create_gpg_key_for_authenticated_user(map, keyword) ::
@@ -215,7 +215,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#create-a-public-ssh-key-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/keys#create-a-public-ssh-key-for-the-authenticated-user)
 
   """
   @spec create_public_ssh_key_for_authenticated_user(map, keyword) ::
@@ -247,7 +247,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#create-an-ssh-signing-key-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/ssh-signing-keys#create-a-ssh-signing-key-for-the-authenticated-user)
 
   """
   @spec create_ssh_signing_key_for_authenticated_user(map, keyword) ::
@@ -279,7 +279,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#delete-an-email-address-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/emails#delete-an-email-address-for-the-authenticated-user)
 
   """
   @spec delete_email_for_authenticated_user(map | String.t() | [String.t()], keyword) ::
@@ -311,7 +311,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#delete-a-gpg-key-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/gpg-keys#delete-a-gpg-key-for-the-authenticated-user)
 
   """
   @spec delete_gpg_key_for_authenticated_user(integer, keyword) ::
@@ -341,7 +341,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#delete-a-public-ssh-key-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/keys#delete-a-public-ssh-key-for-the-authenticated-user)
 
   """
   @spec delete_public_ssh_key_for_authenticated_user(integer, keyword) ::
@@ -370,7 +370,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/users/social-accounts#delete-social-account-for-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/social-accounts#delete-social-accounts-for-the-authenticated-user)
 
   """
   @spec delete_social_account_for_authenticated_user(map, keyword) ::
@@ -402,7 +402,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#delete-a-ssh-signing-key-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/ssh-signing-keys#delete-an-ssh-signing-key-for-the-authenticated-user)
 
   """
   @spec delete_ssh_signing_key_for_authenticated_user(integer, keyword) ::
@@ -431,7 +431,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#follow-a-user)
+    * [API method documentation](https://docs.github.com/rest/users/followers#follow-a-user)
 
   """
   @spec follow(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -459,7 +459,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#get-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/users#get-the-authenticated-user)
 
   """
   @spec get_authenticated(keyword) ::
@@ -486,7 +486,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#get-a-user)
+    * [API method documentation](https://docs.github.com/rest/users/users#get-a-user)
 
   """
   @spec get_by_username(String.t(), keyword) ::
@@ -517,7 +517,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#get-contextual-information-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/users/users#get-contextual-information-for-a-user)
 
   """
   @spec get_context_for_user(String.t(), keyword) ::
@@ -546,7 +546,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#get-a-gpg-key-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/gpg-keys#get-a-gpg-key-for-the-authenticated-user)
 
   """
   @spec get_gpg_key_for_authenticated_user(integer, keyword) ::
@@ -575,7 +575,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#get-a-public-ssh-key-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/keys#get-a-public-ssh-key-for-the-authenticated-user)
 
   """
   @spec get_public_ssh_key_for_authenticated_user(integer, keyword) ::
@@ -604,7 +604,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#get-a-ssh-signing-key-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/ssh-signing-keys#get-an-ssh-signing-key-for-the-authenticated-user)
 
   """
   @spec get_ssh_signing_key_for_authenticated_user(integer, keyword) ::
@@ -638,7 +638,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#list-users)
+    * [API method documentation](https://docs.github.com/rest/users/users#list-users)
 
   """
   @spec list(keyword) :: {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
@@ -666,7 +666,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#list-users-blocked-by-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/blocking#list-users-blocked-by-the-authenticated-user)
 
   """
   @spec list_blocked_by_authenticated_user(keyword) ::
@@ -701,7 +701,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#list-email-addresses-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/emails#list-email-addresses-for-the-authenticated-user)
 
   """
   @spec list_emails_for_authenticated_user(keyword) ::
@@ -736,7 +736,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#list-the-people-the-authenticated-user-follows)
+    * [API method documentation](https://docs.github.com/rest/users/followers#list-the-people-the-authenticated-user-follows)
 
   """
   @spec list_followed_by_authenticated_user(keyword) ::
@@ -770,7 +770,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#list-followers-of-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/followers#list-followers-of-the-authenticated-user)
 
   """
   @spec list_followers_for_authenticated_user(keyword) ::
@@ -804,7 +804,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#list-followers-of-a-user)
+    * [API method documentation](https://docs.github.com/rest/users/followers#list-followers-of-a-user)
 
   """
   @spec list_followers_for_user(String.t(), keyword) ::
@@ -834,7 +834,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#list-the-people-a-user-follows)
+    * [API method documentation](https://docs.github.com/rest/users/followers#list-the-people-a-user-follows)
 
   """
   @spec list_following_for_user(String.t(), keyword) ::
@@ -864,7 +864,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#list-gpg-keys-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/gpg-keys#list-gpg-keys-for-the-authenticated-user)
 
   """
   @spec list_gpg_keys_for_authenticated_user(keyword) ::
@@ -899,7 +899,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#list-gpg-keys-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/users/gpg-keys#list-gpg-keys-for-a-user)
 
   """
   @spec list_gpg_keys_for_user(String.t(), keyword) ::
@@ -929,7 +929,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#list-public-email-addresses-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/emails#list-public-email-addresses-for-the-authenticated-user)
 
   """
   @spec list_public_emails_for_authenticated_user(keyword) ::
@@ -964,7 +964,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#list-public-keys-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/users/keys#list-public-keys-for-a-user)
 
   """
   @spec list_public_keys_for_user(String.t(), keyword) ::
@@ -994,7 +994,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#list-public-ssh-keys-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/keys#list-public-ssh-keys-for-the-authenticated-user)
 
   """
   @spec list_public_ssh_keys_for_authenticated_user(keyword) ::
@@ -1094,7 +1094,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#list-public-ssh-signing-keys-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/ssh-signing-keys#list-ssh-signing-keys-for-the-authenticated-user)
 
   """
   @spec list_ssh_signing_keys_for_authenticated_user(keyword) ::
@@ -1129,7 +1129,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#list-ssh-signing-keys-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/users/ssh-signing-keys#list-ssh-signing-keys-for-a-user)
 
   """
   @spec list_ssh_signing_keys_for_user(String.t(), keyword) ::
@@ -1154,7 +1154,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#set-primary-email-visibility-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/emails#set-primary-email-visibility-for-the-authenticated-user)
 
   """
   @spec set_primary_email_visibility_for_authenticated_user(map, keyword) ::
@@ -1186,7 +1186,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#unblock-a-user)
+    * [API method documentation](https://docs.github.com/rest/users/blocking#unblock-a-user)
 
   """
   @spec unblock(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -1214,7 +1214,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users#unfollow-a-user)
+    * [API method documentation](https://docs.github.com/rest/users/followers#unfollow-a-user)
 
   """
   @spec unfollow(String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -1242,7 +1242,7 @@ defmodule GitHub.Users do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/users/#update-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/users/users#update-the-authenticated-user)
 
   """
   @spec update_authenticated(map, keyword) ::

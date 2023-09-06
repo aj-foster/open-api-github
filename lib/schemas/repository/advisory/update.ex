@@ -5,6 +5,8 @@ defmodule GitHub.Repository.Advisory.Update do
 
   @type t :: %__MODULE__{
           __info__: map,
+          collaborating_teams: [String.t()] | nil,
+          collaborating_users: [String.t()] | nil,
           credits: [map] | nil,
           cve_id: String.t() | nil,
           cvss_vector_string: String.t() | nil,
@@ -18,6 +20,8 @@ defmodule GitHub.Repository.Advisory.Update do
 
   defstruct [
     :__info__,
+    :collaborating_teams,
+    :collaborating_users,
     :credits,
     :cve_id,
     :cvss_vector_string,
@@ -35,6 +39,8 @@ defmodule GitHub.Repository.Advisory.Update do
 
   def __fields__(:t) do
     [
+      collaborating_teams: {:nullable, {:array, :string}},
+      collaborating_users: {:nullable, {:array, :string}},
       credits: {:nullable, {:array, :map}},
       cve_id: {:nullable, :string},
       cvss_vector_string: {:nullable, :string},

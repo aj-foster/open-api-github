@@ -10,7 +10,7 @@ defmodule GitHub.Billing do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/billing#get-github-actions-billing-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/billing/billing#get-github-actions-billing-for-an-organization)
 
   """
   @spec get_github_actions_billing_org(String.t(), keyword) ::
@@ -33,7 +33,7 @@ defmodule GitHub.Billing do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/billing#get-github-actions-billing-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/billing/billing#get-github-actions-billing-for-a-user)
 
   """
   @spec get_github_actions_billing_user(String.t(), keyword) ::
@@ -56,7 +56,7 @@ defmodule GitHub.Billing do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/billing#get-github-packages-billing-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/billing/billing#get-github-packages-billing-for-an-organization)
 
   """
   @spec get_github_packages_billing_org(String.t(), keyword) ::
@@ -79,7 +79,7 @@ defmodule GitHub.Billing do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/billing#get-github-packages-billing-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/billing/billing#get-github-packages-billing-for-a-user)
 
   """
   @spec get_github_packages_billing_user(String.t(), keyword) ::
@@ -102,7 +102,7 @@ defmodule GitHub.Billing do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/billing#get-shared-storage-billing-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/billing/billing#get-shared-storage-billing-for-an-organization)
 
   """
   @spec get_shared_storage_billing_org(String.t(), keyword) ::
@@ -125,7 +125,7 @@ defmodule GitHub.Billing do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/billing#get-shared-storage-billing-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/billing/billing#get-shared-storage-billing-for-a-user)
 
   """
   @spec get_shared_storage_billing_user(String.t(), keyword) ::

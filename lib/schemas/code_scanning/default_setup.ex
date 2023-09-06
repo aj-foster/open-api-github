@@ -7,11 +7,12 @@ defmodule GitHub.CodeScanning.DefaultSetup do
           __info__: map,
           languages: [String.t()] | nil,
           query_suite: String.t() | nil,
+          schedule: String.t() | nil,
           state: String.t() | nil,
           updated_at: String.t() | nil
         }
 
-  defstruct [:__info__, :languages, :query_suite, :state, :updated_at]
+  defstruct [:__info__, :languages, :query_suite, :schedule, :state, :updated_at]
 
   @doc false
   @spec __fields__(atom) :: keyword
@@ -21,6 +22,7 @@ defmodule GitHub.CodeScanning.DefaultSetup do
     [
       languages: {:array, :string},
       query_suite: :string,
+      schedule: {:nullable, :string},
       state: :string,
       updated_at: {:nullable, :string}
     ]

@@ -10,7 +10,7 @@ defmodule GitHub.Gitignore do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gitignore#get-all-gitignore-templates)
+    * [API method documentation](https://docs.github.com/rest/gitignore/gitignore#get-all-gitignore-templates)
 
   """
   @spec get_all_templates(keyword) :: {:ok, [String.t()]} | {:error, GitHub.Error.t()}
@@ -31,7 +31,7 @@ defmodule GitHub.Gitignore do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/gitignore#get-a-gitignore-template)
+    * [API method documentation](https://docs.github.com/rest/gitignore/gitignore#get-a-gitignore-template)
 
   """
   @spec get_template(String.t(), keyword) ::

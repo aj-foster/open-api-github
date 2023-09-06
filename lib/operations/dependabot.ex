@@ -10,7 +10,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#add-selected-repository-to-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/dependabot/secrets#add-selected-repository-to-an-organization-secret)
 
   """
   @spec add_selected_repo_to_org_secret(String.t(), String.t(), integer, keyword) ::
@@ -33,7 +33,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#create-or-update-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/dependabot/secrets#create-or-update-an-organization-secret)
 
   """
   @spec create_or_update_org_secret(String.t(), String.t(), map, keyword) ::
@@ -58,7 +58,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#create-or-update-a-repository-secret)
+    * [API method documentation](https://docs.github.com/rest/dependabot/secrets#create-or-update-a-repository-secret)
 
   """
   @spec create_or_update_repo_secret(String.t(), String.t(), String.t(), map, keyword) ::
@@ -83,7 +83,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#delete-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/dependabot/secrets#delete-an-organization-secret)
 
   """
   @spec delete_org_secret(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -105,7 +105,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#delete-a-repository-secret)
+    * [API method documentation](https://docs.github.com/rest/dependabot/secrets#delete-a-repository-secret)
 
   """
   @spec delete_repo_secret(String.t(), String.t(), String.t(), keyword) ::
@@ -128,7 +128,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#get-a-dependabot-alert)
+    * [API method documentation](https://docs.github.com/rest/dependabot/alerts#get-a-dependabot-alert)
 
   """
   @spec get_alert(String.t(), String.t(), integer, keyword) ::
@@ -156,7 +156,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#get-an-organization-public-key)
+    * [API method documentation](https://docs.github.com/rest/dependabot/secrets#get-an-organization-public-key)
 
   """
   @spec get_org_public_key(String.t(), keyword) ::
@@ -179,7 +179,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#get-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/dependabot/secrets#get-an-organization-secret)
 
   """
   @spec get_org_secret(String.t(), String.t(), keyword) ::
@@ -202,7 +202,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#get-a-repository-public-key)
+    * [API method documentation](https://docs.github.com/rest/dependabot/secrets#get-a-repository-public-key)
 
   """
   @spec get_repo_public_key(String.t(), String.t(), keyword) ::
@@ -225,7 +225,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#get-a-repository-secret)
+    * [API method documentation](https://docs.github.com/rest/dependabot/secrets#get-a-repository-secret)
 
   """
   @spec get_repo_secret(String.t(), String.t(), String.t(), keyword) ::
@@ -424,7 +424,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#list-dependabot-alerts-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/dependabot/alerts#list-dependabot-alerts-for-a-repository)
 
   """
   @spec list_alerts_for_repo(String.t(), String.t(), keyword) ::
@@ -478,7 +478,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#list-organization-secrets)
+    * [API method documentation](https://docs.github.com/rest/dependabot/secrets#list-organization-secrets)
 
   """
   @spec list_org_secrets(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
@@ -507,7 +507,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#list-repository-secrets)
+    * [API method documentation](https://docs.github.com/rest/dependabot/secrets#list-repository-secrets)
 
   """
   @spec list_repo_secrets(String.t(), String.t(), keyword) ::
@@ -537,7 +537,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#list-selected-repositories-for-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/dependabot/secrets#list-selected-repositories-for-an-organization-secret)
 
   """
   @spec list_selected_repos_for_org_secret(String.t(), String.t(), keyword) ::
@@ -562,7 +562,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#remove-selected-repository-from-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/dependabot/secrets#remove-selected-repository-from-an-organization-secret)
 
   """
   @spec remove_selected_repo_from_org_secret(String.t(), String.t(), integer, keyword) ::
@@ -585,7 +585,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#set-selected-repositories-for-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/dependabot/secrets#set-selected-repositories-for-an-organization-secret)
 
   """
   @spec set_selected_repos_for_org_secret(String.t(), String.t(), map, keyword) ::
@@ -610,7 +610,7 @@ defmodule GitHub.Dependabot do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/dependabot#update-a-dependabot-alert)
+    * [API method documentation](https://docs.github.com/rest/dependabot/alerts#update-a-dependabot-alert)
 
   """
   @spec update_alert(String.t(), String.t(), integer, map, keyword) ::

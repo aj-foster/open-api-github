@@ -10,7 +10,7 @@ defmodule GitHub.SecretScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/secret-scanning#get-a-secret-scanning-alert)
+    * [API method documentation](https://docs.github.com/rest/secret-scanning/secret-scanning#get-a-secret-scanning-alert)
 
   """
   @spec get_alert(String.t(), String.t(), integer, keyword) ::
@@ -46,7 +46,7 @@ defmodule GitHub.SecretScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/secret-scanning#list-secret-scanning-alerts-for-an-enterprise)
+    * [API method documentation](https://docs.github.com/rest/secret-scanning/secret-scanning#list-secret-scanning-alerts-for-an-enterprise)
 
   """
   @spec list_alerts_for_enterprise(String.t(), keyword) ::
@@ -100,7 +100,7 @@ defmodule GitHub.SecretScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/secret-scanning#list-secret-scanning-alerts-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/secret-scanning/secret-scanning#list-secret-scanning-alerts-for-an-organization)
 
   """
   @spec list_alerts_for_org(String.t(), keyword) ::
@@ -155,7 +155,7 @@ defmodule GitHub.SecretScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/secret-scanning#list-secret-scanning-alerts-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/secret-scanning/secret-scanning#list-secret-scanning-alerts-for-a-repository)
 
   """
   @spec list_alerts_for_repo(String.t(), String.t(), keyword) ::
@@ -197,7 +197,7 @@ defmodule GitHub.SecretScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/secret-scanning#list-locations-for-a-secret-scanning-alert)
+    * [API method documentation](https://docs.github.com/rest/secret-scanning/secret-scanning#list-locations-for-a-secret-scanning-alert)
 
   """
   @spec list_locations_for_alert(String.t(), String.t(), integer, keyword) ::
@@ -222,7 +222,7 @@ defmodule GitHub.SecretScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/secret-scanning#update-a-secret-scanning-alert)
+    * [API method documentation](https://docs.github.com/rest/secret-scanning/secret-scanning#update-a-secret-scanning-alert)
 
   """
   @spec update_alert(String.t(), String.t(), integer, map, keyword) ::

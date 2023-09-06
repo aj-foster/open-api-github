@@ -7,9 +7,9 @@ defmodule GitHub.Repository.Ruleset do
           __info__: map,
           _links: map | nil,
           bypass_actors: [GitHub.Repository.Ruleset.BypassActor.t()] | nil,
-          bypass_mode: String.t() | nil,
-          conditions:
-            (GitHub.OrgRuleset.Conditions.t() | GitHub.Repository.Ruleset.Conditions.t()) | nil,
+          conditions: (map | GitHub.Repository.Ruleset.Conditions.t()) | nil,
+          created_at: String.t() | nil,
+          current_user_can_bypass: String.t() | nil,
           enforcement: String.t(),
           id: integer,
           name: String.t(),
@@ -34,15 +34,17 @@ defmodule GitHub.Repository.Ruleset do
             | nil,
           source: String.t(),
           source_type: String.t() | nil,
-          target: String.t() | nil
+          target: String.t() | nil,
+          updated_at: String.t() | nil
         }
 
   defstruct [
     :__info__,
     :_links,
     :bypass_actors,
-    :bypass_mode,
     :conditions,
+    :created_at,
+    :current_user_can_bypass,
     :enforcement,
     :id,
     :name,
@@ -50,7 +52,8 @@ defmodule GitHub.Repository.Ruleset do
     :rules,
     :source,
     :source_type,
-    :target
+    :target,
+    :updated_at
   ]
 
   @doc false
@@ -61,9 +64,9 @@ defmodule GitHub.Repository.Ruleset do
     [
       _links: :map,
       bypass_actors: {:array, {GitHub.Repository.Ruleset.BypassActor, :t}},
-      bypass_mode: :string,
-      conditions:
-        {:union, [{GitHub.Repository.Ruleset.Conditions, :t}, {GitHub.OrgRuleset.Conditions, :t}]},
+      conditions: {:union, [{GitHub.Repository.Ruleset.Conditions, :t}, :map]},
+      created_at: :string,
+      current_user_can_bypass: :string,
       enforcement: :string,
       id: :integer,
       name: :string,
@@ -89,7 +92,8 @@ defmodule GitHub.Repository.Ruleset do
           ]}},
       source: :string,
       source_type: :string,
-      target: :string
+      target: :string,
+      updated_at: :string
     ]
   end
 end

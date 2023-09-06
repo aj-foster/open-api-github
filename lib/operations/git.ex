@@ -10,7 +10,7 @@ defmodule GitHub.Git do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/git#create-a-blob)
+    * [API method documentation](https://docs.github.com/rest/git/blobs#create-a-blob)
 
   """
   @spec create_blob(String.t(), String.t(), map, keyword) ::
@@ -41,7 +41,7 @@ defmodule GitHub.Git do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/git#create-a-commit)
+    * [API method documentation](https://docs.github.com/rest/git/commits#create-a-commit)
 
   """
   @spec create_commit(String.t(), String.t(), map, keyword) ::
@@ -70,7 +70,7 @@ defmodule GitHub.Git do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/git#create-a-reference)
+    * [API method documentation](https://docs.github.com/rest/git/refs#create-a-reference)
 
   """
   @spec create_ref(String.t(), String.t(), map, keyword) ::
@@ -95,7 +95,7 @@ defmodule GitHub.Git do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/git#create-a-tag-object)
+    * [API method documentation](https://docs.github.com/rest/git/tags#create-a-tag-object)
 
   """
   @spec create_tag(String.t(), String.t(), map, keyword) ::
@@ -120,7 +120,7 @@ defmodule GitHub.Git do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/git#create-a-tree)
+    * [API method documentation](https://docs.github.com/rest/git/trees#create-a-tree)
 
   """
   @spec create_tree(String.t(), String.t(), map, keyword) ::
@@ -150,7 +150,7 @@ defmodule GitHub.Git do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/git#delete-a-reference)
+    * [API method documentation](https://docs.github.com/rest/git/refs#delete-a-reference)
 
   """
   @spec delete_ref(String.t(), String.t(), String.t(), keyword) ::
@@ -173,7 +173,7 @@ defmodule GitHub.Git do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/git#get-a-blob)
+    * [API method documentation](https://docs.github.com/rest/git/blobs#get-a-blob)
 
   """
   @spec get_blob(String.t(), String.t(), String.t(), keyword) ::
@@ -197,11 +197,11 @@ defmodule GitHub.Git do
   end
 
   @doc """
-  Get a commit
+  Get a commit object
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/git#get-a-commit)
+    * [API method documentation](https://docs.github.com/rest/git/commits#get-a-commit-object)
 
   """
   @spec get_commit(String.t(), String.t(), String.t(), keyword) ::
@@ -224,7 +224,7 @@ defmodule GitHub.Git do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/git#get-a-reference)
+    * [API method documentation](https://docs.github.com/rest/git/refs#get-a-reference)
 
   """
   @spec get_ref(String.t(), String.t(), String.t(), keyword) ::
@@ -247,7 +247,7 @@ defmodule GitHub.Git do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/git#get-a-tag)
+    * [API method documentation](https://docs.github.com/rest/git/tags#get-a-tag)
 
   """
   @spec get_tag(String.t(), String.t(), String.t(), keyword) ::
@@ -274,7 +274,7 @@ defmodule GitHub.Git do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/git#get-a-tree)
+    * [API method documentation](https://docs.github.com/rest/git/trees#get-a-tree)
 
   """
   @spec get_tree(String.t(), String.t(), String.t(), keyword) ::
@@ -303,7 +303,7 @@ defmodule GitHub.Git do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/git#list-matching-references)
+    * [API method documentation](https://docs.github.com/rest/git/refs#list-matching-references)
 
   """
   @spec list_matching_refs(String.t(), String.t(), String.t(), keyword) ::
@@ -326,7 +326,7 @@ defmodule GitHub.Git do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/git#update-a-reference)
+    * [API method documentation](https://docs.github.com/rest/git/refs#update-a-reference)
 
   """
   @spec update_ref(String.t(), String.t(), String.t(), map, keyword) ::

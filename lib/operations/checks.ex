@@ -10,7 +10,7 @@ defmodule GitHub.Checks do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/checks#create-a-check-run)
+    * [API method documentation](https://docs.github.com/rest/checks/runs#create-a-check-run)
 
   """
   @spec create(String.t(), String.t(), map, keyword) ::
@@ -35,7 +35,7 @@ defmodule GitHub.Checks do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/checks#create-a-check-suite)
+    * [API method documentation](https://docs.github.com/rest/checks/suites#create-a-check-suite)
 
   """
   @spec create_suite(String.t(), String.t(), map, keyword) ::
@@ -60,7 +60,7 @@ defmodule GitHub.Checks do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/checks#get-a-check-run)
+    * [API method documentation](https://docs.github.com/rest/checks/runs#get-a-check-run)
 
   """
   @spec get(String.t(), String.t(), integer, keyword) ::
@@ -83,7 +83,7 @@ defmodule GitHub.Checks do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/checks#get-a-check-suite)
+    * [API method documentation](https://docs.github.com/rest/checks/suites#get-a-check-suite)
 
   """
   @spec get_suite(String.t(), String.t(), integer, keyword) ::
@@ -111,7 +111,7 @@ defmodule GitHub.Checks do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/checks#list-check-run-annotations)
+    * [API method documentation](https://docs.github.com/rest/checks/runs#list-check-run-annotations)
 
   """
   @spec list_annotations(String.t(), String.t(), integer, keyword) ::
@@ -145,7 +145,7 @@ defmodule GitHub.Checks do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/checks#list-check-runs-for-a-git-reference)
+    * [API method documentation](https://docs.github.com/rest/checks/runs#list-check-runs-for-a-git-reference)
 
   """
   @spec list_for_ref(String.t(), String.t(), String.t(), keyword) ::
@@ -178,7 +178,7 @@ defmodule GitHub.Checks do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/checks#list-check-runs-in-a-check-suite)
+    * [API method documentation](https://docs.github.com/rest/checks/runs#list-check-runs-in-a-check-suite)
 
   """
   @spec list_for_suite(String.t(), String.t(), integer, keyword) ::
@@ -210,7 +210,7 @@ defmodule GitHub.Checks do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/checks#list-check-suites-for-a-git-reference)
+    * [API method documentation](https://docs.github.com/rest/checks/suites#list-check-suites-for-a-git-reference)
 
   """
   @spec list_suites_for_ref(String.t(), String.t(), String.t(), keyword) ::
@@ -235,7 +235,7 @@ defmodule GitHub.Checks do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/checks#rerequest-a-check-run)
+    * [API method documentation](https://docs.github.com/rest/checks/runs#rerequest-a-check-run)
 
   """
   @spec rerequest_run(String.t(), String.t(), integer, keyword) ::
@@ -263,7 +263,7 @@ defmodule GitHub.Checks do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/checks#rerequest-a-check-suite)
+    * [API method documentation](https://docs.github.com/rest/checks/suites#rerequest-a-check-suite)
 
   """
   @spec rerequest_suite(String.t(), String.t(), integer, keyword) ::
@@ -286,7 +286,7 @@ defmodule GitHub.Checks do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/checks#update-repository-preferences-for-check-suites)
+    * [API method documentation](https://docs.github.com/rest/checks/suites#update-repository-preferences-for-check-suites)
 
   """
   @spec set_suites_preferences(String.t(), String.t(), map, keyword) ::
@@ -311,7 +311,7 @@ defmodule GitHub.Checks do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/checks#update-a-check-run)
+    * [API method documentation](https://docs.github.com/rest/checks/runs#update-a-check-run)
 
   """
   @spec update(String.t(), String.t(), integer, map, keyword) ::

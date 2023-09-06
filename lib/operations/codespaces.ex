@@ -10,7 +10,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#add-a-selected-repository-to-a-user-secret)
+    * [API method documentation](https://docs.github.com/rest/codespaces/secrets#add-a-selected-repository-to-a-user-secret)
 
   """
   @spec add_repository_for_secret_for_authenticated_user(String.t(), integer, keyword) ::
@@ -39,7 +39,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#add-selected-repository-to-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organization-secrets#add-selected-repository-to-an-organization-secret)
 
   """
   @spec add_selected_repo_to_org_secret(String.t(), String.t(), integer, keyword) ::
@@ -67,7 +67,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-machine-types-for-a-codespace)
+    * [API method documentation](https://docs.github.com/rest/codespaces/machines#list-machine-types-for-a-codespace)
 
   """
   @spec codespace_machines_for_authenticated_user(String.t(), keyword) ::
@@ -97,7 +97,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#create-a-codespace-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/codespaces/codespaces#create-a-codespace-for-the-authenticated-user)
 
   """
   @spec create_for_authenticated_user(map, keyword) ::
@@ -129,7 +129,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#create-or-update-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organization-secrets#create-or-update-an-organization-secret)
 
   """
   @spec create_or_update_org_secret(String.t(), String.t(), map, keyword) ::
@@ -159,7 +159,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#create-or-update-a-repository-secret)
+    * [API method documentation](https://docs.github.com/rest/codespaces/repository-secrets#create-or-update-a-repository-secret)
 
   """
   @spec create_or_update_repo_secret(String.t(), String.t(), String.t(), map, keyword) ::
@@ -184,7 +184,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#create-or-update-a-secret-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/codespaces/secrets#create-or-update-a-secret-for-the-authenticated-user)
 
   """
   @spec create_or_update_secret_for_authenticated_user(String.t(), map, keyword) ::
@@ -214,7 +214,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#create-a-codespace-from-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/codespaces/codespaces#create-a-codespace-from-a-pull-request)
 
   """
   @spec create_with_pr_for_authenticated_user(String.t(), String.t(), integer, map | nil, keyword) ::
@@ -246,7 +246,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#create-a-codespace-in-a-repository)
+    * [API method documentation](https://docs.github.com/rest/codespaces/codespaces#create-a-codespace-in-a-repository)
 
   """
   @spec create_with_repo_for_authenticated_user(String.t(), String.t(), map | nil, keyword) ::
@@ -275,22 +275,22 @@ defmodule GitHub.Codespaces do
   end
 
   @doc """
-  Removes users from Codespaces billing for an organization
+  Remove users from Codespaces access for an organization
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#delete-codespaces-billing-users)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organizations#remove-users-from-codespaces-access-for-an-organization)
 
   """
-  @spec delete_codespaces_billing_users(String.t(), map, keyword) ::
+  @spec delete_codespaces_access_users(String.t(), map, keyword) ::
           :ok | {:error, GitHub.Error.t()}
-  def delete_codespaces_billing_users(org, body, opts \\ []) do
+  def delete_codespaces_access_users(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [org: org, body: body],
-      call: {GitHub.Codespaces, :delete_codespaces_billing_users},
-      url: "/orgs/#{org}/codespaces/billing/selected_users",
+      call: {GitHub.Codespaces, :delete_codespaces_access_users},
+      url: "/orgs/#{org}/codespaces/access/selected_users",
       body: body,
       method: :delete,
       request: [{"application/json", :map}],
@@ -311,7 +311,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#delete-a-codespace-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/codespaces/codespaces#delete-a-codespace-for-the-authenticated-user)
 
   """
   @spec delete_for_authenticated_user(String.t(), keyword) ::
@@ -341,7 +341,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organizations#delete-a-codespace-from-the-organization)
 
   """
   @spec delete_from_organization(String.t(), String.t(), String.t(), keyword) ::
@@ -371,7 +371,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#delete-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organization-secrets#delete-an-organization-secret)
 
   """
   @spec delete_org_secret(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -393,7 +393,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#delete-a-repository-secret)
+    * [API method documentation](https://docs.github.com/rest/codespaces/repository-secrets#delete-a-repository-secret)
 
   """
   @spec delete_repo_secret(String.t(), String.t(), String.t(), keyword) ::
@@ -416,7 +416,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#delete-a-secret-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/codespaces/secrets#delete-a-secret-for-the-authenticated-user)
 
   """
   @spec delete_secret_for_authenticated_user(String.t(), keyword) ::
@@ -474,7 +474,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#get-codespaces-for-user-in-org)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organizations#list-codespaces-for-a-user-in-organization)
 
   """
   @spec get_codespaces_for_user_in_org(String.t(), String.t(), keyword) ::
@@ -529,7 +529,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#get-a-codespace-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/codespaces/codespaces#get-a-codespace-for-the-authenticated-user)
 
   """
   @spec get_for_authenticated_user(String.t(), keyword) ::
@@ -559,7 +559,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#get-an-organization-public-key)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organization-secrets#get-an-organization-public-key)
 
   """
   @spec get_org_public_key(String.t(), keyword) ::
@@ -582,7 +582,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#get-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organization-secrets#get-an-organization-secret)
 
   """
   @spec get_org_secret(String.t(), String.t(), keyword) ::
@@ -605,7 +605,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#get-public-key-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/codespaces/secrets#get-public-key-for-the-authenticated-user)
 
   """
   @spec get_public_key_for_authenticated_user(keyword) ::
@@ -627,7 +627,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#get-a-repository-public-key)
+    * [API method documentation](https://docs.github.com/rest/codespaces/repository-secrets#get-a-repository-public-key)
 
   """
   @spec get_repo_public_key(String.t(), String.t(), keyword) ::
@@ -650,7 +650,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#get-a-repository-secret)
+    * [API method documentation](https://docs.github.com/rest/codespaces/repository-secrets#get-a-repository-secret)
 
   """
   @spec get_repo_secret(String.t(), String.t(), String.t(), keyword) ::
@@ -673,7 +673,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#get-a-secret-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/codespaces/secrets#get-a-secret-for-the-authenticated-user)
 
   """
   @spec get_secret_for_authenticated_user(String.t(), keyword) ::
@@ -701,7 +701,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-devcontainers-in-a-repository-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/codespaces/codespaces#list-devcontainer-configurations-in-a-repository-for-the-authenticated-user)
 
   """
   @spec list_devcontainers_in_repository_for_authenticated_user(String.t(), String.t(), keyword) ::
@@ -739,7 +739,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-codespaces-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/codespaces/codespaces#list-codespaces-for-the-authenticated-user)
 
   """
   @spec list_for_authenticated_user(keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
@@ -774,7 +774,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-in-organization)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organizations#list-codespaces-for-the-organization)
 
   """
   @spec list_in_organization(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
@@ -810,7 +810,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-codespaces-in-a-repository-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/codespaces/codespaces#list-codespaces-in-a-repository-for-the-authenticated-user)
 
   """
   @spec list_in_repository_for_authenticated_user(String.t(), String.t(), keyword) ::
@@ -846,7 +846,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-organization-secrets)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organization-secrets#list-organization-secrets)
 
   """
   @spec list_org_secrets(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
@@ -875,7 +875,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-repository-secrets)
+    * [API method documentation](https://docs.github.com/rest/codespaces/repository-secrets#list-repository-secrets)
 
   """
   @spec list_repo_secrets(String.t(), String.t(), keyword) ::
@@ -900,7 +900,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-selected-repositories-for-a-user-secret)
+    * [API method documentation](https://docs.github.com/rest/codespaces/secrets#list-selected-repositories-for-a-user-secret)
 
   """
   @spec list_repositories_for_secret_for_authenticated_user(String.t(), keyword) ::
@@ -934,7 +934,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-secrets-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/codespaces/secrets#list-secrets-for-the-authenticated-user)
 
   """
   @spec list_secrets_for_authenticated_user(keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
@@ -962,7 +962,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-selected-repositories-for-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organization-secrets#list-selected-repositories-for-an-organization-secret)
 
   """
   @spec list_selected_repos_for_org_secret(String.t(), String.t(), keyword) ::
@@ -992,7 +992,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#preview-attributes-for-a-new-codespace)
+    * [API method documentation](https://docs.github.com/rest/codespaces/codespaces#get-default-attributes-for-a-codespace)
 
   """
   @spec pre_flight_with_repo_for_authenticated_user(String.t(), String.t(), keyword) ::
@@ -1022,7 +1022,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces/codespaces#create-a-repository-from-an-unpublished-codespace)
+    * [API method documentation](https://docs.github.com/rest/codespaces/codespaces#create-a-repository-from-an-unpublished-codespace)
 
   """
   @spec publish_for_authenticated_user(String.t(), map, keyword) ::
@@ -1053,7 +1053,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#remove-a-selected-repository-from-a-user-secret)
+    * [API method documentation](https://docs.github.com/rest/codespaces/secrets#remove-a-selected-repository-from-a-user-secret)
 
   """
   @spec remove_repository_for_secret_for_authenticated_user(String.t(), integer, keyword) ::
@@ -1082,7 +1082,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#remove-selected-repository-from-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organization-secrets#remove-selected-repository-from-an-organization-secret)
 
   """
   @spec remove_selected_repo_from_org_secret(String.t(), String.t(), integer, keyword) ::
@@ -1112,17 +1112,18 @@ defmodule GitHub.Codespaces do
 
     * `location` (String.t()): The location to check for available machines. Assigned by IP if not provided.
     * `client_ip` (String.t()): IP for location auto-detection when proxying a request
+    * `ref` (String.t()): The branch or commit to check for prebuild availability and devcontainer restrictions.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#list-available-machine-types-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/codespaces/machines#list-available-machine-types-for-a-repository)
 
   """
   @spec repo_machines_for_authenticated_user(String.t(), String.t(), keyword) ::
           {:ok, map} | {:error, GitHub.Error.t()}
   def repo_machines_for_authenticated_user(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:client_ip, :location])
+    query = Keyword.take(opts, [:client_ip, :location, :ref])
 
     client.request(%{
       args: [owner: owner, repo: repo],
@@ -1147,17 +1148,17 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#set-codespaces-billing)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces)
 
   """
-  @spec set_codespaces_billing(String.t(), map, keyword) :: :ok | {:error, GitHub.Error.t()}
-  def set_codespaces_billing(org, body, opts \\ []) do
+  @spec set_codespaces_access(String.t(), map, keyword) :: :ok | {:error, GitHub.Error.t()}
+  def set_codespaces_access(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [org: org, body: body],
-      call: {GitHub.Codespaces, :set_codespaces_billing},
-      url: "/orgs/#{org}/codespaces/billing",
+      call: {GitHub.Codespaces, :set_codespaces_access},
+      url: "/orgs/#{org}/codespaces/access",
       body: body,
       method: :put,
       request: [{"application/json", :map}],
@@ -1174,21 +1175,21 @@ defmodule GitHub.Codespaces do
   end
 
   @doc """
-  Add users to Codespaces billing for an organization
+  Add users to Codespaces access for an organization
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#set-codespaces-billing-users)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organizations#add-users-to-codespaces-access-for-an-organization)
 
   """
-  @spec set_codespaces_billing_users(String.t(), map, keyword) :: :ok | {:error, GitHub.Error.t()}
-  def set_codespaces_billing_users(org, body, opts \\ []) do
+  @spec set_codespaces_access_users(String.t(), map, keyword) :: :ok | {:error, GitHub.Error.t()}
+  def set_codespaces_access_users(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [org: org, body: body],
-      call: {GitHub.Codespaces, :set_codespaces_billing_users},
-      url: "/orgs/#{org}/codespaces/billing/selected_users",
+      call: {GitHub.Codespaces, :set_codespaces_access_users},
+      url: "/orgs/#{org}/codespaces/access/selected_users",
       body: body,
       method: :post,
       request: [{"application/json", :map}],
@@ -1209,7 +1210,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#set-selected-repositories-for-a-user-secret)
+    * [API method documentation](https://docs.github.com/rest/codespaces/secrets#set-selected-repositories-for-a-user-secret)
 
   """
   @spec set_repositories_for_secret_for_authenticated_user(String.t(), map, keyword) ::
@@ -1240,7 +1241,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#set-selected-repositories-for-an-organization-secret)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organization-secrets#set-selected-repositories-for-an-organization-secret)
 
   """
   @spec set_selected_repos_for_org_secret(String.t(), String.t(), map, keyword) ::
@@ -1265,7 +1266,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#start-a-codespace-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/codespaces/codespaces#start-a-codespace-for-the-authenticated-user)
 
   """
   @spec start_for_authenticated_user(String.t(), keyword) ::
@@ -1298,7 +1299,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#stop-a-codespace-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/codespaces/codespaces#stop-a-codespace-for-the-authenticated-user)
 
   """
   @spec stop_for_authenticated_user(String.t(), keyword) ::
@@ -1327,7 +1328,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces)
+    * [API method documentation](https://docs.github.com/rest/codespaces/organizations#stop-a-codespace-for-an-organization-user)
 
   """
   @spec stop_in_organization(String.t(), String.t(), String.t(), keyword) ::
@@ -1357,7 +1358,7 @@ defmodule GitHub.Codespaces do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codespaces#update-a-codespace-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/codespaces/codespaces#update-a-codespace-for-the-authenticated-user)
 
   """
   @spec update_for_authenticated_user(String.t(), map, keyword) ::

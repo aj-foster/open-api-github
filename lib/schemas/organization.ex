@@ -6,6 +6,7 @@ defmodule GitHub.Organization do
   @type full :: %__MODULE__{
           __info__: map,
           advanced_security_enabled_for_new_repositories: boolean | nil,
+          archived_at: String.t() | nil,
           avatar_url: String.t(),
           billing_email: String.t() | nil,
           blog: String.t() | nil,
@@ -82,6 +83,7 @@ defmodule GitHub.Organization do
   defstruct [
     :__info__,
     :advanced_security_enabled_for_new_repositories,
+    :archived_at,
     :avatar_url,
     :billing_email,
     :blog,
@@ -144,6 +146,7 @@ defmodule GitHub.Organization do
   def __fields__(:full) do
     [
       advanced_security_enabled_for_new_repositories: :boolean,
+      archived_at: {:nullable, :string},
       avatar_url: :string,
       billing_email: {:nullable, :string},
       blog: :string,

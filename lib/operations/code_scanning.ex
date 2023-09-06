@@ -14,7 +14,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#delete-a-code-scanning-analysis-from-a-repository)
+    * [API method documentation](https://docs.github.com/rest/code-scanning/code-scanning#delete-a-code-scanning-analysis-from-a-repository)
 
   """
   @spec delete_analysis(String.t(), String.t(), integer, keyword) ::
@@ -45,7 +45,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#get-a-code-scanning-alert)
+    * [API method documentation](https://docs.github.com/rest/code-scanning/code-scanning#get-a-code-scanning-alert)
 
   """
   @spec get_alert(String.t(), String.t(), integer, keyword) ::
@@ -74,7 +74,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#get-a-code-scanning-analysis-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/code-scanning/code-scanning#get-a-code-scanning-analysis-for-a-repository)
 
   """
   @spec get_analysis(String.t(), String.t(), integer, keyword) ::
@@ -102,7 +102,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#get-a-codeql-database-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/code-scanning/code-scanning#get-a-codeql-database-for-a-repository)
 
   """
   @spec get_codeql_database(String.t(), String.t(), String.t(), keyword) ::
@@ -131,7 +131,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/code-scanning#get-a-code-scanning-default-setup-configuration)
+    * [API method documentation](https://docs.github.com/rest/code-scanning/code-scanning#get-a-code-scanning-default-setup-configuration)
 
   """
   @spec get_default_setup(String.t(), String.t(), keyword) ::
@@ -159,7 +159,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#get-information-about-a-sarif-upload)
+    * [API method documentation](https://docs.github.com/rest/code-scanning/code-scanning#get-information-about-a-sarif-upload)
 
   """
   @spec get_sarif(String.t(), String.t(), String.t(), keyword) ::
@@ -193,7 +193,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-instances-of-a-code-scanning-alert)
+    * [API method documentation](https://docs.github.com/rest/code-scanning/code-scanning#list-instances-of-a-code-scanning-alert)
 
   """
   @spec list_alert_instances(String.t(), String.t(), integer, keyword) ::
@@ -236,7 +236,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-code-scanning-alerts-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/code-scanning/code-scanning#list-code-scanning-alerts-for-an-organization)
 
   """
   @spec list_alerts_for_org(String.t(), keyword) ::
@@ -290,7 +290,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-code-scanning-alerts-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/code-scanning/code-scanning#list-code-scanning-alerts-for-a-repository)
 
   """
   @spec list_alerts_for_repo(String.t(), String.t(), keyword) ::
@@ -333,7 +333,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-codeql-databases-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/code-scanning/code-scanning#list-codeql-databases-for-a-repository)
 
   """
   @spec list_codeql_databases(String.t(), String.t(), keyword) ::
@@ -372,7 +372,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#list-code-scanning-analyses-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/code-scanning/code-scanning#list-code-scanning-analyses-for-a-repository)
 
   """
   @spec list_recent_analyses(String.t(), String.t(), keyword) ::
@@ -413,7 +413,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#update-a-code-scanning-alert)
+    * [API method documentation](https://docs.github.com/rest/code-scanning/code-scanning#update-a-code-scanning-alert)
 
   """
   @spec update_alert(String.t(), String.t(), integer, map, keyword) ::
@@ -443,7 +443,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/code-scanning#update-a-code-scanning-default-setup-configuration)
+    * [API method documentation](https://docs.github.com/rest/code-scanning/code-scanning#update-a-code-scanning-default-setup-configuration)
 
   """
   @spec update_default_setup(
@@ -481,7 +481,7 @@ defmodule GitHub.CodeScanning do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/code-scanning#upload-an-analysis-as-sarif-data)
+    * [API method documentation](https://docs.github.com/rest/code-scanning/code-scanning#upload-an-analysis-as-sarif-data)
 
   """
   @spec upload_sarif(String.t(), String.t(), map, keyword) ::

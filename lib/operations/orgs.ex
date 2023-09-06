@@ -10,7 +10,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#add-a-security-manager-team)
+    * [API method documentation](https://docs.github.com/rest/orgs/security-managers#add-a-security-manager-team)
 
   """
   @spec add_security_manager_team(String.t(), String.t(), keyword) ::
@@ -33,7 +33,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#block-a-user-from-an-organization)
+    * [API method documentation](https://docs.github.com/rest/orgs/blocking#block-a-user-from-an-organization)
 
   """
   @spec block_user(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -55,7 +55,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#cancel-an-organization-invitation)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#cancel-an-organization-invitation)
 
   """
   @spec cancel_invitation(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -77,7 +77,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#check-if-a-user-is-blocked-by-an-organization)
+    * [API method documentation](https://docs.github.com/rest/orgs/blocking#check-if-a-user-is-blocked-by-an-organization)
 
   """
   @spec check_blocked_user(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -99,7 +99,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#check-organization-membership-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#check-organization-membership-for-a-user)
 
   """
   @spec check_membership_for_user(String.t(), String.t(), keyword) ::
@@ -122,7 +122,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#check-public-organization-membership-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#check-public-organization-membership-for-a-user)
 
   """
   @spec check_public_membership_for_user(String.t(), String.t(), keyword) ::
@@ -145,7 +145,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#convert-an-organization-member-to-outside-collaborator)
+    * [API method documentation](https://docs.github.com/rest/orgs/outside-collaborators#convert-an-organization-member-to-outside-collaborator)
 
   """
   @spec convert_member_to_outside_collaborator(String.t(), String.t(), map, keyword) ::
@@ -170,7 +170,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#create-an-organization-invitation)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#create-an-organization-invitation)
 
   """
   @spec create_invitation(String.t(), map, keyword) ::
@@ -199,7 +199,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#create-an-organization-webhook)
+    * [API method documentation](https://docs.github.com/rest/orgs/webhooks#create-an-organization-webhook)
 
   """
   @spec create_webhook(String.t(), map, keyword) ::
@@ -228,7 +228,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/orgs/orgs/#delete-an-organization)
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#delete-an-organization)
 
   """
   @spec delete(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
@@ -250,7 +250,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#delete-an-organization-webhook)
+    * [API method documentation](https://docs.github.com/rest/orgs/webhooks#delete-an-organization-webhook)
 
   """
   @spec delete_webhook(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -272,28 +272,32 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#enable-or-disable-security-product-on-all-org-repos)
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#enable-or-disable-a-security-feature-for-an-organization)
 
   """
   @spec enable_or_disable_security_product_on_all_org_repos(
           String.t(),
           String.t(),
           String.t(),
+          map,
           keyword
         ) :: :ok | {:error, GitHub.Error.t()}
   def enable_or_disable_security_product_on_all_org_repos(
         org,
         security_product,
         enablement,
+        body,
         opts \\ []
       ) do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [org: org, security_product: security_product, enablement: enablement],
+      args: [org: org, security_product: security_product, enablement: enablement, body: body],
       call: {GitHub.Orgs, :enable_or_disable_security_product_on_all_org_repos},
       url: "/orgs/#{org}/#{security_product}/#{enablement}",
+      body: body,
       method: :post,
+      request: [{"application/json", :map}],
       response: [{204, nil}, {422, nil}],
       opts: opts
     })
@@ -304,7 +308,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#get-an-organization)
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#get-an-organization)
 
   """
   @spec get(String.t(), keyword) :: {:ok, GitHub.Organization.full()} | {:error, GitHub.Error.t()}
@@ -326,7 +330,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#get-an-organization-membership-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#get-an-organization-membership-for-the-authenticated-user)
 
   """
   @spec get_membership_for_authenticated_user(String.t(), keyword) ::
@@ -353,7 +357,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#get-organization-membership-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#get-organization-membership-for-a-user)
 
   """
   @spec get_membership_for_user(String.t(), String.t(), keyword) ::
@@ -380,7 +384,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#get-an-organization-webhook)
+    * [API method documentation](https://docs.github.com/rest/orgs/webhooks#get-an-organization-webhook)
 
   """
   @spec get_webhook(String.t(), integer, keyword) ::
@@ -403,7 +407,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#get-a-webhook-configuration-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/orgs/webhooks#get-a-webhook-configuration-for-an-organization)
 
   """
   @spec get_webhook_config_for_org(String.t(), integer, keyword) ::
@@ -426,7 +430,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#get-a-webhook-delivery-for-an-organization-webhook)
+    * [API method documentation](https://docs.github.com/rest/orgs/webhooks#get-a-webhook-delivery-for-an-organization-webhook)
 
   """
   @spec get_webhook_delivery(String.t(), integer, integer, keyword) ::
@@ -458,7 +462,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-organizations)
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#list-organizations)
 
   """
   @spec list(keyword) :: {:ok, [GitHub.Organization.simple()]} | {:error, GitHub.Error.t()}
@@ -486,7 +490,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-app-installations-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#list-app-installations-for-an-organization)
 
   """
   @spec list_app_installations(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
@@ -515,7 +519,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-users-blocked-by-an-organization)
+    * [API method documentation](https://docs.github.com/rest/orgs/blocking#list-users-blocked-by-an-organization)
 
   """
   @spec list_blocked_users(String.t(), keyword) ::
@@ -545,7 +549,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-failed-organization-invitations)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#list-failed-organization-invitations)
 
   """
   @spec list_failed_invitations(String.t(), keyword) ::
@@ -578,7 +582,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-organizations-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#list-organizations-for-the-authenticated-user)
 
   """
   @spec list_for_authenticated_user(keyword) ::
@@ -612,7 +616,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-organizations-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#list-organizations-for-a-user)
 
   """
   @spec list_for_user(String.t(), keyword) ::
@@ -642,7 +646,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-organization-invitation-teams)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#list-organization-invitation-teams)
 
   """
   @spec list_invitation_teams(String.t(), integer, keyword) ::
@@ -674,7 +678,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-organization-members)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#list-organization-members)
 
   """
   @spec list_members(String.t(), keyword) ::
@@ -705,7 +709,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-organization-memberships-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#list-organization-memberships-for-the-authenticated-user)
 
   """
   @spec list_memberships_for_authenticated_user(keyword) ::
@@ -741,7 +745,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-outside-collaborators-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/orgs/outside-collaborators#list-outside-collaborators-for-an-organization)
 
   """
   @spec list_outside_collaborators(String.t(), keyword) ::
@@ -771,7 +775,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/orgs/orgs#list-repositories-a-fine-grained-personal-access-token-has-access-to)
+    * [API method documentation](https://docs.github.com/rest/orgs/personal-access-tokens#list-repositories-a-fine-grained-personal-access-token-has-access-to)
 
   """
   @spec list_pat_grant_repositories(String.t(), integer, keyword) ::
@@ -783,7 +787,7 @@ defmodule GitHub.Orgs do
     client.request(%{
       args: [org: org, pat_id: pat_id],
       call: {GitHub.Orgs, :list_pat_grant_repositories},
-      url: "/organizations/#{org}/personal-access-tokens/#{pat_id}/repositories",
+      url: "/orgs/#{org}/personal-access-tokens/#{pat_id}/repositories",
       method: :get,
       query: query,
       response: [
@@ -806,7 +810,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/orgs/orgs#list-repositories-requested-to-be-accessed-by-a-fine-grained-personal-access-token)
+    * [API method documentation](https://docs.github.com/rest/orgs/personal-access-tokens#list-repositories-requested-to-be-accessed-by-a-fine-grained-personal-access-token)
 
   """
   @spec list_pat_grant_request_repositories(String.t(), integer, keyword) ::
@@ -818,7 +822,7 @@ defmodule GitHub.Orgs do
     client.request(%{
       args: [org: org, pat_request_id: pat_request_id],
       call: {GitHub.Orgs, :list_pat_grant_request_repositories},
-      url: "/organizations/#{org}/personal-access-token-requests/#{pat_request_id}/repositories",
+      url: "/orgs/#{org}/personal-access-token-requests/#{pat_request_id}/repositories",
       method: :get,
       query: query,
       response: [
@@ -848,7 +852,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/orgs/orgs#list-requests-to-access-organization-resources-with-fine-grained-personal-access-tokens)
+    * [API method documentation](https://docs.github.com/rest/orgs/personal-access-tokens#list-requests-to-access-organization-resources-with-fine-grained-personal-access-tokens)
 
   """
   @spec list_pat_grant_requests(String.t(), keyword) ::
@@ -873,7 +877,7 @@ defmodule GitHub.Orgs do
     client.request(%{
       args: [org: org],
       call: {GitHub.Orgs, :list_pat_grant_requests},
-      url: "/organizations/#{org}/personal-access-token-requests",
+      url: "/orgs/#{org}/personal-access-token-requests",
       method: :get,
       query: query,
       response: [
@@ -904,7 +908,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/orgs/orgs#list-fine-grained-personal-access-tokens-with-access-to-organization-resources)
+    * [API method documentation](https://docs.github.com/rest/orgs/personal-access-tokens#list-fine-grained-personal-access-tokens-with-access-to-organization-resources)
 
   """
   @spec list_pat_grants(String.t(), keyword) ::
@@ -928,7 +932,7 @@ defmodule GitHub.Orgs do
     client.request(%{
       args: [org: org],
       call: {GitHub.Orgs, :list_pat_grants},
-      url: "/organizations/#{org}/personal-access-tokens",
+      url: "/orgs/#{org}/personal-access-tokens",
       method: :get,
       query: query,
       response: [
@@ -954,7 +958,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-pending-organization-invitations)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#list-pending-organization-invitations)
 
   """
   @spec list_pending_invitations(String.t(), keyword) ::
@@ -987,7 +991,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-public-organization-members)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#list-public-organization-members)
 
   """
   @spec list_public_members(String.t(), keyword) ::
@@ -1012,7 +1016,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-security-manager-teams)
+    * [API method documentation](https://docs.github.com/rest/orgs/security-managers#list-security-manager-teams)
 
   """
   @spec list_security_manager_teams(String.t(), keyword) ::
@@ -1041,7 +1045,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-deliveries-for-an-organization-webhook)
+    * [API method documentation](https://docs.github.com/rest/orgs/webhooks#list-deliveries-for-an-organization-webhook)
 
   """
   @spec list_webhook_deliveries(String.t(), integer, keyword) ::
@@ -1075,7 +1079,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#list-organization-webhooks)
+    * [API method documentation](https://docs.github.com/rest/orgs/webhooks#list-organization-webhooks)
 
   """
   @spec list_webhooks(String.t(), keyword) ::
@@ -1100,7 +1104,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#ping-an-organization-webhook)
+    * [API method documentation](https://docs.github.com/rest/orgs/webhooks#ping-an-organization-webhook)
 
   """
   @spec ping_webhook(String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -1122,7 +1126,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#redeliver-a-delivery-for-an-organization-webhook)
+    * [API method documentation](https://docs.github.com/rest/orgs/webhooks#redeliver-a-delivery-for-an-organization-webhook)
 
   """
   @spec redeliver_webhook_delivery(String.t(), integer, integer, keyword) ::
@@ -1145,7 +1149,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#remove-an-organization-member)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#remove-an-organization-member)
 
   """
   @spec remove_member(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -1167,7 +1171,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#remove-organization-membership-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#remove-organization-membership-for-a-user)
 
   """
   @spec remove_membership_for_user(String.t(), String.t(), keyword) ::
@@ -1190,7 +1194,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#remove-outside-collaborator-from-an-organization)
+    * [API method documentation](https://docs.github.com/rest/orgs/outside-collaborators#remove-outside-collaborator-from-an-organization)
 
   """
   @spec remove_outside_collaborator(String.t(), String.t(), keyword) ::
@@ -1213,7 +1217,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#remove-public-organization-membership-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#remove-public-organization-membership-for-the-authenticated-user)
 
   """
   @spec remove_public_membership_for_authenticated_user(String.t(), String.t(), keyword) ::
@@ -1236,7 +1240,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#remove-a-security-manager-team)
+    * [API method documentation](https://docs.github.com/rest/orgs/security-managers#remove-a-security-manager-team)
 
   """
   @spec remove_security_manager_team(String.t(), String.t(), keyword) ::
@@ -1259,7 +1263,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/orgs/orgs#review-a-request-to-access-organization-resources-with-a-fine-grained-personal-access-token)
+    * [API method documentation](https://docs.github.com/rest/orgs/personal-access-tokens#review-a-request-to-access-organization-resources-with-a-fine-grained-personal-access-token)
 
   """
   @spec review_pat_grant_request(String.t(), integer, map, keyword) ::
@@ -1270,7 +1274,7 @@ defmodule GitHub.Orgs do
     client.request(%{
       args: [org: org, pat_request_id: pat_request_id, body: body],
       call: {GitHub.Orgs, :review_pat_grant_request},
-      url: "/organizations/#{org}/personal-access-token-requests/#{pat_request_id}",
+      url: "/orgs/#{org}/personal-access-token-requests/#{pat_request_id}",
       body: body,
       method: :post,
       request: [{"application/json", :map}],
@@ -1290,7 +1294,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/orgs/orgs#review-requests-to-access-organization-resources-with-a-fine-grained-personal-access-token)
+    * [API method documentation](https://docs.github.com/rest/orgs/personal-access-tokens#review-requests-to-access-organization-resources-with-fine-grained-personal-access-tokens)
 
   """
   @spec review_pat_grant_requests_in_bulk(String.t(), map, keyword) ::
@@ -1301,7 +1305,7 @@ defmodule GitHub.Orgs do
     client.request(%{
       args: [org: org, body: body],
       call: {GitHub.Orgs, :review_pat_grant_requests_in_bulk},
-      url: "/organizations/#{org}/personal-access-token-requests",
+      url: "/orgs/#{org}/personal-access-token-requests",
       body: body,
       method: :post,
       request: [{"application/json", :map}],
@@ -1321,7 +1325,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#set-organization-membership-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#set-organization-membership-for-a-user)
 
   """
   @spec set_membership_for_user(String.t(), String.t(), map, keyword) ::
@@ -1350,7 +1354,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#set-public-organization-membership-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#set-public-organization-membership-for-the-authenticated-user)
 
   """
   @spec set_public_membership_for_authenticated_user(String.t(), String.t(), keyword) ::
@@ -1373,7 +1377,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#unblock-a-user-from-an-organization)
+    * [API method documentation](https://docs.github.com/rest/orgs/blocking#unblock-a-user-from-an-organization)
 
   """
   @spec unblock_user(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -1395,7 +1399,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#update-an-organization)
+    * [API method documentation](https://docs.github.com/rest/orgs/orgs#update-an-organization)
 
   """
   @spec update(String.t(), map, keyword) ::
@@ -1424,7 +1428,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#update-an-organization-membership-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/orgs/members#update-an-organization-membership-for-the-authenticated-user)
 
   """
   @spec update_membership_for_authenticated_user(String.t(), map, keyword) ::
@@ -1454,7 +1458,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/orgs/orgs#update-the-access-a-fine-grained-personal-access-token-has-to-organization-resources)
+    * [API method documentation](https://docs.github.com/rest/orgs/personal-access-tokens#update-the-access-a-fine-grained-personal-access-token-has-to-organization-resources)
 
   """
   @spec update_pat_access(String.t(), integer, map, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -1464,7 +1468,7 @@ defmodule GitHub.Orgs do
     client.request(%{
       args: [org: org, pat_id: pat_id, body: body],
       call: {GitHub.Orgs, :update_pat_access},
-      url: "/organizations/#{org}/personal-access-tokens/#{pat_id}",
+      url: "/orgs/#{org}/personal-access-tokens/#{pat_id}",
       body: body,
       method: :post,
       request: [{"application/json", :map}],
@@ -1484,7 +1488,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/orgs/orgs#update-the-access-to-organization-resources-via-fine-grained-personal-access-tokens)
+    * [API method documentation](https://docs.github.com/rest/orgs/personal-access-tokens#update-the-access-to-organization-resources-via-fine-grained-personal-access-tokens)
 
   """
   @spec update_pat_accesses(String.t(), map, keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
@@ -1494,7 +1498,7 @@ defmodule GitHub.Orgs do
     client.request(%{
       args: [org: org, body: body],
       call: {GitHub.Orgs, :update_pat_accesses},
-      url: "/organizations/#{org}/personal-access-tokens",
+      url: "/orgs/#{org}/personal-access-tokens",
       body: body,
       method: :post,
       request: [{"application/json", :map}],
@@ -1514,7 +1518,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#update-an-organization-webhook)
+    * [API method documentation](https://docs.github.com/rest/orgs/webhooks#update-an-organization-webhook)
 
   """
   @spec update_webhook(String.t(), integer, map, keyword) ::
@@ -1543,7 +1547,7 @@ defmodule GitHub.Orgs do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/orgs#update-a-webhook-configuration-for-an-organization)
+    * [API method documentation](https://docs.github.com/rest/orgs/webhooks#update-a-webhook-configuration-for-an-organization)
 
   """
   @spec update_webhook_config_for_org(String.t(), integer, map, keyword) ::

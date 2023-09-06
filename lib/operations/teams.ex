@@ -10,7 +10,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#add-team-member-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/members#add-team-member-legacy)
 
   """
   @spec add_member_legacy(integer, String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -32,7 +32,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#add-or-update-team-membership-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/teams/members#add-or-update-team-membership-for-a-user)
 
   """
   @spec add_or_update_membership_for_user_in_org(String.t(), String.t(), String.t(), map, keyword) ::
@@ -57,7 +57,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#add-or-update-team-membership-for-a-user-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/members#add-or-update-team-membership-for-a-user-legacy)
 
   """
   @spec add_or_update_membership_for_user_legacy(integer, String.t(), map, keyword) ::
@@ -87,7 +87,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#add-or-update-team-project-permissions)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#add-or-update-team-project-permissions)
 
   """
   @spec add_or_update_project_permissions_in_org(
@@ -117,7 +117,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams/#add-or-update-team-project-permissions-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#add-or-update-team-project-permissions-legacy)
 
   """
   @spec add_or_update_project_permissions_legacy(integer, integer, map, keyword) ::
@@ -147,7 +147,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams/#add-or-update-team-repository-permissions)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#add-or-update-team-repository-permissions)
 
   """
   @spec add_or_update_repo_permissions_in_org(
@@ -178,7 +178,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#add-or-update-team-repository-permissions-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#add-or-update-team-repository-permissions-legacy)
 
   """
   @spec add_or_update_repo_permissions_legacy(integer, String.t(), String.t(), map, keyword) ::
@@ -203,7 +203,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#check-team-permissions-for-a-project)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#check-team-permissions-for-a-project)
 
   """
   @spec check_permissions_for_project_in_org(String.t(), String.t(), integer, keyword) ::
@@ -226,7 +226,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams/#check-team-permissions-for-a-project-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#check-team-permissions-for-a-project-legacy)
 
   """
   @spec check_permissions_for_project_legacy(integer, integer, keyword) ::
@@ -249,7 +249,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams/#check-team-permissions-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#check-team-permissions-for-a-repository)
 
   """
   @spec check_permissions_for_repo_in_org(String.t(), String.t(), String.t(), String.t(), keyword) ::
@@ -272,7 +272,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams/#check-team-permissions-for-a-repository-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#check-team-permissions-for-a-repository-legacy)
 
   """
   @spec check_permissions_for_repo_legacy(integer, String.t(), String.t(), keyword) ::
@@ -295,7 +295,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#create-a-team)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#create-a-team)
 
   """
   @spec create(String.t(), map, keyword) :: {:ok, GitHub.Team.full()} | {:error, GitHub.Error.t()}
@@ -323,7 +323,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#create-a-discussion-comment)
+    * [API method documentation](https://docs.github.com/rest/teams/discussion-comments#create-a-discussion-comment)
 
   """
   @spec create_discussion_comment_in_org(String.t(), String.t(), integer, map, keyword) ::
@@ -348,7 +348,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#create-a-discussion-comment-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/discussion-comments#create-a-discussion-comment-legacy)
 
   """
   @spec create_discussion_comment_legacy(integer, integer, map, keyword) ::
@@ -373,7 +373,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#create-a-discussion)
+    * [API method documentation](https://docs.github.com/rest/teams/discussions#create-a-discussion)
 
   """
   @spec create_discussion_in_org(String.t(), String.t(), map, keyword) ::
@@ -398,7 +398,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#create-a-discussion-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/discussions#create-a-discussion-legacy)
 
   """
   @spec create_discussion_legacy(integer, map, keyword) ::
@@ -423,7 +423,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#delete-a-discussion-comment)
+    * [API method documentation](https://docs.github.com/rest/teams/discussion-comments#delete-a-discussion-comment)
 
   """
   @spec delete_discussion_comment_in_org(String.t(), String.t(), integer, integer, keyword) ::
@@ -458,7 +458,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#delete-a-discussion-comment-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/discussion-comments#delete-a-discussion-comment-legacy)
 
   """
   @spec delete_discussion_comment_legacy(integer, integer, integer, keyword) ::
@@ -485,7 +485,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#delete-a-discussion)
+    * [API method documentation](https://docs.github.com/rest/teams/discussions#delete-a-discussion)
 
   """
   @spec delete_discussion_in_org(String.t(), String.t(), integer, keyword) ::
@@ -508,7 +508,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#delete-a-discussion-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/discussions#delete-a-discussion-legacy)
 
   """
   @spec delete_discussion_legacy(integer, integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -530,7 +530,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#delete-a-team)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#delete-a-team)
 
   """
   @spec delete_in_org(String.t(), String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -552,7 +552,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams/#delete-a-team-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#delete-a-team-legacy)
 
   """
   @spec delete_legacy(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -574,7 +574,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#get-a-team-by-name)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#get-a-team-by-name)
 
   """
   @spec get_by_name(String.t(), String.t(), keyword) ::
@@ -597,7 +597,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#get-a-discussion-comment)
+    * [API method documentation](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment)
 
   """
   @spec get_discussion_comment_in_org(String.t(), String.t(), integer, integer, keyword) ::
@@ -626,7 +626,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#get-a-discussion-comment-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment-legacy)
 
   """
   @spec get_discussion_comment_legacy(integer, integer, integer, keyword) ::
@@ -653,7 +653,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#get-a-discussion)
+    * [API method documentation](https://docs.github.com/rest/teams/discussions#get-a-discussion)
 
   """
   @spec get_discussion_in_org(String.t(), String.t(), integer, keyword) ::
@@ -676,7 +676,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#get-a-discussion-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/discussions#get-a-discussion-legacy)
 
   """
   @spec get_discussion_legacy(integer, integer, keyword) ::
@@ -699,7 +699,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams/#get-a-team-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#get-a-team-legacy)
 
   """
   @spec get_legacy(integer, keyword) :: {:ok, GitHub.Team.full()} | {:error, GitHub.Error.t()}
@@ -721,7 +721,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#get-team-member-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/members#get-team-member-legacy)
 
   """
   @spec get_member_legacy(integer, String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -743,7 +743,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#get-team-membership-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/teams/members#get-team-membership-for-a-user)
 
   """
   @spec get_membership_for_user_in_org(String.t(), String.t(), String.t(), keyword) ::
@@ -766,7 +766,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#get-team-membership-for-a-user-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/members#get-team-membership-for-a-user-legacy)
 
   """
   @spec get_membership_for_user_legacy(integer, String.t(), keyword) ::
@@ -794,7 +794,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#list-teams)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#list-teams)
 
   """
   @spec list(String.t(), keyword) :: {:ok, [GitHub.Team.t()]} | {:error, GitHub.Error.t()}
@@ -823,7 +823,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#list-child-teams)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#list-child-teams)
 
   """
   @spec list_child_in_org(String.t(), String.t(), keyword) ::
@@ -853,7 +853,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams/#list-child-teams-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#list-child-teams-legacy)
 
   """
   @spec list_child_legacy(integer, keyword) ::
@@ -889,7 +889,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#list-discussion-comments)
+    * [API method documentation](https://docs.github.com/rest/teams/discussion-comments#list-discussion-comments)
 
   """
   @spec list_discussion_comments_in_org(String.t(), String.t(), integer, keyword) ::
@@ -920,7 +920,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#list-discussion-comments-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/discussion-comments#list-discussion-comments-legacy)
 
   """
   @spec list_discussion_comments_legacy(integer, integer, keyword) ::
@@ -952,7 +952,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#list-discussions)
+    * [API method documentation](https://docs.github.com/rest/teams/discussions#list-discussions)
 
   """
   @spec list_discussions_in_org(String.t(), String.t(), keyword) ::
@@ -983,7 +983,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#list-discussions-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/discussions#list-discussions-legacy)
 
   """
   @spec list_discussions_legacy(integer, keyword) ::
@@ -1013,7 +1013,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#list-teams-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#list-teams-for-the-authenticated-user)
 
   """
   @spec list_for_authenticated_user(keyword) ::
@@ -1048,7 +1048,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#list-team-members)
+    * [API method documentation](https://docs.github.com/rest/teams/members#list-team-members)
 
   """
   @spec list_members_in_org(String.t(), String.t(), keyword) ::
@@ -1079,7 +1079,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#list-team-members-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/members#list-team-members-legacy)
 
   """
   @spec list_members_legacy(integer, keyword) ::
@@ -1109,7 +1109,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#list-pending-team-invitations)
+    * [API method documentation](https://docs.github.com/rest/teams/members#list-pending-team-invitations)
 
   """
   @spec list_pending_invitations_in_org(String.t(), String.t(), keyword) ::
@@ -1139,7 +1139,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#list-pending-team-invitations-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/members#list-pending-team-invitations-legacy)
 
   """
   @spec list_pending_invitations_legacy(integer, keyword) ::
@@ -1169,7 +1169,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#list-team-projects)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#list-team-projects)
 
   """
   @spec list_projects_in_org(String.t(), String.t(), keyword) ::
@@ -1199,7 +1199,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams/#list-team-projects-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#list-team-projects-legacy)
 
   """
   @spec list_projects_legacy(integer, keyword) ::
@@ -1229,7 +1229,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#list-team-repositories)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#list-team-repositories)
 
   """
   @spec list_repos_in_org(String.t(), String.t(), keyword) ::
@@ -1259,7 +1259,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams/#list-team-repositories-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#list-team-repositories-legacy)
 
   """
   @spec list_repos_legacy(integer, keyword) ::
@@ -1284,7 +1284,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#remove-team-member-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/members#remove-team-member-legacy)
 
   """
   @spec remove_member_legacy(integer, String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -1306,7 +1306,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#remove-team-membership-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/teams/members#remove-team-membership-for-a-user)
 
   """
   @spec remove_membership_for_user_in_org(String.t(), String.t(), String.t(), keyword) ::
@@ -1329,7 +1329,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#remove-team-membership-for-a-user-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/members#remove-team-membership-for-a-user-legacy)
 
   """
   @spec remove_membership_for_user_legacy(integer, String.t(), keyword) ::
@@ -1352,7 +1352,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#remove-a-project-from-a-team)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#remove-a-project-from-a-team)
 
   """
   @spec remove_project_in_org(String.t(), String.t(), integer, keyword) ::
@@ -1375,7 +1375,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams/#remove-a-project-from-a-team-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#remove-a-project-from-a-team-legacy)
 
   """
   @spec remove_project_legacy(integer, integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -1397,7 +1397,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams/#remove-a-repository-from-a-team)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#remove-a-repository-from-a-team)
 
   """
   @spec remove_repo_in_org(String.t(), String.t(), String.t(), String.t(), keyword) ::
@@ -1420,7 +1420,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams/#remove-a-repository-from-a-team-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#remove-a-repository-from-a-team-legacy)
 
   """
   @spec remove_repo_legacy(integer, String.t(), String.t(), keyword) ::
@@ -1443,7 +1443,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#update-a-discussion-comment)
+    * [API method documentation](https://docs.github.com/rest/teams/discussion-comments#update-a-discussion-comment)
 
   """
   @spec update_discussion_comment_in_org(String.t(), String.t(), integer, integer, map, keyword) ::
@@ -1482,7 +1482,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#update-a-discussion-comment-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/discussion-comments#update-a-discussion-comment-legacy)
 
   """
   @spec update_discussion_comment_legacy(integer, integer, integer, map, keyword) ::
@@ -1518,7 +1518,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#update-a-discussion)
+    * [API method documentation](https://docs.github.com/rest/teams/discussions#update-a-discussion)
 
   """
   @spec update_discussion_in_org(String.t(), String.t(), integer, map, keyword) ::
@@ -1543,7 +1543,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#update-a-discussion-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/discussions#update-a-discussion-legacy)
 
   """
   @spec update_discussion_legacy(integer, integer, map, keyword) ::
@@ -1568,7 +1568,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams#update-a-team)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#update-a-team)
 
   """
   @spec update_in_org(String.t(), String.t(), map, keyword) ::
@@ -1599,7 +1599,7 @@ defmodule GitHub.Teams do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/teams/#update-a-team-legacy)
+    * [API method documentation](https://docs.github.com/rest/teams/teams#update-a-team-legacy)
 
   """
   @spec update_legacy(integer, map, keyword) ::

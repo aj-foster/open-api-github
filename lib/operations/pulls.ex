@@ -10,7 +10,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#check-if-a-pull-request-has-been-merged)
+    * [API method documentation](https://docs.github.com/rest/pulls/pulls#check-if-a-pull-request-has-been-merged)
 
   """
   @spec check_if_merged(String.t(), String.t(), integer, keyword) ::
@@ -33,7 +33,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#create-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/pulls#create-a-pull-request)
 
   """
   @spec create(String.t(), String.t(), map, keyword) ::
@@ -62,7 +62,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#create-a-reply-for-a-review-comment)
+    * [API method documentation](https://docs.github.com/rest/pulls/comments#create-a-reply-for-a-review-comment)
 
   """
   @spec create_reply_for_review_comment(String.t(), String.t(), integer, integer, map, keyword) ::
@@ -93,7 +93,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#create-a-review-for-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/reviews#create-a-review-for-a-pull-request)
 
   """
   @spec create_review(String.t(), String.t(), integer, map, keyword) ::
@@ -122,7 +122,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#create-a-review-comment-for-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/comments#create-a-review-comment-for-a-pull-request)
 
   """
   @spec create_review_comment(String.t(), String.t(), integer, map, keyword) ::
@@ -151,7 +151,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#delete-a-pending-review-for-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/reviews#delete-a-pending-review-for-a-pull-request)
 
   """
   @spec delete_pending_review(String.t(), String.t(), integer, integer, keyword) ::
@@ -178,7 +178,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#delete-a-review-comment-for-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/comments#delete-a-review-comment-for-a-pull-request)
 
   """
   @spec delete_review_comment(String.t(), String.t(), integer, keyword) ::
@@ -201,7 +201,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#dismiss-a-review-for-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/reviews#dismiss-a-review-for-a-pull-request)
 
   """
   @spec dismiss_review(String.t(), String.t(), integer, integer, map, keyword) ::
@@ -230,7 +230,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#get-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/pulls#get-a-pull-request)
 
   """
   @spec get(String.t(), String.t(), integer, keyword) ::
@@ -259,7 +259,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#get-a-review-for-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/reviews#get-a-review-for-a-pull-request)
 
   """
   @spec get_review(String.t(), String.t(), integer, integer, keyword) ::
@@ -282,7 +282,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#get-a-review-comment-for-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/comments#get-a-review-comment-for-a-pull-request)
 
   """
   @spec get_review_comment(String.t(), String.t(), integer, keyword) ::
@@ -315,7 +315,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#list-pull-requests)
+    * [API method documentation](https://docs.github.com/rest/pulls/pulls#list-pull-requests)
 
   """
   @spec list(String.t(), String.t(), keyword) ::
@@ -349,7 +349,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#list-comments-for-a-pull-request-review)
+    * [API method documentation](https://docs.github.com/rest/pulls/reviews#list-comments-for-a-pull-request-review)
 
   """
   @spec list_comments_for_review(String.t(), String.t(), integer, integer, keyword) ::
@@ -379,7 +379,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#list-commits-on-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/pulls#list-commits-on-a-pull-request)
 
   """
   @spec list_commits(String.t(), String.t(), integer, keyword) ::
@@ -409,7 +409,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#list-pull-requests-files)
+    * [API method documentation](https://docs.github.com/rest/pulls/pulls#list-pull-requests-files)
 
   """
   @spec list_files(String.t(), String.t(), integer, keyword) ::
@@ -439,7 +439,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#get-all-requested-reviewers-for-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/review-requests#get-all-requested-reviewers-for-a-pull-request)
 
   """
   @spec list_requested_reviewers(String.t(), String.t(), integer, keyword) ::
@@ -464,13 +464,13 @@ defmodule GitHub.Pulls do
 
     * `sort` (String.t()): The property to sort the results by.
     * `direction` (String.t()): The direction to sort results. Ignored without `sort` parameter.
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#list-review-comments-on-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/comments#list-review-comments-on-a-pull-request)
 
   """
   @spec list_review_comments(String.t(), String.t(), integer, keyword) ::
@@ -497,13 +497,13 @@ defmodule GitHub.Pulls do
 
     * `sort` (String.t()): 
     * `direction` (String.t()): The direction to sort results. Ignored without `sort` parameter.
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#list-review-comments-in-a-repository)
+    * [API method documentation](https://docs.github.com/rest/pulls/comments#list-review-comments-in-a-repository)
 
   """
   @spec list_review_comments_for_repo(String.t(), String.t(), keyword) ::
@@ -533,7 +533,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#list-reviews-for-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/reviews#list-reviews-for-a-pull-request)
 
   """
   @spec list_reviews(String.t(), String.t(), integer, keyword) ::
@@ -558,7 +558,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#merge-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/pulls#merge-a-pull-request)
 
   """
   @spec merge(String.t(), String.t(), integer, map | nil, keyword) ::
@@ -590,7 +590,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#remove-requested-reviewers-from-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/review-requests#remove-requested-reviewers-from-a-pull-request)
 
   """
   @spec remove_requested_reviewers(String.t(), String.t(), integer, map, keyword) ::
@@ -615,7 +615,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#request-reviewers-for-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/review-requests#request-reviewers-for-a-pull-request)
 
   """
   @spec request_reviewers(String.t(), String.t(), integer, map, keyword) ::
@@ -640,7 +640,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#submit-a-review-for-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/reviews#submit-a-review-for-a-pull-request)
 
   """
   @spec submit_review(String.t(), String.t(), integer, integer, map, keyword) ::
@@ -670,7 +670,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls/#update-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/pulls#update-a-pull-request)
 
   """
   @spec update(String.t(), String.t(), integer, map, keyword) ::
@@ -699,7 +699,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#update-a-pull-request-branch)
+    * [API method documentation](https://docs.github.com/rest/pulls/pulls#update-a-pull-request-branch)
 
   """
   @spec update_branch(String.t(), String.t(), integer, map | nil, keyword) ::
@@ -724,7 +724,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#update-a-review-for-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/reviews#update-a-review-for-a-pull-request)
 
   """
   @spec update_review(String.t(), String.t(), integer, integer, map, keyword) ::
@@ -749,7 +749,7 @@ defmodule GitHub.Pulls do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/pulls#update-a-review-comment-for-a-pull-request)
+    * [API method documentation](https://docs.github.com/rest/pulls/comments#update-a-review-comment-for-a-pull-request)
 
   """
   @spec update_review_comment(String.t(), String.t(), integer, map, keyword) ::

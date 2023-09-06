@@ -10,7 +10,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-a-commit-comment)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#create-reaction-for-a-commit-comment)
 
   """
   @spec create_for_commit_comment(String.t(), String.t(), integer, map, keyword) ::
@@ -39,7 +39,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-an-issue)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#create-reaction-for-an-issue)
 
   """
   @spec create_for_issue(String.t(), String.t(), integer, map, keyword) ::
@@ -68,7 +68,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-an-issue-comment)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#create-reaction-for-an-issue-comment)
 
   """
   @spec create_for_issue_comment(String.t(), String.t(), integer, map, keyword) ::
@@ -97,7 +97,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-a-pull-request-review-comment)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#create-reaction-for-a-pull-request-review-comment)
 
   """
   @spec create_for_pull_request_review_comment(String.t(), String.t(), integer, map, keyword) ::
@@ -126,7 +126,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions/#create-reaction-for-a-release)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#create-reaction-for-a-release)
 
   """
   @spec create_for_release(String.t(), String.t(), integer, map, keyword) ::
@@ -155,7 +155,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-a-team-discussion-comment)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#create-reaction-for-a-team-discussion-comment)
 
   """
   @spec create_for_team_discussion_comment_in_org(
@@ -200,7 +200,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions/#create-reaction-for-a-team-discussion-comment-legacy)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#create-reaction-for-a-team-discussion-comment-legacy)
 
   """
   @spec create_for_team_discussion_comment_legacy(integer, integer, integer, map, keyword) ::
@@ -237,7 +237,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#create-reaction-for-a-team-discussion)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#create-reaction-for-a-team-discussion)
 
   """
   @spec create_for_team_discussion_in_org(String.t(), String.t(), integer, map, keyword) ::
@@ -262,7 +262,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions/#create-reaction-for-a-team-discussion-legacy)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#create-reaction-for-a-team-discussion-legacy)
 
   """
   @spec create_for_team_discussion_legacy(integer, integer, map, keyword) ::
@@ -287,7 +287,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#delete-a-commit-comment-reaction)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#delete-a-commit-comment-reaction)
 
   """
   @spec delete_for_commit_comment(String.t(), String.t(), integer, integer, keyword) ::
@@ -310,7 +310,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#delete-an-issue-reaction)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#delete-an-issue-reaction)
 
   """
   @spec delete_for_issue(String.t(), String.t(), integer, integer, keyword) ::
@@ -333,7 +333,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#delete-an-issue-comment-reaction)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#delete-an-issue-comment-reaction)
 
   """
   @spec delete_for_issue_comment(String.t(), String.t(), integer, integer, keyword) ::
@@ -356,7 +356,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#delete-a-pull-request-comment-reaction)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#delete-a-pull-request-comment-reaction)
 
   """
   @spec delete_for_pull_request_comment(String.t(), String.t(), integer, integer, keyword) ::
@@ -379,7 +379,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions/#delete-a-release-reaction)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#delete-a-release-reaction)
 
   """
   @spec delete_for_release(String.t(), String.t(), integer, integer, keyword) ::
@@ -402,7 +402,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#delete-team-discussion-reaction)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#delete-team-discussion-reaction)
 
   """
   @spec delete_for_team_discussion(String.t(), String.t(), integer, integer, keyword) ::
@@ -431,7 +431,7 @@ defmodule GitHub.Reactions do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#delete-team-discussion-comment-reaction)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#delete-team-discussion-comment-reaction)
 
   """
   @spec delete_for_team_discussion_comment(
@@ -474,13 +474,13 @@ defmodule GitHub.Reactions do
 
   ## Options
 
-    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a commit comment.
+    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a commit comment.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#list-reactions-for-a-commit-comment)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#list-reactions-for-a-commit-comment)
 
   """
   @spec list_for_commit_comment(String.t(), String.t(), integer, keyword) ::
@@ -505,13 +505,13 @@ defmodule GitHub.Reactions do
 
   ## Options
 
-    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to an issue.
+    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to an issue.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#list-reactions-for-an-issue)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#list-reactions-for-an-issue)
 
   """
   @spec list_for_issue(String.t(), String.t(), integer, keyword) ::
@@ -540,13 +540,13 @@ defmodule GitHub.Reactions do
 
   ## Options
 
-    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to an issue comment.
+    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to an issue comment.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#list-reactions-for-an-issue-comment)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#list-reactions-for-an-issue-comment)
 
   """
   @spec list_for_issue_comment(String.t(), String.t(), integer, keyword) ::
@@ -571,13 +571,13 @@ defmodule GitHub.Reactions do
 
   ## Options
 
-    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a pull request review comment.
+    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a pull request review comment.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#list-reactions-for-a-pull-request-review-comment)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#list-reactions-for-a-pull-request-review-comment)
 
   """
   @spec list_for_pull_request_review_comment(String.t(), String.t(), integer, keyword) ::
@@ -602,13 +602,13 @@ defmodule GitHub.Reactions do
 
   ## Options
 
-    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a release.
+    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a release.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions/#list-reactions-for-a-release)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#list-reactions-for-a-release)
 
   """
   @spec list_for_release(String.t(), String.t(), integer, keyword) ::
@@ -633,13 +633,13 @@ defmodule GitHub.Reactions do
 
   ## Options
 
-    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion comment.
+    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a team discussion comment.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#list-reactions-for-a-team-discussion-comment)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#list-reactions-for-a-team-discussion-comment)
 
   """
   @spec list_for_team_discussion_comment_in_org(String.t(), String.t(), integer, integer, keyword) ::
@@ -676,13 +676,13 @@ defmodule GitHub.Reactions do
 
   ## Options
 
-    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion comment.
+    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a team discussion comment.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions/#list-reactions-for-a-team-discussion-comment-legacy)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#list-reactions-for-a-team-discussion-comment-legacy)
 
   """
   @spec list_for_team_discussion_comment_legacy(integer, integer, integer, keyword) ::
@@ -717,13 +717,13 @@ defmodule GitHub.Reactions do
 
   ## Options
 
-    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion.
+    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a team discussion.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions#list-reactions-for-a-team-discussion)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#list-reactions-for-a-team-discussion)
 
   """
   @spec list_for_team_discussion_in_org(String.t(), String.t(), integer, keyword) ::
@@ -748,13 +748,13 @@ defmodule GitHub.Reactions do
 
   ## Options
 
-    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reference/reactions#reaction-types). Omit this parameter to list all reactions to a team discussion.
+    * `content` (String.t()): Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a team discussion.
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/reactions/#list-reactions-for-a-team-discussion-legacy)
+    * [API method documentation](https://docs.github.com/rest/reactions/reactions#list-reactions-for-a-team-discussion-legacy)
 
   """
   @spec list_for_team_discussion_legacy(integer, integer, keyword) ::

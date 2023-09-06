@@ -10,7 +10,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#add-project-collaborator)
+    * [API method documentation](https://docs.github.com/rest/projects/collaborators#add-project-collaborator)
 
   """
   @spec add_collaborator(integer, String.t(), map | nil, keyword) ::
@@ -42,7 +42,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#create-a-project-card)
+    * [API method documentation](https://docs.github.com/rest/projects/cards#create-a-project-card)
 
   """
   @spec create_card(integer, map, keyword) ::
@@ -74,7 +74,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#create-a-project-column)
+    * [API method documentation](https://docs.github.com/rest/projects/columns#create-a-project-column)
 
   """
   @spec create_column(integer, map, keyword) ::
@@ -105,7 +105,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#create-a-user-project)
+    * [API method documentation](https://docs.github.com/rest/projects/projects#create-a-user-project)
 
   """
   @spec create_for_authenticated_user(map, keyword) ::
@@ -136,7 +136,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#create-an-organization-project)
+    * [API method documentation](https://docs.github.com/rest/projects/projects#create-an-organization-project)
 
   """
   @spec create_for_org(String.t(), map, keyword) ::
@@ -168,7 +168,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#create-a-repository-project)
+    * [API method documentation](https://docs.github.com/rest/projects/projects#create-a-repository-project)
 
   """
   @spec create_for_repo(String.t(), String.t(), map, keyword) ::
@@ -200,7 +200,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#delete-a-project)
+    * [API method documentation](https://docs.github.com/rest/projects/projects#delete-a-project)
 
   """
   @spec delete(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -229,7 +229,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#delete-a-project-card)
+    * [API method documentation](https://docs.github.com/rest/projects/cards#delete-a-project-card)
 
   """
   @spec delete_card(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -257,7 +257,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#delete-a-project-column)
+    * [API method documentation](https://docs.github.com/rest/projects/columns#delete-a-project-column)
 
   """
   @spec delete_column(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -284,7 +284,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#get-a-project)
+    * [API method documentation](https://docs.github.com/rest/projects/projects#get-a-project)
 
   """
   @spec get(integer, keyword) :: {:ok, GitHub.Project.t()} | {:error, GitHub.Error.t()}
@@ -311,7 +311,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#get-a-project-card)
+    * [API method documentation](https://docs.github.com/rest/projects/cards#get-a-project-card)
 
   """
   @spec get_card(integer, keyword) :: {:ok, GitHub.Project.Card.t()} | {:error, GitHub.Error.t()}
@@ -339,7 +339,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#get-a-project-column)
+    * [API method documentation](https://docs.github.com/rest/projects/columns#get-a-project-column)
 
   """
   @spec get_column(integer, keyword) ::
@@ -368,7 +368,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#get-project-permission-for-a-user)
+    * [API method documentation](https://docs.github.com/rest/projects/collaborators#get-project-permission-for-a-user)
 
   """
   @spec get_permission_for_user(integer, String.t(), keyword) ::
@@ -404,7 +404,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#list-project-cards)
+    * [API method documentation](https://docs.github.com/rest/projects/cards#list-project-cards)
 
   """
   @spec list_cards(integer, keyword) ::
@@ -440,7 +440,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#list-project-collaborators)
+    * [API method documentation](https://docs.github.com/rest/projects/collaborators#list-project-collaborators)
 
   """
   @spec list_collaborators(integer, keyword) ::
@@ -477,7 +477,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#list-project-columns)
+    * [API method documentation](https://docs.github.com/rest/projects/columns#list-project-columns)
 
   """
   @spec list_columns(integer, keyword) ::
@@ -513,7 +513,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#list-organization-projects)
+    * [API method documentation](https://docs.github.com/rest/projects/projects#list-organization-projects)
 
   """
   @spec list_for_org(String.t(), keyword) ::
@@ -544,7 +544,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#list-repository-projects)
+    * [API method documentation](https://docs.github.com/rest/projects/projects#list-repository-projects)
 
   """
   @spec list_for_repo(String.t(), String.t(), keyword) ::
@@ -582,7 +582,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#list-user-projects)
+    * [API method documentation](https://docs.github.com/rest/projects/projects#list-user-projects)
 
   """
   @spec list_for_user(String.t(), keyword) ::
@@ -607,7 +607,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#move-a-project-card)
+    * [API method documentation](https://docs.github.com/rest/projects/cards#move-a-project-card)
 
   """
   @spec move_card(integer, map, keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
@@ -638,7 +638,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#move-a-project-column)
+    * [API method documentation](https://docs.github.com/rest/projects/columns#move-a-project-column)
 
   """
   @spec move_column(integer, map, keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
@@ -668,7 +668,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#remove-project-collaborator)
+    * [API method documentation](https://docs.github.com/rest/projects/collaborators#remove-user-as-a-collaborator)
 
   """
   @spec remove_collaborator(integer, String.t(), keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -697,7 +697,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#update-a-project)
+    * [API method documentation](https://docs.github.com/rest/projects/projects#update-a-project)
 
   """
   @spec update(integer, map, keyword) :: {:ok, GitHub.Project.t()} | {:error, GitHub.Error.t()}
@@ -729,7 +729,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#update-a-project-card)
+    * [API method documentation](https://docs.github.com/rest/projects/cards#update-an-existing-project-card)
 
   """
   @spec update_card(integer, map, keyword) ::
@@ -761,7 +761,7 @@ defmodule GitHub.Projects do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/projects#update-a-project-column)
+    * [API method documentation](https://docs.github.com/rest/projects/columns#update-an-existing-project-column)
 
   """
   @spec update_column(integer, map, keyword) ::

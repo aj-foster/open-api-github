@@ -28,7 +28,7 @@ defmodule GitHub.RateLimit do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/rate-limit#get-rate-limit-status-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/rate-limit/rate-limit#get-rate-limit-status-for-the-authenticated-user)
 
   """
   @spec get(keyword) :: {:ok, GitHub.RateLimit.Overview.t()} | {:error, GitHub.Error.t()}

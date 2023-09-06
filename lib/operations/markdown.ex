@@ -10,7 +10,7 @@ defmodule GitHub.Markdown do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/markdown#render-a-markdown-document)
+    * [API method documentation](https://docs.github.com/rest/markdown/markdown#render-a-markdown-document)
 
   """
   @spec render(map, keyword) :: {:ok, binary} | {:error, GitHub.Error.t()}
@@ -34,7 +34,7 @@ defmodule GitHub.Markdown do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/markdown#render-a-markdown-document-in-raw-mode)
+    * [API method documentation](https://docs.github.com/rest/markdown/markdown#render-a-markdown-document-in-raw-mode)
 
   """
   @spec render_raw(String.t(), keyword) :: {:ok, binary} | {:error, GitHub.Error.t()}

@@ -10,7 +10,7 @@ defmodule GitHub.CodesOfConduct do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codes-of-conduct#get-all-codes-of-conduct)
+    * [API method documentation](https://docs.github.com/rest/codes-of-conduct/codes-of-conduct#get-all-codes-of-conduct)
 
   """
   @spec get_all_codes_of_conduct(keyword) ::
@@ -32,7 +32,7 @@ defmodule GitHub.CodesOfConduct do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/codes-of-conduct#get-a-code-of-conduct)
+    * [API method documentation](https://docs.github.com/rest/codes-of-conduct/codes-of-conduct#get-a-code-of-conduct)
 
   """
   @spec get_conduct_code(String.t(), keyword) ::

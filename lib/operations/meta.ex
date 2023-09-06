@@ -10,7 +10,7 @@ defmodule GitHub.Meta do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/meta#get-github-meta-information)
+    * [API method documentation](https://docs.github.com/rest/meta/meta#get-apiname-meta-information)
 
   """
   @spec get(keyword) :: {:ok, GitHub.ApiOverview.t()} | {:error, GitHub.Error.t()}
@@ -31,7 +31,7 @@ defmodule GitHub.Meta do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/meta#get-all-api-versions)
+    * [API method documentation](https://docs.github.com/rest/meta/meta#get-all-api-versions)
 
   """
   @spec get_all_versions(keyword) :: {:ok, [String.t()]} | {:error, GitHub.Error.t()}
@@ -56,7 +56,7 @@ defmodule GitHub.Meta do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/meta#get-octocat)
+    * [API method documentation](https://docs.github.com/rest/meta/meta#get-octocat)
 
   """
   @spec get_octocat(keyword) :: {:ok, binary} | {:error, GitHub.Error.t()}
@@ -79,10 +79,10 @@ defmodule GitHub.Meta do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/meta#get-the-zen-of-github)
+    * [API method documentation](https://docs.github.com/rest/meta/meta#get-the-zen-of-github)
 
   """
-  @spec get_zen(keyword) :: {:ok, binary} | {:error, GitHub.Error.t()}
+  @spec get_zen(keyword) :: {:ok, String.t()} | {:error, GitHub.Error.t()}
   def get_zen(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -90,7 +90,7 @@ defmodule GitHub.Meta do
       call: {GitHub.Meta, :get_zen},
       url: "/zen",
       method: :get,
-      response: [{200, :binary}],
+      response: [{200, :string}],
       opts: opts
     })
   end
@@ -100,7 +100,7 @@ defmodule GitHub.Meta do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/overview/resources-in-the-rest-api#root-endpoint)
+    * [API method documentation](https://docs.github.com/rest/meta/meta#github-api-root)
 
   """
   @spec root(keyword) :: {:ok, GitHub.Root.t()} | {:error, GitHub.Error.t()}

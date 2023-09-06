@@ -10,7 +10,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#add-a-repository-to-an-app-installation)
+    * [API method documentation](https://docs.github.com/rest/apps/installations#add-a-repository-to-an-app-installation)
 
   """
   @spec add_repo_to_installation_for_authenticated_user(integer, integer, keyword) ::
@@ -38,7 +38,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#check-a-token)
+    * [API method documentation](https://docs.github.com/rest/apps/oauth-applications#check-a-token)
 
   """
   @spec check_token(String.t(), map, keyword) ::
@@ -67,7 +67,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#create-a-github-app-from-a-manifest)
+    * [API method documentation](https://docs.github.com/rest/apps/apps#create-a-github-app-from-a-manifest)
 
   """
   @spec create_from_manifest(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
@@ -93,7 +93,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps/#create-an-installation-access-token-for-an-app)
+    * [API method documentation](https://docs.github.com/rest/apps/apps#create-an-installation-access-token-for-an-app)
 
   """
   @spec create_installation_access_token(integer, map, keyword) ::
@@ -124,7 +124,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#delete-an-app-authorization)
+    * [API method documentation](https://docs.github.com/rest/apps/oauth-applications#delete-an-app-authorization)
 
   """
   @spec delete_authorization(String.t(), map, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -148,7 +148,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#delete-an-installation-for-the-authenticated-app)
+    * [API method documentation](https://docs.github.com/rest/apps/apps#delete-an-installation-for-the-authenticated-app)
 
   """
   @spec delete_installation(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -170,7 +170,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#delete-an-app-token)
+    * [API method documentation](https://docs.github.com/rest/apps/oauth-applications#delete-an-app-token)
 
   """
   @spec delete_token(String.t(), map, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -194,7 +194,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#get-the-authenticated-app)
+    * [API method documentation](https://docs.github.com/rest/apps/apps#get-the-authenticated-app)
 
   """
   @spec get_authenticated(keyword) :: {:ok, GitHub.App.t()} | {:error, GitHub.Error.t()}
@@ -215,7 +215,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps/#get-an-app)
+    * [API method documentation](https://docs.github.com/rest/apps/apps#get-an-app)
 
   """
   @spec get_by_slug(String.t(), keyword) :: {:ok, GitHub.App.t()} | {:error, GitHub.Error.t()}
@@ -241,7 +241,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#get-an-installation-for-the-authenticated-app)
+    * [API method documentation](https://docs.github.com/rest/apps/apps#get-an-installation-for-the-authenticated-app)
 
   """
   @spec get_installation(integer, keyword) ::
@@ -264,7 +264,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#get-an-organization-installation-for-the-authenticated-app)
+    * [API method documentation](https://docs.github.com/rest/apps/apps#get-an-organization-installation-for-the-authenticated-app)
 
   """
   @spec get_org_installation(String.t(), keyword) ::
@@ -287,7 +287,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#get-a-repository-installation-for-the-authenticated-app)
+    * [API method documentation](https://docs.github.com/rest/apps/apps#get-a-repository-installation-for-the-authenticated-app)
 
   """
   @spec get_repo_installation(String.t(), String.t(), keyword) ::
@@ -314,7 +314,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#get-a-subscription-plan-for-an-account)
+    * [API method documentation](https://docs.github.com/rest/apps/marketplace#get-a-subscription-plan-for-an-account)
 
   """
   @spec get_subscription_plan_for_account(integer, keyword) ::
@@ -341,7 +341,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#get-a-subscription-plan-for-an-account-stubbed)
+    * [API method documentation](https://docs.github.com/rest/apps/marketplace#get-a-subscription-plan-for-an-account-stubbed)
 
   """
   @spec get_subscription_plan_for_account_stubbed(integer, keyword) ::
@@ -368,7 +368,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#get-a-user-installation-for-the-authenticated-app)
+    * [API method documentation](https://docs.github.com/rest/apps/apps#get-a-user-installation-for-the-authenticated-app)
 
   """
   @spec get_user_installation(String.t(), keyword) ::
@@ -391,7 +391,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#get-a-webhook-configuration-for-an-app)
+    * [API method documentation](https://docs.github.com/rest/apps/webhooks#get-a-webhook-configuration-for-an-app)
 
   """
   @spec get_webhook_config_for_app(keyword) ::
@@ -413,7 +413,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#get-a-delivery-for-an-app-webhook)
+    * [API method documentation](https://docs.github.com/rest/apps/webhooks#get-a-delivery-for-an-app-webhook)
 
   """
   @spec get_webhook_delivery(integer, keyword) ::
@@ -447,7 +447,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#list-accounts-for-a-plan)
+    * [API method documentation](https://docs.github.com/rest/apps/marketplace#list-accounts-for-a-plan)
 
   """
   @spec list_accounts_for_plan(integer, keyword) ::
@@ -484,7 +484,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#list-accounts-for-a-plan-stubbed)
+    * [API method documentation](https://docs.github.com/rest/apps/marketplace#list-accounts-for-a-plan-stubbed)
 
   """
   @spec list_accounts_for_plan_stubbed(integer, keyword) ::
@@ -517,7 +517,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#list-repositories-accessible-to-the-user-access-token)
+    * [API method documentation](https://docs.github.com/rest/apps/installations#list-repositories-accessible-to-the-user-access-token)
 
   """
   @spec list_installation_repos_for_authenticated_user(integer, keyword) ::
@@ -552,7 +552,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#list-installation-requests-for-the-authenticated-app)
+    * [API method documentation](https://docs.github.com/rest/apps/apps#list-installation-requests-for-the-authenticated-app)
 
   """
   @spec list_installation_requests_for_authenticated_app(keyword) ::
@@ -582,12 +582,12 @@ defmodule GitHub.Apps do
 
     * `per_page` (integer): The number of results per page (max 100).
     * `page` (integer): Page number of the results to fetch.
-    * `since` (String.t()): Only show notifications updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `outdated` (String.t()): 
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#list-installations-for-the-authenticated-app)
+    * [API method documentation](https://docs.github.com/rest/apps/apps#list-installations-for-the-authenticated-app)
 
   """
   @spec list_installations(keyword) ::
@@ -616,7 +616,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#list-app-installations-accessible-to-the-user-access-token)
+    * [API method documentation](https://docs.github.com/rest/apps/installations#list-app-installations-accessible-to-the-user-access-token)
 
   """
   @spec list_installations_for_authenticated_user(keyword) ::
@@ -650,7 +650,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#list-plans)
+    * [API method documentation](https://docs.github.com/rest/apps/marketplace#list-plans)
 
   """
   @spec list_plans(keyword) ::
@@ -683,7 +683,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#list-plans-stubbed)
+    * [API method documentation](https://docs.github.com/rest/apps/marketplace#list-plans-stubbed)
 
   """
   @spec list_plans_stubbed(keyword) ::
@@ -715,7 +715,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#list-repositories-accessible-to-the-app-installation)
+    * [API method documentation](https://docs.github.com/rest/apps/installations#list-repositories-accessible-to-the-app-installation)
 
   """
   @spec list_repos_accessible_to_installation(keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
@@ -748,7 +748,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#list-subscriptions-for-the-authenticated-user)
+    * [API method documentation](https://docs.github.com/rest/apps/marketplace#list-subscriptions-for-the-authenticated-user)
 
   """
   @spec list_subscriptions_for_authenticated_user(keyword) ::
@@ -782,7 +782,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#list-subscriptions-for-the-authenticated-user-stubbed)
+    * [API method documentation](https://docs.github.com/rest/apps/marketplace#list-subscriptions-for-the-authenticated-user-stubbed)
 
   """
   @spec list_subscriptions_for_authenticated_user_stubbed(keyword) ::
@@ -816,7 +816,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#list-deliveries-for-an-app-webhook)
+    * [API method documentation](https://docs.github.com/rest/apps/webhooks#list-deliveries-for-an-app-webhook)
 
   """
   @spec list_webhook_deliveries(keyword) ::
@@ -844,7 +844,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#redeliver-a-delivery-for-an-app-webhook)
+    * [API method documentation](https://docs.github.com/rest/apps/webhooks#redeliver-a-delivery-for-an-app-webhook)
 
   """
   @spec redeliver_webhook_delivery(integer, keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
@@ -866,7 +866,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#remove-a-repository-from-an-app-installation)
+    * [API method documentation](https://docs.github.com/rest/apps/installations#remove-a-repository-from-an-app-installation)
 
   """
   @spec remove_repo_from_installation_for_authenticated_user(integer, integer, keyword) ::
@@ -887,7 +887,8 @@ defmodule GitHub.Apps do
         {204, nil},
         {304, nil},
         {403, {GitHub.BasicError, :t}},
-        {404, {GitHub.BasicError, :t}}
+        {404, {GitHub.BasicError, :t}},
+        {422, nil}
       ],
       opts: opts
     })
@@ -898,7 +899,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#reset-a-token)
+    * [API method documentation](https://docs.github.com/rest/apps/oauth-applications#reset-a-token)
 
   """
   @spec reset_token(String.t(), map, keyword) ::
@@ -923,7 +924,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#revoke-an-installation-access-token)
+    * [API method documentation](https://docs.github.com/rest/apps/installations#revoke-an-installation-access-token)
 
   """
   @spec revoke_installation_access_token(keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -975,7 +976,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#suspend-an-app-installation)
+    * [API method documentation](https://docs.github.com/rest/apps/apps#suspend-an-app-installation)
 
   """
   @spec suspend_installation(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -997,7 +998,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#unsuspend-an-app-installation)
+    * [API method documentation](https://docs.github.com/rest/apps/apps#unsuspend-an-app-installation)
 
   """
   @spec unsuspend_installation(integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -1019,7 +1020,7 @@ defmodule GitHub.Apps do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/apps#update-a-webhook-configuration-for-an-app)
+    * [API method documentation](https://docs.github.com/rest/apps/webhooks#update-a-webhook-configuration-for-an-app)
 
   """
   @spec update_webhook_config_for_app(map, keyword) ::

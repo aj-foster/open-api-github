@@ -10,7 +10,7 @@ defmodule GitHub.Emojis do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/reference/emojis#get-emojis)
+    * [API method documentation](https://docs.github.com/rest/emojis/emojis#get-emojis)
 
   """
   @spec get(keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
