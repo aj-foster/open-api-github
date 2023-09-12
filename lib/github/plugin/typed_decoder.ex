@@ -63,11 +63,13 @@ defmodule GitHub.Plugin.TypedDecoder do
 
     for {field_name, field_type} <- fields, reduce: struct(module) do
       decoded_value ->
-        if field_value = Map.get(value, to_string(field_name)) do
-          decoded_field_value = do_decode(field_value, field_type)
-          struct(decoded_value, [{field_name, decoded_field_value}])
-        else
-          decoded_value
+        case Map.fetch(value, to_string(field_name)) do
+          {:ok, field_value} ->
+            decoded_field_value = do_decode(field_value, field_type)
+            struct(decoded_value, [{field_name, decoded_field_value}])
+
+          :error ->
+            decoded_value
         end
     end
   end
