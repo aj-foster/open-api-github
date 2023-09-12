@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Nothing yet_.
 
+### 0.0.13 (2023-09-12)
+
+* **Fix**: Correctly decode `false` values from responses.
+  Previously, these values were replaced with `nil`.
+
 ### 0.0.12 (2023-05-18)
 
 * **Fix**: Support generating empty responses in test data generator.
