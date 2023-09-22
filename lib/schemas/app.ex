@@ -1,6 +1,6 @@
 defmodule GitHub.App do
   @moduledoc """
-  Provides struct and type for Integration
+  Provides struct and type for a App
   """
   use GitHub.Encoder
 
@@ -8,7 +8,7 @@ defmodule GitHub.App do
           __info__: map,
           client_id: String.t() | nil,
           client_secret: String.t() | nil,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           description: String.t() | nil,
           events: [String.t()],
           external_url: String.t(),
@@ -21,7 +21,7 @@ defmodule GitHub.App do
           pem: String.t() | nil,
           permissions: map,
           slug: String.t() | nil,
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           webhook_secret: String.t() | nil
         }
 
@@ -52,23 +52,23 @@ defmodule GitHub.App do
 
   def __fields__(:t) do
     [
-      client_id: :string,
-      client_secret: :string,
-      created_at: :string,
-      description: {:nullable, :string},
-      events: {:array, :string},
-      external_url: :string,
-      html_url: :string,
+      client_id: {:string, :generic},
+      client_secret: {:string, :generic},
+      created_at: {:string, :date_time},
+      description: {:union, [{:string, :generic}, :null]},
+      events: [string: :generic],
+      external_url: {:string, :uri},
+      html_url: {:string, :uri},
       id: :integer,
       installations_count: :integer,
-      name: :string,
-      node_id: :string,
-      owner: {:nullable, {GitHub.User, :simple}},
-      pem: :string,
+      name: {:string, :generic},
+      node_id: {:string, :generic},
+      owner: {:union, [{GitHub.User, :simple}, :null]},
+      pem: {:string, :generic},
       permissions: :map,
-      slug: :string,
-      updated_at: :string,
-      webhook_secret: {:nullable, :string}
+      slug: {:string, :generic},
+      updated_at: {:string, :date_time},
+      webhook_secret: {:union, [{:string, :generic}, :null]}
     ]
   end
 end

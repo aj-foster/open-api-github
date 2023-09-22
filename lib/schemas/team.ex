@@ -1,12 +1,12 @@
 defmodule GitHub.Team do
   @moduledoc """
-  Provides struct and types for Team, TeamFull, TeamSimple
+  Provides struct and types for a Team
   """
   use GitHub.Encoder
 
   @type full :: %__MODULE__{
           __info__: map,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           description: String.t() | nil,
           html_url: String.t(),
           id: integer,
@@ -23,7 +23,7 @@ defmodule GitHub.Team do
           repos_count: integer,
           repositories_url: String.t(),
           slug: String.t(),
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t()
         }
 
@@ -92,62 +92,62 @@ defmodule GitHub.Team do
 
   def __fields__(:full) do
     [
-      created_at: :string,
-      description: {:nullable, :string},
-      html_url: :string,
+      created_at: {:string, :date_time},
+      description: {:union, [{:string, :generic}, :null]},
+      html_url: {:string, :uri},
       id: :integer,
-      ldap_dn: :string,
+      ldap_dn: {:string, :generic},
       members_count: :integer,
-      members_url: :string,
-      name: :string,
-      node_id: :string,
-      notification_setting: :string,
+      members_url: {:string, :generic},
+      name: {:string, :generic},
+      node_id: {:string, :generic},
+      notification_setting: {:enum, ["notifications_enabled", "notifications_disabled"]},
       organization: {GitHub.Team.Organization, :t},
-      parent: {:nullable, {GitHub.Team, :simple}},
-      permission: :string,
-      privacy: :string,
+      parent: {:union, [{GitHub.Team, :simple}, :null]},
+      permission: {:string, :generic},
+      privacy: {:enum, ["closed", "secret"]},
       repos_count: :integer,
-      repositories_url: :string,
-      slug: :string,
-      updated_at: :string,
-      url: :string
+      repositories_url: {:string, :uri},
+      slug: {:string, :generic},
+      updated_at: {:string, :date_time},
+      url: {:string, :uri}
     ]
   end
 
   def __fields__(:simple) do
     [
-      description: {:nullable, :string},
-      html_url: :string,
+      description: {:union, [{:string, :generic}, :null]},
+      html_url: {:string, :uri},
       id: :integer,
-      ldap_dn: :string,
-      members_url: :string,
-      name: :string,
-      node_id: :string,
-      notification_setting: :string,
-      permission: :string,
-      privacy: :string,
-      repositories_url: :string,
-      slug: :string,
-      url: :string
+      ldap_dn: {:string, :generic},
+      members_url: {:string, :generic},
+      name: {:string, :generic},
+      node_id: {:string, :generic},
+      notification_setting: {:string, :generic},
+      permission: {:string, :generic},
+      privacy: {:string, :generic},
+      repositories_url: {:string, :uri},
+      slug: {:string, :generic},
+      url: {:string, :uri}
     ]
   end
 
   def __fields__(:t) do
     [
-      description: {:nullable, :string},
-      html_url: :string,
+      description: {:union, [{:string, :generic}, :null]},
+      html_url: {:string, :uri},
       id: :integer,
-      members_url: :string,
-      name: :string,
-      node_id: :string,
-      notification_setting: :string,
-      parent: {:nullable, {GitHub.Team, :simple}},
-      permission: :string,
+      members_url: {:string, :generic},
+      name: {:string, :generic},
+      node_id: {:string, :generic},
+      notification_setting: {:string, :generic},
+      parent: {:union, [{GitHub.Team, :simple}, :null]},
+      permission: {:string, :generic},
       permissions: :map,
-      privacy: :string,
-      repositories_url: :string,
-      slug: :string,
-      url: :string
+      privacy: {:string, :generic},
+      repositories_url: {:string, :uri},
+      slug: {:string, :generic},
+      url: {:string, :uri}
     ]
   end
 end

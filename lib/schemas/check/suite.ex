@@ -1,6 +1,6 @@
 defmodule GitHub.Check.Suite do
   @moduledoc """
-  Provides struct and type for CheckSuite
+  Provides struct and type for a Check.Suite
   """
   use GitHub.Encoder
 
@@ -11,7 +11,7 @@ defmodule GitHub.Check.Suite do
           before: String.t() | nil,
           check_runs_url: String.t(),
           conclusion: String.t() | nil,
-          created_at: String.t() | nil,
+          created_at: DateTime.t() | nil,
           head_branch: String.t() | nil,
           head_commit: GitHub.Commit.simple(),
           head_sha: String.t(),
@@ -23,7 +23,7 @@ defmodule GitHub.Check.Suite do
           rerequestable: boolean | nil,
           runs_rerequestable: boolean | nil,
           status: String.t() | nil,
-          updated_at: String.t() | nil,
+          updated_at: DateTime.t() | nil,
           url: String.t() | nil
         }
 
@@ -56,25 +56,38 @@ defmodule GitHub.Check.Suite do
 
   def __fields__(:t) do
     [
-      after: {:nullable, :string},
-      app: {:nullable, {GitHub.App, :t}},
-      before: {:nullable, :string},
-      check_runs_url: :string,
-      conclusion: {:nullable, :string},
-      created_at: {:nullable, :string},
-      head_branch: {:nullable, :string},
+      after: {:union, [{:string, :generic}, :null]},
+      app: {:union, [{GitHub.App, :t}, :null]},
+      before: {:union, [{:string, :generic}, :null]},
+      check_runs_url: {:string, :generic},
+      conclusion:
+        {:enum,
+         [
+           "success",
+           "failure",
+           "neutral",
+           "cancelled",
+           "skipped",
+           "timed_out",
+           "action_required",
+           "startup_failure",
+           "stale",
+           nil
+         ]},
+      created_at: {:union, [{:string, :date_time}, :null]},
+      head_branch: {:union, [{:string, :generic}, :null]},
       head_commit: {GitHub.Commit, :simple},
-      head_sha: :string,
+      head_sha: {:string, :generic},
       id: :integer,
       latest_check_runs_count: :integer,
-      node_id: :string,
-      pull_requests: {:nullable, {:array, {GitHub.PullRequest, :minimal}}},
+      node_id: {:string, :generic},
+      pull_requests: {:union, [[{GitHub.PullRequest, :minimal}], :null]},
       repository: {GitHub.Repository, :minimal},
       rerequestable: :boolean,
       runs_rerequestable: :boolean,
-      status: {:nullable, :string},
-      updated_at: {:nullable, :string},
-      url: {:nullable, :string}
+      status: {:enum, ["queued", "in_progress", "completed", nil]},
+      updated_at: {:union, [{:string, :date_time}, :null]},
+      url: {:union, [{:string, :generic}, :null]}
     ]
   end
 end

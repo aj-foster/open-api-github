@@ -1,6 +1,6 @@
 defmodule GitHub.Organization.Invitation do
   @moduledoc """
-  Provides struct and type for OrganizationInvitation
+  Provides struct and type for a Organization.Invitation
   """
   use GitHub.Encoder
 
@@ -42,17 +42,17 @@ defmodule GitHub.Organization.Invitation do
 
   def __fields__(:t) do
     [
-      created_at: :string,
-      email: {:nullable, :string},
-      failed_at: {:nullable, :string},
-      failed_reason: {:nullable, :string},
+      created_at: {:string, :generic},
+      email: {:union, [{:string, :generic}, :null]},
+      failed_at: {:union, [{:string, :generic}, :null]},
+      failed_reason: {:union, [{:string, :generic}, :null]},
       id: :integer,
-      invitation_source: :string,
-      invitation_teams_url: :string,
+      invitation_source: {:string, :generic},
+      invitation_teams_url: {:string, :generic},
       inviter: {GitHub.User, :simple},
-      login: {:nullable, :string},
-      node_id: :string,
-      role: :string,
+      login: {:union, [{:string, :generic}, :null]},
+      node_id: {:string, :generic},
+      role: {:string, :generic},
       team_count: :integer
     ]
   end

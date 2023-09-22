@@ -1,6 +1,6 @@
 defmodule GitHub.Gist do
   @moduledoc """
-  Provides struct and type for GistSimple
+  Provides struct and type for a Gist
   """
   use GitHub.Encoder
 
@@ -17,7 +17,7 @@ defmodule GitHub.Gist do
           forks_url: String.t() | nil,
           git_pull_url: String.t() | nil,
           git_push_url: String.t() | nil,
-          history: [GitHub.Gist.History.t()] | nil,
+          history: [map] | nil,
           html_url: String.t() | nil,
           id: String.t() | nil,
           node_id: String.t() | nil,
@@ -59,26 +59,26 @@ defmodule GitHub.Gist do
   def __fields__(:simple) do
     [
       comments: :integer,
-      comments_url: :string,
-      commits_url: :string,
-      created_at: :string,
-      description: {:nullable, :string},
+      comments_url: {:string, :generic},
+      commits_url: {:string, :generic},
+      created_at: {:string, :generic},
+      description: {:union, [{:string, :generic}, :null]},
       files: :map,
-      fork_of: {:nullable, :map},
-      forks: {:nullable, {:array, :map}},
-      forks_url: :string,
-      git_pull_url: :string,
-      git_push_url: :string,
-      history: {:nullable, {:array, {GitHub.Gist.History, :t}}},
-      html_url: :string,
-      id: :string,
-      node_id: :string,
+      fork_of: {:union, [:map, :null]},
+      forks: {:union, [[:map], :null]},
+      forks_url: {:string, :generic},
+      git_pull_url: {:string, :generic},
+      git_push_url: {:string, :generic},
+      history: {:union, [[:map], :null]},
+      html_url: {:string, :generic},
+      id: {:string, :generic},
+      node_id: {:string, :generic},
       owner: {GitHub.User, :simple},
       public: :boolean,
       truncated: :boolean,
-      updated_at: :string,
-      url: :string,
-      user: {:nullable, :string}
+      updated_at: {:string, :generic},
+      url: {:string, :generic},
+      user: {:union, [{:string, :generic}, :null]}
     ]
   end
 end

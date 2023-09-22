@@ -1,6 +1,6 @@
 defmodule GitHub.Collaborator do
   @moduledoc """
-  Provides struct and type for Collaborator
+  Provides struct and type for a Collaborator
   """
   use GitHub.Encoder
 
@@ -62,28 +62,28 @@ defmodule GitHub.Collaborator do
 
   def __fields__(:t) do
     [
-      avatar_url: :string,
-      email: {:nullable, :string},
-      events_url: :string,
-      followers_url: :string,
-      following_url: :string,
-      gists_url: :string,
-      gravatar_id: {:nullable, :string},
-      html_url: :string,
+      avatar_url: {:string, :uri},
+      email: {:union, [{:string, :generic}, :null]},
+      events_url: {:string, :generic},
+      followers_url: {:string, :uri},
+      following_url: {:string, :generic},
+      gists_url: {:string, :generic},
+      gravatar_id: {:union, [{:string, :generic}, :null]},
+      html_url: {:string, :uri},
       id: :integer,
-      login: :string,
-      name: {:nullable, :string},
-      node_id: :string,
-      organizations_url: :string,
+      login: {:string, :generic},
+      name: {:union, [{:string, :generic}, :null]},
+      node_id: {:string, :generic},
+      organizations_url: {:string, :uri},
       permissions: :map,
-      received_events_url: :string,
-      repos_url: :string,
-      role_name: :string,
+      received_events_url: {:string, :uri},
+      repos_url: {:string, :uri},
+      role_name: {:string, :generic},
       site_admin: :boolean,
-      starred_url: :string,
-      subscriptions_url: :string,
-      type: :string,
-      url: :string
+      starred_url: {:string, :generic},
+      subscriptions_url: {:string, :uri},
+      type: {:string, :generic},
+      url: {:string, :uri}
     ]
   end
 end

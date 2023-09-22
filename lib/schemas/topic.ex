@@ -1,6 +1,6 @@
 defmodule GitHub.Topic do
   @moduledoc """
-  Provides struct and type for Topic
+  Provides struct and type for a Topic
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Topic do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [names: {:array, :string}]
+    [names: [string: :generic]]
   end
 end

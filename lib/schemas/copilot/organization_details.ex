@@ -1,6 +1,6 @@
 defmodule GitHub.Copilot.OrganizationDetails do
   @moduledoc """
-  Provides struct and type for CopilotOrganizationDetails
+  Provides struct and type for a Copilot.OrganizationDetails
   """
   use GitHub.Encoder
 
@@ -19,9 +19,10 @@ defmodule GitHub.Copilot.OrganizationDetails do
 
   def __fields__(:t) do
     [
-      public_code_suggestions: :string,
+      public_code_suggestions: {:enum, ["allow", "block", "unconfigured", "unknown"]},
       seat_breakdown: {GitHub.Copilot.SeatBreakdown, :t},
-      seat_management_setting: :string
+      seat_management_setting:
+        {:enum, ["assign_all", "assign_selected", "disabled", "unconfigured"]}
     ]
   end
 end

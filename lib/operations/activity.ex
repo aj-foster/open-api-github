@@ -1,6 +1,6 @@
 defmodule GitHub.Activity do
   @moduledoc """
-  Provides API endpoints, struct, and type related to activity
+  Provides API endpoints related to activity
   """
   use GitHub.Encoder
 
@@ -15,7 +15,7 @@ defmodule GitHub.Activity do
           id: integer,
           node_id: String.t(),
           ref: String.t(),
-          timestamp: String.t()
+          timestamp: DateTime.t()
         }
 
   defstruct [:__info__, :activity_type, :actor, :after, :before, :id, :node_id, :ref, :timestamp]
@@ -26,19 +26,30 @@ defmodule GitHub.Activity do
 
   def __fields__(:t) do
     [
-      activity_type: :string,
-      actor: {:nullable, {GitHub.User, :simple}},
-      after: :string,
-      before: :string,
+      activity_type:
+        {:enum,
+         [
+           "push",
+           "force_push",
+           "branch_deletion",
+           "branch_creation",
+           "pr_merge",
+           "merge_queue_merge"
+         ]},
+      actor: {:union, [{GitHub.User, :simple}, :null]},
+      after: {:string, :generic},
+      before: {:string, :generic},
       id: :integer,
-      node_id: :string,
-      ref: :string,
-      timestamp: :string
+      node_id: {:string, :generic},
+      ref: {:string, :generic},
+      timestamp: {:string, :date_time}
     ]
   end
 
   @doc """
   Check if a repository is starred by the authenticated user
+
+  Whether the authenticated user has starred the repository.
 
   ## Resources
 
@@ -56,8 +67,8 @@ defmodule GitHub.Activity do
       url: "/user/starred/#{owner}/#{repo}",
       method: :get,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -68,6 +79,8 @@ defmodule GitHub.Activity do
 
   @doc """
   Delete a repository subscription
+
+  This endpoint should only be used to stop watching a repository. To control whether or not you wish to receive notifications from a repository, [set the repository's subscription manually](https://docs.github.com/rest/activity/watching#set-a-repository-subscription).
 
   ## Resources
 
@@ -84,13 +97,15 @@ defmodule GitHub.Activity do
       call: {GitHub.Activity, :delete_repo_subscription},
       url: "/repos/#{owner}/#{repo}/subscription",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete a thread subscription
+
+  Mutes all future notifications for a conversation until you comment on the thread or get an **@mention**. If you are watching the repository of the thread, you will still receive notifications. To ignore future notifications for a repository you are watching, use the [Set a thread subscription](https://docs.github.com/rest/activity/notifications#set-a-thread-subscription) endpoint and set `ignore` to `true`.
 
   ## Resources
 
@@ -107,8 +122,8 @@ defmodule GitHub.Activity do
       url: "/notifications/threads/#{thread_id}/subscription",
       method: :delete,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -118,6 +133,18 @@ defmodule GitHub.Activity do
 
   @doc """
   Get feeds
+
+  GitHub provides several timeline resources in [Atom](http://en.wikipedia.org/wiki/Atom_(standard)) format. The Feeds API lists all the feeds available to the authenticated user:
+
+  *   **Timeline**: The GitHub global public timeline
+  *   **User**: The public timeline for any user, using [URI template](https://docs.github.com/rest/overview/resources-in-the-rest-api#hypermedia)
+  *   **Current user public**: The public timeline for the authenticated user
+  *   **Current user**: The private timeline for the authenticated user
+  *   **Current user actor**: The private timeline for activity created by the authenticated user
+  *   **Current user organizations**: The private timeline for the organizations the authenticated user is a member of.
+  *   **Security advisories**: A collection of public announcements that provide information about security-related vulnerabilities in software on GitHub.
+
+  **Note**: Private feeds are only returned when [authenticating via Basic Auth](https://docs.github.com/rest/overview/other-authentication-methods#basic-authentication) since current feed URIs use the older, non revocable auth tokens.
 
   ## Resources
 
@@ -129,6 +156,7 @@ defmodule GitHub.Activity do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [],
       call: {GitHub.Activity, :get_feeds},
       url: "/feeds",
       method: :get,
@@ -139,6 +167,8 @@ defmodule GitHub.Activity do
 
   @doc """
   Get a repository subscription
+
+  Gets information about whether the authenticated user is subscribed to the repository.
 
   ## Resources
 
@@ -158,7 +188,7 @@ defmodule GitHub.Activity do
       response: [
         {200, {GitHub.Repository.Subscription, :t}},
         {403, {GitHub.BasicError, :t}},
-        {404, nil}
+        {404, :null}
       ],
       opts: opts
     })
@@ -166,6 +196,8 @@ defmodule GitHub.Activity do
 
   @doc """
   Get a thread
+
+  Gets information about a notification thread.
 
   ## Resources
 
@@ -183,7 +215,7 @@ defmodule GitHub.Activity do
       method: :get,
       response: [
         {200, {GitHub.Thread, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -193,6 +225,10 @@ defmodule GitHub.Activity do
 
   @doc """
   Get a thread subscription for the authenticated user
+
+  This checks to see if the current user is subscribed to a thread. You can also [get a repository subscription](https://docs.github.com/rest/activity/watching#get-a-repository-subscription).
+
+  Note that subscriptions are only generated if a user is participating in a conversation--for example, they've replied to the thread, were **@mentioned**, or manually subscribe to a thread.
 
   ## Resources
 
@@ -211,7 +247,7 @@ defmodule GitHub.Activity do
       method: :get,
       response: [
         {200, {GitHub.ThreadSubscription, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -222,10 +258,12 @@ defmodule GitHub.Activity do
   @doc """
   List events for the authenticated user
 
+  If you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -244,7 +282,7 @@ defmodule GitHub.Activity do
       url: "/users/#{username}/events",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Event, :t}}}],
+      response: [{200, [{GitHub.Event, :t}]}],
       opts: opts
     })
   end
@@ -252,14 +290,16 @@ defmodule GitHub.Activity do
   @doc """
   List notifications for the authenticated user
 
+  List all notifications for the current user, sorted by most recently updated.
+
   ## Options
 
-    * `all` (boolean): If `true`, show notifications marked as read.
-    * `participating` (boolean): If `true`, only shows notifications in which the user is directly participating or mentioned.
-    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `before` (String.t()): Only show notifications updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `page` (integer): Page number of the results to fetch.
-    * `per_page` (integer): The number of results per page (max 50).
+    * `all`: If `true`, show notifications marked as read.
+    * `participating`: If `true`, only shows notifications in which the user is directly participating or mentioned.
+    * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `before`: Only show notifications updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 50).
 
   ## Resources
 
@@ -273,13 +313,14 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:all, :before, :page, :participating, :per_page, :since])
 
     client.request(%{
+      args: [],
       call: {GitHub.Activity, :list_notifications_for_authenticated_user},
       url: "/notifications",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Thread, :t}}},
-        {304, nil},
+        {200, [{GitHub.Thread, :t}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
@@ -291,10 +332,12 @@ defmodule GitHub.Activity do
   @doc """
   List organization events for the authenticated user
 
+  This is the user's organization dashboard. You must be authenticated as the user to view this.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -313,7 +356,7 @@ defmodule GitHub.Activity do
       url: "/users/#{username}/events/orgs/#{org}",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Event, :t}}}],
+      response: [{200, [{GitHub.Event, :t}]}],
       opts: opts
     })
   end
@@ -321,10 +364,12 @@ defmodule GitHub.Activity do
   @doc """
   List public events
 
+  We delay the public events feed by five minutes, which means the most recent event returned by the public events API actually occurred at least five minutes ago.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -337,13 +382,14 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [],
       call: {GitHub.Activity, :list_public_events},
       url: "/events",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Event, :t}}},
-        {304, nil},
+        {200, [{GitHub.Event, :t}]},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {503, :map}
       ],
@@ -356,8 +402,8 @@ defmodule GitHub.Activity do
 
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -377,9 +423,9 @@ defmodule GitHub.Activity do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Event, :t}}},
+        {200, [{GitHub.Event, :t}]},
         {301, {GitHub.BasicError, :t}},
-        {304, nil},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],
@@ -392,8 +438,8 @@ defmodule GitHub.Activity do
 
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -412,7 +458,7 @@ defmodule GitHub.Activity do
       url: "/users/#{username}/events/public",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Event, :t}}}],
+      response: [{200, [{GitHub.Event, :t}]}],
       opts: opts
     })
   end
@@ -422,8 +468,8 @@ defmodule GitHub.Activity do
 
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -442,7 +488,7 @@ defmodule GitHub.Activity do
       url: "/orgs/#{org}/events",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Event, :t}}}],
+      response: [{200, [{GitHub.Event, :t}]}],
       opts: opts
     })
   end
@@ -450,10 +496,12 @@ defmodule GitHub.Activity do
   @doc """
   List events received by the authenticated user
 
+  These are events that you've received by watching repos and following users. If you are authenticated as the given user, you will see private events. Otherwise, you'll only see public events.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -472,7 +520,7 @@ defmodule GitHub.Activity do
       url: "/users/#{username}/received_events",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Event, :t}}}],
+      response: [{200, [{GitHub.Event, :t}]}],
       opts: opts
     })
   end
@@ -482,8 +530,8 @@ defmodule GitHub.Activity do
 
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -502,7 +550,7 @@ defmodule GitHub.Activity do
       url: "/users/#{username}/received_events/public",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Event, :t}}}],
+      response: [{200, [{GitHub.Event, :t}]}],
       opts: opts
     })
   end
@@ -510,10 +558,13 @@ defmodule GitHub.Activity do
   @doc """
   List repository events
 
+  **Note**: This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h.
+
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -532,7 +583,7 @@ defmodule GitHub.Activity do
       url: "/repos/#{owner}/#{repo}/events",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Event, :t}}}],
+      response: [{200, [{GitHub.Event, :t}]}],
       opts: opts
     })
   end
@@ -540,14 +591,16 @@ defmodule GitHub.Activity do
   @doc """
   List repository notifications for the authenticated user
 
+  Lists all notifications for the current user in the specified repository.
+
   ## Options
 
-    * `all` (boolean): If `true`, show notifications marked as read.
-    * `participating` (boolean): If `true`, only shows notifications in which the user is directly participating or mentioned.
-    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `before` (String.t()): Only show notifications updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `all`: If `true`, show notifications marked as read.
+    * `participating`: If `true`, only shows notifications in which the user is directly participating or mentioned.
+    * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `before`: Only show notifications updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -566,7 +619,7 @@ defmodule GitHub.Activity do
       url: "/repos/#{owner}/#{repo}/notifications",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Thread, :t}}}],
+      response: [{200, [{GitHub.Thread, :t}]}],
       opts: opts
     })
   end
@@ -574,12 +627,16 @@ defmodule GitHub.Activity do
   @doc """
   List repositories starred by the authenticated user
 
+  Lists repositories the authenticated user has starred.
+
+  You can also find out _when_ stars were created by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `Accept` header: `application/vnd.github.star+json`.
+
   ## Options
 
-    * `sort` (String.t()): The property to sort the results by. `created` means when the repository was starred. `updated` means when the repository was last pushed to.
-    * `direction` (String.t()): The direction to sort the results by.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `sort`: The property to sort the results by. `created` means when the repository was starred. `updated` means when the repository was last pushed to.
+    * `direction`: The direction to sort the results by.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -587,19 +644,21 @@ defmodule GitHub.Activity do
 
   """
   @spec list_repos_starred_by_authenticated_user(keyword) ::
-          {:ok, [GitHub.Repository.t()]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.Repository.t()] | [GitHub.StarredRepository.t()]}
+          | {:error, GitHub.Error.t()}
   def list_repos_starred_by_authenticated_user(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:direction, :page, :per_page, :sort])
 
     client.request(%{
+      args: [],
       call: {GitHub.Activity, :list_repos_starred_by_authenticated_user},
       url: "/user/starred",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Repository, :t}}},
-        {304, nil},
+        {200, {:union, [[{GitHub.Repository, :t}], [{GitHub.StarredRepository, :t}]]}},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -610,12 +669,16 @@ defmodule GitHub.Activity do
   @doc """
   List repositories starred by a user
 
+  Lists repositories a user has starred.
+
+  You can also find out _when_ stars were created by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `Accept` header: `application/vnd.github.star+json`.
+
   ## Options
 
-    * `sort` (String.t()): The property to sort the results by. `created` means when the repository was starred. `updated` means when the repository was last pushed to.
-    * `direction` (String.t()): The direction to sort the results by.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `sort`: The property to sort the results by. `created` means when the repository was starred. `updated` means when the repository was last pushed to.
+    * `direction`: The direction to sort the results by.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -635,9 +698,7 @@ defmodule GitHub.Activity do
       url: "/users/#{username}/starred",
       method: :get,
       query: query,
-      response: [
-        {200, {:union, array: {GitHub.StarredRepository, :t}, array: {GitHub.Repository, :t}}}
-      ],
+      response: [{200, {:union, [[{GitHub.Repository, :t}], [{GitHub.StarredRepository, :t}]]}}],
       opts: opts
     })
   end
@@ -645,10 +706,12 @@ defmodule GitHub.Activity do
   @doc """
   List repositories watched by a user
 
+  Lists repositories a user is watching.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -667,7 +730,7 @@ defmodule GitHub.Activity do
       url: "/users/#{username}/subscriptions",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Repository, :minimal}}}],
+      response: [{200, [{GitHub.Repository, :minimal}]}],
       opts: opts
     })
   end
@@ -675,10 +738,14 @@ defmodule GitHub.Activity do
   @doc """
   List stargazers
 
+  Lists the people that have starred the repository.
+
+  You can also find out _when_ stars were created by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `Accept` header: `application/vnd.github.star+json`.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -686,7 +753,7 @@ defmodule GitHub.Activity do
 
   """
   @spec list_stargazers_for_repo(String.t(), String.t(), keyword) ::
-          {:ok, [GitHub.Stargazer.t()] | [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
+          {:ok, [map] | [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
   def list_stargazers_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -698,7 +765,7 @@ defmodule GitHub.Activity do
       method: :get,
       query: query,
       response: [
-        {200, {:union, array: {GitHub.User, :simple}, array: {GitHub.Stargazer, :t}}},
+        {200, {:union, [[:map], [{GitHub.User, :simple}]]}},
         {422, {GitHub.ValidationError, :t}}
       ],
       opts: opts
@@ -708,10 +775,12 @@ defmodule GitHub.Activity do
   @doc """
   List repositories watched by the authenticated user
 
+  Lists repositories the authenticated user is watching.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -725,13 +794,14 @@ defmodule GitHub.Activity do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [],
       call: {GitHub.Activity, :list_watched_repos_for_authenticated_user},
       url: "/user/subscriptions",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Repository, :minimal}}},
-        {304, nil},
+        {200, [{GitHub.Repository, :minimal}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -742,10 +812,12 @@ defmodule GitHub.Activity do
   @doc """
   List watchers
 
+  Lists the people watching the specified repository.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -764,13 +836,15 @@ defmodule GitHub.Activity do
       url: "/repos/#{owner}/#{repo}/subscribers",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.User, :simple}}}],
+      response: [{200, [{GitHub.User, :simple}]}],
       opts: opts
     })
   end
 
   @doc """
   Mark notifications as read
+
+  Marks all notifications as "read" for the current user. If the number of notifications is too large to complete in one request, you will receive a `202 Accepted` status and GitHub will run an asynchronous process to mark notifications as "read." To check whether any "unread" notifications remain, you can use the [List notifications for the authenticated user](https://docs.github.com/rest/activity/notifications#list-notifications-for-the-authenticated-user) endpoint and pass the query parameter `all=false`.
 
   ## Resources
 
@@ -790,8 +864,8 @@ defmodule GitHub.Activity do
       request: [{"application/json", :map}],
       response: [
         {202, :map},
-        {205, nil},
-        {304, nil},
+        {205, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -801,6 +875,8 @@ defmodule GitHub.Activity do
 
   @doc """
   Mark repository notifications as read
+
+  Marks all notifications in a repository as "read" for the current user. If the number of notifications is too large to complete in one request, you will receive a `202 Accepted` status and GitHub will run an asynchronous process to mark notifications as "read." To check whether any "unread" notifications remain, you can use the [List repository notifications for the authenticated user](https://docs.github.com/rest/activity/notifications#list-repository-notifications-for-the-authenticated-user) endpoint and pass the query parameter `all=false`.
 
   ## Resources
 
@@ -819,13 +895,15 @@ defmodule GitHub.Activity do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{202, :map}, {205, nil}],
+      response: [{202, :map}, {205, :null}],
       opts: opts
     })
   end
 
   @doc """
   Mark a thread as read
+
+  Marks a thread as "read." Marking a thread as "read" is equivalent to clicking a notification in your notification inbox on GitHub: https://github.com/notifications.
 
   ## Resources
 
@@ -841,13 +919,15 @@ defmodule GitHub.Activity do
       call: {GitHub.Activity, :mark_thread_as_read},
       url: "/notifications/threads/#{thread_id}",
       method: :patch,
-      response: [{205, nil}, {304, nil}, {403, {GitHub.BasicError, :t}}],
+      response: [{205, :null}, {304, :null}, {403, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
 
   @doc """
   Set a repository subscription
+
+  If you would like to watch a repository, set `subscribed` to `true`. If you would like to ignore notifications made within a repository, set `ignored` to `true`. If you would like to stop watching a repository, [delete the repository's subscription](https://docs.github.com/rest/activity/watching#delete-a-repository-subscription) completely.
 
   ## Resources
 
@@ -874,6 +954,12 @@ defmodule GitHub.Activity do
   @doc """
   Set a thread subscription
 
+  If you are watching a repository, you receive notifications for all threads by default. Use this endpoint to ignore future notifications for threads until you comment on the thread or get an **@mention**.
+
+  You can also use this endpoint to subscribe to threads that you are currently not receiving notifications for or to subscribed to threads that you have previously ignored.
+
+  Unsubscribing from a conversation in a repository that you are not watching is functionally equivalent to the [Delete a thread subscription](https://docs.github.com/rest/activity/notifications#delete-a-thread-subscription) endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/activity/notifications#set-a-thread-subscription)
@@ -893,7 +979,7 @@ defmodule GitHub.Activity do
       request: [{"application/json", :map}],
       response: [
         {200, {GitHub.ThreadSubscription, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -903,6 +989,8 @@ defmodule GitHub.Activity do
 
   @doc """
   Star a repository for the authenticated user
+
+  Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
 
   ## Resources
 
@@ -920,8 +1008,8 @@ defmodule GitHub.Activity do
       url: "/user/starred/#{owner}/#{repo}",
       method: :put,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -932,6 +1020,8 @@ defmodule GitHub.Activity do
 
   @doc """
   Unstar a repository for the authenticated user
+
+  Unstar a repository that the authenticated user has previously starred.
 
   ## Resources
 
@@ -949,8 +1039,8 @@ defmodule GitHub.Activity do
       url: "/user/starred/#{owner}/#{repo}",
       method: :delete,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}

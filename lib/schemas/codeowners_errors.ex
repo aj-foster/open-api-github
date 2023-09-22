@@ -1,6 +1,6 @@
 defmodule GitHub.CodeownersErrors do
   @moduledoc """
-  Provides struct and type for CodeownersErrors
+  Provides struct and type for a CodeownersErrors
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.CodeownersErrors do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [errors: {:array, :map}]
+    [errors: [:map]]
   end
 end

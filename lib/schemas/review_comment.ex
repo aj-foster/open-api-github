@@ -1,6 +1,6 @@
 defmodule GitHub.ReviewComment do
   @moduledoc """
-  Provides struct and type for ReviewComment
+  Provides struct and type for a ReviewComment
   """
   use GitHub.Encoder
 
@@ -12,7 +12,7 @@ defmodule GitHub.ReviewComment do
           body_html: String.t() | nil,
           body_text: String.t() | nil,
           commit_id: String.t(),
-          created_at: String.t(),
+          created_at: DateTime.t(),
           diff_hunk: String.t(),
           html_url: String.t(),
           id: integer,
@@ -31,7 +31,7 @@ defmodule GitHub.ReviewComment do
           side: String.t() | nil,
           start_line: integer | nil,
           start_side: String.t() | nil,
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t(),
           user: GitHub.User.simple() | nil
         }
@@ -75,33 +75,44 @@ defmodule GitHub.ReviewComment do
   def __fields__(:t) do
     [
       _links: :map,
-      author_association: :string,
-      body: :string,
-      body_html: :string,
-      body_text: :string,
-      commit_id: :string,
-      created_at: :string,
-      diff_hunk: :string,
-      html_url: :string,
+      author_association:
+        {:enum,
+         [
+           "COLLABORATOR",
+           "CONTRIBUTOR",
+           "FIRST_TIMER",
+           "FIRST_TIME_CONTRIBUTOR",
+           "MANNEQUIN",
+           "MEMBER",
+           "NONE",
+           "OWNER"
+         ]},
+      body: {:string, :generic},
+      body_html: {:string, :generic},
+      body_text: {:string, :generic},
+      commit_id: {:string, :generic},
+      created_at: {:string, :date_time},
+      diff_hunk: {:string, :generic},
+      html_url: {:string, :uri},
       id: :integer,
       in_reply_to_id: :integer,
       line: :integer,
-      node_id: :string,
-      original_commit_id: :string,
+      node_id: {:string, :generic},
+      original_commit_id: {:string, :generic},
       original_line: :integer,
       original_position: :integer,
-      original_start_line: {:nullable, :integer},
-      path: :string,
-      position: {:nullable, :integer},
-      pull_request_review_id: {:nullable, :integer},
-      pull_request_url: :string,
+      original_start_line: {:union, [:integer, :null]},
+      path: {:string, :generic},
+      position: {:union, [:integer, :null]},
+      pull_request_review_id: {:union, [:integer, :null]},
+      pull_request_url: {:string, :uri},
       reactions: {GitHub.Reaction.Rollup, :t},
-      side: :string,
-      start_line: {:nullable, :integer},
-      start_side: {:nullable, :string},
-      updated_at: :string,
-      url: :string,
-      user: {:nullable, {GitHub.User, :simple}}
+      side: {:enum, ["LEFT", "RIGHT"]},
+      start_line: {:union, [:integer, :null]},
+      start_side: {:enum, ["LEFT", "RIGHT", nil]},
+      updated_at: {:string, :date_time},
+      url: {:string, :uri},
+      user: {:union, [{GitHub.User, :simple}, :null]}
     ]
   end
 end

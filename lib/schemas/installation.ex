@@ -1,17 +1,17 @@
 defmodule GitHub.Installation do
   @moduledoc """
-  Provides struct and type for Installation
+  Provides struct and type for a Installation
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
           access_tokens_url: String.t(),
-          account: (GitHub.Enterprise.t() | GitHub.User.simple()) | nil,
+          account: map | GitHub.User.simple() | nil,
           app_id: integer,
           app_slug: String.t(),
           contact_email: String.t() | nil,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           events: [String.t()],
           has_multiple_single_files: boolean | nil,
           html_url: String.t(),
@@ -21,11 +21,11 @@ defmodule GitHub.Installation do
           repository_selection: String.t(),
           single_file_name: String.t() | nil,
           single_file_paths: [String.t()] | nil,
-          suspended_at: String.t() | nil,
+          suspended_at: DateTime.t() | nil,
           suspended_by: GitHub.User.simple() | nil,
           target_id: integer,
           target_type: String.t(),
-          updated_at: String.t()
+          updated_at: DateTime.t()
         }
 
   defstruct [
@@ -58,26 +58,26 @@ defmodule GitHub.Installation do
 
   def __fields__(:t) do
     [
-      access_tokens_url: :string,
-      account: {:nullable, {:union, [{GitHub.User, :simple}, {GitHub.Enterprise, :t}]}},
+      access_tokens_url: {:string, :uri},
+      account: {:union, [:map, {GitHub.User, :simple}, :null]},
       app_id: :integer,
-      app_slug: :string,
-      contact_email: {:nullable, :string},
-      created_at: :string,
-      events: {:array, :string},
+      app_slug: {:string, :generic},
+      contact_email: {:union, [{:string, :generic}, :null]},
+      created_at: {:string, :date_time},
+      events: [string: :generic],
       has_multiple_single_files: :boolean,
-      html_url: :string,
+      html_url: {:string, :uri},
       id: :integer,
       permissions: {GitHub.App.Permissions, :t},
-      repositories_url: :string,
-      repository_selection: :string,
-      single_file_name: {:nullable, :string},
-      single_file_paths: {:array, :string},
-      suspended_at: {:nullable, :string},
-      suspended_by: {:nullable, {GitHub.User, :simple}},
+      repositories_url: {:string, :uri},
+      repository_selection: {:enum, ["all", "selected"]},
+      single_file_name: {:union, [{:string, :generic}, :null]},
+      single_file_paths: [string: :generic],
+      suspended_at: {:union, [{:string, :date_time}, :null]},
+      suspended_by: {:union, [{GitHub.User, :simple}, :null]},
       target_id: :integer,
-      target_type: :string,
-      updated_at: :string
+      target_type: {:string, :generic},
+      updated_at: {:string, :date_time}
     ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.ParticipationStats do
   @moduledoc """
-  Provides struct and type for ParticipationStats
+  Provides struct and type for a ParticipationStats
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.ParticipationStats do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [all: {:array, :integer}, owner: {:array, :integer}]
+    [all: [:integer], owner: [:integer]]
   end
 end

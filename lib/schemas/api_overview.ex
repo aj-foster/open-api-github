@@ -1,6 +1,6 @@
 defmodule GitHub.ApiOverview do
   @moduledoc """
-  Provides struct and type for ApiOverview
+  Provides struct and type for a ApiOverview
   """
   use GitHub.Encoder
 
@@ -46,20 +46,20 @@ defmodule GitHub.ApiOverview do
 
   def __fields__(:t) do
     [
-      actions: {:array, :string},
-      api: {:array, :string},
-      dependabot: {:array, :string},
+      actions: [string: :generic],
+      api: [string: :generic],
+      dependabot: [string: :generic],
       domains: :map,
-      git: {:array, :string},
-      github_enterprise_importer: {:array, :string},
-      hooks: {:array, :string},
-      importer: {:array, :string},
-      packages: {:array, :string},
-      pages: {:array, :string},
+      git: [string: :generic],
+      github_enterprise_importer: [string: :generic],
+      hooks: [string: :generic],
+      importer: [string: :generic],
+      packages: [string: :generic],
+      pages: [string: :generic],
       ssh_key_fingerprints: :map,
-      ssh_keys: {:array, :string},
+      ssh_keys: [string: :generic],
       verifiable_password_authentication: :boolean,
-      web: {:array, :string}
+      web: [string: :generic]
     ]
   end
 end

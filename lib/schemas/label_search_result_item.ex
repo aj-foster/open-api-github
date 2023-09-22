@@ -1,6 +1,6 @@
 defmodule GitHub.LabelSearchResultItem do
   @moduledoc """
-  Provides struct and type for LabelSearchResultItem
+  Provides struct and type for a LabelSearchResultItem
   """
   use GitHub.Encoder
 
@@ -36,15 +36,15 @@ defmodule GitHub.LabelSearchResultItem do
 
   def __fields__(:t) do
     [
-      color: :string,
+      color: {:string, :generic},
       default: :boolean,
-      description: {:nullable, :string},
+      description: {:union, [{:string, :generic}, :null]},
       id: :integer,
-      name: :string,
-      node_id: :string,
+      name: {:string, :generic},
+      node_id: {:string, :generic},
       score: :number,
-      text_matches: {:array, :map},
-      url: :string
+      text_matches: [:map],
+      url: {:string, :uri}
     ]
   end
 end

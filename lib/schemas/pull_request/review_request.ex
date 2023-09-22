@@ -1,6 +1,6 @@
 defmodule GitHub.PullRequest.ReviewRequest do
   @moduledoc """
-  Provides struct and type for PullRequestReviewRequest
+  Provides struct and type for a PullRequest.ReviewRequest
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.PullRequest.ReviewRequest do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [teams: {:array, {GitHub.Team, :t}}, users: {:array, {GitHub.User, :simple}}]
+    [teams: [{GitHub.Team, :t}], users: [{GitHub.User, :simple}]]
   end
 end

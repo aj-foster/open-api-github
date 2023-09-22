@@ -1,6 +1,6 @@
 defmodule GitHub.Copilot.SeatBreakdown do
   @moduledoc """
-  Provides struct and type for CopilotSeatBreakdown
+  Provides struct and type for a Copilot.SeatBreakdown
   """
   use GitHub.Encoder
 

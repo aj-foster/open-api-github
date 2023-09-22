@@ -8,6 +8,10 @@ defmodule GitHub.Codespaces do
   @doc """
   Add a selected repository to a user secret
 
+  Adds a repository to the selected repositories for a user's codespace secret.
+  You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must have Codespaces access to use this endpoint.
+  GitHub Apps must have write access to the `codespaces_user_secrets` user permission and write access to the `codespaces_secrets` repository permission on the referenced repository to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/codespaces/secrets#add-a-selected-repository-to-a-user-secret)
@@ -24,7 +28,7 @@ defmodule GitHub.Codespaces do
       url: "/user/codespaces/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :put,
       response: [
-        {204, nil},
+        {204, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -36,6 +40,8 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Add selected repository to an organization secret
+
+  Adds a repository to an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/codespaces/organization-secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint.
 
   ## Resources
 
@@ -53,9 +59,9 @@ defmodule GitHub.Codespaces do
       url: "/orgs/#{org}/codespaces/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :put,
       response: [
-        {204, nil},
+        {204, :null},
         {404, {GitHub.BasicError, :t}},
-        {409, nil},
+        {409, :null},
         {422, {GitHub.ValidationError, :t}}
       ],
       opts: opts
@@ -64,6 +70,12 @@ defmodule GitHub.Codespaces do
 
   @doc """
   List machine types for a codespace
+
+  List the machine types a codespace can transition to use.
+
+  You must authenticate using an access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have read access to the `codespaces_metadata` repository permission to use this endpoint.
 
   ## Resources
 
@@ -82,7 +94,7 @@ defmodule GitHub.Codespaces do
       method: :get,
       response: [
         {200, :map},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -94,6 +106,14 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Create a codespace for the authenticated user
+
+  Creates a new codespace, owned by the authenticated user.
+
+  This endpoint requires either a `repository_id` OR a `pull_request` but not both.
+
+  You must authenticate using an access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have write access to the `codespaces` repository permission to use this endpoint.
 
   ## Resources
 
@@ -127,6 +147,12 @@ defmodule GitHub.Codespaces do
   @doc """
   Create or update an organization secret
 
+  Creates or updates an organization secret with an encrypted value. Encrypt your secret using
+  [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+
+  You must authenticate using an access
+  token with the `admin:org` scope to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/codespaces/organization-secrets#create-or-update-an-organization-secret)
@@ -146,7 +172,7 @@ defmodule GitHub.Codespaces do
       request: [{"application/json", :map}],
       response: [
         {201, {GitHub.EmptyObject, :t}},
-        {204, nil},
+        {204, :null},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
       ],
@@ -156,6 +182,13 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Create or update a repository secret
+
+  Creates or updates a repository secret with an encrypted value. Encrypt your secret using
+  [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+
+  You must authenticate using an access
+  token with the `repo` scope to use this endpoint. GitHub Apps must have write access to the `codespaces_secrets`
+  repository permission to use this endpoint.
 
   ## Resources
 
@@ -174,13 +207,20 @@ defmodule GitHub.Codespaces do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
+      response: [{201, {GitHub.EmptyObject, :t}}, {204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Create or update a secret for the authenticated user
+
+  Creates or updates a secret for a user's codespace with an encrypted value. Encrypt your secret using
+  [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+
+  You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must also have Codespaces access to use this endpoint.
+
+  GitHub Apps must have write access to the `codespaces_user_secrets` user permission and `codespaces_secrets` repository permission on all referenced repositories to use this endpoint.
 
   ## Resources
 
@@ -201,7 +241,7 @@ defmodule GitHub.Codespaces do
       request: [{"application/json", :map}],
       response: [
         {201, {GitHub.EmptyObject, :t}},
-        {204, nil},
+        {204, :null},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
       ],
@@ -211,6 +251,12 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Create a codespace from a pull request
+
+  Creates a codespace owned by the authenticated user for the specified pull request.
+
+  You must authenticate using an access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have write access to the `codespaces` repository permission to use this endpoint.
 
   ## Resources
 
@@ -228,7 +274,7 @@ defmodule GitHub.Codespaces do
       url: "/repos/#{owner}/#{repo}/pulls/#{pull_number}/codespaces",
       body: body,
       method: :post,
-      request: [{"application/json", {:nullable, :map}}],
+      request: [{"application/json", {:union, [:map, :null]}}],
       response: [
         {201, {GitHub.Codespace, :t}},
         {202, {GitHub.Codespace, :t}},
@@ -243,6 +289,12 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Create a codespace in a repository
+
+  Creates a codespace owned by the authenticated user in the specified repository.
+
+  You must authenticate using an access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have write access to the `codespaces` repository permission to use this endpoint.
 
   ## Resources
 
@@ -260,11 +312,11 @@ defmodule GitHub.Codespaces do
       url: "/repos/#{owner}/#{repo}/codespaces",
       body: body,
       method: :post,
-      request: [{"application/json", {:nullable, :map}}],
+      request: [{"application/json", {:union, [:map, :null]}}],
       response: [
         {201, {GitHub.Codespace, :t}},
         {202, {GitHub.Codespace, :t}},
-        {400, {GitHub.BasicError, :t}},
+        {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -276,6 +328,13 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Remove users from Codespaces access for an organization
+
+  Codespaces for the specified users will no longer be billed to the organization.
+
+  To use this endpoint, the access settings for the organization must be set to `selected_members`.
+  For information on how to change this setting, see "[Manage access control for organization codespaces](https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces)."
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
 
   ## Resources
 
@@ -295,9 +354,9 @@ defmodule GitHub.Codespaces do
       method: :delete,
       request: [{"application/json", :map}],
       response: [
-        {204, nil},
-        {304, nil},
-        {400, nil},
+        {204, :null},
+        {304, :null},
+        {400, :null},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}},
         {500, {GitHub.BasicError, :t}}
@@ -308,6 +367,12 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Delete a codespace for the authenticated user
+
+  Deletes a user's codespace.
+
+  You must authenticate using an access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have write access to the `codespaces` repository permission to use this endpoint.
 
   ## Resources
 
@@ -326,7 +391,7 @@ defmodule GitHub.Codespaces do
       method: :delete,
       response: [
         {202, :map},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -338,6 +403,10 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Delete a codespace from the organization
+
+  Deletes a user's codespace.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
 
   ## Resources
 
@@ -356,7 +425,7 @@ defmodule GitHub.Codespaces do
       method: :delete,
       response: [
         {202, :map},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -368,6 +437,8 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Delete an organization secret
+
+  Deletes an organization secret using the secret name. You must authenticate using an access token with the `admin:org` scope to use this endpoint.
 
   ## Resources
 
@@ -383,13 +454,15 @@ defmodule GitHub.Codespaces do
       call: {GitHub.Codespaces, :delete_org_secret},
       url: "/orgs/#{org}/codespaces/secrets/#{secret_name}",
       method: :delete,
-      response: [{204, nil}, {404, {GitHub.BasicError, :t}}],
+      response: [{204, :null}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
 
   @doc """
   Delete a repository secret
+
+  Deletes a secret in a repository using the secret name. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have write access to the `codespaces_secrets` repository permission to use this endpoint.
 
   ## Resources
 
@@ -406,13 +479,19 @@ defmodule GitHub.Codespaces do
       call: {GitHub.Codespaces, :delete_repo_secret},
       url: "/repos/#{owner}/#{repo}/codespaces/secrets/#{secret_name}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete a secret for the authenticated user
+
+  Deletes a secret from a user's codespaces using the secret name. Deleting the secret will remove access from all codespaces that were allowed to access the secret.
+
+  You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must have Codespaces access to use this endpoint.
+
+  GitHub Apps must have write access to the `codespaces_user_secrets` user permission to use this endpoint.
 
   ## Resources
 
@@ -429,13 +508,21 @@ defmodule GitHub.Codespaces do
       call: {GitHub.Codespaces, :delete_secret_for_authenticated_user},
       url: "/user/codespaces/secrets/#{secret_name}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Export a codespace for the authenticated user
+
+  Triggers an export of the specified codespace and returns a URL and ID where the status of the export can be monitored.
+
+  If changes cannot be pushed to the codespace's repository, they will be pushed to a new or previously-existing fork instead.
+
+  You must authenticate using a personal access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have write access to the `codespaces_lifecycle_admin` repository permission to use this endpoint.
 
   ## Resources
 
@@ -467,10 +554,14 @@ defmodule GitHub.Codespaces do
   @doc """
   List codespaces for a user in organization
 
+  Lists the codespaces that a member of an organization has for repositories in that organization.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -491,7 +582,7 @@ defmodule GitHub.Codespaces do
       query: query,
       response: [
         {200, :map},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -503,6 +594,12 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Get details about a codespace export
+
+  Gets information about an export of a codespace.
+
+  You must authenticate using a personal access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have read access to the `codespaces_lifecycle_admin` repository permission to use this endpoint.
 
   ## Resources
 
@@ -527,6 +624,12 @@ defmodule GitHub.Codespaces do
   @doc """
   Get a codespace for the authenticated user
 
+  Gets information about a user's codespace.
+
+  You must authenticate using an access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have read access to the `codespaces` repository permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/codespaces/codespaces#get-a-codespace-for-the-authenticated-user)
@@ -544,7 +647,7 @@ defmodule GitHub.Codespaces do
       method: :get,
       response: [
         {200, {GitHub.Codespace, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -556,6 +659,8 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Get an organization public key
+
+  Gets a public key for an organization, which is required in order to encrypt secrets. You need to encrypt the value of a secret before you can create or update secrets. You must authenticate using an access token with the `admin:org` scope to use this endpoint.
 
   ## Resources
 
@@ -580,6 +685,9 @@ defmodule GitHub.Codespaces do
   @doc """
   Get an organization secret
 
+  Gets an organization secret without revealing its encrypted value.
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/codespaces/organization-secrets#get-an-organization-secret)
@@ -603,6 +711,12 @@ defmodule GitHub.Codespaces do
   @doc """
   Get public key for the authenticated user
 
+  Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets.
+
+  You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must have Codespaces access to use this endpoint.
+
+  GitHub Apps must have read access to the `codespaces_user_secrets` user permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/codespaces/secrets#get-public-key-for-the-authenticated-user)
@@ -614,6 +728,7 @@ defmodule GitHub.Codespaces do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [],
       call: {GitHub.Codespaces, :get_public_key_for_authenticated_user},
       url: "/user/codespaces/secrets/public-key",
       method: :get,
@@ -624,6 +739,8 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Get a repository public key
+
+  Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have write access to the `codespaces_secrets` repository permission to use this endpoint.
 
   ## Resources
 
@@ -648,6 +765,8 @@ defmodule GitHub.Codespaces do
   @doc """
   Get a repository secret
 
+  Gets a single repository secret without revealing its encrypted value. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have write access to the `codespaces_secrets` repository permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/codespaces/repository-secrets#get-a-repository-secret)
@@ -670,6 +789,12 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Get a secret for the authenticated user
+
+  Gets a secret available to a user's codespaces without revealing its encrypted value.
+
+  You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must have Codespaces access to use this endpoint.
+
+  GitHub Apps must have read access to the `codespaces_user_secrets` user permission to use this endpoint.
 
   ## Resources
 
@@ -694,10 +819,17 @@ defmodule GitHub.Codespaces do
   @doc """
   List devcontainer configurations in a repository for the authenticated user
 
+  Lists the devcontainer.json files associated with a specified repository and the authenticated user. These files
+  specify launchpoint configurations for codespaces created within the repository.
+
+  You must authenticate using an access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have read access to the `codespaces_metadata` repository permission to use this endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -718,7 +850,7 @@ defmodule GitHub.Codespaces do
       query: query,
       response: [
         {200, :map},
-        {400, {GitHub.BasicError, :t}},
+        {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -731,11 +863,17 @@ defmodule GitHub.Codespaces do
   @doc """
   List codespaces for the authenticated user
 
+  Lists the authenticated user's codespaces.
+
+  You must authenticate using an access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have read access to the `codespaces` repository permission to use this endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
-    * `repository_id` (integer): ID of the Repository to filter on
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
+    * `repository_id`: ID of the Repository to filter on
 
   ## Resources
 
@@ -748,13 +886,14 @@ defmodule GitHub.Codespaces do
     query = Keyword.take(opts, [:page, :per_page, :repository_id])
 
     client.request(%{
+      args: [],
       call: {GitHub.Codespaces, :list_for_authenticated_user},
       url: "/user/codespaces",
       method: :get,
       query: query,
       response: [
         {200, :map},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -767,10 +906,14 @@ defmodule GitHub.Codespaces do
   @doc """
   List codespaces for the organization
 
+  Lists the codespaces associated to a specified organization.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -790,7 +933,7 @@ defmodule GitHub.Codespaces do
       query: query,
       response: [
         {200, :map},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -803,10 +946,16 @@ defmodule GitHub.Codespaces do
   @doc """
   List codespaces in a repository for the authenticated user
 
+  Lists the codespaces associated to a specified repository and the authenticated user.
+
+  You must authenticate using an access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have read access to the `codespaces` repository permission to use this endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -839,10 +988,13 @@ defmodule GitHub.Codespaces do
   @doc """
   List organization secrets
 
+  Lists all Codespaces secrets available at the organization-level without revealing their encrypted values.
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -868,10 +1020,12 @@ defmodule GitHub.Codespaces do
   @doc """
   List repository secrets
 
+  Lists all secrets available in a repository without revealing their encrypted values. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have write access to the `codespaces_secrets` repository permission to use this endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -897,6 +1051,12 @@ defmodule GitHub.Codespaces do
 
   @doc """
   List selected repositories for a user secret
+
+  List the repositories that have been granted the ability to use a user's codespace secret.
+
+  You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must have Codespaces access to use this endpoint.
+
+  GitHub Apps must have read access to the `codespaces_user_secrets` user permission and write access to the `codespaces_secrets` repository permission on all referenced repositories to use this endpoint.
 
   ## Resources
 
@@ -927,10 +1087,17 @@ defmodule GitHub.Codespaces do
   @doc """
   List secrets for the authenticated user
 
+  Lists all secrets available for a user's Codespaces without revealing their
+  encrypted values.
+
+  You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must have Codespaces access to use this endpoint.
+
+  GitHub Apps must have read access to the `codespaces_user_secrets` user permission to use this endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -943,6 +1110,7 @@ defmodule GitHub.Codespaces do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [],
       call: {GitHub.Codespaces, :list_secrets_for_authenticated_user},
       url: "/user/codespaces/secrets",
       method: :get,
@@ -955,10 +1123,12 @@ defmodule GitHub.Codespaces do
   @doc """
   List selected repositories for an organization secret
 
+  Lists all repositories that have been selected when the `visibility` for repository access to a secret is set to `selected`. You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+
   ## Options
 
-    * `page` (integer): Page number of the results to fetch.
-    * `per_page` (integer): The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
 
   ## Resources
 
@@ -985,10 +1155,16 @@ defmodule GitHub.Codespaces do
   @doc """
   Get default attributes for a codespace
 
+  Gets the default attributes for codespaces created by the user with the repository.
+
+  You must authenticate using an access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have write access to the `codespaces` repository permission to use this endpoint.
+
   ## Options
 
-    * `ref` (String.t()): The branch or commit to check for a default devcontainer path. If not specified, the default branch will be checked.
-    * `client_ip` (String.t()): An alternative IP for default location auto-detection, such as when proxying a request.
+    * `ref`: The branch or commit to check for a default devcontainer path. If not specified, the default branch will be checked.
+    * `client_ip`: An alternative IP for default location auto-detection, such as when proxying a request.
 
   ## Resources
 
@@ -1019,6 +1195,16 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Create a repository from an unpublished codespace
+
+  Publishes an unpublished codespace, creating a new repository and assigning it to the codespace.
+
+  The codespace's token is granted write permissions to the repository, allowing the user to push their changes.
+
+  This will fail for a codespace that is already published, meaning it has an associated repository.
+
+  You must authenticate using a personal access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have write access to the `codespaces` repository permission to use this endpoint.
 
   ## Resources
 
@@ -1051,6 +1237,10 @@ defmodule GitHub.Codespaces do
   @doc """
   Remove a selected repository from a user secret
 
+  Removes a repository from the selected repositories for a user's codespace secret.
+  You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must have Codespaces access to use this endpoint.
+  GitHub Apps must have write access to the `codespaces_user_secrets` user permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/codespaces/secrets#remove-a-selected-repository-from-a-user-secret)
@@ -1067,7 +1257,7 @@ defmodule GitHub.Codespaces do
       url: "/user/codespaces/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :delete,
       response: [
-        {204, nil},
+        {204, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -1079,6 +1269,8 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Remove selected repository from an organization secret
+
+  Removes a repository from an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/codespaces/organization-secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint.
 
   ## Resources
 
@@ -1096,9 +1288,9 @@ defmodule GitHub.Codespaces do
       url: "/orgs/#{org}/codespaces/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :delete,
       response: [
-        {204, nil},
+        {204, :null},
         {404, {GitHub.BasicError, :t}},
-        {409, nil},
+        {409, :null},
         {422, {GitHub.ValidationError, :t}}
       ],
       opts: opts
@@ -1108,11 +1300,17 @@ defmodule GitHub.Codespaces do
   @doc """
   List available machine types for a repository
 
+  List the machine types available for a given repository based on its configuration.
+
+  You must authenticate using an access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have write access to the `codespaces_metadata` repository permission to use this endpoint.
+
   ## Options
 
-    * `location` (String.t()): The location to check for available machines. Assigned by IP if not provided.
-    * `client_ip` (String.t()): IP for location auto-detection when proxying a request
-    * `ref` (String.t()): The branch or commit to check for prebuild availability and devcontainer restrictions.
+    * `location`: The location to check for available machines. Assigned by IP if not provided.
+    * `client_ip`: IP for location auto-detection when proxying a request
+    * `ref`: The branch or commit to check for prebuild availability and devcontainer restrictions.
 
   ## Resources
 
@@ -1133,7 +1331,7 @@ defmodule GitHub.Codespaces do
       query: query,
       response: [
         {200, :map},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -1145,6 +1343,9 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Manage access control for organization codespaces
+
+  Sets which users can access codespaces in an organization. This is synonymous with granting or revoking codespaces access permissions for users according to the visibility.
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
 
   ## Resources
 
@@ -1163,9 +1364,9 @@ defmodule GitHub.Codespaces do
       method: :put,
       request: [{"application/json", :map}],
       response: [
-        {204, nil},
-        {304, nil},
-        {400, nil},
+        {204, :null},
+        {304, :null},
+        {400, :null},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}},
         {500, {GitHub.BasicError, :t}}
@@ -1176,6 +1377,13 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Add users to Codespaces access for an organization
+
+  Codespaces for the specified users will be billed to the organization.
+
+  To use this endpoint, the access settings for the organization must be set to `selected_members`.
+  For information on how to change this setting, see "[Manage access control for organization codespaces](https://docs.github.com/rest/codespaces/organizations#manage-access-control-for-organization-codespaces)."
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
 
   ## Resources
 
@@ -1194,9 +1402,9 @@ defmodule GitHub.Codespaces do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {204, nil},
-        {304, nil},
-        {400, nil},
+        {204, :null},
+        {304, :null},
+        {400, :null},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}},
         {500, {GitHub.BasicError, :t}}
@@ -1207,6 +1415,12 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Set selected repositories for a user secret
+
+  Select the repositories that will use a user's codespace secret.
+
+  You must authenticate using an access token with the `codespace` or `codespace:secrets` scope to use this endpoint. User must have Codespaces access to use this endpoint.
+
+  GitHub Apps must have write access to the `codespaces_user_secrets` user permission and write access to the `codespaces_secrets` repository permission on all referenced repositories to use this endpoint.
 
   ## Resources
 
@@ -1226,7 +1440,7 @@ defmodule GitHub.Codespaces do
       method: :put,
       request: [{"application/json", :map}],
       response: [
-        {204, nil},
+        {204, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -1238,6 +1452,8 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Set selected repositories for an organization secret
+
+  Replaces all repositories for an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/codespaces/organization-secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint.
 
   ## Resources
 
@@ -1256,13 +1472,19 @@ defmodule GitHub.Codespaces do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{204, nil}, {404, {GitHub.BasicError, :t}}, {409, nil}],
+      response: [{204, :null}, {404, {GitHub.BasicError, :t}}, {409, :null}],
       opts: opts
     })
   end
 
   @doc """
   Start a codespace for the authenticated user
+
+  Starts a user's codespace.
+
+  You must authenticate using an access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have write access to the `codespaces_lifecycle_admin` repository permission to use this endpoint.
 
   ## Resources
 
@@ -1281,8 +1503,8 @@ defmodule GitHub.Codespaces do
       method: :post,
       response: [
         {200, {GitHub.Codespace, :t}},
-        {304, nil},
-        {400, {GitHub.BasicError, :t}},
+        {304, :null},
+        {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {401, {GitHub.BasicError, :t}},
         {402, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -1296,6 +1518,12 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Stop a codespace for the authenticated user
+
+  Stops a user's codespace.
+
+  You must authenticate using an access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have write access to the `codespaces_lifecycle_admin` repository permission to use this endpoint.
 
   ## Resources
 
@@ -1326,6 +1554,10 @@ defmodule GitHub.Codespaces do
   @doc """
   Stop a codespace for an organization user
 
+  Stops a user's codespace.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/codespaces/organizations#stop-a-codespace-for-an-organization-user)
@@ -1343,7 +1575,7 @@ defmodule GitHub.Codespaces do
       method: :post,
       response: [
         {200, {GitHub.Codespace, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -1355,6 +1587,14 @@ defmodule GitHub.Codespaces do
 
   @doc """
   Update a codespace for the authenticated user
+
+  Updates a codespace owned by the authenticated user. Currently only the codespace's machine type and recent folders can be modified using this endpoint.
+
+  If you specify a new machine type it will be applied the next time your codespace is started.
+
+  You must authenticate using an access token with the `codespace` scope to use this endpoint.
+
+  GitHub Apps must have write access to the `codespaces` repository permission to use this endpoint.
 
   ## Resources
 

@@ -8,6 +8,8 @@ defmodule GitHub.Dependabot do
   @doc """
   Add selected repository to an organization secret
 
+  Adds a repository to an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/dependabot/secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` organization permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/dependabot/secrets#add-selected-repository-to-an-organization-secret)
@@ -23,13 +25,20 @@ defmodule GitHub.Dependabot do
       call: {GitHub.Dependabot, :add_selected_repo_to_org_secret},
       url: "/orgs/#{org}/dependabot/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :put,
-      response: [{204, nil}, {409, nil}],
+      response: [{204, :null}, {409, :null}],
       opts: opts
     })
   end
 
   @doc """
   Create or update an organization secret
+
+  Creates or updates an organization secret with an encrypted value. Encrypt your secret using
+  [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+
+  You must authenticate using an access
+  token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` organization
+  permission to use this endpoint.
 
   ## Resources
 
@@ -48,13 +57,20 @@ defmodule GitHub.Dependabot do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
+      response: [{201, {GitHub.EmptyObject, :t}}, {204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Create or update a repository secret
+
+  Creates or updates a repository secret with an encrypted value. Encrypt your secret using
+  [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+
+  You must authenticate using an access
+  token with the `repo` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` repository
+  permission to use this endpoint.
 
   ## Resources
 
@@ -73,13 +89,15 @@ defmodule GitHub.Dependabot do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
+      response: [{201, {GitHub.EmptyObject, :t}}, {204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete an organization secret
+
+  Deletes a secret in an organization using the secret name. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` organization permission to use this endpoint.
 
   ## Resources
 
@@ -95,13 +113,15 @@ defmodule GitHub.Dependabot do
       call: {GitHub.Dependabot, :delete_org_secret},
       url: "/orgs/#{org}/dependabot/secrets/#{secret_name}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete a repository secret
+
+  Deletes a secret in a repository using the secret name. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` repository permission to use this endpoint.
 
   ## Resources
 
@@ -118,13 +138,17 @@ defmodule GitHub.Dependabot do
       call: {GitHub.Dependabot, :delete_repo_secret},
       url: "/repos/#{owner}/#{repo}/dependabot/secrets/#{secret_name}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Get a Dependabot alert
+
+  You must use an access token with the `security_events` scope to use this endpoint with private repositories.
+  You can also use tokens with the `public_repo` scope for public repositories only.
+  GitHub Apps must have **Dependabot alerts** read permission to use this endpoint.
 
   ## Resources
 
@@ -143,7 +167,7 @@ defmodule GitHub.Dependabot do
       method: :get,
       response: [
         {200, {GitHub.Dependabot.Alert, :t}},
-        {304, nil},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],
@@ -153,6 +177,8 @@ defmodule GitHub.Dependabot do
 
   @doc """
   Get an organization public key
+
+  Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` organization permission to use this endpoint.
 
   ## Resources
 
@@ -177,6 +203,8 @@ defmodule GitHub.Dependabot do
   @doc """
   Get an organization secret
 
+  Gets a single organization secret without revealing its encrypted value. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` organization permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/dependabot/secrets#get-an-organization-secret)
@@ -199,6 +227,8 @@ defmodule GitHub.Dependabot do
 
   @doc """
   Get a repository public key
+
+  Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `dependabot_secrets` repository permission to use this endpoint.
 
   ## Resources
 
@@ -223,6 +253,8 @@ defmodule GitHub.Dependabot do
   @doc """
   Get a repository secret
 
+  Gets a single repository secret without revealing its encrypted value. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` repository permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/dependabot/secrets#get-a-repository-secret)
@@ -246,32 +278,37 @@ defmodule GitHub.Dependabot do
   @doc """
   List Dependabot alerts for an enterprise
 
+  Lists Dependabot alerts for repositories that are owned by the specified enterprise.
+  To use this endpoint, you must be a member of the enterprise, and you must use an
+  access token with the `repo` scope or `security_events` scope.
+  Alerts are only returned for organizations in the enterprise for which you are an organization owner or a security manager. For more information about security managers, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)."
+
   ## Options
 
-    * `state` (String.t()): A comma-separated list of states. If specified, only alerts with these states will be returned.
-
-  Can be: `auto_dismissed`, `dismissed`, `fixed`, `open`
-    * `severity` (String.t()): A comma-separated list of severities. If specified, only alerts with these severities will be returned.
-
-  Can be: `low`, `medium`, `high`, `critical`
-    * `ecosystem` (String.t()): A comma-separated list of ecosystems. If specified, only alerts for these ecosystems will be returned.
-
-  Can be: `composer`, `go`, `maven`, `npm`, `nuget`, `pip`, `pub`, `rubygems`, `rust`
-    * `package` (String.t()): A comma-separated list of package names. If specified, only alerts for these packages will be returned.
-    * `scope` (String.t()): The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned.
-    * `sort` (String.t()): The property by which to sort the results.
-  `created` means when the alert was created.
-  `updated` means when the alert's state last changed.
-    * `direction` (String.t()): The direction to sort the results by.
-    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
-    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
-    * `first` (integer): **Deprecated**. The number of results per page (max 100), starting from the first matching result.
-  This parameter must not be used in combination with `last`.
-  Instead, use `per_page` in combination with `after` to fetch the first page of results.
-    * `last` (integer): **Deprecated**. The number of results per page (max 100), starting from the last matching result.
-  This parameter must not be used in combination with `first`.
-  Instead, use `per_page` in combination with `before` to fetch the last page of results.
-    * `per_page` (integer): The number of results per page (max 100).
+    * `state`: A comma-separated list of states. If specified, only alerts with these states will be returned.
+      
+      Can be: `auto_dismissed`, `dismissed`, `fixed`, `open`
+    * `severity`: A comma-separated list of severities. If specified, only alerts with these severities will be returned.
+      
+      Can be: `low`, `medium`, `high`, `critical`
+    * `ecosystem`: A comma-separated list of ecosystems. If specified, only alerts for these ecosystems will be returned.
+      
+      Can be: `composer`, `go`, `maven`, `npm`, `nuget`, `pip`, `pub`, `rubygems`, `rust`
+    * `package`: A comma-separated list of package names. If specified, only alerts for these packages will be returned.
+    * `scope`: The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned.
+    * `sort`: The property by which to sort the results.
+      `created` means when the alert was created.
+      `updated` means when the alert's state last changed.
+    * `direction`: The direction to sort the results by.
+    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
+    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
+    * `first`: **Deprecated**. The number of results per page (max 100), starting from the first matching result.
+      This parameter must not be used in combination with `last`.
+      Instead, use `per_page` in combination with `after` to fetch the first page of results.
+    * `last`: **Deprecated**. The number of results per page (max 100), starting from the last matching result.
+      This parameter must not be used in combination with `first`.
+      Instead, use `per_page` in combination with `before` to fetch the last page of results.
+    * `per_page`: The number of results per page (max 100).
 
   ## Resources
 
@@ -306,8 +343,8 @@ defmodule GitHub.Dependabot do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Dependabot.Alert.WithRepository, :t}}},
-        {304, nil},
+        {200, [{GitHub.Dependabot.Alert.WithRepository, :t}]},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
@@ -319,32 +356,40 @@ defmodule GitHub.Dependabot do
   @doc """
   List Dependabot alerts for an organization
 
+  Lists Dependabot alerts for an organization.
+
+  To use this endpoint, you must be an owner or security manager for the organization, and you must use an access token with the `repo` scope or `security_events` scope.
+
+  For public repositories, you may instead use the `public_repo` scope.
+
+  GitHub Apps must have **Dependabot alerts** read permission to use this endpoint.
+
   ## Options
 
-    * `state` (String.t()): A comma-separated list of states. If specified, only alerts with these states will be returned.
-
-  Can be: `auto_dismissed`, `dismissed`, `fixed`, `open`
-    * `severity` (String.t()): A comma-separated list of severities. If specified, only alerts with these severities will be returned.
-
-  Can be: `low`, `medium`, `high`, `critical`
-    * `ecosystem` (String.t()): A comma-separated list of ecosystems. If specified, only alerts for these ecosystems will be returned.
-
-  Can be: `composer`, `go`, `maven`, `npm`, `nuget`, `pip`, `pub`, `rubygems`, `rust`
-    * `package` (String.t()): A comma-separated list of package names. If specified, only alerts for these packages will be returned.
-    * `scope` (String.t()): The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned.
-    * `sort` (String.t()): The property by which to sort the results.
-  `created` means when the alert was created.
-  `updated` means when the alert's state last changed.
-    * `direction` (String.t()): The direction to sort the results by.
-    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
-    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
-    * `first` (integer): **Deprecated**. The number of results per page (max 100), starting from the first matching result.
-  This parameter must not be used in combination with `last`.
-  Instead, use `per_page` in combination with `after` to fetch the first page of results.
-    * `last` (integer): **Deprecated**. The number of results per page (max 100), starting from the last matching result.
-  This parameter must not be used in combination with `first`.
-  Instead, use `per_page` in combination with `before` to fetch the last page of results.
-    * `per_page` (integer): The number of results per page (max 100).
+    * `state`: A comma-separated list of states. If specified, only alerts with these states will be returned.
+      
+      Can be: `auto_dismissed`, `dismissed`, `fixed`, `open`
+    * `severity`: A comma-separated list of severities. If specified, only alerts with these severities will be returned.
+      
+      Can be: `low`, `medium`, `high`, `critical`
+    * `ecosystem`: A comma-separated list of ecosystems. If specified, only alerts for these ecosystems will be returned.
+      
+      Can be: `composer`, `go`, `maven`, `npm`, `nuget`, `pip`, `pub`, `rubygems`, `rust`
+    * `package`: A comma-separated list of package names. If specified, only alerts for these packages will be returned.
+    * `scope`: The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned.
+    * `sort`: The property by which to sort the results.
+      `created` means when the alert was created.
+      `updated` means when the alert's state last changed.
+    * `direction`: The direction to sort the results by.
+    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
+    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
+    * `first`: **Deprecated**. The number of results per page (max 100), starting from the first matching result.
+      This parameter must not be used in combination with `last`.
+      Instead, use `per_page` in combination with `after` to fetch the first page of results.
+    * `last`: **Deprecated**. The number of results per page (max 100), starting from the last matching result.
+      This parameter must not be used in combination with `first`.
+      Instead, use `per_page` in combination with `before` to fetch the last page of results.
+    * `per_page`: The number of results per page (max 100).
 
   ## Resources
 
@@ -379,9 +424,9 @@ defmodule GitHub.Dependabot do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Dependabot.Alert.WithRepository, :t}}},
-        {304, nil},
-        {400, {GitHub.BasicError, :t}},
+        {200, [{GitHub.Dependabot.Alert.WithRepository, :t}]},
+        {304, :null},
+        {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
@@ -393,34 +438,38 @@ defmodule GitHub.Dependabot do
   @doc """
   List Dependabot alerts for a repository
 
+  You must use an access token with the `security_events` scope to use this endpoint with private repositories.
+  You can also use tokens with the `public_repo` scope for public repositories only.
+  GitHub Apps must have **Dependabot alerts** read permission to use this endpoint.
+
   ## Options
 
-    * `state` (String.t()): A comma-separated list of states. If specified, only alerts with these states will be returned.
-
-  Can be: `auto_dismissed`, `dismissed`, `fixed`, `open`
-    * `severity` (String.t()): A comma-separated list of severities. If specified, only alerts with these severities will be returned.
-
-  Can be: `low`, `medium`, `high`, `critical`
-    * `ecosystem` (String.t()): A comma-separated list of ecosystems. If specified, only alerts for these ecosystems will be returned.
-
-  Can be: `composer`, `go`, `maven`, `npm`, `nuget`, `pip`, `pub`, `rubygems`, `rust`
-    * `package` (String.t()): A comma-separated list of package names. If specified, only alerts for these packages will be returned.
-    * `manifest` (String.t()): A comma-separated list of full manifest paths. If specified, only alerts for these manifests will be returned.
-    * `scope` (String.t()): The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned.
-    * `sort` (String.t()): The property by which to sort the results.
-  `created` means when the alert was created.
-  `updated` means when the alert's state last changed.
-    * `direction` (String.t()): The direction to sort the results by.
-    * `page` (integer): **Deprecated**. Page number of the results to fetch. Use cursor-based pagination with `before` or `after` instead.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
-    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
-    * `first` (integer): **Deprecated**. The number of results per page (max 100), starting from the first matching result.
-  This parameter must not be used in combination with `last`.
-  Instead, use `per_page` in combination with `after` to fetch the first page of results.
-    * `last` (integer): **Deprecated**. The number of results per page (max 100), starting from the last matching result.
-  This parameter must not be used in combination with `first`.
-  Instead, use `per_page` in combination with `before` to fetch the last page of results.
+    * `state`: A comma-separated list of states. If specified, only alerts with these states will be returned.
+      
+      Can be: `auto_dismissed`, `dismissed`, `fixed`, `open`
+    * `severity`: A comma-separated list of severities. If specified, only alerts with these severities will be returned.
+      
+      Can be: `low`, `medium`, `high`, `critical`
+    * `ecosystem`: A comma-separated list of ecosystems. If specified, only alerts for these ecosystems will be returned.
+      
+      Can be: `composer`, `go`, `maven`, `npm`, `nuget`, `pip`, `pub`, `rubygems`, `rust`
+    * `package`: A comma-separated list of package names. If specified, only alerts for these packages will be returned.
+    * `manifest`: A comma-separated list of full manifest paths. If specified, only alerts for these manifests will be returned.
+    * `scope`: The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned.
+    * `sort`: The property by which to sort the results.
+      `created` means when the alert was created.
+      `updated` means when the alert's state last changed.
+    * `direction`: The direction to sort the results by.
+    * `page`: **Deprecated**. Page number of the results to fetch. Use cursor-based pagination with `before` or `after` instead.
+    * `per_page`: The number of results per page (max 100).
+    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
+    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
+    * `first`: **Deprecated**. The number of results per page (max 100), starting from the first matching result.
+      This parameter must not be used in combination with `last`.
+      Instead, use `per_page` in combination with `after` to fetch the first page of results.
+    * `last`: **Deprecated**. The number of results per page (max 100), starting from the last matching result.
+      This parameter must not be used in combination with `first`.
+      Instead, use `per_page` in combination with `before` to fetch the last page of results.
 
   ## Resources
 
@@ -457,9 +506,9 @@ defmodule GitHub.Dependabot do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Dependabot.Alert, :t}}},
-        {304, nil},
-        {400, {GitHub.BasicError, :t}},
+        {200, [{GitHub.Dependabot.Alert, :t}]},
+        {304, :null},
+        {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
@@ -471,10 +520,12 @@ defmodule GitHub.Dependabot do
   @doc """
   List organization secrets
 
+  Lists all secrets available in an organization without revealing their encrypted values. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` organization permission to use this endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -500,10 +551,12 @@ defmodule GitHub.Dependabot do
   @doc """
   List repository secrets
 
+  Lists all secrets available in a repository without revealing their encrypted values. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` repository permission to use this endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -530,10 +583,12 @@ defmodule GitHub.Dependabot do
   @doc """
   List selected repositories for an organization secret
 
+  Lists all repositories that have been selected when the `visibility` for repository access to a secret is set to `selected`. You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` organization permission to use this endpoint.
+
   ## Options
 
-    * `page` (integer): Page number of the results to fetch.
-    * `per_page` (integer): The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
 
   ## Resources
 
@@ -560,6 +615,8 @@ defmodule GitHub.Dependabot do
   @doc """
   Remove selected repository from an organization secret
 
+  Removes a repository from an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/dependabot/secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` organization permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/dependabot/secrets#remove-selected-repository-from-an-organization-secret)
@@ -575,13 +632,15 @@ defmodule GitHub.Dependabot do
       call: {GitHub.Dependabot, :remove_selected_repo_from_org_secret},
       url: "/orgs/#{org}/dependabot/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :delete,
-      response: [{204, nil}, {409, nil}],
+      response: [{204, :null}, {409, :null}],
       opts: opts
     })
   end
 
   @doc """
   Set selected repositories for an organization secret
+
+  Replaces all repositories for an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/dependabot/secrets#create-or-update-an-organization-secret). You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `dependabot_secrets` organization permission to use this endpoint.
 
   ## Resources
 
@@ -600,13 +659,19 @@ defmodule GitHub.Dependabot do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Update a Dependabot alert
+
+  You must use an access token with the `security_events` scope to use this endpoint with private repositories.
+  You can also use tokens with the `public_repo` scope for public repositories only.
+  GitHub Apps must have **Dependabot alerts** write permission to use this endpoint.
+
+  To use this endpoint, you must have access to security alerts for the repository. For more information, see "[Granting access to security alerts](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-security-and-analysis-settings-for-your-repository#granting-access-to-security-alerts)."
 
   ## Resources
 
@@ -627,7 +692,7 @@ defmodule GitHub.Dependabot do
       request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Dependabot.Alert, :t}},
-        {400, {GitHub.BasicError, :t}},
+        {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {409, {GitHub.BasicError, :t}},

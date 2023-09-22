@@ -1,6 +1,6 @@
 defmodule GitHub.Page do
   @moduledoc """
-  Provides struct and type for Page
+  Provides struct and type for a Page
   """
   use GitHub.Encoder
 
@@ -12,7 +12,7 @@ defmodule GitHub.Page do
           html_url: String.t() | nil,
           https_certificate: GitHub.Pages.HttpsCertificate.t() | nil,
           https_enforced: boolean | nil,
-          pending_domain_unverified_at: String.t() | nil,
+          pending_domain_unverified_at: DateTime.t() | nil,
           protected_domain_state: String.t() | nil,
           public: boolean,
           source: GitHub.Pages.SourceHash.t() | nil,
@@ -42,18 +42,18 @@ defmodule GitHub.Page do
 
   def __fields__(:t) do
     [
-      build_type: {:nullable, :string},
-      cname: {:nullable, :string},
+      build_type: {:enum, ["legacy", "workflow", nil]},
+      cname: {:union, [{:string, :generic}, :null]},
       custom_404: :boolean,
-      html_url: :string,
+      html_url: {:string, :uri},
       https_certificate: {GitHub.Pages.HttpsCertificate, :t},
       https_enforced: :boolean,
-      pending_domain_unverified_at: {:nullable, :string},
-      protected_domain_state: {:nullable, :string},
+      pending_domain_unverified_at: {:union, [{:string, :date_time}, :null]},
+      protected_domain_state: {:enum, ["pending", "verified", "unverified", nil]},
       public: :boolean,
       source: {GitHub.Pages.SourceHash, :t},
-      status: {:nullable, :string},
-      url: :string
+      status: {:enum, ["built", "building", "errored", nil]},
+      url: {:string, :uri}
     ]
   end
 end

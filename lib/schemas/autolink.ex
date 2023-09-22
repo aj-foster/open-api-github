@@ -1,6 +1,6 @@
 defmodule GitHub.Autolink do
   @moduledoc """
-  Provides struct and type for Autolink
+  Provides struct and type for a Autolink
   """
   use GitHub.Encoder
 
@@ -19,6 +19,11 @@ defmodule GitHub.Autolink do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [id: :integer, is_alphanumeric: :boolean, key_prefix: :string, url_template: :string]
+    [
+      id: :integer,
+      is_alphanumeric: :boolean,
+      key_prefix: {:string, :generic},
+      url_template: {:string, :generic}
+    ]
   end
 end

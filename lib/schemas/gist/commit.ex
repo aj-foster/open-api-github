@@ -1,13 +1,13 @@
 defmodule GitHub.Gist.Commit do
   @moduledoc """
-  Provides struct and type for GistCommit
+  Provides struct and type for a Gist.Commit
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
           change_status: map,
-          committed_at: String.t(),
+          committed_at: DateTime.t(),
           url: String.t(),
           user: GitHub.User.simple() | nil,
           version: String.t()
@@ -22,10 +22,10 @@ defmodule GitHub.Gist.Commit do
   def __fields__(:t) do
     [
       change_status: :map,
-      committed_at: :string,
-      url: :string,
-      user: {:nullable, {GitHub.User, :simple}},
-      version: :string
+      committed_at: {:string, :date_time},
+      url: {:string, :uri},
+      user: {:union, [{GitHub.User, :simple}, :null]},
+      version: {:string, :generic}
     ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.Commit.Comment do
   @moduledoc """
-  Provides struct and type for CommitComment
+  Provides struct and type for a Commit.Comment
   """
   use GitHub.Encoder
 
@@ -9,7 +9,7 @@ defmodule GitHub.Commit.Comment do
           author_association: String.t(),
           body: String.t(),
           commit_id: String.t(),
-          created_at: String.t(),
+          created_at: DateTime.t(),
           html_url: String.t(),
           id: integer,
           line: integer | nil,
@@ -17,7 +17,7 @@ defmodule GitHub.Commit.Comment do
           path: String.t() | nil,
           position: integer | nil,
           reactions: GitHub.Reaction.Rollup.t() | nil,
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t(),
           user: GitHub.User.simple() | nil
         }
@@ -46,20 +46,31 @@ defmodule GitHub.Commit.Comment do
 
   def __fields__(:t) do
     [
-      author_association: :string,
-      body: :string,
-      commit_id: :string,
-      created_at: :string,
-      html_url: :string,
+      author_association:
+        {:enum,
+         [
+           "COLLABORATOR",
+           "CONTRIBUTOR",
+           "FIRST_TIMER",
+           "FIRST_TIME_CONTRIBUTOR",
+           "MANNEQUIN",
+           "MEMBER",
+           "NONE",
+           "OWNER"
+         ]},
+      body: {:string, :generic},
+      commit_id: {:string, :generic},
+      created_at: {:string, :date_time},
+      html_url: {:string, :uri},
       id: :integer,
-      line: {:nullable, :integer},
-      node_id: :string,
-      path: {:nullable, :string},
-      position: {:nullable, :integer},
+      line: {:union, [:integer, :null]},
+      node_id: {:string, :generic},
+      path: {:union, [{:string, :generic}, :null]},
+      position: {:union, [:integer, :null]},
       reactions: {GitHub.Reaction.Rollup, :t},
-      updated_at: :string,
-      url: :string,
-      user: {:nullable, {GitHub.User, :simple}}
+      updated_at: {:string, :date_time},
+      url: {:string, :uri},
+      user: {:union, [{GitHub.User, :simple}, :null]}
     ]
   end
 end

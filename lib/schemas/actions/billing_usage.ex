@@ -1,6 +1,6 @@
 defmodule GitHub.Actions.BillingUsage do
   @moduledoc """
-  Provides struct and type for ActionsBillingUsage
+  Provides struct and type for a Actions.BillingUsage
   """
   use GitHub.Encoder
 

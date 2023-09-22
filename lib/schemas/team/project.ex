@@ -1,6 +1,6 @@
 defmodule GitHub.Team.Project do
   @moduledoc """
-  Provides struct and type for TeamProject
+  Provides struct and type for a Team.Project
   """
   use GitHub.Encoder
 
@@ -50,22 +50,22 @@ defmodule GitHub.Team.Project do
 
   def __fields__(:t) do
     [
-      body: {:nullable, :string},
-      columns_url: :string,
-      created_at: :string,
+      body: {:union, [{:string, :generic}, :null]},
+      columns_url: {:string, :generic},
+      created_at: {:string, :generic},
       creator: {GitHub.User, :simple},
-      html_url: :string,
+      html_url: {:string, :generic},
       id: :integer,
-      name: :string,
-      node_id: :string,
+      name: {:string, :generic},
+      node_id: {:string, :generic},
       number: :integer,
-      organization_permission: :string,
-      owner_url: :string,
+      organization_permission: {:string, :generic},
+      owner_url: {:string, :generic},
       permissions: :map,
       private: :boolean,
-      state: :string,
-      updated_at: :string,
-      url: :string
+      state: {:string, :generic},
+      updated_at: {:string, :generic},
+      url: {:string, :generic}
     ]
   end
 end

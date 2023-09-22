@@ -1,6 +1,6 @@
 defmodule GitHub.CodeScanning.AlertRuleSummary do
   @moduledoc """
-  Provides struct and type for CodeScanningAlertRuleSummary
+  Provides struct and type for a CodeScanning.AlertRuleSummary
   """
   use GitHub.Encoder
 
@@ -21,11 +21,11 @@ defmodule GitHub.CodeScanning.AlertRuleSummary do
 
   def __fields__(:t) do
     [
-      description: :string,
-      id: {:nullable, :string},
-      name: :string,
-      severity: {:nullable, :string},
-      tags: {:nullable, {:array, :string}}
+      description: {:string, :generic},
+      id: {:union, [{:string, :generic}, :null]},
+      name: {:string, :generic},
+      severity: {:enum, ["none", "note", "warning", "error", nil]},
+      tags: {:union, [[string: :generic], :null]}
     ]
   end
 end

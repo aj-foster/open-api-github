@@ -1,13 +1,13 @@
 defmodule GitHub.Codespace.WithFullRepository do
   @moduledoc """
-  Provides struct and type for CodespaceWithFullRepository
+  Provides struct and type for a Codespace.WithFullRepository
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
           billable_owner: GitHub.User.simple(),
-          created_at: String.t(),
+          created_at: DateTime.t(),
           devcontainer_path: String.t() | nil,
           display_name: String.t() | nil,
           environment_id: String.t() | nil,
@@ -15,7 +15,7 @@ defmodule GitHub.Codespace.WithFullRepository do
           id: integer,
           idle_timeout_minutes: integer | nil,
           idle_timeout_notice: String.t() | nil,
-          last_used_at: String.t(),
+          last_used_at: DateTime.t(),
           location: String.t(),
           machine: GitHub.Codespace.Machine.t() | nil,
           machines_url: String.t(),
@@ -28,13 +28,13 @@ defmodule GitHub.Codespace.WithFullRepository do
           pulls_url: String.t() | nil,
           recent_folders: [String.t()],
           repository: GitHub.Repository.full(),
-          retention_expires_at: String.t() | nil,
+          retention_expires_at: DateTime.t() | nil,
           retention_period_minutes: integer | nil,
           runtime_constraints: map | nil,
           start_url: String.t(),
           state: String.t(),
           stop_url: String.t(),
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t(),
           web_url: String.t()
         }
@@ -81,36 +81,56 @@ defmodule GitHub.Codespace.WithFullRepository do
   def __fields__(:t) do
     [
       billable_owner: {GitHub.User, :simple},
-      created_at: :string,
-      devcontainer_path: {:nullable, :string},
-      display_name: {:nullable, :string},
-      environment_id: {:nullable, :string},
+      created_at: {:string, :date_time},
+      devcontainer_path: {:union, [{:string, :generic}, :null]},
+      display_name: {:union, [{:string, :generic}, :null]},
+      environment_id: {:union, [{:string, :generic}, :null]},
       git_status: :map,
       id: :integer,
-      idle_timeout_minutes: {:nullable, :integer},
-      idle_timeout_notice: {:nullable, :string},
-      last_used_at: :string,
-      location: :string,
-      machine: {:nullable, {GitHub.Codespace.Machine, :t}},
-      machines_url: :string,
-      name: :string,
+      idle_timeout_minutes: {:union, [:integer, :null]},
+      idle_timeout_notice: {:union, [{:string, :generic}, :null]},
+      last_used_at: {:string, :date_time},
+      location: {:enum, ["EastUs", "SouthEastAsia", "WestEurope", "WestUs2"]},
+      machine: {:union, [{GitHub.Codespace.Machine, :t}, :null]},
+      machines_url: {:string, :uri},
+      name: {:string, :generic},
       owner: {GitHub.User, :simple},
-      pending_operation: {:nullable, :boolean},
-      pending_operation_disabled_reason: {:nullable, :string},
-      prebuild: {:nullable, :boolean},
-      publish_url: {:nullable, :string},
-      pulls_url: {:nullable, :string},
-      recent_folders: {:array, :string},
+      pending_operation: {:union, [:boolean, :null]},
+      pending_operation_disabled_reason: {:union, [{:string, :generic}, :null]},
+      prebuild: {:union, [:boolean, :null]},
+      publish_url: {:union, [{:string, :uri}, :null]},
+      pulls_url: {:union, [{:string, :uri}, :null]},
+      recent_folders: [string: :generic],
       repository: {GitHub.Repository, :full},
-      retention_expires_at: {:nullable, :string},
-      retention_period_minutes: {:nullable, :integer},
+      retention_expires_at: {:union, [{:string, :date_time}, :null]},
+      retention_period_minutes: {:union, [:integer, :null]},
       runtime_constraints: :map,
-      start_url: :string,
-      state: :string,
-      stop_url: :string,
-      updated_at: :string,
-      url: :string,
-      web_url: :string
+      start_url: {:string, :uri},
+      state:
+        {:enum,
+         [
+           "Unknown",
+           "Created",
+           "Queued",
+           "Provisioning",
+           "Available",
+           "Awaiting",
+           "Unavailable",
+           "Deleted",
+           "Moved",
+           "Shutdown",
+           "Archived",
+           "Starting",
+           "ShuttingDown",
+           "Failed",
+           "Exporting",
+           "Updating",
+           "Rebuilding"
+         ]},
+      stop_url: {:string, :uri},
+      updated_at: {:string, :date_time},
+      url: {:string, :uri},
+      web_url: {:string, :uri}
     ]
   end
 end

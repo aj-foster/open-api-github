@@ -1,17 +1,17 @@
 defmodule GitHub.CodeScanning.AlertItems do
   @moduledoc """
-  Provides struct and type for CodeScanningAlertItems
+  Provides struct and type for a CodeScanning.AlertItems
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          created_at: String.t(),
-          dismissed_at: String.t() | nil,
+          created_at: DateTime.t(),
+          dismissed_at: DateTime.t() | nil,
           dismissed_by: GitHub.User.simple() | nil,
           dismissed_comment: String.t() | nil,
           dismissed_reason: String.t() | nil,
-          fixed_at: String.t() | nil,
+          fixed_at: DateTime.t() | nil,
           html_url: String.t(),
           instances_url: String.t(),
           most_recent_instance: GitHub.CodeScanning.AlertInstance.t(),
@@ -19,7 +19,7 @@ defmodule GitHub.CodeScanning.AlertItems do
           rule: GitHub.CodeScanning.AlertRuleSummary.t(),
           state: String.t(),
           tool: GitHub.CodeScanning.AnalysisTool.t(),
-          updated_at: String.t() | nil,
+          updated_at: DateTime.t() | nil,
           url: String.t()
         }
 
@@ -48,21 +48,21 @@ defmodule GitHub.CodeScanning.AlertItems do
 
   def __fields__(:t) do
     [
-      created_at: :string,
-      dismissed_at: {:nullable, :string},
-      dismissed_by: {:nullable, {GitHub.User, :simple}},
-      dismissed_comment: {:nullable, :string},
-      dismissed_reason: {:nullable, :string},
-      fixed_at: {:nullable, :string},
-      html_url: :string,
-      instances_url: :string,
+      created_at: {:string, :date_time},
+      dismissed_at: {:union, [{:string, :date_time}, :null]},
+      dismissed_by: {:union, [{GitHub.User, :simple}, :null]},
+      dismissed_comment: {:union, [{:string, :generic}, :null]},
+      dismissed_reason: {:enum, [nil, "false positive", "won't fix", "used in tests"]},
+      fixed_at: {:union, [{:string, :date_time}, :null]},
+      html_url: {:string, :uri},
+      instances_url: {:string, :uri},
       most_recent_instance: {GitHub.CodeScanning.AlertInstance, :t},
       number: :integer,
       rule: {GitHub.CodeScanning.AlertRuleSummary, :t},
-      state: :string,
+      state: {:enum, ["open", "dismissed", "fixed"]},
       tool: {GitHub.CodeScanning.AnalysisTool, :t},
-      updated_at: :string,
-      url: :string
+      updated_at: {:string, :date_time},
+      url: {:string, :uri}
     ]
   end
 end

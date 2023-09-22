@@ -1,6 +1,6 @@
 defmodule GitHub.User.MarketplacePurchase do
   @moduledoc """
-  Provides struct and type for UserMarketplacePurchase
+  Provides struct and type for a User.MarketplacePurchase
   """
   use GitHub.Encoder
 
@@ -8,12 +8,12 @@ defmodule GitHub.User.MarketplacePurchase do
           __info__: map,
           account: GitHub.Marketplace.Account.t(),
           billing_cycle: String.t(),
-          free_trial_ends_on: String.t() | nil,
-          next_billing_date: String.t() | nil,
+          free_trial_ends_on: DateTime.t() | nil,
+          next_billing_date: DateTime.t() | nil,
           on_free_trial: boolean,
           plan: GitHub.Marketplace.ListingPlan.t(),
           unit_count: integer | nil,
-          updated_at: String.t() | nil
+          updated_at: DateTime.t() | nil
         }
 
   defstruct [
@@ -35,13 +35,13 @@ defmodule GitHub.User.MarketplacePurchase do
   def __fields__(:t) do
     [
       account: {GitHub.Marketplace.Account, :t},
-      billing_cycle: :string,
-      free_trial_ends_on: {:nullable, :string},
-      next_billing_date: {:nullable, :string},
+      billing_cycle: {:string, :generic},
+      free_trial_ends_on: {:union, [{:string, :date_time}, :null]},
+      next_billing_date: {:union, [{:string, :date_time}, :null]},
       on_free_trial: :boolean,
       plan: {GitHub.Marketplace.ListingPlan, :t},
-      unit_count: {:nullable, :integer},
-      updated_at: {:nullable, :string}
+      unit_count: {:union, [:integer, :null]},
+      updated_at: {:union, [{:string, :date_time}, :null]}
     ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.MergedUpstream do
   @moduledoc """
-  Provides struct and type for MergedUpstream
+  Provides struct and type for a MergedUpstream
   """
   use GitHub.Encoder
 
@@ -18,6 +18,10 @@ defmodule GitHub.MergedUpstream do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [base_branch: :string, merge_type: :string, message: :string]
+    [
+      base_branch: {:string, :generic},
+      merge_type: {:enum, ["merge", "fast-forward", "none"]},
+      message: {:string, :generic}
+    ]
   end
 end

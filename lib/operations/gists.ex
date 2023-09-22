@@ -22,13 +22,17 @@ defmodule GitHub.Gists do
       call: {GitHub.Gists, :check_is_starred},
       url: "/gists/#{gist_id}/star",
       method: :get,
-      response: [{204, nil}, {304, nil}, {403, {GitHub.BasicError, :t}}, {404, :map}],
+      response: [{204, :null}, {304, :null}, {403, {GitHub.BasicError, :t}}, {404, :map}],
       opts: opts
     })
   end
 
   @doc """
   Create a gist
+
+  Allows you to add a new gist with one or more files.
+
+  **Note:** Don't name your files "gistfile" with a numerical suffix. This is the format of the automatic naming scheme that Gist uses internally.
 
   ## Resources
 
@@ -48,7 +52,7 @@ defmodule GitHub.Gists do
       request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Gist, :simple}},
-        {304, nil},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
@@ -79,7 +83,7 @@ defmodule GitHub.Gists do
       request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Gist.Comment, :t}},
-        {304, nil},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],
@@ -105,8 +109,8 @@ defmodule GitHub.Gists do
       url: "/gists/#{gist_id}",
       method: :delete,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],
@@ -132,8 +136,8 @@ defmodule GitHub.Gists do
       url: "/gists/#{gist_id}/comments/#{comment_id}",
       method: :delete,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],
@@ -160,7 +164,7 @@ defmodule GitHub.Gists do
       method: :post,
       response: [
         {201, {GitHub.BaseGist, :t}},
-        {304, nil},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
@@ -188,7 +192,7 @@ defmodule GitHub.Gists do
       method: :get,
       response: [
         {200, {GitHub.Gist, :simple}},
-        {304, nil},
+        {304, :null},
         {403, :map},
         {404, {GitHub.BasicError, :t}}
       ],
@@ -216,7 +220,7 @@ defmodule GitHub.Gists do
       method: :get,
       response: [
         {200, {GitHub.Gist.Comment, :t}},
-        {304, nil},
+        {304, :null},
         {403, :map},
         {404, {GitHub.BasicError, :t}}
       ],
@@ -255,11 +259,13 @@ defmodule GitHub.Gists do
   @doc """
   List gists for the authenticated user
 
+  Lists the authenticated user's gists or if called anonymously, this endpoint returns all public gists:
+
   ## Options
 
-    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -272,15 +278,12 @@ defmodule GitHub.Gists do
     query = Keyword.take(opts, [:page, :per_page, :since])
 
     client.request(%{
+      args: [],
       call: {GitHub.Gists, :list},
       url: "/gists",
       method: :get,
       query: query,
-      response: [
-        {200, {:array, {GitHub.BaseGist, :t}}},
-        {304, nil},
-        {403, {GitHub.BasicError, :t}}
-      ],
+      response: [{200, [{GitHub.BaseGist, :t}]}, {304, :null}, {403, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -290,8 +293,8 @@ defmodule GitHub.Gists do
 
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -311,8 +314,8 @@ defmodule GitHub.Gists do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Gist.Comment, :t}}},
-        {304, nil},
+        {200, [{GitHub.Gist.Comment, :t}]},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],
@@ -325,8 +328,8 @@ defmodule GitHub.Gists do
 
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -346,8 +349,8 @@ defmodule GitHub.Gists do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Gist.Commit, :t}}},
-        {304, nil},
+        {200, [{GitHub.Gist.Commit, :t}]},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],
@@ -358,11 +361,13 @@ defmodule GitHub.Gists do
   @doc """
   List gists for a user
 
+  Lists public gists for the specified user:
+
   ## Options
 
-    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -381,7 +386,7 @@ defmodule GitHub.Gists do
       url: "/users/#{username}/gists",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.BaseGist, :t}}}, {422, {GitHub.ValidationError, :t}}],
+      response: [{200, [{GitHub.BaseGist, :t}]}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
   end
@@ -391,8 +396,8 @@ defmodule GitHub.Gists do
 
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -412,8 +417,8 @@ defmodule GitHub.Gists do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Gist, :simple}}},
-        {304, nil},
+        {200, [{GitHub.Gist, :simple}]},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],
@@ -424,11 +429,15 @@ defmodule GitHub.Gists do
   @doc """
   List public gists
 
+  List public gists sorted by most recently updated to least recently updated.
+
+  Note: With [pagination](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination), you can fetch up to 3000 gists. For example, you can fetch 100 pages with 30 gists per page or 30 pages with 100 gists per page.
+
   ## Options
 
-    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -441,13 +450,14 @@ defmodule GitHub.Gists do
     query = Keyword.take(opts, [:page, :per_page, :since])
 
     client.request(%{
+      args: [],
       call: {GitHub.Gists, :list_public},
       url: "/gists/public",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.BaseGist, :t}}},
-        {304, nil},
+        {200, [{GitHub.BaseGist, :t}]},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
       ],
@@ -458,11 +468,13 @@ defmodule GitHub.Gists do
   @doc """
   List starred gists
 
+  List the authenticated user's starred gists:
+
   ## Options
 
-    * `since` (String.t()): Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -475,13 +487,14 @@ defmodule GitHub.Gists do
     query = Keyword.take(opts, [:page, :per_page, :since])
 
     client.request(%{
+      args: [],
       call: {GitHub.Gists, :list_starred},
       url: "/gists/starred",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.BaseGist, :t}}},
-        {304, nil},
+        {200, [{GitHub.BaseGist, :t}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -491,6 +504,8 @@ defmodule GitHub.Gists do
 
   @doc """
   Star a gist
+
+  Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
 
   ## Resources
 
@@ -507,8 +522,8 @@ defmodule GitHub.Gists do
       url: "/gists/#{gist_id}/star",
       method: :put,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],
@@ -534,8 +549,8 @@ defmodule GitHub.Gists do
       url: "/gists/#{gist_id}/star",
       method: :delete,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],
@@ -545,6 +560,8 @@ defmodule GitHub.Gists do
 
   @doc """
   Update a gist
+
+  Allows you to update a gist's description and to update, delete, or rename gist files. Files from the previous version of the gist that aren't explicitly changed during an edit are unchanged.
 
   ## Resources
 
@@ -562,7 +579,7 @@ defmodule GitHub.Gists do
       url: "/gists/#{gist_id}",
       body: body,
       method: :patch,
-      request: [{"application/json", {:nullable, :map}}],
+      request: [{"application/json", {:union, [:map, :null]}}],
       response: [
         {200, {GitHub.Gist, :simple}},
         {404, {GitHub.BasicError, :t}},

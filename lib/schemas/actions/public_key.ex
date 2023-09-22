@@ -1,6 +1,6 @@
 defmodule GitHub.Actions.PublicKey do
   @moduledoc """
-  Provides struct and type for ActionsPublicKey
+  Provides struct and type for a Actions.PublicKey
   """
   use GitHub.Encoder
 
@@ -22,12 +22,12 @@ defmodule GitHub.Actions.PublicKey do
 
   def __fields__(:t) do
     [
-      created_at: :string,
+      created_at: {:string, :generic},
       id: :integer,
-      key: :string,
-      key_id: :string,
-      title: :string,
-      url: :string
+      key: {:string, :generic},
+      key_id: {:string, :generic},
+      title: {:string, :generic},
+      url: {:string, :generic}
     ]
   end
 end

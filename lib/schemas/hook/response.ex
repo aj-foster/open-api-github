@@ -1,6 +1,6 @@
 defmodule GitHub.Hook.Response do
   @moduledoc """
-  Provides struct and type for HookResponse
+  Provides struct and type for a Hook.Response
   """
   use GitHub.Encoder
 
@@ -18,6 +18,10 @@ defmodule GitHub.Hook.Response do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [code: {:nullable, :integer}, message: {:nullable, :string}, status: {:nullable, :string}]
+    [
+      code: {:union, [:integer, :null]},
+      message: {:union, [{:string, :generic}, :null]},
+      status: {:union, [{:string, :generic}, :null]}
+    ]
   end
 end

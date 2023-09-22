@@ -1,6 +1,6 @@
 defmodule GitHub.CloneTraffic do
   @moduledoc """
-  Provides struct and type for CloneTraffic
+  Provides struct and type for a CloneTraffic
   """
   use GitHub.Encoder
 
@@ -18,6 +18,6 @@ defmodule GitHub.CloneTraffic do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [clones: {:array, {GitHub.Traffic, :t}}, count: :integer, uniques: :integer]
+    [clones: [{GitHub.Traffic, :t}], count: :integer, uniques: :integer]
   end
 end

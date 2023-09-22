@@ -1,13 +1,13 @@
 defmodule GitHub.Event do
   @moduledoc """
-  Provides struct and type for Event
+  Provides struct and type for a Event
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
           actor: GitHub.Actor.t(),
-          created_at: String.t() | nil,
+          created_at: DateTime.t() | nil,
           id: String.t(),
           org: GitHub.Actor.t() | nil,
           payload: map,
@@ -25,13 +25,13 @@ defmodule GitHub.Event do
   def __fields__(:t) do
     [
       actor: {GitHub.Actor, :t},
-      created_at: {:nullable, :string},
-      id: :string,
+      created_at: {:union, [{:string, :date_time}, :null]},
+      id: {:string, :generic},
       org: {GitHub.Actor, :t},
       payload: :map,
       public: :boolean,
       repo: :map,
-      type: {:nullable, :string}
+      type: {:union, [{:string, :generic}, :null]}
     ]
   end
 end

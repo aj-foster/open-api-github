@@ -1,6 +1,6 @@
 defmodule GitHub.Issue do
   @moduledoc """
-  Provides struct and type for Issue
+  Provides struct and type for a Issue
   """
   use GitHub.Encoder
 
@@ -13,11 +13,11 @@ defmodule GitHub.Issue do
           body: String.t() | nil,
           body_html: String.t() | nil,
           body_text: String.t() | nil,
-          closed_at: String.t() | nil,
+          closed_at: DateTime.t() | nil,
           closed_by: GitHub.User.simple() | nil,
           comments: integer,
           comments_url: String.t(),
-          created_at: String.t(),
+          created_at: DateTime.t(),
           draft: boolean | nil,
           events_url: String.t(),
           html_url: String.t(),
@@ -37,7 +37,7 @@ defmodule GitHub.Issue do
           state_reason: String.t() | nil,
           timeline_url: String.t() | nil,
           title: String.t(),
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t(),
           user: GitHub.User.simple() | nil
         }
@@ -86,40 +86,51 @@ defmodule GitHub.Issue do
 
   def __fields__(:t) do
     [
-      active_lock_reason: {:nullable, :string},
-      assignee: {:nullable, {GitHub.User, :simple}},
-      assignees: {:nullable, {:array, {GitHub.User, :simple}}},
-      author_association: :string,
-      body: {:nullable, :string},
-      body_html: :string,
-      body_text: :string,
-      closed_at: {:nullable, :string},
-      closed_by: {:nullable, {GitHub.User, :simple}},
+      active_lock_reason: {:union, [{:string, :generic}, :null]},
+      assignee: {:union, [{GitHub.User, :simple}, :null]},
+      assignees: {:union, [[{GitHub.User, :simple}], :null]},
+      author_association:
+        {:enum,
+         [
+           "COLLABORATOR",
+           "CONTRIBUTOR",
+           "FIRST_TIMER",
+           "FIRST_TIME_CONTRIBUTOR",
+           "MANNEQUIN",
+           "MEMBER",
+           "NONE",
+           "OWNER"
+         ]},
+      body: {:union, [{:string, :generic}, :null]},
+      body_html: {:string, :generic},
+      body_text: {:string, :generic},
+      closed_at: {:union, [{:string, :date_time}, :null]},
+      closed_by: {:union, [{GitHub.User, :simple}, :null]},
       comments: :integer,
-      comments_url: :string,
-      created_at: :string,
+      comments_url: {:string, :uri},
+      created_at: {:string, :date_time},
       draft: :boolean,
-      events_url: :string,
-      html_url: :string,
+      events_url: {:string, :uri},
+      html_url: {:string, :uri},
       id: :integer,
-      labels: {:array, {:union, [:string, :map]}},
-      labels_url: :string,
+      labels: [union: [:map, string: :generic]],
+      labels_url: {:string, :generic},
       locked: :boolean,
-      milestone: {:nullable, {GitHub.Milestone, :t}},
-      node_id: :string,
+      milestone: {:union, [{GitHub.Milestone, :t}, :null]},
+      node_id: {:string, :generic},
       number: :integer,
-      performed_via_github_app: {:nullable, {GitHub.App, :t}},
+      performed_via_github_app: {:union, [{GitHub.App, :t}, :null]},
       pull_request: :map,
       reactions: {GitHub.Reaction.Rollup, :t},
       repository: {GitHub.Repository, :t},
-      repository_url: :string,
-      state: :string,
-      state_reason: {:nullable, :string},
-      timeline_url: :string,
-      title: :string,
-      updated_at: :string,
-      url: :string,
-      user: {:nullable, {GitHub.User, :simple}}
+      repository_url: {:string, :uri},
+      state: {:string, :generic},
+      state_reason: {:enum, ["completed", "reopened", "not_planned", nil]},
+      timeline_url: {:string, :uri},
+      title: {:string, :generic},
+      updated_at: {:string, :date_time},
+      url: {:string, :uri},
+      user: {:union, [{GitHub.User, :simple}, :null]}
     ]
   end
 end

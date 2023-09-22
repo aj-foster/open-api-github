@@ -1,6 +1,6 @@
 defmodule GitHub.License.Content do
   @moduledoc """
-  Provides struct and type for LicenseContent
+  Provides struct and type for a License.Content
   """
   use GitHub.Encoder
 
@@ -45,18 +45,18 @@ defmodule GitHub.License.Content do
   def __fields__(:t) do
     [
       _links: :map,
-      content: :string,
-      download_url: {:nullable, :string},
-      encoding: :string,
-      git_url: {:nullable, :string},
-      html_url: {:nullable, :string},
-      license: {:nullable, {GitHub.License, :simple}},
-      name: :string,
-      path: :string,
-      sha: :string,
+      content: {:string, :generic},
+      download_url: {:union, [{:string, :uri}, :null]},
+      encoding: {:string, :generic},
+      git_url: {:union, [{:string, :uri}, :null]},
+      html_url: {:union, [{:string, :uri}, :null]},
+      license: {:union, [{GitHub.License, :simple}, :null]},
+      name: {:string, :generic},
+      path: {:string, :generic},
+      sha: {:string, :generic},
       size: :integer,
-      type: :string,
-      url: :string
+      type: {:string, :generic},
+      url: {:string, :uri}
     ]
   end
 end

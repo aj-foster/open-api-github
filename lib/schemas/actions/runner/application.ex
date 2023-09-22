@@ -1,6 +1,6 @@
 defmodule GitHub.Actions.Runner.Application do
   @moduledoc """
-  Provides struct and type for RunnerApplication
+  Provides struct and type for a Actions.Runner.Application
   """
   use GitHub.Encoder
 
@@ -30,12 +30,12 @@ defmodule GitHub.Actions.Runner.Application do
 
   def __fields__(:t) do
     [
-      architecture: :string,
-      download_url: :string,
-      filename: :string,
-      os: :string,
-      sha256_checksum: :string,
-      temp_download_token: :string
+      architecture: {:string, :generic},
+      download_url: {:string, :generic},
+      filename: {:string, :generic},
+      os: {:string, :generic},
+      sha256_checksum: {:string, :generic},
+      temp_download_token: {:string, :generic}
     ]
   end
 end

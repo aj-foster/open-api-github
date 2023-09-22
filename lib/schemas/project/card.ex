@@ -1,6 +1,6 @@
 defmodule GitHub.Project.Card do
   @moduledoc """
-  Provides struct and type for ProjectCard
+  Provides struct and type for a Project.Card
   """
   use GitHub.Encoder
 
@@ -10,14 +10,14 @@ defmodule GitHub.Project.Card do
           column_name: String.t() | nil,
           column_url: String.t(),
           content_url: String.t() | nil,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           creator: GitHub.User.simple() | nil,
           id: integer,
           node_id: String.t(),
           note: String.t() | nil,
           project_id: String.t() | nil,
           project_url: String.t(),
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t()
         }
 
@@ -45,18 +45,18 @@ defmodule GitHub.Project.Card do
   def __fields__(:t) do
     [
       archived: :boolean,
-      column_name: :string,
-      column_url: :string,
-      content_url: :string,
-      created_at: :string,
-      creator: {:nullable, {GitHub.User, :simple}},
+      column_name: {:string, :generic},
+      column_url: {:string, :uri},
+      content_url: {:string, :uri},
+      created_at: {:string, :date_time},
+      creator: {:union, [{GitHub.User, :simple}, :null]},
       id: :integer,
-      node_id: :string,
-      note: {:nullable, :string},
-      project_id: :string,
-      project_url: :string,
-      updated_at: :string,
-      url: :string
+      node_id: {:string, :generic},
+      note: {:union, [{:string, :generic}, :null]},
+      project_id: {:string, :generic},
+      project_url: {:string, :uri},
+      updated_at: {:string, :date_time},
+      url: {:string, :uri}
     ]
   end
 end

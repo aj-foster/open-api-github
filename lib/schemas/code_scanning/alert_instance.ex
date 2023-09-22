@@ -1,6 +1,6 @@
 defmodule GitHub.CodeScanning.AlertInstance do
   @moduledoc """
-  Provides struct and type for CodeScanningAlertInstance
+  Provides struct and type for a CodeScanning.AlertInstance
   """
   use GitHub.Encoder
 
@@ -38,16 +38,16 @@ defmodule GitHub.CodeScanning.AlertInstance do
 
   def __fields__(:t) do
     [
-      analysis_key: :string,
-      category: :string,
-      classifications: {:array, {:nullable, :string}},
-      commit_sha: :string,
-      environment: :string,
-      html_url: :string,
+      analysis_key: {:string, :generic},
+      category: {:string, :generic},
+      classifications: [enum: ["source", "generated", "test", "library", nil]],
+      commit_sha: {:string, :generic},
+      environment: {:string, :generic},
+      html_url: {:string, :generic},
       location: {GitHub.CodeScanning.AlertLocation, :t},
       message: :map,
-      ref: :string,
-      state: :string
+      ref: {:string, :generic},
+      state: {:enum, ["open", "dismissed", "fixed"]}
     ]
   end
 end

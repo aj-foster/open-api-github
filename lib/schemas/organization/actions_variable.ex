@@ -1,15 +1,15 @@
 defmodule GitHub.Organization.ActionsVariable do
   @moduledoc """
-  Provides struct and type for OrganizationActionsVariable
+  Provides struct and type for a Organization.ActionsVariable
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           name: String.t(),
           selected_repositories_url: String.t() | nil,
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           value: String.t(),
           visibility: String.t()
         }
@@ -30,12 +30,12 @@ defmodule GitHub.Organization.ActionsVariable do
 
   def __fields__(:t) do
     [
-      created_at: :string,
-      name: :string,
-      selected_repositories_url: :string,
-      updated_at: :string,
-      value: :string,
-      visibility: :string
+      created_at: {:string, :date_time},
+      name: {:string, :generic},
+      selected_repositories_url: {:string, :uri},
+      updated_at: {:string, :date_time},
+      value: {:string, :generic},
+      visibility: {:enum, ["all", "private", "selected"]}
     ]
   end
 end

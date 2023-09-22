@@ -1,6 +1,6 @@
 defmodule GitHub.Check.Run do
   @moduledoc """
-  Provides struct and type for CheckRun
+  Provides struct and type for a Check.Run
   """
   use GitHub.Encoder
 
@@ -8,7 +8,7 @@ defmodule GitHub.Check.Run do
           __info__: map,
           app: GitHub.App.t() | nil,
           check_suite: map | nil,
-          completed_at: String.t() | nil,
+          completed_at: DateTime.t() | nil,
           conclusion: String.t() | nil,
           deployment: GitHub.Deployment.simple() | nil,
           details_url: String.t() | nil,
@@ -20,7 +20,7 @@ defmodule GitHub.Check.Run do
           node_id: String.t(),
           output: map,
           pull_requests: [GitHub.PullRequest.minimal()],
-          started_at: String.t() | nil,
+          started_at: DateTime.t() | nil,
           status: String.t(),
           url: String.t()
         }
@@ -52,23 +52,34 @@ defmodule GitHub.Check.Run do
 
   def __fields__(:t) do
     [
-      app: {:nullable, {GitHub.App, :t}},
-      check_suite: {:nullable, :map},
-      completed_at: {:nullable, :string},
-      conclusion: {:nullable, :string},
+      app: {:union, [{GitHub.App, :t}, :null]},
+      check_suite: {:union, [:map, :null]},
+      completed_at: {:union, [{:string, :date_time}, :null]},
+      conclusion:
+        {:enum,
+         [
+           "success",
+           "failure",
+           "neutral",
+           "cancelled",
+           "skipped",
+           "timed_out",
+           "action_required",
+           nil
+         ]},
       deployment: {GitHub.Deployment, :simple},
-      details_url: {:nullable, :string},
-      external_id: {:nullable, :string},
-      head_sha: :string,
-      html_url: {:nullable, :string},
+      details_url: {:union, [{:string, :generic}, :null]},
+      external_id: {:union, [{:string, :generic}, :null]},
+      head_sha: {:string, :generic},
+      html_url: {:union, [{:string, :generic}, :null]},
       id: :integer,
-      name: :string,
-      node_id: :string,
+      name: {:string, :generic},
+      node_id: {:string, :generic},
       output: :map,
-      pull_requests: {:array, {GitHub.PullRequest, :minimal}},
-      started_at: {:nullable, :string},
-      status: :string,
-      url: :string
+      pull_requests: [{GitHub.PullRequest, :minimal}],
+      started_at: {:union, [{:string, :date_time}, :null]},
+      status: {:enum, ["queued", "in_progress", "completed"]},
+      url: {:string, :generic}
     ]
   end
 end

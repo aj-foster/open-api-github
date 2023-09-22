@@ -1,6 +1,6 @@
 defmodule GitHub.CodeSearchResultItem do
   @moduledoc """
-  Provides struct and type for CodeSearchResultItem
+  Provides struct and type for a CodeSearchResultItem
   """
   use GitHub.Encoder
 
@@ -10,7 +10,7 @@ defmodule GitHub.CodeSearchResultItem do
           git_url: String.t(),
           html_url: String.t(),
           language: String.t() | nil,
-          last_modified_at: String.t() | nil,
+          last_modified_at: DateTime.t() | nil,
           line_numbers: [String.t()] | nil,
           name: String.t(),
           path: String.t(),
@@ -45,18 +45,18 @@ defmodule GitHub.CodeSearchResultItem do
   def __fields__(:t) do
     [
       file_size: :integer,
-      git_url: :string,
-      html_url: :string,
-      language: {:nullable, :string},
-      last_modified_at: :string,
-      line_numbers: {:array, :string},
-      name: :string,
-      path: :string,
+      git_url: {:string, :uri},
+      html_url: {:string, :uri},
+      language: {:union, [{:string, :generic}, :null]},
+      last_modified_at: {:string, :date_time},
+      line_numbers: [string: :generic],
+      name: {:string, :generic},
+      path: {:string, :generic},
       repository: {GitHub.Repository, :minimal},
       score: :number,
-      sha: :string,
-      text_matches: {:array, :map},
-      url: :string
+      sha: {:string, :generic},
+      text_matches: [:map],
+      url: {:string, :uri}
     ]
   end
 end

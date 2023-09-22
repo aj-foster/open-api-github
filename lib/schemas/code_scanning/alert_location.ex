@@ -1,6 +1,6 @@
 defmodule GitHub.CodeScanning.AlertLocation do
   @moduledoc """
-  Provides struct and type for CodeScanningAlertLocation
+  Provides struct and type for a CodeScanning.AlertLocation
   """
   use GitHub.Encoder
 
@@ -23,7 +23,7 @@ defmodule GitHub.CodeScanning.AlertLocation do
     [
       end_column: :integer,
       end_line: :integer,
-      path: :string,
+      path: {:string, :generic},
       start_column: :integer,
       start_line: :integer
     ]

@@ -1,6 +1,6 @@
 defmodule GitHub.Root do
   @moduledoc """
-  Provides struct and type for Root
+  Provides struct and type for a Root
   """
   use GitHub.Encoder
 
@@ -84,39 +84,39 @@ defmodule GitHub.Root do
 
   def __fields__(:t) do
     [
-      authorizations_url: :string,
-      code_search_url: :string,
-      commit_search_url: :string,
-      current_user_authorizations_html_url: :string,
-      current_user_repositories_url: :string,
-      current_user_url: :string,
-      emails_url: :string,
-      emojis_url: :string,
-      events_url: :string,
-      feeds_url: :string,
-      followers_url: :string,
-      following_url: :string,
-      gists_url: :string,
-      hub_url: :string,
-      issue_search_url: :string,
-      issues_url: :string,
-      keys_url: :string,
-      label_search_url: :string,
-      notifications_url: :string,
-      organization_repositories_url: :string,
-      organization_teams_url: :string,
-      organization_url: :string,
-      public_gists_url: :string,
-      rate_limit_url: :string,
-      repository_search_url: :string,
-      repository_url: :string,
-      starred_gists_url: :string,
-      starred_url: :string,
-      topic_search_url: :string,
-      user_organizations_url: :string,
-      user_repositories_url: :string,
-      user_search_url: :string,
-      user_url: :string
+      authorizations_url: {:string, :uri_template},
+      code_search_url: {:string, :uri_template},
+      commit_search_url: {:string, :uri_template},
+      current_user_authorizations_html_url: {:string, :uri_template},
+      current_user_repositories_url: {:string, :uri_template},
+      current_user_url: {:string, :uri_template},
+      emails_url: {:string, :uri_template},
+      emojis_url: {:string, :uri_template},
+      events_url: {:string, :uri_template},
+      feeds_url: {:string, :uri_template},
+      followers_url: {:string, :uri_template},
+      following_url: {:string, :uri_template},
+      gists_url: {:string, :uri_template},
+      hub_url: {:string, :uri_template},
+      issue_search_url: {:string, :uri_template},
+      issues_url: {:string, :uri_template},
+      keys_url: {:string, :uri_template},
+      label_search_url: {:string, :uri_template},
+      notifications_url: {:string, :uri_template},
+      organization_repositories_url: {:string, :uri_template},
+      organization_teams_url: {:string, :uri_template},
+      organization_url: {:string, :uri_template},
+      public_gists_url: {:string, :uri_template},
+      rate_limit_url: {:string, :uri_template},
+      repository_search_url: {:string, :uri_template},
+      repository_url: {:string, :uri_template},
+      starred_gists_url: {:string, :uri_template},
+      starred_url: {:string, :uri_template},
+      topic_search_url: {:string, :uri_template},
+      user_organizations_url: {:string, :uri_template},
+      user_repositories_url: {:string, :uri_template},
+      user_search_url: {:string, :uri_template},
+      user_url: {:string, :uri_template}
     ]
   end
 end

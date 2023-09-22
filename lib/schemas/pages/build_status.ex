@@ -1,6 +1,6 @@
 defmodule GitHub.Pages.BuildStatus do
   @moduledoc """
-  Provides struct and type for PageBuildStatus
+  Provides struct and type for a Pages.BuildStatus
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Pages.BuildStatus do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [status: :string, url: :string]
+    [status: {:string, :generic}, url: {:string, :uri}]
   end
 end

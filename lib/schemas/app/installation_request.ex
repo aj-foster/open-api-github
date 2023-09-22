@@ -1,13 +1,13 @@
 defmodule GitHub.App.InstallationRequest do
   @moduledoc """
-  Provides struct and type for IntegrationInstallationRequest
+  Provides struct and type for a App.InstallationRequest
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          account: GitHub.Enterprise.t() | GitHub.User.simple(),
-          created_at: String.t(),
+          account: map | GitHub.User.simple(),
+          created_at: DateTime.t(),
           id: integer,
           node_id: String.t() | nil,
           requester: GitHub.User.simple()
@@ -21,10 +21,10 @@ defmodule GitHub.App.InstallationRequest do
 
   def __fields__(:t) do
     [
-      account: {:union, [{GitHub.User, :simple}, {GitHub.Enterprise, :t}]},
-      created_at: :string,
+      account: {:union, [:map, {GitHub.User, :simple}]},
+      created_at: {:string, :date_time},
       id: :integer,
-      node_id: :string,
+      node_id: {:string, :generic},
       requester: {GitHub.User, :simple}
     ]
   end

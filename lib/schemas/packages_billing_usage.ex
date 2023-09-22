@@ -1,6 +1,6 @@
 defmodule GitHub.PackagesBillingUsage do
   @moduledoc """
-  Provides struct and type for PackagesBillingUsage
+  Provides struct and type for a PackagesBillingUsage
   """
   use GitHub.Encoder
 

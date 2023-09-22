@@ -1,6 +1,6 @@
 defmodule GitHub.Contributor do
   @moduledoc """
-  Provides struct and type for Contributor
+  Provides struct and type for a Contributor
   """
   use GitHub.Encoder
 
@@ -60,27 +60,27 @@ defmodule GitHub.Contributor do
 
   def __fields__(:t) do
     [
-      avatar_url: :string,
+      avatar_url: {:string, :uri},
       contributions: :integer,
-      email: :string,
-      events_url: :string,
-      followers_url: :string,
-      following_url: :string,
-      gists_url: :string,
-      gravatar_id: {:nullable, :string},
-      html_url: :string,
+      email: {:string, :generic},
+      events_url: {:string, :generic},
+      followers_url: {:string, :uri},
+      following_url: {:string, :generic},
+      gists_url: {:string, :generic},
+      gravatar_id: {:union, [{:string, :generic}, :null]},
+      html_url: {:string, :uri},
       id: :integer,
-      login: :string,
-      name: :string,
-      node_id: :string,
-      organizations_url: :string,
-      received_events_url: :string,
-      repos_url: :string,
+      login: {:string, :generic},
+      name: {:string, :generic},
+      node_id: {:string, :generic},
+      organizations_url: {:string, :uri},
+      received_events_url: {:string, :uri},
+      repos_url: {:string, :uri},
       site_admin: :boolean,
-      starred_url: :string,
-      subscriptions_url: :string,
-      type: :string,
-      url: :string
+      starred_url: {:string, :generic},
+      subscriptions_url: {:string, :uri},
+      type: {:string, :generic},
+      url: {:string, :uri}
     ]
   end
 end

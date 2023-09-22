@@ -1,6 +1,6 @@
 defmodule GitHub.Hovercard do
   @moduledoc """
-  Provides struct and type for Hovercard
+  Provides struct and type for a Hovercard
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Hovercard do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [contexts: {:array, :map}]
+    [contexts: [:map]]
   end
 end

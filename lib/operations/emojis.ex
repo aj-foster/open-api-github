@@ -8,6 +8,8 @@ defmodule GitHub.Emojis do
   @doc """
   Get emojis
 
+  Lists all the emojis available to use on GitHub.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/emojis/emojis#get-emojis)
@@ -18,10 +20,11 @@ defmodule GitHub.Emojis do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [],
       call: {GitHub.Emojis, :get},
       url: "/emojis",
       method: :get,
-      response: [{200, :map}, {304, nil}],
+      response: [{200, :map}, {304, :null}],
       opts: opts
     })
   end

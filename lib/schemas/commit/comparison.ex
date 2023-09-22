@@ -1,6 +1,6 @@
 defmodule GitHub.Commit.Comparison do
   @moduledoc """
-  Provides struct and type for CommitComparison
+  Provides struct and type for a Commit.Comparison
   """
   use GitHub.Encoder
 
@@ -47,16 +47,16 @@ defmodule GitHub.Commit.Comparison do
       ahead_by: :integer,
       base_commit: {GitHub.Commit, :t},
       behind_by: :integer,
-      commits: {:array, {GitHub.Commit, :t}},
-      diff_url: :string,
-      files: {:array, {GitHub.DiffEntry, :t}},
-      html_url: :string,
+      commits: [{GitHub.Commit, :t}],
+      diff_url: {:string, :uri},
+      files: [{GitHub.DiffEntry, :t}],
+      html_url: {:string, :uri},
       merge_base_commit: {GitHub.Commit, :t},
-      patch_url: :string,
-      permalink_url: :string,
-      status: :string,
+      patch_url: {:string, :uri},
+      permalink_url: {:string, :uri},
+      status: {:enum, ["diverged", "ahead", "behind", "identical"]},
       total_commits: :integer,
-      url: :string
+      url: {:string, :uri}
     ]
   end
 end

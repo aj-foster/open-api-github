@@ -1,6 +1,6 @@
 defmodule GitHub.ReferrerTraffic do
   @moduledoc """
-  Provides struct and type for ReferrerTraffic
+  Provides struct and type for a ReferrerTraffic
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.ReferrerTraffic do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [count: :integer, referrer: :string, uniques: :integer]
+    [count: :integer, referrer: {:string, :generic}, uniques: :integer]
   end
 end

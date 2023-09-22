@@ -1,6 +1,6 @@
 defmodule GitHub.ContributorActivity do
   @moduledoc """
-  Provides struct and type for ContributorActivity
+  Provides struct and type for a ContributorActivity
   """
   use GitHub.Encoder
 
@@ -18,6 +18,6 @@ defmodule GitHub.ContributorActivity do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [author: {:nullable, {GitHub.User, :simple}}, total: :integer, weeks: {:array, :map}]
+    [author: {:union, [{GitHub.User, :simple}, :null]}, total: :integer, weeks: [:map]]
   end
 end

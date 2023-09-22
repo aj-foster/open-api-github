@@ -1,6 +1,6 @@
 defmodule GitHub.Pages.SourceHash do
   @moduledoc """
-  Provides struct and type for PagesSourceHash
+  Provides struct and type for a Pages.SourceHash
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Pages.SourceHash do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [branch: :string, path: :string]
+    [branch: {:string, :generic}, path: {:string, :generic}]
   end
 end

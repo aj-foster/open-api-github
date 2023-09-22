@@ -1,6 +1,6 @@
 defmodule GitHub.Repository.Advisory.Update do
   @moduledoc """
-  Provides struct and type for RepositoryAdvisoryUpdate
+  Provides struct and type for a Repository.Advisory.Update
   """
   use GitHub.Encoder
 
@@ -40,17 +40,17 @@ defmodule GitHub.Repository.Advisory.Update do
 
   def __fields__(:t) do
     [
-      collaborating_teams: {:nullable, {:array, :string}},
-      collaborating_users: {:nullable, {:array, :string}},
-      credits: {:nullable, {:array, :map}},
-      cve_id: {:nullable, :string},
-      cvss_vector_string: {:nullable, :string},
-      cwe_ids: {:nullable, {:array, :string}},
-      description: :string,
-      severity: {:nullable, :string},
-      state: :string,
-      summary: :string,
-      vulnerabilities: {:array, :map}
+      collaborating_teams: {:union, [[string: :generic], :null]},
+      collaborating_users: {:union, [[string: :generic], :null]},
+      credits: {:union, [[:map], :null]},
+      cve_id: {:union, [{:string, :generic}, :null]},
+      cvss_vector_string: {:union, [{:string, :generic}, :null]},
+      cwe_ids: {:union, [[string: :generic], :null]},
+      description: {:string, :generic},
+      severity: {:enum, ["critical", "high", "medium", "low", nil]},
+      state: {:enum, ["published", "closed", "draft"]},
+      summary: {:string, :generic},
+      vulnerabilities: [:map]
     ]
   end
 end

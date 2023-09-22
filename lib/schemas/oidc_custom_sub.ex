@@ -1,6 +1,6 @@
 defmodule GitHub.OIDCCustomSub do
   @moduledoc """
-  Provides struct and type for OidcCustomSub
+  Provides struct and type for a OIDCCustomSub
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.OIDCCustomSub do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [include_claim_keys: {:array, :string}]
+    [include_claim_keys: [string: :generic]]
   end
 end

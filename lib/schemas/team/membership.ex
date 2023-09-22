@@ -1,6 +1,6 @@
 defmodule GitHub.Team.Membership do
   @moduledoc """
-  Provides struct and type for TeamMembership
+  Provides struct and type for a Team.Membership
   """
   use GitHub.Encoder
 
@@ -13,6 +13,10 @@ defmodule GitHub.Team.Membership do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [role: :string, state: :string, url: :string]
+    [
+      role: {:enum, ["member", "maintainer"]},
+      state: {:enum, ["active", "pending"]},
+      url: {:string, :uri}
+    ]
   end
 end

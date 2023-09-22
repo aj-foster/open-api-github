@@ -1,6 +1,6 @@
 defmodule GitHub.ShortBranch do
   @moduledoc """
-  Provides struct and type for ShortBranch
+  Provides struct and type for a ShortBranch
   """
   use GitHub.Encoder
 
@@ -22,10 +22,10 @@ defmodule GitHub.ShortBranch do
   def __fields__(:t) do
     [
       commit: :map,
-      name: :string,
+      name: {:string, :generic},
       protected: :boolean,
       protection: {GitHub.Branch.Protection, :t},
-      protection_url: :string
+      protection_url: {:string, :uri}
     ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.ValidationError do
   @moduledoc """
-  Provides struct and types for ValidationError, ValidationErrorSimple
+  Provides struct and types for a ValidationError
   """
   use GitHub.Encoder
 
@@ -25,10 +25,14 @@ defmodule GitHub.ValidationError do
   def __fields__(type \\ :t)
 
   def __fields__(:simple) do
-    [documentation_url: :string, errors: {:array, :string}, message: :string]
+    [
+      documentation_url: {:string, :generic},
+      errors: [string: :generic],
+      message: {:string, :generic}
+    ]
   end
 
   def __fields__(:t) do
-    [documentation_url: :string, errors: {:array, :map}, message: :string]
+    [documentation_url: {:string, :generic}, errors: [:map], message: {:string, :generic}]
   end
 end

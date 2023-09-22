@@ -1,6 +1,6 @@
 defmodule GitHub.Commit do
   @moduledoc """
-  Provides struct and types for Commit, SimpleCommit
+  Provides struct and types for a Commit
   """
   use GitHub.Encoder
 
@@ -10,7 +10,7 @@ defmodule GitHub.Commit do
           committer: map | nil,
           id: String.t(),
           message: String.t(),
-          timestamp: String.t(),
+          timestamp: DateTime.t(),
           tree_id: String.t()
         }
 
@@ -54,28 +54,28 @@ defmodule GitHub.Commit do
 
   def __fields__(:simple) do
     [
-      author: {:nullable, :map},
-      committer: {:nullable, :map},
-      id: :string,
-      message: :string,
-      timestamp: :string,
-      tree_id: :string
+      author: {:union, [:map, :null]},
+      committer: {:union, [:map, :null]},
+      id: {:string, :generic},
+      message: {:string, :generic},
+      timestamp: {:string, :date_time},
+      tree_id: {:string, :generic}
     ]
   end
 
   def __fields__(:t) do
     [
-      author: {:nullable, {GitHub.User, :simple}},
-      comments_url: :string,
+      author: {:union, [{GitHub.User, :simple}, :null]},
+      comments_url: {:string, :uri},
       commit: :map,
-      committer: {:nullable, {GitHub.User, :simple}},
-      files: {:array, {GitHub.DiffEntry, :t}},
-      html_url: :string,
-      node_id: :string,
-      parents: {:array, :map},
-      sha: :string,
+      committer: {:union, [{GitHub.User, :simple}, :null]},
+      files: [{GitHub.DiffEntry, :t}],
+      html_url: {:string, :uri},
+      node_id: {:string, :generic},
+      parents: [:map],
+      sha: {:string, :generic},
       stats: :map,
-      url: :string
+      url: {:string, :uri}
     ]
   end
 end

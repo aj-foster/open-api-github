@@ -1,18 +1,18 @@
 defmodule GitHub.Pages.Build do
   @moduledoc """
-  Provides struct and type for PageBuild
+  Provides struct and type for a Pages.Build
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
           commit: String.t(),
-          created_at: String.t(),
+          created_at: DateTime.t(),
           duration: integer,
           error: map,
           pusher: GitHub.User.simple() | nil,
           status: String.t(),
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t()
         }
 
@@ -34,14 +34,14 @@ defmodule GitHub.Pages.Build do
 
   def __fields__(:t) do
     [
-      commit: :string,
-      created_at: :string,
+      commit: {:string, :generic},
+      created_at: {:string, :date_time},
       duration: :integer,
       error: :map,
-      pusher: {:nullable, {GitHub.User, :simple}},
-      status: :string,
-      updated_at: :string,
-      url: :string
+      pusher: {:union, [{GitHub.User, :simple}, :null]},
+      status: {:string, :generic},
+      updated_at: {:string, :date_time},
+      url: {:string, :uri}
     ]
   end
 end

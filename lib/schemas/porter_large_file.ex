@@ -1,6 +1,6 @@
 defmodule GitHub.PorterLargeFile do
   @moduledoc """
-  Provides struct and type for PorterLargeFile
+  Provides struct and type for a PorterLargeFile
   """
   use GitHub.Encoder
 
@@ -19,6 +19,11 @@ defmodule GitHub.PorterLargeFile do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [oid: :string, path: :string, ref_name: :string, size: :integer]
+    [
+      oid: {:string, :generic},
+      path: {:string, :generic},
+      ref_name: {:string, :generic},
+      size: :integer
+    ]
   end
 end

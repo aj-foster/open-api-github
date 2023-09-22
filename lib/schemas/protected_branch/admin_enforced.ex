@@ -1,6 +1,6 @@
 defmodule GitHub.ProtectedBranch.AdminEnforced do
   @moduledoc """
-  Provides struct and type for ProtectedBranchAdminEnforced
+  Provides struct and type for a ProtectedBranch.AdminEnforced
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.ProtectedBranch.AdminEnforced do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [enabled: :boolean, url: :string]
+    [enabled: :boolean, url: {:string, :uri}]
   end
 end

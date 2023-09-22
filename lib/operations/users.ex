@@ -8,6 +8,8 @@ defmodule GitHub.Users do
   @doc """
   Add an email address for the authenticated user
 
+  This endpoint is accessible with the `user` scope.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/users/emails#add-an-email-address-for-the-authenticated-user)
@@ -24,10 +26,10 @@ defmodule GitHub.Users do
       url: "/user/emails",
       body: body,
       method: :post,
-      request: [{"application/json", {:union, [:map, {:array, :string}, :string]}}],
+      request: [{"application/json", {:union, [:map, {:string, :generic}, [string: :generic]]}}],
       response: [
-        {201, {:array, {GitHub.Email, :t}}},
-        {304, nil},
+        {201, [{GitHub.Email, :t}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -39,6 +41,8 @@ defmodule GitHub.Users do
 
   @doc """
   Add social accounts for the authenticated user
+
+  Add one or more social accounts to the authenticated user's profile. This endpoint is accessible with the `user` scope.
 
   ## Resources
 
@@ -58,8 +62,8 @@ defmodule GitHub.Users do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {201, {:array, {GitHub.SocialAccount, :t}}},
-        {304, nil},
+        {201, [{GitHub.SocialAccount, :t}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -71,6 +75,8 @@ defmodule GitHub.Users do
 
   @doc """
   Block a user
+
+  Blocks the given user and returns a 204. If the authenticated user cannot block the given user a 422 is returned.
 
   ## Resources
 
@@ -87,8 +93,8 @@ defmodule GitHub.Users do
       url: "/user/blocks/#{username}",
       method: :put,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -100,6 +106,8 @@ defmodule GitHub.Users do
 
   @doc """
   Check if a user is blocked by the authenticated user
+
+  Returns a 204 if the given user is blocked by the authenticated user. Returns a 404 if the given user is not blocked by the authenticated user, or if the given user account has been identified as spam by GitHub.
 
   ## Resources
 
@@ -116,8 +124,8 @@ defmodule GitHub.Users do
       url: "/user/blocks/#{username}",
       method: :get,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -144,7 +152,7 @@ defmodule GitHub.Users do
       call: {GitHub.Users, :check_following_for_user},
       url: "/users/#{username}/following/#{target_user}",
       method: :get,
-      response: [{204, nil}, {404, nil}],
+      response: [{204, :null}, {404, :null}],
       opts: opts
     })
   end
@@ -168,8 +176,8 @@ defmodule GitHub.Users do
       url: "/user/following/#{username}",
       method: :get,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -180,6 +188,8 @@ defmodule GitHub.Users do
 
   @doc """
   Create a GPG key for the authenticated user
+
+  Adds a GPG key to the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
 
   ## Resources
 
@@ -200,7 +210,7 @@ defmodule GitHub.Users do
       request: [{"application/json", :map}],
       response: [
         {201, {GitHub.GpgKey, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -212,6 +222,8 @@ defmodule GitHub.Users do
 
   @doc """
   Create a public SSH key for the authenticated user
+
+  Adds a public SSH key to the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
 
   ## Resources
 
@@ -232,7 +244,7 @@ defmodule GitHub.Users do
       request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Key, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -244,6 +256,8 @@ defmodule GitHub.Users do
 
   @doc """
   Create a SSH signing key for the authenticated user
+
+  Creates an SSH signing key for the authenticated user's GitHub account. You must authenticate with Basic Authentication, or you must authenticate with OAuth with at least `write:ssh_signing_key` scope. For more information, see "[Understanding scopes for OAuth apps](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/)."
 
   ## Resources
 
@@ -264,7 +278,7 @@ defmodule GitHub.Users do
       request: [{"application/json", :map}],
       response: [
         {201, {GitHub.SSHSigningKey, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -276,6 +290,8 @@ defmodule GitHub.Users do
 
   @doc """
   Delete an email address for the authenticated user
+
+  This endpoint is accessible with the `user` scope.
 
   ## Resources
 
@@ -293,10 +309,10 @@ defmodule GitHub.Users do
       url: "/user/emails",
       body: body,
       method: :delete,
-      request: [{"application/json", {:union, [:map, {:array, :string}, :string]}}],
+      request: [{"application/json", {:union, [:map, {:string, :generic}, [string: :generic]]}}],
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -308,6 +324,8 @@ defmodule GitHub.Users do
 
   @doc """
   Delete a GPG key for the authenticated user
+
+  Removes a GPG key from the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth or via OAuth with at least `admin:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
 
   ## Resources
 
@@ -325,8 +343,8 @@ defmodule GitHub.Users do
       url: "/user/gpg_keys/#{gpg_key_id}",
       method: :delete,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -338,6 +356,8 @@ defmodule GitHub.Users do
 
   @doc """
   Delete a public SSH key for the authenticated user
+
+  Removes a public SSH key from the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth or via OAuth with at least `admin:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
 
   ## Resources
 
@@ -355,8 +375,8 @@ defmodule GitHub.Users do
       url: "/user/keys/#{key_id}",
       method: :delete,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -367,6 +387,8 @@ defmodule GitHub.Users do
 
   @doc """
   Delete social accounts for the authenticated user
+
+  Deletes one or more social accounts from the authenticated user's profile. This endpoint is accessible with the `user` scope.
 
   ## Resources
 
@@ -386,8 +408,8 @@ defmodule GitHub.Users do
       method: :delete,
       request: [{"application/json", :map}],
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -399,6 +421,8 @@ defmodule GitHub.Users do
 
   @doc """
   Delete an SSH signing key for the authenticated user
+
+  Deletes an SSH signing key from the authenticated user's GitHub account. You must authenticate with Basic Authentication, or you must authenticate with OAuth with at least `admin:ssh_signing_key` scope. For more information, see "[Understanding scopes for OAuth apps](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/)."
 
   ## Resources
 
@@ -416,8 +440,8 @@ defmodule GitHub.Users do
       url: "/user/ssh_signing_keys/#{ssh_signing_key_id}",
       method: :delete,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -428,6 +452,10 @@ defmodule GitHub.Users do
 
   @doc """
   Follow a user
+
+  Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
+
+  Following a user requires the user to be logged in and authenticated with basic auth or OAuth with the `user:follow` scope.
 
   ## Resources
 
@@ -444,8 +472,8 @@ defmodule GitHub.Users do
       url: "/user/following/#{username}",
       method: :put,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -457,23 +485,28 @@ defmodule GitHub.Users do
   @doc """
   Get the authenticated user
 
+  If the authenticated user is authenticated with an OAuth token with the `user` scope, then the response lists public and private profile information.
+
+  If the authenticated user is authenticated through OAuth without the `user` scope, then the response lists only public profile information.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/users/users#get-the-authenticated-user)
 
   """
   @spec get_authenticated(keyword) ::
-          {:ok, GitHub.User.private() | GitHub.User.public()} | {:error, GitHub.Error.t()}
+          {:ok, map | GitHub.User.private()} | {:error, GitHub.Error.t()}
   def get_authenticated(opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [],
       call: {GitHub.Users, :get_authenticated},
       url: "/user",
       method: :get,
       response: [
-        {200, {:union, [{GitHub.User, :private}, {GitHub.User, :public}]}},
-        {304, nil},
+        {200, {:union, [:map, {GitHub.User, :private}]}},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -484,13 +517,21 @@ defmodule GitHub.Users do
   @doc """
   Get a user
 
+  Provides publicly available information about someone with a GitHub account.
+
+  GitHub Apps with the `Plan` user permission can use this endpoint to retrieve information about a user's GitHub plan. The GitHub App must be authenticated as a user. See "[Identifying and authorizing users for GitHub Apps](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/)" for details about authentication. For an example response, see 'Response with GitHub plan information' below"
+
+  The `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be “public” which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://docs.github.com/rest/overview/resources-in-the-rest-api#authentication).
+
+  The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see "[Emails API](https://docs.github.com/rest/users/emails)".
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/users/users#get-a-user)
 
   """
   @spec get_by_username(String.t(), keyword) ::
-          {:ok, GitHub.User.private() | GitHub.User.public()} | {:error, GitHub.Error.t()}
+          {:ok, map | GitHub.User.private()} | {:error, GitHub.Error.t()}
   def get_by_username(username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -499,10 +540,7 @@ defmodule GitHub.Users do
       call: {GitHub.Users, :get_by_username},
       url: "/users/#{username}",
       method: :get,
-      response: [
-        {200, {:union, [{GitHub.User, :private}, {GitHub.User, :public}]}},
-        {404, {GitHub.BasicError, :t}}
-      ],
+      response: [{200, {:union, [:map, {GitHub.User, :private}]}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -510,10 +548,19 @@ defmodule GitHub.Users do
   @doc """
   Get contextual information for a user
 
+  Provides hovercard information when authenticated through basic auth or OAuth with the `repo` scope. You can find out more about someone in relation to their pull requests, issues, repositories, and organizations.
+
+  The `subject_type` and `subject_id` parameters provide context for the person's hovercard, which returns more information than without the parameters. For example, if you wanted to find out more about `octocat` who owns the `Spoon-Knife` repository via cURL, it would look like this:
+
+  ```shell
+   curl -u username:token
+    https://api.github.com/users/octocat/hovercard?subject_type=repository&subject_id=1300192
+  ```
+
   ## Options
 
-    * `subject_type` (String.t()): Identifies which additional information you'd like to receive about the person's hovercard. Can be `organization`, `repository`, `issue`, `pull_request`. **Required** when using `subject_id`.
-    * `subject_id` (String.t()): Uses the ID for the `subject_type` you specified. **Required** when using `subject_type`.
+    * `subject_type`: Identifies which additional information you'd like to receive about the person's hovercard. Can be `organization`, `repository`, `issue`, `pull_request`. **Required** when using `subject_id`.
+    * `subject_id`: Uses the ID for the `subject_type` you specified. **Required** when using `subject_type`.
 
   ## Resources
 
@@ -544,6 +591,8 @@ defmodule GitHub.Users do
   @doc """
   Get a GPG key for the authenticated user
 
+  View extended details for a single GPG key. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/users/gpg-keys#get-a-gpg-key-for-the-authenticated-user)
@@ -561,7 +610,7 @@ defmodule GitHub.Users do
       method: :get,
       response: [
         {200, {GitHub.GpgKey, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -572,6 +621,8 @@ defmodule GitHub.Users do
 
   @doc """
   Get a public SSH key for the authenticated user
+
+  View extended details for a single public SSH key. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
 
   ## Resources
 
@@ -590,7 +641,7 @@ defmodule GitHub.Users do
       method: :get,
       response: [
         {200, {GitHub.Key, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -601,6 +652,8 @@ defmodule GitHub.Users do
 
   @doc """
   Get an SSH signing key for the authenticated user
+
+  Gets extended details for an SSH signing key. You must authenticate with Basic Authentication, or you must authenticate with OAuth with at least `read:ssh_signing_key` scope. For more information, see "[Understanding scopes for OAuth apps](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/)."
 
   ## Resources
 
@@ -619,7 +672,7 @@ defmodule GitHub.Users do
       method: :get,
       response: [
         {200, {GitHub.SSHSigningKey, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -631,10 +684,14 @@ defmodule GitHub.Users do
   @doc """
   List users
 
+  Lists all users, in the order that they signed up on GitHub. This list includes personal user accounts and organization accounts.
+
+  Note: Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of users.
+
   ## Options
 
-    * `since` (integer): A user ID. Only return users with an ID greater than this ID.
-    * `per_page` (integer): The number of results per page (max 100).
+    * `since`: A user ID. Only return users with an ID greater than this ID.
+    * `per_page`: The number of results per page (max 100).
 
   ## Resources
 
@@ -647,11 +704,12 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:per_page, :since])
 
     client.request(%{
+      args: [],
       call: {GitHub.Users, :list},
       url: "/users",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.User, :simple}}}, {304, nil}],
+      response: [{200, [{GitHub.User, :simple}]}, {304, :null}],
       opts: opts
     })
   end
@@ -659,10 +717,12 @@ defmodule GitHub.Users do
   @doc """
   List users blocked by the authenticated user
 
+  List the users you've blocked on your personal account.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -676,13 +736,14 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [],
       call: {GitHub.Users, :list_blocked_by_authenticated_user},
       url: "/user/blocks",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.User, :simple}}},
-        {304, nil},
+        {200, [{GitHub.User, :simple}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -694,10 +755,12 @@ defmodule GitHub.Users do
   @doc """
   List email addresses for the authenticated user
 
+  Lists all of your email addresses, and specifies which one is visible to the public. This endpoint is accessible with the `user:email` scope.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -711,13 +774,14 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [],
       call: {GitHub.Users, :list_emails_for_authenticated_user},
       url: "/user/emails",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Email, :t}}},
-        {304, nil},
+        {200, [{GitHub.Email, :t}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -729,10 +793,12 @@ defmodule GitHub.Users do
   @doc """
   List the people the authenticated user follows
 
+  Lists the people who the authenticated user follows.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -746,13 +812,14 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [],
       call: {GitHub.Users, :list_followed_by_authenticated_user},
       url: "/user/following",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.User, :simple}}},
-        {304, nil},
+        {200, [{GitHub.User, :simple}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -763,10 +830,12 @@ defmodule GitHub.Users do
   @doc """
   List followers of the authenticated user
 
+  Lists the people following the authenticated user.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -780,13 +849,14 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [],
       call: {GitHub.Users, :list_followers_for_authenticated_user},
       url: "/user/followers",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.User, :simple}}},
-        {304, nil},
+        {200, [{GitHub.User, :simple}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -797,10 +867,12 @@ defmodule GitHub.Users do
   @doc """
   List followers of a user
 
+  Lists the people following the specified user.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -819,7 +891,7 @@ defmodule GitHub.Users do
       url: "/users/#{username}/followers",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.User, :simple}}}],
+      response: [{200, [{GitHub.User, :simple}]}],
       opts: opts
     })
   end
@@ -827,10 +899,12 @@ defmodule GitHub.Users do
   @doc """
   List the people a user follows
 
+  Lists the people who the specified user follows.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -849,7 +923,7 @@ defmodule GitHub.Users do
       url: "/users/#{username}/following",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.User, :simple}}}],
+      response: [{200, [{GitHub.User, :simple}]}],
       opts: opts
     })
   end
@@ -857,10 +931,12 @@ defmodule GitHub.Users do
   @doc """
   List GPG keys for the authenticated user
 
+  Lists the current user's GPG keys. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -874,13 +950,14 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [],
       call: {GitHub.Users, :list_gpg_keys_for_authenticated_user},
       url: "/user/gpg_keys",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.GpgKey, :t}}},
-        {304, nil},
+        {200, [{GitHub.GpgKey, :t}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -892,10 +969,12 @@ defmodule GitHub.Users do
   @doc """
   List GPG keys for a user
 
+  Lists the GPG keys for a user. This information is accessible by anyone.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -914,7 +993,7 @@ defmodule GitHub.Users do
       url: "/users/#{username}/gpg_keys",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.GpgKey, :t}}}],
+      response: [{200, [{GitHub.GpgKey, :t}]}],
       opts: opts
     })
   end
@@ -922,10 +1001,12 @@ defmodule GitHub.Users do
   @doc """
   List public email addresses for the authenticated user
 
+  Lists your publicly visible email address, which you can set with the [Set primary email visibility for the authenticated user](https://docs.github.com/rest/users/emails#set-primary-email-visibility-for-the-authenticated-user) endpoint. This endpoint is accessible with the `user:email` scope.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -939,13 +1020,14 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [],
       call: {GitHub.Users, :list_public_emails_for_authenticated_user},
       url: "/user/public_emails",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Email, :t}}},
-        {304, nil},
+        {200, [{GitHub.Email, :t}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -957,10 +1039,12 @@ defmodule GitHub.Users do
   @doc """
   List public keys for a user
 
+  Lists the _verified_ public SSH keys for a user. This is accessible by anyone.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -979,7 +1063,7 @@ defmodule GitHub.Users do
       url: "/users/#{username}/keys",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Key, :simple}}}],
+      response: [{200, [{GitHub.Key, :simple}]}],
       opts: opts
     })
   end
@@ -987,10 +1071,12 @@ defmodule GitHub.Users do
   @doc """
   List public SSH keys for the authenticated user
 
+  Lists the public SSH keys for the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1004,13 +1090,14 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [],
       call: {GitHub.Users, :list_public_ssh_keys_for_authenticated_user},
       url: "/user/keys",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Key, :t}}},
-        {304, nil},
+        {200, [{GitHub.Key, :t}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -1022,10 +1109,12 @@ defmodule GitHub.Users do
   @doc """
   List social accounts for the authenticated user
 
+  Lists all of your social accounts.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1039,13 +1128,14 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [],
       call: {GitHub.Users, :list_social_accounts_for_authenticated_user},
       url: "/user/social_accounts",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.SocialAccount, :t}}},
-        {304, nil},
+        {200, [{GitHub.SocialAccount, :t}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -1057,10 +1147,12 @@ defmodule GitHub.Users do
   @doc """
   List social accounts for a user
 
+  Lists social media accounts for a user. This endpoint is accessible by anyone.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1079,7 +1171,7 @@ defmodule GitHub.Users do
       url: "/users/#{username}/social_accounts",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.SocialAccount, :t}}}],
+      response: [{200, [{GitHub.SocialAccount, :t}]}],
       opts: opts
     })
   end
@@ -1087,10 +1179,12 @@ defmodule GitHub.Users do
   @doc """
   List SSH signing keys for the authenticated user
 
+  Lists the SSH signing keys for the authenticated user's GitHub account. You must authenticate with Basic Authentication, or you must authenticate with OAuth with at least `read:ssh_signing_key` scope. For more information, see "[Understanding scopes for OAuth apps](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/)."
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1104,13 +1198,14 @@ defmodule GitHub.Users do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [],
       call: {GitHub.Users, :list_ssh_signing_keys_for_authenticated_user},
       url: "/user/ssh_signing_keys",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.SSHSigningKey, :t}}},
-        {304, nil},
+        {200, [{GitHub.SSHSigningKey, :t}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -1122,10 +1217,12 @@ defmodule GitHub.Users do
   @doc """
   List SSH signing keys for a user
 
+  Lists the SSH signing keys for a user. This operation is accessible by anyone.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1144,13 +1241,15 @@ defmodule GitHub.Users do
       url: "/users/#{username}/ssh_signing_keys",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.SSHSigningKey, :t}}}],
+      response: [{200, [{GitHub.SSHSigningKey, :t}]}],
       opts: opts
     })
   end
 
   @doc """
   Set primary email visibility for the authenticated user
+
+  Sets the visibility for your primary email addresses.
 
   ## Resources
 
@@ -1170,8 +1269,8 @@ defmodule GitHub.Users do
       method: :patch,
       request: [{"application/json", :map}],
       response: [
-        {200, {:array, {GitHub.Email, :t}}},
-        {304, nil},
+        {200, [{GitHub.Email, :t}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -1183,6 +1282,8 @@ defmodule GitHub.Users do
 
   @doc """
   Unblock a user
+
+  Unblocks the given user and returns a 204.
 
   ## Resources
 
@@ -1199,8 +1300,8 @@ defmodule GitHub.Users do
       url: "/user/blocks/#{username}",
       method: :delete,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -1211,6 +1312,8 @@ defmodule GitHub.Users do
 
   @doc """
   Unfollow a user
+
+  Unfollowing a user requires the user to be logged in and authenticated with basic auth or OAuth with the `user:follow` scope.
 
   ## Resources
 
@@ -1227,8 +1330,8 @@ defmodule GitHub.Users do
       url: "/user/following/#{username}",
       method: :delete,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -1239,6 +1342,8 @@ defmodule GitHub.Users do
 
   @doc """
   Update the authenticated user
+
+  **Note:** If your email is set to private and you send an `email` parameter as part of this request to update your profile, your privacy settings are still enforced: the email address will not be displayed on your public profile or via the API.
 
   ## Resources
 
@@ -1259,7 +1364,7 @@ defmodule GitHub.Users do
       request: [{"application/json", :map}],
       response: [
         {200, {GitHub.User, :private}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},

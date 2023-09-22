@@ -1,6 +1,6 @@
 defmodule GitHub.EmptyObject do
   @moduledoc """
-  Provides struct and type for EmptyObject
+  Provides struct and type for a EmptyObject
   """
   use GitHub.Encoder
 

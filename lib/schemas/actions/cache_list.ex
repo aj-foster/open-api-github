@@ -1,6 +1,6 @@
 defmodule GitHub.Actions.CacheList do
   @moduledoc """
-  Provides struct and type for ActionsCacheList
+  Provides struct and type for a Actions.CacheList
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Actions.CacheList do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [actions_caches: {:array, :map}, total_count: :integer]
+    [actions_caches: [:map], total_count: :integer]
   end
 end

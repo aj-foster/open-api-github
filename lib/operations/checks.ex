@@ -8,6 +8,12 @@ defmodule GitHub.Checks do
   @doc """
   Create a check run
 
+  **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.
+
+  Creates a new check run for a specific commit in a repository. Your GitHub App must have the `checks:write` permission to create check runs.
+
+  In a check suite, GitHub limits the number of check runs with the same name to 1000. Once these check runs exceed 1000, GitHub will start to automatically delete older check runs.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/checks/runs#create-a-check-run)
@@ -32,6 +38,10 @@ defmodule GitHub.Checks do
 
   @doc """
   Create a check suite
+
+  **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array and a `null` value for `head_branch`.
+
+  By default, check suites are automatically created when you create a [check run](https://docs.github.com/rest/checks/runs). You only need to use this endpoint for manually creating check suites when you've disabled automatic creation using "[Update repository preferences for check suites](https://docs.github.com/rest/checks/suites#update-repository-preferences-for-check-suites)". Your GitHub App must have the `checks:write` permission to create check suites.
 
   ## Resources
 
@@ -58,6 +68,10 @@ defmodule GitHub.Checks do
   @doc """
   Get a check run
 
+  **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.
+
+  Gets a single check run using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth apps and authenticated users must have the `repo` scope to get check runs in a private repository.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/checks/runs#get-a-check-run)
@@ -80,6 +94,10 @@ defmodule GitHub.Checks do
 
   @doc """
   Get a check suite
+
+  **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array and a `null` value for `head_branch`.
+
+  Gets a single check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check suites. OAuth apps and authenticated users must have the `repo` scope to get check suites in a private repository.
 
   ## Resources
 
@@ -104,10 +122,12 @@ defmodule GitHub.Checks do
   @doc """
   List check run annotations
 
+  Lists annotations for a check run using the annotation `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get annotations for a check run. OAuth apps and authenticated users must have the `repo` scope to get annotations for a check run in a private repository.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -126,7 +146,7 @@ defmodule GitHub.Checks do
       url: "/repos/#{owner}/#{repo}/check-runs/#{check_run_id}/annotations",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Check.Annotation, :t}}}],
+      response: [{200, [{GitHub.Check.Annotation, :t}]}],
       opts: opts
     })
   end
@@ -134,14 +154,18 @@ defmodule GitHub.Checks do
   @doc """
   List check runs for a Git reference
 
+  **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.
+
+  Lists check runs for a commit ref. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth apps and authenticated users must have the `repo` scope to get check runs in a private repository.
+
   ## Options
 
-    * `check_name` (String.t()): Returns check runs with the specified `name`.
-    * `status` (String.t()): Returns check runs with the specified `status`.
-    * `filter` (String.t()): Filters check runs by their `completed_at` timestamp. `latest` returns the most recent check runs.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
-    * `app_id` (integer): 
+    * `check_name`: Returns check runs with the specified `name`.
+    * `status`: Returns check runs with the specified `status`.
+    * `filter`: Filters check runs by their `completed_at` timestamp. `latest` returns the most recent check runs.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
+    * `app_id`
 
   ## Resources
 
@@ -168,13 +192,17 @@ defmodule GitHub.Checks do
   @doc """
   List check runs in a check suite
 
+  **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.
+
+  Lists check runs for a check suite using its `id`. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to get check runs. OAuth apps and authenticated users must have the `repo` scope to get check runs in a private repository.
+
   ## Options
 
-    * `check_name` (String.t()): Returns check runs with the specified `name`.
-    * `status` (String.t()): Returns check runs with the specified `status`.
-    * `filter` (String.t()): Filters check runs by their `completed_at` timestamp. `latest` returns the most recent check runs.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `check_name`: Returns check runs with the specified `name`.
+    * `status`: Returns check runs with the specified `status`.
+    * `filter`: Filters check runs by their `completed_at` timestamp. `latest` returns the most recent check runs.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -201,12 +229,16 @@ defmodule GitHub.Checks do
   @doc """
   List check suites for a Git reference
 
+  **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array and a `null` value for `head_branch`.
+
+  Lists check suites for a commit `ref`. The `ref` can be a SHA, branch name, or a tag name. GitHub Apps must have the `checks:read` permission on a private repository or pull access to a public repository to list check suites. OAuth apps and authenticated users must have the `repo` scope to get check suites in a private repository.
+
   ## Options
 
-    * `app_id` (integer): Filters check suites by GitHub App `id`.
-    * `check_name` (String.t()): Returns check runs with the specified `name`.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `app_id`: Filters check suites by GitHub App `id`.
+    * `check_name`: Returns check runs with the specified `name`.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -232,6 +264,12 @@ defmodule GitHub.Checks do
 
   @doc """
   Rerequest a check run
+
+  Triggers GitHub to rerequest an existing check run, without pushing new code to a repository. This endpoint will trigger the [`check_run` webhook](https://docs.github.com/webhooks/event-payloads/#check_run) event with the action `rerequested`. When a check run is `rerequested`, its `status` is reset to `queued` and the `conclusion` is cleared.
+
+  To rerequest a check run, your GitHub App must have the `checks:read` permission on a private repository or pull access to a public repository.
+
+  For more information about how to re-run GitHub Actions jobs, see "[Re-run a job from a workflow run](https://docs.github.com/rest/actions/workflow-runs#re-run-a-job-from-a-workflow-run)".
 
   ## Resources
 
@@ -261,6 +299,10 @@ defmodule GitHub.Checks do
   @doc """
   Rerequest a check suite
 
+  Triggers GitHub to rerequest an existing check suite, without pushing new code to a repository. This endpoint will trigger the [`check_suite` webhook](https://docs.github.com/webhooks/event-payloads/#check_suite) event with the action `rerequested`. When a check suite is `rerequested`, its `status` is reset to `queued` and the `conclusion` is cleared.
+
+  To rerequest a check suite, your GitHub App must have the `checks:write` permission on a private repository or pull access to a public repository.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/checks/suites#rerequest-a-check-suite)
@@ -283,6 +325,8 @@ defmodule GitHub.Checks do
 
   @doc """
   Update repository preferences for check suites
+
+  Changes the default automatic flow when creating check suites. By default, a check suite is automatically created each time code is pushed to a repository. When you disable the automatic creation of check suites, you can manually [Create a check suite](https://docs.github.com/rest/checks/suites#create-a-check-suite). You must have admin permissions in the repository to set preferences for check suites.
 
   ## Resources
 
@@ -308,6 +352,10 @@ defmodule GitHub.Checks do
 
   @doc """
   Update a check run
+
+  **Note:** The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.
+
+  Updates a check run for a specific commit in a repository. Your GitHub App must have the `checks:write` permission to edit check runs.
 
   ## Resources
 

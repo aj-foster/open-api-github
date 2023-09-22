@@ -1,6 +1,6 @@
 defmodule GitHub.Issue.Event do
   @moduledoc """
-  Provides struct and type for IssueEvent
+  Provides struct and type for a Issue.Event
   """
   use GitHub.Encoder
 
@@ -12,7 +12,7 @@ defmodule GitHub.Issue.Event do
           author_association: String.t() | nil,
           commit_id: String.t() | nil,
           commit_url: String.t() | nil,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           dismissed_review: GitHub.Issue.EventDismissedReview.t() | nil,
           event: String.t(),
           id: integer,
@@ -62,28 +62,39 @@ defmodule GitHub.Issue.Event do
 
   def __fields__(:t) do
     [
-      actor: {:nullable, {GitHub.User, :simple}},
-      assignee: {:nullable, {GitHub.User, :simple}},
-      assigner: {:nullable, {GitHub.User, :simple}},
-      author_association: :string,
-      commit_id: {:nullable, :string},
-      commit_url: {:nullable, :string},
-      created_at: :string,
+      actor: {:union, [{GitHub.User, :simple}, :null]},
+      assignee: {:union, [{GitHub.User, :simple}, :null]},
+      assigner: {:union, [{GitHub.User, :simple}, :null]},
+      author_association:
+        {:enum,
+         [
+           "COLLABORATOR",
+           "CONTRIBUTOR",
+           "FIRST_TIMER",
+           "FIRST_TIME_CONTRIBUTOR",
+           "MANNEQUIN",
+           "MEMBER",
+           "NONE",
+           "OWNER"
+         ]},
+      commit_id: {:union, [{:string, :generic}, :null]},
+      commit_url: {:union, [{:string, :generic}, :null]},
+      created_at: {:string, :date_time},
       dismissed_review: {GitHub.Issue.EventDismissedReview, :t},
-      event: :string,
+      event: {:string, :generic},
       id: :integer,
-      issue: {:nullable, {GitHub.Issue, :t}},
+      issue: {:union, [{GitHub.Issue, :t}, :null]},
       label: {GitHub.Issue.EventLabel, :t},
-      lock_reason: {:nullable, :string},
+      lock_reason: {:union, [{:string, :generic}, :null]},
       milestone: {GitHub.Issue.EventMilestone, :t},
-      node_id: :string,
-      performed_via_github_app: {:nullable, {GitHub.App, :t}},
+      node_id: {:string, :generic},
+      performed_via_github_app: {:union, [{GitHub.App, :t}, :null]},
       project_card: {GitHub.Issue.EventProjectCard, :t},
       rename: {GitHub.Issue.EventRename, :t},
-      requested_reviewer: {:nullable, {GitHub.User, :simple}},
+      requested_reviewer: {:union, [{GitHub.User, :simple}, :null]},
       requested_team: {GitHub.Team, :t},
-      review_requester: {:nullable, {GitHub.User, :simple}},
-      url: :string
+      review_requester: {:union, [{GitHub.User, :simple}, :null]},
+      url: {:string, :uri}
     ]
   end
 end

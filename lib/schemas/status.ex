@@ -1,6 +1,6 @@
 defmodule GitHub.Status do
   @moduledoc """
-  Provides struct and type for Status
+  Provides struct and type for a Status
   """
   use GitHub.Encoder
 
@@ -40,17 +40,17 @@ defmodule GitHub.Status do
 
   def __fields__(:t) do
     [
-      avatar_url: {:nullable, :string},
-      context: :string,
-      created_at: :string,
-      creator: {:nullable, {GitHub.User, :simple}},
-      description: {:nullable, :string},
+      avatar_url: {:union, [{:string, :generic}, :null]},
+      context: {:string, :generic},
+      created_at: {:string, :generic},
+      creator: {:union, [{GitHub.User, :simple}, :null]},
+      description: {:union, [{:string, :generic}, :null]},
       id: :integer,
-      node_id: :string,
-      state: :string,
-      target_url: {:nullable, :string},
-      updated_at: :string,
-      url: :string
+      node_id: {:string, :generic},
+      state: {:string, :generic},
+      target_url: {:union, [{:string, :generic}, :null]},
+      updated_at: {:string, :generic},
+      url: {:string, :generic}
     ]
   end
 end

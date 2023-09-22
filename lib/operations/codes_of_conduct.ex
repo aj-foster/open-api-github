@@ -8,6 +8,8 @@ defmodule GitHub.CodesOfConduct do
   @doc """
   Get all codes of conduct
 
+  Returns array of all GitHub's codes of conduct.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/codes-of-conduct/codes-of-conduct#get-all-codes-of-conduct)
@@ -19,16 +21,19 @@ defmodule GitHub.CodesOfConduct do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [],
       call: {GitHub.CodesOfConduct, :get_all_codes_of_conduct},
       url: "/codes_of_conduct",
       method: :get,
-      response: [{200, {:array, {GitHub.CodeOfConduct, :t}}}, {304, nil}],
+      response: [{200, [{GitHub.CodeOfConduct, :t}]}, {304, :null}],
       opts: opts
     })
   end
 
   @doc """
   Get a code of conduct
+
+  Returns information about the specified GitHub code of conduct.
 
   ## Resources
 
@@ -45,7 +50,7 @@ defmodule GitHub.CodesOfConduct do
       call: {GitHub.CodesOfConduct, :get_conduct_code},
       url: "/codes_of_conduct/#{key}",
       method: :get,
-      response: [{200, {GitHub.CodeOfConduct, :t}}, {304, nil}, {404, {GitHub.BasicError, :t}}],
+      response: [{200, {GitHub.CodeOfConduct, :t}}, {304, :null}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end

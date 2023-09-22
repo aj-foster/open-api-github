@@ -1,6 +1,6 @@
 defmodule GitHub.Thread do
   @moduledoc """
-  Provides struct and type for Thread
+  Provides struct and type for a Thread
   """
   use GitHub.Encoder
 
@@ -36,15 +36,15 @@ defmodule GitHub.Thread do
 
   def __fields__(:t) do
     [
-      id: :string,
-      last_read_at: {:nullable, :string},
-      reason: :string,
+      id: {:string, :generic},
+      last_read_at: {:union, [{:string, :generic}, :null]},
+      reason: {:string, :generic},
       repository: {GitHub.Repository, :minimal},
       subject: :map,
-      subscription_url: :string,
+      subscription_url: {:string, :generic},
       unread: :boolean,
-      updated_at: :string,
-      url: :string
+      updated_at: {:string, :generic},
+      url: {:string, :generic}
     ]
   end
 end

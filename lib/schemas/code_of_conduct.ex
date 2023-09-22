@@ -1,6 +1,6 @@
 defmodule GitHub.CodeOfConduct do
   @moduledoc """
-  Provides struct and types for CodeOfConduct, CodeOfConductSimple
+  Provides struct and types for a CodeOfConduct
   """
   use GitHub.Encoder
 
@@ -28,10 +28,21 @@ defmodule GitHub.CodeOfConduct do
   def __fields__(type \\ :t)
 
   def __fields__(:simple) do
-    [html_url: {:nullable, :string}, key: :string, name: :string, url: :string]
+    [
+      html_url: {:union, [{:string, :uri}, :null]},
+      key: {:string, :generic},
+      name: {:string, :generic},
+      url: {:string, :uri}
+    ]
   end
 
   def __fields__(:t) do
-    [body: :string, html_url: {:nullable, :string}, key: :string, name: :string, url: :string]
+    [
+      body: {:string, :generic},
+      html_url: {:union, [{:string, :uri}, :null]},
+      key: {:string, :generic},
+      name: {:string, :generic},
+      url: {:string, :uri}
+    ]
   end
 end

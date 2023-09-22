@@ -1,6 +1,6 @@
 defmodule GitHub.Issue.EventMilestone do
   @moduledoc """
-  Provides struct and type for IssueEventMilestone
+  Provides struct and type for a Issue.EventMilestone
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Issue.EventMilestone do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [title: :string]
+    [title: {:string, :generic}]
   end
 end

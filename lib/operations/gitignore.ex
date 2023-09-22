@@ -8,6 +8,8 @@ defmodule GitHub.Gitignore do
   @doc """
   Get all gitignore templates
 
+  List all templates available to pass as an option when [creating a repository](https://docs.github.com/rest/repos/repos#create-a-repository-for-the-authenticated-user).
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/gitignore/gitignore#get-all-gitignore-templates)
@@ -18,16 +20,20 @@ defmodule GitHub.Gitignore do
     client = opts[:client] || @default_client
 
     client.request(%{
+      args: [],
       call: {GitHub.Gitignore, :get_all_templates},
       url: "/gitignore/templates",
       method: :get,
-      response: [{200, {:array, :string}}, {304, nil}],
+      response: [{200, [string: :generic]}, {304, :null}],
       opts: opts
     })
   end
 
   @doc """
   Get a gitignore template
+
+  The API also allows fetching the source of a single template.
+  Use the raw [media type](https://docs.github.com/rest/overview/media-types/) to get the raw contents.
 
   ## Resources
 
@@ -44,7 +50,7 @@ defmodule GitHub.Gitignore do
       call: {GitHub.Gitignore, :get_template},
       url: "/gitignore/templates/#{name}",
       method: :get,
-      response: [{200, {GitHub.Git.IgnoreTemplate, :t}}, {304, nil}],
+      response: [{200, {GitHub.Git.IgnoreTemplate, :t}}, {304, :null}],
       opts: opts
     })
   end

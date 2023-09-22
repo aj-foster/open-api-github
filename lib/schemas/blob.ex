@@ -1,6 +1,6 @@
 defmodule GitHub.Blob do
   @moduledoc """
-  Provides struct and type for Blob
+  Provides struct and type for a Blob
   """
   use GitHub.Encoder
 
@@ -23,13 +23,13 @@ defmodule GitHub.Blob do
 
   def __fields__(:t) do
     [
-      content: :string,
-      encoding: :string,
-      highlighted_content: :string,
-      node_id: :string,
-      sha: :string,
-      size: {:nullable, :integer},
-      url: :string
+      content: {:string, :generic},
+      encoding: {:string, :generic},
+      highlighted_content: {:string, :generic},
+      node_id: {:string, :generic},
+      sha: {:string, :generic},
+      size: {:union, [:integer, :null]},
+      url: {:string, :uri}
     ]
   end
 end

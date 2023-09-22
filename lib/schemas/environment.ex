@@ -1,19 +1,19 @@
 defmodule GitHub.Environment do
   @moduledoc """
-  Provides struct and type for Environment
+  Provides struct and type for a Environment
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          created_at: String.t(),
-          deployment_branch_policy: GitHub.Deployment.BranchPolicySettings.t() | nil,
+          created_at: DateTime.t(),
+          deployment_branch_policy: map | nil,
           html_url: String.t(),
           id: integer,
           name: String.t(),
           node_id: String.t(),
           protection_rules: [map] | nil,
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t()
         }
 
@@ -36,15 +36,15 @@ defmodule GitHub.Environment do
 
   def __fields__(:t) do
     [
-      created_at: :string,
-      deployment_branch_policy: {:nullable, {GitHub.Deployment.BranchPolicySettings, :t}},
-      html_url: :string,
+      created_at: {:string, :date_time},
+      deployment_branch_policy: {:union, [:map, :null]},
+      html_url: {:string, :generic},
       id: :integer,
-      name: :string,
-      node_id: :string,
-      protection_rules: {:array, :map},
-      updated_at: :string,
-      url: :string
+      name: {:string, :generic},
+      node_id: {:string, :generic},
+      protection_rules: [:map],
+      updated_at: {:string, :date_time},
+      url: {:string, :generic}
     ]
   end
 end

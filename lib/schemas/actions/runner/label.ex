@@ -1,6 +1,6 @@
 defmodule GitHub.Actions.Runner.Label do
   @moduledoc """
-  Provides struct and type for RunnerLabel
+  Provides struct and type for a Actions.Runner.Label
   """
   use GitHub.Encoder
 
@@ -18,6 +18,6 @@ defmodule GitHub.Actions.Runner.Label do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [id: :integer, name: :string, type: :string]
+    [id: :integer, name: {:string, :generic}, type: {:enum, ["read-only", "custom"]}]
   end
 end

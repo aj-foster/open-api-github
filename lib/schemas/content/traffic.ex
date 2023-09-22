@@ -1,6 +1,6 @@
 defmodule GitHub.Content.Traffic do
   @moduledoc """
-  Provides struct and type for ContentTraffic
+  Provides struct and type for a Content.Traffic
   """
   use GitHub.Encoder
 
@@ -19,6 +19,6 @@ defmodule GitHub.Content.Traffic do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [count: :integer, path: :string, title: :string, uniques: :integer]
+    [count: :integer, path: {:string, :generic}, title: {:string, :generic}, uniques: :integer]
   end
 end

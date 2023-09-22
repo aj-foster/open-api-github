@@ -1,6 +1,6 @@
 defmodule GitHub.Codespace.Machine do
   @moduledoc """
-  Provides struct and type for CodespaceMachine
+  Provides struct and type for a Codespace.Machine
   """
   use GitHub.Encoder
 
@@ -33,11 +33,11 @@ defmodule GitHub.Codespace.Machine do
   def __fields__(:t) do
     [
       cpus: :integer,
-      display_name: :string,
+      display_name: {:string, :generic},
       memory_in_bytes: :integer,
-      name: :string,
-      operating_system: :string,
-      prebuild_availability: {:nullable, :string},
+      name: {:string, :generic},
+      operating_system: {:string, :generic},
+      prebuild_availability: {:enum, ["none", "ready", "in_progress", nil]},
       storage_in_bytes: :integer
     ]
   end

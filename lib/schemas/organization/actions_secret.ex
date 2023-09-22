@@ -1,15 +1,15 @@
 defmodule GitHub.Organization.ActionsSecret do
   @moduledoc """
-  Provides struct and type for OrganizationActionsSecret
+  Provides struct and type for a Organization.ActionsSecret
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           name: String.t(),
           selected_repositories_url: String.t() | nil,
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           visibility: String.t()
         }
 
@@ -21,11 +21,11 @@ defmodule GitHub.Organization.ActionsSecret do
 
   def __fields__(:t) do
     [
-      created_at: :string,
-      name: :string,
-      selected_repositories_url: :string,
-      updated_at: :string,
-      visibility: :string
+      created_at: {:string, :date_time},
+      name: {:string, :generic},
+      selected_repositories_url: {:string, :uri},
+      updated_at: {:string, :date_time},
+      visibility: {:enum, ["all", "private", "selected"]}
     ]
   end
 end

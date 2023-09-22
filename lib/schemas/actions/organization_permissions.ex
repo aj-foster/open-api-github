@@ -1,6 +1,6 @@
 defmodule GitHub.Actions.OrganizationPermissions do
   @moduledoc """
-  Provides struct and type for ActionsOrganizationPermissions
+  Provides struct and type for a Actions.OrganizationPermissions
   """
   use GitHub.Encoder
 
@@ -26,10 +26,10 @@ defmodule GitHub.Actions.OrganizationPermissions do
 
   def __fields__(:t) do
     [
-      allowed_actions: :string,
-      enabled_repositories: :string,
-      selected_actions_url: :string,
-      selected_repositories_url: :string
+      allowed_actions: {:enum, ["all", "local_only", "selected"]},
+      enabled_repositories: {:enum, ["all", "none", "selected"]},
+      selected_actions_url: {:string, :generic},
+      selected_repositories_url: {:string, :generic}
     ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.Actor do
   @moduledoc """
-  Provides struct and type for Actor
+  Provides struct and type for a Actor
   """
   use GitHub.Encoder
 
@@ -22,12 +22,12 @@ defmodule GitHub.Actor do
 
   def __fields__(:t) do
     [
-      avatar_url: :string,
-      display_login: :string,
-      gravatar_id: {:nullable, :string},
+      avatar_url: {:string, :uri},
+      display_login: {:string, :generic},
+      gravatar_id: {:union, [{:string, :generic}, :null]},
       id: :integer,
-      login: :string,
-      url: :string
+      login: {:string, :generic},
+      url: {:string, :uri}
     ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.Commit.SearchResultItem do
   @moduledoc """
-  Provides struct and type for CommitSearchResultItem
+  Provides struct and type for a Commit.SearchResultItem
   """
   use GitHub.Encoder
 
@@ -9,7 +9,7 @@ defmodule GitHub.Commit.SearchResultItem do
           author: GitHub.User.simple() | nil,
           comments_url: String.t(),
           commit: map,
-          committer: GitHub.Git.User.t() | nil,
+          committer: map | nil,
           html_url: String.t(),
           node_id: String.t(),
           parents: [map],
@@ -42,18 +42,18 @@ defmodule GitHub.Commit.SearchResultItem do
 
   def __fields__(:t) do
     [
-      author: {:nullable, {GitHub.User, :simple}},
-      comments_url: :string,
+      author: {:union, [{GitHub.User, :simple}, :null]},
+      comments_url: {:string, :uri},
       commit: :map,
-      committer: {:nullable, {GitHub.Git.User, :t}},
-      html_url: :string,
-      node_id: :string,
-      parents: {:array, :map},
+      committer: {:union, [:map, :null]},
+      html_url: {:string, :uri},
+      node_id: {:string, :generic},
+      parents: [:map],
       repository: {GitHub.Repository, :minimal},
       score: :number,
-      sha: :string,
-      text_matches: {:array, :map},
-      url: :string
+      sha: {:string, :generic},
+      text_matches: [:map],
+      url: {:string, :uri}
     ]
   end
 end

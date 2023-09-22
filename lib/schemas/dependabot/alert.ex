@@ -1,25 +1,25 @@
 defmodule GitHub.Dependabot.Alert do
   @moduledoc """
-  Provides struct and type for DependabotAlert
+  Provides struct and type for a Dependabot.Alert
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          auto_dismissed_at: String.t() | nil,
-          created_at: String.t(),
+          auto_dismissed_at: DateTime.t() | nil,
+          created_at: DateTime.t(),
           dependency: map,
-          dismissed_at: String.t() | nil,
+          dismissed_at: DateTime.t() | nil,
           dismissed_by: GitHub.User.simple() | nil,
           dismissed_comment: String.t() | nil,
           dismissed_reason: String.t() | nil,
-          fixed_at: String.t() | nil,
+          fixed_at: DateTime.t() | nil,
           html_url: String.t(),
           number: integer,
           security_advisory: GitHub.Dependabot.Alert.SecurityAdvisory.t(),
           security_vulnerability: GitHub.Dependabot.Alert.SecurityVulnerability.t(),
           state: String.t(),
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t()
         }
 
@@ -48,21 +48,22 @@ defmodule GitHub.Dependabot.Alert do
 
   def __fields__(:t) do
     [
-      auto_dismissed_at: {:nullable, :string},
-      created_at: :string,
+      auto_dismissed_at: {:union, [{:string, :date_time}, :null]},
+      created_at: {:string, :date_time},
       dependency: :map,
-      dismissed_at: {:nullable, :string},
-      dismissed_by: {:nullable, {GitHub.User, :simple}},
-      dismissed_comment: {:nullable, :string},
-      dismissed_reason: {:nullable, :string},
-      fixed_at: {:nullable, :string},
-      html_url: :string,
+      dismissed_at: {:union, [{:string, :date_time}, :null]},
+      dismissed_by: {:union, [{GitHub.User, :simple}, :null]},
+      dismissed_comment: {:union, [{:string, :generic}, :null]},
+      dismissed_reason:
+        {:enum, ["fix_started", "inaccurate", "no_bandwidth", "not_used", "tolerable_risk", nil]},
+      fixed_at: {:union, [{:string, :date_time}, :null]},
+      html_url: {:string, :uri},
       number: :integer,
       security_advisory: {GitHub.Dependabot.Alert.SecurityAdvisory, :t},
       security_vulnerability: {GitHub.Dependabot.Alert.SecurityVulnerability, :t},
-      state: :string,
-      updated_at: :string,
-      url: :string
+      state: {:enum, ["auto_dismissed", "dismissed", "fixed", "open"]},
+      updated_at: {:string, :date_time},
+      url: {:string, :uri}
     ]
   end
 end

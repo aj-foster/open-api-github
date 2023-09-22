@@ -8,6 +8,8 @@ defmodule GitHub.DependencyGraph do
   @doc """
   Create a snapshot of dependencies for a repository
 
+  Create a new snapshot of a repository's dependencies. You must authenticate using an access token with the `repo` scope to use this endpoint for a repository that the requesting user has access to.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/dependency-graph/dependency-submission#create-a-snapshot-of-dependencies-for-a-repository)
@@ -33,9 +35,11 @@ defmodule GitHub.DependencyGraph do
   @doc """
   Get a diff of the dependencies between commits
 
+  Gets the diff of the dependency changes between two commits of a repository, based on the changes to the dependency manifests made in those commits.
+
   ## Options
 
-    * `name` (String.t()): The full path, relative to the repository root, of the dependency manifest file.
+    * `name`: The full path, relative to the repository root, of the dependency manifest file.
 
   ## Resources
 
@@ -54,17 +58,15 @@ defmodule GitHub.DependencyGraph do
       url: "/repos/#{owner}/#{repo}/dependency-graph/compare/#{basehead}",
       method: :get,
       query: query,
-      response: [
-        {200, {:array, :map}},
-        {403, {GitHub.BasicError, :t}},
-        {404, {GitHub.BasicError, :t}}
-      ],
+      response: [{200, [:map]}, {403, {GitHub.BasicError, :t}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
 
   @doc """
   Export a software bill of materials (SBOM) for a repository.
+
+  Exports the software bill of materials (SBOM) for a repository in SPDX JSON format.
 
   ## Resources
 

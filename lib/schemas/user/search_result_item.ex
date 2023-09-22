@@ -1,6 +1,6 @@
 defmodule GitHub.User.SearchResultItem do
   @moduledoc """
-  Provides struct and type for UserSearchResultItem
+  Provides struct and type for a User.SearchResultItem
   """
   use GitHub.Encoder
 
@@ -10,7 +10,7 @@ defmodule GitHub.User.SearchResultItem do
           bio: String.t() | nil,
           blog: String.t() | nil,
           company: String.t() | nil,
-          created_at: String.t() | nil,
+          created_at: DateTime.t() | nil,
           email: String.t() | nil,
           events_url: String.t(),
           followers: integer | nil,
@@ -35,10 +35,10 @@ defmodule GitHub.User.SearchResultItem do
           site_admin: boolean,
           starred_url: String.t(),
           subscriptions_url: String.t(),
-          suspended_at: String.t() | nil,
+          suspended_at: DateTime.t() | nil,
           text_matches: [map] | nil,
           type: String.t(),
-          updated_at: String.t() | nil,
+          updated_at: DateTime.t() | nil,
           url: String.t()
         }
 
@@ -86,40 +86,40 @@ defmodule GitHub.User.SearchResultItem do
 
   def __fields__(:t) do
     [
-      avatar_url: :string,
-      bio: {:nullable, :string},
-      blog: {:nullable, :string},
-      company: {:nullable, :string},
-      created_at: :string,
-      email: {:nullable, :string},
-      events_url: :string,
+      avatar_url: {:string, :uri},
+      bio: {:union, [{:string, :generic}, :null]},
+      blog: {:union, [{:string, :generic}, :null]},
+      company: {:union, [{:string, :generic}, :null]},
+      created_at: {:string, :date_time},
+      email: {:union, [{:string, :email}, :null]},
+      events_url: {:string, :generic},
       followers: :integer,
-      followers_url: :string,
+      followers_url: {:string, :uri},
       following: :integer,
-      following_url: :string,
-      gists_url: :string,
-      gravatar_id: {:nullable, :string},
-      hireable: {:nullable, :boolean},
-      html_url: :string,
+      following_url: {:string, :generic},
+      gists_url: {:string, :generic},
+      gravatar_id: {:union, [{:string, :generic}, :null]},
+      hireable: {:union, [:boolean, :null]},
+      html_url: {:string, :uri},
       id: :integer,
-      location: {:nullable, :string},
-      login: :string,
-      name: {:nullable, :string},
-      node_id: :string,
-      organizations_url: :string,
+      location: {:union, [{:string, :generic}, :null]},
+      login: {:string, :generic},
+      name: {:union, [{:string, :generic}, :null]},
+      node_id: {:string, :generic},
+      organizations_url: {:string, :uri},
       public_gists: :integer,
       public_repos: :integer,
-      received_events_url: :string,
-      repos_url: :string,
+      received_events_url: {:string, :uri},
+      repos_url: {:string, :uri},
       score: :number,
       site_admin: :boolean,
-      starred_url: :string,
-      subscriptions_url: :string,
-      suspended_at: {:nullable, :string},
-      text_matches: {:array, :map},
-      type: :string,
-      updated_at: :string,
-      url: :string
+      starred_url: {:string, :generic},
+      subscriptions_url: {:string, :uri},
+      suspended_at: {:union, [{:string, :date_time}, :null]},
+      text_matches: [:map],
+      type: {:string, :generic},
+      updated_at: {:string, :date_time},
+      url: {:string, :uri}
     ]
   end
 end

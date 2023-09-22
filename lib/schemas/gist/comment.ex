@@ -1,6 +1,6 @@
 defmodule GitHub.Gist.Comment do
   @moduledoc """
-  Provides struct and type for GistComment
+  Provides struct and type for a Gist.Comment
   """
   use GitHub.Encoder
 
@@ -8,10 +8,10 @@ defmodule GitHub.Gist.Comment do
           __info__: map,
           author_association: String.t(),
           body: String.t(),
-          created_at: String.t(),
+          created_at: DateTime.t(),
           id: integer,
           node_id: String.t(),
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t(),
           user: GitHub.User.simple() | nil
         }
@@ -34,14 +34,25 @@ defmodule GitHub.Gist.Comment do
 
   def __fields__(:t) do
     [
-      author_association: :string,
-      body: :string,
-      created_at: :string,
+      author_association:
+        {:enum,
+         [
+           "COLLABORATOR",
+           "CONTRIBUTOR",
+           "FIRST_TIMER",
+           "FIRST_TIME_CONTRIBUTOR",
+           "MANNEQUIN",
+           "MEMBER",
+           "NONE",
+           "OWNER"
+         ]},
+      body: {:string, :generic},
+      created_at: {:string, :date_time},
       id: :integer,
-      node_id: :string,
-      updated_at: :string,
-      url: :string,
-      user: {:nullable, {GitHub.User, :simple}}
+      node_id: {:string, :generic},
+      updated_at: {:string, :date_time},
+      url: {:string, :uri},
+      user: {:union, [{GitHub.User, :simple}, :null]}
     ]
   end
 end

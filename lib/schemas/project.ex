@@ -1,6 +1,6 @@
 defmodule GitHub.Project do
   @moduledoc """
-  Provides struct and type for Project
+  Provides struct and type for a Project
   """
   use GitHub.Encoder
 
@@ -8,7 +8,7 @@ defmodule GitHub.Project do
           __info__: map,
           body: String.t() | nil,
           columns_url: String.t(),
-          created_at: String.t(),
+          created_at: DateTime.t(),
           creator: GitHub.User.simple() | nil,
           html_url: String.t(),
           id: integer,
@@ -19,7 +19,7 @@ defmodule GitHub.Project do
           owner_url: String.t(),
           private: boolean | nil,
           state: String.t(),
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t()
         }
 
@@ -48,21 +48,21 @@ defmodule GitHub.Project do
 
   def __fields__(:t) do
     [
-      body: {:nullable, :string},
-      columns_url: :string,
-      created_at: :string,
-      creator: {:nullable, {GitHub.User, :simple}},
-      html_url: :string,
+      body: {:union, [{:string, :generic}, :null]},
+      columns_url: {:string, :uri},
+      created_at: {:string, :date_time},
+      creator: {:union, [{GitHub.User, :simple}, :null]},
+      html_url: {:string, :uri},
       id: :integer,
-      name: :string,
-      node_id: :string,
+      name: {:string, :generic},
+      node_id: {:string, :generic},
       number: :integer,
-      organization_permission: :string,
-      owner_url: :string,
+      organization_permission: {:enum, ["read", "write", "admin", "none"]},
+      owner_url: {:string, :uri},
       private: :boolean,
-      state: :string,
-      updated_at: :string,
-      url: :string
+      state: {:string, :generic},
+      updated_at: {:string, :date_time},
+      url: {:string, :uri}
     ]
   end
 end

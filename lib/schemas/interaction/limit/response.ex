@@ -1,12 +1,12 @@
 defmodule GitHub.Interaction.Limit.Response do
   @moduledoc """
-  Provides struct and type for InteractionLimitResponse
+  Provides struct and type for a Interaction.Limit.Response
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          expires_at: String.t(),
+          expires_at: DateTime.t(),
           limit: String.t(),
           origin: String.t()
         }
@@ -18,6 +18,10 @@ defmodule GitHub.Interaction.Limit.Response do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [expires_at: :string, limit: :string, origin: :string]
+    [
+      expires_at: {:string, :date_time},
+      limit: {:enum, ["existing_users", "contributors_only", "collaborators_only"]},
+      origin: {:string, :generic}
+    ]
   end
 end

@@ -1,20 +1,20 @@
 defmodule GitHub.Artifact do
   @moduledoc """
-  Provides struct and type for Artifact
+  Provides struct and type for a Artifact
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
           archive_download_url: String.t(),
-          created_at: String.t() | nil,
+          created_at: DateTime.t() | nil,
           expired: boolean,
-          expires_at: String.t() | nil,
+          expires_at: DateTime.t() | nil,
           id: integer,
           name: String.t(),
           node_id: String.t(),
           size_in_bytes: integer,
-          updated_at: String.t() | nil,
+          updated_at: DateTime.t() | nil,
           url: String.t(),
           workflow_run: map | nil
         }
@@ -40,17 +40,17 @@ defmodule GitHub.Artifact do
 
   def __fields__(:t) do
     [
-      archive_download_url: :string,
-      created_at: {:nullable, :string},
+      archive_download_url: {:string, :generic},
+      created_at: {:union, [{:string, :date_time}, :null]},
       expired: :boolean,
-      expires_at: {:nullable, :string},
+      expires_at: {:union, [{:string, :date_time}, :null]},
       id: :integer,
-      name: :string,
-      node_id: :string,
+      name: {:string, :generic},
+      node_id: {:string, :generic},
       size_in_bytes: :integer,
-      updated_at: {:nullable, :string},
-      url: :string,
-      workflow_run: {:nullable, :map}
+      updated_at: {:union, [{:string, :date_time}, :null]},
+      url: {:string, :generic},
+      workflow_run: {:union, [:map, :null]}
     ]
   end
 end

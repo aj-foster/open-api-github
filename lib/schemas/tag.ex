@@ -1,6 +1,6 @@
 defmodule GitHub.Tag do
   @moduledoc """
-  Provides struct and type for Tag
+  Provides struct and type for a Tag
   """
   use GitHub.Encoder
 
@@ -20,6 +20,12 @@ defmodule GitHub.Tag do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [commit: :map, name: :string, node_id: :string, tarball_url: :string, zipball_url: :string]
+    [
+      commit: :map,
+      name: {:string, :generic},
+      node_id: {:string, :generic},
+      tarball_url: {:string, :uri},
+      zipball_url: {:string, :uri}
+    ]
   end
 end

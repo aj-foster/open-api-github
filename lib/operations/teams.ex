@@ -8,6 +8,18 @@ defmodule GitHub.Teams do
   @doc """
   Add team member (Legacy)
 
+  The "Add team member" endpoint (described below) is deprecated.
+
+  We recommend using the [Add or update team membership for a user](https://docs.github.com/rest/teams/members#add-or-update-team-membership-for-a-user) endpoint instead. It allows you to invite new organization members to your teams.
+
+  Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
+
+  To add someone to a team, the authenticated user must be an organization owner or a team maintainer in the team they're changing. The person being added to the team must be a member of the team's organization.
+
+  **Note:** When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "[Synchronizing teams between your identity provider and GitHub](https://docs.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/)."
+
+  Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/teams/members#add-team-member-legacy)
@@ -22,13 +34,25 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :add_member_legacy},
       url: "/teams/#{team_id}/members/#{username}",
       method: :put,
-      response: [{204, nil}, {403, {GitHub.BasicError, :t}}, {404, nil}, {422, nil}],
+      response: [{204, :null}, {403, {GitHub.BasicError, :t}}, {404, :null}, {422, :null}],
       opts: opts
     })
   end
 
   @doc """
   Add or update team membership for a user
+
+  Adds an organization member to a team. An authenticated organization owner or team maintainer can add organization members to a team.
+
+  Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
+
+  **Note:** When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "[Synchronizing teams between your identity provider and GitHub](https://docs.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/)."
+
+  An organization owner can add someone who is not part of the team's organization to a team. When an organization owner adds someone to a team who is not an organization member, this endpoint will send an invitation to the person via email. This newly-created membership will be in the "pending" state until the person accepts the invitation, at which point the membership will transition to the "active" state and the user will be added as a member of the team.
+
+  If the user is already a member of the team, this endpoint will update the role of the team member's role. To update the membership of a team member, the authenticated user must be an organization owner or a team maintainer.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `PUT /organizations/{org_id}/team/{team_id}/memberships/{username}`.
 
   ## Resources
 
@@ -47,13 +71,25 @@ defmodule GitHub.Teams do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{200, {GitHub.Team.Membership, :t}}, {403, nil}, {422, nil}],
+      response: [{200, {GitHub.Team.Membership, :t}}, {403, :null}, {422, :null}],
       opts: opts
     })
   end
 
   @doc """
   Add or update team membership for a user (Legacy)
+
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Add or update team membership for a user](https://docs.github.com/rest/teams/members#add-or-update-team-membership-for-a-user) endpoint.
+
+  Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
+
+  If the user is already a member of the team's organization, this endpoint will add the user to the team. To add a membership between an organization member and a team, the authenticated user must be an organization owner or a team maintainer.
+
+  **Note:** When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "[Synchronizing teams between your identity provider and GitHub](https://docs.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/)."
+
+  If the user is unaffiliated with the team's organization, this endpoint will send an invitation to the user via email. This newly-created membership will be in the "pending" state until the user accepts the invitation, at which point the membership will transition to the "active" state and the user will be added as a member of the team. To add a membership between an unaffiliated user and a team, the authenticated user must be an organization owner.
+
+  If the user is already a member of the team, this endpoint will update the role of the team member's role. To update the membership of a team member, the authenticated user must be an organization owner or a team maintainer.
 
   ## Resources
 
@@ -74,9 +110,9 @@ defmodule GitHub.Teams do
       request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Team.Membership, :t}},
-        {403, nil},
+        {403, :null},
         {404, {GitHub.BasicError, :t}},
-        {422, nil}
+        {422, :null}
       ],
       opts: opts
     })
@@ -84,6 +120,10 @@ defmodule GitHub.Teams do
 
   @doc """
   Add or update team project permissions
+
+  Adds an organization project to a team. To add a project to a team or update the team's permission on a project, the authenticated user must have `admin` permissions for the project. The project and team must be part of the same organization.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `PUT /organizations/{org_id}/team/{team_id}/projects/{project_id}`.
 
   ## Resources
 
@@ -106,14 +146,18 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}/projects/#{project_id}",
       body: body,
       method: :put,
-      request: [{"application/json", {:nullable, :map}}],
-      response: [{204, nil}, {403, :map}],
+      request: [{"application/json", {:union, [:map, :null]}}],
+      response: [{204, :null}, {403, :map}],
       opts: opts
     })
   end
 
   @doc """
   Add or update team project permissions (Legacy)
+
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Add or update team project permissions](https://docs.github.com/rest/teams/teams#add-or-update-team-project-permissions) endpoint.
+
+  Adds an organization project to a team. To add a project to a team or update the team's permission on a project, the authenticated user must have `admin` permissions for the project. The project and team must be part of the same organization.
 
   ## Resources
 
@@ -133,7 +177,7 @@ defmodule GitHub.Teams do
       method: :put,
       request: [{"application/json", :map}],
       response: [
-        {204, nil},
+        {204, :null},
         {403, :map},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
@@ -144,6 +188,12 @@ defmodule GitHub.Teams do
 
   @doc """
   Add or update team repository permissions
+
+  To add a repository to a team or update the team's permission on a repository, the authenticated user must have admin access to the repository, and must be able to see the team. The repository must be owned by the organization, or a direct fork of a repository owned by the organization. You will get a `422 Unprocessable Entity` status if you attempt to add a repository to a team that is not owned by the organization. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `PUT /organizations/{org_id}/team/{team_id}/repos/{owner}/{repo}`.
+
+  For more information about the permission levels, see "[Repository permission levels for an organization](https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/repository-permission-levels-for-an-organization#permission-levels-for-repositories-owned-by-an-organization)".
 
   ## Resources
 
@@ -168,13 +218,19 @@ defmodule GitHub.Teams do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Add or update team repository permissions (Legacy)
+
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new "[Add or update team repository permissions](https://docs.github.com/rest/teams/teams#add-or-update-team-repository-permissions)" endpoint.
+
+  To add a repository to a team or update the team's permission on a repository, the authenticated user must have admin access to the repository, and must be able to see the team. The repository must be owned by the organization, or a direct fork of a repository owned by the organization. You will get a `422 Unprocessable Entity` status if you attempt to add a repository to a team that is not owned by the organization.
+
+  Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
 
   ## Resources
 
@@ -193,13 +249,21 @@ defmodule GitHub.Teams do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{204, nil}, {403, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
+      response: [
+        {204, :null},
+        {403, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
       opts: opts
     })
   end
 
   @doc """
   Check team permissions for a project
+
+  Checks whether a team has `read`, `write`, or `admin` permissions for an organization project. The response includes projects inherited from a parent team.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/projects/{project_id}`.
 
   ## Resources
 
@@ -216,13 +280,17 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :check_permissions_for_project_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/projects/#{project_id}",
       method: :get,
-      response: [{200, {GitHub.Team.Project, :t}}, {404, nil}],
+      response: [{200, {GitHub.Team.Project, :t}}, {404, :null}],
       opts: opts
     })
   end
 
   @doc """
   Check team permissions for a project (Legacy)
+
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Check team permissions for a project](https://docs.github.com/rest/teams/teams#check-team-permissions-for-a-project) endpoint.
+
+  Checks whether a team has `read`, `write`, or `admin` permissions for an organization project. The response includes projects inherited from a parent team.
 
   ## Resources
 
@@ -239,13 +307,21 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :check_permissions_for_project_legacy},
       url: "/teams/#{team_id}/projects/#{project_id}",
       method: :get,
-      response: [{200, {GitHub.Team.Project, :t}}, {404, nil}],
+      response: [{200, {GitHub.Team.Project, :t}}, {404, :null}],
       opts: opts
     })
   end
 
   @doc """
   Check team permissions for a repository
+
+  Checks whether a team has `admin`, `push`, `maintain`, `triage`, or `pull` permission for a repository. Repositories inherited through a parent team will also be checked.
+
+  You can also get information about the specified repository, including what permissions the team grants on it, by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `application/vnd.github.v3.repository+json` accept header.
+
+  If a team doesn't have permission for the repository, you will receive a `404 Not Found` response status.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/repos/{owner}/{repo}`.
 
   ## Resources
 
@@ -262,13 +338,19 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :check_permissions_for_repo_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/repos/#{owner}/#{repo}",
       method: :get,
-      response: [{200, {GitHub.Team.Repository, :t}}, {204, nil}, {404, nil}],
+      response: [{200, {GitHub.Team.Repository, :t}}, {204, :null}, {404, :null}],
       opts: opts
     })
   end
 
   @doc """
   Check team permissions for a repository (Legacy)
+
+  **Note**: Repositories inherited through a parent team will also be checked.
+
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Check team permissions for a repository](https://docs.github.com/rest/teams/teams#check-team-permissions-for-a-repository) endpoint.
+
+  You can also get information about the specified repository, including what permissions the team grants on it, by passing the following custom [media type](https://docs.github.com/rest/overview/media-types/) via the `Accept` header:
 
   ## Resources
 
@@ -285,13 +367,17 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :check_permissions_for_repo_legacy},
       url: "/teams/#{team_id}/repos/#{owner}/#{repo}",
       method: :get,
-      response: [{200, {GitHub.Team.Repository, :t}}, {204, nil}, {404, nil}],
+      response: [{200, {GitHub.Team.Repository, :t}}, {204, :null}, {404, :null}],
       opts: opts
     })
   end
 
   @doc """
   Create a team
+
+  To create a team, the authenticated user must be a member or owner of `{org}`. By default, organization members can create teams. Organization owners can limit team creation to organization owners. For more information, see "[Setting team creation permissions](https://docs.github.com/articles/setting-team-creation-permissions-in-your-organization)."
+
+  When you create a new team, you automatically become a team maintainer without explicitly adding yourself to the optional array of `maintainers`. For more information, see "[About teams](https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/about-teams)".
 
   ## Resources
 
@@ -321,6 +407,12 @@ defmodule GitHub.Teams do
   @doc """
   Create a discussion comment
 
+  Creates a new comment on a team discussion. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
+  This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}/comments`.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/teams/discussion-comments#create-a-discussion-comment)
@@ -345,6 +437,12 @@ defmodule GitHub.Teams do
 
   @doc """
   Create a discussion comment (Legacy)
+
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Create a discussion comment](https://docs.github.com/rest/teams/discussion-comments#create-a-discussion-comment) endpoint.
+
+  Creates a new comment on a team discussion. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
+  This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
 
   ## Resources
 
@@ -371,6 +469,12 @@ defmodule GitHub.Teams do
   @doc """
   Create a discussion
 
+  Creates a new discussion post on a team's page. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
+  This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `POST /organizations/{org_id}/team/{team_id}/discussions`.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/teams/discussions#create-a-discussion)
@@ -396,6 +500,12 @@ defmodule GitHub.Teams do
   @doc """
   Create a discussion (Legacy)
 
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`Create a discussion`](https://docs.github.com/rest/teams/discussions#create-a-discussion) endpoint.
+
+  Creates a new discussion post on a team's page. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
+  This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/teams/discussions#create-a-discussion-legacy)
@@ -420,6 +530,10 @@ defmodule GitHub.Teams do
 
   @doc """
   Delete a discussion comment
+
+  Deletes a comment on a team discussion. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `DELETE /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}/comments/{comment_number}`.
 
   ## Resources
 
@@ -448,13 +562,17 @@ defmodule GitHub.Teams do
       url:
         "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments/#{comment_number}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete a discussion comment (Legacy)
+
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Delete a discussion comment](https://docs.github.com/rest/teams/discussion-comments#delete-a-discussion-comment) endpoint.
+
+  Deletes a comment on a team discussion. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
 
   ## Resources
 
@@ -475,13 +593,17 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :delete_discussion_comment_legacy},
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments/#{comment_number}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete a discussion
+
+  Delete a discussion from a team's page. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `DELETE /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}`.
 
   ## Resources
 
@@ -498,13 +620,17 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :delete_discussion_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete a discussion (Legacy)
+
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`Delete a discussion`](https://docs.github.com/rest/teams/discussions#delete-a-discussion) endpoint.
+
+  Delete a discussion from a team's page. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
 
   ## Resources
 
@@ -520,13 +646,19 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :delete_discussion_legacy},
       url: "/teams/#{team_id}/discussions/#{discussion_number}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete a team
+
+  To delete a team, the authenticated user must be an organization owner or team maintainer.
+
+  If you are an organization owner, deleting a parent team will delete all of its child teams as well.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `DELETE /organizations/{org_id}/team/{team_id}`.
 
   ## Resources
 
@@ -542,13 +674,19 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :delete_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete a team (Legacy)
+
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Delete a team](https://docs.github.com/rest/teams/teams#delete-a-team) endpoint.
+
+  To delete a team, the authenticated user must be an organization owner or team maintainer.
+
+  If you are an organization owner, deleting a parent team will delete all of its child teams as well.
 
   ## Resources
 
@@ -564,13 +702,21 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :delete_legacy},
       url: "/teams/#{team_id}",
       method: :delete,
-      response: [{204, nil}, {404, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
+      response: [
+        {204, :null},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
       opts: opts
     })
   end
 
   @doc """
   Get a team by name
+
+  Gets a team using the team's `slug`. To create the `slug`, GitHub replaces special characters in the `name` string, changes all words to lowercase, and replaces spaces with a `-` separator. For example, `"My TEam Näme"` would become `my-team-name`.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}`.
 
   ## Resources
 
@@ -594,6 +740,10 @@ defmodule GitHub.Teams do
 
   @doc """
   Get a discussion comment
+
+  Get a specific comment on a team discussion. OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}/comments/{comment_number}`.
 
   ## Resources
 
@@ -624,6 +774,10 @@ defmodule GitHub.Teams do
   @doc """
   Get a discussion comment (Legacy)
 
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Get a discussion comment](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment) endpoint.
+
+  Get a specific comment on a team discussion. OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/teams/discussion-comments#get-a-discussion-comment-legacy)
@@ -651,6 +805,10 @@ defmodule GitHub.Teams do
   @doc """
   Get a discussion
 
+  Get a specific discussion on a team's page. OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}`.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/teams/discussions#get-a-discussion)
@@ -673,6 +831,10 @@ defmodule GitHub.Teams do
 
   @doc """
   Get a discussion (Legacy)
+
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Get a discussion](https://docs.github.com/rest/teams/discussions#get-a-discussion) endpoint.
+
+  Get a specific discussion on a team's page. OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
 
   ## Resources
 
@@ -697,6 +859,8 @@ defmodule GitHub.Teams do
   @doc """
   Get a team (Legacy)
 
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the [Get a team by name](https://docs.github.com/rest/teams/teams#get-a-team-by-name) endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/teams/teams#get-a-team-legacy)
@@ -719,6 +883,12 @@ defmodule GitHub.Teams do
   @doc """
   Get team member (Legacy)
 
+  The "Get team member" endpoint (described below) is deprecated.
+
+  We recommend using the [Get team membership for a user](https://docs.github.com/rest/teams/members#get-team-membership-for-a-user) endpoint instead. It allows you to get both active and pending memberships.
+
+  To list members in a team, the team must be visible to the authenticated user.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/teams/members#get-team-member-legacy)
@@ -733,13 +903,24 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :get_member_legacy},
       url: "/teams/#{team_id}/members/#{username}",
       method: :get,
-      response: [{204, nil}, {404, nil}],
+      response: [{204, :null}, {404, :null}],
       opts: opts
     })
   end
 
   @doc """
   Get team membership for a user
+
+  Team members will include the members of child teams.
+
+  To get a user's membership with a team, the team must be visible to the authenticated user.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/memberships/{username}`.
+
+  **Note:**
+  The response contains the `state` of the membership and the member's `role`.
+
+  The `role` for organization owners is set to `maintainer`. For more information about `maintainer` roles, see [Create a team](https://docs.github.com/rest/teams/teams#create-a-team).
 
   ## Resources
 
@@ -756,13 +937,24 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :get_membership_for_user_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/memberships/#{username}",
       method: :get,
-      response: [{200, {GitHub.Team.Membership, :t}}, {404, nil}],
+      response: [{200, {GitHub.Team.Membership, :t}}, {404, :null}],
       opts: opts
     })
   end
 
   @doc """
   Get team membership for a user (Legacy)
+
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Get team membership for a user](https://docs.github.com/rest/teams/members#get-team-membership-for-a-user) endpoint.
+
+  Team members will include the members of child teams.
+
+  To get a user's membership with a team, the team must be visible to the authenticated user.
+
+  **Note:**
+  The response contains the `state` of the membership and the member's `role`.
+
+  The `role` for organization owners is set to `maintainer`. For more information about `maintainer` roles, see [Create a team](https://docs.github.com/rest/teams/teams#create-a-team).
 
   ## Resources
 
@@ -787,10 +979,12 @@ defmodule GitHub.Teams do
   @doc """
   List teams
 
+  Lists all teams in an organization that are visible to the authenticated user.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -808,7 +1002,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Team, :t}}}, {403, {GitHub.BasicError, :t}}],
+      response: [{200, [{GitHub.Team, :t}]}, {403, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -816,10 +1010,14 @@ defmodule GitHub.Teams do
   @doc """
   List child teams
 
+  Lists the child teams of the team specified by `{team_slug}`.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/teams`.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -838,7 +1036,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}/teams",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Team, :t}}}],
+      response: [{200, [{GitHub.Team, :t}]}],
       opts: opts
     })
   end
@@ -846,10 +1044,12 @@ defmodule GitHub.Teams do
   @doc """
   List child teams (Legacy)
 
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List child teams`](https://docs.github.com/rest/teams/teams#list-child-teams) endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -869,7 +1069,7 @@ defmodule GitHub.Teams do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Team, :t}}},
+        {200, [{GitHub.Team, :t}]},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
@@ -881,11 +1081,15 @@ defmodule GitHub.Teams do
   @doc """
   List discussion comments
 
+  List all comments on a team discussion. OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}/comments`.
+
   ## Options
 
-    * `direction` (String.t()): The direction to sort the results by.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `direction`: The direction to sort the results by.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -904,7 +1108,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}/discussions/#{discussion_number}/comments",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Team.DiscussionComment, :t}}}],
+      response: [{200, [{GitHub.Team.DiscussionComment, :t}]}],
       opts: opts
     })
   end
@@ -912,11 +1116,15 @@ defmodule GitHub.Teams do
   @doc """
   List discussion comments (Legacy)
 
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [List discussion comments](https://docs.github.com/rest/teams/discussion-comments#list-discussion-comments) endpoint.
+
+  List all comments on a team discussion. OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
   ## Options
 
-    * `direction` (String.t()): The direction to sort the results by.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `direction`: The direction to sort the results by.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -935,7 +1143,7 @@ defmodule GitHub.Teams do
       url: "/teams/#{team_id}/discussions/#{discussion_number}/comments",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Team.DiscussionComment, :t}}}],
+      response: [{200, [{GitHub.Team.DiscussionComment, :t}]}],
       opts: opts
     })
   end
@@ -943,12 +1151,16 @@ defmodule GitHub.Teams do
   @doc """
   List discussions
 
+  List all discussions on a team's page. OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/discussions`.
+
   ## Options
 
-    * `direction` (String.t()): The direction to sort the results by.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
-    * `pinned` (String.t()): Pinned discussions only filter
+    * `direction`: The direction to sort the results by.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
+    * `pinned`: Pinned discussions only filter
 
   ## Resources
 
@@ -967,7 +1179,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}/discussions",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Team.Discussion, :t}}}],
+      response: [{200, [{GitHub.Team.Discussion, :t}]}],
       opts: opts
     })
   end
@@ -975,11 +1187,15 @@ defmodule GitHub.Teams do
   @doc """
   List discussions (Legacy)
 
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List discussions`](https://docs.github.com/rest/teams/discussions#list-discussions) endpoint.
+
+  List all discussions on a team's page. OAuth access tokens require the `read:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
   ## Options
 
-    * `direction` (String.t()): The direction to sort the results by.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `direction`: The direction to sort the results by.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -998,7 +1214,7 @@ defmodule GitHub.Teams do
       url: "/teams/#{team_id}/discussions",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Team.Discussion, :t}}}],
+      response: [{200, [{GitHub.Team.Discussion, :t}]}],
       opts: opts
     })
   end
@@ -1006,10 +1222,12 @@ defmodule GitHub.Teams do
   @doc """
   List teams for the authenticated user
 
+  List all of the teams across all of the organizations to which the authenticated user belongs. This method requires `user`, `repo`, or `read:org` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/) when authenticating via [OAuth](https://docs.github.com/apps/building-oauth-apps/). When using a fine-grained personal access token, the resource owner of the token [must be a single organization](https://docs.github.com/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#fine-grained-personal-access-tokens), and have at least read-only member organization permissions. The response payload only contains the teams from a single organization when using a fine-grained personal access token.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1023,13 +1241,14 @@ defmodule GitHub.Teams do
     query = Keyword.take(opts, [:page, :per_page])
 
     client.request(%{
+      args: [],
       call: {GitHub.Teams, :list_for_authenticated_user},
       url: "/user/teams",
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Team, :full}}},
-        {304, nil},
+        {200, [{GitHub.Team, :full}]},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],
@@ -1040,11 +1259,15 @@ defmodule GitHub.Teams do
   @doc """
   List team members
 
+  Team members will include the members of child teams.
+
+  To list members in a team, the team must be visible to the authenticated user.
+
   ## Options
 
-    * `role` (String.t()): Filters members returned by their role in the team.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `role`: Filters members returned by their role in the team.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1063,7 +1286,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}/members",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.User, :simple}}}],
+      response: [{200, [{GitHub.User, :simple}]}],
       opts: opts
     })
   end
@@ -1071,11 +1294,15 @@ defmodule GitHub.Teams do
   @doc """
   List team members (Legacy)
 
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List team members`](https://docs.github.com/rest/teams/members#list-team-members) endpoint.
+
+  Team members will include the members of child teams.
+
   ## Options
 
-    * `role` (String.t()): Filters members returned by their role in the team.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `role`: Filters members returned by their role in the team.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1094,7 +1321,7 @@ defmodule GitHub.Teams do
       url: "/teams/#{team_id}/members",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.User, :simple}}}, {404, {GitHub.BasicError, :t}}],
+      response: [{200, [{GitHub.User, :simple}]}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -1102,10 +1329,14 @@ defmodule GitHub.Teams do
   @doc """
   List pending team invitations
 
+  The return hash contains a `role` field which refers to the Organization Invitation role and will be one of the following values: `direct_member`, `admin`, `billing_manager`, `hiring_manager`, or `reinstate`. If the invitee is not a GitHub member, the `login` field in the return hash will be `null`.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/invitations`.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1124,7 +1355,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}/invitations",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Organization.Invitation, :t}}}],
+      response: [{200, [{GitHub.Organization.Invitation, :t}]}],
       opts: opts
     })
   end
@@ -1132,10 +1363,14 @@ defmodule GitHub.Teams do
   @doc """
   List pending team invitations (Legacy)
 
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List pending team invitations`](https://docs.github.com/rest/teams/members#list-pending-team-invitations) endpoint.
+
+  The return hash contains a `role` field which refers to the Organization Invitation role and will be one of the following values: `direct_member`, `admin`, `billing_manager`, `hiring_manager`, or `reinstate`. If the invitee is not a GitHub member, the `login` field in the return hash will be `null`.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1154,7 +1389,7 @@ defmodule GitHub.Teams do
       url: "/teams/#{team_id}/invitations",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Organization.Invitation, :t}}}],
+      response: [{200, [{GitHub.Organization.Invitation, :t}]}],
       opts: opts
     })
   end
@@ -1162,10 +1397,14 @@ defmodule GitHub.Teams do
   @doc """
   List team projects
 
+  Lists the organization projects for a team.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/projects`.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1184,7 +1423,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}/projects",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Team.Project, :t}}}],
+      response: [{200, [{GitHub.Team.Project, :t}]}],
       opts: opts
     })
   end
@@ -1192,10 +1431,14 @@ defmodule GitHub.Teams do
   @doc """
   List team projects (Legacy)
 
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [`List team projects`](https://docs.github.com/rest/teams/teams#list-team-projects) endpoint.
+
+  Lists the organization projects for a team.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1214,7 +1457,7 @@ defmodule GitHub.Teams do
       url: "/teams/#{team_id}/projects",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Team.Project, :t}}}, {404, {GitHub.BasicError, :t}}],
+      response: [{200, [{GitHub.Team.Project, :t}]}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -1222,10 +1465,14 @@ defmodule GitHub.Teams do
   @doc """
   List team repositories
 
+  Lists a team's repositories visible to the authenticated user.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/repos`.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1244,7 +1491,7 @@ defmodule GitHub.Teams do
       url: "/orgs/#{org}/teams/#{team_slug}/repos",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Repository, :minimal}}}],
+      response: [{200, [{GitHub.Repository, :minimal}]}],
       opts: opts
     })
   end
@@ -1252,10 +1499,12 @@ defmodule GitHub.Teams do
   @doc """
   List team repositories (Legacy)
 
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [List team repositories](https://docs.github.com/rest/teams/teams#list-team-repositories) endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1274,13 +1523,23 @@ defmodule GitHub.Teams do
       url: "/teams/#{team_id}/repos",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Repository, :minimal}}}, {404, {GitHub.BasicError, :t}}],
+      response: [{200, [{GitHub.Repository, :minimal}]}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
 
   @doc """
   Remove team member (Legacy)
+
+  The "Remove team member" endpoint (described below) is deprecated.
+
+  We recommend using the [Remove team membership for a user](https://docs.github.com/rest/teams/members#remove-team-membership-for-a-user) endpoint instead. It allows you to remove both active and pending memberships.
+
+  Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
+
+  To remove a team member, the authenticated user must have 'admin' permissions to the team or be an owner of the org that the team is associated with. Removing a team member does not delete the user, it just removes them from the team.
+
+  **Note:** When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "[Synchronizing teams between your identity provider and GitHub](https://docs.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/)."
 
   ## Resources
 
@@ -1296,13 +1555,21 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :remove_member_legacy},
       url: "/teams/#{team_id}/members/#{username}",
       method: :delete,
-      response: [{204, nil}, {404, nil}],
+      response: [{204, :null}, {404, :null}],
       opts: opts
     })
   end
 
   @doc """
   Remove team membership for a user
+
+  To remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. Removing team membership does not delete the user, it just removes their membership from the team.
+
+  Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
+
+  **Note:** When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "[Synchronizing teams between your identity provider and GitHub](https://docs.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/)."
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `DELETE /organizations/{org_id}/team/{team_id}/memberships/{username}`.
 
   ## Resources
 
@@ -1319,13 +1586,21 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :remove_membership_for_user_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/memberships/#{username}",
       method: :delete,
-      response: [{204, nil}, {403, nil}],
+      response: [{204, :null}, {403, :null}],
       opts: opts
     })
   end
 
   @doc """
   Remove team membership for a user (Legacy)
+
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Remove team membership for a user](https://docs.github.com/rest/teams/members#remove-team-membership-for-a-user) endpoint.
+
+  Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
+
+  To remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. Removing team membership does not delete the user, it just removes their membership from the team.
+
+  **Note:** When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "[Synchronizing teams between your identity provider and GitHub](https://docs.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/)."
 
   ## Resources
 
@@ -1342,13 +1617,17 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :remove_membership_for_user_legacy},
       url: "/teams/#{team_id}/memberships/#{username}",
       method: :delete,
-      response: [{204, nil}, {403, nil}],
+      response: [{204, :null}, {403, :null}],
       opts: opts
     })
   end
 
   @doc """
   Remove a project from a team
+
+  Removes an organization project from a team. An organization owner or a team maintainer can remove any project from the team. To remove a project from a team as an organization member, the authenticated user must have `read` access to both the team and project, or `admin` access to the team or project. This endpoint removes the project from the team, but does not delete the project.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `DELETE /organizations/{org_id}/team/{team_id}/projects/{project_id}`.
 
   ## Resources
 
@@ -1365,13 +1644,17 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :remove_project_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/projects/#{project_id}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Remove a project from a team (Legacy)
+
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Remove a project from a team](https://docs.github.com/rest/teams/teams#remove-a-project-from-a-team) endpoint.
+
+  Removes an organization project from a team. An organization owner or a team maintainer can remove any project from the team. To remove a project from a team as an organization member, the authenticated user must have `read` access to both the team and project, or `admin` access to the team or project. **Note:** This endpoint removes the project from the team, but does not delete it.
 
   ## Resources
 
@@ -1387,13 +1670,21 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :remove_project_legacy},
       url: "/teams/#{team_id}/projects/#{project_id}",
       method: :delete,
-      response: [{204, nil}, {404, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
+      response: [
+        {204, :null},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
       opts: opts
     })
   end
 
   @doc """
   Remove a repository from a team
+
+  If the authenticated user is an organization owner or a team maintainer, they can remove any repositories from the team. To remove a repository from a team as an organization member, the authenticated user must have admin access to the repository and must be able to see the team. This does not delete the repository, it just removes it from the team.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `DELETE /organizations/{org_id}/team/{team_id}/repos/{owner}/{repo}`.
 
   ## Resources
 
@@ -1410,13 +1701,17 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :remove_repo_in_org},
       url: "/orgs/#{org}/teams/#{team_slug}/repos/#{owner}/#{repo}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Remove a repository from a team (Legacy)
+
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Remove a repository from a team](https://docs.github.com/rest/teams/teams#remove-a-repository-from-a-team) endpoint.
+
+  If the authenticated user is an organization owner or a team maintainer, they can remove any repositories from the team. To remove a repository from a team as an organization member, the authenticated user must have admin access to the repository and must be able to see the team. NOTE: This does not delete the repository, it just removes it from the team.
 
   ## Resources
 
@@ -1433,13 +1728,17 @@ defmodule GitHub.Teams do
       call: {GitHub.Teams, :remove_repo_legacy},
       url: "/teams/#{team_id}/repos/#{owner}/#{repo}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Update a discussion comment
+
+  Edits the body text of a discussion comment. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `PATCH /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}/comments/{comment_number}`.
 
   ## Resources
 
@@ -1480,6 +1779,10 @@ defmodule GitHub.Teams do
   @doc """
   Update a discussion comment (Legacy)
 
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Update a discussion comment](https://docs.github.com/rest/teams/discussion-comments#update-a-discussion-comment) endpoint.
+
+  Edits the body text of a discussion comment. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/teams/discussion-comments#update-a-discussion-comment-legacy)
@@ -1516,6 +1819,10 @@ defmodule GitHub.Teams do
   @doc """
   Update a discussion
 
+  Edits the title and body text of a discussion post. Only the parameters you provide are updated. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `PATCH /organizations/{org_id}/team/{team_id}/discussions/{discussion_number}`.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/teams/discussions#update-a-discussion)
@@ -1541,6 +1848,10 @@ defmodule GitHub.Teams do
   @doc """
   Update a discussion (Legacy)
 
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Update a discussion](https://docs.github.com/rest/teams/discussions#update-a-discussion) endpoint.
+
+  Edits the title and body text of a discussion post. Only the parameters you provide are updated. OAuth access tokens require the `write:discussion` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/teams/discussions#update-a-discussion-legacy)
@@ -1565,6 +1876,10 @@ defmodule GitHub.Teams do
 
   @doc """
   Update a team
+
+  To edit a team, the authenticated user must either be an organization owner or a team maintainer.
+
+  **Note:** You can also specify a team by `org_id` and `team_id` using the route `PATCH /organizations/{org_id}/team/{team_id}`.
 
   ## Resources
 
@@ -1596,6 +1911,12 @@ defmodule GitHub.Teams do
 
   @doc """
   Update a team (Legacy)
+
+  **Deprecation Notice:** This endpoint route is deprecated and will be removed from the Teams API. We recommend migrating your existing code to use the new [Update a team](https://docs.github.com/rest/teams/teams#update-a-team) endpoint.
+
+  To edit a team, the authenticated user must either be an organization owner or a team maintainer.
+
+  **Note:** With nested teams, the `privacy` for parent teams cannot be `secret`.
 
   ## Resources
 

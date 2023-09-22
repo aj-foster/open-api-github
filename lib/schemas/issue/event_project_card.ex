@@ -1,6 +1,6 @@
 defmodule GitHub.Issue.EventProjectCard do
   @moduledoc """
-  Provides struct and type for IssueEventProjectCard
+  Provides struct and type for a Issue.EventProjectCard
   """
   use GitHub.Encoder
 
@@ -22,12 +22,12 @@ defmodule GitHub.Issue.EventProjectCard do
 
   def __fields__(:t) do
     [
-      column_name: :string,
+      column_name: {:string, :generic},
       id: :integer,
-      previous_column_name: :string,
+      previous_column_name: {:string, :generic},
       project_id: :integer,
-      project_url: :string,
-      url: :string
+      project_url: {:string, :uri},
+      url: {:string, :uri}
     ]
   end
 end

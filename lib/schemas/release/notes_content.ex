@@ -1,6 +1,6 @@
 defmodule GitHub.Release.NotesContent do
   @moduledoc """
-  Provides struct and type for ReleaseNotesContent
+  Provides struct and type for a Release.NotesContent
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Release.NotesContent do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [body: :string, name: :string]
+    [body: {:string, :generic}, name: {:string, :generic}]
   end
 end

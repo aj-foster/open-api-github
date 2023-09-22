@@ -1,6 +1,6 @@
 defmodule GitHub.Pages.HealthCheck do
   @moduledoc """
-  Provides struct and type for PagesHealthCheck
+  Provides struct and type for a Pages.HealthCheck
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Pages.HealthCheck do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [alt_domain: {:nullable, :map}, domain: :map]
+    [alt_domain: {:union, [:map, :null]}, domain: :map]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.SelectedActions do
   @moduledoc """
-  Provides struct and type for SelectedActions
+  Provides struct and type for a SelectedActions
   """
   use GitHub.Encoder
 
@@ -20,7 +20,7 @@ defmodule GitHub.SelectedActions do
   def __fields__(:t) do
     [
       github_owned_allowed: :boolean,
-      patterns_allowed: {:array, :string},
+      patterns_allowed: [string: :generic],
       verified_allowed: :boolean
     ]
   end

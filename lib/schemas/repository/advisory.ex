@@ -1,18 +1,18 @@
 defmodule GitHub.Repository.Advisory do
   @moduledoc """
-  Provides struct and type for RepositoryAdvisory
+  Provides struct and type for a Repository.Advisory
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
           author: nil,
-          closed_at: String.t() | nil,
+          closed_at: DateTime.t() | nil,
           collaborating_teams: [GitHub.Team.t()] | nil,
           collaborating_users: [GitHub.User.simple()] | nil,
-          created_at: String.t() | nil,
+          created_at: DateTime.t() | nil,
           credits: [map] | nil,
-          credits_detailed: [GitHub.Repository.Advisory.Credit.t()] | nil,
+          credits_detailed: [map] | nil,
           cve_id: String.t() | nil,
           cvss: map | nil,
           cwe_ids: [String.t()] | nil,
@@ -22,16 +22,16 @@ defmodule GitHub.Repository.Advisory do
           html_url: String.t(),
           identifiers: [map],
           private_fork: nil,
-          published_at: String.t() | nil,
+          published_at: DateTime.t() | nil,
           publisher: nil,
           severity: String.t() | nil,
           state: String.t(),
           submission: map | nil,
           summary: String.t(),
-          updated_at: String.t() | nil,
+          updated_at: DateTime.t() | nil,
           url: String.t(),
-          vulnerabilities: [GitHub.Repository.Advisory.Vulnerability.t()] | nil,
-          withdrawn_at: String.t() | nil
+          vulnerabilities: [map] | nil,
+          withdrawn_at: DateTime.t() | nil
         }
 
   defstruct [
@@ -71,31 +71,31 @@ defmodule GitHub.Repository.Advisory do
   def __fields__(:t) do
     [
       author: :null,
-      closed_at: {:nullable, :string},
-      collaborating_teams: {:nullable, {:array, {GitHub.Team, :t}}},
-      collaborating_users: {:nullable, {:array, {GitHub.User, :simple}}},
-      created_at: {:nullable, :string},
-      credits: {:nullable, {:array, :map}},
-      credits_detailed: {:nullable, {:array, {GitHub.Repository.Advisory.Credit, :t}}},
-      cve_id: {:nullable, :string},
-      cvss: {:nullable, :map},
-      cwe_ids: {:nullable, {:array, :string}},
-      cwes: {:nullable, {:array, :map}},
-      description: {:nullable, :string},
-      ghsa_id: :string,
-      html_url: :string,
-      identifiers: {:array, :map},
+      closed_at: {:union, [{:string, :date_time}, :null]},
+      collaborating_teams: {:union, [[{GitHub.Team, :t}], :null]},
+      collaborating_users: {:union, [[{GitHub.User, :simple}], :null]},
+      created_at: {:union, [{:string, :date_time}, :null]},
+      credits: {:union, [[:map], :null]},
+      credits_detailed: {:union, [[:map], :null]},
+      cve_id: {:union, [{:string, :generic}, :null]},
+      cvss: {:union, [:map, :null]},
+      cwe_ids: {:union, [[string: :generic], :null]},
+      cwes: {:union, [[:map], :null]},
+      description: {:union, [{:string, :generic}, :null]},
+      ghsa_id: {:string, :generic},
+      html_url: {:string, :uri},
+      identifiers: [:map],
       private_fork: :null,
-      published_at: {:nullable, :string},
+      published_at: {:union, [{:string, :date_time}, :null]},
       publisher: :null,
-      severity: {:nullable, :string},
-      state: :string,
-      submission: {:nullable, :map},
-      summary: :string,
-      updated_at: {:nullable, :string},
-      url: :string,
-      vulnerabilities: {:nullable, {:array, {GitHub.Repository.Advisory.Vulnerability, :t}}},
-      withdrawn_at: {:nullable, :string}
+      severity: {:enum, ["critical", "high", "medium", "low", nil]},
+      state: {:enum, ["published", "closed", "withdrawn", "draft", "triage"]},
+      submission: {:union, [:map, :null]},
+      summary: {:string, :generic},
+      updated_at: {:union, [{:string, :date_time}, :null]},
+      url: {:string, :generic},
+      vulnerabilities: {:union, [[:map], :null]},
+      withdrawn_at: {:union, [{:string, :date_time}, :null]}
     ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.BasicError do
   @moduledoc """
-  Provides struct and type for BasicError
+  Provides struct and type for a BasicError
   """
   use GitHub.Encoder
 
@@ -19,6 +19,11 @@ defmodule GitHub.BasicError do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [documentation_url: :string, message: :string, status: :string, url: :string]
+    [
+      documentation_url: {:string, :generic},
+      message: {:string, :generic},
+      status: {:string, :generic},
+      url: {:string, :generic}
+    ]
   end
 end

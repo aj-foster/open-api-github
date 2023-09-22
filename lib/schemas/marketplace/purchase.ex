@@ -1,6 +1,6 @@
 defmodule GitHub.Marketplace.Purchase do
   @moduledoc """
-  Provides struct and type for MarketplacePurchase
+  Provides struct and type for a Marketplace.Purchase
   """
   use GitHub.Encoder
 
@@ -34,14 +34,14 @@ defmodule GitHub.Marketplace.Purchase do
 
   def __fields__(:t) do
     [
-      email: {:nullable, :string},
+      email: {:union, [{:string, :generic}, :null]},
       id: :integer,
-      login: :string,
-      marketplace_pending_change: {:nullable, :map},
+      login: {:string, :generic},
+      marketplace_pending_change: {:union, [:map, :null]},
       marketplace_purchase: :map,
-      organization_billing_email: :string,
-      type: :string,
-      url: :string
+      organization_billing_email: {:string, :generic},
+      type: {:string, :generic},
+      url: {:string, :generic}
     ]
   end
 end

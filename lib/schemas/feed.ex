@@ -1,6 +1,6 @@
 defmodule GitHub.Feed do
   @moduledoc """
-  Provides struct and type for Feed
+  Provides struct and type for a Feed
   """
   use GitHub.Encoder
 
@@ -41,16 +41,16 @@ defmodule GitHub.Feed do
   def __fields__(:t) do
     [
       _links: :map,
-      current_user_actor_url: :string,
-      current_user_organization_url: :string,
-      current_user_organization_urls: {:array, :string},
-      current_user_public_url: :string,
-      current_user_url: :string,
-      repository_discussions_category_url: :string,
-      repository_discussions_url: :string,
-      security_advisories_url: :string,
-      timeline_url: :string,
-      user_url: :string
+      current_user_actor_url: {:string, :generic},
+      current_user_organization_url: {:string, :generic},
+      current_user_organization_urls: [string: :uri],
+      current_user_public_url: {:string, :generic},
+      current_user_url: {:string, :generic},
+      repository_discussions_category_url: {:string, :generic},
+      repository_discussions_url: {:string, :generic},
+      security_advisories_url: {:string, :generic},
+      timeline_url: {:string, :generic},
+      user_url: {:string, :generic}
     ]
   end
 end

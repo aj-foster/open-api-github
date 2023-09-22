@@ -1,6 +1,6 @@
 defmodule GitHub.Pages.Deployment do
   @moduledoc """
-  Provides struct and type for PageDeployment
+  Provides struct and type for a Pages.Deployment
   """
   use GitHub.Encoder
 
@@ -18,6 +18,6 @@ defmodule GitHub.Pages.Deployment do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [page_url: :string, preview_url: :string, status_url: :string]
+    [page_url: {:string, :uri}, preview_url: {:string, :uri}, status_url: {:string, :uri}]
   end
 end

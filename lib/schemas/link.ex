@@ -1,6 +1,6 @@
 defmodule GitHub.Link do
   @moduledoc """
-  Provides struct and type for Link
+  Provides struct and type for a Link
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Link do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [href: :string]
+    [href: {:string, :generic}]
   end
 end

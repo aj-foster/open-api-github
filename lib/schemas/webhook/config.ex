@@ -1,13 +1,13 @@
 defmodule GitHub.Webhook.Config do
   @moduledoc """
-  Provides struct and type for WebhookConfig
+  Provides struct and type for a Webhook.Config
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
           content_type: String.t() | nil,
-          insecure_ssl: (number | String.t()) | nil,
+          insecure_ssl: number | String.t() | nil,
           secret: String.t() | nil,
           url: String.t() | nil
         }
@@ -20,10 +20,10 @@ defmodule GitHub.Webhook.Config do
 
   def __fields__(:t) do
     [
-      content_type: :string,
-      insecure_ssl: {:union, [:string, :number]},
-      secret: :string,
-      url: :string
+      content_type: {:string, :generic},
+      insecure_ssl: {:union, [:number, string: :generic]},
+      secret: {:string, :generic},
+      url: {:string, :uri}
     ]
   end
 end

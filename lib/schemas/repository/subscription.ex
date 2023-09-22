@@ -1,12 +1,12 @@
 defmodule GitHub.Repository.Subscription do
   @moduledoc """
-  Provides struct and type for RepositorySubscription
+  Provides struct and type for a Repository.Subscription
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           ignored: boolean,
           reason: String.t() | nil,
           repository_url: String.t(),
@@ -22,12 +22,12 @@ defmodule GitHub.Repository.Subscription do
 
   def __fields__(:t) do
     [
-      created_at: :string,
+      created_at: {:string, :date_time},
       ignored: :boolean,
-      reason: {:nullable, :string},
-      repository_url: :string,
+      reason: {:union, [{:string, :generic}, :null]},
+      repository_url: {:string, :uri},
       subscribed: :boolean,
-      url: :string
+      url: {:string, :uri}
     ]
   end
 end

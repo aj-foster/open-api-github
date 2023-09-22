@@ -1,6 +1,6 @@
 defmodule GitHub.Branch.WithProtection do
   @moduledoc """
-  Provides struct and type for BranchWithProtection
+  Provides struct and type for a Branch.WithProtection
   """
   use GitHub.Encoder
 
@@ -36,11 +36,11 @@ defmodule GitHub.Branch.WithProtection do
     [
       _links: :map,
       commit: {GitHub.Commit, :t},
-      name: :string,
-      pattern: :string,
+      name: {:string, :generic},
+      pattern: {:string, :generic},
       protected: :boolean,
       protection: {GitHub.Branch.Protection, :t},
-      protection_url: :string,
+      protection_url: {:string, :uri},
       required_approving_review_count: :integer
     ]
   end

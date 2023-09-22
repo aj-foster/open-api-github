@@ -1,6 +1,6 @@
 defmodule GitHub.Commit.Status do
   @moduledoc """
-  Provides struct and type for SimpleCommitStatus
+  Provides struct and type for a Commit.Status
   """
   use GitHub.Encoder
 
@@ -8,14 +8,14 @@ defmodule GitHub.Commit.Status do
           __info__: map,
           avatar_url: String.t() | nil,
           context: String.t(),
-          created_at: String.t(),
+          created_at: DateTime.t(),
           description: String.t() | nil,
           id: integer,
           node_id: String.t(),
           required: boolean | nil,
           state: String.t(),
           target_url: String.t() | nil,
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t()
         }
 
@@ -38,17 +38,17 @@ defmodule GitHub.Commit.Status do
   @spec __fields__(atom) :: keyword
   def __fields__(:simple) do
     [
-      avatar_url: {:nullable, :string},
-      context: :string,
-      created_at: :string,
-      description: {:nullable, :string},
+      avatar_url: {:union, [{:string, :uri}, :null]},
+      context: {:string, :generic},
+      created_at: {:string, :date_time},
+      description: {:union, [{:string, :generic}, :null]},
       id: :integer,
-      node_id: :string,
-      required: {:nullable, :boolean},
-      state: :string,
-      target_url: {:nullable, :string},
-      updated_at: :string,
-      url: :string
+      node_id: {:string, :generic},
+      required: {:union, [:boolean, :null]},
+      state: {:string, :generic},
+      target_url: {:union, [{:string, :uri}, :null]},
+      updated_at: {:string, :date_time},
+      url: {:string, :uri}
     ]
   end
 end

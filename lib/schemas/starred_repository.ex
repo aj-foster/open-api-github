@@ -1,10 +1,10 @@
 defmodule GitHub.StarredRepository do
   @moduledoc """
-  Provides struct and type for StarredRepository
+  Provides struct and type for a StarredRepository
   """
   use GitHub.Encoder
 
-  @type t :: %__MODULE__{__info__: map, repo: GitHub.Repository.t(), starred_at: String.t()}
+  @type t :: %__MODULE__{__info__: map, repo: GitHub.Repository.t(), starred_at: DateTime.t()}
 
   defstruct [:__info__, :repo, :starred_at]
 
@@ -13,6 +13,6 @@ defmodule GitHub.StarredRepository do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [repo: {GitHub.Repository, :t}, starred_at: :string]
+    [repo: {GitHub.Repository, :t}, starred_at: {:string, :date_time}]
   end
 end

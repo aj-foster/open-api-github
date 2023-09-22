@@ -1,6 +1,6 @@
 defmodule GitHub.PorterAuthor do
   @moduledoc """
-  Provides struct and type for PorterAuthor
+  Provides struct and type for a PorterAuthor
   """
   use GitHub.Encoder
 
@@ -23,13 +23,13 @@ defmodule GitHub.PorterAuthor do
 
   def __fields__(:t) do
     [
-      email: :string,
+      email: {:string, :generic},
       id: :integer,
-      import_url: :string,
-      name: :string,
-      remote_id: :string,
-      remote_name: :string,
-      url: :string
+      import_url: {:string, :uri},
+      name: {:string, :generic},
+      remote_id: {:string, :generic},
+      remote_name: {:string, :generic},
+      url: {:string, :uri}
     ]
   end
 end

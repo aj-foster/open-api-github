@@ -1,12 +1,12 @@
 defmodule GitHub.ThreadSubscription do
   @moduledoc """
-  Provides struct and type for ThreadSubscription
+  Provides struct and type for a ThreadSubscription
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          created_at: String.t() | nil,
+          created_at: DateTime.t() | nil,
           ignored: boolean,
           reason: String.t() | nil,
           repository_url: String.t() | nil,
@@ -32,13 +32,13 @@ defmodule GitHub.ThreadSubscription do
 
   def __fields__(:t) do
     [
-      created_at: {:nullable, :string},
+      created_at: {:union, [{:string, :date_time}, :null]},
       ignored: :boolean,
-      reason: {:nullable, :string},
-      repository_url: :string,
+      reason: {:union, [{:string, :generic}, :null]},
+      repository_url: {:string, :uri},
       subscribed: :boolean,
-      thread_url: :string,
-      url: :string
+      thread_url: {:string, :uri},
+      url: {:string, :uri}
     ]
   end
 end

@@ -8,6 +8,8 @@ defmodule GitHub.Projects do
   @doc """
   Add project collaborator
 
+  Adds a collaborator to an organization project and sets their permission level. You must be an organization owner or a project `admin` to add a collaborator.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/projects/collaborators#add-project-collaborator)
@@ -24,10 +26,10 @@ defmodule GitHub.Projects do
       url: "/projects/#{project_id}/collaborators/#{username}",
       body: body,
       method: :put,
-      request: [{"application/json", {:nullable, :map}}],
+      request: [{"application/json", {:union, [:map, :null]}}],
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -59,10 +61,10 @@ defmodule GitHub.Projects do
       request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Project.Card, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
-        {422, {:union, [{GitHub.ValidationError, :t}, {GitHub.ValidationError, :simple}]}},
+        {422, {:union, [{GitHub.ValidationError, :simple}, {GitHub.ValidationError, :t}]}},
         {503, :map}
       ],
       opts: opts
@@ -71,6 +73,8 @@ defmodule GitHub.Projects do
 
   @doc """
   Create a project column
+
+  Creates a new project column.
 
   ## Resources
 
@@ -91,7 +95,7 @@ defmodule GitHub.Projects do
       request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Project.Column, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
@@ -102,6 +106,8 @@ defmodule GitHub.Projects do
 
   @doc """
   Create a user project
+
+  Creates a user project board. Returns a `410 Gone` status if the user does not have existing classic projects. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
 
   ## Resources
 
@@ -122,7 +128,7 @@ defmodule GitHub.Projects do
       request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Project, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
@@ -133,6 +139,8 @@ defmodule GitHub.Projects do
 
   @doc """
   Create an organization project
+
+  Creates an organization project board. Returns a `410 Gone` status if projects are disabled in the organization or if the organization does not have existing classic projects. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
 
   ## Resources
 
@@ -166,6 +174,8 @@ defmodule GitHub.Projects do
   @doc """
   Create a repository project
 
+  Creates a repository project board. Returns a `410 Gone` status if projects are disabled in the repository or if the repository does not have existing classic projects. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/projects/projects#create-a-repository-project)
@@ -198,6 +208,8 @@ defmodule GitHub.Projects do
   @doc """
   Delete a project
 
+  Deletes a project board. Returns a `404 Not Found` status if projects are disabled.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/projects/projects#delete-a-project)
@@ -213,8 +225,8 @@ defmodule GitHub.Projects do
       url: "/projects/#{project_id}",
       method: :delete,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, :map},
         {404, {GitHub.BasicError, :t}},
@@ -226,6 +238,8 @@ defmodule GitHub.Projects do
 
   @doc """
   Delete a project card
+
+  Deletes a project card
 
   ## Resources
 
@@ -242,8 +256,8 @@ defmodule GitHub.Projects do
       url: "/projects/columns/cards/#{card_id}",
       method: :delete,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, :map},
         {404, {GitHub.BasicError, :t}}
@@ -254,6 +268,8 @@ defmodule GitHub.Projects do
 
   @doc """
   Delete a project column
+
+  Deletes a project column.
 
   ## Resources
 
@@ -270,8 +286,8 @@ defmodule GitHub.Projects do
       url: "/projects/columns/#{column_id}",
       method: :delete,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -281,6 +297,8 @@ defmodule GitHub.Projects do
 
   @doc """
   Get a project
+
+  Gets a project by its `id`. Returns a `404 Not Found` status if projects are disabled. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
 
   ## Resources
 
@@ -298,7 +316,7 @@ defmodule GitHub.Projects do
       method: :get,
       response: [
         {200, {GitHub.Project, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -308,6 +326,8 @@ defmodule GitHub.Projects do
 
   @doc """
   Get a project card
+
+  Gets information about a project card.
 
   ## Resources
 
@@ -325,7 +345,7 @@ defmodule GitHub.Projects do
       method: :get,
       response: [
         {200, {GitHub.Project.Card, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -336,6 +356,8 @@ defmodule GitHub.Projects do
 
   @doc """
   Get a project column
+
+  Gets information about a project column.
 
   ## Resources
 
@@ -354,7 +376,7 @@ defmodule GitHub.Projects do
       method: :get,
       response: [
         {200, {GitHub.Project.Column, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -365,6 +387,8 @@ defmodule GitHub.Projects do
 
   @doc """
   Get project permission for a user
+
+  Returns the collaborator's permission level for an organization project. Possible values for the `permission` key: `admin`, `write`, `read`, `none`. You must be an organization owner or a project `admin` to review a user's permission level.
 
   ## Resources
 
@@ -383,7 +407,7 @@ defmodule GitHub.Projects do
       method: :get,
       response: [
         {200, {GitHub.Project.CollaboratorPermission, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -396,11 +420,13 @@ defmodule GitHub.Projects do
   @doc """
   List project cards
 
+  Lists the project cards in a project.
+
   ## Options
 
-    * `archived_state` (String.t()): Filters the project cards that are returned by the card's state.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `archived_state`: Filters the project cards that are returned by the card's state.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -420,8 +446,8 @@ defmodule GitHub.Projects do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Project.Card, :t}}},
-        {304, nil},
+        {200, [{GitHub.Project.Card, :t}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -432,11 +458,13 @@ defmodule GitHub.Projects do
   @doc """
   List project collaborators
 
+  Lists the collaborators for an organization project. For a project, the list of collaborators includes outside collaborators, organization members that are direct collaborators, organization members with access through team memberships, organization members with access through default organization permissions, and organization owners. You must be an organization owner or a project `admin` to list collaborators.
+
   ## Options
 
-    * `affiliation` (String.t()): Filters the collaborators by their affiliation. `outside` means outside collaborators of a project that are not a member of the project's organization. `direct` means collaborators with permissions to a project, regardless of organization membership status. `all` means all collaborators the authenticated user can see.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `affiliation`: Filters the collaborators by their affiliation. `outside` means outside collaborators of a project that are not a member of the project's organization. `direct` means collaborators with permissions to a project, regardless of organization membership status. `all` means all collaborators the authenticated user can see.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -456,8 +484,8 @@ defmodule GitHub.Projects do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.User, :simple}}},
-        {304, nil},
+        {200, [{GitHub.User, :simple}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -470,10 +498,12 @@ defmodule GitHub.Projects do
   @doc """
   List project columns
 
+  Lists the project columns in a project.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -493,8 +523,8 @@ defmodule GitHub.Projects do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Project.Column, :t}}},
-        {304, nil},
+        {200, [{GitHub.Project.Column, :t}]},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],
@@ -505,11 +535,13 @@ defmodule GitHub.Projects do
   @doc """
   List organization projects
 
+  Lists the projects in an organization. Returns a `404 Not Found` status if projects are disabled in the organization. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
+
   ## Options
 
-    * `state` (String.t()): Indicates the state of the projects to return.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `state`: Indicates the state of the projects to return.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -528,7 +560,7 @@ defmodule GitHub.Projects do
       url: "/orgs/#{org}/projects",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Project, :t}}}, {422, {GitHub.ValidationError, :simple}}],
+      response: [{200, [{GitHub.Project, :t}]}, {422, {GitHub.ValidationError, :simple}}],
       opts: opts
     })
   end
@@ -536,11 +568,13 @@ defmodule GitHub.Projects do
   @doc """
   List repository projects
 
+  Lists the projects in a repository. Returns a `404 Not Found` status if projects are disabled in the repository. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
+
   ## Options
 
-    * `state` (String.t()): Indicates the state of the projects to return.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `state`: Indicates the state of the projects to return.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -560,7 +594,7 @@ defmodule GitHub.Projects do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Project, :t}}},
+        {200, [{GitHub.Project, :t}]},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -574,11 +608,13 @@ defmodule GitHub.Projects do
   @doc """
   List user projects
 
+  Lists projects for a user.
+
   ## Options
 
-    * `state` (String.t()): Indicates the state of the projects to return.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `state`: Indicates the state of the projects to return.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -597,7 +633,7 @@ defmodule GitHub.Projects do
       url: "/users/#{username}/projects",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.Project, :t}}}, {422, {GitHub.ValidationError, :t}}],
+      response: [{200, [{GitHub.Project, :t}]}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
   end
@@ -623,7 +659,7 @@ defmodule GitHub.Projects do
       request: [{"application/json", :map}],
       response: [
         {201, :map},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, :map},
         {422, {GitHub.ValidationError, :t}},
@@ -654,7 +690,7 @@ defmodule GitHub.Projects do
       request: [{"application/json", :map}],
       response: [
         {201, :map},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
@@ -665,6 +701,8 @@ defmodule GitHub.Projects do
 
   @doc """
   Remove user as a collaborator
+
+  Removes a collaborator from an organization project. You must be an organization owner or a project `admin` to remove a collaborator.
 
   ## Resources
 
@@ -681,8 +719,8 @@ defmodule GitHub.Projects do
       url: "/projects/#{project_id}/collaborators/#{username}",
       method: :delete,
       response: [
-        {204, nil},
-        {304, nil},
+        {204, :null},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -694,6 +732,8 @@ defmodule GitHub.Projects do
 
   @doc """
   Update a project
+
+  Updates a project board's information. Returns a `404 Not Found` status if projects are disabled. If you do not have sufficient privileges to perform this action, a `401 Unauthorized` or `410 Gone` status is returned.
 
   ## Resources
 
@@ -713,10 +753,10 @@ defmodule GitHub.Projects do
       request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Project, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, :map},
-        {404, nil},
+        {404, :null},
         {410, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
       ],
@@ -746,7 +786,7 @@ defmodule GitHub.Projects do
       request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Project.Card, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -778,7 +818,7 @@ defmodule GitHub.Projects do
       request: [{"application/json", :map}],
       response: [
         {200, {GitHub.Project.Column, :t}},
-        {304, nil},
+        {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
       ],

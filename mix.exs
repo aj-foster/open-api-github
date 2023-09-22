@@ -37,7 +37,11 @@ defmodule GitHub.MixProject do
       {:faker, "~> 0.15"},
       {:jason, "~> 1.0", optional: true},
       {:httpoison, "~> 1.7 or ~> 2.0", optional: true},
-      {:oapi_generator, "0.0.7", only: [:dev, :test], runtime: false},
+      # {:oapi_generator, "0.1.0-rc.0", only: :dev, runtime: false},
+      {:oapi_generator,
+       path: "/Users/aj/Documents/Projects/aj-foster/open-api-generator",
+       only: [:dev, :test],
+       runtime: false},
       {:redix, "~> 1.0", optional: true}
     ]
   end

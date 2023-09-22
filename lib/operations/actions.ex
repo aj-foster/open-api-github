@@ -8,6 +8,13 @@ defmodule GitHub.Actions do
   @doc """
   Add custom labels to a self-hosted runner for an organization
 
+  Add custom labels to a self-hosted runner configured in an organization.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#add-custom-labels-to-a-self-hosted-runner-for-an-organization)
@@ -36,6 +43,13 @@ defmodule GitHub.Actions do
 
   @doc """
   Add custom labels to a self-hosted runner for a repository
+
+  Add custom labels to a self-hosted runner configured in a repository.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
   ## Resources
 
@@ -71,6 +85,15 @@ defmodule GitHub.Actions do
   @doc """
   Add selected repository to an organization secret
 
+  Adds a repository to an organization secret when the `visibility` for
+  repository access is set to `selected`. The visibility is set when you [Create or
+  update an organization secret](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret).
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `secrets` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/secrets#add-selected-repository-to-an-organization-secret)
@@ -86,13 +109,21 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :add_selected_repo_to_org_secret},
       url: "/orgs/#{org}/actions/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :put,
-      response: [{204, nil}, {409, nil}],
+      response: [{204, :null}, {409, :null}],
       opts: opts
     })
   end
 
   @doc """
   Add selected repository to an organization variable
+
+  Adds a repository to an organization variable that is available to selected repositories.
+  Organization variables that are available to selected repositories have their `visibility` field set to `selected`.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
   ## Resources
 
@@ -109,13 +140,17 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :add_selected_repo_to_org_variable},
       url: "/orgs/#{org}/actions/variables/#{name}/repositories/#{repository_id}",
       method: :put,
-      response: [{204, nil}, {409, nil}],
+      response: [{204, :null}, {409, :null}],
       opts: opts
     })
   end
 
   @doc """
   Approve a workflow run for a fork pull request
+
+  Approves a workflow run for a pull request from a public fork of a first time contributor. For more information, see ["Approving workflow runs from public forks](https://docs.github.com/actions/managing-workflow-runs/approving-workflow-runs-from-public-forks)."
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
 
   ## Resources
 
@@ -144,6 +179,12 @@ defmodule GitHub.Actions do
   @doc """
   Cancel a workflow run
 
+  Cancels a workflow run using its `id`.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `actions:write` permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#cancel-a-workflow-run)
@@ -166,6 +207,13 @@ defmodule GitHub.Actions do
 
   @doc """
   Create an environment variable
+
+  Create an environment variable that you can reference in a GitHub Actions workflow.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `environment:write` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
   ## Resources
 
@@ -191,6 +239,13 @@ defmodule GitHub.Actions do
 
   @doc """
   Create or update an environment secret
+
+  Creates or updates an environment secret with an encrypted value. Encrypt your secret using
+  [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  GitHub Apps must have the `secrets` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
 
   ## Resources
 
@@ -221,13 +276,21 @@ defmodule GitHub.Actions do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
+      response: [{201, {GitHub.EmptyObject, :t}}, {204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Create or update an organization secret
+
+  Creates or updates an organization secret with an encrypted value. Encrypt your secret using
+  [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `secrets` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
 
   ## Resources
 
@@ -246,13 +309,20 @@ defmodule GitHub.Actions do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
+      response: [{201, {GitHub.EmptyObject, :t}}, {204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Create or update a repository secret
+
+  Creates or updates a repository secret with an encrypted value. Encrypt your secret using
+  [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  GitHub Apps must have the `secrets` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
 
   ## Resources
 
@@ -271,13 +341,20 @@ defmodule GitHub.Actions do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{201, {GitHub.EmptyObject, :t}}, {204, nil}],
+      response: [{201, {GitHub.EmptyObject, :t}}, {204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Create an organization variable
+
+  Creates an organization variable that you can reference in a GitHub Actions workflow.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
   ## Resources
 
@@ -304,6 +381,21 @@ defmodule GitHub.Actions do
   @doc """
   Create a registration token for an organization
 
+  Returns a token that you can pass to the `config` script. The token expires after one hour.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
+
+  Example using registration token: 
+
+  Configure your self-hosted runner, replacing `TOKEN` with the registration token provided by this endpoint.
+
+  ```
+  ./config.sh --url https://github.com/octo-org --token TOKEN
+  ```
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#create-a-registration-token-for-an-organization)
@@ -326,6 +418,21 @@ defmodule GitHub.Actions do
 
   @doc """
   Create a registration token for a repository
+
+  Returns a token that you can pass to the `config` script. The token
+  expires after one hour.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
+
+  Example using registration token: 
+
+  Configure your self-hosted runner, replacing `TOKEN` with the registration token provided
+  by this endpoint.
+
+  ```config.sh --url https://github.com/octo-org/octo-repo-artifacts --token TOKEN```
 
   ## Resources
 
@@ -350,6 +457,22 @@ defmodule GitHub.Actions do
   @doc """
   Create a remove token for an organization
 
+  Returns a token that you can pass to the `config` script to remove a self-hosted runner from an organization. The token expires after one hour.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
+
+  Example using remove token:
+
+  To remove your self-hosted runner from an organization, replace `TOKEN` with the remove token provided by this
+  endpoint.
+
+  ```
+  ./config.sh remove --token TOKEN
+  ```
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#create-a-remove-token-for-an-organization)
@@ -373,6 +496,21 @@ defmodule GitHub.Actions do
   @doc """
   Create a remove token for a repository
 
+  Returns a token that you can pass to remove a self-hosted runner from
+  a repository. The token expires after one hour.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
+
+  Example using remove token:
+
+  To remove your self-hosted runner from a repository, replace TOKEN with
+  the remove token provided by this endpoint.
+
+  ```config.sh remove --token TOKEN```
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#create-a-remove-token-for-a-repository)
@@ -395,6 +533,13 @@ defmodule GitHub.Actions do
 
   @doc """
   Create a repository variable
+
+  Creates a repository variable that you can reference in a GitHub Actions workflow.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
   ## Resources
 
@@ -421,6 +566,12 @@ defmodule GitHub.Actions do
   @doc """
   Create a workflow dispatch event
 
+  You can use this endpoint to manually trigger a GitHub Actions workflow run. You can replace `workflow_id` with the workflow file name. For example, you could use `main.yaml`.
+
+  You must configure your GitHub Actions workflow to run when the [`workflow_dispatch` webhook](/developers/webhooks-and-events/webhook-events-and-payloads#workflow_dispatch) event occurs. The `inputs` are configured in the workflow file. For more information about how to configure the `workflow_dispatch` event in the workflow file, see "[Events that trigger workflows](/actions/reference/events-that-trigger-workflows#workflow_dispatch)."
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint. For more information, see "[Creating a personal access token for the command line](https://docs.github.com/articles/creating-a-personal-access-token-for-the-command-line)."
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/workflows#create-a-workflow-dispatch-event)
@@ -438,13 +589,19 @@ defmodule GitHub.Actions do
       body: body,
       method: :post,
       request: [{"application/json", :map}],
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete a GitHub Actions cache for a repository (using a cache ID)
+
+  Deletes a GitHub Actions cache for a repository, using a cache ID.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+
+  GitHub Apps must have the `actions:write` permission to use this endpoint.
 
   ## Resources
 
@@ -461,7 +618,7 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :delete_actions_cache_by_id},
       url: "/repos/#{owner}/#{repo}/actions/caches/#{cache_id}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
@@ -469,10 +626,16 @@ defmodule GitHub.Actions do
   @doc """
   Delete GitHub Actions caches for a repository (using a cache key)
 
+  Deletes one or more GitHub Actions caches for a repository, using a complete cache key. By default, all caches that match the provided key are deleted, but you can optionally provide a Git ref to restrict deletions to caches that match both the provided key and the Git ref.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+
+  GitHub Apps must have the `actions:write` permission to use this endpoint.
+
   ## Options
 
-    * `key` (String.t()): A key for identifying the cache.
-    * `ref` (String.t()): The full Git reference for narrowing down the cache. The `ref` for a branch should be formatted as `refs/heads/<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.
+    * `key`: A key for identifying the cache.
+    * `ref`: The full Git reference for narrowing down the cache. The `ref` for a branch should be formatted as `refs/heads/<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.
 
   ## Resources
 
@@ -499,6 +662,8 @@ defmodule GitHub.Actions do
   @doc """
   Delete an artifact
 
+  Deletes an artifact for a workflow run. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/artifacts#delete-an-artifact)
@@ -514,13 +679,19 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :delete_artifact},
       url: "/repos/#{owner}/#{repo}/actions/artifacts/#{artifact_id}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete an environment secret
+
+  Deletes a secret in an environment using the secret name.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  GitHub Apps must have the `secrets` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
 
   ## Resources
 
@@ -542,13 +713,20 @@ defmodule GitHub.Actions do
       url:
         "/repositories/#{repository_id}/environments/#{environment_name}/secrets/#{secret_name}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete an environment variable
+
+  Deletes an environment variable using the variable name.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `environment:write` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
   ## Resources
 
@@ -557,21 +735,28 @@ defmodule GitHub.Actions do
   """
   @spec delete_environment_variable(integer, String.t(), String.t(), keyword) ::
           :ok | {:error, GitHub.Error.t()}
-  def delete_environment_variable(repository_id, environment_name, name, opts \\ []) do
+  def delete_environment_variable(repository_id, name, environment_name, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [repository_id: repository_id, environment_name: environment_name, name: name],
+      args: [repository_id: repository_id, name: name, environment_name: environment_name],
       call: {GitHub.Actions, :delete_environment_variable},
       url: "/repositories/#{repository_id}/environments/#{environment_name}/variables/#{name}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete an organization secret
+
+  Deletes a secret in an organization using the secret name.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `secrets` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
 
   ## Resources
 
@@ -587,13 +772,20 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :delete_org_secret},
       url: "/orgs/#{org}/actions/secrets/#{secret_name}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete an organization variable
+
+  Deletes an organization variable using the variable name.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
   ## Resources
 
@@ -609,13 +801,19 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :delete_org_variable},
       url: "/orgs/#{org}/actions/variables/#{name}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete a repository secret
+
+  Deletes a secret in a repository using the secret name.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  GitHub Apps must have the `secrets` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
 
   ## Resources
 
@@ -632,13 +830,20 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :delete_repo_secret},
       url: "/repos/#{owner}/#{repo}/actions/secrets/#{secret_name}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete a repository variable
+
+  Deletes a repository variable using the variable name.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
   ## Resources
 
@@ -655,13 +860,20 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :delete_repo_variable},
       url: "/repos/#{owner}/#{repo}/actions/variables/#{name}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete a self-hosted runner from an organization
+
+  Forces the removal of a self-hosted runner from an organization. You can use this endpoint to completely remove the runner when the machine you were using no longer exists.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
   ## Resources
 
@@ -678,13 +890,20 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :delete_self_hosted_runner_from_org},
       url: "/orgs/#{org}/actions/runners/#{runner_id}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete a self-hosted runner from a repository
+
+  Forces the removal of a self-hosted runner from a repository. You can use this endpoint to completely remove the runner when the machine you were using no longer exists.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
   ## Resources
 
@@ -701,13 +920,17 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :delete_self_hosted_runner_from_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete a workflow run
+
+  Delete a specific workflow run. Anyone with write access to the repository can use this endpoint. If the repository is
+  private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:write` permission to use
+  this endpoint.
 
   ## Resources
 
@@ -724,13 +947,15 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :delete_workflow_run},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Delete workflow run logs
+
+  Deletes all logs for a workflow run. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
 
   ## Resources
 
@@ -747,13 +972,17 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :delete_workflow_run_logs},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/logs",
       method: :delete,
-      response: [{204, nil}, {403, {GitHub.BasicError, :t}}, {500, {GitHub.BasicError, :t}}],
+      response: [{204, :null}, {403, {GitHub.BasicError, :t}}, {500, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
 
   @doc """
   Disable a selected repository for GitHub Actions in an organization
+
+  Removes a repository from the list of selected repositories that are enabled for GitHub Actions in an organization. To use this endpoint, the organization permission policy for `enabled_repositories` must be configured to `selected`. For more information, see "[Set GitHub Actions permissions for an organization](#set-github-actions-permissions-for-an-organization)."
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
 
   ## Resources
 
@@ -770,13 +999,17 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :disable_selected_repository_github_actions_organization},
       url: "/orgs/#{org}/actions/permissions/repositories/#{repository_id}",
       method: :delete,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Disable a workflow
+
+  Disables a workflow and sets the `state` of the workflow to `disabled_manually`. You can replace `workflow_id` with the workflow file name. For example, you could use `main.yaml`.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
 
   ## Resources
 
@@ -793,13 +1026,19 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :disable_workflow},
       url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/disable",
       method: :put,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Download an artifact
+
+  Gets a redirect URL to download an archive for a repository. This URL expires after 1 minute. Look for `Location:` in
+  the response header to find the URL for the download. The `:archive_format` must be `zip`.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  GitHub Apps must have the `actions:read` permission to use this endpoint.
 
   ## Resources
 
@@ -816,13 +1055,18 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :download_artifact},
       url: "/repos/#{owner}/#{repo}/actions/artifacts/#{artifact_id}/#{archive_format}",
       method: :get,
-      response: [{302, nil}, {410, {GitHub.BasicError, :t}}],
+      response: [{302, :null}, {410, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
 
   @doc """
   Download job logs for a workflow run
+
+  Gets a redirect URL to download a plain text file of logs for a workflow job. This link expires after 1 minute. Look
+  for `Location:` in the response header to find the URL for the download. Anyone with read access to the repository can
+  use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must
+  have the `actions:read` permission to use this endpoint.
 
   ## Resources
 
@@ -839,13 +1083,18 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :download_job_logs_for_workflow_run},
       url: "/repos/#{owner}/#{repo}/actions/jobs/#{job_id}/logs",
       method: :get,
-      response: [{302, nil}],
+      response: [{302, :null}],
       opts: opts
     })
   end
 
   @doc """
   Download workflow run attempt logs
+
+  Gets a redirect URL to download an archive of log files for a specific workflow run attempt. This link expires after
+  1 minute. Look for `Location:` in the response header to find the URL for the download. Anyone with read access to
+  the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope.
+  GitHub Apps must have the `actions:read` permission to use this endpoint.
 
   ## Resources
 
@@ -862,13 +1111,18 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :download_workflow_run_attempt_logs},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/attempts/#{attempt_number}/logs",
       method: :get,
-      response: [{302, nil}],
+      response: [{302, :null}],
       opts: opts
     })
   end
 
   @doc """
   Download workflow run logs
+
+  Gets a redirect URL to download an archive of log files for a workflow run. This link expires after 1 minute. Look for
+  `Location:` in the response header to find the URL for the download. Anyone with read access to the repository can use
+  this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have
+  the `actions:read` permission to use this endpoint.
 
   ## Resources
 
@@ -885,13 +1139,17 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :download_workflow_run_logs},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/logs",
       method: :get,
-      response: [{302, nil}],
+      response: [{302, :null}],
       opts: opts
     })
   end
 
   @doc """
   Enable a selected repository for GitHub Actions in an organization
+
+  Adds a repository to the list of selected repositories that are enabled for GitHub Actions in an organization. To use this endpoint, the organization permission policy for `enabled_repositories` must be must be configured to `selected`. For more information, see "[Set GitHub Actions permissions for an organization](#set-github-actions-permissions-for-an-organization)."
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
 
   ## Resources
 
@@ -908,13 +1166,17 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :enable_selected_repository_github_actions_organization},
       url: "/orgs/#{org}/actions/permissions/repositories/#{repository_id}",
       method: :put,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Enable a workflow
+
+  Enables a workflow and sets the `state` of the workflow to `active`. You can replace `workflow_id` with the workflow file name. For example, you could use `main.yaml`.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
 
   ## Resources
 
@@ -931,13 +1193,20 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :enable_workflow},
       url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/enable",
       method: :put,
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Create configuration for a just-in-time runner for an organization
+
+  Generates a configuration that can be passed to the runner application at startup.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
   ## Resources
 
@@ -968,6 +1237,13 @@ defmodule GitHub.Actions do
   @doc """
   Create configuration for a just-in-time runner for a repository
 
+  Generates a configuration that can be passed to the runner application at startup.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#create-configuration-for-a-just-in-time-runner-for-a-repository)
@@ -997,14 +1273,18 @@ defmodule GitHub.Actions do
   @doc """
   List GitHub Actions caches for a repository
 
+  Lists the GitHub Actions caches for a repository.
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  GitHub Apps must have the `actions:read` permission to use this endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
-    * `ref` (String.t()): The full Git reference for narrowing down the cache. The `ref` for a branch should be formatted as `refs/heads/<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.
-    * `key` (String.t()): An explicit key or prefix for identifying the cache
-    * `sort` (String.t()): The property to sort the results by. `created_at` means when the cache was created. `last_accessed_at` means when the cache was last accessed. `size_in_bytes` is the size of the cache in bytes.
-    * `direction` (String.t()): The direction to sort the results by.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
+    * `ref`: The full Git reference for narrowing down the cache. The `ref` for a branch should be formatted as `refs/heads/<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.
+    * `key`: An explicit key or prefix for identifying the cache
+    * `sort`: The property to sort the results by. `created_at` means when the cache was created. `last_accessed_at` means when the cache was last accessed. `size_in_bytes` is the size of the cache in bytes.
+    * `direction`: The direction to sort the results by.
 
   ## Resources
 
@@ -1031,6 +1311,10 @@ defmodule GitHub.Actions do
   @doc """
   Get GitHub Actions cache usage for a repository
 
+  Gets GitHub Actions cache usage for a repository.
+  The data fetched using this API is refreshed approximately every 5 minutes, so values returned from this endpoint may take at least 5 minutes to get updated.
+  Anyone with read access to the repository can use this endpoint. If the repository is private, you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/cache#get-github-actions-cache-usage-for-a-repository)
@@ -1054,10 +1338,14 @@ defmodule GitHub.Actions do
   @doc """
   List repositories with GitHub Actions cache usage for an organization
 
+  Lists repositories and their GitHub Actions cache usage for an organization.
+  The data fetched using this API is refreshed approximately every 5 minutes, so values returned from this endpoint may take at least 5 minutes to get updated.
+  You must authenticate using an access token with the `read:org` scope to use this endpoint. GitHub Apps must have the `organization_admistration:read` permission to use this endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1084,6 +1372,10 @@ defmodule GitHub.Actions do
   @doc """
   Get GitHub Actions cache usage for an organization
 
+  Gets the total GitHub Actions cache usage for an organization.
+  The data fetched using this API is refreshed approximately every 5 minutes, so values returned from this endpoint may take at least 5 minutes to get updated.
+  You must authenticate using an access token with the `read:org` scope to use this endpoint. GitHub Apps must have the `organization_admistration:read` permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/cache#get-github-actions-cache-usage-for-an-organization)
@@ -1106,6 +1398,10 @@ defmodule GitHub.Actions do
 
   @doc """
   Get allowed actions and reusable workflows for an organization
+
+  Gets the selected actions and reusable workflows that are allowed in an organization. To use this endpoint, the organization permission policy for `allowed_actions` must be configured to `selected`. For more information, see "[Set GitHub Actions permissions for an organization](#set-github-actions-permissions-for-an-organization).""
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
 
   ## Resources
 
@@ -1130,6 +1426,10 @@ defmodule GitHub.Actions do
   @doc """
   Get allowed actions and reusable workflows for a repository
 
+  Gets the settings for selected actions and reusable workflows that are allowed in a repository. To use this endpoint, the repository policy for `allowed_actions` must be configured to `selected`. For more information, see "[Set GitHub Actions permissions for a repository](#set-github-actions-permissions-for-a-repository)."
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `administration` repository permission to use this API.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/permissions#get-allowed-actions-and-reusable-workflows-for-a-repository)
@@ -1152,6 +1452,8 @@ defmodule GitHub.Actions do
 
   @doc """
   Get an artifact
+
+  Gets a specific artifact for a workflow run. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
 
   ## Resources
 
@@ -1176,6 +1478,10 @@ defmodule GitHub.Actions do
   @doc """
   Get the customization template for an OIDC subject claim for a repository
 
+  Gets the customization template for an OpenID Connect (OIDC) subject claim.
+  You must authenticate using an access token with the `repo` scope to use this
+  endpoint. GitHub Apps must have the `organization_administration:read` permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/oidc#get-the-customization-template-for-an-oidc-subject-claim-for-a-repository)
@@ -1193,7 +1499,7 @@ defmodule GitHub.Actions do
       method: :get,
       response: [
         {200, {GitHub.OIDCCustomSubRepo, :t}},
-        {400, {GitHub.BasicError, :t}},
+        {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {404, {GitHub.BasicError, :t}}
       ],
       opts: opts
@@ -1202,6 +1508,14 @@ defmodule GitHub.Actions do
 
   @doc """
   Get an environment public key
+
+  Get the public key for an environment, which you need to encrypt environment
+  secrets. You need to encrypt a secret before you can create or update secrets.
+
+  Anyone with read access to the repository can use this endpoint.
+  If the repository is private you must use an access token with the `repo` scope.
+  GitHub Apps must have the `secrets` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
 
   ## Resources
 
@@ -1225,6 +1539,12 @@ defmodule GitHub.Actions do
 
   @doc """
   Get an environment secret
+
+  Gets a single environment secret without revealing its encrypted value.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  GitHub Apps must have the `secrets` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
 
   ## Resources
 
@@ -1254,6 +1574,13 @@ defmodule GitHub.Actions do
   @doc """
   Get an environment variable
 
+  Gets a specific variable in an environment.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `environments:read` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/variables#get-an-environment-variable)
@@ -1277,6 +1604,12 @@ defmodule GitHub.Actions do
   @doc """
   Get default workflow permissions for an organization
 
+  Gets the default workflow permissions granted to the `GITHUB_TOKEN` when running workflows in an organization,
+  as well as whether GitHub Actions can submit approving pull request reviews. For more information, see
+  "[Setting the permissions of the GITHUB_TOKEN for your organization](https://docs.github.com/organizations/managing-organization-settings/disabling-or-limiting-github-actions-for-your-organization#setting-the-permissions-of-the-github_token-for-your-organization)."
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/permissions#get-default-workflow-permissions-for-an-organization)
@@ -1299,6 +1632,12 @@ defmodule GitHub.Actions do
 
   @doc """
   Get default workflow permissions for a repository
+
+  Gets the default workflow permissions granted to the `GITHUB_TOKEN` when running workflows in a repository,
+  as well as if GitHub Actions can submit approving pull request reviews.
+  For more information, see "[Setting the permissions of the GITHUB_TOKEN for your repository](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#setting-the-permissions-of-the-github_token-for-your-repository)."
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the repository `administration` permission to use this API.
 
   ## Resources
 
@@ -1326,6 +1665,10 @@ defmodule GitHub.Actions do
   @doc """
   Get GitHub Actions permissions for an organization
 
+  Gets the GitHub Actions permissions policy for repositories and allowed actions and reusable workflows in an organization.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/permissions#get-github-actions-permissions-for-an-organization)
@@ -1348,6 +1691,10 @@ defmodule GitHub.Actions do
 
   @doc """
   Get GitHub Actions permissions for a repository
+
+  Gets the GitHub Actions permissions policy for a repository, including whether GitHub Actions is enabled and the actions and reusable workflows allowed to run in the repository.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `administration` repository permission to use this API.
 
   ## Resources
 
@@ -1372,6 +1719,8 @@ defmodule GitHub.Actions do
   @doc """
   Get a job for a workflow run
 
+  Gets a specific job in a workflow run. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/workflow-jobs#get-a-job-for-a-workflow-run)
@@ -1394,6 +1743,14 @@ defmodule GitHub.Actions do
 
   @doc """
   Get an organization public key
+
+  Gets your public key, which you need to encrypt secrets. You need to
+  encrypt a secret before you can create or update secrets.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `secrets` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
 
   ## Resources
 
@@ -1418,6 +1775,13 @@ defmodule GitHub.Actions do
   @doc """
   Get an organization secret
 
+  Gets a single organization secret without revealing its encrypted value.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `secrets` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/secrets#get-an-organization-secret)
@@ -1440,6 +1804,13 @@ defmodule GitHub.Actions do
 
   @doc """
   Get an organization variable
+
+  Gets a specific variable in an organization.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `organization_actions_variables:read` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
   ## Resources
 
@@ -1464,6 +1835,10 @@ defmodule GitHub.Actions do
   @doc """
   Get pending deployments for a workflow run
 
+  Get all deployment environments for a workflow run that are waiting for protection rules to pass.
+
+  Anyone with read access to the repository can use this endpoint. If the repository is private, you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#get-pending-deployments-for-a-workflow-run)
@@ -1479,13 +1854,21 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :get_pending_deployments_for_run},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/pending_deployments",
       method: :get,
-      response: [{200, {:array, {GitHub.PendingDeployment, :t}}}],
+      response: [{200, [{GitHub.PendingDeployment, :t}]}],
       opts: opts
     })
   end
 
   @doc """
   Get a repository public key
+
+  Gets your public key, which you need to encrypt secrets. You need to
+  encrypt a secret before you can create or update secrets.
+
+  Anyone with read access to the repository can use this endpoint.
+  If the repository is private you must use an access token with the `repo` scope.
+  GitHub Apps must have the `secrets` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
 
   ## Resources
 
@@ -1510,6 +1893,12 @@ defmodule GitHub.Actions do
   @doc """
   Get a repository secret
 
+  Gets a single repository secret without revealing its encrypted value.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  GitHub Apps must have the `secrets` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/secrets#get-a-repository-secret)
@@ -1532,6 +1921,13 @@ defmodule GitHub.Actions do
 
   @doc """
   Get a repository variable
+
+  Gets a specific variable in a repository.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
   ## Resources
 
@@ -1556,6 +1952,8 @@ defmodule GitHub.Actions do
   @doc """
   Get the review history for a workflow run
 
+  Anyone with read access to the repository can use this endpoint. If the repository is private, you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#get-the-review-history-for-a-workflow-run)
@@ -1571,13 +1969,20 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :get_reviews_for_run},
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/approvals",
       method: :get,
-      response: [{200, {:array, {GitHub.EnvironmentApprovals, :t}}}],
+      response: [{200, [{GitHub.EnvironmentApprovals, :t}]}],
       opts: opts
     })
   end
 
   @doc """
   Get a self-hosted runner for an organization
+
+  Gets a specific self-hosted runner configured in an organization.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
   ## Resources
 
@@ -1602,6 +2007,13 @@ defmodule GitHub.Actions do
   @doc """
   Get a self-hosted runner for a repository
 
+  Gets a specific self-hosted runner configured in a repository.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#get-a-self-hosted-runner-for-a-repository)
@@ -1624,6 +2036,8 @@ defmodule GitHub.Actions do
 
   @doc """
   Get a workflow
+
+  Gets a specific workflow. You can replace `workflow_id` with the workflow file name. For example, you could use `main.yaml`. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
 
   ## Resources
 
@@ -1648,6 +2062,13 @@ defmodule GitHub.Actions do
   @doc """
   Get the level of access for workflows outside of the repository
 
+  Gets the level of access that workflows outside of the repository have to actions and reusable workflows in the repository.
+  This endpoint only applies to private repositories.
+  For more information, see "[Allowing access to components in a private repository](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#allowing-access-to-components-in-a-private-repository)."
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the
+  repository `administration` permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/permissions#get-the-level-of-access-for-workflows-outside-of-the-repository)
@@ -1671,9 +2092,11 @@ defmodule GitHub.Actions do
   @doc """
   Get a workflow run
 
+  Gets a specific workflow run. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
+
   ## Options
 
-    * `exclude_pull_requests` (boolean): If `true` pull requests are omitted from the response (empty array).
+    * `exclude_pull_requests`: If `true` pull requests are omitted from the response (empty array).
 
   ## Resources
 
@@ -1700,9 +2123,14 @@ defmodule GitHub.Actions do
   @doc """
   Get a workflow run attempt
 
+  Gets a specific workflow run attempt. Anyone with read access to the repository
+  can use this endpoint. If the repository is private you must use an access token
+  with the `repo` scope. GitHub Apps must have the `actions:read` permission to
+  use this endpoint.
+
   ## Options
 
-    * `exclude_pull_requests` (boolean): If `true` pull requests are omitted from the response (empty array).
+    * `exclude_pull_requests`: If `true` pull requests are omitted from the response (empty array).
 
   ## Resources
 
@@ -1729,6 +2157,10 @@ defmodule GitHub.Actions do
   @doc """
   Get workflow run usage
 
+  Gets the number of billable minutes and total run time for a specific workflow run. Billable minutes only apply to workflows in private repositories that use GitHub-hosted runners. Usage is listed for each GitHub-hosted runner operating system in milliseconds. Any job re-runs are also included in the usage. The usage does not include the multiplier for macOS and Windows runners and is not rounded up to the nearest whole minute. For more information, see "[Managing billing for GitHub Actions](https://docs.github.com/github/setting-up-and-managing-billing-and-payments-on-github/managing-billing-for-github-actions)".
+
+  Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#get-workflow-run-usage)
@@ -1751,6 +2183,10 @@ defmodule GitHub.Actions do
 
   @doc """
   Get workflow usage
+
+  Gets the number of billable minutes used by a specific workflow during the current billing cycle. Billable minutes only apply to workflows in private repositories that use GitHub-hosted runners. Usage is listed for each GitHub-hosted runner operating system in milliseconds. Any job re-runs are also included in the usage. The usage does not include the multiplier for macOS and Windows runners and is not rounded up to the nearest whole minute. For more information, see "[Managing billing for GitHub Actions](https://docs.github.com/github/setting-up-and-managing-billing-and-payments-on-github/managing-billing-for-github-actions)".
+
+  You can replace `workflow_id` with the workflow file name. For example, you could use `main.yaml`. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
 
   ## Resources
 
@@ -1775,11 +2211,13 @@ defmodule GitHub.Actions do
   @doc """
   List artifacts for a repository
 
+  Lists all artifacts for a repository. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
-    * `name` (String.t()): The name field of an artifact. When specified, only artifacts with this name will be returned.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
+    * `name`: The name field of an artifact. When specified, only artifacts with this name will be returned.
 
   ## Resources
 
@@ -1806,10 +2244,17 @@ defmodule GitHub.Actions do
   @doc """
   List environment secrets
 
+  Lists all secrets available in an environment without revealing their
+  encrypted values.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  GitHub Apps must have the `secrets` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1836,10 +2281,17 @@ defmodule GitHub.Actions do
   @doc """
   List environment variables
 
+  Lists all environment variables.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `environments:read` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 30).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 30).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1866,11 +2318,13 @@ defmodule GitHub.Actions do
   @doc """
   List jobs for a workflow run
 
+  Lists jobs for a workflow run. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/overview/resources-in-the-rest-api#parameters).
+
   ## Options
 
-    * `filter` (String.t()): Filters jobs by their `completed_at` timestamp. `latest` returns jobs from the most recent execution of the workflow run. `all` returns all jobs for a workflow run, including from old executions of the workflow run.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `filter`: Filters jobs by their `completed_at` timestamp. `latest` returns jobs from the most recent execution of the workflow run. `all` returns all jobs for a workflow run, including from old executions of the workflow run.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1897,10 +2351,12 @@ defmodule GitHub.Actions do
   @doc """
   List jobs for a workflow run attempt
 
+  Lists jobs for a specific workflow run attempt. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/overview/resources-in-the-rest-api#parameters).
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -1927,6 +2383,13 @@ defmodule GitHub.Actions do
   @doc """
   List labels for a self-hosted runner for an organization
 
+  Lists all labels for a self-hosted runner configured in an organization.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#list-labels-for-a-self-hosted-runner-for-an-organization)
@@ -1949,6 +2412,13 @@ defmodule GitHub.Actions do
 
   @doc """
   List labels for a self-hosted runner for a repository
+
+  Lists all labels for a self-hosted runner configured in a repository.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
   ## Resources
 
@@ -1973,10 +2443,18 @@ defmodule GitHub.Actions do
   @doc """
   List organization secrets
 
+  Lists all secrets available in an organization without revealing their
+  encrypted values.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `secrets` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -2002,10 +2480,13 @@ defmodule GitHub.Actions do
   @doc """
   List organization variables
 
+  Lists all organization variables.
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint. If the repository is private, you must use an access token with the `repo` scope. GitHub Apps must have the `organization_actions_variables:read` organization permission to use this endpoint. Authenticated users must have collaborator access to a repository to create, update, or read variables.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 30).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 30).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -2031,10 +2512,17 @@ defmodule GitHub.Actions do
   @doc """
   List repository organization secrets
 
+  Lists all organization secrets shared with a repository without revealing their encrypted
+  values.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  GitHub Apps must have the `secrets` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -2061,10 +2549,17 @@ defmodule GitHub.Actions do
   @doc """
   List repository organization variables
 
+  Lists all organiation variables shared with a repository.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 30).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 30).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -2091,10 +2586,17 @@ defmodule GitHub.Actions do
   @doc """
   List repository secrets
 
+  Lists all secrets available in a repository without revealing their encrypted
+  values.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  GitHub Apps must have the `secrets` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -2121,10 +2623,16 @@ defmodule GitHub.Actions do
   @doc """
   List repository variables
 
+  Lists all repository variables.
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 30).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 30).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -2151,10 +2659,12 @@ defmodule GitHub.Actions do
   @doc """
   List repository workflows
 
+  Lists the workflows in a repository. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -2181,6 +2691,13 @@ defmodule GitHub.Actions do
   @doc """
   List runner applications for an organization
 
+  Lists binaries for the runner application that you can download and run.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#list-runner-applications-for-an-organization)
@@ -2196,13 +2713,20 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :list_runner_applications_for_org},
       url: "/orgs/#{org}/actions/runners/downloads",
       method: :get,
-      response: [{200, {:array, {GitHub.Actions.Runner.Application, :t}}}],
+      response: [{200, [{GitHub.Actions.Runner.Application, :t}]}],
       opts: opts
     })
   end
 
   @doc """
   List runner applications for a repository
+
+  Lists binaries for the runner application that you can download and run.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
   ## Resources
 
@@ -2219,7 +2743,7 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :list_runner_applications_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/downloads",
       method: :get,
-      response: [{200, {:array, {GitHub.Actions.Runner.Application, :t}}}],
+      response: [{200, [{GitHub.Actions.Runner.Application, :t}]}],
       opts: opts
     })
   end
@@ -2227,10 +2751,18 @@ defmodule GitHub.Actions do
   @doc """
   List selected repositories for an organization secret
 
+  Lists all repositories that have been selected when the `visibility`
+  for repository access to a secret is set to `selected`.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `secrets` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
+
   ## Options
 
-    * `page` (integer): Page number of the results to fetch.
-    * `per_page` (integer): The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
 
   ## Resources
 
@@ -2257,10 +2789,18 @@ defmodule GitHub.Actions do
   @doc """
   List selected repositories for an organization variable
 
+  Lists all repositories that can access an organization variable
+  that is available to selected repositories.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `organization_actions_variables:read` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
+
   ## Options
 
-    * `page` (integer): Page number of the results to fetch.
-    * `per_page` (integer): The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
 
   ## Resources
 
@@ -2279,7 +2819,7 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/variables/#{name}/repositories",
       method: :get,
       query: query,
-      response: [{200, :map}, {409, nil}],
+      response: [{200, :map}, {409, :null}],
       opts: opts
     })
   end
@@ -2287,10 +2827,14 @@ defmodule GitHub.Actions do
   @doc """
   List selected repositories enabled for GitHub Actions in an organization
 
+  Lists the selected repositories that are enabled for GitHub Actions in an organization. To use this endpoint, the organization permission policy for `enabled_repositories` must be configured to `selected`. For more information, see "[Set GitHub Actions permissions for an organization](#set-github-actions-permissions-for-an-organization)."
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -2317,10 +2861,17 @@ defmodule GitHub.Actions do
   @doc """
   List self-hosted runners for an organization
 
+  Lists all self-hosted runners configured in an organization.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -2347,10 +2898,17 @@ defmodule GitHub.Actions do
   @doc """
   List self-hosted runners for a repository
 
+  Lists all self-hosted runners configured in a repository.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -2377,11 +2935,13 @@ defmodule GitHub.Actions do
   @doc """
   List workflow run artifacts
 
+  Lists artifacts for a workflow run. Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
+
   ## Options
 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
-    * `name` (String.t()): The name field of an artifact. When specified, only artifacts with this name will be returned.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
+    * `name`: The name field of an artifact. When specified, only artifacts with this name will be returned.
 
   ## Resources
 
@@ -2408,18 +2968,22 @@ defmodule GitHub.Actions do
   @doc """
   List workflow runs for a workflow
 
+  List all workflow runs for a workflow. You can replace `workflow_id` with the workflow file name. For example, you could use `main.yaml`. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/overview/resources-in-the-rest-api#parameters).
+
+  Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope.
+
   ## Options
 
-    * `actor` (String.t()): Returns someone's workflow runs. Use the login for the user who created the `push` associated with the check suite or workflow run.
-    * `branch` (String.t()): Returns workflow runs associated with a branch. Use the name of the branch of the `push`.
-    * `event` (String.t()): Returns workflow run triggered by the event you specify. For example, `push`, `pull_request` or `issue`. For more information, see "[Events that trigger workflows](https://docs.github.com/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows)."
-    * `status` (String.t()): Returns workflow runs with the check run `status` or `conclusion` that you specify. For example, a conclusion can be `success` or a status can be `in_progress`. Only GitHub can set a status of `waiting` or `requested`.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
-    * `created` (String.t()): Returns workflow runs created within the given date-time range. For more information on the syntax, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)."
-    * `exclude_pull_requests` (boolean): If `true` pull requests are omitted from the response (empty array).
-    * `check_suite_id` (integer): Returns workflow runs with the `check_suite_id` that you specify.
-    * `head_sha` (String.t()): Only returns workflow runs that are associated with the specified `head_sha`.
+    * `actor`: Returns someone's workflow runs. Use the login for the user who created the `push` associated with the check suite or workflow run.
+    * `branch`: Returns workflow runs associated with a branch. Use the name of the branch of the `push`.
+    * `event`: Returns workflow run triggered by the event you specify. For example, `push`, `pull_request` or `issue`. For more information, see "[Events that trigger workflows](https://docs.github.com/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows)."
+    * `status`: Returns workflow runs with the check run `status` or `conclusion` that you specify. For example, a conclusion can be `success` or a status can be `in_progress`. Only GitHub can set a status of `waiting` or `requested`.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
+    * `created`: Returns workflow runs created within the given date-time range. For more information on the syntax, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)."
+    * `exclude_pull_requests`: If `true` pull requests are omitted from the response (empty array).
+    * `check_suite_id`: Returns workflow runs with the `check_suite_id` that you specify.
+    * `head_sha`: Only returns workflow runs that are associated with the specified `head_sha`.
 
   ## Resources
 
@@ -2459,18 +3023,22 @@ defmodule GitHub.Actions do
   @doc """
   List workflow runs for a repository
 
+  Lists all workflow runs for a repository. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/overview/resources-in-the-rest-api#parameters).
+
+  Anyone with read access to the repository can use this endpoint. If the repository is private you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
+
   ## Options
 
-    * `actor` (String.t()): Returns someone's workflow runs. Use the login for the user who created the `push` associated with the check suite or workflow run.
-    * `branch` (String.t()): Returns workflow runs associated with a branch. Use the name of the branch of the `push`.
-    * `event` (String.t()): Returns workflow run triggered by the event you specify. For example, `push`, `pull_request` or `issue`. For more information, see "[Events that trigger workflows](https://docs.github.com/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows)."
-    * `status` (String.t()): Returns workflow runs with the check run `status` or `conclusion` that you specify. For example, a conclusion can be `success` or a status can be `in_progress`. Only GitHub can set a status of `waiting` or `requested`.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
-    * `created` (String.t()): Returns workflow runs created within the given date-time range. For more information on the syntax, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)."
-    * `exclude_pull_requests` (boolean): If `true` pull requests are omitted from the response (empty array).
-    * `check_suite_id` (integer): Returns workflow runs with the `check_suite_id` that you specify.
-    * `head_sha` (String.t()): Only returns workflow runs that are associated with the specified `head_sha`.
+    * `actor`: Returns someone's workflow runs. Use the login for the user who created the `push` associated with the check suite or workflow run.
+    * `branch`: Returns workflow runs associated with a branch. Use the name of the branch of the `push`.
+    * `event`: Returns workflow run triggered by the event you specify. For example, `push`, `pull_request` or `issue`. For more information, see "[Events that trigger workflows](https://docs.github.com/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows)."
+    * `status`: Returns workflow runs with the check run `status` or `conclusion` that you specify. For example, a conclusion can be `success` or a status can be `in_progress`. Only GitHub can set a status of `waiting` or `requested`.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
+    * `created`: Returns workflow runs created within the given date-time range. For more information on the syntax, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)."
+    * `exclude_pull_requests`: If `true` pull requests are omitted from the response (empty array).
+    * `check_suite_id`: Returns workflow runs with the `check_suite_id` that you specify.
+    * `head_sha`: Only returns workflow runs that are associated with the specified `head_sha`.
 
   ## Resources
 
@@ -2510,6 +3078,12 @@ defmodule GitHub.Actions do
   @doc """
   Re-run a job from a workflow run
 
+  Re-run a job and its dependent jobs in a workflow run.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `actions:write` permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#re-run-a-job-from-a-workflow-run)
@@ -2526,7 +3100,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/jobs/#{job_id}/rerun",
       body: body,
       method: :post,
-      request: [{"application/json", {:nullable, :map}}],
+      request: [{"application/json", {:union, [:map, :null]}}],
       response: [{201, {GitHub.EmptyObject, :t}}, {403, {GitHub.BasicError, :t}}],
       opts: opts
     })
@@ -2534,6 +3108,8 @@ defmodule GitHub.Actions do
 
   @doc """
   Re-run a workflow
+
+  Re-runs your workflow run using its `id`. You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
 
   ## Resources
 
@@ -2551,7 +3127,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/rerun",
       body: body,
       method: :post,
-      request: [{"application/json", {:nullable, :map}}],
+      request: [{"application/json", {:union, [:map, :null]}}],
       response: [{201, {GitHub.EmptyObject, :t}}],
       opts: opts
     })
@@ -2559,6 +3135,8 @@ defmodule GitHub.Actions do
 
   @doc """
   Re-run failed jobs from a workflow run
+
+  Re-run all of the failed jobs and their dependent jobs in a workflow run using the `id` of the workflow run. You must authenticate using an access token with the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -2576,7 +3154,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/rerun-failed-jobs",
       body: body,
       method: :post,
-      request: [{"application/json", {:nullable, :map}}],
+      request: [{"application/json", {:union, [:map, :null]}}],
       response: [{201, {GitHub.EmptyObject, :t}}],
       opts: opts
     })
@@ -2584,6 +3162,14 @@ defmodule GitHub.Actions do
 
   @doc """
   Remove all custom labels from a self-hosted runner for an organization
+
+  Remove all custom labels from a self-hosted runner configured in an
+  organization. Returns the remaining read-only labels from the runner.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
   ## Resources
 
@@ -2607,6 +3193,14 @@ defmodule GitHub.Actions do
 
   @doc """
   Remove all custom labels from a self-hosted runner for a repository
+
+  Remove all custom labels from a self-hosted runner configured in a
+  repository. Returns the remaining read-only labels from the runner.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
   ## Resources
 
@@ -2640,6 +3234,17 @@ defmodule GitHub.Actions do
   @doc """
   Remove a custom label from a self-hosted runner for an organization
 
+  Remove a custom label from a self-hosted runner configured
+  in an organization. Returns the remaining labels from the runner.
+
+  This endpoint returns a `404 Not Found` status if the custom label is not
+  present on the runner.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/self-hosted-runners#remove-a-custom-label-from-a-self-hosted-runner-for-an-organization)
@@ -2670,6 +3275,17 @@ defmodule GitHub.Actions do
 
   @doc """
   Remove a custom label from a self-hosted runner for a repository
+
+  Remove a custom label from a self-hosted runner configured
+  in a repository. Returns the remaining labels from the runner.
+
+  This endpoint returns a `404 Not Found` status if the custom label is not
+  present on the runner.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
   ## Resources
 
@@ -2709,6 +3325,15 @@ defmodule GitHub.Actions do
   @doc """
   Remove selected repository from an organization secret
 
+  Removes a repository from an organization secret when the `visibility`
+  for repository access is set to `selected`. The visibility is set when you [Create
+  or update an organization secret](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret).
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `secrets` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/secrets#remove-selected-repository-from-an-organization-secret)
@@ -2724,13 +3349,22 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :remove_selected_repo_from_org_secret},
       url: "/orgs/#{org}/actions/secrets/#{secret_name}/repositories/#{repository_id}",
       method: :delete,
-      response: [{204, nil}, {409, nil}],
+      response: [{204, :null}, {409, :null}],
       opts: opts
     })
   end
 
   @doc """
   Remove selected repository from an organization variable
+
+  Removes a repository from an organization variable that is
+  available to selected repositories. Organization variables that are available to
+  selected repositories have their `visibility` field set to `selected`.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
   ## Resources
 
@@ -2747,7 +3381,7 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :remove_selected_repo_from_org_variable},
       url: "/orgs/#{org}/actions/variables/#{name}/repositories/#{repository_id}",
       method: :delete,
-      response: [{204, nil}, {409, nil}],
+      response: [{204, :null}, {409, :null}],
       opts: opts
     })
   end
@@ -2755,19 +3389,21 @@ defmodule GitHub.Actions do
   @doc """
   Review custom deployment protection rules for a workflow run
 
+  Approve or reject custom deployment protection rules provided by a GitHub App for a workflow run. For more information, see "[Using environments for deployment](https://docs.github.com/actions/deployment/targeting-different-environments/using-environments-for-deployment)."
+
+  **Note:** GitHub Apps can only review their own custom deployment protection rules.
+  To approve or reject pending deployments that are waiting for review from a specific person or team, see [`POST /repos/{owner}/{repo}/actions/runs/{run_id}/pending_deployments`](/rest/actions/workflow-runs#review-pending-deployments-for-a-workflow-run).
+
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have read and write permission for **Deployments** to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#review-custom-deployment-protection-rules-for-a-workflow-run)
 
   """
-  @spec review_custom_gates_for_run(
-          String.t(),
-          String.t(),
-          integer,
-          GitHub.Actions.ReviewCustomGates.CommentRequired.t()
-          | GitHub.Actions.ReviewCustomGates.StateRequired.t(),
-          keyword
-        ) :: :ok | {:error, GitHub.Error.t()}
+  @spec review_custom_gates_for_run(String.t(), String.t(), integer, map, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
   def review_custom_gates_for_run(owner, repo, run_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2777,21 +3413,18 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/deployment_protection_rule",
       body: body,
       method: :post,
-      request: [
-        {"application/json",
-         {:union,
-          [
-            {GitHub.Actions.ReviewCustomGates.CommentRequired, :t},
-            {GitHub.Actions.ReviewCustomGates.StateRequired, :t}
-          ]}}
-      ],
-      response: [{204, nil}],
+      request: [{"application/json", :map}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Review pending deployments for a workflow run
+
+  Approve or reject pending deployments that are waiting on approval by a required reviewer.
+
+  Required reviewers with read access to the repository contents and deployments can use this endpoint. Required reviewers must authenticate using an access token with the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -2810,13 +3443,17 @@ defmodule GitHub.Actions do
       body: body,
       method: :post,
       request: [{"application/json", :map}],
-      response: [{200, {:array, {GitHub.Deployment, :t}}}],
+      response: [{200, [{GitHub.Deployment, :t}]}],
       opts: opts
     })
   end
 
   @doc """
   Set allowed actions and reusable workflows for an organization
+
+  Sets the actions and reusable workflows that are allowed in an organization. To use this endpoint, the organization permission policy for `allowed_actions` must be configured to `selected`. For more information, see "[Set GitHub Actions permissions for an organization](#set-github-actions-permissions-for-an-organization)."
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
 
   ## Resources
 
@@ -2835,13 +3472,17 @@ defmodule GitHub.Actions do
       body: body,
       method: :put,
       request: [{"application/json", {GitHub.SelectedActions, :t}}],
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Set allowed actions and reusable workflows for a repository
+
+  Sets the actions and reusable workflows that are allowed in a repository. To use this endpoint, the repository permission policy for `allowed_actions` must be configured to `selected`. For more information, see "[Set GitHub Actions permissions for a repository](#set-github-actions-permissions-for-a-repository)."
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `administration` repository permission to use this API.
 
   ## Resources
 
@@ -2864,13 +3505,21 @@ defmodule GitHub.Actions do
       body: body,
       method: :put,
       request: [{"application/json", {GitHub.SelectedActions, :t}}],
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Set custom labels for a self-hosted runner for an organization
+
+  Remove all previous custom labels and set the new custom labels for a specific
+  self-hosted runner configured in an organization.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
   ## Resources
 
@@ -2900,6 +3549,14 @@ defmodule GitHub.Actions do
 
   @doc """
   Set custom labels for a self-hosted runner for a repository
+
+  Remove all previous custom labels and set the new custom labels for a specific
+  self-hosted runner configured in a repository.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
+  Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
   ## Resources
 
@@ -2935,13 +3592,21 @@ defmodule GitHub.Actions do
   @doc """
   Set the customization template for an OIDC subject claim for a repository
 
+  Sets the customization template and `opt-in` or `opt-out` flag for an OpenID Connect (OIDC) subject claim for a repository.
+  You must authenticate using an access token with the `repo` scope to use this
+  endpoint. GitHub Apps must have the `actions:write` permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/oidc#set-the-customization-template-for-an-oidc-subject-claim-for-a-repository)
 
   """
-  @spec set_custom_oidc_sub_claim_for_repo(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
+  @spec set_custom_oidc_sub_claim_for_repo(
+          String.t(),
+          String.t(),
+          GitHub.Actions.OIDCSubjectCustomizationForARepository.t(),
+          keyword
+        ) :: {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def set_custom_oidc_sub_claim_for_repo(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2951,10 +3616,10 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/oidc/customization/sub",
       body: body,
       method: :put,
-      request: [{"application/json", :map}],
+      request: [{"application/json", {GitHub.Actions.OIDCSubjectCustomizationForARepository, :t}}],
       response: [
         {201, {GitHub.EmptyObject, :t}},
-        {400, {GitHub.BasicError, :t}},
+        {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
       ],
@@ -2964,6 +3629,12 @@ defmodule GitHub.Actions do
 
   @doc """
   Set default workflow permissions for an organization
+
+  Sets the default workflow permissions granted to the `GITHUB_TOKEN` when running workflows in an organization, and sets if GitHub Actions
+  can submit approving pull request reviews. For more information, see
+  "[Setting the permissions of the GITHUB_TOKEN for your organization](https://docs.github.com/organizations/managing-organization-settings/disabling-or-limiting-github-actions-for-your-organization#setting-the-permissions-of-the-github_token-for-your-organization)."
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
 
   ## Resources
 
@@ -2985,13 +3656,19 @@ defmodule GitHub.Actions do
       body: body,
       method: :put,
       request: [{"application/json", {GitHub.Actions.SetDefaultWorkflowPermissions, :t}}],
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Set default workflow permissions for a repository
+
+  Sets the default workflow permissions granted to the `GITHUB_TOKEN` when running workflows in a repository, and sets if GitHub Actions
+  can submit approving pull request reviews.
+  For more information, see "[Setting the permissions of the GITHUB_TOKEN for your repository](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#setting-the-permissions-of-the-github_token-for-your-repository)."
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the repository `administration` permission to use this API.
 
   ## Resources
 
@@ -3014,13 +3691,17 @@ defmodule GitHub.Actions do
       body: body,
       method: :put,
       request: [{"application/json", {GitHub.Actions.SetDefaultWorkflowPermissions, :t}}],
-      response: [{204, nil}, {409, nil}],
+      response: [{204, :null}, {409, :null}],
       opts: opts
     })
   end
 
   @doc """
   Set GitHub Actions permissions for an organization
+
+  Sets the GitHub Actions permissions policy for repositories and allowed actions and reusable workflows in an organization.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
 
   ## Resources
 
@@ -3039,13 +3720,17 @@ defmodule GitHub.Actions do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Set GitHub Actions permissions for a repository
+
+  Sets the GitHub Actions permissions policy for enabling GitHub Actions and allowed actions and reusable workflows in the repository.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `administration` repository permission to use this API.
 
   ## Resources
 
@@ -3064,13 +3749,22 @@ defmodule GitHub.Actions do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Set selected repositories for an organization secret
+
+  Replaces all repositories for an organization secret when the `visibility`
+  for repository access is set to `selected`. The visibility is set when you [Create
+  or update an organization secret](https://docs.github.com/rest/actions/secrets#create-or-update-an-organization-secret).
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `secrets` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read secrets.
 
   ## Resources
 
@@ -3089,13 +3783,23 @@ defmodule GitHub.Actions do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Set selected repositories for an organization variable
+
+  Replaces all repositories for an organization variable that is available
+  to selected repositories. Organization variables that are available to selected
+  repositories have their `visibility` field set to `selected`.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `organization_actions_variables:write` organization permission to use this
+  endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
   ## Resources
 
@@ -3114,13 +3818,17 @@ defmodule GitHub.Actions do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{204, nil}, {409, nil}],
+      response: [{204, :null}, {409, :null}],
       opts: opts
     })
   end
 
   @doc """
   Set selected repositories enabled for GitHub Actions in an organization
+
+  Replaces the list of selected repositories that are enabled for GitHub Actions in an organization. To use this endpoint, the organization permission policy for `enabled_repositories` must be configured to `selected`. For more information, see "[Set GitHub Actions permissions for an organization](#set-github-actions-permissions-for-an-organization)."
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint. GitHub Apps must have the `administration` organization permission to use this API.
 
   ## Resources
 
@@ -3139,13 +3847,20 @@ defmodule GitHub.Actions do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Set the level of access for workflows outside of the repository
+
+  Sets the level of access that workflows outside of the repository have to actions and reusable workflows in the repository.
+  This endpoint only applies to private repositories.
+  For more information, see "[Allowing access to components in a private repository](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#allowing-access-to-components-in-a-private-repository)".
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the
+  repository `administration` permission to use this endpoint.
 
   ## Resources
 
@@ -3168,13 +3883,20 @@ defmodule GitHub.Actions do
       body: body,
       method: :put,
       request: [{"application/json", {GitHub.Actions.Workflow.AccessToRepository, :t}}],
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Update an environment variable
+
+  Updates an environment variable that you can reference in a GitHub Actions workflow.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `environment:write` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
   ## Resources
 
@@ -3183,14 +3905,14 @@ defmodule GitHub.Actions do
   """
   @spec update_environment_variable(integer, String.t(), String.t(), map, keyword) ::
           :ok | {:error, GitHub.Error.t()}
-  def update_environment_variable(repository_id, environment_name, name, body, opts \\ []) do
+  def update_environment_variable(repository_id, name, environment_name, body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [
         repository_id: repository_id,
-        environment_name: environment_name,
         name: name,
+        environment_name: environment_name,
         body: body
       ],
       call: {GitHub.Actions, :update_environment_variable},
@@ -3198,13 +3920,20 @@ defmodule GitHub.Actions do
       body: body,
       method: :patch,
       request: [{"application/json", :map}],
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Update an organization variable
+
+  Updates an organization variable that you can reference in a GitHub Actions workflow.
+
+  You must authenticate using an access token with the `admin:org` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `organization_actions_variables:write` organization permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
   ## Resources
 
@@ -3223,13 +3952,20 @@ defmodule GitHub.Actions do
       body: body,
       method: :patch,
       request: [{"application/json", :map}],
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end
 
   @doc """
   Update a repository variable
+
+  Updates a repository variable that you can reference in a GitHub Actions workflow.
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  If the repository is private, you must use an access token with the `repo` scope.
+  GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
+  Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
   ## Resources
 
@@ -3248,7 +3984,7 @@ defmodule GitHub.Actions do
       body: body,
       method: :patch,
       request: [{"application/json", :map}],
-      response: [{204, nil}],
+      response: [{204, :null}],
       opts: opts
     })
   end

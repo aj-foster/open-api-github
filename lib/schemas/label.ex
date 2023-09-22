@@ -1,6 +1,6 @@
 defmodule GitHub.Label do
   @moduledoc """
-  Provides struct and type for Label
+  Provides struct and type for a Label
   """
   use GitHub.Encoder
 
@@ -23,13 +23,13 @@ defmodule GitHub.Label do
 
   def __fields__(:t) do
     [
-      color: :string,
+      color: {:string, :generic},
       default: :boolean,
-      description: {:nullable, :string},
+      description: {:union, [{:string, :generic}, :null]},
       id: :integer,
-      name: :string,
-      node_id: :string,
-      url: :string
+      name: {:string, :generic},
+      node_id: {:string, :generic},
+      url: {:string, :uri}
     ]
   end
 end

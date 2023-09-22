@@ -1,6 +1,6 @@
 defmodule GitHub.Import do
   @moduledoc """
-  Provides struct and type for Import
+  Provides struct and type for a Import
   """
   use GitHub.Encoder
 
@@ -64,29 +64,48 @@ defmodule GitHub.Import do
 
   def __fields__(:t) do
     [
-      authors_count: {:nullable, :integer},
-      authors_url: :string,
-      commit_count: {:nullable, :integer},
-      error_message: {:nullable, :string},
-      failed_step: {:nullable, :string},
+      authors_count: {:union, [:integer, :null]},
+      authors_url: {:string, :uri},
+      commit_count: {:union, [:integer, :null]},
+      error_message: {:union, [{:string, :generic}, :null]},
+      failed_step: {:union, [{:string, :generic}, :null]},
       has_large_files: :boolean,
-      html_url: :string,
-      import_percent: {:nullable, :integer},
+      html_url: {:string, :uri},
+      import_percent: {:union, [:integer, :null]},
       large_files_count: :integer,
       large_files_size: :integer,
-      message: :string,
-      project_choices: {:array, :map},
-      push_percent: {:nullable, :integer},
-      repository_url: :string,
-      status: :string,
-      status_text: {:nullable, :string},
-      svc_root: :string,
-      svn_root: :string,
-      tfvc_project: :string,
-      url: :string,
+      message: {:string, :generic},
+      project_choices: [:map],
+      push_percent: {:union, [:integer, :null]},
+      repository_url: {:string, :uri},
+      status:
+        {:enum,
+         [
+           "auth",
+           "error",
+           "none",
+           "detecting",
+           "choose",
+           "auth_failed",
+           "importing",
+           "mapping",
+           "waiting_to_push",
+           "pushing",
+           "complete",
+           "setup",
+           "unknown",
+           "detection_found_multiple",
+           "detection_found_nothing",
+           "detection_needs_auth"
+         ]},
+      status_text: {:union, [{:string, :generic}, :null]},
+      svc_root: {:string, :generic},
+      svn_root: {:string, :generic},
+      tfvc_project: {:string, :generic},
+      url: {:string, :uri},
       use_lfs: :boolean,
-      vcs: {:nullable, :string},
-      vcs_url: :string
+      vcs: {:union, [{:string, :generic}, :null]},
+      vcs_url: {:string, :generic}
     ]
   end
 end

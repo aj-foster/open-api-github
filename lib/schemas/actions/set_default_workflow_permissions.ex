@@ -1,6 +1,6 @@
 defmodule GitHub.Actions.SetDefaultWorkflowPermissions do
   @moduledoc """
-  Provides struct and type for ActionsSetDefaultWorkflowPermissions
+  Provides struct and type for a Actions.SetDefaultWorkflowPermissions
   """
   use GitHub.Encoder
 
@@ -17,6 +17,9 @@ defmodule GitHub.Actions.SetDefaultWorkflowPermissions do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [can_approve_pull_request_reviews: :boolean, default_workflow_permissions: :string]
+    [
+      can_approve_pull_request_reviews: :boolean,
+      default_workflow_permissions: {:enum, ["read", "write"]}
+    ]
   end
 end

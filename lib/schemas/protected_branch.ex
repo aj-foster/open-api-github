@@ -1,6 +1,6 @@
 defmodule GitHub.ProtectedBranch do
   @moduledoc """
-  Provides struct and type for ProtectedBranch
+  Provides struct and type for a ProtectedBranch
   """
   use GitHub.Encoder
 
@@ -56,7 +56,7 @@ defmodule GitHub.ProtectedBranch do
       required_signatures: :map,
       required_status_checks: {GitHub.StatusCheckPolicy, :t},
       restrictions: {GitHub.Branch.RestrictionPolicy, :t},
-      url: :string
+      url: {:string, :uri}
     ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.Actions.Runner do
   @moduledoc """
-  Provides struct and type for Runner
+  Provides struct and type for a Actions.Runner
   """
   use GitHub.Encoder
 
@@ -25,11 +25,11 @@ defmodule GitHub.Actions.Runner do
     [
       busy: :boolean,
       id: :integer,
-      labels: {:array, {GitHub.Actions.Runner.Label, :t}},
-      name: :string,
-      os: :string,
+      labels: [{GitHub.Actions.Runner.Label, :t}],
+      name: {:string, :generic},
+      os: {:string, :generic},
       runner_group_id: :integer,
-      status: :string
+      status: {:string, :generic}
     ]
   end
 end

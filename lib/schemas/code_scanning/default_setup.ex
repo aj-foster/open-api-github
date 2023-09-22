@@ -1,6 +1,6 @@
 defmodule GitHub.CodeScanning.DefaultSetup do
   @moduledoc """
-  Provides struct and type for CodeScanningDefaultSetup
+  Provides struct and type for a CodeScanning.DefaultSetup
   """
   use GitHub.Encoder
 
@@ -10,7 +10,7 @@ defmodule GitHub.CodeScanning.DefaultSetup do
           query_suite: String.t() | nil,
           schedule: String.t() | nil,
           state: String.t() | nil,
-          updated_at: String.t() | nil
+          updated_at: DateTime.t() | nil
         }
 
   defstruct [:__info__, :languages, :query_suite, :schedule, :state, :updated_at]
@@ -21,11 +21,24 @@ defmodule GitHub.CodeScanning.DefaultSetup do
 
   def __fields__(:t) do
     [
-      languages: {:array, :string},
-      query_suite: :string,
-      schedule: {:nullable, :string},
-      state: :string,
-      updated_at: {:nullable, :string}
+      languages: [
+        enum: [
+          "c-cpp",
+          "csharp",
+          "go",
+          "java-kotlin",
+          "javascript-typescript",
+          "javascript",
+          "python",
+          "ruby",
+          "typescript",
+          "swift"
+        ]
+      ],
+      query_suite: {:enum, ["default", "extended"]},
+      schedule: {:enum, ["weekly", nil]},
+      state: {:enum, ["configured", "not-configured"]},
+      updated_at: {:union, [{:string, :date_time}, :null]}
     ]
   end
 end

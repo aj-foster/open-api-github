@@ -1,6 +1,6 @@
 defmodule GitHub.Git.Tag do
   @moduledoc """
-  Provides struct and type for GitTag
+  Provides struct and type for a Git.Tag
   """
   use GitHub.Encoder
 
@@ -24,13 +24,13 @@ defmodule GitHub.Git.Tag do
 
   def __fields__(:t) do
     [
-      message: :string,
-      node_id: :string,
+      message: {:string, :generic},
+      node_id: {:string, :generic},
       object: :map,
-      sha: :string,
-      tag: :string,
+      sha: {:string, :generic},
+      tag: {:string, :generic},
       tagger: :map,
-      url: :string,
+      url: {:string, :uri},
       verification: {GitHub.Verification, :t}
     ]
   end

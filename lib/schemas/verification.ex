@@ -1,6 +1,6 @@
 defmodule GitHub.Verification do
   @moduledoc """
-  Provides struct and type for Verification
+  Provides struct and type for a Verification
   """
   use GitHub.Encoder
 
@@ -20,9 +20,9 @@ defmodule GitHub.Verification do
 
   def __fields__(:t) do
     [
-      payload: {:nullable, :string},
-      reason: :string,
-      signature: {:nullable, :string},
+      payload: {:union, [{:string, :generic}, :null]},
+      reason: {:string, :generic},
+      signature: {:union, [{:string, :generic}, :null]},
       verified: :boolean
     ]
   end

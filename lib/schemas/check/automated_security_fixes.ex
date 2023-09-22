@@ -1,6 +1,6 @@
 defmodule GitHub.Check.AutomatedSecurityFixes do
   @moduledoc """
-  Provides struct and type for CheckAutomatedSecurityFixes
+  Provides struct and type for a Check.AutomatedSecurityFixes
   """
   use GitHub.Encoder
 

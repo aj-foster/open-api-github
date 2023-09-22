@@ -1,18 +1,18 @@
 defmodule GitHub.CodeScanning.CodeqlDatabase do
   @moduledoc """
-  Provides struct and type for CodeScanningCodeqlDatabase
+  Provides struct and type for a CodeScanning.CodeqlDatabase
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
           content_type: String.t(),
-          created_at: String.t(),
+          created_at: DateTime.t(),
           id: integer,
           language: String.t(),
           name: String.t(),
           size: integer,
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           uploader: GitHub.User.simple(),
           url: String.t()
         }
@@ -36,15 +36,15 @@ defmodule GitHub.CodeScanning.CodeqlDatabase do
 
   def __fields__(:t) do
     [
-      content_type: :string,
-      created_at: :string,
+      content_type: {:string, :generic},
+      created_at: {:string, :date_time},
       id: :integer,
-      language: :string,
-      name: :string,
+      language: {:string, :generic},
+      name: {:string, :generic},
       size: :integer,
-      updated_at: :string,
+      updated_at: {:string, :date_time},
       uploader: {GitHub.User, :simple},
-      url: :string
+      url: {:string, :uri}
     ]
   end
 end

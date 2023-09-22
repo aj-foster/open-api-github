@@ -1,6 +1,6 @@
 defmodule GitHub.Actions.Workflow.Usage do
   @moduledoc """
-  Provides struct and type for WorkflowUsage
+  Provides struct and type for a Actions.Workflow.Usage
   """
   use GitHub.Encoder
 

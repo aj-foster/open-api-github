@@ -1,6 +1,6 @@
 defmodule GitHub.CombinedCommitStatus do
   @moduledoc """
-  Provides struct and type for CombinedCommitStatus
+  Provides struct and type for a CombinedCommitStatus
   """
   use GitHub.Encoder
 
@@ -23,13 +23,13 @@ defmodule GitHub.CombinedCommitStatus do
 
   def __fields__(:t) do
     [
-      commit_url: :string,
+      commit_url: {:string, :uri},
       repository: {GitHub.Repository, :minimal},
-      sha: :string,
-      state: :string,
-      statuses: {:array, {GitHub.Commit.Status, :simple}},
+      sha: {:string, :generic},
+      state: {:string, :generic},
+      statuses: [{GitHub.Commit.Status, :simple}],
       total_count: :integer,
-      url: :string
+      url: {:string, :uri}
     ]
   end
 end

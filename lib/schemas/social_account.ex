@@ -1,6 +1,6 @@
 defmodule GitHub.SocialAccount do
   @moduledoc """
-  Provides struct and type for SocialAccount
+  Provides struct and type for a SocialAccount
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.SocialAccount do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [provider: :string, url: :string]
+    [provider: {:string, :generic}, url: {:string, :generic}]
   end
 end

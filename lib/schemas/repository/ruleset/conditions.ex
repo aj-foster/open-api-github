@@ -1,6 +1,6 @@
 defmodule GitHub.Repository.Ruleset.Conditions do
   @moduledoc """
-  Provides struct and type for RepositoryRulesetConditions
+  Provides struct and type for a Repository.Ruleset.Conditions
   """
   use GitHub.Encoder
 

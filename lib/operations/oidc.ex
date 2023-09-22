@@ -8,6 +8,10 @@ defmodule GitHub.Oidc do
   @doc """
   Get the customization template for an OIDC subject claim for an organization
 
+  Gets the customization template for an OpenID Connect (OIDC) subject claim.
+  You must authenticate using an access token with the `read:org` scope to use this endpoint.
+  GitHub Apps must have the `organization_administration:write` permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/actions/oidc#get-the-customization-template-for-an-oidc-subject-claim-for-an-organization)
@@ -30,6 +34,10 @@ defmodule GitHub.Oidc do
 
   @doc """
   Set the customization template for an OIDC subject claim for an organization
+
+  Creates or updates the customization template for an OpenID Connect (OIDC) subject claim.
+  You must authenticate using an access token with the `write:org` scope to use this endpoint.
+  GitHub Apps must have the `admin:org` permission to use this endpoint.
 
   ## Resources
 

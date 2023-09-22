@@ -1,6 +1,6 @@
 defmodule GitHub.Actions.CacheUsageOrgEnterprise do
   @moduledoc """
-  Provides struct and type for ActionsCacheUsageOrgEnterprise
+  Provides struct and type for a Actions.CacheUsageOrgEnterprise
   """
   use GitHub.Encoder
 

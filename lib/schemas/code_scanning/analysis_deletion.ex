@@ -1,6 +1,6 @@
 defmodule GitHub.CodeScanning.AnalysisDeletion do
   @moduledoc """
-  Provides struct and type for CodeScanningAnalysisDeletion
+  Provides struct and type for a CodeScanning.AnalysisDeletion
   """
   use GitHub.Encoder
 
@@ -17,6 +17,9 @@ defmodule GitHub.CodeScanning.AnalysisDeletion do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [confirm_delete_url: {:nullable, :string}, next_analysis_url: {:nullable, :string}]
+    [
+      confirm_delete_url: {:union, [{:string, :uri}, :null]},
+      next_analysis_url: {:union, [{:string, :uri}, :null]}
+    ]
   end
 end

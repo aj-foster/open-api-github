@@ -1,6 +1,6 @@
 defmodule GitHub.PullRequest.MergeResult do
   @moduledoc """
-  Provides struct and type for PullRequestMergeResult
+  Provides struct and type for a PullRequest.MergeResult
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.PullRequest.MergeResult do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [merged: :boolean, message: :string, sha: :string]
+    [merged: :boolean, message: {:string, :generic}, sha: {:string, :generic}]
   end
 end

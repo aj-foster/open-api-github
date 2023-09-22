@@ -1,6 +1,6 @@
 defmodule GitHub.Language do
   @moduledoc """
-  Provides struct and type for Language
+  Provides struct and type for a Language
   """
   use GitHub.Encoder
 

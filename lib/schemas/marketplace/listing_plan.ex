@@ -1,6 +1,6 @@
 defmodule GitHub.Marketplace.ListingPlan do
   @moduledoc """
-  Provides struct and type for MarketplaceListingPlan
+  Provides struct and type for a Marketplace.ListingPlan
   """
   use GitHub.Encoder
 
@@ -44,18 +44,18 @@ defmodule GitHub.Marketplace.ListingPlan do
 
   def __fields__(:t) do
     [
-      accounts_url: :string,
-      bullets: {:array, :string},
-      description: :string,
+      accounts_url: {:string, :uri},
+      bullets: [string: :generic],
+      description: {:string, :generic},
       has_free_trial: :boolean,
       id: :integer,
       monthly_price_in_cents: :integer,
-      name: :string,
+      name: {:string, :generic},
       number: :integer,
-      price_model: :string,
-      state: :string,
-      unit_name: {:nullable, :string},
-      url: :string,
+      price_model: {:enum, ["FREE", "FLAT_RATE", "PER_UNIT"]},
+      state: {:string, :generic},
+      unit_name: {:union, [{:string, :generic}, :null]},
+      url: {:string, :uri},
       yearly_price_in_cents: :integer
     ]
   end

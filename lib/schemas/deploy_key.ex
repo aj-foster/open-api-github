@@ -1,6 +1,6 @@
 defmodule GitHub.DeployKey do
   @moduledoc """
-  Provides struct and type for DeployKey
+  Provides struct and type for a DeployKey
   """
   use GitHub.Encoder
 
@@ -36,14 +36,14 @@ defmodule GitHub.DeployKey do
 
   def __fields__(:t) do
     [
-      added_by: {:nullable, :string},
-      created_at: :string,
+      added_by: {:union, [{:string, :generic}, :null]},
+      created_at: {:string, :generic},
       id: :integer,
-      key: :string,
-      last_used: {:nullable, :string},
+      key: {:string, :generic},
+      last_used: {:union, [{:string, :generic}, :null]},
       read_only: :boolean,
-      title: :string,
-      url: :string,
+      title: {:string, :generic},
+      url: {:string, :generic},
       verified: :boolean
     ]
   end

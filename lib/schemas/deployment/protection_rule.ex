@@ -1,6 +1,6 @@
 defmodule GitHub.Deployment.ProtectionRule do
   @moduledoc """
-  Provides struct and type for DeploymentProtectionRule
+  Provides struct and type for a Deployment.ProtectionRule
   """
   use GitHub.Encoder
 
@@ -19,6 +19,11 @@ defmodule GitHub.Deployment.ProtectionRule do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [app: {GitHub.CustomDeploymentRuleApp, :t}, enabled: :boolean, id: :integer, node_id: :string]
+    [
+      app: {GitHub.CustomDeploymentRuleApp, :t},
+      enabled: :boolean,
+      id: :integer,
+      node_id: {:string, :generic}
+    ]
   end
 end

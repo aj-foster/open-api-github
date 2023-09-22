@@ -1,6 +1,6 @@
 defmodule GitHub.Codespace.UserPublicKey do
   @moduledoc """
-  Provides struct and type for CodespacesUserPublicKey
+  Provides struct and type for a Codespace.UserPublicKey
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Codespace.UserPublicKey do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [key: :string, key_id: :string]
+    [key: {:string, :generic}, key_id: {:string, :generic}]
   end
 end

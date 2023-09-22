@@ -1,6 +1,6 @@
 defmodule GitHub.Issue.EventLabel do
   @moduledoc """
-  Provides struct and type for IssueEventLabel
+  Provides struct and type for a Issue.EventLabel
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Issue.EventLabel do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [color: {:nullable, :string}, name: {:nullable, :string}]
+    [color: {:union, [{:string, :generic}, :null]}, name: {:union, [{:string, :generic}, :null]}]
   end
 end

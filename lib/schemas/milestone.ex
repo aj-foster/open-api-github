@@ -1,17 +1,17 @@
 defmodule GitHub.Milestone do
   @moduledoc """
-  Provides struct and type for Milestone
+  Provides struct and type for a Milestone
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          closed_at: String.t() | nil,
+          closed_at: DateTime.t() | nil,
           closed_issues: integer,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           creator: GitHub.User.simple() | nil,
           description: String.t() | nil,
-          due_on: String.t() | nil,
+          due_on: DateTime.t() | nil,
           html_url: String.t(),
           id: integer,
           labels_url: String.t(),
@@ -20,7 +20,7 @@ defmodule GitHub.Milestone do
           open_issues: integer,
           state: String.t(),
           title: String.t(),
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t()
         }
 
@@ -50,22 +50,22 @@ defmodule GitHub.Milestone do
 
   def __fields__(:t) do
     [
-      closed_at: {:nullable, :string},
+      closed_at: {:union, [{:string, :date_time}, :null]},
       closed_issues: :integer,
-      created_at: :string,
-      creator: {:nullable, {GitHub.User, :simple}},
-      description: {:nullable, :string},
-      due_on: {:nullable, :string},
-      html_url: :string,
+      created_at: {:string, :date_time},
+      creator: {:union, [{GitHub.User, :simple}, :null]},
+      description: {:union, [{:string, :generic}, :null]},
+      due_on: {:union, [{:string, :date_time}, :null]},
+      html_url: {:string, :uri},
       id: :integer,
-      labels_url: :string,
-      node_id: :string,
+      labels_url: {:string, :uri},
+      node_id: {:string, :generic},
       number: :integer,
       open_issues: :integer,
-      state: :string,
-      title: :string,
-      updated_at: :string,
-      url: :string
+      state: {:enum, ["open", "closed"]},
+      title: {:string, :generic},
+      updated_at: {:string, :date_time},
+      url: {:string, :uri}
     ]
   end
 end

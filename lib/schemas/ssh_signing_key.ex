@@ -1,12 +1,12 @@
 defmodule GitHub.SSHSigningKey do
   @moduledoc """
-  Provides struct and type for SshSigningKey
+  Provides struct and type for a SSHSigningKey
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           id: integer,
           key: String.t(),
           title: String.t()
@@ -19,6 +19,11 @@ defmodule GitHub.SSHSigningKey do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [created_at: :string, id: :integer, key: :string, title: :string]
+    [
+      created_at: {:string, :date_time},
+      id: :integer,
+      key: {:string, :generic},
+      title: {:string, :generic}
+    ]
   end
 end

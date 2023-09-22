@@ -1,6 +1,6 @@
 defmodule GitHub.Reaction.Rollup do
   @moduledoc """
-  Provides struct and type for ReactionRollup
+  Provides struct and type for a Reaction.Rollup
   """
   use GitHub.Encoder
 
@@ -47,7 +47,7 @@ defmodule GitHub.Reaction.Rollup do
       laugh: :integer,
       rocket: :integer,
       total_count: :integer,
-      url: :string
+      url: {:string, :uri}
     ]
   end
 end

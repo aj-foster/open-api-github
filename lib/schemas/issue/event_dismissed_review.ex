@@ -1,6 +1,6 @@
 defmodule GitHub.Issue.EventDismissedReview do
   @moduledoc """
-  Provides struct and type for IssueEventDismissedReview
+  Provides struct and type for a Issue.EventDismissedReview
   """
   use GitHub.Encoder
 
@@ -20,10 +20,10 @@ defmodule GitHub.Issue.EventDismissedReview do
 
   def __fields__(:t) do
     [
-      dismissal_commit_id: {:nullable, :string},
-      dismissal_message: {:nullable, :string},
+      dismissal_commit_id: {:union, [{:string, :generic}, :null]},
+      dismissal_message: {:union, [{:string, :generic}, :null]},
       review_id: :integer,
-      state: :string
+      state: {:string, :generic}
     ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.ShortBlob do
   @moduledoc """
-  Provides struct and type for ShortBlob
+  Provides struct and type for a ShortBlob
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.ShortBlob do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [sha: :string, url: :string]
+    [sha: {:string, :generic}, url: {:string, :generic}]
   end
 end

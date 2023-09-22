@@ -1,6 +1,6 @@
 defmodule GitHub.CodeScanning.AnalysisTool do
   @moduledoc """
-  Provides struct and type for CodeScanningAnalysisTool
+  Provides struct and type for a CodeScanning.AnalysisTool
   """
   use GitHub.Encoder
 
@@ -18,6 +18,10 @@ defmodule GitHub.CodeScanning.AnalysisTool do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [guid: {:nullable, :string}, name: :string, version: {:nullable, :string}]
+    [
+      guid: {:union, [{:string, :generic}, :null]},
+      name: {:string, :generic},
+      version: {:union, [{:string, :generic}, :null]}
+    ]
   end
 end

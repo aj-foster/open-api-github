@@ -1,6 +1,6 @@
 defmodule GitHub.EnvironmentApprovals do
   @moduledoc """
-  Provides struct and type for EnvironmentApprovals
+  Provides struct and type for a EnvironmentApprovals
   """
   use GitHub.Encoder
 
@@ -19,6 +19,11 @@ defmodule GitHub.EnvironmentApprovals do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [comment: :string, environments: {:array, :map}, state: :string, user: {GitHub.User, :simple}]
+    [
+      comment: {:string, :generic},
+      environments: [:map],
+      state: {:enum, ["approved", "rejected", "pending"]},
+      user: {GitHub.User, :simple}
+    ]
   end
 end

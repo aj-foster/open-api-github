@@ -39,6 +39,37 @@ defmodule GitHub.Git do
   @doc """
   Create a commit
 
+  Creates a new Git [commit object](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects).
+
+  **Signature verification object**
+
+  The response will include a `verification` object that describes the result of verifying the commit's signature. The following fields are included in the `verification` object:
+
+  | Name | Type | Description |
+  | ---- | ---- | ----------- |
+  | `verified` | `boolean` | Indicates whether GitHub considers the signature in this commit to be verified. |
+  | `reason` | `string` | The reason for verified value. Possible values and their meanings are enumerated in the table below. |
+  | `signature` | `string` | The signature that was extracted from the commit. |
+  | `payload` | `string` | The value that was signed. |
+
+  These are the possible values for `reason` in the `verification` object:
+
+  | Value | Description |
+  | ----- | ----------- |
+  | `expired_key` | The key that made the signature is expired. |
+  | `not_signing_key` | The "signing" flag is not among the usage flags in the GPG key that made the signature. |
+  | `gpgverify_error` | There was an error communicating with the signature verification service. |
+  | `gpgverify_unavailable` | The signature verification service is currently unavailable. |
+  | `unsigned` | The object does not include a signature. |
+  | `unknown_signature_type` | A non-PGP signature was found in the commit. |
+  | `no_user` | No user was associated with the `committer` email address in the commit. |
+  | `unverified_email` | The `committer` email address in the commit was associated with a user, but the email address is not verified on their account. |
+  | `bad_email` | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature. |
+  | `unknown_key` | The key that made the signature has not been registered with any user's account. |
+  | `malformed_signature` | There was an error parsing the signature. |
+  | `invalid` | The signature could not be cryptographically verified using the key whose key-id was found in the signature. |
+  | `valid` | None of the above errors applied, so the signature is considered to be verified. |
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/git/commits#create-a-commit)
@@ -68,6 +99,8 @@ defmodule GitHub.Git do
   @doc """
   Create a reference
 
+  Creates a reference for your repository. You are unable to create new references for empty repositories, even if the commit SHA-1 hash used exists. Empty repositories are repositories without branches.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/git/refs#create-a-reference)
@@ -93,6 +126,37 @@ defmodule GitHub.Git do
   @doc """
   Create a tag object
 
+  Note that creating a tag object does not create the reference that makes a tag in Git. If you want to create an annotated tag in Git, you have to do this call to create the tag object, and then [create](https://docs.github.com/rest/git/refs#create-a-reference) the `refs/tags/[tag]` reference. If you want to create a lightweight tag, you only have to [create](https://docs.github.com/rest/git/refs#create-a-reference) the tag reference - this call would be unnecessary.
+
+  **Signature verification object**
+
+  The response will include a `verification` object that describes the result of verifying the commit's signature. The following fields are included in the `verification` object:
+
+  | Name | Type | Description |
+  | ---- | ---- | ----------- |
+  | `verified` | `boolean` | Indicates whether GitHub considers the signature in this commit to be verified. |
+  | `reason` | `string` | The reason for verified value. Possible values and their meanings are enumerated in table below. |
+  | `signature` | `string` | The signature that was extracted from the commit. |
+  | `payload` | `string` | The value that was signed. |
+
+  These are the possible values for `reason` in the `verification` object:
+
+  | Value | Description |
+  | ----- | ----------- |
+  | `expired_key` | The key that made the signature is expired. |
+  | `not_signing_key` | The "signing" flag is not among the usage flags in the GPG key that made the signature. |
+  | `gpgverify_error` | There was an error communicating with the signature verification service. |
+  | `gpgverify_unavailable` | The signature verification service is currently unavailable. |
+  | `unsigned` | The object does not include a signature. |
+  | `unknown_signature_type` | A non-PGP signature was found in the commit. |
+  | `no_user` | No user was associated with the `committer` email address in the commit. |
+  | `unverified_email` | The `committer` email address in the commit was associated with a user, but the email address is not verified on their account. |
+  | `bad_email` | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature. |
+  | `unknown_key` | The key that made the signature has not been registered with any user's account. |
+  | `malformed_signature` | There was an error parsing the signature. |
+  | `invalid` | The signature could not be cryptographically verified using the key whose key-id was found in the signature. |
+  | `valid` | None of the above errors applied, so the signature is considered to be verified. |
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/git/tags#create-a-tag-object)
@@ -117,6 +181,12 @@ defmodule GitHub.Git do
 
   @doc """
   Create a tree
+
+  The tree creation API accepts nested entries. If you specify both a tree and a nested path modifying that tree, this endpoint will overwrite the contents of the tree with the new path contents, and create a new tree structure.
+
+  If you use this endpoint to add, delete, or modify the file contents in a tree, you will need to commit the tree and then update a branch to point to the commit. For more information see "[Create a commit](https://docs.github.com/rest/git/commits#create-a-commit)" and "[Update a reference](https://docs.github.com/rest/git/refs#update-a-reference)."
+
+  Returns an error if you try to delete a file that does not exist.
 
   ## Resources
 
@@ -163,13 +233,17 @@ defmodule GitHub.Git do
       call: {GitHub.Git, :delete_ref},
       url: "/repos/#{owner}/#{repo}/git/refs/#{ref}",
       method: :delete,
-      response: [{204, nil}, {422, {GitHub.ValidationError, :t}}],
+      response: [{204, :null}, {422, {GitHub.ValidationError, :t}}],
       opts: opts
     })
   end
 
   @doc """
   Get a blob
+
+  The `content` in the response will always be Base64 encoded.
+
+  _Note_: This API supports blobs up to 100 megabytes in size.
 
   ## Resources
 
@@ -199,6 +273,39 @@ defmodule GitHub.Git do
   @doc """
   Get a commit object
 
+  Gets a Git [commit object](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects).
+
+  To get the contents of a commit, see "[Get a commit](/rest/commits/commits#get-a-commit)."
+
+  **Signature verification object**
+
+  The response will include a `verification` object that describes the result of verifying the commit's signature. The following fields are included in the `verification` object:
+
+  | Name | Type | Description |
+  | ---- | ---- | ----------- |
+  | `verified` | `boolean` | Indicates whether GitHub considers the signature in this commit to be verified. |
+  | `reason` | `string` | The reason for verified value. Possible values and their meanings are enumerated in the table below. |
+  | `signature` | `string` | The signature that was extracted from the commit. |
+  | `payload` | `string` | The value that was signed. |
+
+  These are the possible values for `reason` in the `verification` object:
+
+  | Value | Description |
+  | ----- | ----------- |
+  | `expired_key` | The key that made the signature is expired. |
+  | `not_signing_key` | The "signing" flag is not among the usage flags in the GPG key that made the signature. |
+  | `gpgverify_error` | There was an error communicating with the signature verification service. |
+  | `gpgverify_unavailable` | The signature verification service is currently unavailable. |
+  | `unsigned` | The object does not include a signature. |
+  | `unknown_signature_type` | A non-PGP signature was found in the commit. |
+  | `no_user` | No user was associated with the `committer` email address in the commit. |
+  | `unverified_email` | The `committer` email address in the commit was associated with a user, but the email address is not verified on their account. |
+  | `bad_email` | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature. |
+  | `unknown_key` | The key that made the signature has not been registered with any user's account. |
+  | `malformed_signature` | There was an error parsing the signature. |
+  | `invalid` | The signature could not be cryptographically verified using the key whose key-id was found in the signature. |
+  | `valid` | None of the above errors applied, so the signature is considered to be verified. |
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/git/commits#get-a-commit-object)
@@ -221,6 +328,10 @@ defmodule GitHub.Git do
 
   @doc """
   Get a reference
+
+  Returns a single reference from your Git database. The `:ref` in the URL must be formatted as `heads/<branch name>` for branches and `tags/<tag name>` for tags. If the `:ref` doesn't match an existing ref, a `404` is returned.
+
+  **Note:** You need to explicitly [request a pull request](https://docs.github.com/rest/pulls/pulls#get-a-pull-request) to trigger a test merge commit, which checks the mergeability of pull requests. For more information, see "[Checking mergeability of pull requests](https://docs.github.com/rest/guides/getting-started-with-the-git-database-api#checking-mergeability-of-pull-requests)".
 
   ## Resources
 
@@ -245,6 +356,35 @@ defmodule GitHub.Git do
   @doc """
   Get a tag
 
+  **Signature verification object**
+
+  The response will include a `verification` object that describes the result of verifying the commit's signature. The following fields are included in the `verification` object:
+
+  | Name | Type | Description |
+  | ---- | ---- | ----------- |
+  | `verified` | `boolean` | Indicates whether GitHub considers the signature in this commit to be verified. |
+  | `reason` | `string` | The reason for verified value. Possible values and their meanings are enumerated in table below. |
+  | `signature` | `string` | The signature that was extracted from the commit. |
+  | `payload` | `string` | The value that was signed. |
+
+  These are the possible values for `reason` in the `verification` object:
+
+  | Value | Description |
+  | ----- | ----------- |
+  | `expired_key` | The key that made the signature is expired. |
+  | `not_signing_key` | The "signing" flag is not among the usage flags in the GPG key that made the signature. |
+  | `gpgverify_error` | There was an error communicating with the signature verification service. |
+  | `gpgverify_unavailable` | The signature verification service is currently unavailable. |
+  | `unsigned` | The object does not include a signature. |
+  | `unknown_signature_type` | A non-PGP signature was found in the commit. |
+  | `no_user` | No user was associated with the `committer` email address in the commit. |
+  | `unverified_email` | The `committer` email address in the commit was associated with a user, but the email address is not verified on their account. |
+  | `bad_email` | The `committer` email address in the commit is not included in the identities of the PGP key that made the signature. |
+  | `unknown_key` | The key that made the signature has not been registered with any user's account. |
+  | `malformed_signature` | There was an error parsing the signature. |
+  | `invalid` | The signature could not be cryptographically verified using the key whose key-id was found in the signature. |
+  | `valid` | None of the above errors applied, so the signature is considered to be verified. |
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/git/tags#get-a-tag)
@@ -268,9 +408,16 @@ defmodule GitHub.Git do
   @doc """
   Get a tree
 
+  Returns a single tree using the SHA1 value or ref name for that tree.
+
+  If `truncated` is `true` in the response then the number of items in the `tree` array exceeded our maximum limit. If you need to fetch more items, use the non-recursive method of fetching trees, and fetch one sub-tree at a time.
+
+
+  **Note**: The limit for the `tree` array is 100,000 entries with a maximum size of 7 MB when using the `recursive` parameter.
+
   ## Options
 
-    * `recursive` (String.t()): Setting this parameter to any value returns the objects or subtrees referenced by the tree specified in `:tree_sha`. For example, setting `recursive` to any of the following will enable returning objects or subtrees: `0`, `1`, `"true"`, and `"false"`. Omit this parameter to prevent recursively returning objects or subtrees.
+    * `recursive`: Setting this parameter to any value returns the objects or subtrees referenced by the tree specified in `:tree_sha`. For example, setting `recursive` to any of the following will enable returning objects or subtrees: `0`, `1`, `"true"`, and `"false"`. Omit this parameter to prevent recursively returning objects or subtrees.
 
   ## Resources
 
@@ -301,6 +448,14 @@ defmodule GitHub.Git do
   @doc """
   List matching references
 
+  Returns an array of references from your Git database that match the supplied name. The `:ref` in the URL must be formatted as `heads/<branch name>` for branches and `tags/<tag name>` for tags. If the `:ref` doesn't exist in the repository, but existing refs start with `:ref`, they will be returned as an array.
+
+  When you use this endpoint without providing a `:ref`, it will return an array of all the references from your Git database, including notes and stashes if they exist on the server. Anything in the namespace is returned, not just `heads` and `tags`.
+
+  **Note:** You need to explicitly [request a pull request](https://docs.github.com/rest/pulls/pulls#get-a-pull-request) to trigger a test merge commit, which checks the mergeability of pull requests. For more information, see "[Checking mergeability of pull requests](https://docs.github.com/rest/guides/getting-started-with-the-git-database-api#checking-mergeability-of-pull-requests)".
+
+  If you request matching references for a branch named `feature` but the branch `feature` doesn't exist, the response can still include other matching head refs that start with the word `feature`, such as `featureA` and `featureB`.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/git/refs#list-matching-references)
@@ -316,7 +471,7 @@ defmodule GitHub.Git do
       call: {GitHub.Git, :list_matching_refs},
       url: "/repos/#{owner}/#{repo}/git/matching-refs/#{ref}",
       method: :get,
-      response: [{200, {:array, {GitHub.Git.Ref, :t}}}],
+      response: [{200, [{GitHub.Git.Ref, :t}]}],
       opts: opts
     })
   end

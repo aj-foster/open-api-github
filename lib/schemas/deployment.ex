@@ -1,12 +1,12 @@
 defmodule GitHub.Deployment do
   @moduledoc """
-  Provides struct and types for Deployment, DeploymentSimple
+  Provides struct and types for a Deployment
   """
   use GitHub.Encoder
 
   @type simple :: %__MODULE__{
           __info__: map,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           description: String.t() | nil,
           environment: String.t(),
           id: integer,
@@ -18,13 +18,13 @@ defmodule GitHub.Deployment do
           statuses_url: String.t(),
           task: String.t(),
           transient_environment: boolean | nil,
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t()
         }
 
   @type t :: %__MODULE__{
           __info__: map,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           creator: GitHub.User.simple() | nil,
           description: String.t() | nil,
           environment: String.t(),
@@ -40,7 +40,7 @@ defmodule GitHub.Deployment do
           statuses_url: String.t(),
           task: String.t(),
           transient_environment: boolean | nil,
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t()
         }
 
@@ -72,43 +72,43 @@ defmodule GitHub.Deployment do
 
   def __fields__(:simple) do
     [
-      created_at: :string,
-      description: {:nullable, :string},
-      environment: :string,
+      created_at: {:string, :date_time},
+      description: {:union, [{:string, :generic}, :null]},
+      environment: {:string, :generic},
       id: :integer,
-      node_id: :string,
-      original_environment: :string,
-      performed_via_github_app: {:nullable, {GitHub.App, :t}},
+      node_id: {:string, :generic},
+      original_environment: {:string, :generic},
+      performed_via_github_app: {:union, [{GitHub.App, :t}, :null]},
       production_environment: :boolean,
-      repository_url: :string,
-      statuses_url: :string,
-      task: :string,
+      repository_url: {:string, :uri},
+      statuses_url: {:string, :uri},
+      task: {:string, :generic},
       transient_environment: :boolean,
-      updated_at: :string,
-      url: :string
+      updated_at: {:string, :date_time},
+      url: {:string, :uri}
     ]
   end
 
   def __fields__(:t) do
     [
-      created_at: :string,
-      creator: {:nullable, {GitHub.User, :simple}},
-      description: {:nullable, :string},
-      environment: :string,
+      created_at: {:string, :date_time},
+      creator: {:union, [{GitHub.User, :simple}, :null]},
+      description: {:union, [{:string, :generic}, :null]},
+      environment: {:string, :generic},
       id: :integer,
-      node_id: :string,
-      original_environment: :string,
-      payload: {:union, [:map, :string]},
-      performed_via_github_app: {:nullable, {GitHub.App, :t}},
+      node_id: {:string, :generic},
+      original_environment: {:string, :generic},
+      payload: {:union, [:map, string: :generic]},
+      performed_via_github_app: {:union, [{GitHub.App, :t}, :null]},
       production_environment: :boolean,
-      ref: :string,
-      repository_url: :string,
-      sha: :string,
-      statuses_url: :string,
-      task: :string,
+      ref: {:string, :generic},
+      repository_url: {:string, :uri},
+      sha: {:string, :generic},
+      statuses_url: {:string, :uri},
+      task: {:string, :generic},
       transient_environment: :boolean,
-      updated_at: :string,
-      url: :string
+      updated_at: {:string, :date_time},
+      url: {:string, :uri}
     ]
   end
 end

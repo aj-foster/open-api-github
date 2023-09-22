@@ -1,6 +1,6 @@
 defmodule GitHub.ProtectedBranch.PullRequestReview do
   @moduledoc """
-  Provides struct and type for ProtectedBranchPullRequestReview
+  Provides struct and type for a ProtectedBranch.PullRequestReview
   """
   use GitHub.Encoder
 
@@ -38,7 +38,7 @@ defmodule GitHub.ProtectedBranch.PullRequestReview do
       require_code_owner_reviews: :boolean,
       require_last_push_approval: :boolean,
       required_approving_review_count: :integer,
-      url: :string
+      url: {:string, :uri}
     ]
   end
 end

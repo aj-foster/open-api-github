@@ -1,6 +1,6 @@
 defmodule GitHub.Dependabot.Alert.SecurityAdvisory do
   @moduledoc """
-  Provides struct and type for DependabotAlertSecurityAdvisory
+  Provides struct and type for a Dependabot.Alert.SecurityAdvisory
   """
   use GitHub.Encoder
 
@@ -12,13 +12,13 @@ defmodule GitHub.Dependabot.Alert.SecurityAdvisory do
           description: String.t(),
           ghsa_id: String.t(),
           identifiers: [map],
-          published_at: String.t(),
+          published_at: DateTime.t(),
           references: [map],
           severity: String.t(),
           summary: String.t(),
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           vulnerabilities: [GitHub.Dependabot.Alert.SecurityVulnerability.t()],
-          withdrawn_at: String.t() | nil
+          withdrawn_at: DateTime.t() | nil
         }
 
   defstruct [
@@ -44,19 +44,19 @@ defmodule GitHub.Dependabot.Alert.SecurityAdvisory do
 
   def __fields__(:t) do
     [
-      cve_id: {:nullable, :string},
+      cve_id: {:union, [{:string, :generic}, :null]},
       cvss: :map,
-      cwes: {:array, :map},
-      description: :string,
-      ghsa_id: :string,
-      identifiers: {:array, :map},
-      published_at: :string,
-      references: {:array, :map},
-      severity: :string,
-      summary: :string,
-      updated_at: :string,
-      vulnerabilities: {:array, {GitHub.Dependabot.Alert.SecurityVulnerability, :t}},
-      withdrawn_at: {:nullable, :string}
+      cwes: [:map],
+      description: {:string, :generic},
+      ghsa_id: {:string, :generic},
+      identifiers: [:map],
+      published_at: {:string, :date_time},
+      references: [:map],
+      severity: {:enum, ["low", "medium", "high", "critical"]},
+      summary: {:string, :generic},
+      updated_at: {:string, :date_time},
+      vulnerabilities: [{GitHub.Dependabot.Alert.SecurityVulnerability, :t}],
+      withdrawn_at: {:union, [{:string, :date_time}, :null]}
     ]
   end
 end

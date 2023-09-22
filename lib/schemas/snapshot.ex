@@ -1,6 +1,6 @@
 defmodule GitHub.Snapshot do
   @moduledoc """
-  Provides struct and type for Snapshot
+  Provides struct and type for a Snapshot
   """
   use GitHub.Encoder
 
@@ -11,7 +11,7 @@ defmodule GitHub.Snapshot do
           manifests: map | nil,
           metadata: GitHub.Metadata.t() | nil,
           ref: String.t(),
-          scanned: String.t(),
+          scanned: DateTime.t(),
           sha: String.t(),
           version: integer
         }
@@ -28,9 +28,9 @@ defmodule GitHub.Snapshot do
       job: :map,
       manifests: :map,
       metadata: {GitHub.Metadata, :t},
-      ref: :string,
-      scanned: :string,
-      sha: :string,
+      ref: {:string, :generic},
+      scanned: {:string, :date_time},
+      sha: {:string, :generic},
       version: :integer
     ]
   end

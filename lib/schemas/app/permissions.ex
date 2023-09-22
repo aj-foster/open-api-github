@@ -1,6 +1,6 @@
 defmodule GitHub.App.Permissions do
   @moduledoc """
-  Provides struct and type for AppPermissions
+  Provides struct and type for a App.Permissions
   """
   use GitHub.Encoder
 
@@ -86,40 +86,40 @@ defmodule GitHub.App.Permissions do
 
   def __fields__(:t) do
     [
-      actions: :string,
-      administration: :string,
-      checks: :string,
-      contents: :string,
-      deployments: :string,
-      environments: :string,
-      issues: :string,
-      members: :string,
-      metadata: :string,
-      organization_administration: :string,
-      organization_announcement_banners: :string,
-      organization_custom_roles: :string,
-      organization_hooks: :string,
-      organization_packages: :string,
-      organization_personal_access_token_requests: :string,
-      organization_personal_access_tokens: :string,
-      organization_plan: :string,
-      organization_projects: :string,
-      organization_secrets: :string,
-      organization_self_hosted_runners: :string,
-      organization_user_blocking: :string,
-      packages: :string,
-      pages: :string,
-      pull_requests: :string,
-      repository_hooks: :string,
-      repository_projects: :string,
-      secret_scanning_alerts: :string,
-      secrets: :string,
-      security_events: :string,
-      single_file: :string,
-      statuses: :string,
-      team_discussions: :string,
-      vulnerability_alerts: :string,
-      workflows: :string
+      actions: {:enum, ["read", "write"]},
+      administration: {:enum, ["read", "write"]},
+      checks: {:enum, ["read", "write"]},
+      contents: {:enum, ["read", "write"]},
+      deployments: {:enum, ["read", "write"]},
+      environments: {:enum, ["read", "write"]},
+      issues: {:enum, ["read", "write"]},
+      members: {:enum, ["read", "write"]},
+      metadata: {:enum, ["read", "write"]},
+      organization_administration: {:enum, ["read", "write"]},
+      organization_announcement_banners: {:enum, ["read", "write"]},
+      organization_custom_roles: {:enum, ["read", "write"]},
+      organization_hooks: {:enum, ["read", "write"]},
+      organization_packages: {:enum, ["read", "write"]},
+      organization_personal_access_token_requests: {:enum, ["read", "write"]},
+      organization_personal_access_tokens: {:enum, ["read", "write"]},
+      organization_plan: {:const, "read"},
+      organization_projects: {:enum, ["read", "write", "admin"]},
+      organization_secrets: {:enum, ["read", "write"]},
+      organization_self_hosted_runners: {:enum, ["read", "write"]},
+      organization_user_blocking: {:enum, ["read", "write"]},
+      packages: {:enum, ["read", "write"]},
+      pages: {:enum, ["read", "write"]},
+      pull_requests: {:enum, ["read", "write"]},
+      repository_hooks: {:enum, ["read", "write"]},
+      repository_projects: {:enum, ["read", "write", "admin"]},
+      secret_scanning_alerts: {:enum, ["read", "write"]},
+      secrets: {:enum, ["read", "write"]},
+      security_events: {:enum, ["read", "write"]},
+      single_file: {:enum, ["read", "write"]},
+      statuses: {:enum, ["read", "write"]},
+      team_discussions: {:enum, ["read", "write"]},
+      vulnerability_alerts: {:enum, ["read", "write"]},
+      workflows: {:const, "write"}
     ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.Project.CollaboratorPermission do
   @moduledoc """
-  Provides struct and type for ProjectCollaboratorPermission
+  Provides struct and type for a Project.CollaboratorPermission
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Project.CollaboratorPermission do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [permission: :string, user: {:nullable, {GitHub.User, :simple}}]
+    [permission: {:string, :generic}, user: {:union, [{GitHub.User, :simple}, :null]}]
   end
 end

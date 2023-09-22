@@ -1,6 +1,6 @@
 defmodule GitHub.Repository.Ruleset.BypassActor do
   @moduledoc """
-  Provides struct and type for RepositoryRulesetBypassActor
+  Provides struct and type for a Repository.Ruleset.BypassActor
   """
   use GitHub.Encoder
 
@@ -18,6 +18,10 @@ defmodule GitHub.Repository.Ruleset.BypassActor do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [actor_id: :integer, actor_type: :string, bypass_mode: :string]
+    [
+      actor_id: :integer,
+      actor_type: {:enum, ["RepositoryRole", "Team", "Integration", "OrganizationAdmin"]},
+      bypass_mode: {:enum, ["always", "pull_request"]}
+    ]
   end
 end

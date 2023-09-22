@@ -1,19 +1,19 @@
 defmodule GitHub.Package do
   @moduledoc """
-  Provides struct and type for Package
+  Provides struct and type for a Package
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           html_url: String.t(),
           id: integer,
           name: String.t(),
           owner: GitHub.User.simple() | nil,
           package_type: String.t(),
           repository: GitHub.Repository.minimal() | nil,
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t(),
           version_count: integer,
           visibility: String.t()
@@ -40,17 +40,17 @@ defmodule GitHub.Package do
 
   def __fields__(:t) do
     [
-      created_at: :string,
-      html_url: :string,
+      created_at: {:string, :date_time},
+      html_url: {:string, :generic},
       id: :integer,
-      name: :string,
-      owner: {:nullable, {GitHub.User, :simple}},
-      package_type: :string,
-      repository: {:nullable, {GitHub.Repository, :minimal}},
-      updated_at: :string,
-      url: :string,
+      name: {:string, :generic},
+      owner: {:union, [{GitHub.User, :simple}, :null]},
+      package_type: {:enum, ["npm", "maven", "rubygems", "docker", "nuget", "container"]},
+      repository: {:union, [{GitHub.Repository, :minimal}, :null]},
+      updated_at: {:string, :date_time},
+      url: {:string, :generic},
       version_count: :integer,
-      visibility: :string
+      visibility: {:enum, ["private", "public"]}
     ]
   end
 end

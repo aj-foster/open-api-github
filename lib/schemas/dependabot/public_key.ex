@@ -1,6 +1,6 @@
 defmodule GitHub.Dependabot.PublicKey do
   @moduledoc """
-  Provides struct and type for DependabotPublicKey
+  Provides struct and type for a Dependabot.PublicKey
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Dependabot.PublicKey do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [key: :string, key_id: :string]
+    [key: {:string, :generic}, key_id: {:string, :generic}]
   end
 end

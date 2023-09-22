@@ -1,6 +1,6 @@
 defmodule GitHub.GpgKey do
   @moduledoc """
-  Provides struct and type for GpgKey
+  Provides struct and type for a GpgKey
   """
   use GitHub.Encoder
 
@@ -10,9 +10,9 @@ defmodule GitHub.GpgKey do
           can_encrypt_comms: boolean,
           can_encrypt_storage: boolean,
           can_sign: boolean,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           emails: [map],
-          expires_at: String.t() | nil,
+          expires_at: DateTime.t() | nil,
           id: integer,
           key_id: String.t(),
           name: String.t() | nil,
@@ -52,17 +52,17 @@ defmodule GitHub.GpgKey do
       can_encrypt_comms: :boolean,
       can_encrypt_storage: :boolean,
       can_sign: :boolean,
-      created_at: :string,
-      emails: {:array, :map},
-      expires_at: {:nullable, :string},
+      created_at: {:string, :date_time},
+      emails: [:map],
+      expires_at: {:union, [{:string, :date_time}, :null]},
       id: :integer,
-      key_id: :string,
-      name: {:nullable, :string},
-      primary_key_id: {:nullable, :integer},
-      public_key: :string,
-      raw_key: {:nullable, :string},
+      key_id: {:string, :generic},
+      name: {:union, [{:string, :generic}, :null]},
+      primary_key_id: {:union, [:integer, :null]},
+      public_key: {:string, :generic},
+      raw_key: {:union, [{:string, :generic}, :null]},
       revoked: :boolean,
-      subkeys: {:array, :map}
+      subkeys: [:map]
     ]
   end
 end

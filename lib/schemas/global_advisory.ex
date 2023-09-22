@@ -1,6 +1,6 @@
 defmodule GitHub.GlobalAdvisory do
   @moduledoc """
-  Provides struct and type for GlobalAdvisory
+  Provides struct and type for a GlobalAdvisory
   """
   use GitHub.Encoder
 
@@ -12,21 +12,21 @@ defmodule GitHub.GlobalAdvisory do
           cwes: [map] | nil,
           description: String.t() | nil,
           ghsa_id: String.t(),
-          github_reviewed_at: String.t() | nil,
+          github_reviewed_at: DateTime.t() | nil,
           html_url: String.t(),
           identifiers: [map] | nil,
-          nvd_published_at: String.t() | nil,
-          published_at: String.t(),
+          nvd_published_at: DateTime.t() | nil,
+          published_at: DateTime.t(),
           references: [String.t()] | nil,
           repository_advisory_url: String.t() | nil,
           severity: String.t(),
           source_code_location: String.t() | nil,
           summary: String.t(),
           type: String.t(),
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t(),
           vulnerabilities: [map] | nil,
-          withdrawn_at: String.t() | nil
+          withdrawn_at: DateTime.t() | nil
         }
 
   defstruct [
@@ -60,27 +60,27 @@ defmodule GitHub.GlobalAdvisory do
 
   def __fields__(:t) do
     [
-      credits: {:nullable, {:array, :map}},
-      cve_id: {:nullable, :string},
-      cvss: {:nullable, :map},
-      cwes: {:nullable, {:array, :map}},
-      description: {:nullable, :string},
-      ghsa_id: :string,
-      github_reviewed_at: {:nullable, :string},
-      html_url: :string,
-      identifiers: {:nullable, {:array, :map}},
-      nvd_published_at: {:nullable, :string},
-      published_at: :string,
-      references: {:nullable, {:array, :string}},
-      repository_advisory_url: {:nullable, :string},
-      severity: :string,
-      source_code_location: {:nullable, :string},
-      summary: :string,
-      type: :string,
-      updated_at: :string,
-      url: :string,
-      vulnerabilities: {:nullable, {:array, :map}},
-      withdrawn_at: {:nullable, :string}
+      credits: {:union, [[:map], :null]},
+      cve_id: {:union, [{:string, :generic}, :null]},
+      cvss: {:union, [:map, :null]},
+      cwes: {:union, [[:map], :null]},
+      description: {:union, [{:string, :generic}, :null]},
+      ghsa_id: {:string, :generic},
+      github_reviewed_at: {:union, [{:string, :date_time}, :null]},
+      html_url: {:string, :uri},
+      identifiers: {:union, [[:map], :null]},
+      nvd_published_at: {:union, [{:string, :date_time}, :null]},
+      published_at: {:string, :date_time},
+      references: {:union, [[string: :generic], :null]},
+      repository_advisory_url: {:union, [{:string, :uri}, :null]},
+      severity: {:enum, ["critical", "high", "medium", "low", "unknown"]},
+      source_code_location: {:union, [{:string, :uri}, :null]},
+      summary: {:string, :generic},
+      type: {:enum, ["reviewed", "unreviewed", "malware"]},
+      updated_at: {:string, :date_time},
+      url: {:string, :generic},
+      vulnerabilities: {:union, [[:map], :null]},
+      withdrawn_at: {:union, [{:string, :date_time}, :null]}
     ]
   end
 end

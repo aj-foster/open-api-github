@@ -1,6 +1,6 @@
 defmodule GitHub.Installation.Token do
   @moduledoc """
-  Provides struct and type for InstallationToken
+  Provides struct and type for a Installation.Token
   """
   use GitHub.Encoder
 
@@ -34,14 +34,14 @@ defmodule GitHub.Installation.Token do
 
   def __fields__(:t) do
     [
-      expires_at: :string,
+      expires_at: {:string, :generic},
       has_multiple_single_files: :boolean,
       permissions: {GitHub.App.Permissions, :t},
-      repositories: {:array, {GitHub.Repository, :t}},
-      repository_selection: :string,
-      single_file: :string,
-      single_file_paths: {:array, :string},
-      token: :string
+      repositories: [{GitHub.Repository, :t}],
+      repository_selection: {:enum, ["all", "selected"]},
+      single_file: {:string, :generic},
+      single_file_paths: [string: :generic],
+      token: {:string, :generic}
     ]
   end
 end

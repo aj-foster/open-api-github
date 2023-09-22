@@ -1,6 +1,6 @@
 defmodule GitHub.BaseGist do
   @moduledoc """
-  Provides struct and type for BaseGist
+  Provides struct and type for a BaseGist
   """
   use GitHub.Encoder
 
@@ -9,7 +9,7 @@ defmodule GitHub.BaseGist do
           comments: integer,
           comments_url: String.t(),
           commits_url: String.t(),
-          created_at: String.t(),
+          created_at: DateTime.t(),
           description: String.t() | nil,
           files: map,
           forks: [map] | nil,
@@ -23,7 +23,7 @@ defmodule GitHub.BaseGist do
           owner: GitHub.User.simple() | nil,
           public: boolean,
           truncated: boolean | nil,
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t(),
           user: GitHub.User.simple() | nil
         }
@@ -59,25 +59,25 @@ defmodule GitHub.BaseGist do
   def __fields__(:t) do
     [
       comments: :integer,
-      comments_url: :string,
-      commits_url: :string,
-      created_at: :string,
-      description: {:nullable, :string},
+      comments_url: {:string, :uri},
+      commits_url: {:string, :uri},
+      created_at: {:string, :date_time},
+      description: {:union, [{:string, :generic}, :null]},
       files: :map,
-      forks: {:array, :map},
-      forks_url: :string,
-      git_pull_url: :string,
-      git_push_url: :string,
-      history: {:array, :map},
-      html_url: :string,
-      id: :string,
-      node_id: :string,
+      forks: [:map],
+      forks_url: {:string, :uri},
+      git_pull_url: {:string, :uri},
+      git_push_url: {:string, :uri},
+      history: [:map],
+      html_url: {:string, :uri},
+      id: {:string, :generic},
+      node_id: {:string, :generic},
       owner: {GitHub.User, :simple},
       public: :boolean,
       truncated: :boolean,
-      updated_at: :string,
-      url: :string,
-      user: {:nullable, {GitHub.User, :simple}}
+      updated_at: {:string, :date_time},
+      url: {:string, :uri},
+      user: {:union, [{GitHub.User, :simple}, :null]}
     ]
   end
 end

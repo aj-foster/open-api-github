@@ -8,6 +8,8 @@ defmodule GitHub.Licenses do
   @doc """
   Get a license
 
+  Gets information about a specific license. For more information, see "[Licensing a repository ](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)."
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/licenses/licenses#get-a-license)
@@ -24,7 +26,7 @@ defmodule GitHub.Licenses do
       method: :get,
       response: [
         {200, {GitHub.License, :t}},
-        {304, nil},
+        {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
       ],
@@ -35,11 +37,13 @@ defmodule GitHub.Licenses do
   @doc """
   Get all commonly used licenses
 
+  Lists the most commonly used licenses on GitHub. For more information, see "[Licensing a repository ](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)."
+
   ## Options
 
-    * `featured` (boolean): 
-    * `per_page` (integer): The number of results per page (max 100).
-    * `page` (integer): Page number of the results to fetch.
+    * `featured`
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
 
   ## Resources
 
@@ -53,17 +57,22 @@ defmodule GitHub.Licenses do
     query = Keyword.take(opts, [:featured, :page, :per_page])
 
     client.request(%{
+      args: [],
       call: {GitHub.Licenses, :get_all_commonly_used},
       url: "/licenses",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.License, :simple}}}, {304, nil}],
+      response: [{200, [{GitHub.License, :simple}]}, {304, :null}],
       opts: opts
     })
   end
 
   @doc """
   Get the license for a repository
+
+  This method returns the contents of the repository's license file, if one is detected.
+
+  Similar to [Get repository content](https://docs.github.com/rest/repos/contents#get-repository-content), this method also supports [custom media types](https://docs.github.com/rest/overview/media-types) for retrieving the raw license content or rendered license HTML.
 
   ## Resources
 

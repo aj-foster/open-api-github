@@ -1,18 +1,18 @@
 defmodule GitHub.Copilot.SeatDetails do
   @moduledoc """
-  Provides struct and type for CopilotSeatDetails
+  Provides struct and type for a Copilot.SeatDetails
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          assignee: map,
+          assignee: any,
           assigning_team: GitHub.Team.t() | nil,
-          created_at: String.t(),
-          last_activity_at: String.t() | nil,
+          created_at: DateTime.t(),
+          last_activity_at: DateTime.t() | nil,
           last_activity_editor: String.t() | nil,
-          pending_cancellation_date: String.t() | nil,
-          updated_at: String.t() | nil
+          pending_cancellation_date: Date.t() | nil,
+          updated_at: DateTime.t() | nil
         }
 
   defstruct [
@@ -32,13 +32,13 @@ defmodule GitHub.Copilot.SeatDetails do
 
   def __fields__(:t) do
     [
-      assignee: :map,
-      assigning_team: {:nullable, {GitHub.Team, :t}},
-      created_at: :string,
-      last_activity_at: {:nullable, :string},
-      last_activity_editor: {:nullable, :string},
-      pending_cancellation_date: {:nullable, :string},
-      updated_at: :string
+      assignee: :any,
+      assigning_team: {:union, [{GitHub.Team, :t}, :null]},
+      created_at: {:string, :date_time},
+      last_activity_at: {:union, [{:string, :date_time}, :null]},
+      last_activity_editor: {:union, [{:string, :generic}, :null]},
+      pending_cancellation_date: {:union, [{:string, :date}, :null]},
+      updated_at: {:string, :date_time}
     ]
   end
 end

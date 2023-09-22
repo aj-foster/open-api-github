@@ -1,6 +1,6 @@
 defmodule GitHub.RateLimit.Overview do
   @moduledoc """
-  Provides struct and type for RateLimitOverview
+  Provides struct and type for a RateLimit.Overview
   """
   use GitHub.Encoder
 

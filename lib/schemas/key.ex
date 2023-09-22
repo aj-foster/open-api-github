@@ -1,6 +1,6 @@
 defmodule GitHub.Key do
   @moduledoc """
-  Provides struct and types for Key, KeySimple
+  Provides struct and types for a Key
   """
   use GitHub.Encoder
 
@@ -8,7 +8,7 @@ defmodule GitHub.Key do
 
   @type t :: %__MODULE__{
           __info__: map,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           id: integer,
           key: String.t(),
           read_only: boolean,
@@ -24,17 +24,17 @@ defmodule GitHub.Key do
   def __fields__(type \\ :t)
 
   def __fields__(:simple) do
-    [id: :integer, key: :string]
+    [id: :integer, key: {:string, :generic}]
   end
 
   def __fields__(:t) do
     [
-      created_at: :string,
+      created_at: {:string, :date_time},
       id: :integer,
-      key: :string,
+      key: {:string, :generic},
       read_only: :boolean,
-      title: :string,
-      url: :string,
+      title: {:string, :generic},
+      url: {:string, :generic},
       verified: :boolean
     ]
   end

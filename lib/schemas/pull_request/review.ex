@@ -1,6 +1,6 @@
 defmodule GitHub.PullRequest.Review do
   @moduledoc """
-  Provides struct and type for PullRequestReview
+  Provides struct and type for a PullRequest.Review
   """
   use GitHub.Encoder
 
@@ -17,7 +17,7 @@ defmodule GitHub.PullRequest.Review do
           node_id: String.t(),
           pull_request_url: String.t(),
           state: String.t(),
-          submitted_at: String.t() | nil,
+          submitted_at: DateTime.t() | nil,
           user: GitHub.User.simple() | nil
         }
 
@@ -45,18 +45,29 @@ defmodule GitHub.PullRequest.Review do
   def __fields__(:t) do
     [
       _links: :map,
-      author_association: :string,
-      body: :string,
-      body_html: :string,
-      body_text: :string,
-      commit_id: {:nullable, :string},
-      html_url: :string,
+      author_association:
+        {:enum,
+         [
+           "COLLABORATOR",
+           "CONTRIBUTOR",
+           "FIRST_TIMER",
+           "FIRST_TIME_CONTRIBUTOR",
+           "MANNEQUIN",
+           "MEMBER",
+           "NONE",
+           "OWNER"
+         ]},
+      body: {:string, :generic},
+      body_html: {:string, :generic},
+      body_text: {:string, :generic},
+      commit_id: {:union, [{:string, :generic}, :null]},
+      html_url: {:string, :uri},
       id: :integer,
-      node_id: :string,
-      pull_request_url: :string,
-      state: :string,
-      submitted_at: :string,
-      user: {:nullable, {GitHub.User, :simple}}
+      node_id: {:string, :generic},
+      pull_request_url: {:string, :uri},
+      state: {:string, :generic},
+      submitted_at: {:string, :date_time},
+      user: {:union, [{GitHub.User, :simple}, :null]}
     ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.Team.DiscussionComment do
   @moduledoc """
-  Provides struct and type for TeamDiscussionComment
+  Provides struct and type for a Team.DiscussionComment
   """
   use GitHub.Encoder
 
@@ -10,14 +10,14 @@ defmodule GitHub.Team.DiscussionComment do
           body: String.t(),
           body_html: String.t(),
           body_version: String.t(),
-          created_at: String.t(),
+          created_at: DateTime.t(),
           discussion_url: String.t(),
           html_url: String.t(),
-          last_edited_at: String.t() | nil,
+          last_edited_at: DateTime.t() | nil,
           node_id: String.t(),
           number: integer,
           reactions: GitHub.Reaction.Rollup.t() | nil,
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t()
         }
 
@@ -44,19 +44,19 @@ defmodule GitHub.Team.DiscussionComment do
 
   def __fields__(:t) do
     [
-      author: {:nullable, {GitHub.User, :simple}},
-      body: :string,
-      body_html: :string,
-      body_version: :string,
-      created_at: :string,
-      discussion_url: :string,
-      html_url: :string,
-      last_edited_at: {:nullable, :string},
-      node_id: :string,
+      author: {:union, [{GitHub.User, :simple}, :null]},
+      body: {:string, :generic},
+      body_html: {:string, :generic},
+      body_version: {:string, :generic},
+      created_at: {:string, :date_time},
+      discussion_url: {:string, :uri},
+      html_url: {:string, :uri},
+      last_edited_at: {:union, [{:string, :date_time}, :null]},
+      node_id: {:string, :generic},
       number: :integer,
       reactions: {GitHub.Reaction.Rollup, :t},
-      updated_at: :string,
-      url: :string
+      updated_at: {:string, :date_time},
+      url: {:string, :uri}
     ]
   end
 end

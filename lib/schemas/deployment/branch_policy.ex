@@ -1,6 +1,6 @@
 defmodule GitHub.Deployment.BranchPolicy do
   @moduledoc """
-  Provides struct and type for DeploymentBranchPolicy
+  Provides struct and type for a Deployment.BranchPolicy
   """
   use GitHub.Encoder
 
@@ -18,6 +18,6 @@ defmodule GitHub.Deployment.BranchPolicy do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [id: :integer, name: :string, node_id: :string]
+    [id: :integer, name: {:string, :generic}, node_id: {:string, :generic}]
   end
 end

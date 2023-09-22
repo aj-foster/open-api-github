@@ -1,6 +1,6 @@
 defmodule GitHub.Repository.Ruleset do
   @moduledoc """
-  Provides struct and type for RepositoryRuleset
+  Provides struct and type for a Repository.Ruleset
   """
   use GitHub.Encoder
 
@@ -8,35 +8,18 @@ defmodule GitHub.Repository.Ruleset do
           __info__: map,
           _links: map | nil,
           bypass_actors: [GitHub.Repository.Ruleset.BypassActor.t()] | nil,
-          conditions: (map | GitHub.Repository.Ruleset.Conditions.t()) | nil,
-          created_at: String.t() | nil,
+          conditions: map | GitHub.Repository.Ruleset.Conditions.t() | nil,
+          created_at: DateTime.t() | nil,
           current_user_can_bypass: String.t() | nil,
           enforcement: String.t(),
           id: integer,
           name: String.t(),
           node_id: String.t() | nil,
-          rules:
-            [
-              GitHub.Repository.Rule.BranchNamePattern.t()
-              | GitHub.Repository.Rule.CommitAuthorEmailPattern.t()
-              | GitHub.Repository.Rule.CommitMessagePattern.t()
-              | GitHub.Repository.Rule.CommitterEmailPattern.t()
-              | GitHub.Repository.Rule.Creation.t()
-              | GitHub.Repository.Rule.Deletion.t()
-              | GitHub.Repository.Rule.NonFastForward.t()
-              | GitHub.Repository.Rule.PullRequest.t()
-              | GitHub.Repository.Rule.RequiredDeployments.t()
-              | GitHub.Repository.Rule.RequiredLinearHistory.t()
-              | GitHub.Repository.Rule.RequiredSignatures.t()
-              | GitHub.Repository.Rule.RequiredStatusChecks.t()
-              | GitHub.Repository.Rule.TagNamePattern.t()
-              | GitHub.Repository.Rule.Update.t()
-            ]
-            | nil,
+          rules: [map] | nil,
           source: String.t(),
           source_type: String.t() | nil,
           target: String.t() | nil,
-          updated_at: String.t() | nil
+          updated_at: DateTime.t() | nil
         }
 
   defstruct [
@@ -64,37 +47,19 @@ defmodule GitHub.Repository.Ruleset do
   def __fields__(:t) do
     [
       _links: :map,
-      bypass_actors: {:array, {GitHub.Repository.Ruleset.BypassActor, :t}},
-      conditions: {:union, [{GitHub.Repository.Ruleset.Conditions, :t}, :map]},
-      created_at: :string,
-      current_user_can_bypass: :string,
-      enforcement: :string,
+      bypass_actors: [{GitHub.Repository.Ruleset.BypassActor, :t}],
+      conditions: {:union, [:map, {GitHub.Repository.Ruleset.Conditions, :t}]},
+      created_at: {:string, :date_time},
+      current_user_can_bypass: {:enum, ["always", "pull_requests_only", "never"]},
+      enforcement: {:enum, ["disabled", "active", "evaluate"]},
       id: :integer,
-      name: :string,
-      node_id: :string,
-      rules:
-        {:array,
-         {:union,
-          [
-            {GitHub.Repository.Rule.Creation, :t},
-            {GitHub.Repository.Rule.Update, :t},
-            {GitHub.Repository.Rule.Deletion, :t},
-            {GitHub.Repository.Rule.RequiredLinearHistory, :t},
-            {GitHub.Repository.Rule.RequiredDeployments, :t},
-            {GitHub.Repository.Rule.RequiredSignatures, :t},
-            {GitHub.Repository.Rule.PullRequest, :t},
-            {GitHub.Repository.Rule.RequiredStatusChecks, :t},
-            {GitHub.Repository.Rule.NonFastForward, :t},
-            {GitHub.Repository.Rule.CommitMessagePattern, :t},
-            {GitHub.Repository.Rule.CommitAuthorEmailPattern, :t},
-            {GitHub.Repository.Rule.CommitterEmailPattern, :t},
-            {GitHub.Repository.Rule.BranchNamePattern, :t},
-            {GitHub.Repository.Rule.TagNamePattern, :t}
-          ]}},
-      source: :string,
-      source_type: :string,
-      target: :string,
-      updated_at: :string
+      name: {:string, :generic},
+      node_id: {:string, :generic},
+      rules: [:map],
+      source: {:string, :generic},
+      source_type: {:enum, ["Repository", "Organization"]},
+      target: {:enum, ["branch", "tag"]},
+      updated_at: {:string, :date_time}
     ]
   end
 end

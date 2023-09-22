@@ -1,6 +1,6 @@
 defmodule GitHub.CustomDeploymentRuleApp do
   @moduledoc """
-  Provides struct and type for CustomDeploymentRuleApp
+  Provides struct and type for a CustomDeploymentRuleApp
   """
   use GitHub.Encoder
 
@@ -19,6 +19,11 @@ defmodule GitHub.CustomDeploymentRuleApp do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [id: :integer, integration_url: :string, node_id: :string, slug: :string]
+    [
+      id: :integer,
+      integration_url: {:string, :generic},
+      node_id: {:string, :generic},
+      slug: {:string, :generic}
+    ]
   end
 end

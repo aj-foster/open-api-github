@@ -1,21 +1,21 @@
 defmodule GitHub.PackageVersion do
   @moduledoc """
-  Provides struct and type for PackageVersion
+  Provides struct and type for a PackageVersion
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          created_at: String.t(),
-          deleted_at: String.t() | nil,
+          created_at: DateTime.t(),
+          deleted_at: DateTime.t() | nil,
           description: String.t() | nil,
           html_url: String.t() | nil,
           id: integer,
           license: String.t() | nil,
-          metadata: map | nil,
+          metadata: GitHub.PackageVersionMetadata.t() | nil,
           name: String.t(),
           package_html_url: String.t(),
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t()
         }
 
@@ -40,17 +40,17 @@ defmodule GitHub.PackageVersion do
 
   def __fields__(:t) do
     [
-      created_at: :string,
-      deleted_at: :string,
-      description: :string,
-      html_url: :string,
+      created_at: {:string, :date_time},
+      deleted_at: {:string, :date_time},
+      description: {:string, :generic},
+      html_url: {:string, :generic},
       id: :integer,
-      license: :string,
-      metadata: :map,
-      name: :string,
-      package_html_url: :string,
-      updated_at: :string,
-      url: :string
+      license: {:string, :generic},
+      metadata: {GitHub.PackageVersionMetadata, :t},
+      name: {:string, :generic},
+      package_html_url: {:string, :generic},
+      updated_at: {:string, :date_time},
+      url: {:string, :generic}
     ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.Dependabot.Alert.Package do
   @moduledoc """
-  Provides struct and type for DependabotAlertPackage
+  Provides struct and type for a Dependabot.Alert.Package
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Dependabot.Alert.Package do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [ecosystem: :string, name: :string]
+    [ecosystem: {:string, :generic}, name: {:string, :generic}]
   end
 end

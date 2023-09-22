@@ -1,14 +1,14 @@
 defmodule GitHub.Actions.Variable do
   @moduledoc """
-  Provides struct and type for ActionsVariable
+  Provides struct and type for a Actions.Variable
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           name: String.t(),
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           value: String.t()
         }
 
@@ -19,6 +19,11 @@ defmodule GitHub.Actions.Variable do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [created_at: :string, name: :string, updated_at: :string, value: :string]
+    [
+      created_at: {:string, :date_time},
+      name: {:string, :generic},
+      updated_at: {:string, :date_time},
+      value: {:string, :generic}
+    ]
   end
 end

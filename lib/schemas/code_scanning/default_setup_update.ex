@@ -1,6 +1,6 @@
 defmodule GitHub.CodeScanning.DefaultSetupUpdate do
   @moduledoc """
-  Provides struct and type for CodeScanningDefaultSetupUpdate
+  Provides struct and type for a CodeScanning.DefaultSetupUpdate
   """
   use GitHub.Encoder
 
@@ -18,6 +18,21 @@ defmodule GitHub.CodeScanning.DefaultSetupUpdate do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [languages: {:array, :string}, query_suite: :string, state: :string]
+    [
+      languages: [
+        enum: [
+          "c-cpp",
+          "csharp",
+          "go",
+          "java-kotlin",
+          "javascript-typescript",
+          "python",
+          "ruby",
+          "swift"
+        ]
+      ],
+      query_suite: {:enum, ["default", "extended"]},
+      state: {:enum, ["configured", "not-configured"]}
+    ]
   end
 end

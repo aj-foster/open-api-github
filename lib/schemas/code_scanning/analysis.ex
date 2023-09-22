@@ -1,6 +1,6 @@
 defmodule GitHub.CodeScanning.Analysis do
   @moduledoc """
-  Provides struct and type for CodeScanningAnalysis
+  Provides struct and type for a CodeScanning.Analysis
   """
   use GitHub.Encoder
 
@@ -9,7 +9,7 @@ defmodule GitHub.CodeScanning.Analysis do
           analysis_key: String.t(),
           category: String.t() | nil,
           commit_sha: String.t(),
-          created_at: String.t(),
+          created_at: DateTime.t(),
           deletable: boolean,
           environment: String.t(),
           error: String.t(),
@@ -48,21 +48,21 @@ defmodule GitHub.CodeScanning.Analysis do
 
   def __fields__(:t) do
     [
-      analysis_key: :string,
-      category: :string,
-      commit_sha: :string,
-      created_at: :string,
+      analysis_key: {:string, :generic},
+      category: {:string, :generic},
+      commit_sha: {:string, :generic},
+      created_at: {:string, :date_time},
       deletable: :boolean,
-      environment: :string,
-      error: :string,
+      environment: {:string, :generic},
+      error: {:string, :generic},
       id: :integer,
-      ref: :string,
+      ref: {:string, :generic},
       results_count: :integer,
       rules_count: :integer,
-      sarif_id: :string,
+      sarif_id: {:string, :generic},
       tool: {GitHub.CodeScanning.AnalysisTool, :t},
-      url: :string,
-      warning: :string
+      url: {:string, :uri},
+      warning: {:string, :generic}
     ]
   end
 end

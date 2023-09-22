@@ -1,6 +1,6 @@
 defmodule GitHub.Git.IgnoreTemplate do
   @moduledoc """
-  Provides struct and type for GitignoreTemplate
+  Provides struct and type for a Git.IgnoreTemplate
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Git.IgnoreTemplate do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [name: :string, source: :string]
+    [name: {:string, :generic}, source: {:string, :generic}]
   end
 end

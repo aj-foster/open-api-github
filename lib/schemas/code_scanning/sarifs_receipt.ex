@@ -1,6 +1,6 @@
 defmodule GitHub.CodeScanning.SarifsReceipt do
   @moduledoc """
-  Provides struct and type for CodeScanningSarifsReceipt
+  Provides struct and type for a CodeScanning.SarifsReceipt
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.CodeScanning.SarifsReceipt do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [id: :string, url: :string]
+    [id: {:string, :generic}, url: {:string, :uri}]
   end
 end

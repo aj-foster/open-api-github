@@ -1,6 +1,6 @@
 defmodule GitHub.Branch.Short do
   @moduledoc """
-  Provides struct and type for BranchShort
+  Provides struct and type for a Branch.Short
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Branch.Short do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [commit: :map, name: :string, protected: :boolean]
+    [commit: :map, name: {:string, :generic}, protected: :boolean]
   end
 end

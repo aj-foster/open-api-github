@@ -1,6 +1,6 @@
 defmodule GitHub.ProtectedBranch.RequiredStatusCheck do
   @moduledoc """
-  Provides struct and type for ProtectedBranchRequiredStatusCheck
+  Provides struct and type for a ProtectedBranch.RequiredStatusCheck
   """
   use GitHub.Encoder
 
@@ -22,12 +22,12 @@ defmodule GitHub.ProtectedBranch.RequiredStatusCheck do
 
   def __fields__(:t) do
     [
-      checks: {:array, :map},
-      contexts: {:array, :string},
-      contexts_url: :string,
-      enforcement_level: :string,
+      checks: [:map],
+      contexts: [string: :generic],
+      contexts_url: {:string, :generic},
+      enforcement_level: {:string, :generic},
       strict: :boolean,
-      url: :string
+      url: {:string, :generic}
     ]
   end
 end

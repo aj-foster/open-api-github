@@ -1,6 +1,6 @@
 defmodule GitHub.Email do
   @moduledoc """
-  Provides struct and type for Email
+  Provides struct and type for a Email
   """
   use GitHub.Encoder
 
@@ -19,6 +19,11 @@ defmodule GitHub.Email do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [email: :string, primary: :boolean, verified: :boolean, visibility: {:nullable, :string}]
+    [
+      email: {:string, :email},
+      primary: :boolean,
+      verified: :boolean,
+      visibility: {:union, [{:string, :generic}, :null]}
+    ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.OrgHook do
   @moduledoc """
-  Provides struct and type for OrgHook
+  Provides struct and type for a OrgHook
   """
   use GitHub.Encoder
 
@@ -8,14 +8,14 @@ defmodule GitHub.OrgHook do
           __info__: map,
           active: boolean,
           config: map,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           deliveries_url: String.t() | nil,
           events: [String.t()],
           id: integer,
           name: String.t(),
           ping_url: String.t(),
           type: String.t(),
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t()
         }
 
@@ -42,15 +42,15 @@ defmodule GitHub.OrgHook do
     [
       active: :boolean,
       config: :map,
-      created_at: :string,
-      deliveries_url: :string,
-      events: {:array, :string},
+      created_at: {:string, :date_time},
+      deliveries_url: {:string, :uri},
+      events: [string: :generic],
       id: :integer,
-      name: :string,
-      ping_url: :string,
-      type: :string,
-      updated_at: :string,
-      url: :string
+      name: {:string, :generic},
+      ping_url: {:string, :uri},
+      type: {:string, :generic},
+      updated_at: {:string, :date_time},
+      url: {:string, :uri}
     ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.DiffEntry do
   @moduledoc """
-  Provides struct and type for DiffEntry
+  Provides struct and type for a DiffEntry
   """
   use GitHub.Encoder
 
@@ -41,16 +41,17 @@ defmodule GitHub.DiffEntry do
   def __fields__(:t) do
     [
       additions: :integer,
-      blob_url: :string,
+      blob_url: {:string, :uri},
       changes: :integer,
-      contents_url: :string,
+      contents_url: {:string, :uri},
       deletions: :integer,
-      filename: :string,
-      patch: :string,
-      previous_filename: :string,
-      raw_url: :string,
-      sha: :string,
-      status: :string
+      filename: {:string, :generic},
+      patch: {:string, :generic},
+      previous_filename: {:string, :generic},
+      raw_url: {:string, :uri},
+      sha: {:string, :generic},
+      status:
+        {:enum, ["added", "removed", "modified", "renamed", "copied", "changed", "unchanged"]}
     ]
   end
 end

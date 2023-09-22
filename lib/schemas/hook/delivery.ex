@@ -1,13 +1,13 @@
 defmodule GitHub.Hook.Delivery do
   @moduledoc """
-  Provides struct and type for HookDelivery
+  Provides struct and type for a Hook.Delivery
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
           action: String.t() | nil,
-          delivered_at: String.t(),
+          delivered_at: DateTime.t(),
           duration: number,
           event: String.t(),
           guid: String.t(),
@@ -46,20 +46,20 @@ defmodule GitHub.Hook.Delivery do
 
   def __fields__(:t) do
     [
-      action: {:nullable, :string},
-      delivered_at: :string,
+      action: {:union, [{:string, :generic}, :null]},
+      delivered_at: {:string, :date_time},
       duration: :number,
-      event: :string,
-      guid: :string,
+      event: {:string, :generic},
+      guid: {:string, :generic},
       id: :integer,
-      installation_id: {:nullable, :integer},
+      installation_id: {:union, [:integer, :null]},
       redelivery: :boolean,
-      repository_id: {:nullable, :integer},
+      repository_id: {:union, [:integer, :null]},
       request: :map,
       response: :map,
-      status: :string,
+      status: {:string, :generic},
       status_code: :integer,
-      url: :string
+      url: {:string, :generic}
     ]
   end
 end

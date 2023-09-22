@@ -1,6 +1,6 @@
 defmodule GitHub.Branch.RestrictionPolicy do
   @moduledoc """
-  Provides struct and type for BranchRestrictionPolicy
+  Provides struct and type for a Branch.RestrictionPolicy
   """
   use GitHub.Encoder
 
@@ -23,13 +23,13 @@ defmodule GitHub.Branch.RestrictionPolicy do
 
   def __fields__(:t) do
     [
-      apps: {:array, :map},
-      apps_url: :string,
-      teams: {:array, :map},
-      teams_url: :string,
-      url: :string,
-      users: {:array, :map},
-      users_url: :string
+      apps: [:map],
+      apps_url: {:string, :uri},
+      teams: [:map],
+      teams_url: {:string, :uri},
+      url: {:string, :uri},
+      users: [:map],
+      users_url: {:string, :uri}
     ]
   end
 end

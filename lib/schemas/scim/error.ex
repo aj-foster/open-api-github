@@ -1,6 +1,6 @@
 defmodule GitHub.SCIM.Error do
   @moduledoc """
-  Provides struct and type for ScimError
+  Provides struct and type for a SCIM.Error
   """
   use GitHub.Encoder
 
@@ -22,11 +22,11 @@ defmodule GitHub.SCIM.Error do
 
   def __fields__(:t) do
     [
-      detail: {:nullable, :string},
-      documentation_url: {:nullable, :string},
-      message: {:nullable, :string},
-      schemas: {:array, :string},
-      scimType: {:nullable, :string},
+      detail: {:union, [{:string, :generic}, :null]},
+      documentation_url: {:union, [{:string, :generic}, :null]},
+      message: {:union, [{:string, :generic}, :null]},
+      schemas: [string: :generic],
+      scimType: {:union, [{:string, :generic}, :null]},
       status: :integer
     ]
   end

@@ -1,6 +1,6 @@
 defmodule GitHub.Organization.ProgrammaticAccessGrant.Request do
   @moduledoc """
-  Provides struct and type for OrganizationProgrammaticAccessGrantRequest
+  Provides struct and type for a Organization.ProgrammaticAccessGrant.Request
   """
   use GitHub.Encoder
 
@@ -38,16 +38,16 @@ defmodule GitHub.Organization.ProgrammaticAccessGrant.Request do
 
   def __fields__(:t) do
     [
-      created_at: :string,
+      created_at: {:string, :generic},
       id: :integer,
       owner: {GitHub.User, :simple},
       permissions: :map,
-      reason: {:nullable, :string},
-      repositories_url: :string,
-      repository_selection: :string,
+      reason: {:union, [{:string, :generic}, :null]},
+      repositories_url: {:string, :generic},
+      repository_selection: {:enum, ["none", "all", "subset"]},
       token_expired: :boolean,
-      token_expires_at: {:nullable, :string},
-      token_last_used_at: {:nullable, :string}
+      token_expires_at: {:union, [{:string, :generic}, :null]},
+      token_last_used_at: {:union, [{:string, :generic}, :null]}
     ]
   end
 end

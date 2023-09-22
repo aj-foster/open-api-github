@@ -1,6 +1,6 @@
 defmodule GitHub.Check.Annotation do
   @moduledoc """
-  Provides struct and type for CheckAnnotation
+  Provides struct and type for a Check.Annotation
   """
   use GitHub.Encoder
 
@@ -38,16 +38,16 @@ defmodule GitHub.Check.Annotation do
 
   def __fields__(:t) do
     [
-      annotation_level: {:nullable, :string},
-      blob_href: :string,
-      end_column: {:nullable, :integer},
+      annotation_level: {:union, [{:string, :generic}, :null]},
+      blob_href: {:string, :generic},
+      end_column: {:union, [:integer, :null]},
       end_line: :integer,
-      message: {:nullable, :string},
-      path: :string,
-      raw_details: {:nullable, :string},
-      start_column: {:nullable, :integer},
+      message: {:union, [{:string, :generic}, :null]},
+      path: {:string, :generic},
+      raw_details: {:union, [{:string, :generic}, :null]},
+      start_column: {:union, [:integer, :null]},
       start_line: :integer,
-      title: {:nullable, :string}
+      title: {:union, [{:string, :generic}, :null]}
     ]
   end
 end

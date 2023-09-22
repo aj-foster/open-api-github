@@ -1,6 +1,6 @@
 defmodule GitHub.Content.Tree do
   @moduledoc """
-  Provides struct and type for ContentTree
+  Provides struct and type for a Content.Tree
   """
   use GitHub.Encoder
 
@@ -41,16 +41,16 @@ defmodule GitHub.Content.Tree do
   def __fields__(:t) do
     [
       _links: :map,
-      download_url: {:nullable, :string},
-      entries: {:array, :map},
-      git_url: {:nullable, :string},
-      html_url: {:nullable, :string},
-      name: :string,
-      path: :string,
-      sha: :string,
+      download_url: {:union, [{:string, :uri}, :null]},
+      entries: [:map],
+      git_url: {:union, [{:string, :uri}, :null]},
+      html_url: {:union, [{:string, :uri}, :null]},
+      name: {:string, :generic},
+      path: {:string, :generic},
+      sha: {:string, :generic},
       size: :integer,
-      type: :string,
-      url: :string
+      type: {:string, :generic},
+      url: {:string, :uri}
     ]
   end
 end

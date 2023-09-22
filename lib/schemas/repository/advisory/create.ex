@@ -1,6 +1,6 @@
 defmodule GitHub.Repository.Advisory.Create do
   @moduledoc """
-  Provides struct and type for RepositoryAdvisoryCreate
+  Provides struct and type for a Repository.Advisory.Create
   """
   use GitHub.Encoder
 
@@ -34,14 +34,14 @@ defmodule GitHub.Repository.Advisory.Create do
 
   def __fields__(:t) do
     [
-      credits: {:nullable, {:array, :map}},
-      cve_id: {:nullable, :string},
-      cvss_vector_string: {:nullable, :string},
-      cwe_ids: {:nullable, {:array, :string}},
-      description: :string,
-      severity: {:nullable, :string},
-      summary: :string,
-      vulnerabilities: {:array, :map}
+      credits: {:union, [[:map], :null]},
+      cve_id: {:union, [{:string, :generic}, :null]},
+      cvss_vector_string: {:union, [{:string, :generic}, :null]},
+      cwe_ids: {:union, [[string: :generic], :null]},
+      description: {:string, :generic},
+      severity: {:enum, ["critical", "high", "medium", "low", nil]},
+      summary: {:string, :generic},
+      vulnerabilities: [:map]
     ]
   end
 end

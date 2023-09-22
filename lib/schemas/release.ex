@@ -1,6 +1,6 @@
 defmodule GitHub.Release do
   @moduledoc """
-  Provides struct and type for Release
+  Provides struct and type for a Release
   """
   use GitHub.Encoder
 
@@ -12,7 +12,7 @@ defmodule GitHub.Release do
           body: String.t() | nil,
           body_html: String.t() | nil,
           body_text: String.t() | nil,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           discussion_url: String.t() | nil,
           draft: boolean,
           html_url: String.t(),
@@ -21,7 +21,7 @@ defmodule GitHub.Release do
           name: String.t() | nil,
           node_id: String.t(),
           prerelease: boolean,
-          published_at: String.t() | nil,
+          published_at: DateTime.t() | nil,
           reactions: GitHub.Reaction.Rollup.t() | nil,
           tag_name: String.t(),
           tarball_url: String.t() | nil,
@@ -64,29 +64,29 @@ defmodule GitHub.Release do
 
   def __fields__(:t) do
     [
-      assets: {:array, {GitHub.Release.Asset, :t}},
-      assets_url: :string,
+      assets: [{GitHub.Release.Asset, :t}],
+      assets_url: {:string, :uri},
       author: {GitHub.User, :simple},
-      body: {:nullable, :string},
-      body_html: :string,
-      body_text: :string,
-      created_at: :string,
-      discussion_url: :string,
+      body: {:union, [{:string, :generic}, :null]},
+      body_html: {:string, :generic},
+      body_text: {:string, :generic},
+      created_at: {:string, :date_time},
+      discussion_url: {:string, :uri},
       draft: :boolean,
-      html_url: :string,
+      html_url: {:string, :uri},
       id: :integer,
       mentions_count: :integer,
-      name: {:nullable, :string},
-      node_id: :string,
+      name: {:union, [{:string, :generic}, :null]},
+      node_id: {:string, :generic},
       prerelease: :boolean,
-      published_at: {:nullable, :string},
+      published_at: {:union, [{:string, :date_time}, :null]},
       reactions: {GitHub.Reaction.Rollup, :t},
-      tag_name: :string,
-      tarball_url: {:nullable, :string},
-      target_commitish: :string,
-      upload_url: :string,
-      url: :string,
-      zipball_url: {:nullable, :string}
+      tag_name: {:string, :generic},
+      tarball_url: {:union, [{:string, :uri}, :null]},
+      target_commitish: {:string, :generic},
+      upload_url: {:string, :generic},
+      url: {:string, :uri},
+      zipball_url: {:union, [{:string, :uri}, :null]}
     ]
   end
 end

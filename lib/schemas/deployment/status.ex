@@ -1,12 +1,12 @@
 defmodule GitHub.Deployment.Status do
   @moduledoc """
-  Provides struct and type for DeploymentStatus
+  Provides struct and type for a Deployment.Status
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           creator: GitHub.User.simple() | nil,
           deployment_url: String.t(),
           description: String.t(),
@@ -19,7 +19,7 @@ defmodule GitHub.Deployment.Status do
           repository_url: String.t(),
           state: String.t(),
           target_url: String.t(),
-          updated_at: String.t(),
+          updated_at: DateTime.t(),
           url: String.t()
         }
 
@@ -48,21 +48,22 @@ defmodule GitHub.Deployment.Status do
 
   def __fields__(:t) do
     [
-      created_at: :string,
-      creator: {:nullable, {GitHub.User, :simple}},
-      deployment_url: :string,
-      description: :string,
-      environment: :string,
-      environment_url: :string,
+      created_at: {:string, :date_time},
+      creator: {:union, [{GitHub.User, :simple}, :null]},
+      deployment_url: {:string, :uri},
+      description: {:string, :generic},
+      environment: {:string, :generic},
+      environment_url: {:string, :uri},
       id: :integer,
-      log_url: :string,
-      node_id: :string,
-      performed_via_github_app: {:nullable, {GitHub.App, :t}},
-      repository_url: :string,
-      state: :string,
-      target_url: :string,
-      updated_at: :string,
-      url: :string
+      log_url: {:string, :uri},
+      node_id: {:string, :generic},
+      performed_via_github_app: {:union, [{GitHub.App, :t}, :null]},
+      repository_url: {:string, :uri},
+      state:
+        {:enum, ["error", "failure", "inactive", "pending", "success", "queued", "in_progress"]},
+      target_url: {:string, :uri},
+      updated_at: {:string, :date_time},
+      url: {:string, :uri}
     ]
   end
 end

@@ -1,15 +1,15 @@
 defmodule GitHub.Actions.Job do
   @moduledoc """
-  Provides struct and type for Job
+  Provides struct and type for a Actions.Job
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
           check_run_url: String.t(),
-          completed_at: String.t() | nil,
+          completed_at: DateTime.t() | nil,
           conclusion: String.t() | nil,
-          created_at: String.t(),
+          created_at: DateTime.t(),
           head_branch: String.t() | nil,
           head_sha: String.t(),
           html_url: String.t() | nil,
@@ -24,7 +24,7 @@ defmodule GitHub.Actions.Job do
           runner_group_name: String.t() | nil,
           runner_id: integer | nil,
           runner_name: String.t() | nil,
-          started_at: String.t(),
+          started_at: DateTime.t(),
           status: String.t(),
           steps: [map] | nil,
           url: String.t(),
@@ -64,29 +64,40 @@ defmodule GitHub.Actions.Job do
 
   def __fields__(:t) do
     [
-      check_run_url: :string,
-      completed_at: {:nullable, :string},
-      conclusion: {:nullable, :string},
-      created_at: :string,
-      head_branch: {:nullable, :string},
-      head_sha: :string,
-      html_url: {:nullable, :string},
+      check_run_url: {:string, :generic},
+      completed_at: {:union, [{:string, :date_time}, :null]},
+      conclusion:
+        {:enum,
+         [
+           "success",
+           "failure",
+           "neutral",
+           "cancelled",
+           "skipped",
+           "timed_out",
+           "action_required",
+           nil
+         ]},
+      created_at: {:string, :date_time},
+      head_branch: {:union, [{:string, :generic}, :null]},
+      head_sha: {:string, :generic},
+      html_url: {:union, [{:string, :generic}, :null]},
       id: :integer,
-      labels: {:array, :string},
-      name: :string,
-      node_id: :string,
+      labels: [string: :generic],
+      name: {:string, :generic},
+      node_id: {:string, :generic},
       run_attempt: :integer,
       run_id: :integer,
-      run_url: :string,
-      runner_group_id: {:nullable, :integer},
-      runner_group_name: {:nullable, :string},
-      runner_id: {:nullable, :integer},
-      runner_name: {:nullable, :string},
-      started_at: :string,
-      status: :string,
-      steps: {:array, :map},
-      url: :string,
-      workflow_name: {:nullable, :string}
+      run_url: {:string, :generic},
+      runner_group_id: {:union, [:integer, :null]},
+      runner_group_name: {:union, [{:string, :generic}, :null]},
+      runner_id: {:union, [:integer, :null]},
+      runner_name: {:union, [{:string, :generic}, :null]},
+      started_at: {:string, :date_time},
+      status: {:enum, ["queued", "in_progress", "completed"]},
+      steps: [:map],
+      url: {:string, :generic},
+      workflow_name: {:union, [{:string, :generic}, :null]}
     ]
   end
 end

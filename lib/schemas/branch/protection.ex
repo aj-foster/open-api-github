@@ -1,6 +1,6 @@
 defmodule GitHub.Branch.Protection do
   @moduledoc """
-  Provides struct and type for BranchProtection
+  Provides struct and type for a Branch.Protection
   """
   use GitHub.Encoder
 
@@ -57,15 +57,15 @@ defmodule GitHub.Branch.Protection do
       enabled: :boolean,
       enforce_admins: {GitHub.ProtectedBranch.AdminEnforced, :t},
       lock_branch: :map,
-      name: :string,
-      protection_url: :string,
+      name: {:string, :generic},
+      protection_url: {:string, :generic},
       required_conversation_resolution: :map,
       required_linear_history: :map,
       required_pull_request_reviews: {GitHub.ProtectedBranch.PullRequestReview, :t},
       required_signatures: :map,
       required_status_checks: {GitHub.ProtectedBranch.RequiredStatusCheck, :t},
       restrictions: {GitHub.Branch.RestrictionPolicy, :t},
-      url: :string
+      url: {:string, :generic}
     ]
   end
 end

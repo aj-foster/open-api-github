@@ -1,6 +1,6 @@
 defmodule GitHub.CodeScanning.SarifsStatus do
   @moduledoc """
-  Provides struct and type for CodeScanningSarifsStatus
+  Provides struct and type for a CodeScanning.SarifsStatus
   """
   use GitHub.Encoder
 
@@ -19,9 +19,9 @@ defmodule GitHub.CodeScanning.SarifsStatus do
 
   def __fields__(:t) do
     [
-      analyses_url: {:nullable, :string},
-      errors: {:nullable, {:array, :string}},
-      processing_status: :string
+      analyses_url: {:union, [{:string, :uri}, :null]},
+      errors: {:union, [[string: :generic], :null]},
+      processing_status: {:enum, ["pending", "complete", "failed"]}
     ]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.Commit.Activity do
   @moduledoc """
-  Provides struct and type for CommitActivity
+  Provides struct and type for a Commit.Activity
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Commit.Activity do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [days: {:array, :integer}, total: :integer, week: :integer]
+    [days: [:integer], total: :integer, week: :integer]
   end
 end

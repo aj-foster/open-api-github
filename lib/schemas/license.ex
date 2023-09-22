@@ -1,6 +1,6 @@
 defmodule GitHub.License do
   @moduledoc """
-  Provides struct and types for License, LicenseSimple
+  Provides struct and types for a License
   """
   use GitHub.Encoder
 
@@ -54,30 +54,30 @@ defmodule GitHub.License do
 
   def __fields__(:simple) do
     [
-      html_url: :string,
-      key: :string,
-      name: :string,
-      node_id: :string,
-      spdx_id: {:nullable, :string},
-      url: {:nullable, :string}
+      html_url: {:string, :uri},
+      key: {:string, :generic},
+      name: {:string, :generic},
+      node_id: {:string, :generic},
+      spdx_id: {:union, [{:string, :generic}, :null]},
+      url: {:union, [{:string, :uri}, :null]}
     ]
   end
 
   def __fields__(:t) do
     [
-      body: :string,
-      conditions: {:array, :string},
-      description: :string,
+      body: {:string, :generic},
+      conditions: [string: :generic],
+      description: {:string, :generic},
       featured: :boolean,
-      html_url: :string,
-      implementation: :string,
-      key: :string,
-      limitations: {:array, :string},
-      name: :string,
-      node_id: :string,
-      permissions: {:array, :string},
-      spdx_id: {:nullable, :string},
-      url: {:nullable, :string}
+      html_url: {:string, :uri},
+      implementation: {:string, :generic},
+      key: {:string, :generic},
+      limitations: [string: :generic],
+      name: {:string, :generic},
+      node_id: {:string, :generic},
+      permissions: [string: :generic],
+      spdx_id: {:union, [{:string, :generic}, :null]},
+      url: {:union, [{:string, :uri}, :null]}
     ]
   end
 end

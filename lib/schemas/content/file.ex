@@ -1,6 +1,6 @@
 defmodule GitHub.Content.File do
   @moduledoc """
-  Provides struct and type for ContentFile
+  Provides struct and type for a Content.File
   """
   use GitHub.Encoder
 
@@ -47,19 +47,19 @@ defmodule GitHub.Content.File do
   def __fields__(:t) do
     [
       _links: :map,
-      content: :string,
-      download_url: {:nullable, :string},
-      encoding: :string,
-      git_url: {:nullable, :string},
-      html_url: {:nullable, :string},
-      name: :string,
-      path: :string,
-      sha: :string,
+      content: {:string, :generic},
+      download_url: {:union, [{:string, :uri}, :null]},
+      encoding: {:string, :generic},
+      git_url: {:union, [{:string, :uri}, :null]},
+      html_url: {:union, [{:string, :uri}, :null]},
+      name: {:string, :generic},
+      path: {:string, :generic},
+      sha: {:string, :generic},
       size: :integer,
-      submodule_git_url: :string,
-      target: :string,
-      type: :string,
-      url: :string
+      submodule_git_url: {:string, :generic},
+      target: {:string, :generic},
+      type: {:const, "file"},
+      url: {:string, :uri}
     ]
   end
 end

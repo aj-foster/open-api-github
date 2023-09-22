@@ -1,6 +1,6 @@
 defmodule GitHub.CommunityProfile do
   @moduledoc """
-  Provides struct and type for CommunityProfile
+  Provides struct and type for a CommunityProfile
   """
   use GitHub.Encoder
 
@@ -11,7 +11,7 @@ defmodule GitHub.CommunityProfile do
           documentation: String.t() | nil,
           files: map,
           health_percentage: integer,
-          updated_at: String.t() | nil
+          updated_at: DateTime.t() | nil
         }
 
   defstruct [
@@ -31,11 +31,11 @@ defmodule GitHub.CommunityProfile do
   def __fields__(:t) do
     [
       content_reports_enabled: :boolean,
-      description: {:nullable, :string},
-      documentation: {:nullable, :string},
+      description: {:union, [{:string, :generic}, :null]},
+      documentation: {:union, [{:string, :generic}, :null]},
       files: :map,
       health_percentage: :integer,
-      updated_at: {:nullable, :string}
+      updated_at: {:union, [{:string, :date_time}, :null]}
     ]
   end
 end

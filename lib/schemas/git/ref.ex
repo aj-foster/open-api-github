@@ -1,6 +1,6 @@
 defmodule GitHub.Git.Ref do
   @moduledoc """
-  Provides struct and type for GitRef
+  Provides struct and type for a Git.Ref
   """
   use GitHub.Encoder
 
@@ -19,6 +19,6 @@ defmodule GitHub.Git.Ref do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [node_id: :string, object: :map, ref: :string, url: :string]
+    [node_id: {:string, :generic}, object: :map, ref: {:string, :generic}, url: {:string, :uri}]
   end
 end

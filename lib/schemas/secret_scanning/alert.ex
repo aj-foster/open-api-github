@@ -1,27 +1,27 @@
 defmodule GitHub.SecretScanning.Alert do
   @moduledoc """
-  Provides struct and type for SecretScanningAlert
+  Provides struct and type for a SecretScanning.Alert
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          created_at: String.t() | nil,
+          created_at: DateTime.t() | nil,
           html_url: String.t() | nil,
           locations_url: String.t() | nil,
           number: integer | nil,
           push_protection_bypassed: boolean | nil,
-          push_protection_bypassed_at: String.t() | nil,
+          push_protection_bypassed_at: DateTime.t() | nil,
           push_protection_bypassed_by: GitHub.User.simple() | nil,
           resolution: String.t() | nil,
           resolution_comment: String.t() | nil,
-          resolved_at: String.t() | nil,
+          resolved_at: DateTime.t() | nil,
           resolved_by: GitHub.User.simple() | nil,
           secret: String.t() | nil,
           secret_type: String.t() | nil,
           secret_type_display_name: String.t() | nil,
           state: String.t() | nil,
-          updated_at: String.t() | nil,
+          updated_at: DateTime.t() | nil,
           url: String.t() | nil
         }
 
@@ -52,23 +52,23 @@ defmodule GitHub.SecretScanning.Alert do
 
   def __fields__(:t) do
     [
-      created_at: :string,
-      html_url: :string,
-      locations_url: :string,
+      created_at: {:string, :date_time},
+      html_url: {:string, :uri},
+      locations_url: {:string, :uri},
       number: :integer,
-      push_protection_bypassed: {:nullable, :boolean},
-      push_protection_bypassed_at: {:nullable, :string},
-      push_protection_bypassed_by: {:nullable, {GitHub.User, :simple}},
-      resolution: {:nullable, :string},
-      resolution_comment: {:nullable, :string},
-      resolved_at: {:nullable, :string},
-      resolved_by: {:nullable, {GitHub.User, :simple}},
-      secret: :string,
-      secret_type: :string,
-      secret_type_display_name: :string,
-      state: :string,
-      updated_at: {:nullable, :string},
-      url: :string
+      push_protection_bypassed: {:union, [:boolean, :null]},
+      push_protection_bypassed_at: {:union, [{:string, :date_time}, :null]},
+      push_protection_bypassed_by: {:union, [{GitHub.User, :simple}, :null]},
+      resolution: {:enum, ["false_positive", "wont_fix", "revoked", "used_in_tests", nil]},
+      resolution_comment: {:union, [{:string, :generic}, :null]},
+      resolved_at: {:union, [{:string, :date_time}, :null]},
+      resolved_by: {:union, [{GitHub.User, :simple}, :null]},
+      secret: {:string, :generic},
+      secret_type: {:string, :generic},
+      secret_type_display_name: {:string, :generic},
+      state: {:enum, ["open", "resolved"]},
+      updated_at: {:union, [{:string, :date_time}, :null]},
+      url: {:string, :uri}
     ]
   end
 end

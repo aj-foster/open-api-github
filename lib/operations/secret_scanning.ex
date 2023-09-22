@@ -8,6 +8,12 @@ defmodule GitHub.SecretScanning do
   @doc """
   Get a secret scanning alert
 
+  Gets a single secret scanning alert detected in an eligible repository.
+  To use this endpoint, you must be an administrator for the repository or for the organization that owns the repository, and you must use a personal access token with the `repo` scope or `security_events` scope.
+  For public repositories, you may instead use the `public_repo` scope.
+
+  GitHub Apps must have the `secret_scanning_alerts` read permission to use this endpoint.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/secret-scanning/secret-scanning#get-a-secret-scanning-alert)
@@ -23,7 +29,12 @@ defmodule GitHub.SecretScanning do
       call: {GitHub.SecretScanning, :get_alert},
       url: "/repos/#{owner}/#{repo}/secret-scanning/alerts/#{alert_number}",
       method: :get,
-      response: [{200, {GitHub.SecretScanning.Alert, :t}}, {304, nil}, {404, nil}, {503, :map}],
+      response: [
+        {200, {GitHub.SecretScanning.Alert, :t}},
+        {304, :null},
+        {404, :null},
+        {503, :map}
+      ],
       opts: opts
     })
   end
@@ -31,18 +42,21 @@ defmodule GitHub.SecretScanning do
   @doc """
   List secret scanning alerts for an enterprise
 
+  Lists secret scanning alerts for eligible repositories in an enterprise, from newest to oldest.
+  To use this endpoint, you must be a member of the enterprise, and you must use an access token with the `repo` scope or `security_events` scope. Alerts are only returned for organizations in the enterprise for which you are an organization owner or a [security manager](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).
+
   ## Options
 
-    * `state` (String.t()): Set to `open` or `resolved` to only list secret scanning alerts in a specific state.
-    * `secret_type` (String.t()): A comma-separated list of secret types to return. By default all secret types are returned.
-  See "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)"
-  for a complete list of secret types.
-    * `resolution` (String.t()): A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`.
-    * `sort` (String.t()): The property to sort the results by. `created` means when the alert was created. `updated` means when the alert was updated or resolved.
-    * `direction` (String.t()): The direction to sort the results by.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
-    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
+    * `state`: Set to `open` or `resolved` to only list secret scanning alerts in a specific state.
+    * `secret_type`: A comma-separated list of secret types to return. By default all secret types are returned.
+      See "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)"
+      for a complete list of secret types.
+    * `resolution`: A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`.
+    * `sort`: The property to sort the results by. `created` means when the alert was created. `updated` means when the alert was updated or resolved.
+    * `direction`: The direction to sort the results by.
+    * `per_page`: The number of results per page (max 100).
+    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
+    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
 
   ## Resources
 
@@ -73,7 +87,7 @@ defmodule GitHub.SecretScanning do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Organization.SecretScanningAlert, :t}}},
+        {200, [{GitHub.Organization.SecretScanningAlert, :t}]},
         {404, {GitHub.BasicError, :t}},
         {503, :map}
       ],
@@ -84,19 +98,25 @@ defmodule GitHub.SecretScanning do
   @doc """
   List secret scanning alerts for an organization
 
+  Lists secret scanning alerts for eligible repositories in an organization, from newest to oldest.
+  To use this endpoint, you must be an administrator or security manager for the organization, and you must use an access token with the `repo` scope or `security_events` scope.
+  For public repositories, you may instead use the `public_repo` scope.
+
+  GitHub Apps must have the `secret_scanning_alerts` read permission to use this endpoint.
+
   ## Options
 
-    * `state` (String.t()): Set to `open` or `resolved` to only list secret scanning alerts in a specific state.
-    * `secret_type` (String.t()): A comma-separated list of secret types to return. By default all secret types are returned.
-  See "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)"
-  for a complete list of secret types.
-    * `resolution` (String.t()): A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`.
-    * `sort` (String.t()): The property to sort the results by. `created` means when the alert was created. `updated` means when the alert was updated or resolved.
-    * `direction` (String.t()): The direction to sort the results by.
-    * `page` (integer): Page number of the results to fetch.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events before this cursor. To receive an initial cursor on your first request, include an empty "before" query string.
-    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events after this cursor.  To receive an initial cursor on your first request, include an empty "after" query string.
+    * `state`: Set to `open` or `resolved` to only list secret scanning alerts in a specific state.
+    * `secret_type`: A comma-separated list of secret types to return. By default all secret types are returned.
+      See "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)"
+      for a complete list of secret types.
+    * `resolution`: A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`.
+    * `sort`: The property to sort the results by. `created` means when the alert was created. `updated` means when the alert was updated or resolved.
+    * `direction`: The direction to sort the results by.
+    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events before this cursor. To receive an initial cursor on your first request, include an empty "before" query string.
+    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events after this cursor.  To receive an initial cursor on your first request, include an empty "after" query string.
 
   ## Resources
 
@@ -128,7 +148,7 @@ defmodule GitHub.SecretScanning do
       method: :get,
       query: query,
       response: [
-        {200, {:array, {GitHub.Organization.SecretScanningAlert, :t}}},
+        {200, [{GitHub.Organization.SecretScanningAlert, :t}]},
         {404, {GitHub.BasicError, :t}},
         {503, :map}
       ],
@@ -139,19 +159,25 @@ defmodule GitHub.SecretScanning do
   @doc """
   List secret scanning alerts for a repository
 
+  Lists secret scanning alerts for an eligible repository, from newest to oldest.
+  To use this endpoint, you must be an administrator for the repository or for the organization that owns the repository, and you must use a personal access token with the `repo` scope or `security_events` scope.
+  For public repositories, you may instead use the `public_repo` scope.
+
+  GitHub Apps must have the `secret_scanning_alerts` read permission to use this endpoint.
+
   ## Options
 
-    * `state` (String.t()): Set to `open` or `resolved` to only list secret scanning alerts in a specific state.
-    * `secret_type` (String.t()): A comma-separated list of secret types to return. By default all secret types are returned.
-  See "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)"
-  for a complete list of secret types.
-    * `resolution` (String.t()): A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`.
-    * `sort` (String.t()): The property to sort the results by. `created` means when the alert was created. `updated` means when the alert was updated or resolved.
-    * `direction` (String.t()): The direction to sort the results by.
-    * `page` (integer): Page number of the results to fetch.
-    * `per_page` (integer): The number of results per page (max 100).
-    * `before` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events before this cursor. To receive an initial cursor on your first request, include an empty "before" query string.
-    * `after` (String.t()): A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events after this cursor.  To receive an initial cursor on your first request, include an empty "after" query string.
+    * `state`: Set to `open` or `resolved` to only list secret scanning alerts in a specific state.
+    * `secret_type`: A comma-separated list of secret types to return. By default all secret types are returned.
+      See "[Secret scanning patterns](https://docs.github.com/code-security/secret-scanning/secret-scanning-patterns#supported-secrets-for-advanced-security)"
+      for a complete list of secret types.
+    * `resolution`: A comma-separated list of resolutions. Only secret scanning alerts with one of these resolutions are listed. Valid resolutions are `false_positive`, `wont_fix`, `revoked`, `pattern_edited`, `pattern_deleted` or `used_in_tests`.
+    * `sort`: The property to sort the results by. `created` means when the alert was created. `updated` means when the alert was updated or resolved.
+    * `direction`: The direction to sort the results by.
+    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
+    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events before this cursor. To receive an initial cursor on your first request, include an empty "before" query string.
+    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for events after this cursor.  To receive an initial cursor on your first request, include an empty "after" query string.
 
   ## Resources
 
@@ -182,7 +208,7 @@ defmodule GitHub.SecretScanning do
       url: "/repos/#{owner}/#{repo}/secret-scanning/alerts",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.SecretScanning.Alert, :t}}}, {404, nil}, {503, :map}],
+      response: [{200, [{GitHub.SecretScanning.Alert, :t}]}, {404, :null}, {503, :map}],
       opts: opts
     })
   end
@@ -190,10 +216,16 @@ defmodule GitHub.SecretScanning do
   @doc """
   List locations for a secret scanning alert
 
+  Lists all locations for a given secret scanning alert for an eligible repository.
+  To use this endpoint, you must be an administrator for the repository or for the organization that owns the repository, and you must use a personal access token with the `repo` scope or `security_events` scope.
+  For public repositories, you may instead use the `public_repo` scope.
+
+  GitHub Apps must have the `secret_scanning_alerts` read permission to use this endpoint.
+
   ## Options
 
-    * `page` (integer): Page number of the results to fetch.
-    * `per_page` (integer): The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100).
 
   ## Resources
 
@@ -212,13 +244,19 @@ defmodule GitHub.SecretScanning do
       url: "/repos/#{owner}/#{repo}/secret-scanning/alerts/#{alert_number}/locations",
       method: :get,
       query: query,
-      response: [{200, {:array, {GitHub.SecretScanning.Location, :t}}}, {404, nil}, {503, :map}],
+      response: [{200, [{GitHub.SecretScanning.Location, :t}]}, {404, :null}, {503, :map}],
       opts: opts
     })
   end
 
   @doc """
   Update a secret scanning alert
+
+  Updates the status of a secret scanning alert in an eligible repository.
+  To use this endpoint, you must be an administrator for the repository or for the organization that owns the repository, and you must use a personal access token with the `repo` scope or `security_events` scope.
+  For public repositories, you may instead use the `public_repo` scope.
+
+  GitHub Apps must have the `secret_scanning_alerts` write permission to use this endpoint.
 
   ## Resources
 
@@ -239,9 +277,9 @@ defmodule GitHub.SecretScanning do
       request: [{"application/json", :map}],
       response: [
         {200, {GitHub.SecretScanning.Alert, :t}},
-        {400, nil},
-        {404, nil},
-        {422, nil},
+        {400, :null},
+        {404, :null},
+        {422, :null},
         {503, :map}
       ],
       opts: opts

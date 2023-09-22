@@ -1,6 +1,6 @@
 defmodule GitHub.PendingDeployment do
   @moduledoc """
-  Provides struct and type for PendingDeployment
+  Provides struct and type for a PendingDeployment
   """
   use GitHub.Encoder
 
@@ -10,7 +10,7 @@ defmodule GitHub.PendingDeployment do
           environment: map,
           reviewers: [map],
           wait_timer: integer,
-          wait_timer_started_at: String.t() | nil
+          wait_timer_started_at: DateTime.t() | nil
         }
 
   defstruct [
@@ -30,9 +30,9 @@ defmodule GitHub.PendingDeployment do
     [
       current_user_can_approve: :boolean,
       environment: :map,
-      reviewers: {:array, :map},
+      reviewers: [:map],
       wait_timer: :integer,
-      wait_timer_started_at: {:nullable, :string}
+      wait_timer_started_at: {:union, [{:string, :date_time}, :null]}
     ]
   end
 end

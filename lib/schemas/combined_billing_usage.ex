@@ -1,6 +1,6 @@
 defmodule GitHub.CombinedBillingUsage do
   @moduledoc """
-  Provides struct and type for CombinedBillingUsage
+  Provides struct and type for a CombinedBillingUsage
   """
   use GitHub.Encoder
 

@@ -1,6 +1,6 @@
 defmodule GitHub.DependencyGraph.SpdxSbom do
   @moduledoc """
-  Provides struct and type for DependencyGraphSpdxSbom
+  Provides struct and type for a DependencyGraph.SpdxSbom
   """
   use GitHub.Encoder
 

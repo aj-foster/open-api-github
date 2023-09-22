@@ -1,12 +1,12 @@
 defmodule GitHub.AuthenticationToken do
   @moduledoc """
-  Provides struct and type for AuthenticationToken
+  Provides struct and type for a AuthenticationToken
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
-          expires_at: String.t(),
+          expires_at: DateTime.t(),
           permissions: map | nil,
           repositories: [GitHub.Repository.t()] | nil,
           repository_selection: String.t() | nil,
@@ -30,12 +30,12 @@ defmodule GitHub.AuthenticationToken do
 
   def __fields__(:t) do
     [
-      expires_at: :string,
+      expires_at: {:string, :date_time},
       permissions: :map,
-      repositories: {:array, {GitHub.Repository, :t}},
-      repository_selection: :string,
-      single_file: {:nullable, :string},
-      token: :string
+      repositories: [{GitHub.Repository, :t}],
+      repository_selection: {:enum, ["all", "selected"]},
+      single_file: {:union, [{:string, :generic}, :null]},
+      token: {:string, :generic}
     ]
   end
 end

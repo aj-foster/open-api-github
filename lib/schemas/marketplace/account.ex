@@ -1,6 +1,6 @@
 defmodule GitHub.Marketplace.Account do
   @moduledoc """
-  Provides struct and type for MarketplaceAccount
+  Provides struct and type for a Marketplace.Account
   """
   use GitHub.Encoder
 
@@ -23,13 +23,13 @@ defmodule GitHub.Marketplace.Account do
 
   def __fields__(:t) do
     [
-      email: {:nullable, :string},
+      email: {:union, [{:string, :email}, :null]},
       id: :integer,
-      login: :string,
-      node_id: :string,
-      organization_billing_email: {:nullable, :string},
-      type: :string,
-      url: :string
+      login: {:string, :generic},
+      node_id: {:string, :generic},
+      organization_billing_email: {:union, [{:string, :email}, :null]},
+      type: {:string, :generic},
+      url: {:string, :uri}
     ]
   end
 end

@@ -13,7 +13,7 @@ defmodule GitHub.Markdown do
     * [API method documentation](https://docs.github.com/rest/markdown/markdown#render-a-markdown-document)
 
   """
-  @spec render(map, keyword) :: {:ok, binary} | {:error, GitHub.Error.t()}
+  @spec render(map, keyword) :: {:ok, String.t()} | {:error, GitHub.Error.t()}
   def render(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -24,7 +24,7 @@ defmodule GitHub.Markdown do
       body: body,
       method: :post,
       request: [{"application/json", :map}],
-      response: [{200, :binary}, {304, nil}],
+      response: [{200, {:string, :generic}}, {304, :null}],
       opts: opts
     })
   end
@@ -32,12 +32,14 @@ defmodule GitHub.Markdown do
   @doc """
   Render a Markdown document in raw mode
 
+  You must send Markdown as plain text (using a `Content-Type` header of `text/plain` or `text/x-markdown`) to this endpoint, rather than using JSON format. In raw mode, [GitHub Flavored Markdown](https://github.github.com/gfm/) is not supported and Markdown will be rendered in plain format like a README.md file. Markdown content must be 400 KB or less.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/markdown/markdown#render-a-markdown-document-in-raw-mode)
 
   """
-  @spec render_raw(String.t(), keyword) :: {:ok, binary} | {:error, GitHub.Error.t()}
+  @spec render_raw(String.t(), keyword) :: {:ok, String.t()} | {:error, GitHub.Error.t()}
   def render_raw(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -47,8 +49,8 @@ defmodule GitHub.Markdown do
       url: "/markdown/raw",
       body: body,
       method: :post,
-      request: [{"text/plain", :string}, {"text/x-markdown", :string}],
-      response: [{200, :binary}, {304, nil}],
+      request: [{"text/plain", {:string, :generic}}, {"text/x-markdown", {:string, :generic}}],
+      response: [{200, {:string, :generic}}, {304, :null}],
       opts: opts
     })
   end

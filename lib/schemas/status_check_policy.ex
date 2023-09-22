@@ -1,6 +1,6 @@
 defmodule GitHub.StatusCheckPolicy do
   @moduledoc """
-  Provides struct and type for StatusCheckPolicy
+  Provides struct and type for a StatusCheckPolicy
   """
   use GitHub.Encoder
 
@@ -21,11 +21,11 @@ defmodule GitHub.StatusCheckPolicy do
 
   def __fields__(:t) do
     [
-      checks: {:array, :map},
-      contexts: {:array, :string},
-      contexts_url: :string,
+      checks: [:map],
+      contexts: [string: :generic],
+      contexts_url: {:string, :uri},
       strict: :boolean,
-      url: :string
+      url: {:string, :uri}
     ]
   end
 end

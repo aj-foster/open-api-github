@@ -1,6 +1,6 @@
 defmodule GitHub.Git.Commit do
   @moduledoc """
-  Provides struct and type for GitCommit
+  Provides struct and type for a Git.Commit
   """
   use GitHub.Encoder
 
@@ -40,13 +40,13 @@ defmodule GitHub.Git.Commit do
     [
       author: :map,
       committer: :map,
-      html_url: :string,
-      message: :string,
-      node_id: :string,
-      parents: {:array, :map},
-      sha: :string,
+      html_url: {:string, :uri},
+      message: {:string, :generic},
+      node_id: {:string, :generic},
+      parents: [:map],
+      sha: {:string, :generic},
       tree: :map,
-      url: :string,
+      url: {:string, :uri},
       verification: :map
     ]
   end

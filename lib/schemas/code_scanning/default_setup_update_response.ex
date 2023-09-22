@@ -1,6 +1,6 @@
 defmodule GitHub.CodeScanning.DefaultSetupUpdateResponse do
   @moduledoc """
-  Provides struct and type for CodeScanningDefaultSetupUpdateResponse
+  Provides struct and type for a CodeScanning.DefaultSetupUpdateResponse
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.CodeScanning.DefaultSetupUpdateResponse do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [run_id: :integer, run_url: :string]
+    [run_id: :integer, run_url: {:string, :generic}]
   end
 end

@@ -1,6 +1,6 @@
 defmodule GitHub.Metadata do
   @moduledoc """
-  Provides struct and type for Metadata
+  Provides struct and type for a Metadata
   """
   use GitHub.Encoder
 

@@ -1,6 +1,6 @@
 defmodule GitHub.FileCommit do
   @moduledoc """
-  Provides struct and type for FileCommit
+  Provides struct and type for a FileCommit
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.FileCommit do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [commit: :map, content: {:nullable, :map}]
+    [commit: :map, content: {:union, [:map, :null]}]
   end
 end

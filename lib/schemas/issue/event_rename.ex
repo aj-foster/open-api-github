@@ -1,6 +1,6 @@
 defmodule GitHub.Issue.EventRename do
   @moduledoc """
-  Provides struct and type for IssueEventRename
+  Provides struct and type for a Issue.EventRename
   """
   use GitHub.Encoder
 
@@ -13,6 +13,6 @@ defmodule GitHub.Issue.EventRename do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [from: :string, to: :string]
+    [from: {:string, :generic}, to: {:string, :generic}]
   end
 end

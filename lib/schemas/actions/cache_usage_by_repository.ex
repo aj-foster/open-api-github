@@ -1,6 +1,6 @@
 defmodule GitHub.Actions.CacheUsageByRepository do
   @moduledoc """
-  Provides struct and type for ActionsCacheUsageByRepository
+  Provides struct and type for a Actions.CacheUsageByRepository
   """
   use GitHub.Encoder
 
@@ -18,6 +18,10 @@ defmodule GitHub.Actions.CacheUsageByRepository do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [active_caches_count: :integer, active_caches_size_in_bytes: :integer, full_name: :string]
+    [
+      active_caches_count: :integer,
+      active_caches_size_in_bytes: :integer,
+      full_name: {:string, :generic}
+    ]
   end
 end
