@@ -53,9 +53,11 @@ defmodule GitHub.Plugin.TypedDecoder do
     end
   end
 
-  defp do_decode(value, {:array, type}), do: Enum.map(value, &do_decode(&1, type))
-  defp do_decode(nil, {:nullable, _type}), do: nil
-  defp do_decode(value, {:nullable, type}), do: do_decode(value, type)
+  defp do_decode(value, [type]), do: Enum.map(value, &do_decode(&1, type))
+  defp do_decode(nil, :null), do: nil
+  defp do_decode(value, {:string, :date}), do: Date.from_iso8601!(value)
+  defp do_decode(value, {:string, :date_time}), do: DateTime.from_iso8601(value) |> elem(1)
+  defp do_decode(value, {:string, :time}), do: Time.from_iso8601!(value)
   defp do_decode(value, {:union, types}), do: do_decode(value, choose_union(value, types))
 
   defp do_decode(%{} = value, {module, type}) do
@@ -74,7 +76,7 @@ defmodule GitHub.Plugin.TypedDecoder do
     end
   end
 
-  defp do_decode("", nil), do: nil
+  defp do_decode("", :null), do: nil
   defp do_decode(value, _type), do: value
 
   @doc """

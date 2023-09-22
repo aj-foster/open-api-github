@@ -174,33 +174,34 @@ defmodule GitHub.Testing do
 
   # Special cases
   def generate(_schema, :id, :integer), do: System.unique_integer([:positive])
-  def generate(_schema, :login, :string), do: Faker.Internet.user_name()
+  def generate(_schema, :login, {:string, :generic}), do: Faker.Internet.user_name()
 
   def generate(GitHub.PullRequest, base_or_head, :map) when base_or_head in [:base, :head] do
     %{
-      label: generate(:_, :label, :string),
-      ref: generate(:_, :ref, :string),
+      label: generate(:_, :label, {:string, :generic}),
+      ref: generate(:_, :ref, {:string, :generic}),
       repo: generate(:_, :repo, {GitHub.Repository, :t}),
-      sha: generate(:_, :sha, :string)
+      sha: generate(:_, :sha, {:string, :generic})
     }
   end
 
-  def generate(GitHub.Repository, :created_at, {:nullable, :string}),
-    do: generate(GitHub.Repository, :created_at, :string)
+  def generate(GitHub.Repository, :created_at, {:union, [{:string, :date_time}, :null]}),
+    do: generate(GitHub.Repository, :created_at, {:string, :date_time})
 
   def generate(GitHub.Repository, :fork, :boolean), do: false
   def generate(GitHub.Repository, :parent, _), do: nil
   def generate(GitHub.Repository, :source, _), do: nil
   def generate(GitHub.Repository, :template_repository, _), do: nil
 
-  def generate(GitHub.User, :name, :string), do: Faker.Person.name()
-  def generate(GitHub.User, :type, :string), do: Enum.random(["User", "Bot", "Organization"])
+  def generate(GitHub.User, :name, {:union, [{:string, :generic}, :null]}),
+    do: Faker.Person.name()
+
+  def generate(GitHub.User, :type, {:string, :generic}),
+    do: Enum.random(["User", "Bot", "Organization"])
 
   # Primitive types
-  def generate(_schema, _key, :binary), do: Faker.String.base64()
   def generate(_schema, _key, :boolean), do: Enum.random([true, false])
   def generate(_schema, _key, :integer), do: Enum.random(1..10)
-  def generate(_schema, _key, :map), do: %{}
 
   def generate(_schema, _key, :number) do
     Enum.random([
@@ -209,19 +210,38 @@ defmodule GitHub.Testing do
     ]).()
   end
 
-  def generate(_schema, key, :string) do
+  def generate(_schema, _key, {:string, :binary}), do: Faker.String.base64()
+
+  def generate(_schema, _key, {:string, :date}) do
+    today = Date.utc_today()
+    last_week = Date.add(today, -7)
+
+    Faker.Date.between(last_week, today)
+    |> Date.to_iso8601()
+  end
+
+  def generate(_schema, _key, {:string, :date_time}) do
+    now = DateTime.utc_now()
+    yesterday = DateTime.add(now, -1, :day)
+
+    Faker.DateTime.between(yesterday, now)
+    |> DateTime.to_iso8601()
+  end
+
+  def generate(_schema, _key, {:string, :email}), do: Faker.Internet.email()
+  def generate(_schema, _key, {:string, :hostname}), do: Faker.Internet.domain_name()
+  def generate(_schema, _key, {:string, :ipv4}), do: Faker.Internet.ip_v4_address()
+  def generate(_schema, _key, {:string, :ipv6}), do: Faker.Internet.ip_v6_address()
+
+  def generate(schema, key, {:string, :generic}) do
     string_key = Atom.to_string(key)
 
     cond do
       String.ends_with?(string_key, "_at") ->
-        now = DateTime.utc_now()
-        yesterday = DateTime.add(now, -1, :day)
-
-        Faker.DateTime.between(yesterday, now)
-        |> DateTime.to_iso8601()
+        generate(schema, key, {:string, :date_time})
 
       String.ends_with?(string_key, "_email") or string_key == "email" ->
-        Faker.Internet.email()
+        generate(schema, key, {:string, :email})
 
       String.ends_with?(string_key, "_ref") or string_key == "ref" ->
         Faker.Internet.slug()
@@ -230,19 +250,31 @@ defmodule GitHub.Testing do
         Faker.random_bytes(20) |> Base.encode16(case: :lower)
 
       String.ends_with?(string_key, "_url") or string_key == "url" ->
-        Faker.Internet.url()
+        generate(schema, key, {:string, :uri})
 
       :else ->
         Faker.Lorem.characters(15..30) |> to_string()
     end
   end
 
-  def generate(_schema, _key, nil), do: nil
+  def generate(_schema, _key, {:string, :time}) do
+    Time.utc_now()
+    |> Time.add(:rand.uniform(60 * 60 * 24), :second)
+    |> Time.to_iso8601()
+  end
+
+  def generate(_schema, _key, {:string, :uri}), do: Faker.Internet.url()
+  def generate(_schema, _key, {:string, :uuid}), do: Faker.UUID.v4()
   def generate(_schema, _key, :null), do: nil
-  def generate(_schema, _key, :unknown), do: nil
+
+  # Unnatural types
+  def generate(_schema, _key, :any), do: nil
+  def generate(_schema, _key, :map), do: %{}
 
   # Compound types
-  def generate(schema, key, {:array, type}), do: [generate(schema, key, type)]
+  def generate(schema, key, [type]), do: [generate(schema, key, type)]
+  def generate(_schema, _key, {:const, literal}), do: literal
+  def generate(_schema, _key, {:enum, literals}), do: Enum.random(literals)
 
   def generate(schema, key, {:union, types}) do
     Enum.map(types, fn type ->
@@ -250,13 +282,6 @@ defmodule GitHub.Testing do
     end)
     |> Enum.random()
     |> apply([])
-  end
-
-  def generate(schema, key, {:nullable, type}) do
-    Enum.random([
-      fn -> nil end,
-      fn -> generate(schema, key, type) end
-    ]).()
   end
 
   def generate(_schema, _key, {module, struct_type}) do
