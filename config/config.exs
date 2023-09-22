@@ -3,6 +3,7 @@ import Config
 # Code generator configuration
 config :oapi_generator,
   default: [
+    processor: GitHub.Processor,
     naming: [
       group: [
         Actions,

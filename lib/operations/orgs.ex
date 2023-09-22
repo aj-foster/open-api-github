@@ -437,7 +437,7 @@ defmodule GitHub.Orgs do
   @doc """
   Get an organization webhook
 
-  Returns a webhook configured in an organization. To get only the webhook `config` properties, see "[Get a webhook configuration for an organization](/rest/orgs/webhooks#get-a-webhook-configuration-for-an-organization)."
+  Returns a webhook configured in an organization. To get only the webhook `config` properties, see "[Get a webhook configuration for an organization](https://docs.github.com/rest/orgs/webhooks#get-a-webhook-configuration-for-an-organization)."
 
   ## Resources
 
@@ -462,7 +462,7 @@ defmodule GitHub.Orgs do
   @doc """
   Get a webhook configuration for an organization
 
-  Returns the webhook configuration for an organization. To get more information about the webhook, including the `active` state and `events`, use "[Get an organization webhook ](/rest/orgs/webhooks#get-an-organization-webhook)."
+  Returns the webhook configuration for an organization. To get more information about the webhook, including the `active` state and `events`, use "[Get an organization webhook ](https://docs.github.com/rest/orgs/webhooks#get-an-organization-webhook)."
 
   Access tokens must have the `admin:org_hook` scope, and GitHub Apps must have the `organization_hooks:read` permission.
 
@@ -1702,7 +1702,7 @@ defmodule GitHub.Orgs do
   @doc """
   Update an organization webhook
 
-  Updates a webhook configured in an organization. When you update a webhook, the `secret` will be overwritten. If you previously had a `secret` set, you must provide the same `secret` or set a new `secret` or the secret will be removed. If you are only updating individual webhook `config` properties, use "[Update a webhook configuration for an organization](/rest/orgs/webhooks#update-a-webhook-configuration-for-an-organization)."
+  Updates a webhook configured in an organization. When you update a webhook, the `secret` will be overwritten. If you previously had a `secret` set, you must provide the same `secret` or set a new `secret` or the secret will be removed. If you are only updating individual webhook `config` properties, use "[Update a webhook configuration for an organization](https://docs.github.com/rest/orgs/webhooks#update-a-webhook-configuration-for-an-organization)."
 
   ## Resources
 
@@ -1733,7 +1733,7 @@ defmodule GitHub.Orgs do
   @doc """
   Update a webhook configuration for an organization
 
-  Updates the webhook configuration for an organization. To update more information about the webhook, including the `active` state and `events`, use "[Update an organization webhook ](/rest/orgs/webhooks#update-an-organization-webhook)."
+  Updates the webhook configuration for an organization. To update more information about the webhook, including the `active` state and `events`, use "[Update an organization webhook ](https://docs.github.com/rest/orgs/webhooks#update-an-organization-webhook)."
 
   Access tokens must have the `admin:org_hook` scope, and GitHub Apps must have the `organization_hooks:write` permission.
 
