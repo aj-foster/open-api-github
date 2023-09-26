@@ -47,7 +47,6 @@ defmodule GitHub.Actions do
   Add custom labels to a self-hosted runner configured in a repository.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
   Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
@@ -182,7 +181,6 @@ defmodule GitHub.Actions do
   Cancels a workflow run using its `id`.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `actions:write` permission to use this endpoint.
 
   ## Resources
@@ -211,7 +209,6 @@ defmodule GitHub.Actions do
   Create an environment variable that you can reference in a GitHub Actions workflow.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `environment:write` repository permission to use this endpoint.
   Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
@@ -423,11 +420,10 @@ defmodule GitHub.Actions do
   expires after one hour.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
   Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
-  Example using registration token: 
+  Example using registration token:
 
   Configure your self-hosted runner, replacing `TOKEN` with the registration token provided
   by this endpoint.
@@ -500,7 +496,6 @@ defmodule GitHub.Actions do
   a repository. The token expires after one hour.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
   Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
@@ -537,7 +532,6 @@ defmodule GitHub.Actions do
   Creates a repository variable that you can reference in a GitHub Actions workflow.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
   Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
@@ -724,7 +718,6 @@ defmodule GitHub.Actions do
   Deletes an environment variable using the variable name.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `environment:write` repository permission to use this endpoint.
   Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
@@ -841,7 +834,6 @@ defmodule GitHub.Actions do
   Deletes a repository variable using the variable name.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
   Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
@@ -901,7 +893,6 @@ defmodule GitHub.Actions do
   Forces the removal of a self-hosted runner from a repository. You can use this endpoint to completely remove the runner when the machine you were using no longer exists.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
   Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
@@ -1199,6 +1190,35 @@ defmodule GitHub.Actions do
   end
 
   @doc """
+  Force cancel a workflow run
+
+  Cancels a workflow run and bypasses conditions that would otherwise cause a workflow execution to continue, such as an `always()` condition on a job.
+  You should only use this endpoint to cancel a workflow run when the workflow run is not responding to [`POST /repos/{owner}/{repo}/actions/runs/{run_id}/cancel`](https://docs.github.com/rest/actions/workflow-runs#cancel-a-workflow-run).
+
+  You must authenticate using an access token with the `repo` scope to use this endpoint.
+  GitHub Apps must have the `actions:write` permission to use this endpoint.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#force-cancel-a-workflow-run)
+
+  """
+  @spec force_cancel_workflow_run(String.t(), String.t(), integer, keyword) ::
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
+  def force_cancel_workflow_run(owner, repo, run_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo, run_id: run_id],
+      call: {GitHub.Actions, :force_cancel_workflow_run},
+      url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/force-cancel",
+      method: :post,
+      response: [{202, {GitHub.EmptyObject, :t}}, {409, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
   Create configuration for a just-in-time runner for an organization
 
   Generates a configuration that can be passed to the runner application at startup.
@@ -1240,7 +1260,6 @@ defmodule GitHub.Actions do
   Generates a configuration that can be passed to the runner application at startup.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
   Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
@@ -1577,7 +1596,6 @@ defmodule GitHub.Actions do
   Gets a specific variable in an environment.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `environments:read` repository permission to use this endpoint.
   Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
@@ -1925,7 +1943,6 @@ defmodule GitHub.Actions do
   Gets a specific variable in a repository.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
   Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
@@ -2010,7 +2027,6 @@ defmodule GitHub.Actions do
   Gets a specific self-hosted runner configured in a repository.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
   Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
@@ -2284,7 +2300,6 @@ defmodule GitHub.Actions do
   Lists all environment variables.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `environments:read` repository permission to use this endpoint.
   Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
@@ -2416,7 +2431,6 @@ defmodule GitHub.Actions do
   Lists all labels for a self-hosted runner configured in a repository.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
   Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
@@ -2552,7 +2566,6 @@ defmodule GitHub.Actions do
   Lists all organiation variables shared with a repository.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
   Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
@@ -2625,7 +2638,6 @@ defmodule GitHub.Actions do
 
   Lists all repository variables.
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `actions_variables:read` repository permission to use this endpoint.
   Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
@@ -2724,7 +2736,6 @@ defmodule GitHub.Actions do
   Lists binaries for the runner application that you can download and run.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
   Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
@@ -2870,6 +2881,7 @@ defmodule GitHub.Actions do
 
   ## Options
 
+    * `name`: The name of a self-hosted runner.
     * `per_page`: The number of results per page (max 100).
     * `page`: Page number of the results to fetch.
 
@@ -2882,7 +2894,7 @@ defmodule GitHub.Actions do
           {:ok, map} | {:error, GitHub.Error.t()}
   def list_self_hosted_runners_for_org(org, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:page, :per_page])
+    query = Keyword.take(opts, [:name, :page, :per_page])
 
     client.request(%{
       args: [org: org],
@@ -2901,12 +2913,12 @@ defmodule GitHub.Actions do
   Lists all self-hosted runners configured in a repository.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
   Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
   ## Options
 
+    * `name`: The name of a self-hosted runner.
     * `per_page`: The number of results per page (max 100).
     * `page`: Page number of the results to fetch.
 
@@ -2919,7 +2931,7 @@ defmodule GitHub.Actions do
           {:ok, map} | {:error, GitHub.Error.t()}
   def list_self_hosted_runners_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:page, :per_page])
+    query = Keyword.take(opts, [:name, :page, :per_page])
 
     client.request(%{
       args: [owner: owner, repo: repo],
@@ -3081,7 +3093,6 @@ defmodule GitHub.Actions do
   Re-run a job and its dependent jobs in a workflow run.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `actions:write` permission to use this endpoint.
 
   ## Resources
@@ -3198,7 +3209,6 @@ defmodule GitHub.Actions do
   repository. Returns the remaining read-only labels from the runner.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
   Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
@@ -3283,7 +3293,6 @@ defmodule GitHub.Actions do
   present on the runner.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
   Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
@@ -3554,7 +3563,6 @@ defmodule GitHub.Actions do
   self-hosted runner configured in a repository.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `administration` permission for repositories and the `organization_self_hosted_runners` permission for organizations.
   Authenticated users must have admin access to repositories or organizations, or the `manage_runners:enterprise` scope for enterprises, to use these endpoints.
 
@@ -3894,7 +3902,6 @@ defmodule GitHub.Actions do
   Updates an environment variable that you can reference in a GitHub Actions workflow.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `environment:write` repository permission to use this endpoint.
   Authenticated users must have collaborator access to a repository to create, update, or read variables.
 
@@ -3963,7 +3970,6 @@ defmodule GitHub.Actions do
   Updates a repository variable that you can reference in a GitHub Actions workflow.
 
   You must authenticate using an access token with the `repo` scope to use this endpoint.
-  If the repository is private, you must use an access token with the `repo` scope.
   GitHub Apps must have the `actions_variables:write` repository permission to use this endpoint.
   Authenticated users must have collaborator access to a repository to create, update, or read variables.
 

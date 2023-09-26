@@ -2418,9 +2418,10 @@ defmodule GitHub.Repos do
   @doc """
   Get rules for a branch
 
-  Returns all rules that apply to the specified branch. The branch does not need to exist; rules that would apply to a
-  branch with that name will be returned. All rules that apply will be returned, regardless of the level at which they
-  are configured.
+  Returns all active rules that apply to the specified branch. The branch does not need to exist; rules that would apply
+  to a branch with that name will be returned. All active rules that apply will be returned, regardless of the level
+  at which they are configured (e.g. repository or organization). Rules in rulesets with "evaluate" or "disabled"
+  enforcement statuses are not returned.
 
   ## Options
 
@@ -2741,10 +2742,8 @@ defmodule GitHub.Repos do
   README, and CONTRIBUTING files.
 
   The `health_percentage` score is defined as a percentage of how many of
-  these four documents are present: README, CONTRIBUTING, LICENSE, and
-  CODE_OF_CONDUCT. For example, if all four documents are present, then
-  the `health_percentage` is `100`. If only one is present, then the
-  `health_percentage` is `25`.
+  the recommended community health files are present. For more information, see
+  "[About community profiles for public repositories](https://docs.github.com/communities/setting-up-your-project-for-healthy-contributions/about-community-profiles-for-public-repositories)."
 
   `content_reports_enabled` is only returned for organization-owned repositories.
 

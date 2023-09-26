@@ -562,6 +562,7 @@ defmodule GitHub.Gists do
   Update a gist
 
   Allows you to update a gist's description and to update, delete, or rename gist files. Files from the previous version of the gist that aren't explicitly changed during an edit are unchanged.
+  At least one of `description` or `files` is required.
 
   ## Resources
 
