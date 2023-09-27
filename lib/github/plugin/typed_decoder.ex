@@ -27,6 +27,7 @@ defmodule GitHub.Plugin.TypedDecoder do
   """
   alias GitHub.Error
   alias GitHub.Operation
+  alias GitHub.Repository.Rule
 
   @doc """
   Decode a response body based on type information from the operation and schemas
@@ -53,12 +54,14 @@ defmodule GitHub.Plugin.TypedDecoder do
     end
   end
 
-  defp do_decode(value, [type]), do: Enum.map(value, &do_decode(&1, type))
-  defp do_decode(nil, :null), do: nil
+  defp do_decode(nil, _), do: nil
+  defp do_decode("", :null), do: nil
   defp do_decode(value, {:string, :date}), do: Date.from_iso8601!(value)
   defp do_decode(value, {:string, :date_time}), do: DateTime.from_iso8601(value) |> elem(1)
   defp do_decode(value, {:string, :time}), do: Time.from_iso8601!(value)
   defp do_decode(value, {:union, types}), do: do_decode(value, choose_union(value, types))
+
+  defp do_decode(value, [type]), do: Enum.map(value, &do_decode(&1, type))
 
   defp do_decode(%{} = value, {module, type}) do
     fields = module.__fields__(type)
@@ -76,7 +79,6 @@ defmodule GitHub.Plugin.TypedDecoder do
     end
   end
 
-  defp do_decode("", :null), do: nil
   defp do_decode(value, _type), do: value
 
   @doc """
@@ -173,53 +175,131 @@ defmodule GitHub.Plugin.TypedDecoder do
   # Union Type Handlers
   #
 
-  defp choose_union(%{}, [:map, :string]), do: :map
-  defp choose_union(_value, [:map, :string]), do: :string
+  defp choose_union(nil, [_type, :null]), do: :null
+  defp choose_union(nil, [:null, _type]), do: :null
+  defp choose_union(_value, [type, :null]), do: type
+  defp choose_union(_value, [:null, type]), do: type
 
-  defp choose_union(%{}, [:string, :map]), do: :map
-  defp choose_union(_value, [:string, :map]), do: :string
+  defp choose_union(%{}, [:map, {:string, :generic}]), do: :map
+  defp choose_union(_value, [:map, {:string, :generic}]), do: {:string, :generic}
 
-  defp choose_union(value, [:string, :number]) when is_number(value), do: :number
-  defp choose_union(_value, [:string, :number]), do: :string
+  defp choose_union(value, [:number, {:string, :generic}]) when is_number(value), do: :number
+  defp choose_union(_value, [:number, {:string, :generic}]), do: :string
 
   defp choose_union(value, [
          :map,
-         {:array, :string},
-         {:array, :map},
-         :string
+         {:string, :generic},
+         [:map],
+         [{:string, :generic}]
        ]) do
     cond do
       is_binary(value) ->
-        :string
+        {:string, :generic}
 
       is_map(value) ->
         :map
 
       is_list(value) ->
         case value do
-          [%{} | _] -> {:array, :map}
-          _else -> {:array, :string}
+          [%{} | _] -> [:map]
+          _else -> [{:string, :generic}]
         end
     end
   end
 
+  defp choose_union(value, [[{GitHub.StarredRepository, :t}], [{GitHub.Repository, :t}]]) do
+    case value do
+      [%{"repo" => _}] -> [{GitHub.StarredRepository, :t}]
+      _else -> [{GitHub.Repository, :t}]
+    end
+  end
+
+  defp choose_union(value, [[:map], [{GitHub.User, :simple}]]) do
+    case value do
+      [%{"user" => _}] -> [:map]
+      _else -> [{GitHub.User, :simple}]
+    end
+  end
+
+  # Map type is for JSON+SARIF.
+  defp choose_union(_value, [:map, {GitHub.CodeScanning.Analysis, :t}]) do
+    {GitHub.CodeScanning.Analysis, :t}
+  end
+
+  defp choose_union(value, [:map, {GitHub.Interaction.Limit.Response, :t}]) do
+    if Map.has_key?(value, "limit") do
+      {GitHub.Interaction.Limit.Response, :t}
+    else
+      :map
+    end
+  end
+
+  # Until the generator supports combining oneOf schemas
+  defp choose_union(_value, [
+         {GitHub.Repository.IdAndRefName, :t},
+         {GitHub.Repository.NameAndRefName, :t},
+         {GitHub.Repository.Ruleset.Conditions, :t}
+       ]) do
+    :map
+  end
+
   defp choose_union(value, [
-         {:array, {GitHub.StarredRepository, :t}},
-         {:array, {GitHub.Repository, :t}}
+         {Rule.BranchNamePattern, :t},
+         {Rule.CommitAuthorEmailPattern, :t},
+         {Rule.CommitMessagePattern, :t},
+         {Rule.CommitterEmailPattern, :t},
+         {Rule.Creation, :t},
+         {Rule.Deletion, :t},
+         {Rule.NonFastForward, :t},
+         {Rule.PullRequest, :t},
+         {Rule.RequiredDeployments, :t},
+         {Rule.RequiredLinearHistory, :t},
+         {Rule.RequiredSignatures, :t},
+         {Rule.RequiredStatusChecks, :t},
+         {Rule.TagNamePattern, :t},
+         {Rule.Update, :t}
        ]) do
     case value do
-      [%{"repo" => _}] -> {:array, {GitHub.StarredRepository, :t}}
-      _else -> {:array, {GitHub.Repository, :t}}
+      %{"type" => "branch_name_pattern"} -> {Rule.BranchNamePattern, :t}
+      %{"type" => "commit_author_email_pattern"} -> {Rule.CommitAuthorEmailPattern, :t}
+      %{"type" => "commit_message_pattern"} -> {Rule.CommitMessagePattern, :t}
+      %{"type" => "committer_email_pattern"} -> {Rule.CommitterEmailPattern, :t}
+      %{"type" => "creation"} -> {Rule.Creation, :t}
+      %{"type" => "deletion"} -> {Rule.Deletion, :t}
+      %{"type" => "non_fast_forward"} -> {Rule.NonFastForward, :t}
+      %{"type" => "pull_request"} -> {Rule.PullRequest, :t}
+      %{"type" => "required_deployments"} -> {Rule.RequiredDeployments, :t}
+      %{"type" => "required_linear_history"} -> {Rule.RequiredLinearHistory, :t}
+      %{"type" => "required_signatures"} -> {Rule.RequiredSignatures, :t}
+      %{"type" => "required_status_checks"} -> {Rule.RequiredStatusChecks, :t}
+      %{"type" => "tag_name_pattern"} -> {Rule.TagNamePattern, :t}
+      %{"type" => "update"} -> {Rule.Update, :t}
     end
   end
 
   defp choose_union(value, [
-         {:array, {GitHub.User, :simple}},
-         {:array, {GitHub.Stargazer, :t}}
+         {GitHub.Actions.ReviewCustomGates.CommentRequired, :t},
+         {GitHub.Actions.ReviewCustomGates.StateRequired, :t}
        ]) do
     case value do
-      [%{"user" => _}] -> {:array, {GitHub.Stargazer, :t}}
-      _else -> {:array, {GitHub.User, :simple}}
+      %{"state" => _} -> {GitHub.Actions.ReviewCustomGates.StateRequired, :t}
+      _else -> {GitHub.Actions.ReviewCustomGates.CommentRequired, :t}
+    end
+  end
+
+  defp choose_union(value, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]) do
+    case value do
+      %{"detail" => _} -> {GitHub.SCIM.Error, :t}
+      %{"schemas" => _} -> {GitHub.SCIM.Error, :t}
+      %{"scimType" => _} -> {GitHub.SCIM.Error, :t}
+      _else -> {GitHub.BasicError, :t}
+    end
+  end
+
+  defp choose_union(value, [{GitHub.ValidationError, :simple}, {GitHub.ValidationError, :t}]) do
+    case value do
+      %{"errors" => [%{} | _]} -> {GitHub.ValidationError, :t}
+      _else -> {GitHub.ValidationError, :simple}
     end
   end
 
@@ -228,129 +308,86 @@ defmodule GitHub.Plugin.TypedDecoder do
     {GitHub.User, :private}
   end
 
-  defp choose_union(value, [{GitHub.Interaction.Limit.Response, :t}, :map]) do
-    if Map.has_key?(value, "limit") do
-      {GitHub.Interaction.Limit.Response, :t}
-    else
-      :map
-    end
-  end
-
   # Warning: Most of the event fields are undocumented in the spec, so this is a best guess.
-  defp choose_union(value, [{GitHub.LabeledIssueEvent, :t} | _]) do
+  defp choose_union(value, [{GitHub.Issue.Event.AddedToProject, :t} | _]) do
     case value do
-      %{"event" => "labeled"} -> {GitHub.LabeledIssueEvent, :t}
-      %{"event" => "unlabeled"} -> {GitHub.UnlabeledIssueEvent, :t}
-      %{"event" => "assigned", "assigner" => _} -> {GitHub.AssignedIssueEvent, :t}
-      %{"event" => "unassigned", "assigner" => _} -> {GitHub.UnassignedIssueEvent, :t}
-      %{"event" => "milestoned"} -> {GitHub.MilestonedIssueEvent, :t}
-      %{"event" => "demilestoned"} -> {GitHub.DemilestonedIssueEvent, :t}
-      %{"event" => "renamed"} -> {GitHub.RenamedIssueEvent, :t}
-      %{"event" => "review_requested"} -> {GitHub.ReviewRequestedIssueEvent, :t}
-      %{"event" => "review_request_removed"} -> {GitHub.ReviewRequestRemovedIssueEvent, :t}
-      %{"event" => "review_dismissed"} -> {GitHub.ReviewDismissedIssueEvent, :t}
-      %{"event" => "locked"} -> {GitHub.LockedIssueEvent, :t}
-      %{"event" => "added_to_project"} -> {GitHub.AddedToProjectIssueEvent, :t}
-      %{"event" => "moved_column_in_project"} -> {GitHub.MovedColumnInProjectIssueEvent, :t}
-      %{"event" => "removed_from_project"} -> {GitHub.RemovedFromProjectIssueEvent, :t}
-      %{"event" => "converted_note_to_issue"} -> {GitHub.ConvertedNoteToIssueIssueEvent, :t}
-      %{"event" => "commented"} -> {GitHub.Timeline.CommentEvent, :t}
-      %{"event" => "cross-referenced"} -> {GitHub.Timeline.CrossReferencedEvent, :t}
-      %{"event" => "committed"} -> {GitHub.Timeline.CommittedEvent, :t}
-      %{"event" => "reviewed"} -> {GitHub.Timeline.ReviewedEvent, :t}
-      %{"event" => "commented", "commit_id" => _} -> {GitHub.Timeline.CommitCommentedEvent, :t}
-      %{"event" => "commented", "comments" => _} -> {GitHub.Timeline.LineCommentedEvent, :t}
+      %{"event" => "added_to_project"} -> {GitHub.Issue.Event.AddedToProject, :t}
+      %{"event" => "assigned", "assigner" => _} -> {GitHub.Issue.Event.Assigned, :t}
+      %{"event" => "converted_note_to_issue"} -> {GitHub.Issue.Event.ConvertedNoteToIssue, :t}
+      %{"event" => "demilestoned"} -> {GitHub.Issue.Event.Demilestoned, :t}
+      %{"event" => "labeled"} -> {GitHub.Issue.Event.Labeled, :t}
+      %{"event" => "locked"} -> {GitHub.Issue.Event.Locked, :t}
+      %{"event" => "milestoned"} -> {GitHub.Issue.Event.Milestoned, :t}
+      %{"event" => "moved_column_in_project"} -> {GitHub.Issue.Event.MovedColumnInProject, :t}
+      %{"event" => "removed_from_project"} -> {GitHub.Issue.Event.RemovedFromProject, :t}
+      %{"event" => "renamed"} -> {GitHub.Issue.Event.Renamed, :t}
+      %{"event" => "review_dismissed"} -> {GitHub.Issue.Event.ReviewDismissed, :t}
+      %{"event" => "review_request_removed"} -> {GitHub.Issue.Event.ReviewRequestRemoved, :t}
+      %{"event" => "review_requested"} -> {GitHub.Issue.Event.ReviewRequested, :t}
+      %{"event" => "unassigned", "assigner" => _} -> {GitHub.Issue.Event.Unassigned, :t}
+      %{"event" => "unlabeled"} -> {GitHub.Issue.Event.Unlabeled, :t}
       %{"event" => "assigned"} -> {GitHub.Timeline.AssignedIssueEvent, :t}
+      %{"event" => "commented"} -> {GitHub.Timeline.CommentEvent, :t}
+      %{"event" => "commented", "commit_id" => _} -> {GitHub.Timeline.CommitCommentedEvent, :t}
+      %{"event" => "committed"} -> {GitHub.Timeline.CommittedEvent, :t}
+      %{"event" => "cross-referenced"} -> {GitHub.Timeline.CrossReferencedEvent, :t}
+      %{"event" => "commented", "comments" => _} -> {GitHub.Timeline.LineCommentedEvent, :t}
+      %{"event" => "reviewed"} -> {GitHub.Timeline.ReviewedEvent, :t}
       %{"event" => "unassigned"} -> {GitHub.Timeline.UnassignedIssueEvent, :t}
-      %{"event" => _, "state_reason" => "_"} -> {GitHub.StateChangeIssueEvent, :t}
-    end
-  end
-
-  defp choose_union(value, [{GitHub.ValidationError, :t}, {GitHub.ValidationError, :simple}]) do
-    case value do
-      %{"errors" => [%{} | _]} -> {GitHub.ValidationError, :t}
-      _else -> {GitHub.ValidationError, :simple}
+      %{"event" => _, "state_reason" => _} -> {GitHub.Issue.Event.StateChange, :t}
     end
   end
 
   defp choose_union(value, [
-         {:array, :map},
          {GitHub.Content.File, :t},
+         {GitHub.Content.Submodule, :t},
          {GitHub.Content.Symlink, :t},
-         {GitHub.Content.Submodule, :t}
+         {GitHub.Content.Tree, :t},
+         [:map]
        ]) do
     case value do
-      list when is_list(list) -> {:array, :map}
+      list when is_list(list) -> [:map]
       %{"content" => _} -> {GitHub.Content.File, :t}
       %{"target" => _} -> {GitHub.Content.Symlink, :t}
       %{"submodule_git_url" => _} -> {GitHub.Content.Submodule, :t}
+      _else -> {GitHub.Content.Tree, :t}
     end
   end
 
-  defp choose_union(value, [{GitHub.Repository.Rule.Creation, :t} | _]) do
-    case value do
-      %{"type" => "creation"} ->
-        {GitHub.Repository.Rule.Creation, :t}
-
-      %{"type" => "update"} ->
-        {GitHub.Repository.Rule.Update, :t}
-
-      %{"type" => "deletion"} ->
-        {GitHub.Repository.Rule.Deletion, :t}
-
-      %{"type" => "required_linear_history"} ->
-        {GitHub.Repository.Rule.RequiredLinearHistory, :t}
-
-      %{"type" => "required_deployments"} ->
-        {GitHub.Repository.Rule.RequiredDeployments, :t}
-
-      %{"type" => "required_signatures"} ->
-        {GitHub.Repository.Rule.RequiredSignatures, :t}
-
-      %{"type" => "pull_request"} ->
-        {GitHub.Repository.Rule.PullRequest, :t}
-
-      %{"type" => "required_status_checks"} ->
-        {GitHub.Repository.Rule.RequiredStatusChecks, :t}
-
-      %{"type" => "non_fast_forward"} ->
-        {GitHub.Repository.Rule.NonFastForward, :t}
-
-      %{"type" => "commit_message_pattern"} ->
-        {GitHub.Repository.Rule.CommitMessagePattern, :t}
-
-      %{"type" => "commit_author_email_pattern"} ->
-        {GitHub.Repository.Rule.CommitAuthorEmailPattern, :t}
-
-      %{"type" => "committer_email_pattern"} ->
-        {GitHub.Repository.Rule.CommitterEmailPattern, :t}
-
-      %{"type" => "branch_name_pattern"} ->
-        {GitHub.Repository.Rule.BranchNamePattern, :t}
-
-      %{"type" => "tag_name_pattern"} ->
-        {GitHub.Repository.Rule.TagNamePattern, :t}
-    end
-  end
-
-  defp choose_union(value, [{GitHub.User, :simple}, {GitHub.Enterprise, :t}]) do
+  defp choose_union(value, [{GitHub.Enterprise, :t}, {GitHub.User, :simple}]) do
     case value do
       %{"slug" => _} -> {GitHub.Enterprise, :t}
       _else -> {GitHub.User, :simple}
     end
   end
 
+  defp choose_union(value, [{GitHub.Enterprise, :t}, {GitHub.User, :simple}, :null]) do
+    case value do
+      nil -> :null
+      %{"slug" => _} -> {GitHub.Enterprise, :t}
+      _else -> {GitHub.User, :simple}
+    end
+  end
+
+  defp choose_union(value, [{GitHub.Organization, :t}, {GitHub.Team, :t}, {GitHub.User, :simple}]) do
+    case value do
+      %{"company" => _} -> {GitHub.Organization, :t}
+      %{"members_url" => _} -> {GitHub.Team, :t}
+      %{"organizations_url" => _} -> {GitHub.User, :simple}
+    end
+  end
+
   defp choose_union(value, [
          {GitHub.SecretScanning.LocationCommit, :t},
-         {GitHub.SecretScanning.LocationIssueTitle, :t},
          {GitHub.SecretScanning.LocationIssueBody, :t},
-         {GitHub.SecretScanning.LocationIssueComment, :t}
+         {GitHub.SecretScanning.LocationIssueComment, :t},
+         {GitHub.SecretScanning.LocationIssueTitle, :t}
        ]) do
     case value do
       %{"commit_sha" => _} -> {GitHub.SecretScanning.LocationCommit, :t}
-      %{"issue_title_url" => _} -> {GitHub.SecretScanning.LocationIssueTitle, :t}
       %{"issue_body_url" => _} -> {GitHub.SecretScanning.LocationIssueBody, :t}
       %{"issue_comment_url" => _} -> {GitHub.SecretScanning.LocationIssueComment, :t}
+      %{"issue_title_url" => _} -> {GitHub.SecretScanning.LocationIssueTitle, :t}
     end
   end
 
