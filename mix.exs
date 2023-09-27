@@ -38,6 +38,8 @@ defmodule GitHub.MixProject do
       {:jason, "~> 1.0", optional: true},
       {:httpoison, "~> 1.7 or ~> 2.0", optional: true},
       {:oapi_generator, "0.1.0-rc.1", only: :dev, runtime: false},
+      {:opentelemetry_api, "~> 1.0", optional: true},
+      {:opentelemetry_semantic_conventions, "~> 0.2", optional: true},
       {:redix, "~> 1.0", optional: true},
       {:telemetry, "~> 0.4.2 or ~> 1.0"}
     ]
