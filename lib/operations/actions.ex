@@ -3411,8 +3411,14 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/actions/workflow-runs#review-custom-deployment-protection-rules-for-a-workflow-run)
 
   """
-  @spec review_custom_gates_for_run(String.t(), String.t(), integer, map, keyword) ::
-          :ok | {:error, GitHub.Error.t()}
+  @spec review_custom_gates_for_run(
+          String.t(),
+          String.t(),
+          integer,
+          GitHub.Actions.ReviewCustomGates.CommentRequired.t()
+          | GitHub.Actions.ReviewCustomGates.StateRequired.t(),
+          keyword
+        ) :: :ok | {:error, GitHub.Error.t()}
   def review_custom_gates_for_run(owner, repo, run_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3422,7 +3428,14 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/deployment_protection_rule",
       body: body,
       method: :post,
-      request: [{"application/json", :map}],
+      request: [
+        {"application/json",
+         {:union,
+          [
+            {GitHub.Actions.ReviewCustomGates.CommentRequired, :t},
+            {GitHub.Actions.ReviewCustomGates.StateRequired, :t}
+          ]}}
+      ],
       response: [{204, :null}],
       opts: opts
     })

@@ -7,7 +7,7 @@ defmodule GitHub.Environment do
   @type t :: %__MODULE__{
           __info__: map,
           created_at: DateTime.t(),
-          deployment_branch_policy: map | nil,
+          deployment_branch_policy: GitHub.Deployment.BranchPolicySettings.t() | nil,
           html_url: String.t(),
           id: integer,
           name: String.t(),
@@ -37,7 +37,7 @@ defmodule GitHub.Environment do
   def __fields__(:t) do
     [
       created_at: {:string, :date_time},
-      deployment_branch_policy: {:union, [:map, :null]},
+      deployment_branch_policy: {:union, [{GitHub.Deployment.BranchPolicySettings, :t}, :null]},
       html_url: {:string, :generic},
       id: :integer,
       name: {:string, :generic},

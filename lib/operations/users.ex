@@ -495,7 +495,7 @@ defmodule GitHub.Users do
 
   """
   @spec get_authenticated(keyword) ::
-          {:ok, map | GitHub.User.private()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.User.private() | GitHub.User.public()} | {:error, GitHub.Error.t()}
   def get_authenticated(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -505,7 +505,7 @@ defmodule GitHub.Users do
       url: "/user",
       method: :get,
       response: [
-        {200, {:union, [:map, {GitHub.User, :private}]}},
+        {200, {:union, [{GitHub.User, :private}, {GitHub.User, :public}]}},
         {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
@@ -531,7 +531,7 @@ defmodule GitHub.Users do
 
   """
   @spec get_by_username(String.t(), keyword) ::
-          {:ok, map | GitHub.User.private()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.User.private() | GitHub.User.public()} | {:error, GitHub.Error.t()}
   def get_by_username(username, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -540,7 +540,10 @@ defmodule GitHub.Users do
       call: {GitHub.Users, :get_by_username},
       url: "/users/#{username}",
       method: :get,
-      response: [{200, {:union, [:map, {GitHub.User, :private}]}}, {404, {GitHub.BasicError, :t}}],
+      response: [
+        {200, {:union, [{GitHub.User, :private}, {GitHub.User, :public}]}},
+        {404, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end

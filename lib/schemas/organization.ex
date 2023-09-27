@@ -81,6 +81,39 @@ defmodule GitHub.Organization do
           url: String.t()
         }
 
+  @type t :: %__MODULE__{
+          __info__: map,
+          avatar_url: String.t(),
+          blog: String.t() | nil,
+          company: String.t() | nil,
+          created_at: DateTime.t(),
+          description: String.t() | nil,
+          email: String.t() | nil,
+          events_url: String.t(),
+          followers: integer,
+          following: integer,
+          has_organization_projects: boolean,
+          has_repository_projects: boolean,
+          hooks_url: String.t(),
+          html_url: String.t(),
+          id: integer,
+          is_verified: boolean | nil,
+          issues_url: String.t(),
+          location: String.t() | nil,
+          login: String.t(),
+          members_url: String.t(),
+          name: String.t() | nil,
+          node_id: String.t(),
+          plan: map | nil,
+          public_gists: integer,
+          public_members_url: String.t(),
+          public_repos: integer,
+          repos_url: String.t(),
+          type: String.t(),
+          updated_at: DateTime.t(),
+          url: String.t()
+        }
+
   defstruct [
     :__info__,
     :advanced_security_enabled_for_new_repositories,
@@ -144,6 +177,8 @@ defmodule GitHub.Organization do
 
   @doc false
   @spec __fields__(atom) :: keyword
+  def __fields__(type \\ :t)
+
   def __fields__(:full) do
     [
       advanced_security_enabled_for_new_repositories: :boolean,
@@ -219,6 +254,40 @@ defmodule GitHub.Organization do
       node_id: {:string, :generic},
       public_members_url: {:string, :generic},
       repos_url: {:string, :uri},
+      url: {:string, :uri}
+    ]
+  end
+
+  def __fields__(:t) do
+    [
+      avatar_url: {:string, :generic},
+      blog: {:string, :uri},
+      company: {:string, :generic},
+      created_at: {:string, :date_time},
+      description: {:union, [{:string, :generic}, :null]},
+      email: {:string, :email},
+      events_url: {:string, :uri},
+      followers: :integer,
+      following: :integer,
+      has_organization_projects: :boolean,
+      has_repository_projects: :boolean,
+      hooks_url: {:string, :generic},
+      html_url: {:string, :uri},
+      id: :integer,
+      is_verified: :boolean,
+      issues_url: {:string, :generic},
+      location: {:string, :generic},
+      login: {:string, :generic},
+      members_url: {:string, :generic},
+      name: {:string, :generic},
+      node_id: {:string, :generic},
+      plan: :map,
+      public_gists: :integer,
+      public_members_url: {:string, :generic},
+      public_repos: :integer,
+      repos_url: {:string, :uri},
+      type: {:string, :generic},
+      updated_at: {:string, :date_time},
       url: {:string, :uri}
     ]
   end

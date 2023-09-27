@@ -6,7 +6,7 @@ defmodule GitHub.App.InstallationRequest do
 
   @type t :: %__MODULE__{
           __info__: map,
-          account: map | GitHub.User.simple(),
+          account: GitHub.Enterprise.t() | GitHub.User.simple(),
           created_at: DateTime.t(),
           id: integer,
           node_id: String.t() | nil,
@@ -21,7 +21,7 @@ defmodule GitHub.App.InstallationRequest do
 
   def __fields__(:t) do
     [
-      account: {:union, [:map, {GitHub.User, :simple}]},
+      account: {:union, [{GitHub.Enterprise, :t}, {GitHub.User, :simple}]},
       created_at: {:string, :date_time},
       id: :integer,
       node_id: {:string, :generic},

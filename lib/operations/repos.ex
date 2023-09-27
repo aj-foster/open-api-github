@@ -2818,7 +2818,12 @@ defmodule GitHub.Repos do
 
   """
   @spec get_content(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, map | GitHub.Content.File.t() | GitHub.Content.Tree.t() | [map]}
+          {:ok,
+           GitHub.Content.File.t()
+           | GitHub.Content.Submodule.t()
+           | GitHub.Content.Symlink.t()
+           | GitHub.Content.Tree.t()
+           | [map]}
           | {:error, GitHub.Error.t()}
   def get_content(owner, repo, path, opts \\ []) do
     client = opts[:client] || @default_client
@@ -2831,7 +2836,15 @@ defmodule GitHub.Repos do
       method: :get,
       query: query,
       response: [
-        {200, {:union, [:map, {GitHub.Content.File, :t}, {GitHub.Content.Tree, :t}, [:map]]}},
+        {200,
+         {:union,
+          [
+            {GitHub.Content.File, :t},
+            {GitHub.Content.Submodule, :t},
+            {GitHub.Content.Symlink, :t},
+            {GitHub.Content.Tree, :t},
+            [:map]
+          ]}},
         {302, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}

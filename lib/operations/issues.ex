@@ -687,7 +687,25 @@ defmodule GitHub.Issues do
 
   """
   @spec list_events(String.t(), String.t(), integer, keyword) ::
-          {:ok, [map]} | {:error, GitHub.Error.t()}
+          {:ok,
+           [
+             GitHub.AddedToProjectIssueEvent.t()
+             | GitHub.AssignedIssueEvent.t()
+             | GitHub.ConvertedNoteToIssueIssueEvent.t()
+             | GitHub.DemilestonedIssueEvent.t()
+             | GitHub.LabeledIssueEvent.t()
+             | GitHub.LockedIssueEvent.t()
+             | GitHub.MilestonedIssueEvent.t()
+             | GitHub.MovedColumnInProjectIssueEvent.t()
+             | GitHub.RemovedFromProjectIssueEvent.t()
+             | GitHub.RenamedIssueEvent.t()
+             | GitHub.ReviewDismissedIssueEvent.t()
+             | GitHub.ReviewRequestRemovedIssueEvent.t()
+             | GitHub.ReviewRequestedIssueEvent.t()
+             | GitHub.UnassignedIssueEvent.t()
+             | GitHub.UnlabeledIssueEvent.t()
+           ]}
+          | {:error, GitHub.Error.t()}
   def list_events(owner, repo, issue_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -698,7 +716,29 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/events",
       method: :get,
       query: query,
-      response: [{200, [:map]}, {410, {GitHub.BasicError, :t}}],
+      response: [
+        {200,
+         [
+           union: [
+             {GitHub.AddedToProjectIssueEvent, :t},
+             {GitHub.AssignedIssueEvent, :t},
+             {GitHub.ConvertedNoteToIssueIssueEvent, :t},
+             {GitHub.DemilestonedIssueEvent, :t},
+             {GitHub.LabeledIssueEvent, :t},
+             {GitHub.LockedIssueEvent, :t},
+             {GitHub.MilestonedIssueEvent, :t},
+             {GitHub.MovedColumnInProjectIssueEvent, :t},
+             {GitHub.RemovedFromProjectIssueEvent, :t},
+             {GitHub.RenamedIssueEvent, :t},
+             {GitHub.ReviewDismissedIssueEvent, :t},
+             {GitHub.ReviewRequestRemovedIssueEvent, :t},
+             {GitHub.ReviewRequestedIssueEvent, :t},
+             {GitHub.UnassignedIssueEvent, :t},
+             {GitHub.UnlabeledIssueEvent, :t}
+           ]
+         ]},
+        {410, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
@@ -751,7 +791,32 @@ defmodule GitHub.Issues do
 
   """
   @spec list_events_for_timeline(String.t(), String.t(), integer, keyword) ::
-          {:ok, [map]} | {:error, GitHub.Error.t()}
+          {:ok,
+           [
+             GitHub.AddedToProjectIssueEvent.t()
+             | GitHub.ConvertedNoteToIssueIssueEvent.t()
+             | GitHub.DemilestonedIssueEvent.t()
+             | GitHub.LabeledIssueEvent.t()
+             | GitHub.LockedIssueEvent.t()
+             | GitHub.MilestonedIssueEvent.t()
+             | GitHub.MovedColumnInProjectIssueEvent.t()
+             | GitHub.RemovedFromProjectIssueEvent.t()
+             | GitHub.RenamedIssueEvent.t()
+             | GitHub.ReviewDismissedIssueEvent.t()
+             | GitHub.ReviewRequestRemovedIssueEvent.t()
+             | GitHub.ReviewRequestedIssueEvent.t()
+             | GitHub.StateChangeIssueEvent.t()
+             | GitHub.Timeline.AssignedIssueEvent.t()
+             | GitHub.Timeline.CommentEvent.t()
+             | GitHub.Timeline.CommitCommentedEvent.t()
+             | GitHub.Timeline.CommittedEvent.t()
+             | GitHub.Timeline.CrossReferencedEvent.t()
+             | GitHub.Timeline.LineCommentedEvent.t()
+             | GitHub.Timeline.ReviewedEvent.t()
+             | GitHub.Timeline.UnassignedIssueEvent.t()
+             | GitHub.UnlabeledIssueEvent.t()
+           ]}
+          | {:error, GitHub.Error.t()}
   def list_events_for_timeline(owner, repo, issue_number, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:page, :per_page])
@@ -762,7 +827,37 @@ defmodule GitHub.Issues do
       url: "/repos/#{owner}/#{repo}/issues/#{issue_number}/timeline",
       method: :get,
       query: query,
-      response: [{200, [:map]}, {404, {GitHub.BasicError, :t}}, {410, {GitHub.BasicError, :t}}],
+      response: [
+        {200,
+         [
+           union: [
+             {GitHub.AddedToProjectIssueEvent, :t},
+             {GitHub.ConvertedNoteToIssueIssueEvent, :t},
+             {GitHub.DemilestonedIssueEvent, :t},
+             {GitHub.LabeledIssueEvent, :t},
+             {GitHub.LockedIssueEvent, :t},
+             {GitHub.MilestonedIssueEvent, :t},
+             {GitHub.MovedColumnInProjectIssueEvent, :t},
+             {GitHub.RemovedFromProjectIssueEvent, :t},
+             {GitHub.RenamedIssueEvent, :t},
+             {GitHub.ReviewDismissedIssueEvent, :t},
+             {GitHub.ReviewRequestRemovedIssueEvent, :t},
+             {GitHub.ReviewRequestedIssueEvent, :t},
+             {GitHub.StateChangeIssueEvent, :t},
+             {GitHub.Timeline.AssignedIssueEvent, :t},
+             {GitHub.Timeline.CommentEvent, :t},
+             {GitHub.Timeline.CommitCommentedEvent, :t},
+             {GitHub.Timeline.CommittedEvent, :t},
+             {GitHub.Timeline.CrossReferencedEvent, :t},
+             {GitHub.Timeline.LineCommentedEvent, :t},
+             {GitHub.Timeline.ReviewedEvent, :t},
+             {GitHub.Timeline.UnassignedIssueEvent, :t},
+             {GitHub.UnlabeledIssueEvent, :t}
+           ]
+         ]},
+        {404, {GitHub.BasicError, :t}},
+        {410, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
