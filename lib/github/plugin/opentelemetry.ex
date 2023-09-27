@@ -78,7 +78,7 @@ if Code.ensure_loaded?(:opentelemetry) do
       }
 
       s =
-        OpenTelemetry.Tracer.start_span("#{inspect(call_module)}#{call_function}", %{
+        OpenTelemetry.Tracer.start_span("#{inspect(call_module)}.#{call_function}", %{
           start_time: start_time,
           attributes: attributes,
           kind: :client
