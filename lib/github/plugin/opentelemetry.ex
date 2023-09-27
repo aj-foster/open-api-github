@@ -74,7 +74,7 @@ if Code.ensure_loaded?(:opentelemetry) do
         Trace.net_peer_port() => uri.port,
         Trace.http_target() => uri.path,
         Trace.http_method() => request_method,
-        Trace.http_status_code() => response_code || 0
+        Trace.http_status_code() => response_code
       }
 
       s =

@@ -26,7 +26,7 @@ defmodule GitHub.Client do
       if Config.wrap(opts) do
         wrap_result(result, metadata)
       else
-        {result, metadata}
+        {result, Map.put(metadata, :response_code, 0)}
       end
     end)
   end
