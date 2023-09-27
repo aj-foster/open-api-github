@@ -1,6 +1,6 @@
-defmodule GitHub.LockedIssueEvent do
+defmodule GitHub.Issue.Event.ReviewDismissed do
   @moduledoc """
-  Provides struct and type for a LockedIssueEvent
+  Provides struct and type for a Issue.Event.ReviewDismissed
   """
   use GitHub.Encoder
 
@@ -10,9 +10,9 @@ defmodule GitHub.LockedIssueEvent do
           commit_id: String.t() | nil,
           commit_url: String.t() | nil,
           created_at: String.t(),
+          dismissed_review: map,
           event: String.t(),
           id: integer,
-          lock_reason: String.t() | nil,
           node_id: String.t(),
           performed_via_github_app: GitHub.App.t() | nil,
           url: String.t()
@@ -24,9 +24,9 @@ defmodule GitHub.LockedIssueEvent do
     :commit_id,
     :commit_url,
     :created_at,
+    :dismissed_review,
     :event,
     :id,
-    :lock_reason,
     :node_id,
     :performed_via_github_app,
     :url
@@ -42,9 +42,9 @@ defmodule GitHub.LockedIssueEvent do
       commit_id: {:union, [{:string, :generic}, :null]},
       commit_url: {:union, [{:string, :generic}, :null]},
       created_at: {:string, :generic},
+      dismissed_review: :map,
       event: {:string, :generic},
       id: :integer,
-      lock_reason: {:union, [{:string, :generic}, :null]},
       node_id: {:string, :generic},
       performed_via_github_app: {:union, [{GitHub.App, :t}, :null]},
       url: {:string, :generic}

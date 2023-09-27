@@ -63,6 +63,7 @@ if config_env() == :dev do
           {~r/Full$/, ""},
           {~r/^Minimal/, ""},
           {~r/Minimal$/, ""},
+          {~r/^Scoped/, ""},
           {~r/^Simple/, ""},
           {~r/Simple$/, ""},
           {"PrivateUser", "User"},
@@ -70,6 +71,7 @@ if config_env() == :dev do
         ],
         rename: [
           {~r/^Codespaces/, "Codespace"},
+          {~r/([A-Za-z]+)IssueEvent$/, "Issue.Event.\\1"},
           {"GitignoreTemplate", "GitIgnoreTemplate"},
           {"Integration", "App"},
           {"Job", "Actions.Job"},

@@ -1,6 +1,6 @@
-defmodule GitHub.UnassignedIssueEvent do
+defmodule GitHub.Issue.Event.Unassigned do
   @moduledoc """
-  Provides struct and type for a UnassignedIssueEvent
+  Provides struct and type for a Issue.Event.Unassigned
   """
   use GitHub.Encoder
 

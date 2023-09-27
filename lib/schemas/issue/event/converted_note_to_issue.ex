@@ -1,6 +1,6 @@
-defmodule GitHub.RenamedIssueEvent do
+defmodule GitHub.Issue.Event.ConvertedNoteToIssue do
   @moduledoc """
-  Provides struct and type for a RenamedIssueEvent
+  Provides struct and type for a Issue.Event.ConvertedNoteToIssue
   """
   use GitHub.Encoder
 
@@ -13,8 +13,8 @@ defmodule GitHub.RenamedIssueEvent do
           event: String.t(),
           id: integer,
           node_id: String.t(),
-          performed_via_github_app: GitHub.App.t() | nil,
-          rename: map,
+          performed_via_github_app: GitHub.App.t(),
+          project_card: map | nil,
           url: String.t()
         }
 
@@ -28,7 +28,7 @@ defmodule GitHub.RenamedIssueEvent do
     :id,
     :node_id,
     :performed_via_github_app,
-    :rename,
+    :project_card,
     :url
   ]
 
@@ -45,8 +45,8 @@ defmodule GitHub.RenamedIssueEvent do
       event: {:string, :generic},
       id: :integer,
       node_id: {:string, :generic},
-      performed_via_github_app: {:union, [{GitHub.App, :t}, :null]},
-      rename: :map,
+      performed_via_github_app: {GitHub.App, :t},
+      project_card: :map,
       url: {:string, :generic}
     ]
   end

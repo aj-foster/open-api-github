@@ -1,6 +1,6 @@
-defmodule GitHub.ReviewRequestRemovedIssueEvent do
+defmodule GitHub.Issue.Event.StateChange do
   @moduledoc """
-  Provides struct and type for a ReviewRequestRemovedIssueEvent
+  Provides struct and type for a Issue.Event.StateChange
   """
   use GitHub.Encoder
 
@@ -14,9 +14,7 @@ defmodule GitHub.ReviewRequestRemovedIssueEvent do
           id: integer,
           node_id: String.t(),
           performed_via_github_app: GitHub.App.t() | nil,
-          requested_reviewer: GitHub.User.simple() | nil,
-          requested_team: GitHub.Team.t() | nil,
-          review_requester: GitHub.User.simple(),
+          state_reason: String.t() | nil,
           url: String.t()
         }
 
@@ -30,9 +28,7 @@ defmodule GitHub.ReviewRequestRemovedIssueEvent do
     :id,
     :node_id,
     :performed_via_github_app,
-    :requested_reviewer,
-    :requested_team,
-    :review_requester,
+    :state_reason,
     :url
   ]
 
@@ -50,9 +46,7 @@ defmodule GitHub.ReviewRequestRemovedIssueEvent do
       id: :integer,
       node_id: {:string, :generic},
       performed_via_github_app: {:union, [{GitHub.App, :t}, :null]},
-      requested_reviewer: {GitHub.User, :simple},
-      requested_team: {GitHub.Team, :t},
-      review_requester: {GitHub.User, :simple},
+      state_reason: {:union, [{:string, :generic}, :null]},
       url: {:string, :generic}
     ]
   end

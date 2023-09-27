@@ -1,6 +1,6 @@
-defmodule GitHub.LabeledIssueEvent do
+defmodule GitHub.Issue.Event.Labeled do
   @moduledoc """
-  Provides struct and type for a LabeledIssueEvent
+  Provides struct and type for a Issue.Event.Labeled
   """
   use GitHub.Encoder
 

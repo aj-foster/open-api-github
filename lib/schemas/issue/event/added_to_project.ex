@@ -1,6 +1,6 @@
-defmodule GitHub.MovedColumnInProjectIssueEvent do
+defmodule GitHub.Issue.Event.AddedToProject do
   @moduledoc """
-  Provides struct and type for a MovedColumnInProjectIssueEvent
+  Provides struct and type for a Issue.Event.AddedToProject
   """
   use GitHub.Encoder
 

@@ -1,6 +1,6 @@
-defmodule GitHub.DemilestonedIssueEvent do
+defmodule GitHub.Issue.Event.Milestoned do
   @moduledoc """
-  Provides struct and type for a DemilestonedIssueEvent
+  Provides struct and type for a Issue.Event.Milestoned
   """
   use GitHub.Encoder
 

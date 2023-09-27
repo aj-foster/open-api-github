@@ -689,21 +689,21 @@ defmodule GitHub.Issues do
   @spec list_events(String.t(), String.t(), integer, keyword) ::
           {:ok,
            [
-             GitHub.AddedToProjectIssueEvent.t()
-             | GitHub.AssignedIssueEvent.t()
-             | GitHub.ConvertedNoteToIssueIssueEvent.t()
-             | GitHub.DemilestonedIssueEvent.t()
-             | GitHub.LabeledIssueEvent.t()
-             | GitHub.LockedIssueEvent.t()
-             | GitHub.MilestonedIssueEvent.t()
-             | GitHub.MovedColumnInProjectIssueEvent.t()
-             | GitHub.RemovedFromProjectIssueEvent.t()
-             | GitHub.RenamedIssueEvent.t()
-             | GitHub.ReviewDismissedIssueEvent.t()
-             | GitHub.ReviewRequestRemovedIssueEvent.t()
-             | GitHub.ReviewRequestedIssueEvent.t()
-             | GitHub.UnassignedIssueEvent.t()
-             | GitHub.UnlabeledIssueEvent.t()
+             GitHub.Issue.Event.AddedToProject.t()
+             | GitHub.Issue.Event.Assigned.t()
+             | GitHub.Issue.Event.ConvertedNoteToIssue.t()
+             | GitHub.Issue.Event.Demilestoned.t()
+             | GitHub.Issue.Event.Labeled.t()
+             | GitHub.Issue.Event.Locked.t()
+             | GitHub.Issue.Event.Milestoned.t()
+             | GitHub.Issue.Event.MovedColumnInProject.t()
+             | GitHub.Issue.Event.RemovedFromProject.t()
+             | GitHub.Issue.Event.Renamed.t()
+             | GitHub.Issue.Event.ReviewDismissed.t()
+             | GitHub.Issue.Event.ReviewRequestRemoved.t()
+             | GitHub.Issue.Event.ReviewRequested.t()
+             | GitHub.Issue.Event.Unassigned.t()
+             | GitHub.Issue.Event.Unlabeled.t()
            ]}
           | {:error, GitHub.Error.t()}
   def list_events(owner, repo, issue_number, opts \\ []) do
@@ -720,21 +720,21 @@ defmodule GitHub.Issues do
         {200,
          [
            union: [
-             {GitHub.AddedToProjectIssueEvent, :t},
-             {GitHub.AssignedIssueEvent, :t},
-             {GitHub.ConvertedNoteToIssueIssueEvent, :t},
-             {GitHub.DemilestonedIssueEvent, :t},
-             {GitHub.LabeledIssueEvent, :t},
-             {GitHub.LockedIssueEvent, :t},
-             {GitHub.MilestonedIssueEvent, :t},
-             {GitHub.MovedColumnInProjectIssueEvent, :t},
-             {GitHub.RemovedFromProjectIssueEvent, :t},
-             {GitHub.RenamedIssueEvent, :t},
-             {GitHub.ReviewDismissedIssueEvent, :t},
-             {GitHub.ReviewRequestRemovedIssueEvent, :t},
-             {GitHub.ReviewRequestedIssueEvent, :t},
-             {GitHub.UnassignedIssueEvent, :t},
-             {GitHub.UnlabeledIssueEvent, :t}
+             {GitHub.Issue.Event.AddedToProject, :t},
+             {GitHub.Issue.Event.Assigned, :t},
+             {GitHub.Issue.Event.ConvertedNoteToIssue, :t},
+             {GitHub.Issue.Event.Demilestoned, :t},
+             {GitHub.Issue.Event.Labeled, :t},
+             {GitHub.Issue.Event.Locked, :t},
+             {GitHub.Issue.Event.Milestoned, :t},
+             {GitHub.Issue.Event.MovedColumnInProject, :t},
+             {GitHub.Issue.Event.RemovedFromProject, :t},
+             {GitHub.Issue.Event.Renamed, :t},
+             {GitHub.Issue.Event.ReviewDismissed, :t},
+             {GitHub.Issue.Event.ReviewRequestRemoved, :t},
+             {GitHub.Issue.Event.ReviewRequested, :t},
+             {GitHub.Issue.Event.Unassigned, :t},
+             {GitHub.Issue.Event.Unlabeled, :t}
            ]
          ]},
         {410, {GitHub.BasicError, :t}}
@@ -793,28 +793,28 @@ defmodule GitHub.Issues do
   @spec list_events_for_timeline(String.t(), String.t(), integer, keyword) ::
           {:ok,
            [
-             GitHub.AddedToProjectIssueEvent.t()
-             | GitHub.ConvertedNoteToIssueIssueEvent.t()
-             | GitHub.DemilestonedIssueEvent.t()
-             | GitHub.LabeledIssueEvent.t()
-             | GitHub.LockedIssueEvent.t()
-             | GitHub.MilestonedIssueEvent.t()
-             | GitHub.MovedColumnInProjectIssueEvent.t()
-             | GitHub.RemovedFromProjectIssueEvent.t()
-             | GitHub.RenamedIssueEvent.t()
-             | GitHub.ReviewDismissedIssueEvent.t()
-             | GitHub.ReviewRequestRemovedIssueEvent.t()
-             | GitHub.ReviewRequestedIssueEvent.t()
-             | GitHub.StateChangeIssueEvent.t()
-             | GitHub.Timeline.AssignedIssueEvent.t()
+             GitHub.Issue.Event.AddedToProject.t()
+             | GitHub.Issue.Event.ConvertedNoteToIssue.t()
+             | GitHub.Issue.Event.Demilestoned.t()
+             | GitHub.Issue.Event.Labeled.t()
+             | GitHub.Issue.Event.Locked.t()
+             | GitHub.Issue.Event.Milestoned.t()
+             | GitHub.Issue.Event.MovedColumnInProject.t()
+             | GitHub.Issue.Event.RemovedFromProject.t()
+             | GitHub.Issue.Event.Renamed.t()
+             | GitHub.Issue.Event.ReviewDismissed.t()
+             | GitHub.Issue.Event.ReviewRequestRemoved.t()
+             | GitHub.Issue.Event.ReviewRequested.t()
+             | GitHub.Issue.Event.StateChange.t()
+             | GitHub.Issue.Event.TimelineAssigned.t()
+             | GitHub.Issue.Event.TimelineUnassigned.t()
+             | GitHub.Issue.Event.Unlabeled.t()
              | GitHub.Timeline.CommentEvent.t()
              | GitHub.Timeline.CommitCommentedEvent.t()
              | GitHub.Timeline.CommittedEvent.t()
              | GitHub.Timeline.CrossReferencedEvent.t()
              | GitHub.Timeline.LineCommentedEvent.t()
              | GitHub.Timeline.ReviewedEvent.t()
-             | GitHub.Timeline.UnassignedIssueEvent.t()
-             | GitHub.UnlabeledIssueEvent.t()
            ]}
           | {:error, GitHub.Error.t()}
   def list_events_for_timeline(owner, repo, issue_number, opts \\ []) do
@@ -831,28 +831,28 @@ defmodule GitHub.Issues do
         {200,
          [
            union: [
-             {GitHub.AddedToProjectIssueEvent, :t},
-             {GitHub.ConvertedNoteToIssueIssueEvent, :t},
-             {GitHub.DemilestonedIssueEvent, :t},
-             {GitHub.LabeledIssueEvent, :t},
-             {GitHub.LockedIssueEvent, :t},
-             {GitHub.MilestonedIssueEvent, :t},
-             {GitHub.MovedColumnInProjectIssueEvent, :t},
-             {GitHub.RemovedFromProjectIssueEvent, :t},
-             {GitHub.RenamedIssueEvent, :t},
-             {GitHub.ReviewDismissedIssueEvent, :t},
-             {GitHub.ReviewRequestRemovedIssueEvent, :t},
-             {GitHub.ReviewRequestedIssueEvent, :t},
-             {GitHub.StateChangeIssueEvent, :t},
-             {GitHub.Timeline.AssignedIssueEvent, :t},
+             {GitHub.Issue.Event.AddedToProject, :t},
+             {GitHub.Issue.Event.ConvertedNoteToIssue, :t},
+             {GitHub.Issue.Event.Demilestoned, :t},
+             {GitHub.Issue.Event.Labeled, :t},
+             {GitHub.Issue.Event.Locked, :t},
+             {GitHub.Issue.Event.Milestoned, :t},
+             {GitHub.Issue.Event.MovedColumnInProject, :t},
+             {GitHub.Issue.Event.RemovedFromProject, :t},
+             {GitHub.Issue.Event.Renamed, :t},
+             {GitHub.Issue.Event.ReviewDismissed, :t},
+             {GitHub.Issue.Event.ReviewRequestRemoved, :t},
+             {GitHub.Issue.Event.ReviewRequested, :t},
+             {GitHub.Issue.Event.StateChange, :t},
+             {GitHub.Issue.Event.TimelineAssigned, :t},
+             {GitHub.Issue.Event.TimelineUnassigned, :t},
+             {GitHub.Issue.Event.Unlabeled, :t},
              {GitHub.Timeline.CommentEvent, :t},
              {GitHub.Timeline.CommitCommentedEvent, :t},
              {GitHub.Timeline.CommittedEvent, :t},
              {GitHub.Timeline.CrossReferencedEvent, :t},
              {GitHub.Timeline.LineCommentedEvent, :t},
-             {GitHub.Timeline.ReviewedEvent, :t},
-             {GitHub.Timeline.UnassignedIssueEvent, :t},
-             {GitHub.UnlabeledIssueEvent, :t}
+             {GitHub.Timeline.ReviewedEvent, :t}
            ]
          ]},
         {404, {GitHub.BasicError, :t}},

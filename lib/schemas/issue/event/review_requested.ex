@@ -1,6 +1,6 @@
-defmodule GitHub.StateChangeIssueEvent do
+defmodule GitHub.Issue.Event.ReviewRequested do
   @moduledoc """
-  Provides struct and type for a StateChangeIssueEvent
+  Provides struct and type for a Issue.Event.ReviewRequested
   """
   use GitHub.Encoder
 
@@ -14,7 +14,9 @@ defmodule GitHub.StateChangeIssueEvent do
           id: integer,
           node_id: String.t(),
           performed_via_github_app: GitHub.App.t() | nil,
-          state_reason: String.t() | nil,
+          requested_reviewer: GitHub.User.simple() | nil,
+          requested_team: GitHub.Team.t() | nil,
+          review_requester: GitHub.User.simple(),
           url: String.t()
         }
 
@@ -28,7 +30,9 @@ defmodule GitHub.StateChangeIssueEvent do
     :id,
     :node_id,
     :performed_via_github_app,
-    :state_reason,
+    :requested_reviewer,
+    :requested_team,
+    :review_requester,
     :url
   ]
 
@@ -46,7 +50,9 @@ defmodule GitHub.StateChangeIssueEvent do
       id: :integer,
       node_id: {:string, :generic},
       performed_via_github_app: {:union, [{GitHub.App, :t}, :null]},
-      state_reason: {:union, [{:string, :generic}, :null]},
+      requested_reviewer: {GitHub.User, :simple},
+      requested_team: {GitHub.Team, :t},
+      review_requester: {GitHub.User, :simple},
       url: {:string, :generic}
     ]
   end

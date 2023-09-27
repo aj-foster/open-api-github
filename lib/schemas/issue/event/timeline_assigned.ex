@@ -1,16 +1,16 @@
-defmodule GitHub.ReviewDismissedIssueEvent do
+defmodule GitHub.Issue.Event.TimelineAssigned do
   @moduledoc """
-  Provides struct and type for a ReviewDismissedIssueEvent
+  Provides struct and type for a Issue.Event.TimelineAssigned
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
           actor: GitHub.User.simple(),
+          assignee: GitHub.User.simple(),
           commit_id: String.t() | nil,
           commit_url: String.t() | nil,
           created_at: String.t(),
-          dismissed_review: map,
           event: String.t(),
           id: integer,
           node_id: String.t(),
@@ -21,10 +21,10 @@ defmodule GitHub.ReviewDismissedIssueEvent do
   defstruct [
     :__info__,
     :actor,
+    :assignee,
     :commit_id,
     :commit_url,
     :created_at,
-    :dismissed_review,
     :event,
     :id,
     :node_id,
@@ -39,10 +39,10 @@ defmodule GitHub.ReviewDismissedIssueEvent do
   def __fields__(:t) do
     [
       actor: {GitHub.User, :simple},
+      assignee: {GitHub.User, :simple},
       commit_id: {:union, [{:string, :generic}, :null]},
       commit_url: {:union, [{:string, :generic}, :null]},
       created_at: {:string, :generic},
-      dismissed_review: :map,
       event: {:string, :generic},
       id: :integer,
       node_id: {:string, :generic},

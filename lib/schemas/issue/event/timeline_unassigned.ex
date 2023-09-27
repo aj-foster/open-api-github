@@ -1,12 +1,13 @@
-defmodule GitHub.RemovedFromProjectIssueEvent do
+defmodule GitHub.Issue.Event.TimelineUnassigned do
   @moduledoc """
-  Provides struct and type for a RemovedFromProjectIssueEvent
+  Provides struct and type for a Issue.Event.TimelineUnassigned
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
           actor: GitHub.User.simple(),
+          assignee: GitHub.User.simple(),
           commit_id: String.t() | nil,
           commit_url: String.t() | nil,
           created_at: String.t(),
@@ -14,13 +15,13 @@ defmodule GitHub.RemovedFromProjectIssueEvent do
           id: integer,
           node_id: String.t(),
           performed_via_github_app: GitHub.App.t() | nil,
-          project_card: map | nil,
           url: String.t()
         }
 
   defstruct [
     :__info__,
     :actor,
+    :assignee,
     :commit_id,
     :commit_url,
     :created_at,
@@ -28,7 +29,6 @@ defmodule GitHub.RemovedFromProjectIssueEvent do
     :id,
     :node_id,
     :performed_via_github_app,
-    :project_card,
     :url
   ]
 
@@ -39,6 +39,7 @@ defmodule GitHub.RemovedFromProjectIssueEvent do
   def __fields__(:t) do
     [
       actor: {GitHub.User, :simple},
+      assignee: {GitHub.User, :simple},
       commit_id: {:union, [{:string, :generic}, :null]},
       commit_url: {:union, [{:string, :generic}, :null]},
       created_at: {:string, :generic},
@@ -46,7 +47,6 @@ defmodule GitHub.RemovedFromProjectIssueEvent do
       id: :integer,
       node_id: {:string, :generic},
       performed_via_github_app: {:union, [{GitHub.App, :t}, :null]},
-      project_card: :map,
       url: {:string, :generic}
     ]
   end

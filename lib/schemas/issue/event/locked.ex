@@ -1,6 +1,6 @@
-defmodule GitHub.UnlabeledIssueEvent do
+defmodule GitHub.Issue.Event.Locked do
   @moduledoc """
-  Provides struct and type for a UnlabeledIssueEvent
+  Provides struct and type for a Issue.Event.Locked
   """
   use GitHub.Encoder
 
@@ -12,7 +12,7 @@ defmodule GitHub.UnlabeledIssueEvent do
           created_at: String.t(),
           event: String.t(),
           id: integer,
-          label: map,
+          lock_reason: String.t() | nil,
           node_id: String.t(),
           performed_via_github_app: GitHub.App.t() | nil,
           url: String.t()
@@ -26,7 +26,7 @@ defmodule GitHub.UnlabeledIssueEvent do
     :created_at,
     :event,
     :id,
-    :label,
+    :lock_reason,
     :node_id,
     :performed_via_github_app,
     :url
@@ -44,7 +44,7 @@ defmodule GitHub.UnlabeledIssueEvent do
       created_at: {:string, :generic},
       event: {:string, :generic},
       id: :integer,
-      label: :map,
+      lock_reason: {:union, [{:string, :generic}, :null]},
       node_id: {:string, :generic},
       performed_via_github_app: {:union, [{GitHub.App, :t}, :null]},
       url: {:string, :generic}

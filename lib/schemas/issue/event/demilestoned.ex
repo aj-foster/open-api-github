@@ -1,6 +1,6 @@
-defmodule GitHub.AddedToProjectIssueEvent do
+defmodule GitHub.Issue.Event.Demilestoned do
   @moduledoc """
-  Provides struct and type for a AddedToProjectIssueEvent
+  Provides struct and type for a Issue.Event.Demilestoned
   """
   use GitHub.Encoder
 
@@ -12,9 +12,9 @@ defmodule GitHub.AddedToProjectIssueEvent do
           created_at: String.t(),
           event: String.t(),
           id: integer,
+          milestone: map,
           node_id: String.t(),
           performed_via_github_app: GitHub.App.t() | nil,
-          project_card: map | nil,
           url: String.t()
         }
 
@@ -26,9 +26,9 @@ defmodule GitHub.AddedToProjectIssueEvent do
     :created_at,
     :event,
     :id,
+    :milestone,
     :node_id,
     :performed_via_github_app,
-    :project_card,
     :url
   ]
 
@@ -44,9 +44,9 @@ defmodule GitHub.AddedToProjectIssueEvent do
       created_at: {:string, :generic},
       event: {:string, :generic},
       id: :integer,
+      milestone: :map,
       node_id: {:string, :generic},
       performed_via_github_app: {:union, [{GitHub.App, :t}, :null]},
-      project_card: :map,
       url: {:string, :generic}
     ]
   end
