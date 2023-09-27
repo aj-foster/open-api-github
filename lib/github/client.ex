@@ -6,15 +6,29 @@ defmodule GitHub.Client do
 
   @spec request(map) :: {:ok, term} | {:error, term} | Operation.t()
   def request(%{opts: opts} = info) do
-    result =
-      Operation.new(info)
-      |> reduce_stack()
+    %Operation{
+      request_method: method,
+      request_server: server,
+      request_url: url
+    } = operation = Operation.new(info)
 
-    if Config.wrap(opts) do
-      wrap_result(result)
-    else
-      result
-    end
+    metadata = %{
+      client: __MODULE__,
+      info: info,
+      request_method: method,
+      request_server: server,
+      request_url: url
+    }
+
+    :telemetry.span([:oapi_github, :request], metadata, fn ->
+      result = reduce_stack(operation)
+
+      if Config.wrap(opts) do
+        wrap_result(result, metadata)
+      else
+        {result, metadata}
+      end
+    end)
   end
 
   @spec reduce_stack(Operation.t()) :: Operation.t() | Error.t()
@@ -36,13 +50,23 @@ defmodule GitHub.Client do
     end)
   end
 
-  @spec wrap_result(Operation.t() | Error.t()) :: {:ok, term} | {:error, term}
-  defp wrap_result(%Operation{response_body: nil, response_code: code}) when code < 300,
-    do: :ok
+  @spec wrap_result(Operation.t() | Error.t(), map) ::
+          {:ok, map} | {{:ok, term}, map} | {{:error, term}, map}
+  defp wrap_result(%Operation{response_body: nil, response_code: code}, metadata)
+       when code < 300 do
+    {:ok, Map.put(metadata, :response_code, code)}
+  end
 
-  defp wrap_result(%Operation{response_body: response, response_code: code}) when code < 300,
-    do: {:ok, response}
+  defp wrap_result(%Operation{response_body: response, response_code: code}, metadata)
+       when code < 300 do
+    {{:ok, response}, Map.put(metadata, :response_code, code)}
+  end
 
-  defp wrap_result(%Operation{response_body: response}), do: {:error, response}
-  defp wrap_result(%Error{} = error), do: {:error, error}
+  defp wrap_result(%Operation{response_body: response, response_code: code}, metadata) do
+    {{:error, response}, Map.put(metadata, :response_code, code)}
+  end
+
+  defp wrap_result(%Error{code: code, reason: reason} = error, metadata) do
+    {{:error, error}, Map.merge(metadata, %{response_code: code, error: reason})}
+  end
 end

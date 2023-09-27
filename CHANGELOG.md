@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-_Nothing yet_.
+* **Add**: Telemetry events for all operation calls.
+  See the [telemetry guide](guides/telemetry.md) for more information.
 
 ### 0.0.13 (2023-09-12)
 

@@ -38,7 +38,8 @@ defmodule GitHub.MixProject do
       {:jason, "~> 1.0", optional: true},
       {:httpoison, "~> 1.7 or ~> 2.0", optional: true},
       {:oapi_generator, "0.1.0-rc.1", only: :dev, runtime: false},
-      {:redix, "~> 1.0", optional: true}
+      {:redix, "~> 1.0", optional: true},
+      {:telemetry, "~> 0.4.2 or ~> 1.0"}
     ]
   end
 
@@ -47,6 +48,7 @@ defmodule GitHub.MixProject do
       main: "readme",
       extras: [
         "README.md": [title: "Overview"],
+        "guides/telemetry.md": [title: "Telemetry"],
         "CODE_OF_CONDUCT.md": [title: "Code of Conduct"],
         "CONTRIBUTING.md": [title: "Contributing"],
         LICENSE: [title: "License"]
@@ -110,6 +112,7 @@ defmodule GitHub.MixProject do
       files: [
         ".api-version",
         ".formatter.exs",
+        "guides",
         "lib",
         "LICENSE",
         "mix.exs",
