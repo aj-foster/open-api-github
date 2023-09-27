@@ -806,15 +806,15 @@ defmodule GitHub.Issues do
              | GitHub.Issue.Event.ReviewRequestRemoved.t()
              | GitHub.Issue.Event.ReviewRequested.t()
              | GitHub.Issue.Event.StateChange.t()
-             | GitHub.Issue.Event.TimelineAssigned.t()
-             | GitHub.Issue.Event.TimelineUnassigned.t()
              | GitHub.Issue.Event.Unlabeled.t()
+             | GitHub.Timeline.AssignedIssueEvent.t()
              | GitHub.Timeline.CommentEvent.t()
              | GitHub.Timeline.CommitCommentedEvent.t()
              | GitHub.Timeline.CommittedEvent.t()
              | GitHub.Timeline.CrossReferencedEvent.t()
              | GitHub.Timeline.LineCommentedEvent.t()
              | GitHub.Timeline.ReviewedEvent.t()
+             | GitHub.Timeline.UnassignedIssueEvent.t()
            ]}
           | {:error, GitHub.Error.t()}
   def list_events_for_timeline(owner, repo, issue_number, opts \\ []) do
@@ -844,15 +844,15 @@ defmodule GitHub.Issues do
              {GitHub.Issue.Event.ReviewRequestRemoved, :t},
              {GitHub.Issue.Event.ReviewRequested, :t},
              {GitHub.Issue.Event.StateChange, :t},
-             {GitHub.Issue.Event.TimelineAssigned, :t},
-             {GitHub.Issue.Event.TimelineUnassigned, :t},
              {GitHub.Issue.Event.Unlabeled, :t},
+             {GitHub.Timeline.AssignedIssueEvent, :t},
              {GitHub.Timeline.CommentEvent, :t},
              {GitHub.Timeline.CommitCommentedEvent, :t},
              {GitHub.Timeline.CommittedEvent, :t},
              {GitHub.Timeline.CrossReferencedEvent, :t},
              {GitHub.Timeline.LineCommentedEvent, :t},
-             {GitHub.Timeline.ReviewedEvent, :t}
+             {GitHub.Timeline.ReviewedEvent, :t},
+             {GitHub.Timeline.UnassignedIssueEvent, :t}
            ]
          ]},
         {404, {GitHub.BasicError, :t}},

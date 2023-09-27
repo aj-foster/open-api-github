@@ -1,6 +1,6 @@
-defmodule GitHub.Issue.Event.TimelineUnassigned do
+defmodule GitHub.Timeline.UnassignedIssueEvent do
   @moduledoc """
-  Provides struct and type for a Issue.Event.TimelineUnassigned
+  Provides struct and type for a Timeline.UnassignedIssueEvent
   """
   use GitHub.Encoder
 
