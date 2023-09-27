@@ -15,7 +15,7 @@ defmodule GitHub.ClientTest do
         %{monotonic_time: _, system_time: _},
         %{
           client: GitHub.Client,
-          info: %{},
+          info: %{call: _},
           request_method: :get,
           request_server: "https://api.github.com",
           request_url: "/repos/aj-foster/open-api-github"
@@ -27,7 +27,7 @@ defmodule GitHub.ClientTest do
         %{duration: _, monotonic_time: _},
         %{
           client: GitHub.Client,
-          info: %{},
+          info: %{call: _},
           request_method: :get,
           request_server: "https://api.github.com",
           request_url: "/repos/aj-foster/open-api-github",

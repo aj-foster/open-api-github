@@ -55,7 +55,7 @@ if Code.ensure_loaded?(:opentelemetry) do
       %{duration: duration, monotonic_time: end_time} = measurements
 
       %{
-        info: %{__private__: %{call: {call_module, call_function}}},
+        info: %{call: {call_module, call_function}},
         request_method: request_method,
         request_server: request_server,
         request_url: request_url,
@@ -99,7 +99,7 @@ if Code.ensure_loaded?(:opentelemetry) do
       %{duration: duration, monotonic_time: end_time} = measurements
 
       %{
-        info: %{__private__: %{call: {call_module, call_function}}},
+        info: %{call: {call_module, call_function}},
         kind: kind,
         reason: reason,
         request_method: request_method,
