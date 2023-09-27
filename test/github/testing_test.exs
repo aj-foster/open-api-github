@@ -10,7 +10,7 @@ defmodule GitHub.TestingTest do
   describe "generate_gh/2" do
     test "generates a struct" do
       assert %GitHub.PullRequest{} = generate_gh(GitHub.PullRequest)
-      assert %GitHub.User{two_factor_authentication: nil} = generate_gh(GitHub.User, :public)
+      assert %GitHub.User{two_factor_authentication: nil} = generate_gh(GitHub.User, :simple)
       assert %GitHub.User{two_factor_authentication: tfa?} = generate_gh(GitHub.User, :private)
       assert is_boolean(tfa?)
     end
@@ -23,10 +23,10 @@ defmodule GitHub.TestingTest do
       bio = Faker.Lorem.Shakespeare.hamlet()
 
       assert %GitHub.User{bio: ^bio, two_factor_authentication: nil} =
-               generate_gh(GitHub.User, :public, bio: bio)
+               generate_gh(GitHub.User, :simple, bio: bio)
 
       assert %GitHub.User{bio: ^bio, two_factor_authentication: nil} =
-               generate_gh(GitHub.User, :public, %{bio: bio})
+               generate_gh(GitHub.User, :simple, %{bio: bio})
 
       assert %GitHub.User{bio: ^bio, two_factor_authentication: tfa?} =
                generate_gh(GitHub.User, :private, bio: bio)
