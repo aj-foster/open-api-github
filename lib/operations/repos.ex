@@ -663,7 +663,7 @@ defmodule GitHub.Repos do
           String.t(),
           String.t(),
           String.t(),
-          GitHub.Deployment.BranchPolicyNamePattern.t(),
+          GitHub.Deployment.BranchPolicyNamePatternWithType.t(),
           keyword
         ) :: {:ok, GitHub.Deployment.BranchPolicy.t()} | {:error, GitHub.Error.t()}
   def create_deployment_branch_policy(owner, repo, environment_name, body, opts \\ []) do
@@ -675,7 +675,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment-branch-policies",
       body: body,
       method: :post,
-      request: [{"application/json", {GitHub.Deployment.BranchPolicyNamePattern, :t}}],
+      request: [{"application/json", {GitHub.Deployment.BranchPolicyNamePatternWithType, :t}}],
       response: [{200, {GitHub.Deployment.BranchPolicy, :t}}, {303, :null}, {404, :null}],
       opts: opts
     })
@@ -3116,6 +3116,83 @@ defmodule GitHub.Repos do
   end
 
   @doc """
+  Get an organization rule suite
+
+  Gets information about a suite of rule evaluations from within an organization.
+  For more information, see "[Managing rulesets for repositories in your organization](https://docs.github.com/organizations/managing-organization-settings/managing-rulesets-for-repositories-in-your-organization#viewing-insights-for-rulesets)."
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/rule-suites#get-an-organization-rule-suite)
+
+  """
+  @spec get_org_rule_suite(String.t(), integer, keyword) ::
+          {:ok, GitHub.RuleSuite.t()} | {:error, GitHub.Error.t()}
+  def get_org_rule_suite(org, rule_suite_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, rule_suite_id: rule_suite_id],
+      call: {GitHub.Repos, :get_org_rule_suite},
+      url: "/orgs/#{org}/rulesets/rule-suites/#{rule_suite_id}",
+      method: :get,
+      response: [
+        {200, {GitHub.RuleSuite, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List organization rule suites
+
+  Lists suites of rule evaluations at the organization level.
+  For more information, see "[Managing rulesets for repositories in your organization](https://docs.github.com/organizations/managing-organization-settings/managing-rulesets-for-repositories-in-your-organization#viewing-insights-for-rulesets)."
+
+  ## Options
+
+    * `repository_name`: The name of the repository to filter on. When specified, only rule evaluations from this repository will be returned.
+    * `time_period`: The time period to filter by.
+      
+      For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for insights that occurred in the past 7 days (168 hours).
+    * `actor_name`: The handle for the GitHub user account to filter on. When specified, only rule evaluations triggered by this actor will be returned.
+    * `rule_suite_result`: The rule results to filter on. When specified, only suites with this result will be returned.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/rule-suites#list-organization-rule-suites)
+
+  """
+  @spec get_org_rule_suites(String.t(), keyword) :: {:ok, [map]} | {:error, GitHub.Error.t()}
+  def get_org_rule_suites(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    query =
+      Keyword.take(opts, [
+        :actor_name,
+        :page,
+        :per_page,
+        :repository_name,
+        :rule_suite_result,
+        :time_period
+      ])
+
+    client.request(%{
+      args: [org: org],
+      call: {GitHub.Repos, :get_org_rule_suites},
+      url: "/orgs/#{org}/rulesets/rule-suites",
+      method: :get,
+      query: query,
+      response: [{200, [:map]}, {404, {GitHub.BasicError, :t}}, {500, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
   Get an organization repository ruleset
 
   Get a repository ruleset for an organization.
@@ -3500,6 +3577,77 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/releases/tags/#{tag}",
       method: :get,
       response: [{200, {GitHub.Release, :t}}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get a repository rule suite
+
+  Gets information about a suite of rule evaluations from within a repository.
+  For more information, see "[Managing rulesets for a repository](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/managing-rulesets-for-a-repository#viewing-insights-for-rulesets)."
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/rule-suites#get-a-repository-rule-suite)
+
+  """
+  @spec get_repo_rule_suite(String.t(), String.t(), integer, keyword) ::
+          {:ok, GitHub.RuleSuite.t()} | {:error, GitHub.Error.t()}
+  def get_repo_rule_suite(owner, repo, rule_suite_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo, rule_suite_id: rule_suite_id],
+      call: {GitHub.Repos, :get_repo_rule_suite},
+      url: "/repos/#{owner}/#{repo}/rulesets/rule-suites/#{rule_suite_id}",
+      method: :get,
+      response: [
+        {200, {GitHub.RuleSuite, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List repository rule suites
+
+  Lists suites of rule evaluations at the repository level.
+  For more information, see "[Managing rulesets for a repository](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/managing-rulesets-for-a-repository#viewing-insights-for-rulesets)."
+
+  ## Options
+
+    * `ref`: The name of the ref. Cannot contain wildcard characters. When specified, only rule evaluations triggered for this ref will be returned.
+    * `time_period`: The time period to filter by.
+      
+      For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for insights that occurred in the past 7 days (168 hours).
+    * `actor_name`: The handle for the GitHub user account to filter on. When specified, only rule evaluations triggered by this actor will be returned.
+    * `rule_suite_result`: The rule results to filter on. When specified, only suites with this result will be returned.
+    * `per_page`: The number of results per page (max 100).
+    * `page`: Page number of the results to fetch.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/rule-suites#list-repository-rule-suites)
+
+  """
+  @spec get_repo_rule_suites(String.t(), String.t(), keyword) ::
+          {:ok, [map]} | {:error, GitHub.Error.t()}
+  def get_repo_rule_suites(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    query =
+      Keyword.take(opts, [:actor_name, :page, :per_page, :ref, :rule_suite_result, :time_period])
+
+    client.request(%{
+      args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_repo_rule_suites},
+      url: "/repos/#{owner}/#{repo}/rulesets/rule-suites",
+      method: :get,
+      query: query,
+      response: [{200, [:map]}, {404, {GitHub.BasicError, :t}}, {500, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
