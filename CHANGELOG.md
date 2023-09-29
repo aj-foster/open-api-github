@@ -7,9 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+_Nothing yet._
+
+## 0.1.0 (2023-09-29)
+
+This version marks a higher level of stability for the library, though it is still pre-release software.
+
+* **Breaking**: Regenerate code for description at commit [ffaf232](https://github.com/github/rest-api-description/tree/ffaf232180dbaff57ce08fa5490df44bbc606501).
 * **Add**: Telemetry events for all operation calls.
   See the [telemetry guide](guides/telemetry.md) for more information.
 * **Add**: OpenTelemetry plugin for easy integration with existing telemetry events.
+* **Add**: Now using `0.1.0-rc.3` of the [generator](https://github.com/aj-foster/open-api-generator).
 
 ### 0.0.13 (2023-09-12)
 
