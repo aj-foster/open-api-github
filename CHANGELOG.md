@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Nothing yet._
 
+### 0.1.1 (2023-10-04)
+
+**Fix**: Test data created with the `GitHub.Testing` module incorrectly returned ISO 8601 strings for date/time fields.
+
 ## 0.1.0 (2023-09-29)
 
 This version marks a higher level of stability for the library, though it is still pre-release software.
