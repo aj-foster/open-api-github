@@ -4,8 +4,8 @@ if Code.ensure_loaded?(:opentelemetry) do
     OpenTelemetry bindings for all operation requests
 
     This module provides an easy way to report GitHub operations to OpenTelemetry. The library
-    has built-in support for Erlang telemetry in the default client `GitHub.Client`. This module
-    attaches to the available telemetry events and manages OpenTelemetry tracing.
+    has built-in support for Erlang telemetry in the default client. This module attaches to the
+    available telemetry events and manages OpenTelemetry tracing.
 
     ## Usage
 

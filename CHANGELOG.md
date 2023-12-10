@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Nothing yet._
 
+## 0.2.0 (2023-12-10)
+
+**Add**: Add `GitHub.Webhook` with helpers for handling webhook requests in a plug application.
+
 ### 0.1.1 (2023-10-04)
 
 **Fix**: Test data created with the `GitHub.Testing` module incorrectly returned ISO 8601 strings for date/time fields.
