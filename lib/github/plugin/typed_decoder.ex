@@ -54,6 +54,18 @@ defmodule GitHub.Plugin.TypedDecoder do
     end
   end
 
+  @doc """
+  Manually decode a response
+
+  This function takes a parsed response and decodes it using the given type. It is intended for
+  use in testing scenarios only. For regular API requests, use `decode_response/2` as part of the
+  client stack.
+  """
+  @spec decode(term, Operation.type()) :: term
+  def decode(response, type) do
+    do_decode(response, type)
+  end
+
   defp do_decode(nil, _), do: nil
   defp do_decode("", :null), do: nil
   defp do_decode(value, {:string, :date}), do: Date.from_iso8601!(value)
