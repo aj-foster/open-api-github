@@ -40,6 +40,7 @@ defmodule GitHub.MixProject do
       {:oapi_generator, "0.1.0-rc.3", only: :dev, runtime: false},
       {:opentelemetry_api, "~> 1.0", optional: true},
       {:opentelemetry_semantic_conventions, "~> 0.2", optional: true},
+      {:plug, "~> 1.0", optional: true},
       {:redix, "~> 1.0", optional: true},
       {:telemetry, "~> 0.4.2 or ~> 1.0"}
     ]

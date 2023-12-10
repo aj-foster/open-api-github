@@ -104,4 +104,5 @@ end
 # Test configuration
 config :oapi_github,
   app_name: "Test App",
-  default_auth: {"client_one", "abc123"}
+  default_auth: {"client_one", "abc123"},
+  webhook_secret: "secret123"
