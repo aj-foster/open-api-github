@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Nothing yet_
 
+### 0.2.3 (2023-12-11)
+
+* **Fix**: Resolve issue with the contract of `GitHub.Webhook.body_reader/1` and the underlying reader function.
+
 ### 0.2.2 (2023-12-11)
 
 * **Add**: Create `GitHub.Auth` implementation for `GitHub.App` structs.
