@@ -57,6 +57,10 @@ defmodule GitHub.Config do
     * `app_name` (string): Name of the application using this client, used for User Agent and
       logging purposes.
 
+    * `apps` (list of tuples): GitHub App configurations. Each app config is a 3-tuple containing
+      a name (atom), app ID (integer), and private key (string, PEM format). See `GitHub.app/1`
+      for more information.
+
     * `default_auth` (`t:GitHub.Auth.auth/0`): Default API authentication credentials to use when
       authentication was not provided for a request. OAuth applications can provide their client ID
       and secret to increase their unauthenticated rate limit.
@@ -66,6 +70,9 @@ defmodule GitHub.Config do
 
     * `stack` (list of plugins): Plugins to control the execution of client requests. See
       `GitHub.Plugin` for more information. Defaults to the default stack below.
+
+    * `webhook_secret` (string): Secret value provided to GitHub for signing webhook requests.
+      See `GitHub.Webhook` for more information. Defaults to no signature verification.
 
   ## Plugins
 
@@ -111,6 +118,33 @@ defmodule GitHub.Config do
   #
   # Client Configuration
   #
+
+  @doc """
+  Get the configuration of a GitHub App by its name
+
+  ## Example
+
+      iex> Config.app(:my_app)
+      {:ok, {:my_app, 12345, "\\\"-----BEGIN RSA PRIVATE KEY..."}}
+
+  """
+  @spec app(atom) :: {:ok, tuple} | :error
+  def app(app_name) do
+    case Application.fetch_env(:oapi_github, :apps) do
+      {:ok, apps} when is_list(apps) ->
+        case List.keyfind(apps, app_name, 0) do
+          {^app_name, app_id, private_key} when is_binary(private_key) ->
+            app_id = if(is_binary(app_id), do: String.to_integer(app_id), else: app_id)
+            {:ok, {app_name, app_id, private_key}}
+
+          _else ->
+            :error
+        end
+
+      _else ->
+        :error
+    end
+  end
 
   @doc """
   Get the configured app name

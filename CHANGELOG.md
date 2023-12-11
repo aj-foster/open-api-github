@@ -7,19 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-_Nothing yet._
+* **Add**: Create `GitHub.Auth` implementation for `GitHub.App` structs.
+* **Add**: Cache GitHub App JWTs using `GitHub.Auth.Cache` if started in the application supervisor.
+* **Add**: Helper `GitHub.app/1` to create a basic app struct for use with authentication.
 
 ### 0.2.1 (2023-12-11)
 
-**Add**: Add `decode/2` to Typed Decoder plugin for manually decoding data in test environments.
+* **Add**: Add `decode/2` to Typed Decoder plugin for manually decoding data in test environments.
 
 ## 0.2.0 (2023-12-10)
 
-**Add**: Add `GitHub.Webhook` with helpers for handling webhook requests in a plug application.
+* **Add**: Add `GitHub.Webhook` with helpers for handling webhook requests in a plug application.
 
 ### 0.1.1 (2023-10-04)
 
-**Fix**: Test data created with the `GitHub.Testing` module incorrectly returned ISO 8601 strings for date/time fields.
+* **Fix**: Test data created with the `GitHub.Testing` module incorrectly returned ISO 8601 strings for date/time fields.
 
 ## 0.1.0 (2023-09-29)
 

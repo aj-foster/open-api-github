@@ -36,6 +36,7 @@ defmodule GitHub.MixProject do
       {:ex_doc, "~> 0.29", only: :dev, runtime: false},
       {:faker, "~> 0.15"},
       {:jason, "~> 1.0", optional: true},
+      {:jose, "~> 1.0", optional: true},
       {:httpoison, "~> 1.7 or ~> 2.0", optional: true},
       {:oapi_generator, "0.1.0-rc.3", only: :dev, runtime: false},
       {:opentelemetry_api, "~> 1.0", optional: true},
