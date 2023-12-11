@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **Add**: Create `GitHub.Auth` implementation for `GitHub.App` structs.
 * **Add**: Cache GitHub App JWTs using `GitHub.Auth.Cache` if started in the application supervisor.
 * **Add**: Helper `GitHub.app/1` to create a basic app struct for use with authentication.
+* **Add**: Test helper `GitHub.Testing.to_gh_params/1` to take generated data and create string maps.
 
 ### 0.2.1 (2023-12-11)
 

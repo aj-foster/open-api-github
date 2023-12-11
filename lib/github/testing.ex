@@ -60,7 +60,8 @@ defmodule GitHub.Testing do
           generate_gh: 2,
           generate_gh: 3,
           mock_gh: 2,
-          mock_gh: 3
+          mock_gh: 3,
+          to_gh_params: 1
         ]
     end
   end
@@ -182,10 +183,10 @@ defmodule GitHub.Testing do
 
   def generate(GitHub.PullRequest, base_or_head, :map) when base_or_head in [:base, :head] do
     %{
-      label: generate(:_, :label, {:string, :generic}),
-      ref: generate(:_, :ref, {:string, :generic}),
-      repo: generate(:_, :repo, {GitHub.Repository, :t}),
-      sha: generate(:_, :sha, {:string, :generic})
+      "label" => generate(:_, :label, {:string, :generic}),
+      "ref" => generate(:_, :ref, {:string, :generic}),
+      "repo" => generate(:_, :repo, {GitHub.Repository, :t}) |> to_gh_params(),
+      "sha" => generate(:_, :sha, {:string, :generic})
     }
   end
 
@@ -291,6 +292,25 @@ defmodule GitHub.Testing do
     |> then(fn fields -> struct!(module, fields) end)
     |> Map.put(:__info__, %{generated: true})
   end
+
+  @doc """
+  Transform a library struct into its string-keyed data equivalent
+
+  This is useful for testing scenarios when a piece of generated data has not been decoded.
+  """
+  @spec to_gh_params(map) :: map
+  @spec to_gh_params([map]) :: [map]
+  def to_gh_params(value)
+  def to_gh_params(values) when is_list(values), do: Enum.map(values, &to_gh_params/1)
+  def to_gh_params(%Date{} = dt), do: Date.to_iso8601(dt)
+  def to_gh_params(%DateTime{} = dt), do: DateTime.to_iso8601(dt)
+  def to_gh_params(%Time{} = dt), do: Time.to_iso8601(dt)
+  def to_gh_params(%_{} = value), do: Map.from_struct(value) |> to_gh_params()
+
+  def to_gh_params(%{} = value),
+    do: Map.new(value, fn {key, value} -> {to_string(key), to_gh_params(value)} end)
+
+  def to_gh_params(value), do: value
 
   #
   # Mocks
