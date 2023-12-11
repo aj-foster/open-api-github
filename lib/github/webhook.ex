@@ -75,7 +75,7 @@ defmodule GitHub.Webhook do
   """
   @spec body_reader(keyword) :: tuple
   def body_reader(opts \\ []) do
-    {GitHub.Webhook, :cache_request_body, [fallback: opts[:fallback], routes: opts[:routes]]}
+    {GitHub.Webhook, :cache_request_body, [[fallback: opts[:fallback], routes: opts[:routes]]]}
   end
 
   @doc """
@@ -87,16 +87,16 @@ defmodule GitHub.Webhook do
 
   This function is not usually called directly. Instead, use `body_reader/1`.
   """
-  @spec cache_request_body(Plug.Conn.t(), keyword) ::
+  @spec cache_request_body(Plug.Conn.t(), keyword, keyword) ::
           {:ok, binary, Plug.Conn.t()} | {:error, term}
-  def cache_request_body(conn, opts)
+  def cache_request_body(conn, parser_opts, cache_opts)
 
   if Code.ensure_loaded?(Plug) do
-    def cache_request_body(conn, opts) do
+    def cache_request_body(conn, opts, cache_opts) do
       %Plug.Conn{path_info: path_info} = conn
 
       fallback =
-        case opts[:fallback] do
+        case cache_opts[:fallback] do
           {module, function, args} when is_atom(module) and is_atom(function) and is_list(args) ->
             {module, function, args}
 
@@ -108,9 +108,9 @@ defmodule GitHub.Webhook do
         end
 
       routes =
-        case opts[:routes] do
-          route when is_binary(route) -> [String.split(route, "/", trim: true)]
-          routes when is_list(routes) -> Enum.map(routes, &String.split(&1, "/", trim: true))
+        case cache_opts[:routes] do
+          route when is_binary(route) -> [route]
+          routes when is_list(routes) -> routes
           nil -> nil
           _else -> raise ArgumentError, "Invalid value for option `:routes`"
         end
@@ -133,7 +133,7 @@ defmodule GitHub.Webhook do
       end
     end
   else
-    def cache_request_body(conn, _opts) do
+    def cache_request_body(conn, _opts, _cache_opts) do
       raise GitHub.Error.new(
               source: conn,
               message: """
@@ -216,7 +216,7 @@ defmodule GitHub.Webhook do
       secret = opts[:secret] || get_secret()
       signature = Plug.Conn.get_req_header(conn, "x-hub-signature-256") |> List.first()
 
-      unless is_binary(request_body) do
+      unless is_binary(request_body) or is_list(request_body) do
         raise GitHub.Error.new(
                 source: conn,
                 message: """
