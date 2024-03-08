@@ -14,7 +14,7 @@ defmodule GitHub.Issue.Event.Renamed do
           id: integer,
           node_id: String.t(),
           performed_via_github_app: GitHub.App.t() | nil,
-          rename: map,
+          rename: GitHub.Issue.Event.RenamedRename.t(),
           url: String.t()
         }
 
@@ -46,7 +46,7 @@ defmodule GitHub.Issue.Event.Renamed do
       id: :integer,
       node_id: {:string, :generic},
       performed_via_github_app: {:union, [{GitHub.App, :t}, :null]},
-      rename: :map,
+      rename: {GitHub.Issue.Event.RenamedRename, :t},
       url: {:string, :generic}
     ]
   end

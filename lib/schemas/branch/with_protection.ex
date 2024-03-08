@@ -6,7 +6,7 @@ defmodule GitHub.Branch.WithProtection do
 
   @type t :: %__MODULE__{
           __info__: map,
-          _links: map,
+          _links: GitHub.Branch.WithProtectionLinks.t(),
           commit: GitHub.Commit.t(),
           name: String.t(),
           pattern: String.t() | nil,
@@ -34,7 +34,7 @@ defmodule GitHub.Branch.WithProtection do
 
   def __fields__(:t) do
     [
-      _links: :map,
+      _links: {GitHub.Branch.WithProtectionLinks, :t},
       commit: {GitHub.Commit, :t},
       name: {:string, :generic},
       pattern: {:string, :generic},

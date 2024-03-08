@@ -6,9 +6,9 @@ defmodule GitHub.Content.Tree do
 
   @type t :: %__MODULE__{
           __info__: map,
-          _links: map,
+          _links: GitHub.Content.TreeLinks.t(),
           download_url: String.t() | nil,
-          entries: [map] | nil,
+          entries: [GitHub.Content.TreeEntries.t()] | nil,
           git_url: String.t() | nil,
           html_url: String.t() | nil,
           name: String.t(),
@@ -40,9 +40,9 @@ defmodule GitHub.Content.Tree do
 
   def __fields__(:t) do
     [
-      _links: :map,
+      _links: {GitHub.Content.TreeLinks, :t},
       download_url: {:union, [{:string, :uri}, :null]},
-      entries: [:map],
+      entries: [{GitHub.Content.TreeEntries, :t}],
       git_url: {:union, [{:string, :uri}, :null]},
       html_url: {:union, [{:string, :uri}, :null]},
       name: {:string, :generic},

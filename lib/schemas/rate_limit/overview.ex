@@ -4,7 +4,11 @@ defmodule GitHub.RateLimit.Overview do
   """
   use GitHub.Encoder
 
-  @type t :: %__MODULE__{__info__: map, rate: GitHub.RateLimit.t(), resources: map}
+  @type t :: %__MODULE__{
+          __info__: map,
+          rate: GitHub.RateLimit.t(),
+          resources: GitHub.RateLimit.OverviewResources.t()
+        }
 
   defstruct [:__info__, :rate, :resources]
 
@@ -13,6 +17,6 @@ defmodule GitHub.RateLimit.Overview do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [rate: {GitHub.RateLimit, :t}, resources: :map]
+    [rate: {GitHub.RateLimit, :t}, resources: {GitHub.RateLimit.OverviewResources, :t}]
   end
 end

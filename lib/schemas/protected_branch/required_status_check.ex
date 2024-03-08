@@ -6,7 +6,7 @@ defmodule GitHub.ProtectedBranch.RequiredStatusCheck do
 
   @type t :: %__MODULE__{
           __info__: map,
-          checks: [map],
+          checks: [GitHub.ProtectedBranch.RequiredStatusCheckChecks.t()],
           contexts: [String.t()],
           contexts_url: String.t() | nil,
           enforcement_level: String.t() | nil,
@@ -22,7 +22,7 @@ defmodule GitHub.ProtectedBranch.RequiredStatusCheck do
 
   def __fields__(:t) do
     [
-      checks: [:map],
+      checks: [{GitHub.ProtectedBranch.RequiredStatusCheckChecks, :t}],
       contexts: [string: :generic],
       contexts_url: {:string, :generic},
       enforcement_level: {:string, :generic},

@@ -6,6 +6,17 @@ defmodule GitHub.Activity do
 
   @default_client GitHub.Client
 
+  @type mark_notifications_as_read_202_json_resp :: %__MODULE__{
+          __info__: map,
+          message: String.t() | nil
+        }
+
+  @type mark_repo_notifications_as_read_202_json_resp :: %__MODULE__{
+          __info__: map,
+          message: String.t() | nil,
+          url: String.t() | nil
+        }
+
   @type t :: %__MODULE__{
           __info__: map,
           activity_type: String.t(),
@@ -18,11 +29,31 @@ defmodule GitHub.Activity do
           timestamp: DateTime.t()
         }
 
-  defstruct [:__info__, :activity_type, :actor, :after, :before, :id, :node_id, :ref, :timestamp]
+  defstruct [
+    :__info__,
+    :activity_type,
+    :actor,
+    :after,
+    :before,
+    :id,
+    :message,
+    :node_id,
+    :ref,
+    :timestamp,
+    :url
+  ]
 
   @doc false
   @spec __fields__(atom) :: keyword
   def __fields__(type \\ :t)
+
+  def __fields__(:mark_notifications_as_read_202_json_resp) do
+    [message: {:string, :generic}]
+  end
+
+  def __fields__(:mark_repo_notifications_as_read_202_json_resp) do
+    [message: {:string, :generic}, url: {:string, :generic}]
+  end
 
   def __fields__(:t) do
     [
@@ -391,7 +422,7 @@ defmodule GitHub.Activity do
         {200, [{GitHub.Event, :t}]},
         {304, :null},
         {403, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })

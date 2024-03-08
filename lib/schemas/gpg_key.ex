@@ -11,7 +11,7 @@ defmodule GitHub.GpgKey do
           can_encrypt_storage: boolean,
           can_sign: boolean,
           created_at: DateTime.t(),
-          emails: [map],
+          emails: [GitHub.GpgKeyEmails.t()],
           expires_at: DateTime.t() | nil,
           id: integer,
           key_id: String.t(),
@@ -20,7 +20,7 @@ defmodule GitHub.GpgKey do
           public_key: String.t(),
           raw_key: String.t() | nil,
           revoked: boolean,
-          subkeys: [map]
+          subkeys: [GitHub.GpgKeySubkeys.t()]
         }
 
   defstruct [
@@ -53,7 +53,7 @@ defmodule GitHub.GpgKey do
       can_encrypt_storage: :boolean,
       can_sign: :boolean,
       created_at: {:string, :date_time},
-      emails: [:map],
+      emails: [{GitHub.GpgKeyEmails, :t}],
       expires_at: {:union, [{:string, :date_time}, :null]},
       id: :integer,
       key_id: {:string, :generic},
@@ -62,7 +62,7 @@ defmodule GitHub.GpgKey do
       public_key: {:string, :generic},
       raw_key: {:union, [{:string, :generic}, :null]},
       revoked: :boolean,
-      subkeys: [:map]
+      subkeys: [{GitHub.GpgKeySubkeys, :t}]
     ]
   end
 end

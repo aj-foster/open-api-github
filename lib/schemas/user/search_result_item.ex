@@ -36,7 +36,7 @@ defmodule GitHub.User.SearchResultItem do
           starred_url: String.t(),
           subscriptions_url: String.t(),
           suspended_at: DateTime.t() | nil,
-          text_matches: [map] | nil,
+          text_matches: [GitHub.SearchResultTextMatches.t()] | nil,
           type: String.t(),
           updated_at: DateTime.t() | nil,
           url: String.t()
@@ -116,7 +116,7 @@ defmodule GitHub.User.SearchResultItem do
       starred_url: {:string, :generic},
       subscriptions_url: {:string, :uri},
       suspended_at: {:union, [{:string, :date_time}, :null]},
-      text_matches: [:map],
+      text_matches: [{GitHub.SearchResultTextMatches, :t}],
       type: {:string, :generic},
       updated_at: {:string, :date_time},
       url: {:string, :uri}

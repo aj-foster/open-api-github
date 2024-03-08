@@ -26,7 +26,7 @@ defmodule GitHub.Actions.Job do
           runner_name: String.t() | nil,
           started_at: DateTime.t(),
           status: String.t(),
-          steps: [map] | nil,
+          steps: [GitHub.Actions.Actions.JobSteps.t()] | nil,
           url: String.t(),
           workflow_name: String.t() | nil
         }
@@ -95,7 +95,7 @@ defmodule GitHub.Actions.Job do
       runner_name: {:union, [{:string, :generic}, :null]},
       started_at: {:string, :date_time},
       status: {:enum, ["queued", "in_progress", "completed"]},
-      steps: [:map],
+      steps: [{GitHub.Actions.Actions.JobSteps, :t}],
       url: {:string, :generic},
       workflow_name: {:union, [{:string, :generic}, :null]}
     ]

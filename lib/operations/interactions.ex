@@ -5,6 +5,28 @@ defmodule GitHub.Interactions do
 
   @default_client GitHub.Client
 
+  @type get_restrictions_for_authenticated_user_200_json_resp :: %__MODULE__{__info__: map}
+
+  @type get_restrictions_for_org_200_json_resp :: %__MODULE__{__info__: map}
+
+  @type get_restrictions_for_repo_200_json_resp :: %__MODULE__{__info__: map}
+
+  defstruct [:__info__]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:get_restrictions_for_authenticated_user_200_json_resp) do
+    []
+  end
+
+  def __fields__(:get_restrictions_for_org_200_json_resp) do
+    []
+  end
+
+  def __fields__(:get_restrictions_for_repo_200_json_resp) do
+    []
+  end
+
   @doc """
   Get interaction restrictions for your public repositories
 

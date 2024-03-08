@@ -9,8 +9,9 @@ defmodule GitHub.Marketplace.Purchase do
           email: String.t() | nil,
           id: integer,
           login: String.t(),
-          marketplace_pending_change: map | nil,
-          marketplace_purchase: map,
+          marketplace_pending_change:
+            GitHub.Marketplace.PurchaseMarketplacePendingChange.t() | nil,
+          marketplace_purchase: GitHub.Marketplace.PurchaseMarketplacePurchase.t(),
           organization_billing_email: String.t() | nil,
           type: String.t(),
           url: String.t()
@@ -37,8 +38,9 @@ defmodule GitHub.Marketplace.Purchase do
       email: {:union, [{:string, :generic}, :null]},
       id: :integer,
       login: {:string, :generic},
-      marketplace_pending_change: {:union, [:map, :null]},
-      marketplace_purchase: :map,
+      marketplace_pending_change:
+        {:union, [{GitHub.Marketplace.PurchaseMarketplacePendingChange, :t}, :null]},
+      marketplace_purchase: {GitHub.Marketplace.PurchaseMarketplacePurchase, :t},
       organization_billing_email: {:string, :generic},
       type: {:string, :generic},
       url: {:string, :generic}

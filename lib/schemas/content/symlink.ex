@@ -6,7 +6,7 @@ defmodule GitHub.Content.Symlink do
 
   @type t :: %__MODULE__{
           __info__: map,
-          _links: map,
+          _links: GitHub.Content.SymlinkLinks.t(),
           download_url: String.t() | nil,
           git_url: String.t() | nil,
           html_url: String.t() | nil,
@@ -40,7 +40,7 @@ defmodule GitHub.Content.Symlink do
 
   def __fields__(:t) do
     [
-      _links: :map,
+      _links: {GitHub.Content.SymlinkLinks, :t},
       download_url: {:union, [{:string, :uri}, :null]},
       git_url: {:union, [{:string, :uri}, :null]},
       html_url: {:union, [{:string, :uri}, :null]},

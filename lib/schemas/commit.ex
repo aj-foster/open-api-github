@@ -6,8 +6,8 @@ defmodule GitHub.Commit do
 
   @type simple :: %__MODULE__{
           __info__: map,
-          author: map | nil,
-          committer: map | nil,
+          author: GitHub.Commit.Author.simple() | nil,
+          committer: GitHub.Commit.Committer.simple() | nil,
           id: String.t(),
           message: String.t(),
           timestamp: DateTime.t(),
@@ -18,14 +18,14 @@ defmodule GitHub.Commit do
           __info__: map,
           author: GitHub.User.simple() | nil,
           comments_url: String.t(),
-          commit: map,
+          commit: GitHub.Commit.Commit.t(),
           committer: GitHub.User.simple() | nil,
           files: [GitHub.DiffEntry.t()] | nil,
           html_url: String.t(),
           node_id: String.t(),
-          parents: [map],
+          parents: [GitHub.Commit.Parents.t()],
           sha: String.t(),
-          stats: map | nil,
+          stats: GitHub.Commit.Stats.t() | nil,
           url: String.t()
         }
 
@@ -54,8 +54,8 @@ defmodule GitHub.Commit do
 
   def __fields__(:simple) do
     [
-      author: {:union, [:map, :null]},
-      committer: {:union, [:map, :null]},
+      author: {:union, [{GitHub.Commit.Author, :simple}, :null]},
+      committer: {:union, [{GitHub.Commit.Committer, :simple}, :null]},
       id: {:string, :generic},
       message: {:string, :generic},
       timestamp: {:string, :date_time},
@@ -67,14 +67,14 @@ defmodule GitHub.Commit do
     [
       author: {:union, [{GitHub.User, :simple}, :null]},
       comments_url: {:string, :uri},
-      commit: :map,
+      commit: {GitHub.Commit.Commit, :t},
       committer: {:union, [{GitHub.User, :simple}, :null]},
       files: [{GitHub.DiffEntry, :t}],
       html_url: {:string, :uri},
       node_id: {:string, :generic},
-      parents: [:map],
+      parents: [{GitHub.Commit.Parents, :t}],
       sha: {:string, :generic},
-      stats: :map,
+      stats: {GitHub.Commit.Stats, :t},
       url: {:string, :uri}
     ]
   end

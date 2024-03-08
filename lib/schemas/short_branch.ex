@@ -6,7 +6,7 @@ defmodule GitHub.ShortBranch do
 
   @type t :: %__MODULE__{
           __info__: map,
-          commit: map,
+          commit: GitHub.ShortBranchCommit.t(),
           name: String.t(),
           protected: boolean,
           protection: GitHub.Branch.Protection.t() | nil,
@@ -21,7 +21,7 @@ defmodule GitHub.ShortBranch do
 
   def __fields__(:t) do
     [
-      commit: :map,
+      commit: {GitHub.ShortBranchCommit, :t},
       name: {:string, :generic},
       protected: :boolean,
       protection: {GitHub.Branch.Protection, :t},

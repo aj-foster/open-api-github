@@ -6,7 +6,7 @@ defmodule GitHub.Feed do
 
   @type t :: %__MODULE__{
           __info__: map,
-          _links: map,
+          _links: GitHub.FeedLinks.t(),
           current_user_actor_url: String.t() | nil,
           current_user_organization_url: String.t() | nil,
           current_user_organization_urls: [String.t()] | nil,
@@ -40,7 +40,7 @@ defmodule GitHub.Feed do
 
   def __fields__(:t) do
     [
-      _links: :map,
+      _links: {GitHub.FeedLinks, :t},
       current_user_actor_url: {:string, :generic},
       current_user_organization_url: {:string, :generic},
       current_user_organization_urls: [string: :uri],

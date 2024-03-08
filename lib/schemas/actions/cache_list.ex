@@ -4,7 +4,11 @@ defmodule GitHub.Actions.CacheList do
   """
   use GitHub.Encoder
 
-  @type t :: %__MODULE__{__info__: map, actions_caches: [map], total_count: integer}
+  @type t :: %__MODULE__{
+          __info__: map,
+          actions_caches: [GitHub.Actions.CacheListActionsCaches.t()],
+          total_count: integer
+        }
 
   defstruct [:__info__, :actions_caches, :total_count]
 
@@ -13,6 +17,6 @@ defmodule GitHub.Actions.CacheList do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [actions_caches: [:map], total_count: :integer]
+    [actions_caches: [{GitHub.Actions.CacheListActionsCaches, :t}], total_count: :integer]
   end
 end

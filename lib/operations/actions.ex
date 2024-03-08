@@ -5,6 +5,232 @@ defmodule GitHub.Actions do
 
   @default_client GitHub.Client
 
+  @type get_actions_cache_usage_by_repo_for_org_200_json_resp :: %__MODULE__{
+          __info__: map,
+          repository_cache_usages: [GitHub.Actions.CacheUsageByRepository.t()],
+          total_count: integer
+        }
+
+  @type list_artifacts_for_repo_200_json_resp :: %__MODULE__{
+          __info__: map,
+          artifacts: [GitHub.Artifact.t()],
+          total_count: integer
+        }
+
+  @type list_environment_secrets_200_json_resp :: %__MODULE__{
+          __info__: map,
+          secrets: [GitHub.Actions.Secret.t()],
+          total_count: integer
+        }
+
+  @type list_environment_variables_200_json_resp :: %__MODULE__{
+          __info__: map,
+          total_count: integer,
+          variables: [GitHub.Actions.Variable.t()]
+        }
+
+  @type list_jobs_for_workflow_run_200_json_resp :: %__MODULE__{
+          __info__: map,
+          jobs: [GitHub.Actions.Job.t()],
+          total_count: integer
+        }
+
+  @type list_jobs_for_workflow_run_attempt_200_json_resp :: %__MODULE__{
+          __info__: map,
+          jobs: [GitHub.Actions.Job.t()],
+          total_count: integer
+        }
+
+  @type list_org_secrets_200_json_resp :: %__MODULE__{
+          __info__: map,
+          secrets: [GitHub.Organization.ActionsSecret.t()],
+          total_count: integer
+        }
+
+  @type list_org_variables_200_json_resp :: %__MODULE__{
+          __info__: map,
+          total_count: integer,
+          variables: [GitHub.Organization.ActionsVariable.t()]
+        }
+
+  @type list_repo_organization_secrets_200_json_resp :: %__MODULE__{
+          __info__: map,
+          secrets: [GitHub.Actions.Secret.t()],
+          total_count: integer
+        }
+
+  @type list_repo_organization_variables_200_json_resp :: %__MODULE__{
+          __info__: map,
+          total_count: integer,
+          variables: [GitHub.Actions.Variable.t()]
+        }
+
+  @type list_repo_secrets_200_json_resp :: %__MODULE__{
+          __info__: map,
+          secrets: [GitHub.Actions.Secret.t()],
+          total_count: integer
+        }
+
+  @type list_repo_variables_200_json_resp :: %__MODULE__{
+          __info__: map,
+          total_count: integer,
+          variables: [GitHub.Actions.Variable.t()]
+        }
+
+  @type list_repo_workflows_200_json_resp :: %__MODULE__{
+          __info__: map,
+          total_count: integer,
+          workflows: [GitHub.Actions.Workflow.t()]
+        }
+
+  @type list_selected_repos_for_org_secret_200_json_resp :: %__MODULE__{
+          __info__: map,
+          repositories: [GitHub.Repository.minimal()],
+          total_count: integer
+        }
+
+  @type list_selected_repos_for_org_variable_200_json_resp :: %__MODULE__{
+          __info__: map,
+          repositories: [GitHub.Repository.minimal()],
+          total_count: integer
+        }
+
+  @type list_selected_repositories_enabled_github_actions_organization_200_json_resp ::
+          %__MODULE__{__info__: map, repositories: [GitHub.Repository.t()], total_count: number}
+
+  @type list_self_hosted_runners_for_org_200_json_resp :: %__MODULE__{
+          __info__: map,
+          runners: [GitHub.Actions.Runner.t()],
+          total_count: integer
+        }
+
+  @type list_self_hosted_runners_for_repo_200_json_resp :: %__MODULE__{
+          __info__: map,
+          runners: [GitHub.Actions.Runner.t()],
+          total_count: integer
+        }
+
+  @type list_workflow_run_artifacts_200_json_resp :: %__MODULE__{
+          __info__: map,
+          artifacts: [GitHub.Artifact.t()],
+          total_count: integer
+        }
+
+  @type list_workflow_runs_200_json_resp :: %__MODULE__{
+          __info__: map,
+          total_count: integer,
+          workflow_runs: [GitHub.Actions.Workflow.Run.t()]
+        }
+
+  @type list_workflow_runs_for_repo_200_json_resp :: %__MODULE__{
+          __info__: map,
+          total_count: integer,
+          workflow_runs: [GitHub.Actions.Workflow.Run.t()]
+        }
+
+  defstruct [
+    :__info__,
+    :artifacts,
+    :jobs,
+    :repositories,
+    :repository_cache_usages,
+    :runners,
+    :secrets,
+    :total_count,
+    :variables,
+    :workflow_runs,
+    :workflows
+  ]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:get_actions_cache_usage_by_repo_for_org_200_json_resp) do
+    [
+      repository_cache_usages: [{GitHub.Actions.CacheUsageByRepository, :t}],
+      total_count: :integer
+    ]
+  end
+
+  def __fields__(:list_artifacts_for_repo_200_json_resp) do
+    [artifacts: [{GitHub.Artifact, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_environment_secrets_200_json_resp) do
+    [secrets: [{GitHub.Actions.Secret, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_environment_variables_200_json_resp) do
+    [total_count: :integer, variables: [{GitHub.Actions.Variable, :t}]]
+  end
+
+  def __fields__(:list_jobs_for_workflow_run_200_json_resp) do
+    [jobs: [{GitHub.Actions.Job, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_jobs_for_workflow_run_attempt_200_json_resp) do
+    [jobs: [{GitHub.Actions.Job, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_org_secrets_200_json_resp) do
+    [secrets: [{GitHub.Organization.ActionsSecret, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_org_variables_200_json_resp) do
+    [total_count: :integer, variables: [{GitHub.Organization.ActionsVariable, :t}]]
+  end
+
+  def __fields__(:list_repo_organization_secrets_200_json_resp) do
+    [secrets: [{GitHub.Actions.Secret, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_repo_organization_variables_200_json_resp) do
+    [total_count: :integer, variables: [{GitHub.Actions.Variable, :t}]]
+  end
+
+  def __fields__(:list_repo_secrets_200_json_resp) do
+    [secrets: [{GitHub.Actions.Secret, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_repo_variables_200_json_resp) do
+    [total_count: :integer, variables: [{GitHub.Actions.Variable, :t}]]
+  end
+
+  def __fields__(:list_repo_workflows_200_json_resp) do
+    [total_count: :integer, workflows: [{GitHub.Actions.Workflow, :t}]]
+  end
+
+  def __fields__(:list_selected_repos_for_org_secret_200_json_resp) do
+    [repositories: [{GitHub.Repository, :minimal}], total_count: :integer]
+  end
+
+  def __fields__(:list_selected_repos_for_org_variable_200_json_resp) do
+    [repositories: [{GitHub.Repository, :minimal}], total_count: :integer]
+  end
+
+  def __fields__(:list_selected_repositories_enabled_github_actions_organization_200_json_resp) do
+    [repositories: [{GitHub.Repository, :t}], total_count: :number]
+  end
+
+  def __fields__(:list_self_hosted_runners_for_org_200_json_resp) do
+    [runners: [{GitHub.Actions.Runner, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_self_hosted_runners_for_repo_200_json_resp) do
+    [runners: [{GitHub.Actions.Runner, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_workflow_run_artifacts_200_json_resp) do
+    [artifacts: [{GitHub.Artifact, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_workflow_runs_200_json_resp) do
+    [total_count: :integer, workflow_runs: [{GitHub.Actions.Workflow.Run, :t}]]
+  end
+
+  def __fields__(:list_workflow_runs_for_repo_200_json_resp) do
+    [total_count: :integer, workflow_runs: [{GitHub.Actions.Workflow.Run, :t}]]
+  end
+
   @doc """
   Add custom labels to a self-hosted runner for an organization
 
@@ -21,7 +247,7 @@ defmodule GitHub.Actions do
 
   """
   @spec add_custom_labels_to_self_hosted_runner_for_org(String.t(), integer, map, keyword) ::
-          {:ok, map} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Actions.Runner.Labels.json_resp()} | {:error, GitHub.Error.t()}
   def add_custom_labels_to_self_hosted_runner_for_org(org, runner_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -33,7 +259,7 @@ defmodule GitHub.Actions do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {200, :map},
+        {200, {GitHub.Actions.Runner.Labels, :json_resp}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
       ],
@@ -61,7 +287,7 @@ defmodule GitHub.Actions do
           integer,
           map,
           keyword
-        ) :: {:ok, map} | {:error, GitHub.Error.t()}
+        ) :: {:ok, GitHub.Actions.Runner.Labels.json_resp()} | {:error, GitHub.Error.t()}
   def add_custom_labels_to_self_hosted_runner_for_repo(owner, repo, runner_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -73,7 +299,7 @@ defmodule GitHub.Actions do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {200, :map},
+        {200, {GitHub.Actions.Runner.Labels, :json_resp}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
       ],
@@ -1234,7 +1460,7 @@ defmodule GitHub.Actions do
 
   """
   @spec generate_runner_jitconfig_for_org(String.t(), map, keyword) ::
-          {:ok, map} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Actions.Runner.Jitconfig.json_resp()} | {:error, GitHub.Error.t()}
   def generate_runner_jitconfig_for_org(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1246,7 +1472,7 @@ defmodule GitHub.Actions do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {201, :map},
+        {201, {GitHub.Actions.Runner.Jitconfig, :json_resp}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
       ],
@@ -1269,7 +1495,7 @@ defmodule GitHub.Actions do
 
   """
   @spec generate_runner_jitconfig_for_repo(String.t(), String.t(), map, keyword) ::
-          {:ok, map} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Actions.Runner.Jitconfig.json_resp()} | {:error, GitHub.Error.t()}
   def generate_runner_jitconfig_for_repo(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1281,7 +1507,7 @@ defmodule GitHub.Actions do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {201, :map},
+        {201, {GitHub.Actions.Runner.Jitconfig, :json_resp}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
       ],
@@ -2411,7 +2637,7 @@ defmodule GitHub.Actions do
 
   """
   @spec list_labels_for_self_hosted_runner_for_org(String.t(), integer, keyword) ::
-          {:ok, map} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Actions.Runner.Labels.json_resp()} | {:error, GitHub.Error.t()}
   def list_labels_for_self_hosted_runner_for_org(org, runner_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2420,7 +2646,10 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :list_labels_for_self_hosted_runner_for_org},
       url: "/orgs/#{org}/actions/runners/#{runner_id}/labels",
       method: :get,
-      response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
+      response: [
+        {200, {GitHub.Actions.Runner.Labels, :json_resp}},
+        {404, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
@@ -2440,7 +2669,7 @@ defmodule GitHub.Actions do
 
   """
   @spec list_labels_for_self_hosted_runner_for_repo(String.t(), String.t(), integer, keyword) ::
-          {:ok, map} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Actions.Runner.Labels.json_resp()} | {:error, GitHub.Error.t()}
   def list_labels_for_self_hosted_runner_for_repo(owner, repo, runner_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2449,7 +2678,10 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :list_labels_for_self_hosted_runner_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels",
       method: :get,
-      response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
+      response: [
+        {200, {GitHub.Actions.Runner.Labels, :json_resp}},
+        {404, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
@@ -3188,7 +3420,7 @@ defmodule GitHub.Actions do
 
   """
   @spec remove_all_custom_labels_from_self_hosted_runner_for_org(String.t(), integer, keyword) ::
-          {:ok, map} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Actions.Runner.LabelsReadonly.json_resp()} | {:error, GitHub.Error.t()}
   def remove_all_custom_labels_from_self_hosted_runner_for_org(org, runner_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3197,7 +3429,10 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :remove_all_custom_labels_from_self_hosted_runner_for_org},
       url: "/orgs/#{org}/actions/runners/#{runner_id}/labels",
       method: :delete,
-      response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
+      response: [
+        {200, {GitHub.Actions.Runner.LabelsReadonly, :json_resp}},
+        {404, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
@@ -3222,7 +3457,7 @@ defmodule GitHub.Actions do
           String.t(),
           integer,
           keyword
-        ) :: {:ok, map} | {:error, GitHub.Error.t()}
+        ) :: {:ok, GitHub.Actions.Runner.LabelsReadonly.json_resp()} | {:error, GitHub.Error.t()}
   def remove_all_custom_labels_from_self_hosted_runner_for_repo(
         owner,
         repo,
@@ -3236,7 +3471,10 @@ defmodule GitHub.Actions do
       call: {GitHub.Actions, :remove_all_custom_labels_from_self_hosted_runner_for_repo},
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels",
       method: :delete,
-      response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
+      response: [
+        {200, {GitHub.Actions.Runner.LabelsReadonly, :json_resp}},
+        {404, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
@@ -3265,7 +3503,7 @@ defmodule GitHub.Actions do
           integer,
           String.t(),
           keyword
-        ) :: {:ok, map} | {:error, GitHub.Error.t()}
+        ) :: {:ok, GitHub.Actions.Runner.Labels.json_resp()} | {:error, GitHub.Error.t()}
   def remove_custom_label_from_self_hosted_runner_for_org(org, runner_id, name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3275,7 +3513,7 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/runners/#{runner_id}/labels/#{name}",
       method: :delete,
       response: [
-        {200, :map},
+        {200, {GitHub.Actions.Runner.Labels, :json_resp}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
       ],
@@ -3307,7 +3545,7 @@ defmodule GitHub.Actions do
           integer,
           String.t(),
           keyword
-        ) :: {:ok, map} | {:error, GitHub.Error.t()}
+        ) :: {:ok, GitHub.Actions.Runner.Labels.json_resp()} | {:error, GitHub.Error.t()}
   def remove_custom_label_from_self_hosted_runner_for_repo(
         owner,
         repo,
@@ -3323,7 +3561,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runners/#{runner_id}/labels/#{name}",
       method: :delete,
       response: [
-        {200, :map},
+        {200, {GitHub.Actions.Runner.Labels, :json_resp}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
       ],
@@ -3549,7 +3787,7 @@ defmodule GitHub.Actions do
 
   """
   @spec set_custom_labels_for_self_hosted_runner_for_org(String.t(), integer, map, keyword) ::
-          {:ok, map} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Actions.Runner.Labels.json_resp()} | {:error, GitHub.Error.t()}
   def set_custom_labels_for_self_hosted_runner_for_org(org, runner_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3561,7 +3799,7 @@ defmodule GitHub.Actions do
       method: :put,
       request: [{"application/json", :map}],
       response: [
-        {200, :map},
+        {200, {GitHub.Actions.Runner.Labels, :json_resp}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
       ],
@@ -3590,7 +3828,7 @@ defmodule GitHub.Actions do
           integer,
           map,
           keyword
-        ) :: {:ok, map} | {:error, GitHub.Error.t()}
+        ) :: {:ok, GitHub.Actions.Runner.Labels.json_resp()} | {:error, GitHub.Error.t()}
   def set_custom_labels_for_self_hosted_runner_for_repo(owner, repo, runner_id, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3602,7 +3840,7 @@ defmodule GitHub.Actions do
       method: :put,
       request: [{"application/json", :map}],
       response: [
-        {200, :map},
+        {200, {GitHub.Actions.Runner.Labels, :json_resp}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
       ],
@@ -3622,12 +3860,8 @@ defmodule GitHub.Actions do
     * [API method documentation](https://docs.github.com/rest/actions/oidc#set-the-customization-template-for-an-oidc-subject-claim-for-a-repository)
 
   """
-  @spec set_custom_oidc_sub_claim_for_repo(
-          String.t(),
-          String.t(),
-          GitHub.Actions.OIDCSubjectCustomizationForARepository.t(),
-          keyword
-        ) :: {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
+  @spec set_custom_oidc_sub_claim_for_repo(String.t(), String.t(), map, keyword) ::
+          {:ok, GitHub.EmptyObject.t()} | {:error, GitHub.Error.t()}
   def set_custom_oidc_sub_claim_for_repo(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3637,7 +3871,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/oidc/customization/sub",
       body: body,
       method: :put,
-      request: [{"application/json", {GitHub.Actions.OIDCSubjectCustomizationForARepository, :t}}],
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.EmptyObject, :t}},
         {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},

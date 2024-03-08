@@ -8,7 +8,7 @@ defmodule GitHub.Dependabot.Alert do
           __info__: map,
           auto_dismissed_at: DateTime.t() | nil,
           created_at: DateTime.t(),
-          dependency: map,
+          dependency: GitHub.Dependabot.Alert.Dependency.t(),
           dismissed_at: DateTime.t() | nil,
           dismissed_by: GitHub.User.simple() | nil,
           dismissed_comment: String.t() | nil,
@@ -50,7 +50,7 @@ defmodule GitHub.Dependabot.Alert do
     [
       auto_dismissed_at: {:union, [{:string, :date_time}, :null]},
       created_at: {:string, :date_time},
-      dependency: :map,
+      dependency: {GitHub.Dependabot.Alert.Dependency, :t},
       dismissed_at: {:union, [{:string, :date_time}, :null]},
       dismissed_by: {:union, [{GitHub.User, :simple}, :null]},
       dismissed_comment: {:union, [{:string, :generic}, :null]},

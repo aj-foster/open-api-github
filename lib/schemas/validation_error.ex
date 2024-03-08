@@ -14,7 +14,7 @@ defmodule GitHub.ValidationError do
   @type t :: %__MODULE__{
           __info__: map,
           documentation_url: String.t(),
-          errors: [map] | nil,
+          errors: [GitHub.ValidationErrorErrors.t()] | nil,
           message: String.t()
         }
 
@@ -33,6 +33,10 @@ defmodule GitHub.ValidationError do
   end
 
   def __fields__(:t) do
-    [documentation_url: {:string, :generic}, errors: [:map], message: {:string, :generic}]
+    [
+      documentation_url: {:string, :generic},
+      errors: [{GitHub.ValidationErrorErrors, :t}],
+      message: {:string, :generic}
+    ]
   end
 end

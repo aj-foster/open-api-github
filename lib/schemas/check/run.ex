@@ -7,7 +7,7 @@ defmodule GitHub.Check.Run do
   @type t :: %__MODULE__{
           __info__: map,
           app: GitHub.App.t() | nil,
-          check_suite: map | nil,
+          check_suite: GitHub.Check.RunCheckSuite.t() | nil,
           completed_at: DateTime.t() | nil,
           conclusion: String.t() | nil,
           deployment: GitHub.Deployment.simple() | nil,
@@ -18,7 +18,7 @@ defmodule GitHub.Check.Run do
           id: integer,
           name: String.t(),
           node_id: String.t(),
-          output: map,
+          output: GitHub.Check.RunOutput.t(),
           pull_requests: [GitHub.PullRequest.minimal()],
           started_at: DateTime.t() | nil,
           status: String.t(),
@@ -53,7 +53,7 @@ defmodule GitHub.Check.Run do
   def __fields__(:t) do
     [
       app: {:union, [{GitHub.App, :t}, :null]},
-      check_suite: {:union, [:map, :null]},
+      check_suite: {:union, [{GitHub.Check.RunCheckSuite, :t}, :null]},
       completed_at: {:union, [{:string, :date_time}, :null]},
       conclusion:
         {:enum,
@@ -75,7 +75,7 @@ defmodule GitHub.Check.Run do
       id: :integer,
       name: {:string, :generic},
       node_id: {:string, :generic},
-      output: :map,
+      output: {GitHub.Check.RunOutput, :t},
       pull_requests: [{GitHub.PullRequest, :minimal}],
       started_at: {:union, [{:string, :date_time}, :null]},
       status: {:enum, ["queued", "in_progress", "completed"]},

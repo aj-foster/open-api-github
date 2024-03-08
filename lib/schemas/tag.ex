@@ -6,7 +6,7 @@ defmodule GitHub.Tag do
 
   @type t :: %__MODULE__{
           __info__: map,
-          commit: map,
+          commit: GitHub.TagCommit.t(),
           name: String.t(),
           node_id: String.t(),
           tarball_url: String.t(),
@@ -21,7 +21,7 @@ defmodule GitHub.Tag do
 
   def __fields__(:t) do
     [
-      commit: :map,
+      commit: {GitHub.TagCommit, :t},
       name: {:string, :generic},
       node_id: {:string, :generic},
       tarball_url: {:string, :uri},

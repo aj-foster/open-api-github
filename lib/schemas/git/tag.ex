@@ -8,10 +8,10 @@ defmodule GitHub.Git.Tag do
           __info__: map,
           message: String.t(),
           node_id: String.t(),
-          object: map,
+          object: GitHub.Git.TagObject.t(),
           sha: String.t(),
           tag: String.t(),
-          tagger: map,
+          tagger: GitHub.Git.TagTagger.t(),
           url: String.t(),
           verification: GitHub.Verification.t() | nil
         }
@@ -26,10 +26,10 @@ defmodule GitHub.Git.Tag do
     [
       message: {:string, :generic},
       node_id: {:string, :generic},
-      object: :map,
+      object: {GitHub.Git.TagObject, :t},
       sha: {:string, :generic},
       tag: {:string, :generic},
-      tagger: :map,
+      tagger: {GitHub.Git.TagTagger, :t},
       url: {:string, :uri},
       verification: {GitHub.Verification, :t}
     ]

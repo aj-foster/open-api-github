@@ -6,7 +6,7 @@ defmodule GitHub.StatusCheckPolicy do
 
   @type t :: %__MODULE__{
           __info__: map,
-          checks: [map],
+          checks: [GitHub.StatusCheckPolicyChecks.t()],
           contexts: [String.t()],
           contexts_url: String.t(),
           strict: boolean,
@@ -21,7 +21,7 @@ defmodule GitHub.StatusCheckPolicy do
 
   def __fields__(:t) do
     [
-      checks: [:map],
+      checks: [{GitHub.StatusCheckPolicyChecks, :t}],
       contexts: [string: :generic],
       contexts_url: {:string, :uri},
       strict: :boolean,

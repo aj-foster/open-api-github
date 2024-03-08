@@ -33,7 +33,7 @@ defmodule GitHub.SecretScanning do
         {200, {GitHub.SecretScanning.Alert, :t}},
         {304, :null},
         {404, :null},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -89,7 +89,7 @@ defmodule GitHub.SecretScanning do
       response: [
         {200, [{GitHub.Organization.SecretScanningAlert, :t}]},
         {404, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -150,7 +150,7 @@ defmodule GitHub.SecretScanning do
       response: [
         {200, [{GitHub.Organization.SecretScanningAlert, :t}]},
         {404, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -208,7 +208,11 @@ defmodule GitHub.SecretScanning do
       url: "/repos/#{owner}/#{repo}/secret-scanning/alerts",
       method: :get,
       query: query,
-      response: [{200, [{GitHub.SecretScanning.Alert, :t}]}, {404, :null}, {503, :map}],
+      response: [
+        {200, [{GitHub.SecretScanning.Alert, :t}]},
+        {404, :null},
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
+      ],
       opts: opts
     })
   end
@@ -244,7 +248,11 @@ defmodule GitHub.SecretScanning do
       url: "/repos/#{owner}/#{repo}/secret-scanning/alerts/#{alert_number}/locations",
       method: :get,
       query: query,
-      response: [{200, [{GitHub.SecretScanning.Location, :t}]}, {404, :null}, {503, :map}],
+      response: [
+        {200, [{GitHub.SecretScanning.Location, :t}]},
+        {404, :null},
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
+      ],
       opts: opts
     })
   end
@@ -280,7 +288,7 @@ defmodule GitHub.SecretScanning do
         {400, :null},
         {404, :null},
         {422, :null},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })

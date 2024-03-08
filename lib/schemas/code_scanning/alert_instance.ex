@@ -13,7 +13,7 @@ defmodule GitHub.CodeScanning.AlertInstance do
           environment: String.t() | nil,
           html_url: String.t() | nil,
           location: GitHub.CodeScanning.AlertLocation.t() | nil,
-          message: map | nil,
+          message: GitHub.CodeScanning.AlertInstanceMessage.t() | nil,
           ref: String.t() | nil,
           state: String.t() | nil
         }
@@ -45,7 +45,7 @@ defmodule GitHub.CodeScanning.AlertInstance do
       environment: {:string, :generic},
       html_url: {:string, :generic},
       location: {GitHub.CodeScanning.AlertLocation, :t},
-      message: :map,
+      message: {GitHub.CodeScanning.AlertInstanceMessage, :t},
       ref: {:string, :generic},
       state: {:enum, ["open", "dismissed", "fixed"]}
     ]

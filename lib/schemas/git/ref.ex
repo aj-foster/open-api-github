@@ -7,7 +7,7 @@ defmodule GitHub.Git.Ref do
   @type t :: %__MODULE__{
           __info__: map,
           node_id: String.t(),
-          object: map,
+          object: GitHub.Git.RefObject.t(),
           ref: String.t(),
           url: String.t()
         }
@@ -19,6 +19,11 @@ defmodule GitHub.Git.Ref do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [node_id: {:string, :generic}, object: :map, ref: {:string, :generic}, url: {:string, :uri}]
+    [
+      node_id: {:string, :generic},
+      object: {GitHub.Git.RefObject, :t},
+      ref: {:string, :generic},
+      url: {:string, :uri}
+    ]
   end
 end

@@ -5,6 +5,56 @@ defmodule GitHub.Copilot do
 
   @default_client GitHub.Client
 
+  @type add_copilot_for_business_seats_for_teams_201_json_resp :: %__MODULE__{
+          __info__: map,
+          seats_created: integer
+        }
+
+  @type add_copilot_for_business_seats_for_users_201_json_resp :: %__MODULE__{
+          __info__: map,
+          seats_created: integer
+        }
+
+  @type cancel_copilot_seat_assignment_for_teams_200_json_resp :: %__MODULE__{
+          __info__: map,
+          seats_cancelled: integer
+        }
+
+  @type cancel_copilot_seat_assignment_for_users_200_json_resp :: %__MODULE__{
+          __info__: map,
+          seats_cancelled: integer
+        }
+
+  @type list_copilot_seats_200_json_resp :: %__MODULE__{
+          __info__: map,
+          seats: [GitHub.Copilot.SeatDetails.t()] | nil,
+          total_seats: integer | nil
+        }
+
+  defstruct [:__info__, :seats, :seats_cancelled, :seats_created, :total_seats]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:add_copilot_for_business_seats_for_teams_201_json_resp) do
+    [seats_created: :integer]
+  end
+
+  def __fields__(:add_copilot_for_business_seats_for_users_201_json_resp) do
+    [seats_created: :integer]
+  end
+
+  def __fields__(:cancel_copilot_seat_assignment_for_teams_200_json_resp) do
+    [seats_cancelled: :integer]
+  end
+
+  def __fields__(:cancel_copilot_seat_assignment_for_users_200_json_resp) do
+    [seats_cancelled: :integer]
+  end
+
+  def __fields__(:list_copilot_seats_200_json_resp) do
+    [seats: [{GitHub.Copilot.SeatDetails, :t}], total_seats: :integer]
+  end
+
   @doc """
   Add teams to the Copilot for Business subscription for an organization
 

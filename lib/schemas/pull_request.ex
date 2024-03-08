@@ -6,8 +6,8 @@ defmodule GitHub.PullRequest do
 
   @type minimal :: %__MODULE__{
           __info__: map,
-          base: map,
-          head: map,
+          base: GitHub.PullRequest.Base.minimal(),
+          head: GitHub.PullRequest.Head.minimal(),
           id: integer,
           number: integer,
           url: String.t()
@@ -15,13 +15,13 @@ defmodule GitHub.PullRequest do
 
   @type simple :: %__MODULE__{
           __info__: map,
-          _links: map,
+          _links: GitHub.PullRequest.Links.simple(),
           active_lock_reason: String.t() | nil,
           assignee: GitHub.User.simple() | nil,
           assignees: [GitHub.User.simple()] | nil,
           author_association: String.t(),
           auto_merge: GitHub.AutoMerge.t() | nil,
-          base: map,
+          base: GitHub.PullRequest.Base.simple(),
           body: String.t() | nil,
           closed_at: DateTime.t() | nil,
           comments_url: String.t(),
@@ -29,11 +29,11 @@ defmodule GitHub.PullRequest do
           created_at: DateTime.t(),
           diff_url: String.t(),
           draft: boolean | nil,
-          head: map,
+          head: GitHub.PullRequest.Head.simple(),
           html_url: String.t(),
           id: integer,
           issue_url: String.t(),
-          labels: [map],
+          labels: [GitHub.PullRequest.Labels.simple()],
           locked: boolean,
           merge_commit_sha: String.t() | nil,
           merged_at: DateTime.t() | nil,
@@ -55,14 +55,14 @@ defmodule GitHub.PullRequest do
 
   @type t :: %__MODULE__{
           __info__: map,
-          _links: map,
+          _links: GitHub.PullRequest.Links.t(),
           active_lock_reason: String.t() | nil,
           additions: integer,
           assignee: GitHub.User.simple() | nil,
           assignees: [GitHub.User.simple()] | nil,
           author_association: String.t(),
           auto_merge: GitHub.AutoMerge.t() | nil,
-          base: map,
+          base: GitHub.PullRequest.Base.t(),
           body: String.t() | nil,
           changed_files: integer,
           closed_at: DateTime.t() | nil,
@@ -74,11 +74,11 @@ defmodule GitHub.PullRequest do
           deletions: integer,
           diff_url: String.t(),
           draft: boolean | nil,
-          head: map,
+          head: GitHub.PullRequest.Head.t(),
           html_url: String.t(),
           id: integer,
           issue_url: String.t(),
-          labels: [map],
+          labels: [GitHub.PullRequest.Labels.t()],
           locked: boolean,
           maintainer_can_modify: boolean,
           merge_commit_sha: String.t() | nil,
@@ -162,12 +162,18 @@ defmodule GitHub.PullRequest do
   def __fields__(type \\ :t)
 
   def __fields__(:minimal) do
-    [base: :map, head: :map, id: :integer, number: :integer, url: {:string, :generic}]
+    [
+      base: {GitHub.PullRequest.Base, :minimal},
+      head: {GitHub.PullRequest.Head, :minimal},
+      id: :integer,
+      number: :integer,
+      url: {:string, :generic}
+    ]
   end
 
   def __fields__(:simple) do
     [
-      _links: :map,
+      _links: {GitHub.PullRequest.Links, :simple},
       active_lock_reason: {:union, [{:string, :generic}, :null]},
       assignee: {:union, [{GitHub.User, :simple}, :null]},
       assignees: {:union, [[{GitHub.User, :simple}], :null]},
@@ -184,7 +190,7 @@ defmodule GitHub.PullRequest do
            "OWNER"
          ]},
       auto_merge: {:union, [{GitHub.AutoMerge, :t}, :null]},
-      base: :map,
+      base: {GitHub.PullRequest.Base, :simple},
       body: {:union, [{:string, :generic}, :null]},
       closed_at: {:union, [{:string, :date_time}, :null]},
       comments_url: {:string, :uri},
@@ -192,11 +198,11 @@ defmodule GitHub.PullRequest do
       created_at: {:string, :date_time},
       diff_url: {:string, :uri},
       draft: :boolean,
-      head: :map,
+      head: {GitHub.PullRequest.Head, :simple},
       html_url: {:string, :uri},
       id: :integer,
       issue_url: {:string, :uri},
-      labels: [:map],
+      labels: [{GitHub.PullRequest.Labels, :simple}],
       locked: :boolean,
       merge_commit_sha: {:union, [{:string, :generic}, :null]},
       merged_at: {:union, [{:string, :date_time}, :null]},
@@ -219,7 +225,7 @@ defmodule GitHub.PullRequest do
 
   def __fields__(:t) do
     [
-      _links: :map,
+      _links: {GitHub.PullRequest.Links, :t},
       active_lock_reason: {:union, [{:string, :generic}, :null]},
       additions: :integer,
       assignee: {:union, [{GitHub.User, :simple}, :null]},
@@ -237,7 +243,7 @@ defmodule GitHub.PullRequest do
            "OWNER"
          ]},
       auto_merge: {:union, [{GitHub.AutoMerge, :t}, :null]},
-      base: :map,
+      base: {GitHub.PullRequest.Base, :t},
       body: {:union, [{:string, :generic}, :null]},
       changed_files: :integer,
       closed_at: {:union, [{:string, :date_time}, :null]},
@@ -249,11 +255,11 @@ defmodule GitHub.PullRequest do
       deletions: :integer,
       diff_url: {:string, :uri},
       draft: :boolean,
-      head: :map,
+      head: {GitHub.PullRequest.Head, :t},
       html_url: {:string, :uri},
       id: :integer,
       issue_url: {:string, :uri},
-      labels: [:map],
+      labels: [{GitHub.PullRequest.Labels, :t}],
       locked: :boolean,
       maintainer_can_modify: :boolean,
       merge_commit_sha: {:union, [{:string, :generic}, :null]},

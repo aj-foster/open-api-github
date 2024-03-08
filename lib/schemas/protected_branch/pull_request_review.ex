@@ -6,9 +6,11 @@ defmodule GitHub.ProtectedBranch.PullRequestReview do
 
   @type t :: %__MODULE__{
           __info__: map,
-          bypass_pull_request_allowances: map | nil,
+          bypass_pull_request_allowances:
+            GitHub.ProtectedBranch.PullRequestReviewBypassPullRequestAllowances.t() | nil,
           dismiss_stale_reviews: boolean,
-          dismissal_restrictions: map | nil,
+          dismissal_restrictions:
+            GitHub.ProtectedBranch.PullRequestReviewDismissalRestrictions.t() | nil,
           require_code_owner_reviews: boolean,
           require_last_push_approval: boolean | nil,
           required_approving_review_count: integer | nil,
@@ -32,9 +34,10 @@ defmodule GitHub.ProtectedBranch.PullRequestReview do
 
   def __fields__(:t) do
     [
-      bypass_pull_request_allowances: :map,
+      bypass_pull_request_allowances:
+        {GitHub.ProtectedBranch.PullRequestReviewBypassPullRequestAllowances, :t},
       dismiss_stale_reviews: :boolean,
-      dismissal_restrictions: :map,
+      dismissal_restrictions: {GitHub.ProtectedBranch.PullRequestReviewDismissalRestrictions, :t},
       require_code_owner_reviews: :boolean,
       require_last_push_approval: :boolean,
       required_approving_review_count: :integer,

@@ -5,6 +5,30 @@ defmodule GitHub.Teams do
 
   @default_client GitHub.Client
 
+  @type add_or_update_project_permissions_in_org_403_json_resp :: %__MODULE__{
+          __info__: map,
+          documentation_url: String.t() | nil,
+          message: String.t() | nil
+        }
+
+  @type add_or_update_project_permissions_legacy_403_json_resp :: %__MODULE__{
+          __info__: map,
+          documentation_url: String.t() | nil,
+          message: String.t() | nil
+        }
+
+  defstruct [:__info__, :documentation_url, :message]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:add_or_update_project_permissions_in_org_403_json_resp) do
+    [documentation_url: {:string, :generic}, message: {:string, :generic}]
+  end
+
+  def __fields__(:add_or_update_project_permissions_legacy_403_json_resp) do
+    [documentation_url: {:string, :generic}, message: {:string, :generic}]
+  end
+
   @doc """
   Add team member (Legacy)
 

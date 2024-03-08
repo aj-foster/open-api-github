@@ -8,7 +8,7 @@ defmodule GitHub.OrgMembership do
           __info__: map,
           organization: GitHub.Organization.simple(),
           organization_url: String.t(),
-          permissions: map | nil,
+          permissions: GitHub.OrgMembershipPermissions.t() | nil,
           role: String.t(),
           state: String.t(),
           url: String.t(),
@@ -34,7 +34,7 @@ defmodule GitHub.OrgMembership do
     [
       organization: {GitHub.Organization, :simple},
       organization_url: {:string, :uri},
-      permissions: :map,
+      permissions: {GitHub.OrgMembershipPermissions, :t},
       role: {:enum, ["admin", "member", "billing_manager"]},
       state: {:enum, ["active", "pending"]},
       url: {:string, :uri},

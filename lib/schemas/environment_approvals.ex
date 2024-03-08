@@ -7,7 +7,7 @@ defmodule GitHub.EnvironmentApprovals do
   @type t :: %__MODULE__{
           __info__: map,
           comment: String.t(),
-          environments: [map],
+          environments: [GitHub.EnvironmentApprovalsEnvironments.t()],
           state: String.t(),
           user: GitHub.User.simple()
         }
@@ -21,7 +21,7 @@ defmodule GitHub.EnvironmentApprovals do
   def __fields__(:t) do
     [
       comment: {:string, :generic},
-      environments: [:map],
+      environments: [{GitHub.EnvironmentApprovalsEnvironments, :t}],
       state: {:enum, ["approved", "rejected", "pending"]},
       user: {GitHub.User, :simple}
     ]

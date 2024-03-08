@@ -4,7 +4,11 @@ defmodule GitHub.Pages.HealthCheck do
   """
   use GitHub.Encoder
 
-  @type t :: %__MODULE__{__info__: map, alt_domain: map | nil, domain: map | nil}
+  @type t :: %__MODULE__{
+          __info__: map,
+          alt_domain: GitHub.Pages.HealthCheckAltDomain.t() | nil,
+          domain: GitHub.Pages.HealthCheckDomain.t() | nil
+        }
 
   defstruct [:__info__, :alt_domain, :domain]
 
@@ -13,6 +17,9 @@ defmodule GitHub.Pages.HealthCheck do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [alt_domain: {:union, [:map, :null]}, domain: :map]
+    [
+      alt_domain: {:union, [{GitHub.Pages.HealthCheckAltDomain, :t}, :null]},
+      domain: {GitHub.Pages.HealthCheckDomain, :t}
+    ]
   end
 end

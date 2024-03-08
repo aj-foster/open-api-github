@@ -17,7 +17,7 @@ defmodule GitHub.CodeSearchResultItem do
           repository: GitHub.Repository.minimal(),
           score: number,
           sha: String.t(),
-          text_matches: [map] | nil,
+          text_matches: [GitHub.SearchResultTextMatches.t()] | nil,
           url: String.t()
         }
 
@@ -55,7 +55,7 @@ defmodule GitHub.CodeSearchResultItem do
       repository: {GitHub.Repository, :minimal},
       score: :number,
       sha: {:string, :generic},
-      text_matches: [:map],
+      text_matches: [{GitHub.SearchResultTextMatches, :t}],
       url: {:string, :uri}
     ]
   end

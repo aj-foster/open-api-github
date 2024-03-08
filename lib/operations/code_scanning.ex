@@ -5,6 +5,16 @@ defmodule GitHub.CodeScanning do
 
   @default_client GitHub.Client
 
+  @type get_analysis_200_json_resp :: %__MODULE__{__info__: map}
+
+  defstruct [:__info__]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:get_analysis_200_json_resp) do
+    []
+  end
+
   @doc """
   Delete a code scanning analysis from a repository
 
@@ -100,7 +110,7 @@ defmodule GitHub.CodeScanning do
         {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -131,7 +141,7 @@ defmodule GitHub.CodeScanning do
         {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -179,7 +189,7 @@ defmodule GitHub.CodeScanning do
         {200, {:union, [:map, {GitHub.CodeScanning.Analysis, :t}]}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -220,7 +230,7 @@ defmodule GitHub.CodeScanning do
         {302, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -252,7 +262,7 @@ defmodule GitHub.CodeScanning do
         {200, {GitHub.CodeScanning.DefaultSetup, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -282,7 +292,7 @@ defmodule GitHub.CodeScanning do
         {200, {GitHub.CodeScanning.SarifsStatus, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, :null},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -323,7 +333,7 @@ defmodule GitHub.CodeScanning do
         {200, [{GitHub.CodeScanning.AlertInstance, :t}]},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -386,7 +396,7 @@ defmodule GitHub.CodeScanning do
       response: [
         {200, [{GitHub.CodeScanning.OrganizationAlertItems, :t}]},
         {404, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -452,7 +462,7 @@ defmodule GitHub.CodeScanning do
         {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -486,7 +496,7 @@ defmodule GitHub.CodeScanning do
         {200, [{GitHub.CodeScanning.CodeqlDatabase, :t}]},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -556,7 +566,7 @@ defmodule GitHub.CodeScanning do
         {200, [{GitHub.CodeScanning.Analysis, :t}]},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -588,7 +598,7 @@ defmodule GitHub.CodeScanning do
         {200, {GitHub.CodeScanning.Alert, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -630,7 +640,7 @@ defmodule GitHub.CodeScanning do
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {409, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -693,7 +703,7 @@ defmodule GitHub.CodeScanning do
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {413, :null},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })

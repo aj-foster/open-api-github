@@ -6,7 +6,7 @@ defmodule GitHub.PullRequest.Review do
 
   @type t :: %__MODULE__{
           __info__: map,
-          _links: map,
+          _links: GitHub.PullRequest.ReviewLinks.t(),
           author_association: String.t(),
           body: String.t(),
           body_html: String.t() | nil,
@@ -44,7 +44,7 @@ defmodule GitHub.PullRequest.Review do
 
   def __fields__(:t) do
     [
-      _links: :map,
+      _links: {GitHub.PullRequest.ReviewLinks, :t},
       author_association:
         {:enum,
          [

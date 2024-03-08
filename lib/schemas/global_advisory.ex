@@ -8,7 +8,7 @@ defmodule GitHub.GlobalAdvisory do
           __info__: map,
           credits: [map] | nil,
           cve_id: String.t() | nil,
-          cvss: map | nil,
+          cvss: GitHub.GlobalAdvisoryCvss.t() | nil,
           cwes: [map] | nil,
           description: String.t() | nil,
           ghsa_id: String.t(),
@@ -62,7 +62,7 @@ defmodule GitHub.GlobalAdvisory do
     [
       credits: {:union, [[:map], :null]},
       cve_id: {:union, [{:string, :generic}, :null]},
-      cvss: {:union, [:map, :null]},
+      cvss: {:union, [{GitHub.GlobalAdvisoryCvss, :t}, :null]},
       cwes: {:union, [[:map], :null]},
       description: {:union, [{:string, :generic}, :null]},
       ghsa_id: {:string, :generic},

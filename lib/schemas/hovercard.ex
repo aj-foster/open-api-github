@@ -4,7 +4,7 @@ defmodule GitHub.Hovercard do
   """
   use GitHub.Encoder
 
-  @type t :: %__MODULE__{__info__: map, contexts: [map]}
+  @type t :: %__MODULE__{__info__: map, contexts: [GitHub.HovercardContexts.t()]}
 
   defstruct [:__info__, :contexts]
 
@@ -13,6 +13,6 @@ defmodule GitHub.Hovercard do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [contexts: [:map]]
+    [contexts: [{GitHub.HovercardContexts, :t}]]
   end
 end

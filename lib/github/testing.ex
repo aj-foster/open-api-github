@@ -181,15 +181,6 @@ defmodule GitHub.Testing do
   def generate(_schema, :id, :integer), do: System.unique_integer([:positive])
   def generate(_schema, :login, {:string, :generic}), do: Faker.Internet.user_name()
 
-  def generate(GitHub.PullRequest, base_or_head, :map) when base_or_head in [:base, :head] do
-    %{
-      "label" => generate(:_, :label, {:string, :generic}),
-      "ref" => generate(:_, :ref, {:string, :generic}),
-      "repo" => generate(:_, :repo, {GitHub.Repository, :t}) |> to_gh_params(),
-      "sha" => generate(:_, :sha, {:string, :generic})
-    }
-  end
-
   def generate(GitHub.Repository, :created_at, {:union, [{:string, :date_time}, :null]}),
     do: generate(GitHub.Repository, :created_at, {:string, :date_time})
 

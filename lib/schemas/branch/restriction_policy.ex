@@ -6,12 +6,12 @@ defmodule GitHub.Branch.RestrictionPolicy do
 
   @type t :: %__MODULE__{
           __info__: map,
-          apps: [map],
+          apps: [GitHub.Branch.RestrictionPolicyApps.t()],
           apps_url: String.t(),
-          teams: [map],
+          teams: [GitHub.Branch.RestrictionPolicyTeams.t()],
           teams_url: String.t(),
           url: String.t(),
-          users: [map],
+          users: [GitHub.Branch.RestrictionPolicyUsers.t()],
           users_url: String.t()
         }
 
@@ -23,12 +23,12 @@ defmodule GitHub.Branch.RestrictionPolicy do
 
   def __fields__(:t) do
     [
-      apps: [:map],
+      apps: [{GitHub.Branch.RestrictionPolicyApps, :t}],
       apps_url: {:string, :uri},
-      teams: [:map],
+      teams: [{GitHub.Branch.RestrictionPolicyTeams, :t}],
       teams_url: {:string, :uri},
       url: {:string, :uri},
-      users: [:map],
+      users: [{GitHub.Branch.RestrictionPolicyUsers, :t}],
       users_url: {:string, :uri}
     ]
   end

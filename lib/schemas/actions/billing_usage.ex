@@ -7,7 +7,7 @@ defmodule GitHub.Actions.BillingUsage do
   @type t :: %__MODULE__{
           __info__: map,
           included_minutes: integer,
-          minutes_used_breakdown: map,
+          minutes_used_breakdown: GitHub.Actions.BillingUsageMinutesUsedBreakdown.t(),
           total_minutes_used: integer,
           total_paid_minutes_used: integer
         }
@@ -27,7 +27,7 @@ defmodule GitHub.Actions.BillingUsage do
   def __fields__(:t) do
     [
       included_minutes: :integer,
-      minutes_used_breakdown: :map,
+      minutes_used_breakdown: {GitHub.Actions.BillingUsageMinutesUsedBreakdown, :t},
       total_minutes_used: :integer,
       total_paid_minutes_used: :integer
     ]

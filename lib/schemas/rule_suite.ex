@@ -17,7 +17,7 @@ defmodule GitHub.RuleSuite do
           repository_id: integer | nil,
           repository_name: String.t() | nil,
           result: String.t() | nil,
-          rule_evaluations: [map] | nil
+          rule_evaluations: [GitHub.RuleSuiteRuleEvaluations.t()] | nil
         }
 
   defstruct [
@@ -53,7 +53,7 @@ defmodule GitHub.RuleSuite do
       repository_id: :integer,
       repository_name: {:string, :generic},
       result: {:enum, ["pass", "fail", "bypass"]},
-      rule_evaluations: [:map]
+      rule_evaluations: [{GitHub.RuleSuiteRuleEvaluations, :t}]
     ]
   end
 end

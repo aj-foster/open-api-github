@@ -7,8 +7,8 @@ defmodule GitHub.PendingDeployment do
   @type t :: %__MODULE__{
           __info__: map,
           current_user_can_approve: boolean,
-          environment: map,
-          reviewers: [map],
+          environment: GitHub.PendingDeploymentEnvironment.t(),
+          reviewers: [GitHub.PendingDeploymentReviewers.t()],
           wait_timer: integer,
           wait_timer_started_at: DateTime.t() | nil
         }
@@ -29,8 +29,8 @@ defmodule GitHub.PendingDeployment do
   def __fields__(:t) do
     [
       current_user_can_approve: :boolean,
-      environment: :map,
-      reviewers: [:map],
+      environment: {GitHub.PendingDeploymentEnvironment, :t},
+      reviewers: [{GitHub.PendingDeploymentReviewers, :t}],
       wait_timer: :integer,
       wait_timer_started_at: {:union, [{:string, :date_time}, :null]}
     ]

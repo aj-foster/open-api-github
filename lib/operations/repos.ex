@@ -5,6 +5,150 @@ defmodule GitHub.Repos do
 
   @default_client GitHub.Client
 
+  @type create_deployment_202_json_resp :: %__MODULE__{__info__: map, message: String.t() | nil}
+
+  @type delete_403_json_resp :: %__MODULE__{
+          __info__: map,
+          documentation_url: String.t() | nil,
+          message: String.t() | nil
+        }
+
+  @type get_all_deployment_protection_rules_200_json_resp :: %__MODULE__{
+          __info__: map,
+          custom_deployment_protection_rules: [GitHub.Deployment.ProtectionRule.t()] | nil,
+          total_count: integer | nil
+        }
+
+  @type get_all_environments_200_json_resp :: %__MODULE__{
+          __info__: map,
+          environments: [GitHub.Environment.t()] | nil,
+          total_count: integer | nil
+        }
+
+  @type get_branch_rules_200_json_resp :: %__MODULE__{
+          __info__: map,
+          parameters: map | nil,
+          parameters: map | nil,
+          parameters: map | nil,
+          parameters: map | nil,
+          parameters: map | nil,
+          parameters: map | nil,
+          parameters: map | nil,
+          parameters: map | nil,
+          parameters: map | nil,
+          ruleset_id: integer | nil,
+          ruleset_source: String.t() | nil,
+          ruleset_source_type: String.t() | nil,
+          type: String.t() | nil,
+          type: String.t() | nil,
+          type: String.t() | nil,
+          type: String.t() | nil,
+          type: String.t() | nil,
+          type: String.t() | nil,
+          type: String.t() | nil,
+          type: String.t() | nil,
+          type: String.t() | nil,
+          type: String.t() | nil,
+          type: String.t() | nil,
+          type: String.t() | nil,
+          type: String.t() | nil,
+          type: String.t() | nil
+        }
+
+  @type list_custom_deployment_rule_integrations_200_json_resp :: %__MODULE__{
+          __info__: map,
+          available_custom_deployment_protection_rule_integrations:
+            [GitHub.CustomDeploymentRuleApp.t()] | nil,
+          total_count: integer | nil
+        }
+
+  @type list_deployment_branch_policies_200_json_resp :: %__MODULE__{
+          __info__: map,
+          branch_policies: [GitHub.Deployment.BranchPolicy.t()],
+          total_count: integer
+        }
+
+  defstruct [
+    :__info__,
+    :available_custom_deployment_protection_rule_integrations,
+    :branch_policies,
+    :custom_deployment_protection_rules,
+    :documentation_url,
+    :environments,
+    :message,
+    :parameters,
+    :ruleset_id,
+    :ruleset_source,
+    :ruleset_source_type,
+    :total_count,
+    :type
+  ]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:create_deployment_202_json_resp) do
+    [message: {:string, :generic}]
+  end
+
+  def __fields__(:delete_403_json_resp) do
+    [documentation_url: {:string, :generic}, message: {:string, :generic}]
+  end
+
+  def __fields__(:get_all_deployment_protection_rules_200_json_resp) do
+    [
+      custom_deployment_protection_rules: [{GitHub.Deployment.ProtectionRule, :t}],
+      total_count: :integer
+    ]
+  end
+
+  def __fields__(:get_all_environments_200_json_resp) do
+    [environments: [{GitHub.Environment, :t}], total_count: :integer]
+  end
+
+  def __fields__(:get_branch_rules_200_json_resp) do
+    [
+      parameters: :map,
+      parameters: :map,
+      parameters: :map,
+      parameters: :map,
+      parameters: :map,
+      parameters: :map,
+      parameters: :map,
+      parameters: :map,
+      parameters: :map,
+      ruleset_id: :integer,
+      ruleset_source: {:string, :generic},
+      ruleset_source_type: {:enum, ["Repository", "Organization"]},
+      type: {:const, "committer_email_pattern"},
+      type: {:const, "pull_request"},
+      type: {:const, "required_signatures"},
+      type: {:const, "required_status_checks"},
+      type: {:const, "branch_name_pattern"},
+      type: {:const, "required_deployments"},
+      type: {:const, "deletion"},
+      type: {:const, "required_linear_history"},
+      type: {:const, "commit_message_pattern"},
+      type: {:const, "creation"},
+      type: {:const, "commit_author_email_pattern"},
+      type: {:const, "update"},
+      type: {:const, "non_fast_forward"},
+      type: {:const, "tag_name_pattern"}
+    ]
+  end
+
+  def __fields__(:list_custom_deployment_rule_integrations_200_json_resp) do
+    [
+      available_custom_deployment_protection_rule_integrations: [
+        {GitHub.CustomDeploymentRuleApp, :t}
+      ],
+      total_count: :integer
+    ]
+  end
+
+  def __fields__(:list_deployment_branch_policies_200_json_resp) do
+    [branch_policies: [{GitHub.Deployment.BranchPolicy, :t}], total_count: :integer]
+  end
+
   @doc """
   Accept a repository invitation
 
@@ -416,7 +560,7 @@ defmodule GitHub.Repos do
         {200, {GitHub.Commit.Comparison, :t}},
         {404, {GitHub.BasicError, :t}},
         {500, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -1594,7 +1738,7 @@ defmodule GitHub.Repos do
         {404, {GitHub.BasicError, :t}},
         {409, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -2492,7 +2636,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_code_frequency_stats(String.t(), String.t(), keyword) ::
-          {:ok, map | [[integer]]} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Accepted.json_resp() | [[integer]]} | {:error, GitHub.Error.t()}
   def get_code_frequency_stats(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2501,7 +2645,7 @@ defmodule GitHub.Repos do
       call: {GitHub.Repos, :get_code_frequency_stats},
       url: "/repos/#{owner}/#{repo}/stats/code_frequency",
       method: :get,
-      response: [{200, [[:integer]]}, {202, :map}, {204, :null}],
+      response: [{200, [[:integer]]}, {202, {GitHub.Accepted, :json_resp}}, {204, :null}],
       opts: opts
     })
   end
@@ -2646,7 +2790,7 @@ defmodule GitHub.Repos do
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}},
         {500, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -2663,7 +2807,8 @@ defmodule GitHub.Repos do
 
   """
   @spec get_commit_activity_stats(String.t(), String.t(), keyword) ::
-          {:ok, map | [GitHub.Commit.Activity.t()]} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Accepted.json_resp() | [GitHub.Commit.Activity.t()]}
+          | {:error, GitHub.Error.t()}
   def get_commit_activity_stats(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2672,7 +2817,11 @@ defmodule GitHub.Repos do
       call: {GitHub.Repos, :get_commit_activity_stats},
       url: "/repos/#{owner}/#{repo}/stats/commit_activity",
       method: :get,
-      response: [{200, [{GitHub.Commit.Activity, :t}]}, {202, :map}, {204, :null}],
+      response: [
+        {200, [{GitHub.Commit.Activity, :t}]},
+        {202, {GitHub.Accepted, :json_resp}},
+        {204, :null}
+      ],
       opts: opts
     })
   end
@@ -2870,7 +3019,8 @@ defmodule GitHub.Repos do
 
   """
   @spec get_contributors_stats(String.t(), String.t(), keyword) ::
-          {:ok, map | [GitHub.ContributorActivity.t()]} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Accepted.json_resp() | [GitHub.ContributorActivity.t()]}
+          | {:error, GitHub.Error.t()}
   def get_contributors_stats(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2879,7 +3029,11 @@ defmodule GitHub.Repos do
       call: {GitHub.Repos, :get_contributors_stats},
       url: "/repos/#{owner}/#{repo}/stats/contributors",
       method: :get,
-      response: [{200, [{GitHub.ContributorActivity, :t}]}, {202, :map}, {204, :null}],
+      response: [
+        {200, [{GitHub.ContributorActivity, :t}]},
+        {202, {GitHub.Accepted, :json_resp}},
+        {204, :null}
+      ],
       opts: opts
     })
   end
@@ -3167,7 +3321,8 @@ defmodule GitHub.Repos do
     * [API method documentation](https://docs.github.com/rest/orgs/rule-suites#list-organization-rule-suites)
 
   """
-  @spec get_org_rule_suites(String.t(), keyword) :: {:ok, [map]} | {:error, GitHub.Error.t()}
+  @spec get_org_rule_suites(String.t(), keyword) ::
+          {:ok, [GitHub.RuleSuites.t()]} | {:error, GitHub.Error.t()}
   def get_org_rule_suites(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3187,7 +3342,11 @@ defmodule GitHub.Repos do
       url: "/orgs/#{org}/rulesets/rule-suites",
       method: :get,
       query: query,
-      response: [{200, [:map]}, {404, {GitHub.BasicError, :t}}, {500, {GitHub.BasicError, :t}}],
+      response: [
+        {200, [{GitHub.RuleSuites, :t}]},
+        {404, {GitHub.BasicError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
@@ -3634,7 +3793,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_repo_rule_suites(String.t(), String.t(), keyword) ::
-          {:ok, [map]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.RuleSuites.t()]} | {:error, GitHub.Error.t()}
   def get_repo_rule_suites(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3647,7 +3806,11 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/rulesets/rule-suites",
       method: :get,
       query: query,
-      response: [{200, [:map]}, {404, {GitHub.BasicError, :t}}, {500, {GitHub.BasicError, :t}}],
+      response: [
+        {200, [{GitHub.RuleSuites, :t}]},
+        {404, {GitHub.BasicError, :t}},
+        {500, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
@@ -5234,7 +5397,7 @@ defmodule GitHub.Repos do
 
   """
   @spec redeliver_webhook_delivery(String.t(), String.t(), integer, integer, keyword) ::
-          {:ok, map} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Accepted.json_resp()} | {:error, GitHub.Error.t()}
   def redeliver_webhook_delivery(owner, repo, hook_id, delivery_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -5244,7 +5407,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}/deliveries/#{delivery_id}/attempts",
       method: :post,
       response: [
-        {202, :map},
+        {202, {GitHub.Accepted, :json_resp}},
         {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {422, {GitHub.ValidationError, :t}}
       ],

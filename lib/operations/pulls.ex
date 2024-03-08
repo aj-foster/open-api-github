@@ -5,6 +5,40 @@ defmodule GitHub.Pulls do
 
   @default_client GitHub.Client
 
+  @type merge_405_json_resp :: %__MODULE__{
+          __info__: map,
+          documentation_url: String.t() | nil,
+          message: String.t() | nil
+        }
+
+  @type merge_409_json_resp :: %__MODULE__{
+          __info__: map,
+          documentation_url: String.t() | nil,
+          message: String.t() | nil
+        }
+
+  @type update_branch_202_json_resp :: %__MODULE__{
+          __info__: map,
+          message: String.t() | nil,
+          url: String.t() | nil
+        }
+
+  defstruct [:__info__, :documentation_url, :message, :url]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:merge_405_json_resp) do
+    [documentation_url: {:string, :generic}, message: {:string, :generic}]
+  end
+
+  def __fields__(:merge_409_json_resp) do
+    [documentation_url: {:string, :generic}, message: {:string, :generic}]
+  end
+
+  def __fields__(:update_branch_202_json_resp) do
+    [message: {:string, :generic}, url: {:string, :generic}]
+  end
+
   @doc """
   Check if a pull request has been merged
 
@@ -299,7 +333,7 @@ defmodule GitHub.Pulls do
         {304, :null},
         {404, {GitHub.BasicError, :t}},
         {500, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -491,7 +525,7 @@ defmodule GitHub.Pulls do
         {200, [{GitHub.DiffEntry, :t}]},
         {422, {GitHub.ValidationError, :t}},
         {500, {GitHub.BasicError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })

@@ -29,7 +29,7 @@ defmodule GitHub.Classroom.Assignment do
   @type t :: %__MODULE__{
           __info__: map,
           accepted: integer,
-          classroom: map,
+          classroom: GitHub.Classroom.t(),
           deadline: DateTime.t() | nil,
           editor: String.t(),
           feedback_pull_requests_enabled: boolean,
@@ -102,7 +102,7 @@ defmodule GitHub.Classroom.Assignment do
   def __fields__(:t) do
     [
       accepted: :integer,
-      classroom: :map,
+      classroom: {GitHub.Classroom, :t},
       deadline: {:union, [{:string, :date_time}, :null]},
       editor: {:string, :generic},
       feedback_pull_requests_enabled: :boolean,

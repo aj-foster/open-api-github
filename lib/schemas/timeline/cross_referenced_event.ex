@@ -9,7 +9,7 @@ defmodule GitHub.Timeline.CrossReferencedEvent do
           actor: GitHub.User.simple() | nil,
           created_at: DateTime.t(),
           event: String.t(),
-          source: map,
+          source: GitHub.Timeline.CrossReferencedEventSource.t(),
           updated_at: DateTime.t()
         }
 
@@ -24,7 +24,7 @@ defmodule GitHub.Timeline.CrossReferencedEvent do
       actor: {GitHub.User, :simple},
       created_at: {:string, :date_time},
       event: {:string, :generic},
-      source: :map,
+      source: {GitHub.Timeline.CrossReferencedEventSource, :t},
       updated_at: {:string, :date_time}
     ]
   end

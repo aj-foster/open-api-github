@@ -15,8 +15,8 @@ defmodule GitHub.Hook.Delivery do
           installation_id: integer | nil,
           redelivery: boolean,
           repository_id: integer | nil,
-          request: map,
-          response: map,
+          request: GitHub.Hook.DeliveryRequest.t(),
+          response: GitHub.Hook.DeliveryResponse.t(),
           status: String.t(),
           status_code: integer,
           url: String.t() | nil
@@ -55,8 +55,8 @@ defmodule GitHub.Hook.Delivery do
       installation_id: {:union, [:integer, :null]},
       redelivery: :boolean,
       repository_id: {:union, [:integer, :null]},
-      request: :map,
-      response: :map,
+      request: {GitHub.Hook.DeliveryRequest, :t},
+      response: {GitHub.Hook.DeliveryResponse, :t},
       status: {:string, :generic},
       status_code: :integer,
       url: {:string, :generic}

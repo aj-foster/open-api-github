@@ -6,19 +6,20 @@ defmodule GitHub.Branch.Protection do
 
   @type t :: %__MODULE__{
           __info__: map,
-          allow_deletions: map | nil,
-          allow_force_pushes: map | nil,
-          allow_fork_syncing: map | nil,
-          block_creations: map | nil,
+          allow_deletions: GitHub.Branch.ProtectionAllowDeletions.t() | nil,
+          allow_force_pushes: GitHub.Branch.ProtectionAllowForcePushes.t() | nil,
+          allow_fork_syncing: GitHub.Branch.ProtectionAllowForkSyncing.t() | nil,
+          block_creations: GitHub.Branch.ProtectionBlockCreations.t() | nil,
           enabled: boolean | nil,
           enforce_admins: GitHub.ProtectedBranch.AdminEnforced.t() | nil,
-          lock_branch: map | nil,
+          lock_branch: GitHub.Branch.ProtectionLockBranch.t() | nil,
           name: String.t() | nil,
           protection_url: String.t() | nil,
-          required_conversation_resolution: map | nil,
-          required_linear_history: map | nil,
+          required_conversation_resolution:
+            GitHub.Branch.ProtectionRequiredConversationResolution.t() | nil,
+          required_linear_history: GitHub.Branch.ProtectionRequiredLinearHistory.t() | nil,
           required_pull_request_reviews: GitHub.ProtectedBranch.PullRequestReview.t() | nil,
-          required_signatures: map | nil,
+          required_signatures: GitHub.Branch.ProtectionRequiredSignatures.t() | nil,
           required_status_checks: GitHub.ProtectedBranch.RequiredStatusCheck.t() | nil,
           restrictions: GitHub.Branch.RestrictionPolicy.t() | nil,
           url: String.t() | nil
@@ -50,19 +51,20 @@ defmodule GitHub.Branch.Protection do
 
   def __fields__(:t) do
     [
-      allow_deletions: :map,
-      allow_force_pushes: :map,
-      allow_fork_syncing: :map,
-      block_creations: :map,
+      allow_deletions: {GitHub.Branch.ProtectionAllowDeletions, :t},
+      allow_force_pushes: {GitHub.Branch.ProtectionAllowForcePushes, :t},
+      allow_fork_syncing: {GitHub.Branch.ProtectionAllowForkSyncing, :t},
+      block_creations: {GitHub.Branch.ProtectionBlockCreations, :t},
       enabled: :boolean,
       enforce_admins: {GitHub.ProtectedBranch.AdminEnforced, :t},
-      lock_branch: :map,
+      lock_branch: {GitHub.Branch.ProtectionLockBranch, :t},
       name: {:string, :generic},
       protection_url: {:string, :generic},
-      required_conversation_resolution: :map,
-      required_linear_history: :map,
+      required_conversation_resolution:
+        {GitHub.Branch.ProtectionRequiredConversationResolution, :t},
+      required_linear_history: {GitHub.Branch.ProtectionRequiredLinearHistory, :t},
       required_pull_request_reviews: {GitHub.ProtectedBranch.PullRequestReview, :t},
-      required_signatures: :map,
+      required_signatures: {GitHub.Branch.ProtectionRequiredSignatures, :t},
       required_status_checks: {GitHub.ProtectedBranch.RequiredStatusCheck, :t},
       restrictions: {GitHub.Branch.RestrictionPolicy, :t},
       url: {:string, :generic}

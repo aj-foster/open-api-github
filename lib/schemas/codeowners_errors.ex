@@ -4,7 +4,7 @@ defmodule GitHub.CodeownersErrors do
   """
   use GitHub.Encoder
 
-  @type t :: %__MODULE__{__info__: map, errors: [map]}
+  @type t :: %__MODULE__{__info__: map, errors: [GitHub.CodeownersErrorsErrors.t()]}
 
   defstruct [:__info__, :errors]
 
@@ -13,6 +13,6 @@ defmodule GitHub.CodeownersErrors do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [errors: [:map]]
+    [errors: [{GitHub.CodeownersErrorsErrors, :t}]]
   end
 end

@@ -6,7 +6,7 @@ defmodule GitHub.ReviewComment do
 
   @type t :: %__MODULE__{
           __info__: map,
-          _links: map,
+          _links: GitHub.ReviewCommentLinks.t(),
           author_association: String.t(),
           body: String.t(),
           body_html: String.t() | nil,
@@ -74,7 +74,7 @@ defmodule GitHub.ReviewComment do
 
   def __fields__(:t) do
     [
-      _links: :map,
+      _links: {GitHub.ReviewCommentLinks, :t},
       author_association:
         {:enum,
          [

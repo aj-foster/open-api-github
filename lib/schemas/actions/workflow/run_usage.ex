@@ -4,7 +4,11 @@ defmodule GitHub.Actions.Workflow.RunUsage do
   """
   use GitHub.Encoder
 
-  @type t :: %__MODULE__{__info__: map, billable: map, run_duration_ms: integer | nil}
+  @type t :: %__MODULE__{
+          __info__: map,
+          billable: GitHub.Actions.Workflow.RunUsageBillable.t(),
+          run_duration_ms: integer | nil
+        }
 
   defstruct [:__info__, :billable, :run_duration_ms]
 
@@ -13,6 +17,6 @@ defmodule GitHub.Actions.Workflow.RunUsage do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [billable: :map, run_duration_ms: :integer]
+    [billable: {GitHub.Actions.Workflow.RunUsageBillable, :t}, run_duration_ms: :integer]
   end
 end

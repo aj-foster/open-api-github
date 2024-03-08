@@ -20,7 +20,7 @@ defmodule GitHub.TopicSearchResultItem do
           repository_count: integer | nil,
           score: number,
           short_description: String.t() | nil,
-          text_matches: [map] | nil,
+          text_matches: [GitHub.SearchResultTextMatches.t()] | nil,
           updated_at: DateTime.t()
         }
 
@@ -64,7 +64,7 @@ defmodule GitHub.TopicSearchResultItem do
       repository_count: {:union, [:integer, :null]},
       score: :number,
       short_description: {:union, [{:string, :generic}, :null]},
-      text_matches: [:map],
+      text_matches: [{GitHub.SearchResultTextMatches, :t}],
       updated_at: {:string, :date_time}
     ]
   end

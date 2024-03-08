@@ -6,7 +6,7 @@ defmodule GitHub.Gist.Commit do
 
   @type t :: %__MODULE__{
           __info__: map,
-          change_status: map,
+          change_status: GitHub.Gist.CommitChangeStatus.t(),
           committed_at: DateTime.t(),
           url: String.t(),
           user: GitHub.User.simple() | nil,
@@ -21,7 +21,7 @@ defmodule GitHub.Gist.Commit do
 
   def __fields__(:t) do
     [
-      change_status: :map,
+      change_status: {GitHub.Gist.CommitChangeStatus, :t},
       committed_at: {:string, :date_time},
       url: {:string, :uri},
       user: {:union, [{GitHub.User, :simple}, :null]},

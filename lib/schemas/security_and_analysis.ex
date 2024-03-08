@@ -6,10 +6,12 @@ defmodule GitHub.SecurityAndAnalysis do
 
   @type t :: %__MODULE__{
           __info__: map,
-          advanced_security: map | nil,
-          dependabot_security_updates: map | nil,
-          secret_scanning: map | nil,
-          secret_scanning_push_protection: map | nil
+          advanced_security: GitHub.SecurityAndAnalysisAdvancedSecurity.t() | nil,
+          dependabot_security_updates:
+            GitHub.SecurityAndAnalysisDependabotSecurityUpdates.t() | nil,
+          secret_scanning: GitHub.SecurityAndAnalysisSecretScanning.t() | nil,
+          secret_scanning_push_protection:
+            GitHub.SecurityAndAnalysisSecretScanningPushProtection.t() | nil
         }
 
   defstruct [
@@ -26,10 +28,11 @@ defmodule GitHub.SecurityAndAnalysis do
 
   def __fields__(:t) do
     [
-      advanced_security: :map,
-      dependabot_security_updates: :map,
-      secret_scanning: :map,
-      secret_scanning_push_protection: :map
+      advanced_security: {GitHub.SecurityAndAnalysisAdvancedSecurity, :t},
+      dependabot_security_updates: {GitHub.SecurityAndAnalysisDependabotSecurityUpdates, :t},
+      secret_scanning: {GitHub.SecurityAndAnalysisSecretScanning, :t},
+      secret_scanning_push_protection:
+        {GitHub.SecurityAndAnalysisSecretScanningPushProtection, :t}
     ]
   end
 end

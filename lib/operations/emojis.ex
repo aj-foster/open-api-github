@@ -5,6 +5,16 @@ defmodule GitHub.Emojis do
 
   @default_client GitHub.Client
 
+  @type get_200_json_resp :: %__MODULE__{__info__: map}
+
+  defstruct [:__info__]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:get_200_json_resp) do
+    []
+  end
+
   @doc """
   Get emojis
 

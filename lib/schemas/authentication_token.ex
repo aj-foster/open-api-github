@@ -7,7 +7,7 @@ defmodule GitHub.AuthenticationToken do
   @type t :: %__MODULE__{
           __info__: map,
           expires_at: DateTime.t(),
-          permissions: map | nil,
+          permissions: GitHub.AuthenticationTokenPermissions.t() | nil,
           repositories: [GitHub.Repository.t()] | nil,
           repository_selection: String.t() | nil,
           single_file: String.t() | nil,
@@ -31,7 +31,7 @@ defmodule GitHub.AuthenticationToken do
   def __fields__(:t) do
     [
       expires_at: {:string, :date_time},
-      permissions: :map,
+      permissions: {GitHub.AuthenticationTokenPermissions, :t},
       repositories: [{GitHub.Repository, :t}],
       repository_selection: {:enum, ["all", "selected"]},
       single_file: {:union, [{:string, :generic}, :null]},

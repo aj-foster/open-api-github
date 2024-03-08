@@ -13,7 +13,7 @@ defmodule GitHub.LabelSearchResultItem do
           name: String.t(),
           node_id: String.t(),
           score: number,
-          text_matches: [map] | nil,
+          text_matches: [GitHub.SearchResultTextMatches.t()] | nil,
           url: String.t()
         }
 
@@ -43,7 +43,7 @@ defmodule GitHub.LabelSearchResultItem do
       name: {:string, :generic},
       node_id: {:string, :generic},
       score: :number,
-      text_matches: [:map],
+      text_matches: [{GitHub.SearchResultTextMatches, :t}],
       url: {:string, :uri}
     ]
   end

@@ -14,12 +14,33 @@ defmodule GitHub.Classroom do
           url: String.t()
         }
 
-  defstruct [:__info__, :archived, :id, :name, :url]
+  @type t :: %__MODULE__{
+          __info__: map,
+          archived: boolean,
+          id: integer,
+          name: String.t(),
+          organization: GitHub.Classroom.Organization.simple(),
+          url: String.t()
+        }
+
+  defstruct [:__info__, :archived, :id, :name, :organization, :url]
 
   @doc false
   @spec __fields__(atom) :: keyword
+  def __fields__(type \\ :t)
+
   def __fields__(:simple) do
     [archived: :boolean, id: :integer, name: {:string, :generic}, url: {:string, :generic}]
+  end
+
+  def __fields__(:t) do
+    [
+      archived: :boolean,
+      id: :integer,
+      name: {:string, :generic},
+      organization: {GitHub.Classroom.Organization, :simple},
+      url: {:string, :generic}
+    ]
   end
 
   @doc """
@@ -32,7 +53,8 @@ defmodule GitHub.Classroom do
     * [API method documentation](https://docs.github.com/rest/classroom/classroom#get-a-classroom)
 
   """
-  @spec get_a_classroom(integer, keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
+  @spec get_a_classroom(integer, keyword) ::
+          {:ok, GitHub.Classroom.t()} | {:error, GitHub.Error.t()}
   def get_a_classroom(classroom_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -41,7 +63,7 @@ defmodule GitHub.Classroom do
       call: {GitHub.Classroom, :get_a_classroom},
       url: "/classrooms/#{classroom_id}",
       method: :get,
-      response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
+      response: [{200, {GitHub.Classroom, :t}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end

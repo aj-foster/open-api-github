@@ -4,7 +4,11 @@ defmodule GitHub.FileCommit do
   """
   use GitHub.Encoder
 
-  @type t :: %__MODULE__{__info__: map, commit: map, content: map | nil}
+  @type t :: %__MODULE__{
+          __info__: map,
+          commit: GitHub.FileCommitCommit.t(),
+          content: GitHub.FileCommitContent.t() | nil
+        }
 
   defstruct [:__info__, :commit, :content]
 
@@ -13,6 +17,9 @@ defmodule GitHub.FileCommit do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [commit: :map, content: {:union, [:map, :null]}]
+    [
+      commit: {GitHub.FileCommitCommit, :t},
+      content: {:union, [{GitHub.FileCommitContent, :t}, :null]}
+    ]
   end
 end

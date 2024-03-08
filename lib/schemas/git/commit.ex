@@ -6,16 +6,16 @@ defmodule GitHub.Git.Commit do
 
   @type t :: %__MODULE__{
           __info__: map,
-          author: map,
-          committer: map,
+          author: GitHub.Git.CommitAuthor.t(),
+          committer: GitHub.Git.CommitCommitter.t(),
           html_url: String.t(),
           message: String.t(),
           node_id: String.t(),
-          parents: [map],
+          parents: [GitHub.Git.CommitParents.t()],
           sha: String.t(),
-          tree: map,
+          tree: GitHub.Git.CommitTree.t(),
           url: String.t(),
-          verification: map
+          verification: GitHub.Git.CommitVerification.t()
         }
 
   defstruct [
@@ -38,16 +38,16 @@ defmodule GitHub.Git.Commit do
 
   def __fields__(:t) do
     [
-      author: :map,
-      committer: :map,
+      author: {GitHub.Git.CommitAuthor, :t},
+      committer: {GitHub.Git.CommitCommitter, :t},
       html_url: {:string, :uri},
       message: {:string, :generic},
       node_id: {:string, :generic},
-      parents: [:map],
+      parents: [{GitHub.Git.CommitParents, :t}],
       sha: {:string, :generic},
-      tree: :map,
+      tree: {GitHub.Git.CommitTree, :t},
       url: {:string, :uri},
-      verification: :map
+      verification: {GitHub.Git.CommitVerification, :t}
     ]
   end
 end

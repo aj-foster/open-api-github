@@ -5,6 +5,40 @@ defmodule GitHub.Dependabot do
 
   @default_client GitHub.Client
 
+  @type list_org_secrets_200_json_resp :: %__MODULE__{
+          __info__: map,
+          secrets: [GitHub.Organization.DependabotSecret.t()],
+          total_count: integer
+        }
+
+  @type list_repo_secrets_200_json_resp :: %__MODULE__{
+          __info__: map,
+          secrets: [GitHub.Dependabot.Secret.t()],
+          total_count: integer
+        }
+
+  @type list_selected_repos_for_org_secret_200_json_resp :: %__MODULE__{
+          __info__: map,
+          repositories: [GitHub.Repository.minimal()],
+          total_count: integer
+        }
+
+  defstruct [:__info__, :repositories, :secrets, :total_count]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:list_org_secrets_200_json_resp) do
+    [secrets: [{GitHub.Organization.DependabotSecret, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_repo_secrets_200_json_resp) do
+    [secrets: [{GitHub.Dependabot.Secret, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_selected_repos_for_org_secret_200_json_resp) do
+    [repositories: [{GitHub.Repository, :minimal}], total_count: :integer]
+  end
+
   @doc """
   Add selected repository to an organization secret
 

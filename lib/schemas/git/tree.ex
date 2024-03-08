@@ -1,13 +1,13 @@
 defmodule GitHub.Git.Tree do
   @moduledoc """
-  Provides struct and type for a Git.Tree
+  Provides struct and types for a Git.Tree
   """
   use GitHub.Encoder
 
   @type t :: %__MODULE__{
           __info__: map,
           sha: String.t(),
-          tree: [map],
+          tree: [GitHub.Git.TreeTree.t()],
           truncated: boolean,
           url: String.t()
         }
@@ -19,6 +19,11 @@ defmodule GitHub.Git.Tree do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [sha: {:string, :generic}, tree: [:map], truncated: :boolean, url: {:string, :uri}]
+    [
+      sha: {:string, :generic},
+      tree: [{GitHub.Git.TreeTree, :t}],
+      truncated: :boolean,
+      url: {:string, :uri}
+    ]
   end
 end

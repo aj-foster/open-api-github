@@ -8,15 +8,15 @@ defmodule GitHub.Commit.SearchResultItem do
           __info__: map,
           author: GitHub.User.simple() | nil,
           comments_url: String.t(),
-          commit: map,
+          commit: GitHub.Commit.SearchResultItemCommit.t(),
           committer: GitHub.Git.User.t() | nil,
           html_url: String.t(),
           node_id: String.t(),
-          parents: [map],
+          parents: [GitHub.Commit.SearchResultItemParents.t()],
           repository: GitHub.Repository.minimal(),
           score: number,
           sha: String.t(),
-          text_matches: [map] | nil,
+          text_matches: [GitHub.SearchResultTextMatches.t()] | nil,
           url: String.t()
         }
 
@@ -44,15 +44,15 @@ defmodule GitHub.Commit.SearchResultItem do
     [
       author: {:union, [{GitHub.User, :simple}, :null]},
       comments_url: {:string, :uri},
-      commit: :map,
+      commit: {GitHub.Commit.SearchResultItemCommit, :t},
       committer: {:union, [{GitHub.Git.User, :t}, :null]},
       html_url: {:string, :uri},
       node_id: {:string, :generic},
-      parents: [:map],
+      parents: [{GitHub.Commit.SearchResultItemParents, :t}],
       repository: {GitHub.Repository, :minimal},
       score: :number,
       sha: {:string, :generic},
-      text_matches: [:map],
+      text_matches: [{GitHub.SearchResultTextMatches, :t}],
       url: {:string, :uri}
     ]
   end

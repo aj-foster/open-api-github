@@ -12,7 +12,7 @@ defmodule GitHub.Environment do
           id: integer,
           name: String.t(),
           node_id: String.t(),
-          protection_rules: [map] | nil,
+          protection_rules: [GitHub.EnvironmentProtectionRules.t()] | nil,
           updated_at: DateTime.t(),
           url: String.t()
         }
@@ -42,7 +42,7 @@ defmodule GitHub.Environment do
       id: :integer,
       name: {:string, :generic},
       node_id: {:string, :generic},
-      protection_rules: [:map],
+      protection_rules: [{GitHub.EnvironmentProtectionRules, :t}],
       updated_at: {:string, :date_time},
       url: {:string, :generic}
     ]

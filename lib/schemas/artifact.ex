@@ -16,7 +16,7 @@ defmodule GitHub.Artifact do
           size_in_bytes: integer,
           updated_at: DateTime.t() | nil,
           url: String.t(),
-          workflow_run: map | nil
+          workflow_run: GitHub.ArtifactWorkflowRun.t() | nil
         }
 
   defstruct [
@@ -50,7 +50,7 @@ defmodule GitHub.Artifact do
       size_in_bytes: :integer,
       updated_at: {:union, [{:string, :date_time}, :null]},
       url: {:string, :generic},
-      workflow_run: {:union, [:map, :null]}
+      workflow_run: {:union, [{GitHub.ArtifactWorkflowRun, :t}, :null]}
     ]
   end
 end

@@ -6,7 +6,7 @@ defmodule GitHub.Content.File do
 
   @type t :: %__MODULE__{
           __info__: map,
-          _links: map,
+          _links: GitHub.Content.FileLinks.t(),
           content: String.t(),
           download_url: String.t() | nil,
           encoding: String.t(),
@@ -46,7 +46,7 @@ defmodule GitHub.Content.File do
 
   def __fields__(:t) do
     [
-      _links: :map,
+      _links: {GitHub.Content.FileLinks, :t},
       content: {:string, :generic},
       download_url: {:union, [{:string, :uri}, :null]},
       encoding: {:string, :generic},

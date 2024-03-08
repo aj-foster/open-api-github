@@ -6,7 +6,7 @@ defmodule GitHub.Authorization do
 
   @type t :: %__MODULE__{
           __info__: map,
-          app: map,
+          app: GitHub.AuthorizationApp.t(),
           created_at: DateTime.t(),
           expires_at: DateTime.t() | nil,
           fingerprint: String.t() | nil,
@@ -48,7 +48,7 @@ defmodule GitHub.Authorization do
 
   def __fields__(:t) do
     [
-      app: :map,
+      app: {GitHub.AuthorizationApp, :t},
       created_at: {:string, :date_time},
       expires_at: {:union, [{:string, :date_time}, :null]},
       fingerprint: {:union, [{:string, :generic}, :null]},

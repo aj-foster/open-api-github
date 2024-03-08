@@ -6,17 +6,17 @@ defmodule GitHub.Timeline.CommittedEvent do
 
   @type t :: %__MODULE__{
           __info__: map,
-          author: map,
-          committer: map,
+          author: GitHub.Timeline.CommittedEventAuthor.t(),
+          committer: GitHub.Timeline.CommittedEventCommitter.t(),
           event: String.t() | nil,
           html_url: String.t(),
           message: String.t(),
           node_id: String.t(),
-          parents: [map],
+          parents: [GitHub.Timeline.CommittedEventParents.t()],
           sha: String.t(),
-          tree: map,
+          tree: GitHub.Timeline.CommittedEventTree.t(),
           url: String.t(),
-          verification: map
+          verification: GitHub.Timeline.CommittedEventVerification.t()
         }
 
   defstruct [
@@ -40,17 +40,17 @@ defmodule GitHub.Timeline.CommittedEvent do
 
   def __fields__(:t) do
     [
-      author: :map,
-      committer: :map,
+      author: {GitHub.Timeline.CommittedEventAuthor, :t},
+      committer: {GitHub.Timeline.CommittedEventCommitter, :t},
       event: {:string, :generic},
       html_url: {:string, :uri},
       message: {:string, :generic},
       node_id: {:string, :generic},
-      parents: [:map],
+      parents: [{GitHub.Timeline.CommittedEventParents, :t}],
       sha: {:string, :generic},
-      tree: :map,
+      tree: {GitHub.Timeline.CommittedEventTree, :t},
       url: {:string, :uri},
-      verification: :map
+      verification: {GitHub.Timeline.CommittedEventVerification, :t}
     ]
   end
 end

@@ -9,7 +9,7 @@ defmodule GitHub.CommunityProfile do
           content_reports_enabled: boolean | nil,
           description: String.t() | nil,
           documentation: String.t() | nil,
-          files: map,
+          files: GitHub.CommunityProfileFiles.t(),
           health_percentage: integer,
           updated_at: DateTime.t() | nil
         }
@@ -33,7 +33,7 @@ defmodule GitHub.CommunityProfile do
       content_reports_enabled: :boolean,
       description: {:union, [{:string, :generic}, :null]},
       documentation: {:union, [{:string, :generic}, :null]},
-      files: :map,
+      files: {GitHub.CommunityProfileFiles, :t},
       health_percentage: :integer,
       updated_at: {:union, [{:string, :date_time}, :null]}
     ]

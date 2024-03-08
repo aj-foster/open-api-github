@@ -161,7 +161,7 @@ defmodule GitHub.Issues do
         {404, {GitHub.BasicError, :t}},
         {410, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -1368,7 +1368,7 @@ defmodule GitHub.Issues do
         {404, {GitHub.BasicError, :t}},
         {410, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })

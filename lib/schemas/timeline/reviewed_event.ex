@@ -6,7 +6,7 @@ defmodule GitHub.Timeline.ReviewedEvent do
 
   @type t :: %__MODULE__{
           __info__: map,
-          _links: map,
+          _links: GitHub.Timeline.ReviewedEventLinks.t(),
           author_association: String.t(),
           body: String.t() | nil,
           body_html: String.t() | nil,
@@ -46,7 +46,7 @@ defmodule GitHub.Timeline.ReviewedEvent do
 
   def __fields__(:t) do
     [
-      _links: :map,
+      _links: {GitHub.Timeline.ReviewedEventLinks, :t},
       author_association:
         {:enum,
          [

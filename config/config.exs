@@ -71,7 +71,7 @@ if config_env() == :dev do
         ],
         rename: [
           {~r/^Codespaces/, "Codespace"},
-          {~r/^Timeline(.*)$/, "Timeline.\\1"},
+          {~r/^Timeline([^\.].*)$/, "Timeline.\\1"},
           {~r/^([A-Za-z]+)IssueEvent$/, "Issue.Event.\\1"},
           {"GitignoreTemplate", "GitIgnoreTemplate"},
           {"Integration", "App"},

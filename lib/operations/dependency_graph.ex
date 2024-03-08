@@ -5,6 +5,27 @@ defmodule GitHub.DependencyGraph do
 
   @default_client GitHub.Client
 
+  @type create_repository_snapshot_201_json_resp :: %__MODULE__{
+          __info__: map,
+          created_at: String.t(),
+          id: integer,
+          message: String.t(),
+          result: String.t()
+        }
+
+  defstruct [:__info__, :created_at, :id, :message, :result]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:create_repository_snapshot_201_json_resp) do
+    [
+      created_at: {:string, :generic},
+      id: :integer,
+      message: {:string, :generic},
+      result: {:string, :generic}
+    ]
+  end
+
   @doc """
   Create a snapshot of dependencies for a repository
 
@@ -47,7 +68,7 @@ defmodule GitHub.DependencyGraph do
 
   """
   @spec diff_range(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, [map]} | {:error, GitHub.Error.t()}
+          {:ok, [GitHub.DependencyGraph.Diff.t()]} | {:error, GitHub.Error.t()}
   def diff_range(owner, repo, basehead, opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:name])
@@ -58,7 +79,11 @@ defmodule GitHub.DependencyGraph do
       url: "/repos/#{owner}/#{repo}/dependency-graph/compare/#{basehead}",
       method: :get,
       query: query,
-      response: [{200, [:map]}, {403, {GitHub.BasicError, :t}}, {404, {GitHub.BasicError, :t}}],
+      response: [
+        {200, [{GitHub.DependencyGraph.Diff, :t}]},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end

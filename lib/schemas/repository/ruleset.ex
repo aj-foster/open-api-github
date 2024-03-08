@@ -6,7 +6,7 @@ defmodule GitHub.Repository.Ruleset do
 
   @type t :: %__MODULE__{
           __info__: map,
-          _links: map | nil,
+          _links: GitHub.Repository.RulesetLinks.t() | nil,
           bypass_actors: [GitHub.Repository.Ruleset.BypassActor.t()] | nil,
           conditions:
             GitHub.Repository.IdAndRefName.t()
@@ -67,7 +67,7 @@ defmodule GitHub.Repository.Ruleset do
 
   def __fields__(:t) do
     [
-      _links: :map,
+      _links: {GitHub.Repository.RulesetLinks, :t},
       bypass_actors: [{GitHub.Repository.Ruleset.BypassActor, :t}],
       conditions:
         {:union,

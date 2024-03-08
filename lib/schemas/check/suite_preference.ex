@@ -4,7 +4,11 @@ defmodule GitHub.Check.SuitePreference do
   """
   use GitHub.Encoder
 
-  @type t :: %__MODULE__{__info__: map, preferences: map, repository: GitHub.Repository.minimal()}
+  @type t :: %__MODULE__{
+          __info__: map,
+          preferences: GitHub.Check.SuitePreferencePreferences.t(),
+          repository: GitHub.Repository.minimal()
+        }
 
   defstruct [:__info__, :preferences, :repository]
 
@@ -13,6 +17,9 @@ defmodule GitHub.Check.SuitePreference do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [preferences: :map, repository: {GitHub.Repository, :minimal}]
+    [
+      preferences: {GitHub.Check.SuitePreferencePreferences, :t},
+      repository: {GitHub.Repository, :minimal}
+    ]
   end
 end

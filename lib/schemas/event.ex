@@ -10,9 +10,9 @@ defmodule GitHub.Event do
           created_at: DateTime.t() | nil,
           id: String.t(),
           org: GitHub.Actor.t() | nil,
-          payload: map,
+          payload: GitHub.EventPayload.t(),
           public: boolean,
-          repo: map,
+          repo: GitHub.EventRepo.t(),
           type: String.t() | nil
         }
 
@@ -28,9 +28,9 @@ defmodule GitHub.Event do
       created_at: {:union, [{:string, :date_time}, :null]},
       id: {:string, :generic},
       org: {GitHub.Actor, :t},
-      payload: :map,
+      payload: {GitHub.EventPayload, :t},
       public: :boolean,
-      repo: :map,
+      repo: {GitHub.EventRepo, :t},
       type: {:union, [{:string, :generic}, :null]}
     ]
   end

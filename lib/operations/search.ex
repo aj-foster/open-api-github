@@ -5,6 +5,115 @@ defmodule GitHub.Search do
 
   @default_client GitHub.Client
 
+  @type code_200_json_resp :: %__MODULE__{
+          __info__: map,
+          incomplete_results: boolean,
+          items: [GitHub.CodeSearchResultItem.t()],
+          total_count: integer
+        }
+
+  @type commits_200_json_resp :: %__MODULE__{
+          __info__: map,
+          incomplete_results: boolean,
+          items: [GitHub.Commit.SearchResultItem.t()],
+          total_count: integer
+        }
+
+  @type issues_and_pull_requests_200_json_resp :: %__MODULE__{
+          __info__: map,
+          incomplete_results: boolean,
+          items: [GitHub.Issue.SearchResultItem.t()],
+          total_count: integer
+        }
+
+  @type labels_200_json_resp :: %__MODULE__{
+          __info__: map,
+          incomplete_results: boolean,
+          items: [GitHub.LabelSearchResultItem.t()],
+          total_count: integer
+        }
+
+  @type repos_200_json_resp :: %__MODULE__{
+          __info__: map,
+          incomplete_results: boolean,
+          items: [GitHub.RepoSearchResultItem.t()],
+          total_count: integer
+        }
+
+  @type topics_200_json_resp :: %__MODULE__{
+          __info__: map,
+          incomplete_results: boolean,
+          items: [GitHub.TopicSearchResultItem.t()],
+          total_count: integer
+        }
+
+  @type users_200_json_resp :: %__MODULE__{
+          __info__: map,
+          incomplete_results: boolean,
+          items: [GitHub.User.SearchResultItem.t()],
+          total_count: integer
+        }
+
+  defstruct [:__info__, :incomplete_results, :items, :total_count]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:code_200_json_resp) do
+    [
+      incomplete_results: :boolean,
+      items: [{GitHub.CodeSearchResultItem, :t}],
+      total_count: :integer
+    ]
+  end
+
+  def __fields__(:commits_200_json_resp) do
+    [
+      incomplete_results: :boolean,
+      items: [{GitHub.Commit.SearchResultItem, :t}],
+      total_count: :integer
+    ]
+  end
+
+  def __fields__(:issues_and_pull_requests_200_json_resp) do
+    [
+      incomplete_results: :boolean,
+      items: [{GitHub.Issue.SearchResultItem, :t}],
+      total_count: :integer
+    ]
+  end
+
+  def __fields__(:labels_200_json_resp) do
+    [
+      incomplete_results: :boolean,
+      items: [{GitHub.LabelSearchResultItem, :t}],
+      total_count: :integer
+    ]
+  end
+
+  def __fields__(:repos_200_json_resp) do
+    [
+      incomplete_results: :boolean,
+      items: [{GitHub.RepoSearchResultItem, :t}],
+      total_count: :integer
+    ]
+  end
+
+  def __fields__(:topics_200_json_resp) do
+    [
+      incomplete_results: :boolean,
+      items: [{GitHub.TopicSearchResultItem, :t}],
+      total_count: :integer
+    ]
+  end
+
+  def __fields__(:users_200_json_resp) do
+    [
+      incomplete_results: :boolean,
+      items: [{GitHub.User.SearchResultItem, :t}],
+      total_count: :integer
+    ]
+  end
+
   @doc """
   Search code
 
@@ -58,7 +167,7 @@ defmodule GitHub.Search do
         {304, :null},
         {403, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -150,7 +259,7 @@ defmodule GitHub.Search do
         {304, :null},
         {403, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}},
-        {503, :map}
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],
       opts: opts
     })
@@ -242,7 +351,12 @@ defmodule GitHub.Search do
       url: "/search/repositories",
       method: :get,
       query: query,
-      response: [{200, :map}, {304, :null}, {422, {GitHub.ValidationError, :t}}, {503, :map}],
+      response: [
+        {200, :map},
+        {304, :null},
+        {422, {GitHub.ValidationError, :t}},
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
+      ],
       opts: opts
     })
   end
@@ -326,7 +440,12 @@ defmodule GitHub.Search do
       url: "/search/users",
       method: :get,
       query: query,
-      response: [{200, :map}, {304, :null}, {422, {GitHub.ValidationError, :t}}, {503, :map}],
+      response: [
+        {200, :map},
+        {304, :null},
+        {422, {GitHub.ValidationError, :t}},
+        {503, {GitHub.ServiceUnavailable, :json_resp}}
+      ],
       opts: opts
     })
   end

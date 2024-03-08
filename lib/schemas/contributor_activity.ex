@@ -8,7 +8,7 @@ defmodule GitHub.ContributorActivity do
           __info__: map,
           author: GitHub.User.simple() | nil,
           total: integer,
-          weeks: [map]
+          weeks: [GitHub.ContributorActivityWeeks.t()]
         }
 
   defstruct [:__info__, :author, :total, :weeks]
@@ -18,6 +18,10 @@ defmodule GitHub.ContributorActivity do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [author: {:union, [{GitHub.User, :simple}, :null]}, total: :integer, weeks: [:map]]
+    [
+      author: {:union, [{GitHub.User, :simple}, :null]},
+      total: :integer,
+      weeks: [{GitHub.ContributorActivityWeeks, :t}]
+    ]
   end
 end

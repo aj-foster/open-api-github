@@ -12,7 +12,7 @@ defmodule GitHub.Issue.Event.Labeled do
           created_at: String.t(),
           event: String.t(),
           id: integer,
-          label: map,
+          label: GitHub.Issue.Event.LabeledLabel.t(),
           node_id: String.t(),
           performed_via_github_app: GitHub.App.t() | nil,
           url: String.t()
@@ -44,7 +44,7 @@ defmodule GitHub.Issue.Event.Labeled do
       created_at: {:string, :generic},
       event: {:string, :generic},
       id: :integer,
-      label: :map,
+      label: {GitHub.Issue.Event.LabeledLabel, :t},
       node_id: {:string, :generic},
       performed_via_github_app: {:union, [{GitHub.App, :t}, :null]},
       url: {:string, :generic}

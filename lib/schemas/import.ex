@@ -17,7 +17,7 @@ defmodule GitHub.Import do
           large_files_count: integer | nil,
           large_files_size: integer | nil,
           message: String.t() | nil,
-          project_choices: [map] | nil,
+          project_choices: [GitHub.ImportProjectChoices.t()] | nil,
           push_percent: integer | nil,
           repository_url: String.t(),
           status: String.t(),
@@ -75,7 +75,7 @@ defmodule GitHub.Import do
       large_files_count: :integer,
       large_files_size: :integer,
       message: {:string, :generic},
-      project_choices: [:map],
+      project_choices: [{GitHub.ImportProjectChoices, :t}],
       push_percent: {:union, [:integer, :null]},
       repository_url: {:string, :uri},
       status:

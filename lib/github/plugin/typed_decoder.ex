@@ -198,6 +198,27 @@ defmodule GitHub.Plugin.TypedDecoder do
   defp choose_union(value, [:number, {:string, :generic}]) when is_number(value), do: :number
   defp choose_union(_value, [:number, {:string, :generic}]), do: :string
 
+  defp choose_union(value, [:integer, {:string, :generic}, [string: :generic], :null]) do
+    cond do
+      is_nil(value) -> :null
+      is_integer(value) -> :integer
+      is_binary(value) -> {:string, :generic}
+      is_list(value) -> [string: :generic]
+    end
+  end
+
+  defp choose_union(value, [
+         :map,
+         {:string, :generic},
+         [{:string, :generic}]
+       ]) do
+    cond do
+      is_binary(value) -> {:string, :generic}
+      is_map(value) -> :map
+      is_list(value) -> [{:string, :generic}]
+    end
+  end
+
   defp choose_union(value, [
          :map,
          {:string, :generic},
@@ -219,7 +240,7 @@ defmodule GitHub.Plugin.TypedDecoder do
     end
   end
 
-  defp choose_union(value, [[{GitHub.StarredRepository, :t}], [{GitHub.Repository, :t}]]) do
+  defp choose_union(value, [[{GitHub.Repository, :t}], [{GitHub.StarredRepository, :t}]]) do
     case value do
       [%{"repo" => _}] -> [{GitHub.StarredRepository, :t}]
       _else -> [{GitHub.Repository, :t}]
@@ -400,6 +421,21 @@ defmodule GitHub.Plugin.TypedDecoder do
       %{"issue_body_url" => _} -> {GitHub.SecretScanning.LocationIssueBody, :t}
       %{"issue_comment_url" => _} -> {GitHub.SecretScanning.LocationIssueComment, :t}
       %{"issue_title_url" => _} -> {GitHub.SecretScanning.LocationIssueTitle, :t}
+    end
+  end
+
+  defp choose_union(value, [{GitHub.Deployment.Payload, :t}, string: :generic]) do
+    if is_binary(value) do
+      {:string, :generic}
+    else
+      {GitHub.Deployment.Payload, :t}
+    end
+  end
+
+  defp choose_union(value, [{GitHub.Team, :t}, {GitHub.User, :simple}]) do
+    case value do
+      %{"members_url" => _} -> {GitHub.Team, :t}
+      _else -> {GitHub.User, :simple}
     end
   end
 

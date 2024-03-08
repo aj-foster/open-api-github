@@ -4,7 +4,7 @@ defmodule GitHub.DependencyGraph.SpdxSbom do
   """
   use GitHub.Encoder
 
-  @type t :: %__MODULE__{__info__: map, sbom: map}
+  @type t :: %__MODULE__{__info__: map, sbom: GitHub.DependencyGraph.SpdxSbomSbom.t()}
 
   defstruct [:__info__, :sbom]
 
@@ -13,6 +13,6 @@ defmodule GitHub.DependencyGraph.SpdxSbom do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [sbom: :map]
+    [sbom: {GitHub.DependencyGraph.SpdxSbomSbom, :t}]
   end
 end

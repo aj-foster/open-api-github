@@ -4,7 +4,12 @@ defmodule GitHub.Branch.Short do
   """
   use GitHub.Encoder
 
-  @type t :: %__MODULE__{__info__: map, commit: map, name: String.t(), protected: boolean}
+  @type t :: %__MODULE__{
+          __info__: map,
+          commit: GitHub.Branch.ShortCommit.t(),
+          name: String.t(),
+          protected: boolean
+        }
 
   defstruct [:__info__, :commit, :name, :protected]
 
@@ -13,6 +18,6 @@ defmodule GitHub.Branch.Short do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [commit: :map, name: {:string, :generic}, protected: :boolean]
+    [commit: {GitHub.Branch.ShortCommit, :t}, name: {:string, :generic}, protected: :boolean]
   end
 end

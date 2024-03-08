@@ -98,7 +98,7 @@ defmodule GitHub.SecurityAdvisories do
 
   """
   @spec create_repository_advisory_cve_request(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, map} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Accepted.json_resp()} | {:error, GitHub.Error.t()}
   def create_repository_advisory_cve_request(owner, repo, ghsa_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -108,7 +108,7 @@ defmodule GitHub.SecurityAdvisories do
       url: "/repos/#{owner}/#{repo}/security-advisories/#{ghsa_id}/cve",
       method: :post,
       response: [
-        {202, :map},
+        {202, {GitHub.Accepted, :json_resp}},
         {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
