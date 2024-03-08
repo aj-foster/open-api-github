@@ -2,80 +2,8 @@ defmodule GitHub.Activity do
   @moduledoc """
   Provides API endpoints related to activity
   """
-  use GitHub.Encoder
 
   @default_client GitHub.Client
-
-  @type mark_notifications_as_read_202_json_resp :: %__MODULE__{
-          __info__: map,
-          message: String.t() | nil
-        }
-
-  @type mark_repo_notifications_as_read_202_json_resp :: %__MODULE__{
-          __info__: map,
-          message: String.t() | nil,
-          url: String.t() | nil
-        }
-
-  @type t :: %__MODULE__{
-          __info__: map,
-          activity_type: String.t(),
-          actor: GitHub.User.simple() | nil,
-          after: String.t(),
-          before: String.t(),
-          id: integer,
-          node_id: String.t(),
-          ref: String.t(),
-          timestamp: DateTime.t()
-        }
-
-  defstruct [
-    :__info__,
-    :activity_type,
-    :actor,
-    :after,
-    :before,
-    :id,
-    :message,
-    :node_id,
-    :ref,
-    :timestamp,
-    :url
-  ]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(type \\ :t)
-
-  def __fields__(:mark_notifications_as_read_202_json_resp) do
-    [message: {:string, :generic}]
-  end
-
-  def __fields__(:mark_repo_notifications_as_read_202_json_resp) do
-    [message: {:string, :generic}, url: {:string, :generic}]
-  end
-
-  def __fields__(:t) do
-    [
-      activity_type:
-        {:enum,
-         [
-           "push",
-           "force_push",
-           "branch_deletion",
-           "branch_creation",
-           "pr_merge",
-           "merge_queue_merge"
-         ]},
-      actor: {:union, [{GitHub.User, :simple}, :null]},
-      after: {:string, :generic},
-      before: {:string, :generic},
-      id: :integer,
-      node_id: {:string, :generic},
-      ref: {:string, :generic},
-      timestamp: {:string, :date_time}
-    ]
-  end
 
   @doc """
   Check if a repository is starred by the authenticated user
@@ -872,6 +800,8 @@ defmodule GitHub.Activity do
     })
   end
 
+  @type mark_notifications_as_read_202_json_resp :: %{__info__: map, message: String.t() | nil}
+
   @doc """
   Mark notifications as read
 
@@ -894,7 +824,7 @@ defmodule GitHub.Activity do
       method: :put,
       request: [{"application/json", :map}],
       response: [
-        {202, :map},
+        {202, {GitHub.Activity, :mark_notifications_as_read_202_json_resp}},
         {205, :null},
         {304, :null},
         {401, {GitHub.BasicError, :t}},
@@ -903,6 +833,12 @@ defmodule GitHub.Activity do
       opts: opts
     })
   end
+
+  @type mark_repo_notifications_as_read_202_json_resp :: %{
+          __info__: map,
+          message: String.t() | nil,
+          url: String.t() | nil
+        }
 
   @doc """
   Mark repository notifications as read
@@ -926,7 +862,10 @@ defmodule GitHub.Activity do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{202, :map}, {205, :null}],
+      response: [
+        {202, {GitHub.Activity, :mark_repo_notifications_as_read_202_json_resp}},
+        {205, :null}
+      ],
       opts: opts
     })
   end
@@ -1078,5 +1017,15 @@ defmodule GitHub.Activity do
       ],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:mark_notifications_as_read_202_json_resp) do
+    [message: {:string, :generic}]
+  end
+
+  def __fields__(:mark_repo_notifications_as_read_202_json_resp) do
+    [message: {:string, :generic}, url: {:string, :generic}]
   end
 end

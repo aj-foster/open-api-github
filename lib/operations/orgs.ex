@@ -5,36 +5,6 @@ defmodule GitHub.Orgs do
 
   @default_client GitHub.Client
 
-  @type convert_member_to_outside_collaborator_202_json_resp :: %__MODULE__{__info__: map}
-
-  @type list_app_installations_200_json_resp :: %__MODULE__{
-          __info__: map,
-          installations: [GitHub.Installation.t()],
-          total_count: integer
-        }
-
-  @type remove_outside_collaborator_422_json_resp :: %__MODULE__{
-          __info__: map,
-          documentation_url: String.t() | nil,
-          message: String.t() | nil
-        }
-
-  defstruct [:__info__, :documentation_url, :installations, :message, :total_count]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(:convert_member_to_outside_collaborator_202_json_resp) do
-    []
-  end
-
-  def __fields__(:list_app_installations_200_json_resp) do
-    [installations: [{GitHub.Installation, :t}], total_count: :integer]
-  end
-
-  def __fields__(:remove_outside_collaborator_422_json_resp) do
-    [documentation_url: {:string, :generic}, message: {:string, :generic}]
-  end
-
   @doc """
   Add a security manager team
 
@@ -192,6 +162,8 @@ defmodule GitHub.Orgs do
     })
   end
 
+  @type convert_member_to_outside_collaborator_202_json_resp :: %{__info__: map}
+
   @doc """
   Convert an organization member to outside collaborator
 
@@ -214,7 +186,12 @@ defmodule GitHub.Orgs do
       body: body,
       method: :put,
       request: [{"application/json", :map}],
-      response: [{202, :map}, {204, :null}, {403, :null}, {404, {GitHub.BasicError, :t}}],
+      response: [
+        {202, {GitHub.Orgs, :convert_member_to_outside_collaborator_202_json_resp}},
+        {204, :null},
+        {403, :null},
+        {404, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
@@ -583,6 +560,12 @@ defmodule GitHub.Orgs do
     })
   end
 
+  @type list_app_installations_200_json_resp :: %{
+          __info__: map,
+          installations: [GitHub.Installation.t()],
+          total_count: integer
+        }
+
   @doc """
   List app installations for an organization
 
@@ -609,7 +592,7 @@ defmodule GitHub.Orgs do
       url: "/orgs/#{org}/installations",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Orgs, :list_app_installations_200_json_resp}}],
       opts: opts
     })
   end
@@ -1358,6 +1341,12 @@ defmodule GitHub.Orgs do
     })
   end
 
+  @type remove_outside_collaborator_422_json_resp :: %{
+          __info__: map,
+          documentation_url: String.t() | nil,
+          message: String.t() | nil
+        }
+
   @doc """
   Remove outside collaborator from an organization
 
@@ -1378,7 +1367,7 @@ defmodule GitHub.Orgs do
       call: {GitHub.Orgs, :remove_outside_collaborator},
       url: "/orgs/#{org}/outside_collaborators/#{username}",
       method: :delete,
-      response: [{204, :null}, {422, :map}],
+      response: [{204, :null}, {422, {GitHub.Orgs, :remove_outside_collaborator_422_json_resp}}],
       opts: opts
     })
   end
@@ -1793,5 +1782,19 @@ defmodule GitHub.Orgs do
       response: [{200, {GitHub.Webhook.Config, :t}}],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:convert_member_to_outside_collaborator_202_json_resp) do
+    []
+  end
+
+  def __fields__(:list_app_installations_200_json_resp) do
+    [installations: [{GitHub.Installation, :t}], total_count: :integer]
+  end
+
+  def __fields__(:remove_outside_collaborator_422_json_resp) do
+    [documentation_url: {:string, :generic}, message: {:string, :generic}]
   end
 end

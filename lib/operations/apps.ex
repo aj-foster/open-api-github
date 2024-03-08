@@ -5,116 +5,6 @@ defmodule GitHub.Apps do
 
   @default_client GitHub.Client
 
-  @type create_from_manifest_201_json_resp :: %__MODULE__{
-          __info__: map,
-          client_id: String.t() | nil,
-          client_secret: String.t() | nil,
-          created_at: DateTime.t() | nil,
-          description: String.t() | nil,
-          events: [String.t()] | nil,
-          external_url: String.t() | nil,
-          html_url: String.t() | nil,
-          id: integer | nil,
-          installations_count: integer | nil,
-          name: String.t() | nil,
-          node_id: String.t() | nil,
-          owner: GitHub.User.simple() | nil,
-          pem: String.t() | nil,
-          permissions: map | nil,
-          slug: String.t() | nil,
-          updated_at: DateTime.t() | nil,
-          webhook_secret: String.t() | nil
-        }
-
-  @type list_installation_repos_for_authenticated_user_200_json_resp :: %__MODULE__{
-          __info__: map,
-          repositories: [GitHub.Repository.t()],
-          repository_selection: String.t() | nil,
-          total_count: integer
-        }
-
-  @type list_installations_for_authenticated_user_200_json_resp :: %__MODULE__{
-          __info__: map,
-          installations: [GitHub.Installation.t()],
-          total_count: integer
-        }
-
-  @type list_repos_accessible_to_installation_200_json_resp :: %__MODULE__{
-          __info__: map,
-          repositories: [GitHub.Repository.t()],
-          repository_selection: String.t() | nil,
-          total_count: integer
-        }
-
-  defstruct [
-    :__info__,
-    :client_id,
-    :client_secret,
-    :created_at,
-    :description,
-    :events,
-    :external_url,
-    :html_url,
-    :id,
-    :installations,
-    :installations_count,
-    :name,
-    :node_id,
-    :owner,
-    :pem,
-    :permissions,
-    :repositories,
-    :repository_selection,
-    :slug,
-    :total_count,
-    :updated_at,
-    :webhook_secret
-  ]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(:create_from_manifest_201_json_resp) do
-    [
-      client_id: {:string, :generic},
-      client_secret: {:string, :generic},
-      created_at: {:string, :date_time},
-      description: {:union, [{:string, :generic}, :null]},
-      events: [string: :generic],
-      external_url: {:string, :uri},
-      html_url: {:string, :uri},
-      id: :integer,
-      installations_count: :integer,
-      name: {:string, :generic},
-      node_id: {:string, :generic},
-      owner: {:union, [{GitHub.User, :simple}, :null]},
-      pem: {:string, :generic},
-      permissions: :map,
-      slug: {:string, :generic},
-      updated_at: {:string, :date_time},
-      webhook_secret: {:union, [{:string, :generic}, :null]}
-    ]
-  end
-
-  def __fields__(:list_installation_repos_for_authenticated_user_200_json_resp) do
-    [
-      repositories: [{GitHub.Repository, :t}],
-      repository_selection: {:string, :generic},
-      total_count: :integer
-    ]
-  end
-
-  def __fields__(:list_installations_for_authenticated_user_200_json_resp) do
-    [installations: [{GitHub.Installation, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_repos_accessible_to_installation_200_json_resp) do
-    [
-      repositories: [{GitHub.Repository, :t}],
-      repository_selection: {:string, :generic},
-      total_count: :integer
-    ]
-  end
-
   @doc """
   Add a repository to an app installation
 
@@ -178,6 +68,27 @@ defmodule GitHub.Apps do
     })
   end
 
+  @type create_from_manifest_201_json_resp :: %{
+          __info__: map,
+          client_id: String.t() | nil,
+          client_secret: String.t() | nil,
+          created_at: DateTime.t() | nil,
+          description: String.t() | nil,
+          events: [String.t()] | nil,
+          external_url: String.t() | nil,
+          html_url: String.t() | nil,
+          id: integer | nil,
+          installations_count: integer | nil,
+          name: String.t() | nil,
+          node_id: String.t() | nil,
+          owner: GitHub.User.simple() | nil,
+          pem: String.t() | nil,
+          permissions: map | nil,
+          slug: String.t() | nil,
+          updated_at: DateTime.t() | nil,
+          webhook_secret: String.t() | nil
+        }
+
   @doc """
   Create a GitHub App from a manifest
 
@@ -198,7 +109,7 @@ defmodule GitHub.Apps do
       url: "/app-manifests/#{code}/conversions",
       method: :post,
       response: [
-        {201, :map},
+        {201, {GitHub.Apps, :create_from_manifest_201_json_resp}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
       ],
@@ -685,6 +596,13 @@ defmodule GitHub.Apps do
     })
   end
 
+  @type list_installation_repos_for_authenticated_user_200_json_resp :: %{
+          __info__: map,
+          repositories: [GitHub.Repository.t()],
+          repository_selection: String.t() | nil,
+          total_count: integer
+        }
+
   @doc """
   List repositories accessible to the user access token
 
@@ -719,7 +637,7 @@ defmodule GitHub.Apps do
       method: :get,
       query: query,
       response: [
-        {200, :map},
+        {200, {GitHub.Apps, :list_installation_repos_for_authenticated_user_200_json_resp}},
         {304, :null},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}}
@@ -800,6 +718,12 @@ defmodule GitHub.Apps do
     })
   end
 
+  @type list_installations_for_authenticated_user_200_json_resp :: %{
+          __info__: map,
+          installations: [GitHub.Installation.t()],
+          total_count: integer
+        }
+
   @doc """
   List app installations accessible to the user access token
 
@@ -834,7 +758,7 @@ defmodule GitHub.Apps do
       method: :get,
       query: query,
       response: [
-        {200, :map},
+        {200, {GitHub.Apps, :list_installations_for_authenticated_user_200_json_resp}},
         {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
@@ -915,6 +839,13 @@ defmodule GitHub.Apps do
     })
   end
 
+  @type list_repos_accessible_to_installation_200_json_resp :: %{
+          __info__: map,
+          repositories: [GitHub.Repository.t()],
+          repository_selection: String.t() | nil,
+          total_count: integer
+        }
+
   @doc """
   List repositories accessible to the app installation
 
@@ -944,7 +875,7 @@ defmodule GitHub.Apps do
       method: :get,
       query: query,
       response: [
-        {200, :map},
+        {200, {GitHub.Apps, :list_repos_accessible_to_installation_200_json_resp}},
         {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}}
@@ -1300,5 +1231,49 @@ defmodule GitHub.Apps do
       response: [{200, {GitHub.Webhook.Config, :t}}],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:create_from_manifest_201_json_resp) do
+    [
+      client_id: {:string, :generic},
+      client_secret: {:string, :generic},
+      created_at: {:string, :date_time},
+      description: {:union, [{:string, :generic}, :null]},
+      events: [string: :generic],
+      external_url: {:string, :uri},
+      html_url: {:string, :uri},
+      id: :integer,
+      installations_count: :integer,
+      name: {:string, :generic},
+      node_id: {:string, :generic},
+      owner: {:union, [{GitHub.User, :simple}, :null]},
+      pem: {:string, :generic},
+      permissions: :map,
+      slug: {:string, :generic},
+      updated_at: {:string, :date_time},
+      webhook_secret: {:union, [{:string, :generic}, :null]}
+    ]
+  end
+
+  def __fields__(:list_installation_repos_for_authenticated_user_200_json_resp) do
+    [
+      repositories: [{GitHub.Repository, :t}],
+      repository_selection: {:string, :generic},
+      total_count: :integer
+    ]
+  end
+
+  def __fields__(:list_installations_for_authenticated_user_200_json_resp) do
+    [installations: [{GitHub.Installation, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_repos_accessible_to_installation_200_json_resp) do
+    [
+      repositories: [{GitHub.Repository, :t}],
+      repository_selection: {:string, :generic},
+      total_count: :integer
+    ]
   end
 end

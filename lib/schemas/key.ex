@@ -4,8 +4,6 @@ defmodule GitHub.Key do
   """
   use GitHub.Encoder
 
-  @type simple :: %__MODULE__{__info__: map, id: integer, key: String.t()}
-
   @type t :: %__MODULE__{
           __info__: map,
           created_at: DateTime.t(),
@@ -22,10 +20,6 @@ defmodule GitHub.Key do
   @doc false
   @spec __fields__(atom) :: keyword
   def __fields__(type \\ :t)
-
-  def __fields__(:simple) do
-    [id: :integer, key: {:string, :generic}]
-  end
 
   def __fields__(:t) do
     [

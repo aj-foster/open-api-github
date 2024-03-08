@@ -4,88 +4,6 @@ defmodule GitHub.Codespace do
   """
   use GitHub.Encoder
 
-  @type codespace_machines_for_authenticated_user_200_json_resp :: %__MODULE__{
-          __info__: map,
-          machines: [GitHub.Codespace.Machine.t()],
-          total_count: integer
-        }
-
-  @type get_codespaces_for_user_in_org_200_json_resp :: %__MODULE__{
-          __info__: map,
-          codespaces: [GitHub.Codespace.t()],
-          total_count: integer
-        }
-
-  @type list_devcontainers_in_repository_for_authenticated_user_200_json_resp :: %__MODULE__{
-          __info__: map,
-          devcontainers: [
-            GitHub.Codespace.Devcontainers.list_devcontainers_in_repository_for_authenticated_user_200_json_resp()
-          ],
-          total_count: integer
-        }
-
-  @type list_for_authenticated_user_200_json_resp :: %__MODULE__{
-          __info__: map,
-          codespaces: [GitHub.Codespace.t()],
-          total_count: integer
-        }
-
-  @type list_in_organization_200_json_resp :: %__MODULE__{
-          __info__: map,
-          codespaces: [GitHub.Codespace.t()],
-          total_count: integer
-        }
-
-  @type list_in_repository_for_authenticated_user_200_json_resp :: %__MODULE__{
-          __info__: map,
-          codespaces: [GitHub.Codespace.t()],
-          total_count: integer
-        }
-
-  @type list_org_secrets_200_json_resp :: %__MODULE__{
-          __info__: map,
-          secrets: [GitHub.Codespace.OrgSecret.t()],
-          total_count: integer
-        }
-
-  @type list_repo_secrets_200_json_resp :: %__MODULE__{
-          __info__: map,
-          secrets: [GitHub.RepoCodespacesSecret.t()],
-          total_count: integer
-        }
-
-  @type list_repositories_for_secret_for_authenticated_user_200_json_resp :: %__MODULE__{
-          __info__: map,
-          repositories: [GitHub.Repository.minimal()],
-          total_count: integer
-        }
-
-  @type list_secrets_for_authenticated_user_200_json_resp :: %__MODULE__{
-          __info__: map,
-          secrets: [GitHub.Codespace.Secret.t()],
-          total_count: integer
-        }
-
-  @type list_selected_repos_for_org_secret_200_json_resp :: %__MODULE__{
-          __info__: map,
-          repositories: [GitHub.Repository.minimal()],
-          total_count: integer
-        }
-
-  @type pre_flight_with_repo_for_authenticated_user_200_json_resp :: %__MODULE__{
-          __info__: map,
-          billable_owner: GitHub.User.simple() | nil,
-          defaults:
-            GitHub.Codespace.Defaults.pre_flight_with_repo_for_authenticated_user_200_json_resp()
-            | nil
-        }
-
-  @type repo_machines_for_authenticated_user_200_json_resp :: %__MODULE__{
-          __info__: map,
-          machines: [GitHub.Codespace.Machine.t()],
-          total_count: integer
-        }
-
   @type t :: %__MODULE__{
           __info__: map,
           billable_owner: GitHub.User.simple(),
@@ -125,11 +43,8 @@ defmodule GitHub.Codespace do
   defstruct [
     :__info__,
     :billable_owner,
-    :codespaces,
     :created_at,
-    :defaults,
     :devcontainer_path,
-    :devcontainers,
     :display_name,
     :environment_id,
     :git_status,
@@ -140,7 +55,6 @@ defmodule GitHub.Codespace do
     :last_used_at,
     :location,
     :machine,
-    :machines,
     :machines_url,
     :name,
     :owner,
@@ -150,16 +64,13 @@ defmodule GitHub.Codespace do
     :publish_url,
     :pulls_url,
     :recent_folders,
-    :repositories,
     :repository,
     :retention_expires_at,
     :retention_period_minutes,
     :runtime_constraints,
-    :secrets,
     :start_url,
     :state,
     :stop_url,
-    :total_count,
     :updated_at,
     :url,
     :web_url
@@ -168,68 +79,6 @@ defmodule GitHub.Codespace do
   @doc false
   @spec __fields__(atom) :: keyword
   def __fields__(type \\ :t)
-
-  def __fields__(:codespace_machines_for_authenticated_user_200_json_resp) do
-    [machines: [{GitHub.Codespace.Machine, :t}], total_count: :integer]
-  end
-
-  def __fields__(:get_codespaces_for_user_in_org_200_json_resp) do
-    [codespaces: [{GitHub.Codespace, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_devcontainers_in_repository_for_authenticated_user_200_json_resp) do
-    [
-      devcontainers: [
-        {GitHub.Codespace.Devcontainers,
-         :list_devcontainers_in_repository_for_authenticated_user_200_json_resp}
-      ],
-      total_count: :integer
-    ]
-  end
-
-  def __fields__(:list_for_authenticated_user_200_json_resp) do
-    [codespaces: [{GitHub.Codespace, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_in_organization_200_json_resp) do
-    [codespaces: [{GitHub.Codespace, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_in_repository_for_authenticated_user_200_json_resp) do
-    [codespaces: [{GitHub.Codespace, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_org_secrets_200_json_resp) do
-    [secrets: [{GitHub.Codespace.OrgSecret, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_repo_secrets_200_json_resp) do
-    [secrets: [{GitHub.RepoCodespacesSecret, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_repositories_for_secret_for_authenticated_user_200_json_resp) do
-    [repositories: [{GitHub.Repository, :minimal}], total_count: :integer]
-  end
-
-  def __fields__(:list_secrets_for_authenticated_user_200_json_resp) do
-    [secrets: [{GitHub.Codespace.Secret, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_selected_repos_for_org_secret_200_json_resp) do
-    [repositories: [{GitHub.Repository, :minimal}], total_count: :integer]
-  end
-
-  def __fields__(:pre_flight_with_repo_for_authenticated_user_200_json_resp) do
-    [
-      billable_owner: {GitHub.User, :simple},
-      defaults:
-        {GitHub.Codespace.Defaults, :pre_flight_with_repo_for_authenticated_user_200_json_resp}
-    ]
-  end
-
-  def __fields__(:repo_machines_for_authenticated_user_200_json_resp) do
-    [machines: [{GitHub.Codespace.Machine, :t}], total_count: :integer]
-  end
 
   def __fields__(:t) do
     [

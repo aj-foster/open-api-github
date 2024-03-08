@@ -5,26 +5,13 @@ defmodule GitHub.DependencyGraph do
 
   @default_client GitHub.Client
 
-  @type create_repository_snapshot_201_json_resp :: %__MODULE__{
+  @type create_repository_snapshot_201_json_resp :: %{
           __info__: map,
           created_at: String.t(),
           id: integer,
           message: String.t(),
           result: String.t()
         }
-
-  defstruct [:__info__, :created_at, :id, :message, :result]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(:create_repository_snapshot_201_json_resp) do
-    [
-      created_at: {:string, :generic},
-      id: :integer,
-      message: {:string, :generic},
-      result: {:string, :generic}
-    ]
-  end
 
   @doc """
   Create a snapshot of dependencies for a repository
@@ -48,7 +35,7 @@ defmodule GitHub.DependencyGraph do
       body: body,
       method: :post,
       request: [{"application/json", {GitHub.Snapshot, :t}}],
-      response: [{201, :map}],
+      response: [{201, {GitHub.DependencyGraph, :create_repository_snapshot_201_json_resp}}],
       opts: opts
     })
   end
@@ -115,5 +102,16 @@ defmodule GitHub.DependencyGraph do
       ],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:create_repository_snapshot_201_json_resp) do
+    [
+      created_at: {:string, :generic},
+      id: :integer,
+      message: {:string, :generic},
+      result: {:string, :generic}
+    ]
   end
 end

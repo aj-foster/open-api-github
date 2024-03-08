@@ -5,15 +5,7 @@ defmodule GitHub.Emojis do
 
   @default_client GitHub.Client
 
-  @type get_200_json_resp :: %__MODULE__{__info__: map}
-
-  defstruct [:__info__]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(:get_200_json_resp) do
-    []
-  end
+  @type get_200_json_resp :: %{__info__: map}
 
   @doc """
   Get emojis
@@ -34,8 +26,14 @@ defmodule GitHub.Emojis do
       call: {GitHub.Emojis, :get},
       url: "/emojis",
       method: :get,
-      response: [{200, :map}, {304, :null}],
+      response: [{200, {GitHub.Emojis, :get_200_json_resp}}, {304, :null}],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:get_200_json_resp) do
+    []
   end
 end

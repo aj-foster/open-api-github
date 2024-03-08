@@ -5,27 +5,7 @@ defmodule GitHub.Interactions do
 
   @default_client GitHub.Client
 
-  @type get_restrictions_for_authenticated_user_200_json_resp :: %__MODULE__{__info__: map}
-
-  @type get_restrictions_for_org_200_json_resp :: %__MODULE__{__info__: map}
-
-  @type get_restrictions_for_repo_200_json_resp :: %__MODULE__{__info__: map}
-
-  defstruct [:__info__]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(:get_restrictions_for_authenticated_user_200_json_resp) do
-    []
-  end
-
-  def __fields__(:get_restrictions_for_org_200_json_resp) do
-    []
-  end
-
-  def __fields__(:get_restrictions_for_repo_200_json_resp) do
-    []
-  end
+  @type get_restrictions_for_authenticated_user_200_json_resp :: %{__info__: map}
 
   @doc """
   Get interaction restrictions for your public repositories
@@ -47,10 +27,20 @@ defmodule GitHub.Interactions do
       call: {GitHub.Interactions, :get_restrictions_for_authenticated_user},
       url: "/user/interaction-limits",
       method: :get,
-      response: [{200, {:union, [:map, {GitHub.Interaction.Limit.Response, :t}]}}, {204, :null}],
+      response: [
+        {200,
+         {:union,
+          [
+            {GitHub.Interaction.Limit.Response, :t},
+            {GitHub.Interactions, :get_restrictions_for_authenticated_user_200_json_resp}
+          ]}},
+        {204, :null}
+      ],
       opts: opts
     })
   end
+
+  @type get_restrictions_for_org_200_json_resp :: %{__info__: map}
 
   @doc """
   Get interaction restrictions for an organization
@@ -72,10 +62,19 @@ defmodule GitHub.Interactions do
       call: {GitHub.Interactions, :get_restrictions_for_org},
       url: "/orgs/#{org}/interaction-limits",
       method: :get,
-      response: [{200, {:union, [:map, {GitHub.Interaction.Limit.Response, :t}]}}],
+      response: [
+        {200,
+         {:union,
+          [
+            {GitHub.Interaction.Limit.Response, :t},
+            {GitHub.Interactions, :get_restrictions_for_org_200_json_resp}
+          ]}}
+      ],
       opts: opts
     })
   end
+
+  @type get_restrictions_for_repo_200_json_resp :: %{__info__: map}
 
   @doc """
   Get interaction restrictions for a repository
@@ -97,7 +96,14 @@ defmodule GitHub.Interactions do
       call: {GitHub.Interactions, :get_restrictions_for_repo},
       url: "/repos/#{owner}/#{repo}/interaction-limits",
       method: :get,
-      response: [{200, {:union, [:map, {GitHub.Interaction.Limit.Response, :t}]}}],
+      response: [
+        {200,
+         {:union,
+          [
+            {GitHub.Interaction.Limit.Response, :t},
+            {GitHub.Interactions, :get_restrictions_for_repo_200_json_resp}
+          ]}}
+      ],
       opts: opts
     })
   end
@@ -260,5 +266,19 @@ defmodule GitHub.Interactions do
       response: [{200, {GitHub.Interaction.Limit.Response, :t}}, {409, :null}],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:get_restrictions_for_authenticated_user_200_json_resp) do
+    []
+  end
+
+  def __fields__(:get_restrictions_for_org_200_json_resp) do
+    []
+  end
+
+  def __fields__(:get_restrictions_for_repo_200_json_resp) do
+    []
   end
 end

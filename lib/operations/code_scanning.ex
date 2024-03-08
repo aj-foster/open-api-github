@@ -5,16 +5,6 @@ defmodule GitHub.CodeScanning do
 
   @default_client GitHub.Client
 
-  @type get_analysis_200_json_resp :: %__MODULE__{__info__: map}
-
-  defstruct [:__info__]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(:get_analysis_200_json_resp) do
-    []
-  end
-
   @doc """
   Delete a code scanning analysis from a repository
 
@@ -147,6 +137,8 @@ defmodule GitHub.CodeScanning do
     })
   end
 
+  @type get_analysis_200_json_resp :: %{__info__: map}
+
   @doc """
   Get a code scanning analysis for a repository
 
@@ -186,7 +178,9 @@ defmodule GitHub.CodeScanning do
       url: "/repos/#{owner}/#{repo}/code-scanning/analyses/#{analysis_id}",
       method: :get,
       response: [
-        {200, {:union, [:map, {GitHub.CodeScanning.Analysis, :t}]}},
+        {200,
+         {:union,
+          [{GitHub.CodeScanning, :get_analysis_200_json_resp}, {GitHub.CodeScanning.Analysis, :t}]}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {503, {GitHub.ServiceUnavailable, :json_resp}}
@@ -707,5 +701,11 @@ defmodule GitHub.CodeScanning do
       ],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:get_analysis_200_json_resp) do
+    []
   end
 end

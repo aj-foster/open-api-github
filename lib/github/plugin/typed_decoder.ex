@@ -76,14 +76,15 @@ defmodule GitHub.Plugin.TypedDecoder do
   defp do_decode(value, [type]), do: Enum.map(value, &do_decode(&1, type))
 
   defp do_decode(%{} = value, {module, type}) do
+    base = if function_exported?(module, :__struct__, 0), do: struct(module), else: %{}
     fields = module.__fields__(type)
 
-    for {field_name, field_type} <- fields, reduce: struct(module) do
+    for {field_name, field_type} <- fields, reduce: base do
       decoded_value ->
         case Map.fetch(value, to_string(field_name)) do
           {:ok, field_value} ->
             decoded_field_value = do_decode(field_value, field_type)
-            struct(decoded_value, [{field_name, decoded_field_value}])
+            Map.put(decoded_value, field_name, decoded_field_value)
 
           :error ->
             decoded_value

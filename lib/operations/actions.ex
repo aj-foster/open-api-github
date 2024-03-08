@@ -5,232 +5,6 @@ defmodule GitHub.Actions do
 
   @default_client GitHub.Client
 
-  @type get_actions_cache_usage_by_repo_for_org_200_json_resp :: %__MODULE__{
-          __info__: map,
-          repository_cache_usages: [GitHub.Actions.CacheUsageByRepository.t()],
-          total_count: integer
-        }
-
-  @type list_artifacts_for_repo_200_json_resp :: %__MODULE__{
-          __info__: map,
-          artifacts: [GitHub.Artifact.t()],
-          total_count: integer
-        }
-
-  @type list_environment_secrets_200_json_resp :: %__MODULE__{
-          __info__: map,
-          secrets: [GitHub.Actions.Secret.t()],
-          total_count: integer
-        }
-
-  @type list_environment_variables_200_json_resp :: %__MODULE__{
-          __info__: map,
-          total_count: integer,
-          variables: [GitHub.Actions.Variable.t()]
-        }
-
-  @type list_jobs_for_workflow_run_200_json_resp :: %__MODULE__{
-          __info__: map,
-          jobs: [GitHub.Actions.Job.t()],
-          total_count: integer
-        }
-
-  @type list_jobs_for_workflow_run_attempt_200_json_resp :: %__MODULE__{
-          __info__: map,
-          jobs: [GitHub.Actions.Job.t()],
-          total_count: integer
-        }
-
-  @type list_org_secrets_200_json_resp :: %__MODULE__{
-          __info__: map,
-          secrets: [GitHub.Organization.ActionsSecret.t()],
-          total_count: integer
-        }
-
-  @type list_org_variables_200_json_resp :: %__MODULE__{
-          __info__: map,
-          total_count: integer,
-          variables: [GitHub.Organization.ActionsVariable.t()]
-        }
-
-  @type list_repo_organization_secrets_200_json_resp :: %__MODULE__{
-          __info__: map,
-          secrets: [GitHub.Actions.Secret.t()],
-          total_count: integer
-        }
-
-  @type list_repo_organization_variables_200_json_resp :: %__MODULE__{
-          __info__: map,
-          total_count: integer,
-          variables: [GitHub.Actions.Variable.t()]
-        }
-
-  @type list_repo_secrets_200_json_resp :: %__MODULE__{
-          __info__: map,
-          secrets: [GitHub.Actions.Secret.t()],
-          total_count: integer
-        }
-
-  @type list_repo_variables_200_json_resp :: %__MODULE__{
-          __info__: map,
-          total_count: integer,
-          variables: [GitHub.Actions.Variable.t()]
-        }
-
-  @type list_repo_workflows_200_json_resp :: %__MODULE__{
-          __info__: map,
-          total_count: integer,
-          workflows: [GitHub.Actions.Workflow.t()]
-        }
-
-  @type list_selected_repos_for_org_secret_200_json_resp :: %__MODULE__{
-          __info__: map,
-          repositories: [GitHub.Repository.minimal()],
-          total_count: integer
-        }
-
-  @type list_selected_repos_for_org_variable_200_json_resp :: %__MODULE__{
-          __info__: map,
-          repositories: [GitHub.Repository.minimal()],
-          total_count: integer
-        }
-
-  @type list_selected_repositories_enabled_github_actions_organization_200_json_resp ::
-          %__MODULE__{__info__: map, repositories: [GitHub.Repository.t()], total_count: number}
-
-  @type list_self_hosted_runners_for_org_200_json_resp :: %__MODULE__{
-          __info__: map,
-          runners: [GitHub.Actions.Runner.t()],
-          total_count: integer
-        }
-
-  @type list_self_hosted_runners_for_repo_200_json_resp :: %__MODULE__{
-          __info__: map,
-          runners: [GitHub.Actions.Runner.t()],
-          total_count: integer
-        }
-
-  @type list_workflow_run_artifacts_200_json_resp :: %__MODULE__{
-          __info__: map,
-          artifacts: [GitHub.Artifact.t()],
-          total_count: integer
-        }
-
-  @type list_workflow_runs_200_json_resp :: %__MODULE__{
-          __info__: map,
-          total_count: integer,
-          workflow_runs: [GitHub.Actions.Workflow.Run.t()]
-        }
-
-  @type list_workflow_runs_for_repo_200_json_resp :: %__MODULE__{
-          __info__: map,
-          total_count: integer,
-          workflow_runs: [GitHub.Actions.Workflow.Run.t()]
-        }
-
-  defstruct [
-    :__info__,
-    :artifacts,
-    :jobs,
-    :repositories,
-    :repository_cache_usages,
-    :runners,
-    :secrets,
-    :total_count,
-    :variables,
-    :workflow_runs,
-    :workflows
-  ]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(:get_actions_cache_usage_by_repo_for_org_200_json_resp) do
-    [
-      repository_cache_usages: [{GitHub.Actions.CacheUsageByRepository, :t}],
-      total_count: :integer
-    ]
-  end
-
-  def __fields__(:list_artifacts_for_repo_200_json_resp) do
-    [artifacts: [{GitHub.Artifact, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_environment_secrets_200_json_resp) do
-    [secrets: [{GitHub.Actions.Secret, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_environment_variables_200_json_resp) do
-    [total_count: :integer, variables: [{GitHub.Actions.Variable, :t}]]
-  end
-
-  def __fields__(:list_jobs_for_workflow_run_200_json_resp) do
-    [jobs: [{GitHub.Actions.Job, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_jobs_for_workflow_run_attempt_200_json_resp) do
-    [jobs: [{GitHub.Actions.Job, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_org_secrets_200_json_resp) do
-    [secrets: [{GitHub.Organization.ActionsSecret, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_org_variables_200_json_resp) do
-    [total_count: :integer, variables: [{GitHub.Organization.ActionsVariable, :t}]]
-  end
-
-  def __fields__(:list_repo_organization_secrets_200_json_resp) do
-    [secrets: [{GitHub.Actions.Secret, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_repo_organization_variables_200_json_resp) do
-    [total_count: :integer, variables: [{GitHub.Actions.Variable, :t}]]
-  end
-
-  def __fields__(:list_repo_secrets_200_json_resp) do
-    [secrets: [{GitHub.Actions.Secret, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_repo_variables_200_json_resp) do
-    [total_count: :integer, variables: [{GitHub.Actions.Variable, :t}]]
-  end
-
-  def __fields__(:list_repo_workflows_200_json_resp) do
-    [total_count: :integer, workflows: [{GitHub.Actions.Workflow, :t}]]
-  end
-
-  def __fields__(:list_selected_repos_for_org_secret_200_json_resp) do
-    [repositories: [{GitHub.Repository, :minimal}], total_count: :integer]
-  end
-
-  def __fields__(:list_selected_repos_for_org_variable_200_json_resp) do
-    [repositories: [{GitHub.Repository, :minimal}], total_count: :integer]
-  end
-
-  def __fields__(:list_selected_repositories_enabled_github_actions_organization_200_json_resp) do
-    [repositories: [{GitHub.Repository, :t}], total_count: :number]
-  end
-
-  def __fields__(:list_self_hosted_runners_for_org_200_json_resp) do
-    [runners: [{GitHub.Actions.Runner, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_self_hosted_runners_for_repo_200_json_resp) do
-    [runners: [{GitHub.Actions.Runner, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_workflow_run_artifacts_200_json_resp) do
-    [artifacts: [{GitHub.Artifact, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_workflow_runs_200_json_resp) do
-    [total_count: :integer, workflow_runs: [{GitHub.Actions.Workflow.Run, :t}]]
-  end
-
-  def __fields__(:list_workflow_runs_for_repo_200_json_resp) do
-    [total_count: :integer, workflow_runs: [{GitHub.Actions.Workflow.Run, :t}]]
-  end
-
   @doc """
   Add custom labels to a self-hosted runner for an organization
 
@@ -1580,6 +1354,12 @@ defmodule GitHub.Actions do
     })
   end
 
+  @type get_actions_cache_usage_by_repo_for_org_200_json_resp :: %{
+          __info__: map,
+          repository_cache_usages: [GitHub.Actions.CacheUsageByRepository.t()],
+          total_count: integer
+        }
+
   @doc """
   List repositories with GitHub Actions cache usage for an organization
 
@@ -1609,7 +1389,7 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/cache/usage-by-repository",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :get_actions_cache_usage_by_repo_for_org_200_json_resp}}],
       opts: opts
     })
   end
@@ -2450,6 +2230,12 @@ defmodule GitHub.Actions do
     })
   end
 
+  @type list_artifacts_for_repo_200_json_resp :: %{
+          __info__: map,
+          artifacts: [GitHub.Artifact.t()],
+          total_count: integer
+        }
+
   @doc """
   List artifacts for a repository
 
@@ -2478,10 +2264,16 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/artifacts",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_artifacts_for_repo_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_environment_secrets_200_json_resp :: %{
+          __info__: map,
+          secrets: [GitHub.Actions.Secret.t()],
+          total_count: integer
+        }
 
   @doc """
   List environment secrets
@@ -2515,10 +2307,16 @@ defmodule GitHub.Actions do
       url: "/repositories/#{repository_id}/environments/#{environment_name}/secrets",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_environment_secrets_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_environment_variables_200_json_resp :: %{
+          __info__: map,
+          total_count: integer,
+          variables: [GitHub.Actions.Variable.t()]
+        }
 
   @doc """
   List environment variables
@@ -2551,10 +2349,16 @@ defmodule GitHub.Actions do
       url: "/repositories/#{repository_id}/environments/#{environment_name}/variables",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_environment_variables_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_jobs_for_workflow_run_200_json_resp :: %{
+          __info__: map,
+          jobs: [GitHub.Actions.Job.t()],
+          total_count: integer
+        }
 
   @doc """
   List jobs for a workflow run
@@ -2584,10 +2388,16 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/jobs",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_jobs_for_workflow_run_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_jobs_for_workflow_run_attempt_200_json_resp :: %{
+          __info__: map,
+          jobs: [GitHub.Actions.Job.t()],
+          total_count: integer
+        }
 
   @doc """
   List jobs for a workflow run attempt
@@ -2616,7 +2426,10 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/attempts/#{attempt_number}/jobs",
       method: :get,
       query: query,
-      response: [{200, :map}, {404, {GitHub.BasicError, :t}}],
+      response: [
+        {200, {GitHub.Actions, :list_jobs_for_workflow_run_attempt_200_json_resp}},
+        {404, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
@@ -2686,6 +2499,12 @@ defmodule GitHub.Actions do
     })
   end
 
+  @type list_org_secrets_200_json_resp :: %{
+          __info__: map,
+          secrets: [GitHub.Organization.ActionsSecret.t()],
+          total_count: integer
+        }
+
   @doc """
   List organization secrets
 
@@ -2718,10 +2537,16 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/secrets",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_org_secrets_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_org_variables_200_json_resp :: %{
+          __info__: map,
+          total_count: integer,
+          variables: [GitHub.Organization.ActionsVariable.t()]
+        }
 
   @doc """
   List organization variables
@@ -2750,10 +2575,16 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/variables",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_org_variables_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_repo_organization_secrets_200_json_resp :: %{
+          __info__: map,
+          secrets: [GitHub.Actions.Secret.t()],
+          total_count: integer
+        }
 
   @doc """
   List repository organization secrets
@@ -2787,10 +2618,16 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/organization-secrets",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_repo_organization_secrets_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_repo_organization_variables_200_json_resp :: %{
+          __info__: map,
+          total_count: integer,
+          variables: [GitHub.Actions.Variable.t()]
+        }
 
   @doc """
   List repository organization variables
@@ -2823,10 +2660,16 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/organization-variables",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_repo_organization_variables_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_repo_secrets_200_json_resp :: %{
+          __info__: map,
+          secrets: [GitHub.Actions.Secret.t()],
+          total_count: integer
+        }
 
   @doc """
   List repository secrets
@@ -2860,10 +2703,16 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/secrets",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_repo_secrets_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_repo_variables_200_json_resp :: %{
+          __info__: map,
+          total_count: integer,
+          variables: [GitHub.Actions.Variable.t()]
+        }
 
   @doc """
   List repository variables
@@ -2895,10 +2744,16 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/variables",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_repo_variables_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_repo_workflows_200_json_resp :: %{
+          __info__: map,
+          total_count: integer,
+          workflows: [GitHub.Actions.Workflow.t()]
+        }
 
   @doc """
   List repository workflows
@@ -2927,7 +2782,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/workflows",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_repo_workflows_200_json_resp}}],
       opts: opts
     })
   end
@@ -2991,6 +2846,12 @@ defmodule GitHub.Actions do
     })
   end
 
+  @type list_selected_repos_for_org_secret_200_json_resp :: %{
+          __info__: map,
+          repositories: [GitHub.Repository.minimal()],
+          total_count: integer
+        }
+
   @doc """
   List selected repositories for an organization secret
 
@@ -3024,10 +2885,16 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/secrets/#{secret_name}/repositories",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_selected_repos_for_org_secret_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_selected_repos_for_org_variable_200_json_resp :: %{
+          __info__: map,
+          repositories: [GitHub.Repository.minimal()],
+          total_count: integer
+        }
 
   @doc """
   List selected repositories for an organization variable
@@ -3062,10 +2929,19 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/variables/#{name}/repositories",
       method: :get,
       query: query,
-      response: [{200, :map}, {409, :null}],
+      response: [
+        {200, {GitHub.Actions, :list_selected_repos_for_org_variable_200_json_resp}},
+        {409, :null}
+      ],
       opts: opts
     })
   end
+
+  @type list_selected_repositories_enabled_github_actions_organization_200_json_resp :: %{
+          __info__: map,
+          repositories: [GitHub.Repository.t()],
+          total_count: number
+        }
 
   @doc """
   List selected repositories enabled for GitHub Actions in an organization
@@ -3096,10 +2972,20 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/permissions/repositories",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [
+        {200,
+         {GitHub.Actions,
+          :list_selected_repositories_enabled_github_actions_organization_200_json_resp}}
+      ],
       opts: opts
     })
   end
+
+  @type list_self_hosted_runners_for_org_200_json_resp :: %{
+          __info__: map,
+          runners: [GitHub.Actions.Runner.t()],
+          total_count: integer
+        }
 
   @doc """
   List self-hosted runners for an organization
@@ -3134,10 +3020,16 @@ defmodule GitHub.Actions do
       url: "/orgs/#{org}/actions/runners",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_self_hosted_runners_for_org_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_self_hosted_runners_for_repo_200_json_resp :: %{
+          __info__: map,
+          runners: [GitHub.Actions.Runner.t()],
+          total_count: integer
+        }
 
   @doc """
   List self-hosted runners for a repository
@@ -3171,10 +3063,16 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runners",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_self_hosted_runners_for_repo_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_workflow_run_artifacts_200_json_resp :: %{
+          __info__: map,
+          artifacts: [GitHub.Artifact.t()],
+          total_count: integer
+        }
 
   @doc """
   List workflow run artifacts
@@ -3204,10 +3102,16 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runs/#{run_id}/artifacts",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_workflow_run_artifacts_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_workflow_runs_200_json_resp :: %{
+          __info__: map,
+          total_count: integer,
+          workflow_runs: [GitHub.Actions.Workflow.Run.t()]
+        }
 
   @doc """
   List workflow runs for a workflow
@@ -3259,10 +3163,16 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/workflows/#{workflow_id}/runs",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_workflow_runs_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_workflow_runs_for_repo_200_json_resp :: %{
+          __info__: map,
+          total_count: integer,
+          workflow_runs: [GitHub.Actions.Workflow.Run.t()]
+        }
 
   @doc """
   List workflow runs for a repository
@@ -3314,7 +3224,7 @@ defmodule GitHub.Actions do
       url: "/repos/#{owner}/#{repo}/actions/runs",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Actions, :list_workflow_runs_for_repo_200_json_resp}}],
       opts: opts
     })
   end
@@ -4240,5 +4150,94 @@ defmodule GitHub.Actions do
       response: [{204, :null}],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:get_actions_cache_usage_by_repo_for_org_200_json_resp) do
+    [
+      repository_cache_usages: [{GitHub.Actions.CacheUsageByRepository, :t}],
+      total_count: :integer
+    ]
+  end
+
+  def __fields__(:list_artifacts_for_repo_200_json_resp) do
+    [artifacts: [{GitHub.Artifact, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_environment_secrets_200_json_resp) do
+    [secrets: [{GitHub.Actions.Secret, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_environment_variables_200_json_resp) do
+    [total_count: :integer, variables: [{GitHub.Actions.Variable, :t}]]
+  end
+
+  def __fields__(:list_jobs_for_workflow_run_200_json_resp) do
+    [jobs: [{GitHub.Actions.Job, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_jobs_for_workflow_run_attempt_200_json_resp) do
+    [jobs: [{GitHub.Actions.Job, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_org_secrets_200_json_resp) do
+    [secrets: [{GitHub.Organization.ActionsSecret, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_org_variables_200_json_resp) do
+    [total_count: :integer, variables: [{GitHub.Organization.ActionsVariable, :t}]]
+  end
+
+  def __fields__(:list_repo_organization_secrets_200_json_resp) do
+    [secrets: [{GitHub.Actions.Secret, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_repo_organization_variables_200_json_resp) do
+    [total_count: :integer, variables: [{GitHub.Actions.Variable, :t}]]
+  end
+
+  def __fields__(:list_repo_secrets_200_json_resp) do
+    [secrets: [{GitHub.Actions.Secret, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_repo_variables_200_json_resp) do
+    [total_count: :integer, variables: [{GitHub.Actions.Variable, :t}]]
+  end
+
+  def __fields__(:list_repo_workflows_200_json_resp) do
+    [total_count: :integer, workflows: [{GitHub.Actions.Workflow, :t}]]
+  end
+
+  def __fields__(:list_selected_repos_for_org_secret_200_json_resp) do
+    [repositories: [{GitHub.Repository, :minimal}], total_count: :integer]
+  end
+
+  def __fields__(:list_selected_repos_for_org_variable_200_json_resp) do
+    [repositories: [{GitHub.Repository, :minimal}], total_count: :integer]
+  end
+
+  def __fields__(:list_selected_repositories_enabled_github_actions_organization_200_json_resp) do
+    [repositories: [{GitHub.Repository, :t}], total_count: :number]
+  end
+
+  def __fields__(:list_self_hosted_runners_for_org_200_json_resp) do
+    [runners: [{GitHub.Actions.Runner, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_self_hosted_runners_for_repo_200_json_resp) do
+    [runners: [{GitHub.Actions.Runner, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_workflow_run_artifacts_200_json_resp) do
+    [artifacts: [{GitHub.Artifact, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_workflow_runs_200_json_resp) do
+    [total_count: :integer, workflow_runs: [{GitHub.Actions.Workflow.Run, :t}]]
+  end
+
+  def __fields__(:list_workflow_runs_for_repo_200_json_resp) do
+    [total_count: :integer, workflow_runs: [{GitHub.Actions.Workflow.Run, :t}]]
   end
 end

@@ -5,15 +5,7 @@ defmodule GitHub.Gists do
 
   @default_client GitHub.Client
 
-  @type check_is_starred_404_json_resp :: %__MODULE__{__info__: map}
-
-  defstruct [:__info__]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(:check_is_starred_404_json_resp) do
-    []
-  end
+  @type check_is_starred_404_json_resp :: %{__info__: map}
 
   @doc """
   Check if a gist is starred
@@ -32,7 +24,12 @@ defmodule GitHub.Gists do
       call: {GitHub.Gists, :check_is_starred},
       url: "/gists/#{gist_id}/star",
       method: :get,
-      response: [{204, :null}, {304, :null}, {403, {GitHub.BasicError, :t}}, {404, :map}],
+      response: [
+        {204, :null},
+        {304, :null},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.Gists, :check_is_starred_404_json_resp}}
+      ],
       opts: opts
     })
   end
@@ -623,5 +620,11 @@ defmodule GitHub.Gists do
       response: [{200, {GitHub.Gist.Comment, :t}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:check_is_starred_404_json_resp) do
+    []
   end
 end

@@ -5,150 +5,6 @@ defmodule GitHub.Repos do
 
   @default_client GitHub.Client
 
-  @type create_deployment_202_json_resp :: %__MODULE__{__info__: map, message: String.t() | nil}
-
-  @type delete_403_json_resp :: %__MODULE__{
-          __info__: map,
-          documentation_url: String.t() | nil,
-          message: String.t() | nil
-        }
-
-  @type get_all_deployment_protection_rules_200_json_resp :: %__MODULE__{
-          __info__: map,
-          custom_deployment_protection_rules: [GitHub.Deployment.ProtectionRule.t()] | nil,
-          total_count: integer | nil
-        }
-
-  @type get_all_environments_200_json_resp :: %__MODULE__{
-          __info__: map,
-          environments: [GitHub.Environment.t()] | nil,
-          total_count: integer | nil
-        }
-
-  @type get_branch_rules_200_json_resp :: %__MODULE__{
-          __info__: map,
-          parameters: map | nil,
-          parameters: map | nil,
-          parameters: map | nil,
-          parameters: map | nil,
-          parameters: map | nil,
-          parameters: map | nil,
-          parameters: map | nil,
-          parameters: map | nil,
-          parameters: map | nil,
-          ruleset_id: integer | nil,
-          ruleset_source: String.t() | nil,
-          ruleset_source_type: String.t() | nil,
-          type: String.t() | nil,
-          type: String.t() | nil,
-          type: String.t() | nil,
-          type: String.t() | nil,
-          type: String.t() | nil,
-          type: String.t() | nil,
-          type: String.t() | nil,
-          type: String.t() | nil,
-          type: String.t() | nil,
-          type: String.t() | nil,
-          type: String.t() | nil,
-          type: String.t() | nil,
-          type: String.t() | nil,
-          type: String.t() | nil
-        }
-
-  @type list_custom_deployment_rule_integrations_200_json_resp :: %__MODULE__{
-          __info__: map,
-          available_custom_deployment_protection_rule_integrations:
-            [GitHub.CustomDeploymentRuleApp.t()] | nil,
-          total_count: integer | nil
-        }
-
-  @type list_deployment_branch_policies_200_json_resp :: %__MODULE__{
-          __info__: map,
-          branch_policies: [GitHub.Deployment.BranchPolicy.t()],
-          total_count: integer
-        }
-
-  defstruct [
-    :__info__,
-    :available_custom_deployment_protection_rule_integrations,
-    :branch_policies,
-    :custom_deployment_protection_rules,
-    :documentation_url,
-    :environments,
-    :message,
-    :parameters,
-    :ruleset_id,
-    :ruleset_source,
-    :ruleset_source_type,
-    :total_count,
-    :type
-  ]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(:create_deployment_202_json_resp) do
-    [message: {:string, :generic}]
-  end
-
-  def __fields__(:delete_403_json_resp) do
-    [documentation_url: {:string, :generic}, message: {:string, :generic}]
-  end
-
-  def __fields__(:get_all_deployment_protection_rules_200_json_resp) do
-    [
-      custom_deployment_protection_rules: [{GitHub.Deployment.ProtectionRule, :t}],
-      total_count: :integer
-    ]
-  end
-
-  def __fields__(:get_all_environments_200_json_resp) do
-    [environments: [{GitHub.Environment, :t}], total_count: :integer]
-  end
-
-  def __fields__(:get_branch_rules_200_json_resp) do
-    [
-      parameters: :map,
-      parameters: :map,
-      parameters: :map,
-      parameters: :map,
-      parameters: :map,
-      parameters: :map,
-      parameters: :map,
-      parameters: :map,
-      parameters: :map,
-      ruleset_id: :integer,
-      ruleset_source: {:string, :generic},
-      ruleset_source_type: {:enum, ["Repository", "Organization"]},
-      type: {:const, "committer_email_pattern"},
-      type: {:const, "pull_request"},
-      type: {:const, "required_signatures"},
-      type: {:const, "required_status_checks"},
-      type: {:const, "branch_name_pattern"},
-      type: {:const, "required_deployments"},
-      type: {:const, "deletion"},
-      type: {:const, "required_linear_history"},
-      type: {:const, "commit_message_pattern"},
-      type: {:const, "creation"},
-      type: {:const, "commit_author_email_pattern"},
-      type: {:const, "update"},
-      type: {:const, "non_fast_forward"},
-      type: {:const, "tag_name_pattern"}
-    ]
-  end
-
-  def __fields__(:list_custom_deployment_rule_integrations_200_json_resp) do
-    [
-      available_custom_deployment_protection_rule_integrations: [
-        {GitHub.CustomDeploymentRuleApp, :t}
-      ],
-      total_count: :integer
-    ]
-  end
-
-  def __fields__(:list_deployment_branch_policies_200_json_resp) do
-    [branch_policies: [{GitHub.Deployment.BranchPolicy, :t}], total_count: :integer]
-  end
-
   @doc """
   Accept a repository invitation
 
@@ -712,6 +568,8 @@ defmodule GitHub.Repos do
     })
   end
 
+  @type create_deployment_202_json_resp :: %{__info__: map, message: String.t() | nil}
+
   @doc """
   Create a deployment
 
@@ -783,7 +641,7 @@ defmodule GitHub.Repos do
       request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Deployment, :t}},
-        {202, :map},
+        {202, {GitHub.Repos, :create_deployment_202_json_resp}},
         {409, :null},
         {422, {GitHub.ValidationError, :t}}
       ],
@@ -1396,6 +1254,12 @@ defmodule GitHub.Repos do
     })
   end
 
+  @type delete_403_json_resp :: %{
+          __info__: map,
+          documentation_url: String.t() | nil,
+          message: String.t() | nil
+        }
+
   @doc """
   Delete a repository
 
@@ -1421,7 +1285,7 @@ defmodule GitHub.Repos do
       response: [
         {204, :null},
         {307, {GitHub.BasicError, :t}},
-        {403, :map},
+        {403, {GitHub.Repos, :delete_403_json_resp}},
         {404, {GitHub.BasicError, :t}}
       ],
       opts: opts
@@ -2336,6 +2200,12 @@ defmodule GitHub.Repos do
     })
   end
 
+  @type get_all_deployment_protection_rules_200_json_resp :: %{
+          __info__: map,
+          custom_deployment_protection_rules: [GitHub.Deployment.ProtectionRule.t()] | nil,
+          total_count: integer | nil
+        }
+
   @doc """
   Get all deployment protection rules for an environment
 
@@ -2358,10 +2228,16 @@ defmodule GitHub.Repos do
       call: {GitHub.Repos, :get_all_deployment_protection_rules},
       url: "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment_protection_rules",
       method: :get,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Repos, :get_all_deployment_protection_rules_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type get_all_environments_200_json_resp :: %{
+          __info__: map,
+          environments: [GitHub.Environment.t()] | nil,
+          total_count: integer | nil
+        }
 
   @doc """
   List environments
@@ -2392,7 +2268,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/environments",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Repos, :get_all_environments_200_json_resp}}],
       opts: opts
     })
   end
@@ -2559,6 +2435,15 @@ defmodule GitHub.Repos do
     })
   end
 
+  @type get_branch_rules_200_json_resp :: %{
+          __info__: map,
+          parameters: map | nil,
+          ruleset_id: integer | nil,
+          ruleset_source: String.t() | nil,
+          ruleset_source_type: String.t() | nil,
+          type: String.t() | nil
+        }
+
   @doc """
   Get rules for a branch
 
@@ -2589,7 +2474,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/rules/branches/#{branch}",
       method: :get,
       query: query,
-      response: [{200, [:map]}],
+      response: [{200, [{GitHub.Repos, :get_branch_rules_200_json_resp}]}],
       opts: opts
     })
   end
@@ -4531,6 +4416,13 @@ defmodule GitHub.Repos do
     })
   end
 
+  @type list_custom_deployment_rule_integrations_200_json_resp :: %{
+          __info__: map,
+          available_custom_deployment_protection_rule_integrations:
+            [GitHub.CustomDeploymentRuleApp.t()] | nil,
+          total_count: integer | nil
+        }
+
   @doc """
   List custom deployment rule integrations available for an environment
 
@@ -4563,7 +4455,7 @@ defmodule GitHub.Repos do
         "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment_protection_rules/apps",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Repos, :list_custom_deployment_rule_integrations_200_json_resp}}],
       opts: opts
     })
   end
@@ -4598,6 +4490,12 @@ defmodule GitHub.Repos do
     })
   end
 
+  @type list_deployment_branch_policies_200_json_resp :: %{
+          __info__: map,
+          branch_policies: [GitHub.Deployment.BranchPolicy.t()],
+          total_count: integer
+        }
+
   @doc """
   List deployment branch policies
 
@@ -4627,7 +4525,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment-branch-policies",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Repos, :list_deployment_branch_policies_200_json_resp}}],
       opts: opts
     })
   end
@@ -6451,5 +6349,66 @@ defmodule GitHub.Repos do
       response: [{201, {GitHub.Release.Asset, :t}}, {422, :null}],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:create_deployment_202_json_resp) do
+    [message: {:string, :generic}]
+  end
+
+  def __fields__(:delete_403_json_resp) do
+    [documentation_url: {:string, :generic}, message: {:string, :generic}]
+  end
+
+  def __fields__(:get_all_deployment_protection_rules_200_json_resp) do
+    [
+      custom_deployment_protection_rules: [{GitHub.Deployment.ProtectionRule, :t}],
+      total_count: :integer
+    ]
+  end
+
+  def __fields__(:get_all_environments_200_json_resp) do
+    [environments: [{GitHub.Environment, :t}], total_count: :integer]
+  end
+
+  def __fields__(:get_branch_rules_200_json_resp) do
+    [
+      parameters: :map,
+      ruleset_id: :integer,
+      ruleset_source: {:string, :generic},
+      ruleset_source_type: {:enum, ["Repository", "Organization"]},
+      type:
+        {:enum,
+         [
+           "branch_name_pattern",
+           "commit_author_email_pattern",
+           "commit_message_pattern",
+           "committer_email_pattern",
+           "creation",
+           "deletion",
+           "non_fast_forward",
+           "pull_request",
+           "required_deployments",
+           "required_linear_history",
+           "required_signatures",
+           "required_status_checks",
+           "tag_name_pattern",
+           "update"
+         ]}
+    ]
+  end
+
+  def __fields__(:list_custom_deployment_rule_integrations_200_json_resp) do
+    [
+      available_custom_deployment_protection_rule_integrations: [
+        {GitHub.CustomDeploymentRuleApp, :t}
+      ],
+      total_count: :integer
+    ]
+  end
+
+  def __fields__(:list_deployment_branch_policies_200_json_resp) do
+    [branch_policies: [{GitHub.Deployment.BranchPolicy, :t}], total_count: :integer]
   end
 end

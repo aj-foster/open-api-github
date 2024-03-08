@@ -5,55 +5,10 @@ defmodule GitHub.Copilot do
 
   @default_client GitHub.Client
 
-  @type add_copilot_for_business_seats_for_teams_201_json_resp :: %__MODULE__{
+  @type add_copilot_for_business_seats_for_teams_201_json_resp :: %{
           __info__: map,
           seats_created: integer
         }
-
-  @type add_copilot_for_business_seats_for_users_201_json_resp :: %__MODULE__{
-          __info__: map,
-          seats_created: integer
-        }
-
-  @type cancel_copilot_seat_assignment_for_teams_200_json_resp :: %__MODULE__{
-          __info__: map,
-          seats_cancelled: integer
-        }
-
-  @type cancel_copilot_seat_assignment_for_users_200_json_resp :: %__MODULE__{
-          __info__: map,
-          seats_cancelled: integer
-        }
-
-  @type list_copilot_seats_200_json_resp :: %__MODULE__{
-          __info__: map,
-          seats: [GitHub.Copilot.SeatDetails.t()] | nil,
-          total_seats: integer | nil
-        }
-
-  defstruct [:__info__, :seats, :seats_cancelled, :seats_created, :total_seats]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(:add_copilot_for_business_seats_for_teams_201_json_resp) do
-    [seats_created: :integer]
-  end
-
-  def __fields__(:add_copilot_for_business_seats_for_users_201_json_resp) do
-    [seats_created: :integer]
-  end
-
-  def __fields__(:cancel_copilot_seat_assignment_for_teams_200_json_resp) do
-    [seats_cancelled: :integer]
-  end
-
-  def __fields__(:cancel_copilot_seat_assignment_for_users_200_json_resp) do
-    [seats_cancelled: :integer]
-  end
-
-  def __fields__(:list_copilot_seats_200_json_resp) do
-    [seats: [{GitHub.Copilot.SeatDetails, :t}], total_seats: :integer]
-  end
 
   @doc """
   Add teams to the Copilot for Business subscription for an organization
@@ -88,7 +43,7 @@ defmodule GitHub.Copilot do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {201, :map},
+        {201, {GitHub.Copilot, :add_copilot_for_business_seats_for_teams_201_json_resp}},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -98,6 +53,11 @@ defmodule GitHub.Copilot do
       opts: opts
     })
   end
+
+  @type add_copilot_for_business_seats_for_users_201_json_resp :: %{
+          __info__: map,
+          seats_created: integer
+        }
 
   @doc """
   Add users to the Copilot for Business subscription for an organization
@@ -132,7 +92,7 @@ defmodule GitHub.Copilot do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {201, :map},
+        {201, {GitHub.Copilot, :add_copilot_for_business_seats_for_users_201_json_resp}},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -142,6 +102,11 @@ defmodule GitHub.Copilot do
       opts: opts
     })
   end
+
+  @type cancel_copilot_seat_assignment_for_teams_200_json_resp :: %{
+          __info__: map,
+          seats_cancelled: integer
+        }
 
   @doc """
   Remove teams from the Copilot for Business subscription for an organization
@@ -176,7 +141,7 @@ defmodule GitHub.Copilot do
       method: :delete,
       request: [{"application/json", :map}],
       response: [
-        {200, :map},
+        {200, {GitHub.Copilot, :cancel_copilot_seat_assignment_for_teams_200_json_resp}},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -186,6 +151,11 @@ defmodule GitHub.Copilot do
       opts: opts
     })
   end
+
+  @type cancel_copilot_seat_assignment_for_users_200_json_resp :: %{
+          __info__: map,
+          seats_cancelled: integer
+        }
 
   @doc """
   Remove users from the Copilot for Business subscription for an organization
@@ -220,7 +190,7 @@ defmodule GitHub.Copilot do
       method: :delete,
       request: [{"application/json", :map}],
       response: [
-        {200, :map},
+        {200, {GitHub.Copilot, :cancel_copilot_seat_assignment_for_users_200_json_resp}},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -305,6 +275,12 @@ defmodule GitHub.Copilot do
     })
   end
 
+  @type list_copilot_seats_200_json_resp :: %{
+          __info__: map,
+          seats: [GitHub.Copilot.SeatDetails.t()] | nil,
+          total_seats: integer | nil
+        }
+
   @doc """
   List all Copilot for Business seat assignments for an organization
 
@@ -337,7 +313,7 @@ defmodule GitHub.Copilot do
       method: :get,
       query: query,
       response: [
-        {200, :map},
+        {200, {GitHub.Copilot, :list_copilot_seats_200_json_resp}},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
@@ -345,5 +321,27 @@ defmodule GitHub.Copilot do
       ],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:add_copilot_for_business_seats_for_teams_201_json_resp) do
+    [seats_created: :integer]
+  end
+
+  def __fields__(:add_copilot_for_business_seats_for_users_201_json_resp) do
+    [seats_created: :integer]
+  end
+
+  def __fields__(:cancel_copilot_seat_assignment_for_teams_200_json_resp) do
+    [seats_cancelled: :integer]
+  end
+
+  def __fields__(:cancel_copilot_seat_assignment_for_users_200_json_resp) do
+    [seats_cancelled: :integer]
+  end
+
+  def __fields__(:list_copilot_seats_200_json_resp) do
+    [seats: [{GitHub.Copilot.SeatDetails, :t}], total_seats: :integer]
   end
 end

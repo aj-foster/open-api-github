@@ -5,40 +5,6 @@ defmodule GitHub.Checks do
 
   @default_client GitHub.Client
 
-  @type list_for_ref_200_json_resp :: %__MODULE__{
-          __info__: map,
-          check_runs: [GitHub.Check.Run.t()],
-          total_count: integer
-        }
-
-  @type list_for_suite_200_json_resp :: %__MODULE__{
-          __info__: map,
-          check_runs: [GitHub.Check.Run.t()],
-          total_count: integer
-        }
-
-  @type list_suites_for_ref_200_json_resp :: %__MODULE__{
-          __info__: map,
-          check_suites: [GitHub.Check.Suite.t()],
-          total_count: integer
-        }
-
-  defstruct [:__info__, :check_runs, :check_suites, :total_count]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(:list_for_ref_200_json_resp) do
-    [check_runs: [{GitHub.Check.Run, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_for_suite_200_json_resp) do
-    [check_runs: [{GitHub.Check.Run, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_suites_for_ref_200_json_resp) do
-    [check_suites: [{GitHub.Check.Suite, :t}], total_count: :integer]
-  end
-
   @doc """
   Create a check run
 
@@ -185,6 +151,12 @@ defmodule GitHub.Checks do
     })
   end
 
+  @type list_for_ref_200_json_resp :: %{
+          __info__: map,
+          check_runs: [GitHub.Check.Run.t()],
+          total_count: integer
+        }
+
   @doc """
   List check runs for a Git reference
 
@@ -220,10 +192,16 @@ defmodule GitHub.Checks do
       url: "/repos/#{owner}/#{repo}/commits/#{ref}/check-runs",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Checks, :list_for_ref_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_for_suite_200_json_resp :: %{
+          __info__: map,
+          check_runs: [GitHub.Check.Run.t()],
+          total_count: integer
+        }
 
   @doc """
   List check runs in a check suite
@@ -257,10 +235,16 @@ defmodule GitHub.Checks do
       url: "/repos/#{owner}/#{repo}/check-suites/#{check_suite_id}/check-runs",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Checks, :list_for_suite_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_suites_for_ref_200_json_resp :: %{
+          __info__: map,
+          check_suites: [GitHub.Check.Suite.t()],
+          total_count: integer
+        }
 
   @doc """
   List check suites for a Git reference
@@ -293,7 +277,7 @@ defmodule GitHub.Checks do
       url: "/repos/#{owner}/#{repo}/commits/#{ref}/check-suites",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Checks, :list_suites_for_ref_200_json_resp}}],
       opts: opts
     })
   end
@@ -413,5 +397,19 @@ defmodule GitHub.Checks do
       response: [{200, {GitHub.Check.Run, :t}}],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:list_for_ref_200_json_resp) do
+    [check_runs: [{GitHub.Check.Run, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_for_suite_200_json_resp) do
+    [check_runs: [{GitHub.Check.Run, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_suites_for_ref_200_json_resp) do
+    [check_suites: [{GitHub.Check.Suite, :t}], total_count: :integer]
   end
 end

@@ -5,30 +5,6 @@ defmodule GitHub.Teams do
 
   @default_client GitHub.Client
 
-  @type add_or_update_project_permissions_in_org_403_json_resp :: %__MODULE__{
-          __info__: map,
-          documentation_url: String.t() | nil,
-          message: String.t() | nil
-        }
-
-  @type add_or_update_project_permissions_legacy_403_json_resp :: %__MODULE__{
-          __info__: map,
-          documentation_url: String.t() | nil,
-          message: String.t() | nil
-        }
-
-  defstruct [:__info__, :documentation_url, :message]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(:add_or_update_project_permissions_in_org_403_json_resp) do
-    [documentation_url: {:string, :generic}, message: {:string, :generic}]
-  end
-
-  def __fields__(:add_or_update_project_permissions_legacy_403_json_resp) do
-    [documentation_url: {:string, :generic}, message: {:string, :generic}]
-  end
-
   @doc """
   Add team member (Legacy)
 
@@ -142,6 +118,12 @@ defmodule GitHub.Teams do
     })
   end
 
+  @type add_or_update_project_permissions_in_org_403_json_resp :: %{
+          __info__: map,
+          documentation_url: String.t() | nil,
+          message: String.t() | nil
+        }
+
   @doc """
   Add or update team project permissions
 
@@ -171,10 +153,19 @@ defmodule GitHub.Teams do
       body: body,
       method: :put,
       request: [{"application/json", {:union, [:map, :null]}}],
-      response: [{204, :null}, {403, :map}],
+      response: [
+        {204, :null},
+        {403, {GitHub.Teams, :add_or_update_project_permissions_in_org_403_json_resp}}
+      ],
       opts: opts
     })
   end
+
+  @type add_or_update_project_permissions_legacy_403_json_resp :: %{
+          __info__: map,
+          documentation_url: String.t() | nil,
+          message: String.t() | nil
+        }
 
   @doc """
   Add or update team project permissions (Legacy)
@@ -202,7 +193,7 @@ defmodule GitHub.Teams do
       request: [{"application/json", :map}],
       response: [
         {204, :null},
-        {403, :map},
+        {403, {GitHub.Teams, :add_or_update_project_permissions_legacy_403_json_resp}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
       ],
@@ -1968,5 +1959,15 @@ defmodule GitHub.Teams do
       ],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:add_or_update_project_permissions_in_org_403_json_resp) do
+    [documentation_url: {:string, :generic}, message: {:string, :generic}]
+  end
+
+  def __fields__(:add_or_update_project_permissions_legacy_403_json_resp) do
+    [documentation_url: {:string, :generic}, message: {:string, :generic}]
   end
 end

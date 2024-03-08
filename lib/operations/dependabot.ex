@@ -5,40 +5,6 @@ defmodule GitHub.Dependabot do
 
   @default_client GitHub.Client
 
-  @type list_org_secrets_200_json_resp :: %__MODULE__{
-          __info__: map,
-          secrets: [GitHub.Organization.DependabotSecret.t()],
-          total_count: integer
-        }
-
-  @type list_repo_secrets_200_json_resp :: %__MODULE__{
-          __info__: map,
-          secrets: [GitHub.Dependabot.Secret.t()],
-          total_count: integer
-        }
-
-  @type list_selected_repos_for_org_secret_200_json_resp :: %__MODULE__{
-          __info__: map,
-          repositories: [GitHub.Repository.minimal()],
-          total_count: integer
-        }
-
-  defstruct [:__info__, :repositories, :secrets, :total_count]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(:list_org_secrets_200_json_resp) do
-    [secrets: [{GitHub.Organization.DependabotSecret, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_repo_secrets_200_json_resp) do
-    [secrets: [{GitHub.Dependabot.Secret, :t}], total_count: :integer]
-  end
-
-  def __fields__(:list_selected_repos_for_org_secret_200_json_resp) do
-    [repositories: [{GitHub.Repository, :minimal}], total_count: :integer]
-  end
-
   @doc """
   Add selected repository to an organization secret
 
@@ -551,6 +517,12 @@ defmodule GitHub.Dependabot do
     })
   end
 
+  @type list_org_secrets_200_json_resp :: %{
+          __info__: map,
+          secrets: [GitHub.Organization.DependabotSecret.t()],
+          total_count: integer
+        }
+
   @doc """
   List organization secrets
 
@@ -577,10 +549,16 @@ defmodule GitHub.Dependabot do
       url: "/orgs/#{org}/dependabot/secrets",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Dependabot, :list_org_secrets_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_repo_secrets_200_json_resp :: %{
+          __info__: map,
+          secrets: [GitHub.Dependabot.Secret.t()],
+          total_count: integer
+        }
 
   @doc """
   List repository secrets
@@ -609,10 +587,16 @@ defmodule GitHub.Dependabot do
       url: "/repos/#{owner}/#{repo}/dependabot/secrets",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Dependabot, :list_repo_secrets_200_json_resp}}],
       opts: opts
     })
   end
+
+  @type list_selected_repos_for_org_secret_200_json_resp :: %{
+          __info__: map,
+          repositories: [GitHub.Repository.minimal()],
+          total_count: integer
+        }
 
   @doc """
   List selected repositories for an organization secret
@@ -641,7 +625,7 @@ defmodule GitHub.Dependabot do
       url: "/orgs/#{org}/dependabot/secrets/#{secret_name}/repositories",
       method: :get,
       query: query,
-      response: [{200, :map}],
+      response: [{200, {GitHub.Dependabot, :list_selected_repos_for_org_secret_200_json_resp}}],
       opts: opts
     })
   end
@@ -734,5 +718,19 @@ defmodule GitHub.Dependabot do
       ],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:list_org_secrets_200_json_resp) do
+    [secrets: [{GitHub.Organization.DependabotSecret, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_repo_secrets_200_json_resp) do
+    [secrets: [{GitHub.Dependabot.Secret, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_selected_repos_for_org_secret_200_json_resp) do
+    [repositories: [{GitHub.Repository, :minimal}], total_count: :integer]
   end
 end

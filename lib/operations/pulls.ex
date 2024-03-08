@@ -5,40 +5,6 @@ defmodule GitHub.Pulls do
 
   @default_client GitHub.Client
 
-  @type merge_405_json_resp :: %__MODULE__{
-          __info__: map,
-          documentation_url: String.t() | nil,
-          message: String.t() | nil
-        }
-
-  @type merge_409_json_resp :: %__MODULE__{
-          __info__: map,
-          documentation_url: String.t() | nil,
-          message: String.t() | nil
-        }
-
-  @type update_branch_202_json_resp :: %__MODULE__{
-          __info__: map,
-          message: String.t() | nil,
-          url: String.t() | nil
-        }
-
-  defstruct [:__info__, :documentation_url, :message, :url]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(:merge_405_json_resp) do
-    [documentation_url: {:string, :generic}, message: {:string, :generic}]
-  end
-
-  def __fields__(:merge_409_json_resp) do
-    [documentation_url: {:string, :generic}, message: {:string, :generic}]
-  end
-
-  def __fields__(:update_branch_202_json_resp) do
-    [message: {:string, :generic}, url: {:string, :generic}]
-  end
-
   @doc """
   Check if a pull request has been merged
 
@@ -658,6 +624,18 @@ defmodule GitHub.Pulls do
     })
   end
 
+  @type merge_405_json_resp :: %{
+          __info__: map,
+          documentation_url: String.t() | nil,
+          message: String.t() | nil
+        }
+
+  @type merge_409_json_resp :: %{
+          __info__: map,
+          documentation_url: String.t() | nil,
+          message: String.t() | nil
+        }
+
   @doc """
   Merge a pull request
 
@@ -685,8 +663,8 @@ defmodule GitHub.Pulls do
         {200, {GitHub.PullRequest.MergeResult, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
-        {405, :map},
-        {409, :map},
+        {405, {GitHub.Pulls, :merge_405_json_resp}},
+        {409, {GitHub.Pulls, :merge_409_json_resp}},
         {422, {GitHub.ValidationError, :t}}
       ],
       opts: opts
@@ -817,6 +795,12 @@ defmodule GitHub.Pulls do
     })
   end
 
+  @type update_branch_202_json_resp :: %{
+          __info__: map,
+          message: String.t() | nil,
+          url: String.t() | nil
+        }
+
   @doc """
   Update a pull request branch
 
@@ -839,7 +823,11 @@ defmodule GitHub.Pulls do
       body: body,
       method: :put,
       request: [{"application/json", {:union, [:map, :null]}}],
-      response: [{202, :map}, {403, {GitHub.BasicError, :t}}, {422, {GitHub.ValidationError, :t}}],
+      response: [
+        {202, {GitHub.Pulls, :update_branch_202_json_resp}},
+        {403, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
       opts: opts
     })
   end
@@ -896,5 +884,19 @@ defmodule GitHub.Pulls do
       response: [{200, {GitHub.PullRequest.ReviewComment, :t}}],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:merge_405_json_resp) do
+    [documentation_url: {:string, :generic}, message: {:string, :generic}]
+  end
+
+  def __fields__(:merge_409_json_resp) do
+    [documentation_url: {:string, :generic}, message: {:string, :generic}]
+  end
+
+  def __fields__(:update_branch_202_json_resp) do
+    [message: {:string, :generic}, url: {:string, :generic}]
   end
 end

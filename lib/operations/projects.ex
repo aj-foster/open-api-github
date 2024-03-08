@@ -5,116 +5,6 @@ defmodule GitHub.Projects do
 
   @default_client GitHub.Client
 
-  @type create_card_503_json_resp :: %__MODULE__{
-          __info__: map,
-          code: String.t() | nil,
-          documentation_url: String.t() | nil,
-          errors: [GitHub.ProjectsErrors.create_card_503_json_resp()] | nil,
-          message: String.t() | nil
-        }
-
-  @type delete_403_json_resp :: %__MODULE__{
-          __info__: map,
-          documentation_url: String.t() | nil,
-          errors: [String.t()] | nil,
-          message: String.t() | nil
-        }
-
-  @type delete_card_403_json_resp :: %__MODULE__{
-          __info__: map,
-          documentation_url: String.t() | nil,
-          errors: [String.t()] | nil,
-          message: String.t() | nil
-        }
-
-  @type move_card_201_json_resp :: %__MODULE__{__info__: map}
-
-  @type move_card_403_json_resp :: %__MODULE__{
-          __info__: map,
-          documentation_url: String.t() | nil,
-          errors: [GitHub.ProjectsErrors.move_card_403_json_resp()] | nil,
-          message: String.t() | nil
-        }
-
-  @type move_card_503_json_resp :: %__MODULE__{
-          __info__: map,
-          code: String.t() | nil,
-          documentation_url: String.t() | nil,
-          errors: [GitHub.ProjectsErrors.move_card_503_json_resp()] | nil,
-          message: String.t() | nil
-        }
-
-  @type move_column_201_json_resp :: %__MODULE__{__info__: map}
-
-  @type update_403_json_resp :: %__MODULE__{
-          __info__: map,
-          documentation_url: String.t() | nil,
-          errors: [String.t()] | nil,
-          message: String.t() | nil
-        }
-
-  defstruct [:__info__, :code, :documentation_url, :errors, :message]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(:create_card_503_json_resp) do
-    [
-      code: {:string, :generic},
-      documentation_url: {:string, :generic},
-      errors: [{GitHub.ProjectsErrors, :create_card_503_json_resp}],
-      message: {:string, :generic}
-    ]
-  end
-
-  def __fields__(:delete_403_json_resp) do
-    [
-      documentation_url: {:string, :generic},
-      errors: [string: :generic],
-      message: {:string, :generic}
-    ]
-  end
-
-  def __fields__(:delete_card_403_json_resp) do
-    [
-      documentation_url: {:string, :generic},
-      errors: [string: :generic],
-      message: {:string, :generic}
-    ]
-  end
-
-  def __fields__(:move_card_201_json_resp) do
-    []
-  end
-
-  def __fields__(:move_card_403_json_resp) do
-    [
-      documentation_url: {:string, :generic},
-      errors: [{GitHub.ProjectsErrors, :move_card_403_json_resp}],
-      message: {:string, :generic}
-    ]
-  end
-
-  def __fields__(:move_card_503_json_resp) do
-    [
-      code: {:string, :generic},
-      documentation_url: {:string, :generic},
-      errors: [{GitHub.ProjectsErrors, :move_card_503_json_resp}],
-      message: {:string, :generic}
-    ]
-  end
-
-  def __fields__(:move_column_201_json_resp) do
-    []
-  end
-
-  def __fields__(:update_403_json_resp) do
-    [
-      documentation_url: {:string, :generic},
-      errors: [string: :generic],
-      message: {:string, :generic}
-    ]
-  end
-
   @doc """
   Add project collaborator
 
@@ -149,6 +39,14 @@ defmodule GitHub.Projects do
     })
   end
 
+  @type create_card_503_json_resp :: %{
+          __info__: map,
+          code: String.t() | nil,
+          documentation_url: String.t() | nil,
+          errors: [GitHub.ProjectsErrors.create_card_503_json_resp()] | nil,
+          message: String.t() | nil
+        }
+
   @doc """
   Create a project card
 
@@ -175,7 +73,7 @@ defmodule GitHub.Projects do
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
         {422, {:union, [{GitHub.ValidationError, :simple}, {GitHub.ValidationError, :t}]}},
-        {503, :map}
+        {503, {GitHub.Projects, :create_card_503_json_resp}}
       ],
       opts: opts
     })
@@ -315,6 +213,13 @@ defmodule GitHub.Projects do
     })
   end
 
+  @type delete_403_json_resp :: %{
+          __info__: map,
+          documentation_url: String.t() | nil,
+          errors: [String.t()] | nil,
+          message: String.t() | nil
+        }
+
   @doc """
   Delete a project
 
@@ -338,13 +243,20 @@ defmodule GitHub.Projects do
         {204, :null},
         {304, :null},
         {401, {GitHub.BasicError, :t}},
-        {403, :map},
+        {403, {GitHub.Projects, :delete_403_json_resp}},
         {404, {GitHub.BasicError, :t}},
         {410, {GitHub.BasicError, :t}}
       ],
       opts: opts
     })
   end
+
+  @type delete_card_403_json_resp :: %{
+          __info__: map,
+          documentation_url: String.t() | nil,
+          errors: [String.t()] | nil,
+          message: String.t() | nil
+        }
 
   @doc """
   Delete a project card
@@ -369,7 +281,7 @@ defmodule GitHub.Projects do
         {204, :null},
         {304, :null},
         {401, {GitHub.BasicError, :t}},
-        {403, :map},
+        {403, {GitHub.Projects, :delete_card_403_json_resp}},
         {404, {GitHub.BasicError, :t}}
       ],
       opts: opts
@@ -748,6 +660,23 @@ defmodule GitHub.Projects do
     })
   end
 
+  @type move_card_201_json_resp :: %{__info__: map}
+
+  @type move_card_403_json_resp :: %{
+          __info__: map,
+          documentation_url: String.t() | nil,
+          errors: [GitHub.ProjectsErrors.move_card_403_json_resp()] | nil,
+          message: String.t() | nil
+        }
+
+  @type move_card_503_json_resp :: %{
+          __info__: map,
+          code: String.t() | nil,
+          documentation_url: String.t() | nil,
+          errors: [GitHub.ProjectsErrors.move_card_503_json_resp()] | nil,
+          message: String.t() | nil
+        }
+
   @doc """
   Move a project card
 
@@ -768,16 +697,18 @@ defmodule GitHub.Projects do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {201, :map},
+        {201, {GitHub.Projects, :move_card_201_json_resp}},
         {304, :null},
         {401, {GitHub.BasicError, :t}},
-        {403, :map},
+        {403, {GitHub.Projects, :move_card_403_json_resp}},
         {422, {GitHub.ValidationError, :t}},
-        {503, :map}
+        {503, {GitHub.Projects, :move_card_503_json_resp}}
       ],
       opts: opts
     })
   end
+
+  @type move_column_201_json_resp :: %{__info__: map}
 
   @doc """
   Move a project column
@@ -799,7 +730,7 @@ defmodule GitHub.Projects do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {201, :map},
+        {201, {GitHub.Projects, :move_column_201_json_resp}},
         {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -840,6 +771,13 @@ defmodule GitHub.Projects do
     })
   end
 
+  @type update_403_json_resp :: %{
+          __info__: map,
+          documentation_url: String.t() | nil,
+          errors: [String.t()] | nil,
+          message: String.t() | nil
+        }
+
   @doc """
   Update a project
 
@@ -865,7 +803,7 @@ defmodule GitHub.Projects do
         {200, {GitHub.Project, :t}},
         {304, :null},
         {401, {GitHub.BasicError, :t}},
-        {403, :map},
+        {403, {GitHub.Projects, :update_403_json_resp}},
         {404, :null},
         {410, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :simple}}
@@ -934,5 +872,65 @@ defmodule GitHub.Projects do
       ],
       opts: opts
     })
+  end
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(:create_card_503_json_resp) do
+    [
+      code: {:string, :generic},
+      documentation_url: {:string, :generic},
+      errors: [{GitHub.ProjectsErrors, :create_card_503_json_resp}],
+      message: {:string, :generic}
+    ]
+  end
+
+  def __fields__(:delete_403_json_resp) do
+    [
+      documentation_url: {:string, :generic},
+      errors: [string: :generic],
+      message: {:string, :generic}
+    ]
+  end
+
+  def __fields__(:delete_card_403_json_resp) do
+    [
+      documentation_url: {:string, :generic},
+      errors: [string: :generic],
+      message: {:string, :generic}
+    ]
+  end
+
+  def __fields__(:move_card_201_json_resp) do
+    []
+  end
+
+  def __fields__(:move_card_403_json_resp) do
+    [
+      documentation_url: {:string, :generic},
+      errors: [{GitHub.ProjectsErrors, :move_card_403_json_resp}],
+      message: {:string, :generic}
+    ]
+  end
+
+  def __fields__(:move_card_503_json_resp) do
+    [
+      code: {:string, :generic},
+      documentation_url: {:string, :generic},
+      errors: [{GitHub.ProjectsErrors, :move_card_503_json_resp}],
+      message: {:string, :generic}
+    ]
+  end
+
+  def __fields__(:move_column_201_json_resp) do
+    []
+  end
+
+  def __fields__(:update_403_json_resp) do
+    [
+      documentation_url: {:string, :generic},
+      errors: [string: :generic],
+      message: {:string, :generic}
+    ]
   end
 end
