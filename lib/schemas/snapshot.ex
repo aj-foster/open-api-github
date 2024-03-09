@@ -6,9 +6,9 @@ defmodule GitHub.Snapshot do
 
   @type t :: %__MODULE__{
           __info__: map,
-          detector: map,
-          job: map,
-          manifests: map | nil,
+          detector: GitHub.SnapshotDetector.t(),
+          job: GitHub.SnapshotActions.Job.t(),
+          manifests: GitHub.SnapshotManifests.t() | nil,
           metadata: GitHub.Metadata.t() | nil,
           ref: String.t(),
           scanned: DateTime.t(),
@@ -24,9 +24,9 @@ defmodule GitHub.Snapshot do
 
   def __fields__(:t) do
     [
-      detector: :map,
-      job: :map,
-      manifests: :map,
+      detector: {GitHub.SnapshotDetector, :t},
+      job: {GitHub.SnapshotActions.Job, :t},
+      manifests: {GitHub.SnapshotManifests, :t},
       metadata: {GitHub.Metadata, :t},
       ref: {:string, :generic},
       scanned: {:string, :date_time},

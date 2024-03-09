@@ -135,7 +135,15 @@ defmodule GitHub.Issues do
 
   Any user with pull access to a repository can create an issue. If [issues are disabled in the repository](https://docs.github.com/articles/disabling-issues/), the API returns a `410 Gone` status.
 
-  This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+  This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
+  and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
 
   ## Resources
 
@@ -170,14 +178,19 @@ defmodule GitHub.Issues do
   @doc """
   Create an issue comment
 
-
   You can use the REST API to create comments on issues and pull requests. Every pull request is an issue, but not every issue is a pull request.
 
   This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications).
   Creating content too quickly using this endpoint may result in secondary rate limiting.
-  See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)"
-  and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)"
-  for details.
+  For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
+  and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
 
   ## Resources
 
@@ -347,7 +360,7 @@ defmodule GitHub.Issues do
   @doc """
   Get an issue
 
-  The API returns a [`301 Moved Permanently` status](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-redirects-redirects) if the issue was
+  The API returns a [`301 Moved Permanently` status](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api#follow-redirects) if the issue was
   [transferred](https://docs.github.com/articles/transferring-an-issue-to-another-repository/) to another repository. If
   the issue was transferred to or deleted from a repository where the authenticated user lacks read access, the API
   returns a `404 Not Found` status. If the issue was deleted from a repository where the authenticated user has read
@@ -358,6 +371,13 @@ defmodule GitHub.Issues do
   reason, "Issues" endpoints may return both issues and pull requests in the response. You can identify pull requests by
   the `pull_request` key. Be aware that the `id` of a pull request returned from "Issues" endpoints will be an _issue id_. To find out the pull
   request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint.
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
 
   ## Resources
 
@@ -389,6 +409,13 @@ defmodule GitHub.Issues do
   Get an issue comment
 
   You can use the REST API to get comments on issues and pull requests. Every pull request is an issue, but not every issue is a pull request.
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
 
   ## Resources
 
@@ -497,11 +524,17 @@ defmodule GitHub.Issues do
   repositories, and organization repositories. You can use the `filter` query parameter to fetch issues that are not
   necessarily assigned to you.
 
-
   **Note**: GitHub's REST API considers every pull request an issue, but not every issue is a pull request. For this
   reason, "Issues" endpoints may return both issues and pull requests in the response. You can identify pull requests by
   the `pull_request` key. Be aware that the `id` of a pull request returned from "Issues" endpoints will be an _issue id_. To find out the pull
   request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint.
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
 
   ## Options
 
@@ -515,8 +548,8 @@ defmodule GitHub.Issues do
     * `orgs`
     * `owned`
     * `pulls`
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -566,8 +599,8 @@ defmodule GitHub.Issues do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -598,11 +631,18 @@ defmodule GitHub.Issues do
 
   Issue comments are ordered by ascending ID.
 
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
+
   ## Options
 
     * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -637,13 +677,20 @@ defmodule GitHub.Issues do
 
   By default, issue comments are ordered by ascending ID.
 
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
+
   ## Options
 
     * `sort`: The property to sort the results by.
     * `direction`: Either `asc` or `desc`. Ignored without the `sort` parameter.
     * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -678,8 +725,8 @@ defmodule GitHub.Issues do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -750,8 +797,8 @@ defmodule GitHub.Issues do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -782,8 +829,8 @@ defmodule GitHub.Issues do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -872,6 +919,13 @@ defmodule GitHub.Issues do
   the `pull_request` key. Be aware that the `id` of a pull request returned from "Issues" endpoints will be an _issue id_. To find out the pull
   request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint.
 
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
+
   ## Options
 
     * `filter`: Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation.
@@ -880,8 +934,8 @@ defmodule GitHub.Issues do
     * `sort`: What to sort results by.
     * `direction`: The direction to sort the results by.
     * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -917,6 +971,13 @@ defmodule GitHub.Issues do
   the `pull_request` key. Be aware that the `id` of a pull request returned from "Issues" endpoints will be an _issue id_. To find out the pull
   request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint.
 
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
+
   ## Options
 
     * `filter`: Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation.
@@ -925,8 +986,8 @@ defmodule GitHub.Issues do
     * `sort`: What to sort results by.
     * `direction`: The direction to sort the results by.
     * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -962,6 +1023,13 @@ defmodule GitHub.Issues do
   the `pull_request` key. Be aware that the `id` of a pull request returned from "Issues" endpoints will be an _issue id_. To find out the pull
   request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint.
 
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
+
   ## Options
 
     * `milestone`: If an `integer` is passed, it should refer to a milestone by its `number` field. If the string `*` is passed, issues with any milestone are accepted. If the string `none` is passed, issues without milestones are returned.
@@ -973,8 +1041,8 @@ defmodule GitHub.Issues do
     * `sort`: What to sort results by.
     * `direction`: The direction to sort the results by.
     * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -1024,8 +1092,8 @@ defmodule GitHub.Issues do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -1056,8 +1124,8 @@ defmodule GitHub.Issues do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -1088,8 +1156,8 @@ defmodule GitHub.Issues do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -1128,8 +1196,8 @@ defmodule GitHub.Issues do
     * `state`: The state of the milestone. Either `open`, `closed`, or `all`.
     * `sort`: What to sort results by. Either `due_on` or `completeness`.
     * `direction`: The direction of the sort. Either `asc` or `desc`.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -1158,7 +1226,7 @@ defmodule GitHub.Issues do
 
   Users with push access can lock an issue or pull request's conversation.
 
-  Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
+  Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP method](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#http-method)."
 
   ## Resources
 
@@ -1344,6 +1412,13 @@ defmodule GitHub.Issues do
 
   Issue owners and users with push access can edit an issue.
 
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/issues/issues#update-an-issue)
@@ -1378,6 +1453,13 @@ defmodule GitHub.Issues do
   Update an issue comment
 
   You can use the REST API to update comments on issues and pull requests. Every pull request is an issue, but not every issue is a pull request.
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
 
   ## Resources
 

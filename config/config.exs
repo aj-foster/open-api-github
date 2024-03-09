@@ -49,6 +49,7 @@ if config_env() == :dev do
           Repository,
           Repository.Advisory,
           Repository.Rule.Set.Conditions,
+          Repos,
           Runner,
           SCIM,
           SecretScanning,

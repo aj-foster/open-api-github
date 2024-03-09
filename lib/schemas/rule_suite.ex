@@ -42,8 +42,8 @@ defmodule GitHub.RuleSuite do
 
   def __fields__(:t) do
     [
-      actor_id: :integer,
-      actor_name: {:string, :generic},
+      actor_id: {:union, [:integer, :null]},
+      actor_name: {:union, [{:string, :generic}, :null]},
       after_sha: {:string, :generic},
       before_sha: {:string, :generic},
       evaluation_result: {:enum, ["pass", "fail"]},

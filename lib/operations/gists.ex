@@ -71,6 +71,13 @@ defmodule GitHub.Gists do
   @doc """
   Create a gist comment
 
+  Creates a comment on a gist.
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.base64+json`**: Returns the base64-encoded contents. This can be useful if your gist contains any invalid UTF-8 sequences.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/gists/comments#create-a-gist-comment)
@@ -183,6 +190,13 @@ defmodule GitHub.Gists do
   @doc """
   Get a gist
 
+  Gets a specified gist.
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.base64+json`**: Returns the base64-encoded contents. This can be useful if your gist contains any invalid UTF-8 sequences.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/gists/gists#get-a-gist)
@@ -209,6 +223,13 @@ defmodule GitHub.Gists do
 
   @doc """
   Get a gist comment
+
+  Gets a comment on a gist.
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.base64+json`**: Returns the base64-encoded contents. This can be useful if your gist contains any invalid UTF-8 sequences.
 
   ## Resources
 
@@ -237,6 +258,13 @@ defmodule GitHub.Gists do
 
   @doc """
   Get a gist revision
+
+  Gets a specified gist revision.
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.base64+json`**: Returns the base64-encoded contents. This can be useful if your gist contains any invalid UTF-8 sequences.
 
   ## Resources
 
@@ -271,8 +299,8 @@ defmodule GitHub.Gists do
   ## Options
 
     * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -298,10 +326,17 @@ defmodule GitHub.Gists do
   @doc """
   List gist comments
 
+  Lists the comments on a gist.
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.base64+json`**: Returns the base64-encoded contents. This can be useful if your gist contains any invalid UTF-8 sequences.
+
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -335,8 +370,8 @@ defmodule GitHub.Gists do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -373,8 +408,8 @@ defmodule GitHub.Gists do
   ## Options
 
     * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -403,8 +438,8 @@ defmodule GitHub.Gists do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -438,13 +473,13 @@ defmodule GitHub.Gists do
 
   List public gists sorted by most recently updated to least recently updated.
 
-  Note: With [pagination](https://docs.github.com/rest/overview/resources-in-the-rest-api#pagination), you can fetch up to 3000 gists. For example, you can fetch 100 pages with 30 gists per page or 30 pages with 100 gists per page.
+  Note: With [pagination](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api), you can fetch up to 3000 gists. For example, you can fetch 100 pages with 30 gists per page or 30 pages with 100 gists per page.
 
   ## Options
 
     * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -480,8 +515,8 @@ defmodule GitHub.Gists do
   ## Options
 
     * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -512,7 +547,7 @@ defmodule GitHub.Gists do
   @doc """
   Star a gist
 
-  Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
+  Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP method](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#http-method)."
 
   ## Resources
 
@@ -568,8 +603,16 @@ defmodule GitHub.Gists do
   @doc """
   Update a gist
 
-  Allows you to update a gist's description and to update, delete, or rename gist files. Files from the previous version of the gist that aren't explicitly changed during an edit are unchanged.
+  Allows you to update a gist's description and to update, delete, or rename gist files. Files
+  from the previous version of the gist that aren't explicitly changed during an edit
+  are unchanged.
+
   At least one of `description` or `files` is required.
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.base64+json`**: Returns the base64-encoded contents. This can be useful if your gist contains any invalid UTF-8 sequences.
 
   ## Resources
 
@@ -599,6 +642,13 @@ defmodule GitHub.Gists do
 
   @doc """
   Update a gist comment
+
+  Updates a comment on a gist.
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw markdown. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github.base64+json`**: Returns the base64-encoded contents. This can be useful if your gist contains any invalid UTF-8 sequences.
 
   ## Resources
 

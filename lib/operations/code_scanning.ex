@@ -8,10 +8,7 @@ defmodule GitHub.CodeScanning do
   @doc """
   Delete a code scanning analysis from a repository
 
-  Deletes a specified code scanning analysis from a repository. For
-  private repositories, you must use an access token with the `repo` scope. For public repositories,
-  you must use an access token with `public_repo` scope.
-  GitHub Apps must have the `security_events` write permission to use this endpoint.
+  Deletes a specified code scanning analysis from a repository.
 
   You can delete one analysis at a time.
   To delete a series of analyses, start with the most recent analysis and work backwards.
@@ -74,6 +71,8 @@ defmodule GitHub.CodeScanning do
 
   The above process assumes that you want to remove all trace of the tool's analyses from the GitHub user interface, for the specified repository, and it therefore uses the `confirm_delete_url` value. Alternatively, you could use the `next_analysis_url` value, which would leave the last analysis in each set undeleted to avoid removing a tool's analysis entirely.
 
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
+
   ## Options
 
     * `confirm_delete`: Allow deletion if the specified analysis is the last in a set. If you attempt to delete the final analysis in a set without setting this parameter to `true`, you'll get a 400 response with the message: `Analysis is last of its type and deletion may result in the loss of historical alert data. Please specify confirm_delete.`
@@ -109,7 +108,9 @@ defmodule GitHub.CodeScanning do
   @doc """
   Get a code scanning alert
 
-  Gets a single code scanning alert. You must use an access token with the `security_events` scope to use this endpoint with private repos, the `public_repo` scope also grants permission to read security events on public repos only. GitHub Apps must have the `security_events` read permission to use this endpoint.
+  Gets a single code scanning alert.
+
+  OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
 
   ## Resources
 
@@ -143,9 +144,6 @@ defmodule GitHub.CodeScanning do
   Get a code scanning analysis for a repository
 
   Gets a specified code scanning analysis for a repository.
-  You must use an access token with the `security_events` scope to use this endpoint with private repos,
-  the `public_repo` scope also grants permission to read security events on public repos only.
-  GitHub Apps must have the `security_events` read permission to use this endpoint.
 
   The default JSON response contains fields that describe the analysis.
   This includes the Git reference and commit SHA to which the analysis relates,
@@ -157,10 +155,11 @@ defmodule GitHub.CodeScanning do
   For very old analyses this data is not available,
   and `0` is returned in this field.
 
-  If you use the Accept header `application/sarif+json`,
-  the response contains the analysis data that was uploaded.
-  This is formatted as
-  [SARIF version 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/cs01/sarif-v2.1.0-cs01.html).
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/sarif+json`**: Instead of returning a summary of the analysis, this endpoint returns a subset of the analysis data that was uploaded. The data is formatted as [SARIF version 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/cs01/sarif-v2.1.0-cs01.html). It also returns additional data such as the `github/alertNumber` and `github/alertUrl` properties.
+
+  OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
 
   ## Resources
 
@@ -200,9 +199,7 @@ defmodule GitHub.CodeScanning do
   your HTTP client is configured to follow redirects or use the `Location` header
   to make a second request to get the redirect URL.
 
-  For private repositories, you must use an access token with the `security_events` scope.
-  For public repositories, you can use tokens with the `security_events` or `public_repo` scope.
-  GitHub Apps must have the `contents` read permission to use this endpoint.
+  OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
 
   ## Resources
 
@@ -234,8 +231,8 @@ defmodule GitHub.CodeScanning do
   Get a code scanning default setup configuration
 
   Gets a code scanning default setup configuration.
-  You must use an access token with the `repo` scope to use this endpoint with private repos or the `public_repo`
-  scope for public repos. GitHub Apps must have the `repo` write permission to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
 
   ## Resources
 
@@ -265,7 +262,8 @@ defmodule GitHub.CodeScanning do
   @doc """
   Get information about a SARIF upload
 
-  Gets information about a SARIF upload, including the status and the URL of the analysis that was uploaded so that you can retrieve details of the analysis. For more information, see "[Get a code scanning analysis for a repository](https://docs.github.com/rest/code-scanning/code-scanning#get-a-code-scanning-analysis-for-a-repository)." You must use an access token with the `security_events` scope to use this endpoint with private repos, the `public_repo` scope also grants permission to read security events on public repos only. GitHub Apps must have the `security_events` read permission to use this endpoint.
+  Gets information about a SARIF upload, including the status and the URL of the analysis that was uploaded so that you can retrieve details of the analysis. For more information, see "[Get a code scanning analysis for a repository](https://docs.github.com/rest/code-scanning/code-scanning#get-a-code-scanning-analysis-for-a-repository)."
+  OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
 
   ## Resources
 
@@ -296,14 +294,13 @@ defmodule GitHub.CodeScanning do
   List instances of a code scanning alert
 
   Lists all instances of the specified code scanning alert.
-  You must use an access token with the `security_events` scope to use this endpoint with private repos,
-  the `public_repo` scope also grants permission to read security events on public repos only.
-  GitHub Apps must have the `security_events` read permission to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
 
   ## Options
 
-    * `page`: Page number of the results to fetch.
-    * `per_page`: The number of results per page (max 100).
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `ref`: The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.
 
   ## Resources
@@ -338,20 +335,18 @@ defmodule GitHub.CodeScanning do
 
   Lists code scanning alerts for the default branch for all eligible repositories in an organization. Eligible repositories are repositories that are owned by organizations that you own or for which you are a security manager. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)."
 
-  To use this endpoint, you must be an owner or security manager for the organization, and you must use an access token with the `repo` scope or `security_events` scope.
+  The authenticated user must be an owner or security manager for the organization to use this endpoint.
 
-  For public repositories, you may instead use the `public_repo` scope.
-
-  GitHub Apps must have the `security_events` read permission to use this endpoint.
+  OAuth app tokens and personal access tokens (classic) need the `security_events` or `repo`s cope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
 
   ## Options
 
     * `tool_name`: The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool by using either `tool_name` or `tool_guid`, but not both.
     * `tool_guid`: The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both.
-    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
-    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
-    * `page`: Page number of the results to fetch.
-    * `per_page`: The number of results per page (max 100).
+    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `direction`: The direction to sort the results by.
     * `state`: If specified, only code scanning alerts with this state will be returned.
     * `sort`: The property by which to sort the results.
@@ -401,21 +396,18 @@ defmodule GitHub.CodeScanning do
 
   Lists code scanning alerts.
 
-  To use this endpoint, you must use an access token with the `security_events` scope or, for alerts from public repositories only, an access token with the `public_repo` scope.
-
-  GitHub Apps must have the `security_events` read
-  permission to use this endpoint.
-
   The response includes a `most_recent_instance` object.
   This provides details of the most recent instance of this alert
   for the default branch (or for the specified Git reference if you used `ref` in the request).
+
+  OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
 
   ## Options
 
     * `tool_name`: The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool by using either `tool_name` or `tool_guid`, but not both.
     * `tool_guid`: The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both.
-    * `page`: Page number of the results to fetch.
-    * `per_page`: The number of results per page (max 100).
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `ref`: The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.
     * `direction`: The direction to sort the results by.
     * `sort`: The property by which to sort the results.
@@ -467,9 +459,7 @@ defmodule GitHub.CodeScanning do
 
   Lists the CodeQL databases that are available in a repository.
 
-  For private repositories, you must use an access token with the `security_events` scope.
-  For public repositories, you can use tokens with the `security_events` or `public_repo` scope.
-  GitHub Apps must have the `contents` read permission to use this endpoint.
+  OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
 
   ## Resources
 
@@ -510,19 +500,17 @@ defmodule GitHub.CodeScanning do
   For very old analyses this data is not available,
   and `0` is returned in this field.
 
-  You must use an access token with the `security_events` scope to use this endpoint with private repos,
-  the `public_repo` scope also grants permission to read security events on public repos only.
-  GitHub Apps must have the `security_events` read permission to use this endpoint.
-
   **Deprecation notice**:
   The `tool_name` field is deprecated and will, in future, not be included in the response for this endpoint. The example response reflects this change. The tool name can now be found inside the `tool` field.
+
+  OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
 
   ## Options
 
     * `tool_name`: The name of a code scanning tool. Only results by this tool will be listed. You can specify the tool by using either `tool_name` or `tool_guid`, but not both.
     * `tool_guid`: The GUID of a code scanning tool. Only results by this tool will be listed. Note that some code scanning tools may not include a GUID in their analysis data. You can specify the tool by using either `tool_guid` or `tool_name`, but not both.
-    * `page`: Page number of the results to fetch.
-    * `per_page`: The number of results per page (max 100).
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `ref`: The Git reference for the analyses you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.
     * `sarif_id`: Filter analyses belonging to the same SARIF upload.
     * `direction`: The direction to sort the results by.
@@ -569,7 +557,8 @@ defmodule GitHub.CodeScanning do
   @doc """
   Update a code scanning alert
 
-  Updates the status of a single code scanning alert. You must use an access token with the `security_events` scope to use this endpoint with private repositories. You can also use tokens with the `public_repo` scope for public repositories only. GitHub Apps must have the `security_events` write permission to use this endpoint.
+  Updates the status of a single code scanning alert.
+  OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
 
   ## Resources
 
@@ -602,8 +591,8 @@ defmodule GitHub.CodeScanning do
   Update a code scanning default setup configuration
 
   Updates a code scanning default setup configuration.
-  You must use an access token with the `repo` scope to use this endpoint with private repos or the `public_repo`
-  scope for public repos. GitHub Apps must have the `repo` write permission to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
 
   ## Resources
 
@@ -643,7 +632,7 @@ defmodule GitHub.CodeScanning do
   @doc """
   Upload an analysis as SARIF data
 
-  Uploads SARIF data containing the results of a code scanning analysis to make the results available in a repository. You must use an access token with the `security_events` scope to use this endpoint for private repositories. You can also use tokens with the `public_repo` scope for public repositories only. GitHub Apps must have the `security_events` write permission to use this endpoint. For troubleshooting information, see "[Troubleshooting SARIF uploads](https://docs.github.com/code-security/code-scanning/troubleshooting-sarif)."
+  Uploads SARIF data containing the results of a code scanning analysis to make the results available in a repository. For troubleshooting information, see "[Troubleshooting SARIF uploads](https://docs.github.com/code-security/code-scanning/troubleshooting-sarif)."
 
   There are two places where you can upload code scanning results.
    - If you upload to a pull request, for example `--ref refs/pull/42/merge` or `--ref refs/pull/42/head`, then the results appear as alerts in a pull request check. For more information, see "[Triaging code scanning alerts in pull requests](https://docs.github.com/code-security/secure-coding/triaging-code-scanning-alerts-in-pull-requests)."
@@ -654,7 +643,7 @@ defmodule GitHub.CodeScanning do
   ```
   gzip -c analysis-data.sarif | base64 -w0
   ```
-  <br>
+
   SARIF upload supports a maximum number of entries per the following data objects, and an analysis will be rejected if any of these objects is above its maximum value. For some objects, there are additional values over which the entries will be ignored while keeping the most important entries whenever applicable.
   To get the most out of your analysis when it includes data above the supported limits, try to optimize the analysis configuration. For example, for the CodeQL tool, identify and remove the most noisy queries. For more information, see "[SARIF results exceed one or more limits](https://docs.github.com/code-security/code-scanning/troubleshooting-sarif/results-exceed-limit)."
 
@@ -673,6 +662,8 @@ defmodule GitHub.CodeScanning do
   The `202 Accepted` response includes an `id` value.
   You can use this ID to check the status of the upload by using it in the `/sarifs/{sarif_id}` endpoint.
   For more information, see "[Get information about a SARIF upload](https://docs.github.com/rest/code-scanning/code-scanning#get-information-about-a-sarif-upload)."
+
+  OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
 
   ## Resources
 

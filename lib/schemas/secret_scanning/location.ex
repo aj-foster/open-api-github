@@ -8,9 +8,17 @@ defmodule GitHub.SecretScanning.Location do
           __info__: map,
           details:
             GitHub.SecretScanning.LocationCommit.t()
+            | GitHub.SecretScanning.LocationDiscussionBody.t()
+            | GitHub.SecretScanning.LocationDiscussionComment.t()
+            | GitHub.SecretScanning.LocationDiscussionTitle.t()
             | GitHub.SecretScanning.LocationIssueBody.t()
             | GitHub.SecretScanning.LocationIssueComment.t()
-            | GitHub.SecretScanning.LocationIssueTitle.t(),
+            | GitHub.SecretScanning.LocationIssueTitle.t()
+            | GitHub.SecretScanning.LocationPullRequestBody.t()
+            | GitHub.SecretScanning.LocationPullRequestComment.t()
+            | GitHub.SecretScanning.LocationPullRequestReview.t()
+            | GitHub.SecretScanning.LocationPullRequestReviewComment.t()
+            | GitHub.SecretScanning.LocationPullRequestTitle.t(),
           type: String.t()
         }
 
@@ -26,11 +34,34 @@ defmodule GitHub.SecretScanning.Location do
         {:union,
          [
            {GitHub.SecretScanning.LocationCommit, :t},
+           {GitHub.SecretScanning.LocationDiscussionBody, :t},
+           {GitHub.SecretScanning.LocationDiscussionComment, :t},
+           {GitHub.SecretScanning.LocationDiscussionTitle, :t},
            {GitHub.SecretScanning.LocationIssueBody, :t},
            {GitHub.SecretScanning.LocationIssueComment, :t},
-           {GitHub.SecretScanning.LocationIssueTitle, :t}
+           {GitHub.SecretScanning.LocationIssueTitle, :t},
+           {GitHub.SecretScanning.LocationPullRequestBody, :t},
+           {GitHub.SecretScanning.LocationPullRequestComment, :t},
+           {GitHub.SecretScanning.LocationPullRequestReview, :t},
+           {GitHub.SecretScanning.LocationPullRequestReviewComment, :t},
+           {GitHub.SecretScanning.LocationPullRequestTitle, :t}
          ]},
-      type: {:enum, ["commit", "issue_title", "issue_body", "issue_comment"]}
+      type:
+        {:enum,
+         [
+           "commit",
+           "issue_title",
+           "issue_body",
+           "issue_comment",
+           "discussion_title",
+           "discussion_body",
+           "discussion_comment",
+           "pull_request_title",
+           "pull_request_body",
+           "pull_request_comment",
+           "pull_request_review",
+           "pull_request_review_comment"
+         ]}
     ]
   end
 end

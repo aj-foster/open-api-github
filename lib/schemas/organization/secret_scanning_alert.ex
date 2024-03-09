@@ -23,7 +23,8 @@ defmodule GitHub.Organization.SecretScanningAlert do
           secret_type_display_name: String.t() | nil,
           state: String.t() | nil,
           updated_at: DateTime.t() | nil,
-          url: String.t() | nil
+          url: String.t() | nil,
+          validity: String.t() | nil
         }
 
   defstruct [
@@ -45,7 +46,8 @@ defmodule GitHub.Organization.SecretScanningAlert do
     :secret_type_display_name,
     :state,
     :updated_at,
-    :url
+    :url,
+    :validity
   ]
 
   @doc false
@@ -71,7 +73,8 @@ defmodule GitHub.Organization.SecretScanningAlert do
       secret_type_display_name: {:string, :generic},
       state: {:enum, ["open", "resolved"]},
       updated_at: {:union, [{:string, :date_time}, :null]},
-      url: {:string, :uri}
+      url: {:string, :uri},
+      validity: {:enum, ["active", "inactive", "unknown"]}
     ]
   end
 end

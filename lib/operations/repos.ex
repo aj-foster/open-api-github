@@ -39,7 +39,7 @@ defmodule GitHub.Repos do
 
   Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
 
-  Grants the specified apps push access for this branch. Only installed GitHub Apps with `write` access to the `contents` permission can be added as authorized actors on a protected branch.
+  Grants the specified apps push access for this branch. Only GitHub Apps that are installed on the repository and that have been granted write access to the repository contents can be added as authorized actors on a protected branch.
 
   ## Resources
 
@@ -71,7 +71,7 @@ defmodule GitHub.Repos do
   @doc """
   Add a repository collaborator
 
-  This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+  This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
 
   Adding an outside collaborator may be restricted by enterprise administrators. For more information, see "[Enforcing repository management policies in your enterprise](https://docs.github.com/admin/policies/enforcing-policies-for-your-enterprise/enforcing-repository-management-policies-in-your-enterprise#enforcing-a-policy-for-inviting-outside-collaborators-to-repositories)."
 
@@ -81,7 +81,7 @@ defmodule GitHub.Repos do
   Cannot assign {member} permission of {role name}
   ```
 
-  Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
+  Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP method](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#http-method)."
 
   The invitee will receive a notification that they have been invited to the repository, which they must accept or decline. They may do this via the notifications page, the email they receive, or by using the [API](https://docs.github.com/rest/collaborators/invitations).
 
@@ -226,6 +226,33 @@ defmodule GitHub.Repos do
   end
 
   @doc """
+  Cancel a GitHub Pages deployment
+
+  Cancels a GitHub Pages deployment.
+
+  The authenticated user must have write permissions for the GitHub Pages site.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/pages/pages#cancel-a-github-pages-deployment)
+
+  """
+  @spec cancel_pages_deployment(String.t(), String.t(), integer | String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def cancel_pages_deployment(owner, repo, pages_deployment_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo, pages_deployment_id: pages_deployment_id],
+      call: {GitHub.Repos, :cancel_pages_deployment},
+      url: "/repos/#{owner}/#{repo}/pages/deployments/#{pages_deployment_id}/cancel",
+      method: :post,
+      response: [{204, :null}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
   Check if automated security fixes are enabled for a repository
 
   Shows whether automated security fixes are enabled, disabled or paused for a repository. The authenticated user must have admin read access to the repository. For more information, see "[Configuring automated security fixes](https://docs.github.com/articles/configuring-automated-security-fixes)".
@@ -257,9 +284,9 @@ defmodule GitHub.Repos do
 
   Team members will include the members of child teams.
 
-  You must authenticate using an access token with the `read:org` and `repo` scopes with push access to use this
-  endpoint. GitHub Apps must have the `members` organization permission and `metadata` repository permission to use this
-  endpoint.
+  The authenticated user must have push access to the repository to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `read:org` and `repo` scopes to use this endpoint.
 
   ## Resources
 
@@ -277,6 +304,36 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/collaborators/#{username}",
       method: :get,
       response: [{204, :null}, {404, :null}],
+      opts: opts
+    })
+  end
+
+  @type check_private_vulnerability_reporting_200_json_resp :: %{__info__: map, enabled: boolean}
+
+  @doc """
+  Check if private vulnerability reporting is enabled for a repository
+
+  Returns a boolean indicating whether or not private vulnerability reporting is enabled for the repository. For more information, see "[Evaluating the security settings of a repository](https://docs.github.com/code-security/security-advisories/working-with-repository-security-advisories/evaluating-the-security-settings-of-a-repository)".
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/repos#check-if-private-vulnerability-reporting-is-enabled-for-a-repository)
+
+  """
+  @spec check_private_vulnerability_reporting(String.t(), String.t(), keyword) ::
+          {:ok, map} | {:error, GitHub.Error.t()}
+  def check_private_vulnerability_reporting(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :check_private_vulnerability_reporting},
+      url: "/repos/#{owner}/#{repo}/private-vulnerability-reporting",
+      method: :get,
+      response: [
+        {200, {GitHub.Repos, :check_private_vulnerability_reporting_200_json_resp}},
+        {422, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}}
+      ],
       opts: opts
     })
   end
@@ -344,9 +401,14 @@ defmodule GitHub.Repos do
   @doc """
   Compare two commits
 
-  Compares two commits against one another. You can compare branches in the same repository, or you can compare branches that exist in different repositories within the same repository network, including fork branches. For more information about how to view a repository's network, see "[Understanding connections between repositories](https://docs.github.com/repositories/viewing-activity-and-data-for-your-repository/understanding-connections-between-repositories)."
+  Compares two commits against one another. You can compare refs (branches or tags) and commit SHAs in the same repository, or you can compare refs and commit SHAs that exist in different repositories within the same repository network, including fork branches. For more information about how to view a repository's network, see "[Understanding connections between repositories](https://docs.github.com/repositories/viewing-activity-and-data-for-your-repository/understanding-connections-between-repositories)."
 
-  This endpoint is equivalent to running the `git log BASE..HEAD` command, but it returns commits in a different order. The `git log BASE..HEAD` command returns commits in reverse chronological order, whereas the API returns commits in chronological order. You can pass the appropriate [media type](https://docs.github.com/rest/overview/media-types/#commits-commit-comparison-and-pull-requests) to fetch diff and patch formats.
+  This endpoint is equivalent to running the `git log BASE..HEAD` command, but it returns commits in a different order. The `git log BASE..HEAD` command returns commits in reverse chronological order, whereas the API returns commits in chronological order.
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.diff`**: Returns the diff of the commit.
+  - **`application/vnd.github.patch`**: Returns the patch of the commit. Diffs with binary data will have no `patch` property.
 
   The API response includes details about the files that were changed between the two commits. This includes the status of the change (if a file was added, removed, modified, or renamed), and details of the change itself. For example, files with a `renamed` status have a `previous_filename` field showing the previous filename of the file, and files with a `modified` status have a `patch` field showing the changes made to the file.
 
@@ -392,8 +454,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `page`: Page number of the results to fetch.
-    * `per_page`: The number of results per page (max 100).
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -454,7 +516,14 @@ defmodule GitHub.Repos do
 
   Create a comment for a commit using its `:commit_sha`.
 
-  This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+  This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github-commitcomment.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github-commitcomment.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github-commitcomment.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github-commitcomment.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
 
   ## Resources
 
@@ -599,8 +668,6 @@ defmodule GitHub.Repos do
   be `deploy:migrations` to run schema changes on the system. In the compiled world this could be a flag to compile an
   application with debugging enabled.
 
-  Users with `repo` or `repo_deployment` scopes can create a deployment for a given ref.
-
   Merged branch response:
 
   You will see this response when GitHub automatically merges the base branch into the topic branch instead of creating
@@ -621,6 +688,8 @@ defmodule GitHub.Repos do
 
   This error happens when the `required_contexts` parameter indicates that one or more contexts need to have a `success`
   status for the commit to be deployed, but one or more of the required contexts do not have a state of `success`.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` or `repo_deployment` scope to use this endpoint.
 
   ## Resources
 
@@ -652,9 +721,9 @@ defmodule GitHub.Repos do
   @doc """
   Create a deployment branch policy
 
-  Creates a deployment branch policy for an environment.
+  Creates a deployment branch or tag policy for an environment.
 
-  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `administration:write` permission for the repository to use this endpoint.
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -688,9 +757,11 @@ defmodule GitHub.Repos do
 
   Enable a custom deployment protection rule for an environment.
 
-  You must authenticate using an access token with the `repo` scope to use this endpoint. Enabling a custom protection rule requires admin or owner permissions to the repository. GitHub Apps must have the `actions:write` permission to use this endpoint.
+  The authenticated user must have admin or owner permissions to the repository to use this endpoint.
 
   For more information about the app that is providing this custom deployment rule, see the [documentation for the `GET /apps/{app_slug}` endpoint](https://docs.github.com/rest/apps/apps#get-an-app).
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -719,7 +790,7 @@ defmodule GitHub.Repos do
 
   Users with `push` access can create deployment statuses for a given deployment.
 
-  GitHub Apps require `read & write` access to "Deployments" and `read-only` access to "Repo contents" (for private repos). OAuth apps require the `repo_deployment` scope.
+  OAuth app tokens and personal access tokens (classic) need the `repo_deployment` scope to use this endpoint.
 
   ## Resources
 
@@ -750,12 +821,9 @@ defmodule GitHub.Repos do
 
   The `client_payload` parameter is available for any extra information that your workflow might need. This parameter is a JSON payload that will be passed on when the webhook event is dispatched. For example, the `client_payload` can include a message that a user would like to send using a GitHub Actions workflow. Or the `client_payload` can be used as a test to debug your workflow.
 
-  This endpoint requires write access to the repository by providing either:
-
-    - Personal access tokens with `repo` scope. For more information, see "[Creating a personal access token for the command line](https://docs.github.com/articles/creating-a-personal-access-token-for-the-command-line)" in the GitHub Help documentation.
-    - GitHub Apps with both `metadata:read` and `contents:read&write` permissions.
-
   This input example shows how you can use the `client_payload` as a test to debug your workflow.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -784,12 +852,7 @@ defmodule GitHub.Repos do
 
   Creates a new repository for the authenticated user.
 
-  **OAuth scope requirements**
-
-  When using [OAuth](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:
-
-  *   `public_repo` scope or `repo` scope to create a public repository. Note: For GitHub AE, use `repo` scope to create an internal repository.
-  *   `repo` scope to create a private repository.
+  OAuth app tokens and personal access tokens (classic) need the `public_repo` or `repo` scope to create a public repository, and `repo` scope to create a private repository.
 
   ## Resources
 
@@ -797,7 +860,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_for_authenticated_user(map, keyword) ::
-          {:ok, GitHub.Repository.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Repository.full()} | {:error, GitHub.Error.t()}
   def create_for_authenticated_user(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -809,7 +872,7 @@ defmodule GitHub.Repos do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {201, {GitHub.Repository, :t}},
+        {201, {GitHub.Repository, :full}},
         {304, :null},
         {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {401, {GitHub.BasicError, :t}},
@@ -863,12 +926,7 @@ defmodule GitHub.Repos do
 
   Creates a new repository in the specified organization. The authenticated user must be a member of the organization.
 
-  **OAuth scope requirements**
-
-  When using [OAuth](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:
-
-  *   `public_repo` scope or `repo` scope to create a public repository. Note: For GitHub AE, use `repo` scope to create an internal repository.
-  *   `repo` scope to create a private repository
+  OAuth app tokens and personal access tokens (classic) need the `public_repo` or `repo` scope to create a public repository, and `repo` scope to create a private repository.
 
   ## Resources
 
@@ -876,7 +934,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_in_org(String.t(), map, keyword) ::
-          {:ok, GitHub.Repository.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Repository.full()} | {:error, GitHub.Error.t()}
   def create_in_org(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -888,8 +946,43 @@ defmodule GitHub.Repos do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {201, {GitHub.Repository, :t}},
+        {201, {GitHub.Repository, :full}},
         {403, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create or update custom property values for a repository
+
+  Create new or update existing custom property values for a repository.
+  Using a value of `null` for a custom property will remove or 'unset' the property value from the repository.
+
+  Repository admins and other users with the repository-level "edit custom property values" fine-grained permission can use this endpoint.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/custom-properties#create-or-update-custom-property-values-for-a-repository)
+
+  """
+  @spec create_or_update_custom_properties_values(String.t(), String.t(), map, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def create_or_update_custom_properties_values(owner, repo, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo, body: body],
+      call: {GitHub.Repos, :create_or_update_custom_properties_values},
+      url: "/repos/#{owner}/#{repo}/properties/values",
+      body: body,
+      method: :patch,
+      request: [{"application/json", :map}],
+      response: [
+        {204, :null},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
       ],
       opts: opts
@@ -905,7 +998,7 @@ defmodule GitHub.Repos do
 
   **Note:** To create or update secrets for an environment, see "[GitHub Actions secrets](https://docs.github.com/rest/actions/secrets)."
 
-  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `administration:write` permission for the repository to use this endpoint.
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -932,9 +1025,11 @@ defmodule GitHub.Repos do
   @doc """
   Create or update file contents
 
-  Creates a new file or replaces an existing file in a repository. You must authenticate using an access token with the `repo` scope to use this endpoint. If you want to modify files in the `.github/workflows` directory, you must authenticate using an access token with the `workflow` scope.
+  Creates a new file or replaces an existing file in a repository.
 
   **Note:** If you use this endpoint and the "[Delete a file](https://docs.github.com/rest/repos/contents/#delete-a-file)" endpoint in parallel, the concurrent requests will conflict and you will receive errors. You must use these endpoints serially instead.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. The `workflow` scope is also required in order to modify files in the `.github/workflows` directory.
 
   ## Resources
 
@@ -1000,7 +1095,7 @@ defmodule GitHub.Repos do
 
   Create a GitHub Pages deployment for a repository.
 
-  Users must have write permissions. GitHub Apps must have the `pages:write` permission to use this endpoint.
+  The authenticated user must have write permission to the repository.
 
   ## Resources
 
@@ -1015,7 +1110,7 @@ defmodule GitHub.Repos do
     client.request(%{
       args: [owner: owner, repo: repo, body: body],
       call: {GitHub.Repos, :create_pages_deployment},
-      url: "/repos/#{owner}/#{repo}/pages/deployment",
+      url: "/repos/#{owner}/#{repo}/pages/deployments",
       body: body,
       method: :post,
       request: [{"application/json", :map}],
@@ -1034,14 +1129,16 @@ defmodule GitHub.Repos do
 
   Configures a GitHub Pages site. For more information, see "[About GitHub Pages](https://docs.github.com/github/working-with-github-pages/about-github-pages)."
 
-  To use this endpoint, you must be a repository administrator, maintainer, or have the 'manage GitHub Pages settings' permission. A token with the `repo` scope or Pages write permission is required. GitHub Apps must have the `administration:write` and `pages:write` permissions.
+  The authenticated user must be a repository administrator, maintainer, or have the 'manage GitHub Pages settings' permission.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/pages/pages#create-a-apiname-pages-site)
 
   """
-  @spec create_pages_site(String.t(), String.t(), map | nil, keyword) ::
+  @spec create_pages_site(String.t(), String.t(), map, keyword) ::
           {:ok, GitHub.Page.t()} | {:error, GitHub.Error.t()}
   def create_pages_site(owner, repo, body, opts \\ []) do
     client = opts[:client] || @default_client
@@ -1052,7 +1149,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/pages",
       body: body,
       method: :post,
-      request: [{"application/json", {:union, [:map, :null]}}],
+      request: [{"application/json", :map}],
       response: [
         {201, {GitHub.Page, :t}},
         {409, {GitHub.BasicError, :t}},
@@ -1067,7 +1164,7 @@ defmodule GitHub.Repos do
 
   Users with push access to the repository can create a release.
 
-  This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+  This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
 
   ## Resources
 
@@ -1163,12 +1260,7 @@ defmodule GitHub.Repos do
 
   Creates a new repository using a repository template. Use the `template_owner` and `template_repo` route parameters to specify the repository to use as the template. If the repository is not public, the authenticated user must own or be a member of an organization that owns the repository. To check if a repository is available to use as a template, get the repository's information using the [Get a repository](https://docs.github.com/rest/repos/repos#get-a-repository) endpoint and check that the `is_template` key is `true`.
 
-  **OAuth scope requirements**
-
-  When using [OAuth](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/), authorizations must include:
-
-  *   `public_repo` scope or `repo` scope to create a public repository. Note: For GitHub AE, use `repo` scope to create an internal repository.
-  *   `repo` scope to create a private repository
+  OAuth app tokens and personal access tokens (classic) need the `public_repo` or `repo` scope to create a public repository, and `repo` scope to create a private repository.
 
   ## Resources
 
@@ -1176,7 +1268,7 @@ defmodule GitHub.Repos do
 
   """
   @spec create_using_template(String.t(), String.t(), map, keyword) ::
-          {:ok, GitHub.Repository.t()} | {:error, GitHub.Error.t()}
+          {:ok, GitHub.Repository.full()} | {:error, GitHub.Error.t()}
   def create_using_template(template_owner, template_repo, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1187,7 +1279,7 @@ defmodule GitHub.Repos do
       body: body,
       method: :post,
       request: [{"application/json", :map}],
-      response: [{201, {GitHub.Repository, :t}}],
+      response: [{201, {GitHub.Repository, :full}}],
       opts: opts
     })
   end
@@ -1200,7 +1292,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/webhooks/repos#create-a-repository-webhook)
+    * [API method documentation](https://docs.github.com/rest/repos/webhooks#create-a-repository-webhook)
 
   """
   @spec create_webhook(String.t(), String.t(), map | nil, keyword) ::
@@ -1263,10 +1355,12 @@ defmodule GitHub.Repos do
   @doc """
   Delete a repository
 
-  Deleting a repository requires admin access. If OAuth is used, the `delete_repo` scope is required.
+  Deleting a repository requires admin access.
 
   If an organization owner has configured the organization to prevent members from deleting organization-owned
   repositories, you will get a `403 Forbidden` response.
+
+  OAuth app tokens and personal access tokens (classic) need the `delete_repo` scope to use this endpoint.
 
   ## Resources
 
@@ -1349,7 +1443,7 @@ defmodule GitHub.Repos do
   @doc """
   Delete an environment
 
-  You must authenticate using an access token with the repo scope to use this endpoint.
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -1501,7 +1595,7 @@ defmodule GitHub.Repos do
   @doc """
   Delete a deployment
 
-  If the repository only has one deployment, you can delete the deployment regardless of its status. If the repository has more than one deployment, you can only delete inactive deployments. This ensures that repositories with multiple deployments will always have an active deployment. Anyone with `repo` or `repo_deployment` scopes can delete a deployment.
+  If the repository only has one deployment, you can delete the deployment regardless of its status. If the repository has more than one deployment, you can only delete inactive deployments. This ensures that repositories with multiple deployments will always have an active deployment.
 
   To set a deployment as inactive, you must:
 
@@ -1509,6 +1603,8 @@ defmodule GitHub.Repos do
   *   Mark the active deployment as inactive by adding any non-successful deployment status.
 
   For more information, see "[Create a deployment](https://docs.github.com/rest/deployments/deployments/#create-a-deployment)" and "[Create a deployment status](https://docs.github.com/rest/deployments/statuses#create-a-deployment-status)."
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` or `repo_deployment` scope to use this endpoint.
 
   ## Resources
 
@@ -1537,9 +1633,9 @@ defmodule GitHub.Repos do
   @doc """
   Delete a deployment branch policy
 
-  Deletes a deployment branch policy for an environment.
+  Deletes a deployment branch or tag policy for an environment.
 
-  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `administration:write` permission for the repository to use this endpoint.
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -1660,7 +1756,9 @@ defmodule GitHub.Repos do
 
   Deletes a GitHub Pages site. For more information, see "[About GitHub Pages](https://docs.github.com/github/working-with-github-pages/about-github-pages).
 
-  To use this endpoint, you must be a repository administrator, maintainer, or have the 'manage GitHub Pages settings' permission. A token with the `repo` scope or Pages write permission is required. GitHub Apps must have the `administration:write` and `pages:write` permissions.
+  The authenticated user must be a repository administrator, maintainer, or have the 'manage GitHub Pages settings' permission.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -1815,7 +1913,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/webhooks/repos#delete-a-repository-webhook)
+    * [API method documentation](https://docs.github.com/rest/repos/webhooks#delete-a-repository-webhook)
 
   """
   @spec delete_webhook(String.t(), String.t(), integer, keyword) ::
@@ -1863,7 +1961,9 @@ defmodule GitHub.Repos do
 
   Disables a custom deployment protection rule for an environment.
 
-  You must authenticate using an access token with the `repo` scope to use this endpoint. Removing a custom protection rule requires admin or owner permissions to the repository. GitHub Apps must have the `actions:write` permission to use this endpoint. For more information, see "[Get an app](https://docs.github.com/rest/apps/apps#get-an-app)".
+  The authenticated user must have admin or owner permissions to the repository to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -2209,9 +2309,11 @@ defmodule GitHub.Repos do
   @doc """
   Get all deployment protection rules for an environment
 
-  Gets all custom deployment protection rules that are enabled for an environment. Anyone with read access to the repository can use this endpoint. If the repository is private and you want to use a personal access token (classic), you must use an access token with the `repo` scope. GitHub Apps and fine-grained personal access tokens must have the `actions:read` permission to use this endpoint. For more information about environments, see "[Using environments for deployment](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)."
+  Gets all custom deployment protection rules that are enabled for an environment. Anyone with read access to the repository can use this endpoint. For more information about environments, see "[Using environments for deployment](https://docs.github.com/actions/deployment/targeting-different-environments/using-environments-for-deployment)."
 
   For more information about the app that is providing this custom deployment rule, see the [documentation for the `GET /apps/{app_slug}` endpoint](https://docs.github.com/rest/apps/apps#get-an-app).
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.
 
   ## Resources
 
@@ -2244,12 +2346,14 @@ defmodule GitHub.Repos do
 
   Lists the environments for a repository.
 
-  Anyone with read access to the repository can use this endpoint. If the repository is private, you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
+  Anyone with read access to the repository can use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -2304,8 +2408,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `page`: Page number of the results to fetch.
-    * `per_page`: The number of results per page (max 100).
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -2334,7 +2438,7 @@ defmodule GitHub.Repos do
 
   Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
 
-  Lists the GitHub Apps that have push access to this branch. Only installed GitHub Apps with `write` access to the `contents` permission can be added as authorized actors on a protected branch.
+  Lists the GitHub Apps that have push access to this branch. Only GitHub Apps that are installed on the repository and that have been granted write access to the repository contents can be added as authorized actors on a protected branch.
 
   ## Resources
 
@@ -2454,8 +2558,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -2513,7 +2617,12 @@ defmodule GitHub.Repos do
   @doc """
   Get the weekly commit activity
 
+
   Returns a weekly aggregate of the number of additions and deletions pushed to a repository.
+
+  **Note:** This endpoint can only be used for repositories with fewer than 10,000 commits. If the repository contains
+  10,000 or more commits, a 422 status code will be returned.
+
 
   ## Resources
 
@@ -2530,7 +2639,12 @@ defmodule GitHub.Repos do
       call: {GitHub.Repos, :get_code_frequency_stats},
       url: "/repos/#{owner}/#{repo}/stats/code_frequency",
       method: :get,
-      response: [{200, [[:integer]]}, {202, {GitHub.Accepted, :json_resp}}, {204, :null}],
+      response: [
+        {200, [[:integer]]},
+        {202, {GitHub.Accepted, :json_resp}},
+        {204, :null},
+        {422, :null}
+      ],
       opts: opts
     })
   end
@@ -2583,8 +2697,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -2613,11 +2727,13 @@ defmodule GitHub.Repos do
 
   Returns the contents of a single commit reference. You must have `read` access for the repository to use this endpoint.
 
-  **Note:** If there are more than 300 files in the commit diff, the response will include pagination link headers for the remaining files, up to a limit of 3000 files. Each page contains the static commit information, and the only changes are to the file listing.
+  **Note:** If there are more than 300 files in the commit diff and the default JSON media type is requested, the response will include pagination link headers for the remaining files, up to a limit of 3000 files. Each page contains the static commit information, and the only changes are to the file listing.
 
-  You can pass the appropriate [media type](https://docs.github.com/rest/overview/media-types/#commits-commit-comparison-and-pull-requests) to  fetch `diff` and `patch` formats. Diffs with binary data will have no `patch` property.
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." Pagination query parameters are not supported for these media types.
 
-  To return only the SHA-1 hash of the commit reference, you can provide the `sha` custom [media type](https://docs.github.com/rest/overview/media-types/#commits-commit-comparison-and-pull-requests) in the `Accept` header. You can use this endpoint to check if a remote reference's SHA-1 hash is the same as your local reference's SHA-1 hash by providing the local SHA-1 reference as the ETag.
+  - **`application/vnd.github.diff`**: Returns the diff of the commit. Larger diffs may time out and return a 5xx status code.
+  - **`application/vnd.github.patch`**: Returns the patch of the commit. Diffs with binary data will have no `patch` property. Larger diffs may time out and return a 5xx status code.
+  - **`application/vnd.github.sha`**: Returns the commit's SHA-1 hash. You can use this endpoint to check if a remote reference's SHA-1 hash is the same as your local reference's SHA-1 hash by providing the local SHA-1 reference as the ETag.
 
   **Signature verification object**
 
@@ -2650,8 +2766,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `page`: Page number of the results to fetch.
-    * `per_page`: The number of results per page (max 100).
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -2713,6 +2829,15 @@ defmodule GitHub.Repos do
 
   @doc """
   Get a commit comment
+
+  Gets a specified commit comment.
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github-commitcomment.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github-commitcomment.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github-commitcomment.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github-commitcomment.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
 
   ## Resources
 
@@ -2804,43 +2929,31 @@ defmodule GitHub.Repos do
   @doc """
   Get repository content
 
-  Gets the contents of a file or directory in a repository. Specify the file path or directory in `:path`. If you omit
-  `:path`, you will receive the contents of the repository's root directory. See the description below regarding what the API response includes for directories. 
+  Gets the contents of a file or directory in a repository. Specify the file path or directory with the `path` parameter. If you omit the `path` parameter, you will receive the contents of the repository's root directory.
 
-  Files and symlinks support [a custom media type](https://docs.github.com/rest/overview/media-types) for
-  retrieving the raw content or rendered HTML (when supported). All content types support [a custom media
-  type](https://docs.github.com/rest/overview/media-types) to ensure the content is returned in a consistent
-  object format.
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw file contents for files and symlinks.
+  - **`application/vnd.github.html+json`**: Returns the file contents in HTML. Markup languages are rendered to HTML using GitHub's open-source [Markup library](https://github.com/github/markup).
+  - **`application/vnd.github.object+json`**: Returns the contents in a consistent object format regardless of the content type. For example, instead of an array of objects for a directory, the response will be an object with an `entries` attribute containing the array of objects.
+
+  If the content is a directory, the response will be an array of objects, one object for each item in the directory. When listing the contents of a directory, submodules have their "type" specified as "file". Logically, the value _should_ be "submodule". This behavior exists [for backwards compatibility purposes](https://git.io/v1YCW). In the next major version of the API, the type will be returned as "submodule".
+
+  If the content is a symlink and the symlink's target is a normal file in the repository, then the API responds with the content of the file. Otherwise, the API responds with an object describing the symlink itself.
+
+  If the content is a submodule, the `submodule_git_url` field identifies the location of the submodule repository, and the `sha` identifies a specific commit within the submodule repository. Git uses the given URL when cloning the submodule repository, and checks out the submodule at that specific commit. If the submodule repository is not hosted on github.com, the Git URLs (`git_url` and `_links["git"]`) and the github.com URLs (`html_url` and `_links["html"]`) will have null values.
 
   **Notes**:
-  *   To get a repository's contents recursively, you can [recursively get the tree](https://docs.github.com/rest/git/trees#get-a-tree).
-  *   This API has an upper limit of 1,000 files for a directory. If you need to retrieve more files, use the [Git Trees
-  API](https://docs.github.com/rest/git/trees#get-a-tree).
-   *  Download URLs expire and are meant to be used just once. To ensure the download URL does not expire, please use the contents API to obtain a fresh download URL for each download.
-   Size limits:
-  If the requested file's size is:
-  * 1 MB or smaller: All features of this endpoint are supported.
-  * Between 1-100 MB: Only the `raw` or `object` [custom media types](https://docs.github.com/rest/repos/contents#custom-media-types-for-repository-contents) are supported. Both will work as normal, except that when using the `object` media type, the `content` field will be an empty string and the `encoding` field will be `"none"`. To get the contents of these larger files, use the `raw` media type.
-   * Greater than 100 MB: This endpoint is not supported.
 
-   If the content is a directory:
-  The response will be an array of objects, one object for each item in the directory.
-  When listing the contents of a directory, submodules have their "type" specified as "file". Logically, the value
-  _should_ be "submodule". This behavior exists in API v3 [for backwards compatibility purposes](https://git.io/v1YCW).
-  In the next major version of the API, the type will be returned as "submodule".
-
-   If the content is a symlink: 
-  If the requested `:path` points to a symlink, and the symlink's target is a normal file in the repository, then the
-  API responds with the content of the file (in the format shown in the example. Otherwise, the API responds with an object 
-  describing the symlink itself.
-
-   If the content is a submodule:
-  The `submodule_git_url` identifies the location of the submodule repository, and the `sha` identifies a specific
-  commit within the submodule repository. Git uses the given URL when cloning the submodule repository, and checks out
-  the submodule at that specific commit.
-
-  If the submodule repository is not hosted on github.com, the Git URLs (`git_url` and `_links["git"]`) and the
-  github.com URLs (`html_url` and `_links["html"]`) will have null values.
+  - To get a repository's contents recursively, you can [recursively get the tree](https://docs.github.com/rest/git/trees#get-a-tree).
+  - This API has an upper limit of 1,000 files for a directory. If you need to retrieve
+  more files, use the [Git Trees API](https://docs.github.com/rest/git/trees#get-a-tree).
+  - Download URLs expire and are meant to be used just once. To ensure the download URL does not expire, please use the contents API to obtain a fresh download URL for each download.
+  - If the requested file's size is:
+    - 1 MB or smaller: All features of this endpoint are supported.
+    - Between 1-100 MB: Only the `raw` or `object` custom media types are supported. Both will work as normal, except that when using the `object` media type, the `content` field will be an empty
+  string and the `encoding` field will be `"none"`. To get the contents of these larger files, use the `raw` media type.
+    - Greater than 100 MB: This endpoint is not supported.
 
   ## Options
 
@@ -2893,10 +3006,12 @@ defmodule GitHub.Repos do
 
   Returns the `total` number of commits authored by the contributor. In addition, the response includes a Weekly Hash (`weeks` array) with the following information:
 
-  *   `w` - Start of the week, given as a [Unix timestamp](http://en.wikipedia.org/wiki/Unix_time).
+  *   `w` - Start of the week, given as a [Unix timestamp](https://en.wikipedia.org/wiki/Unix_time).
   *   `a` - Number of additions
   *   `d` - Number of deletions
   *   `c` - Number of commits
+
+  **Note:** This endpoint will return `0` values for all addition and deletion counts in repositories with 10,000 or more commits.
 
   ## Resources
 
@@ -2926,9 +3041,11 @@ defmodule GitHub.Repos do
   @doc """
   Get a custom deployment protection rule
 
-  Gets an enabled custom deployment protection rule for an environment. Anyone with read access to the repository can use this endpoint. If the repository is private and you want to use a personal access token (classic), you must use an access token with the `repo` scope. GitHub Apps and fine-grained personal access tokens must have the `actions:read` permission to use this endpoint. For more information about environments, see "[Using environments for deployment](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)."
+  Gets an enabled custom deployment protection rule for an environment. Anyone with read access to the repository can use this endpoint. For more information about environments, see "[Using environments for deployment](https://docs.github.com/actions/deployment/targeting-different-environments/using-environments-for-deployment)."
 
   For more information about the app that is providing this custom deployment rule, see [`GET /apps/{app_slug}`](https://docs.github.com/rest/apps/apps#get-an-app).
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.
 
   ## Resources
 
@@ -2963,6 +3080,36 @@ defmodule GitHub.Repos do
         "/repos/#{owner}/#{repo}/environments/#{environment_name}/deployment_protection_rules/#{protection_rule_id}",
       method: :get,
       response: [{200, {GitHub.Deployment.ProtectionRule, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get all custom property values for a repository
+
+  Gets all custom property values that are set for a repository.
+  Users with read access to the repository can use this endpoint.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/repos/custom-properties#get-all-custom-property-values-for-a-repository)
+
+  """
+  @spec get_custom_properties_values(String.t(), String.t(), keyword) ::
+          {:ok, [GitHub.CustomPropertyValue.t()]} | {:error, GitHub.Error.t()}
+  def get_custom_properties_values(owner, repo, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo],
+      call: {GitHub.Repos, :get_custom_properties_values},
+      url: "/repos/#{owner}/#{repo}/properties/values",
+      method: :get,
+      response: [
+        {200, [{GitHub.CustomPropertyValue, :t}]},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
@@ -3016,9 +3163,11 @@ defmodule GitHub.Repos do
   @doc """
   Get a deployment branch policy
 
-  Gets a deployment branch policy for an environment.
+  Gets a deployment branch or tag policy for an environment.
 
-  Anyone with read access to the repository can use this endpoint. If the repository is private, you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
+  Anyone with read access to the repository can use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.
 
   ## Resources
 
@@ -3076,9 +3225,9 @@ defmodule GitHub.Repos do
 
   **Note:** To get information about name patterns that branches must match in order to deploy to this environment, see "[Get a deployment branch policy](https://docs.github.com/rest/deployments/branch-policies#get-a-deployment-branch-policy)."
 
-  Anyone with read access to the repository can use this endpoint. If the
-  repository is private, you must use an access token with the `repo` scope. GitHub
-  Apps must have the `actions:read` permission to use this endpoint.
+  Anyone with read access to the repository can use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.
 
   ## Resources
 
@@ -3105,7 +3254,7 @@ defmodule GitHub.Repos do
 
   Gets information about the single most recent build of a GitHub Pages site.
 
-  A token with the `repo` scope is required. GitHub Apps must have the `pages:read` permission.
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -3198,8 +3347,8 @@ defmodule GitHub.Repos do
       For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for insights that occurred in the past 7 days (168 hours).
     * `actor_name`: The handle for the GitHub user account to filter on. When specified, only rule evaluations triggered by this actor will be returned.
     * `rule_suite_result`: The rule results to filter on. When specified, only suites with this result will be returned.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -3272,8 +3421,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -3306,7 +3455,7 @@ defmodule GitHub.Repos do
 
   Gets information about a GitHub Pages site.
 
-  A token with the `repo` scope is required. GitHub Apps must have the `pages:read` permission.
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -3333,7 +3482,7 @@ defmodule GitHub.Repos do
 
   Gets information about a GitHub Pages build.
 
-  A token with the `repo` scope is required. GitHub Apps must have the `pages:read` permission.
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -3356,13 +3505,42 @@ defmodule GitHub.Repos do
   end
 
   @doc """
+  Get the status of a GitHub Pages deployment
+
+  Gets the current status of a GitHub Pages deployment.
+
+  The authenticated user must have read permission for the GitHub Pages site.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/pages/pages#get-the-status-of-a-github-pages-deployment)
+
+  """
+  @spec get_pages_deployment(String.t(), String.t(), integer | String.t(), keyword) ::
+          {:ok, GitHub.Pages.DeploymentStatus.t()} | {:error, GitHub.Error.t()}
+  def get_pages_deployment(owner, repo, pages_deployment_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo, pages_deployment_id: pages_deployment_id],
+      call: {GitHub.Repos, :get_pages_deployment},
+      url: "/repos/#{owner}/#{repo}/pages/deployments/#{pages_deployment_id}",
+      method: :get,
+      response: [{200, {GitHub.Pages.DeploymentStatus, :t}}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
   Get a DNS health check for GitHub Pages
 
   Gets a health check of the DNS settings for the `CNAME` record configured for a repository's GitHub Pages.
 
   The first request to this endpoint returns a `202 Accepted` status and starts an asynchronous background task to get the results for the domain. After the background task completes, subsequent requests to this endpoint return a `200 OK` status with the health check results in the response.
 
-  To use this endpoint, you must be a repository administrator, maintainer, or have the 'manage GitHub Pages settings' permission. A token with the `repo` scope or Pages write permission is required. GitHub Apps must have the `administrative:write` and `pages:write` permissions.
+  The authenticated user must be a repository administrator, maintainer, or have the 'manage GitHub Pages settings' permission to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -3481,7 +3659,10 @@ defmodule GitHub.Repos do
 
   Gets the preferred README for a repository.
 
-  READMEs support [custom media types](https://docs.github.com/rest/overview/media-types) for retrieving the raw content or rendered HTML.
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw file contents. This is the default if you do not specify a media type.
+  - **`application/vnd.github.html+json`**: Returns the README in HTML. Markup languages are rendered to HTML using GitHub's open-source [Markup library](https://github.com/github/markup).
 
   ## Options
 
@@ -3518,7 +3699,10 @@ defmodule GitHub.Repos do
 
   Gets the README from a repository directory.
 
-  READMEs support [custom media types](https://docs.github.com/rest/overview/media-types) for retrieving the raw content or rendered HTML.
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw file contents. This is the default if you do not specify a media type.
+  - **`application/vnd.github.html+json`**: Returns the README in HTML. Markup languages are rendered to HTML using GitHub's open-source [Markup library](https://github.com/github/markup).
 
   ## Options
 
@@ -3553,7 +3737,11 @@ defmodule GitHub.Repos do
   @doc """
   Get a release
 
-  **Note:** This returns an `upload_url` key corresponding to the endpoint for uploading release assets. This key is a [hypermedia resource](https://docs.github.com/rest/overview/resources-in-the-rest-api#hypermedia).
+  Gets a public release with the specified release ID.
+
+  **Note:** This returns an `upload_url` key corresponding to the endpoint
+  for uploading release assets. This key is a hypermedia resource. For more information, see
+  "[Getting started with the REST API](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#hypermedia)."
 
   ## Resources
 
@@ -3669,8 +3857,8 @@ defmodule GitHub.Repos do
       For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for insights that occurred in the past 7 days (168 hours).
     * `actor_name`: The handle for the GitHub user account to filter on. When specified, only rule evaluations triggered by this actor will be returned.
     * `rule_suite_result`: The rule results to filter on. When specified, only suites with this result will be returned.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -3742,8 +3930,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `includes_parents`: Include rulesets configured at higher levels that apply to this repository
 
   ## Resources
@@ -3939,7 +4127,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/webhooks/repos#get-a-repository-webhook)
+    * [API method documentation](https://docs.github.com/rest/repos/webhooks#get-a-repository-webhook)
 
   """
   @spec get_webhook(String.t(), String.t(), integer, keyword) ::
@@ -3962,11 +4150,11 @@ defmodule GitHub.Repos do
 
   Returns the webhook configuration for a repository. To get more information about the webhook, including the `active` state and `events`, use "[Get a repository webhook](https://docs.github.com/rest/webhooks/repos#get-a-repository-webhook)."
 
-  Access tokens must have the `read:repo_hook` or `repo` scope, and GitHub Apps must have the `repository_hooks:read` permission.
+  OAuth app tokens and personal access tokens (classic) need the `read:repo_hook` or `repo` scope to use this endpoint.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/webhooks/repo-config#get-a-webhook-configuration-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/repos/webhooks#get-a-webhook-configuration-for-a-repository)
 
   """
   @spec get_webhook_config_for_repo(String.t(), String.t(), integer, keyword) ::
@@ -3991,7 +4179,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/webhooks/repo-deliveries#get-a-delivery-for-a-repository-webhook)
+    * [API method documentation](https://docs.github.com/rest/repos/webhooks#get-a-delivery-for-a-repository-webhook)
 
   """
   @spec get_webhook_delivery(String.t(), String.t(), integer, integer, keyword) ::
@@ -4019,14 +4207,14 @@ defmodule GitHub.Repos do
   Lists a detailed history of changes to a repository, such as pushes, merges, force pushes, and branch changes, and associates these changes with commits and users.
 
   For more information about viewing repository activity,
-  see "[Viewing repository activity](https://docs.github.com/repositories/viewing-activity-and-data-for-your-repository/viewing-repository-activity)."
+  see "[Viewing activity and data for your repository](https://docs.github.com/repositories/viewing-activity-and-data-for-your-repository)."
 
   ## Options
 
     * `direction`: The direction to sort the results by.
-    * `per_page`: The number of results per page (max 100).
-    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
-    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `ref`: The Git reference for the activities you want to list.
       
       The `ref` for a branch can be formatted either as `refs/heads/BRANCH_NAME` or `BRANCH_NAME`, where `BRANCH_NAME` is the name of your branch.
@@ -4072,33 +4260,27 @@ defmodule GitHub.Repos do
   end
 
   @doc """
-  List all autolinks of a repository
+  Get all autolinks of a repository
 
-  This returns a list of autolinks configured for the given repository.
+  Gets all autolinks that are configured for a repository.
 
   Information about autolinks are only available to repository administrators.
 
-  ## Options
-
-    * `page`: Page number of the results to fetch.
-
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/repos/autolinks#list-all-autolinks-of-a-repository)
+    * [API method documentation](https://docs.github.com/rest/repos/autolinks#get-all-autolinks-of-a-repository)
 
   """
   @spec list_autolinks(String.t(), String.t(), keyword) ::
           {:ok, [GitHub.Autolink.t()]} | {:error, GitHub.Error.t()}
   def list_autolinks(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:page])
 
     client.request(%{
       args: [owner: owner, repo: repo],
       call: {GitHub.Repos, :list_autolinks},
       url: "/repos/#{owner}/#{repo}/autolinks",
       method: :get,
-      query: query,
       response: [{200, [{GitHub.Autolink, :t}]}],
       opts: opts
     })
@@ -4110,8 +4292,8 @@ defmodule GitHub.Repos do
   ## Options
 
     * `protected`: Setting to `true` returns only protected branches. When set to `false`, only unprotected branches are returned. Omitting this parameter returns all branches.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4170,16 +4352,16 @@ defmodule GitHub.Repos do
 
   Team members will include the members of child teams.
 
-  You must authenticate using an access token with the `read:org` and `repo` scopes with push access to use this
-  endpoint. GitHub Apps must have the `members` organization permission and `metadata` repository permission to use this
-  endpoint.
+  The authenticated user must have push access to the repository to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `read:org` and `repo` scopes to use this endpoint.
 
   ## Options
 
     * `affiliation`: Filter collaborators returned by their affiliation. `outside` means all outside collaborators of an organization-owned repository. `direct` means all collaborators with permissions to an organization-owned repository, regardless of organization membership status. `all` means all collaborators the authenticated user can see.
     * `permission`: Filter collaborators by the permissions they have on the repository. If not specified, all collaborators will be returned.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4206,12 +4388,19 @@ defmodule GitHub.Repos do
   @doc """
   List commit comments
 
-  Use the `:commit_sha` to specify the commit that will have its comments listed.
+  Lists the comments for a specified commit.
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github-commitcomment.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github-commitcomment.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github-commitcomment.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github-commitcomment.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4238,14 +4427,19 @@ defmodule GitHub.Repos do
   @doc """
   List commit comments for a repository
 
-  Commit Comments use [these custom media types](https://docs.github.com/rest/overview/media-types). You can read more about the use of media types in the API [here](https://docs.github.com/rest/overview/media-types/).
+  Lists the commit comments for a specified repository. Comments are ordered by ascending ID.
 
-  Comments are ordered by ascending ID.
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github-commitcomment.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github-commitcomment.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github-commitcomment.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github-commitcomment.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4278,8 +4472,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4343,8 +4537,8 @@ defmodule GitHub.Repos do
     * `committer`: GitHub username or email address to use to filter by commit committer.
     * `since`: Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `until`: Only commits before this date will be returned. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4386,8 +4580,8 @@ defmodule GitHub.Repos do
   ## Options
 
     * `anon`: Set to `1` or `true` to include anonymous contributors in results.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4426,16 +4620,18 @@ defmodule GitHub.Repos do
   @doc """
   List custom deployment rule integrations available for an environment
 
-  Gets all custom deployment protection rule integrations that are available for an environment. Anyone with read access to the repository can use this endpoint. If the repository is private and you want to use a personal access token (classic), you must use an access token with the `repo` scope. GitHub Apps and fine-grained personal access tokens must have the `actions:read` permission to use this endpoint.
+  Gets all custom deployment protection rule integrations that are available for an environment. Anyone with read access to the repository can use this endpoint.
 
-  For more information about environments, see "[Using environments for deployment](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment)."
+  For more information about environments, see "[Using environments for deployment](https://docs.github.com/actions/deployment/targeting-different-environments/using-environments-for-deployment)."
 
   For more information about the app that is providing this custom deployment rule, see "[GET an app](https://docs.github.com/rest/apps/apps#get-an-app)".
 
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.
+
   ## Options
 
-    * `page`: Page number of the results to fetch.
-    * `per_page`: The number of results per page (max 100).
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4465,8 +4661,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4501,12 +4697,14 @@ defmodule GitHub.Repos do
 
   Lists the deployment branch policies for an environment.
 
-  Anyone with read access to the repository can use this endpoint. If the repository is private, you must use an access token with the `repo` scope. GitHub Apps must have the `actions:read` permission to use this endpoint.
+  Anyone with read access to the repository can use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4537,8 +4735,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4573,8 +4771,8 @@ defmodule GitHub.Repos do
     * `ref`: The name of the ref. This can be a branch, tag, or SHA.
     * `task`: The name of the task for the deployment (e.g., `deploy` or `deploy:migrations`).
     * `environment`: The name of the environment that was deployed to (e.g., `staging` or `production`).
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4615,8 +4813,8 @@ defmodule GitHub.Repos do
     * `type`: Limit results to repositories of the specified type. Will cause a `422` error if used in the same request as **visibility** or **affiliation**.
     * `sort`: The property to sort the results by.
     * `direction`: The order to sort by. Default: `asc` when using `full_name`, otherwise `desc`.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `since`: Only show repositories updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     * `before`: Only show repositories updated before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
 
@@ -4672,8 +4870,8 @@ defmodule GitHub.Repos do
     * `type`: Specifies the types of repositories you want returned.
     * `sort`: The property to sort the results by.
     * `direction`: The order to sort by. Default: `asc` when using `full_name`, otherwise `desc`.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4700,15 +4898,15 @@ defmodule GitHub.Repos do
   @doc """
   List repositories for a user
 
-  Lists public repositories for the specified user. Note: For GitHub AE, this endpoint will list internal repositories for the specified user.
+  Lists public repositories for the specified user.
 
   ## Options
 
     * `type`: Limit results to repositories of the specified type.
     * `sort`: The property to sort the results by.
     * `direction`: The order to sort by. Default: `asc` when using `full_name`, otherwise `desc`.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4738,8 +4936,8 @@ defmodule GitHub.Repos do
   ## Options
 
     * `sort`: The sort order. `stargazers` will sort by star count.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4773,8 +4971,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4805,8 +5003,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4866,12 +5064,12 @@ defmodule GitHub.Repos do
 
   Lists builts of a GitHub Pages site.
 
-  A token with the `repo` scope is required. GitHub Apps must have the `pages:read` permission.
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4942,8 +5140,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -4972,8 +5170,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -5006,8 +5204,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -5067,8 +5265,8 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -5099,16 +5297,12 @@ defmodule GitHub.Repos do
 
   For a public repository, a team is listed only if that team added the public repository explicitly.
 
-  Personal access tokens require the following scopes:
-  * `public_repo` to call this endpoint on a public repository
-  * `repo` to call this endpoint on a private repository (this scope also includes public repositories)
-
-  This endpoint is not compatible with fine-grained personal access tokens.
+  OAuth app tokens and personal access tokens (classic) need the `public_repo` or `repo` scope to use this endpoint with a public repository, and `repo` scope to use this endpoint with a private repository.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -5139,13 +5333,13 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `cursor`: Used for pagination: the starting delivery from which the page of deliveries is fetched. Refer to the `link` header for the next and previous page cursors.
     * `redelivery`
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/webhooks/repo-deliveries#list-deliveries-for-a-repository-webhook)
+    * [API method documentation](https://docs.github.com/rest/repos/webhooks#list-deliveries-for-a-repository-webhook)
 
   """
   @spec list_webhook_deliveries(String.t(), String.t(), integer, keyword) ::
@@ -5176,12 +5370,12 @@ defmodule GitHub.Repos do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/webhooks/repos#list-repository-webhooks)
+    * [API method documentation](https://docs.github.com/rest/repos/webhooks#list-repository-webhooks)
 
   """
   @spec list_webhooks(String.t(), String.t(), keyword) ::
@@ -5267,7 +5461,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/webhooks/repos#ping-a-repository-webhook)
+    * [API method documentation](https://docs.github.com/rest/repos/webhooks#ping-a-repository-webhook)
 
   """
   @spec ping_webhook(String.t(), String.t(), integer, keyword) :: :ok | {:error, GitHub.Error.t()}
@@ -5291,7 +5485,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/webhooks/repo-deliveries#redeliver-a-delivery-for-a-repository-webhook)
+    * [API method documentation](https://docs.github.com/rest/repos/webhooks#redeliver-a-delivery-for-a-repository-webhook)
 
   """
   @spec redeliver_webhook_delivery(String.t(), String.t(), integer, integer, keyword) ::
@@ -5318,7 +5512,7 @@ defmodule GitHub.Repos do
 
   Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
 
-  Removes the ability of an app to push to this branch. Only installed GitHub Apps with `write` access to the `contents` permission can be added as authorized actors on a protected branch.
+  Removes the ability of an app to push to this branch. Only GitHub Apps that are installed on the repository and that have been granted write access to the repository contents can be added as authorized actors on a protected branch.
 
   ## Resources
 
@@ -5537,17 +5731,9 @@ defmodule GitHub.Repos do
 
   **Note:** Although the API responds immediately, the branch rename process might take some extra time to complete in the background. You won't be able to push to the old branch name while the rename process is in progress. For more information, see "[Renaming a branch](https://docs.github.com/github/administering-a-repository/renaming-a-branch)".
 
-  The permissions required to use this endpoint depends on whether you are renaming the default branch.
+  The authenticated user must have push access to the branch. If the branch is the default branch, the authenticated user must also have admin or owner permissions.
 
-  To rename a non-default branch:
-
-  * Users must have push access.
-  * GitHub Apps must have the `contents:write` repository permission.
-
-  To rename the default branch:
-
-  * Users must have admin or owner permissions.
-  * GitHub Apps must have the `administration:write` repository permission.
+  In order to rename the default branch, fine-grained access tokens also need the `administration:write` repository permission.
 
   ## Resources
 
@@ -5664,7 +5850,7 @@ defmodule GitHub.Repos do
 
   Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation.
 
-  Replaces the list of apps that have push access to this branch. This removes all apps that previously had push access and grants push access to the new list of apps. Only installed GitHub Apps with `write` access to the `contents` permission can be added as authorized actors on a protected branch.
+  Replaces the list of apps that have push access to this branch. This removes all apps that previously had push access and grants push access to the new list of apps. Only GitHub Apps that are installed on the repository and that have been granted write access to the repository contents can be added as authorized actors on a protected branch.
 
   ## Resources
 
@@ -5806,7 +5992,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/webhooks/repos#test-the-push-repository-webhook)
+    * [API method documentation](https://docs.github.com/rest/repos/webhooks#test-the-push-repository-webhook)
 
   """
   @spec test_push_webhook(String.t(), String.t(), integer, keyword) ::
@@ -5828,7 +6014,6 @@ defmodule GitHub.Repos do
   Transfer a repository
 
   A transfer request will need to be accepted by the new owner when transferring a personal repository to another user. The response will contain the original `owner`, and the transfer will continue asynchronously. For more details on the requirements to transfer personal and organization-owned repositories, see [about repository transfers](https://docs.github.com/articles/about-repository-transfers/).
-  You must use a personal access token (classic) or an OAuth token for this endpoint. An installation access token or a fine-grained personal access token cannot be used because they are only granted access to a single account.
 
   ## Resources
 
@@ -5926,6 +6111,15 @@ defmodule GitHub.Repos do
   @doc """
   Update a commit comment
 
+  Updates the contents of a specified commit comment.
+
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github-commitcomment.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.
+  - **`application/vnd.github-commitcomment.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.
+  - **`application/vnd.github-commitcomment.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.
+  - **`application/vnd.github-commitcomment.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/commits/comments#update-a-commit-comment)
@@ -5951,9 +6145,9 @@ defmodule GitHub.Repos do
   @doc """
   Update a deployment branch policy
 
-  Updates a deployment branch policy for an environment.
+  Updates a deployment branch or tag policy for an environment.
 
-  You must authenticate using an access token with the `repo` scope to use this endpoint. GitHub Apps must have the `administration:write` permission for the repository to use this endpoint.
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -6002,7 +6196,9 @@ defmodule GitHub.Repos do
 
   Updates information for a GitHub Pages site. For more information, see "[About GitHub Pages](https://docs.github.com/github/working-with-github-pages/about-github-pages).
 
-  To use this endpoint, you must be a repository administrator, maintainer, or have the 'manage GitHub Pages settings' permission. A token with the `repo` scope or Pages write permission is required. GitHub Apps must have the `administration:write` and `pages:write` permissions.
+  The authenticated user must be a repository administrator, maintainer, or have the 'manage GitHub Pages settings' permission.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -6246,7 +6442,7 @@ defmodule GitHub.Repos do
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/webhooks/repos#update-a-repository-webhook)
+    * [API method documentation](https://docs.github.com/rest/repos/webhooks#update-a-repository-webhook)
 
   """
   @spec update_webhook(String.t(), String.t(), integer, map, keyword) ::
@@ -6275,11 +6471,11 @@ defmodule GitHub.Repos do
 
   Updates the webhook configuration for a repository. To update more information about the webhook, including the `active` state and `events`, use "[Update a repository webhook](https://docs.github.com/rest/webhooks/repos#update-a-repository-webhook)."
 
-  Access tokens must have the `write:repo_hook` or `repo` scope, and GitHub Apps must have the `repository_hooks:write` permission.
+  OAuth app tokens and personal access tokens (classic) need the `write:repo_hook` or `repo` scope to use this endpoint.
 
   ## Resources
 
-    * [API method documentation](https://docs.github.com/rest/webhooks/repo-config#update-a-webhook-configuration-for-a-repository)
+    * [API method documentation](https://docs.github.com/rest/repos/webhooks#update-a-webhook-configuration-for-a-repository)
 
   """
   @spec update_webhook_config_for_repo(String.t(), String.t(), integer, map, keyword) ::
@@ -6302,7 +6498,7 @@ defmodule GitHub.Repos do
   @doc """
   Upload a release asset
 
-  This endpoint makes use of [a Hypermedia relation](https://docs.github.com/rest/overview/resources-in-the-rest-api#hypermedia) to determine which URL to access. The endpoint you call to upload release assets is specific to your release. Use the `upload_url` returned in
+  This endpoint makes use of a [Hypermedia relation](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#hypermedia) to determine which URL to access. The endpoint you call to upload release assets is specific to your release. Use the `upload_url` returned in
   the response of the [Create a release endpoint](https://docs.github.com/rest/releases/releases#create-a-release) to upload a release asset.
 
   You need to use an HTTP client which supports [SNI](http://en.wikipedia.org/wiki/Server_Name_Indication) to make calls to this endpoint.
@@ -6353,6 +6549,10 @@ defmodule GitHub.Repos do
 
   @doc false
   @spec __fields__(atom) :: keyword
+  def __fields__(:check_private_vulnerability_reporting_200_json_resp) do
+    [enabled: :boolean]
+  end
+
   def __fields__(:create_deployment_202_json_resp) do
     [message: {:string, :generic}]
   end
@@ -6394,7 +6594,8 @@ defmodule GitHub.Repos do
            "required_signatures",
            "required_status_checks",
            "tag_name_pattern",
-           "update"
+           "update",
+           "workflows"
          ]}
     ]
   end

@@ -11,6 +11,7 @@ defmodule GitHub.Repository.Ruleset do
           conditions:
             GitHub.Repository.IdAndRefName.t()
             | GitHub.Repository.NameAndRefName.t()
+            | GitHub.Repository.PropertyAndRefName.t()
             | GitHub.Repository.Ruleset.Conditions.t()
             | nil,
           created_at: DateTime.t() | nil,
@@ -35,6 +36,7 @@ defmodule GitHub.Repository.Ruleset do
               | GitHub.Repository.Rule.RequiredStatusChecks.t()
               | GitHub.Repository.Rule.TagNamePattern.t()
               | GitHub.Repository.Rule.Update.t()
+              | GitHub.Repository.Rule.Workflows.t()
             ]
             | nil,
           source: String.t(),
@@ -74,6 +76,7 @@ defmodule GitHub.Repository.Ruleset do
          [
            {GitHub.Repository.IdAndRefName, :t},
            {GitHub.Repository.NameAndRefName, :t},
+           {GitHub.Repository.PropertyAndRefName, :t},
            {GitHub.Repository.Ruleset.Conditions, :t}
          ]},
       created_at: {:string, :date_time},
@@ -97,7 +100,8 @@ defmodule GitHub.Repository.Ruleset do
           {GitHub.Repository.Rule.RequiredSignatures, :t},
           {GitHub.Repository.Rule.RequiredStatusChecks, :t},
           {GitHub.Repository.Rule.TagNamePattern, :t},
-          {GitHub.Repository.Rule.Update, :t}
+          {GitHub.Repository.Rule.Update, :t},
+          {GitHub.Repository.Rule.Workflows, :t}
         ]
       ],
       source: {:string, :generic},

@@ -10,9 +10,7 @@ defmodule GitHub.Migrations do
 
   Stop an import for a repository.
 
-  **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end
-  on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update
-  these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+  **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
 
 
   ## Resources
@@ -169,9 +167,7 @@ defmodule GitHub.Migrations do
 
   This endpoint and the [Map a commit author](https://docs.github.com/rest/migrations/source-imports#map-a-commit-author) endpoint allow you to provide correct Git author information.
 
-  **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end
-  on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update
-  these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+  **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
 
   ## Options
 
@@ -208,9 +204,7 @@ defmodule GitHub.Migrations do
 
   View the progress of an import.
 
-  **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end
-  on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update
-  these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+  **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
 
   **Import status**
 
@@ -274,9 +268,7 @@ defmodule GitHub.Migrations do
 
   List files larger than 100MB found during the import
 
-  **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end
-  on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update
-  these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+  **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
 
 
   ## Resources
@@ -388,8 +380,8 @@ defmodule GitHub.Migrations do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -427,8 +419,8 @@ defmodule GitHub.Migrations do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `exclude`: Exclude attributes from the API response to improve performance
 
   ## Resources
@@ -460,8 +452,8 @@ defmodule GitHub.Migrations do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -492,8 +484,8 @@ defmodule GitHub.Migrations do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -523,9 +515,7 @@ defmodule GitHub.Migrations do
   Update an author's identity for the import. Your application can continue updating authors any time before you push
   new commits to the repository.
 
-  **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end
-  on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update
-  these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+  **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
 
 
   ## Resources
@@ -564,9 +554,7 @@ defmodule GitHub.Migrations do
   You can learn more about our LFS feature and working with large files [on our help
   site](https://docs.github.com/repositories/working-with-files/managing-large-files).
 
-  **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end
-  on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update
-  these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+  **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
 
 
   ## Resources
@@ -662,8 +650,12 @@ defmodule GitHub.Migrations do
   @doc """
   Start an import
 
-  Start a source import to a GitHub repository using GitHub Importer. Importing into a GitHub repository with GitHub Actions enabled is not supported and will return a status `422 Unprocessable Entity` response.
-  **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+  Start a source import to a GitHub repository using GitHub Importer.
+  Importing into a GitHub repository with GitHub Actions enabled is not supported and will
+  return a status `422 Unprocessable Entity` response.
+
+  **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
+
 
   ## Resources
 
@@ -758,9 +750,7 @@ defmodule GitHub.Migrations do
   have the status `detection_found_multiple` and the Import Progress response will include a `project_choices` array.
   You can select the project to import by providing one of the objects in the `project_choices` array in the update request.
 
-  **Warning:** Support for importing Mercurial, Subversion and Team Foundation Version Control repositories will end
-  on October 17, 2023. For more details, see [changelog](https://gh.io/github-importer-non-git-eol). In the coming weeks, we will update
-  these docs to reflect relevant changes to the API and will contact all integrators using the "Source imports" API.
+  **Warning:** Due to very low levels of usage and available alternatives, this endpoint is deprecated and will no longer be available from 00:00 UTC on April 12, 2024. For more details and alternatives, see the [changelog](https://gh.io/source-imports-api-deprecation).
 
   ## Resources
 

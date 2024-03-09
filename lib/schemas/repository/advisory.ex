@@ -93,7 +93,7 @@ defmodule GitHub.Repository.Advisory do
       submission: {:union, [{GitHub.Repository.Advisory.Submission, :t}, :null]},
       summary: {:string, :generic},
       updated_at: {:union, [{:string, :date_time}, :null]},
-      url: {:string, :generic},
+      url: {:string, :uri},
       vulnerabilities: {:union, [[:map], :null]},
       withdrawn_at: {:union, [{:string, :date_time}, :null]}
     ]

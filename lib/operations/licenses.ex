@@ -42,8 +42,8 @@ defmodule GitHub.Licenses do
   ## Options
 
     * `featured`
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -72,7 +72,14 @@ defmodule GitHub.Licenses do
 
   This method returns the contents of the repository's license file, if one is detected.
 
-  Similar to [Get repository content](https://docs.github.com/rest/repos/contents#get-repository-content), this method also supports [custom media types](https://docs.github.com/rest/overview/media-types) for retrieving the raw license content or rendered license HTML.
+  This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)."
+
+  - **`application/vnd.github.raw+json`**: Returns the raw contents of the license.
+  - **`application/vnd.github.html+json`**: Returns the license contents in HTML. Markup languages are rendered to HTML using GitHub's open-source [Markup library](https://github.com/github/markup).
+
+  ## Options
+
+    * `ref`: The Git reference for the results you want to list. The `ref` for a branch can be formatted either as `refs/heads/<branch name>` or simply `<branch name>`. To reference a pull request use `refs/pull/<number>/merge`.
 
   ## Resources
 
@@ -83,13 +90,15 @@ defmodule GitHub.Licenses do
           {:ok, GitHub.License.Content.t()} | {:error, GitHub.Error.t()}
   def get_for_repo(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:ref])
 
     client.request(%{
       args: [owner: owner, repo: repo],
       call: {GitHub.Licenses, :get_for_repo},
       url: "/repos/#{owner}/#{repo}/license",
       method: :get,
-      response: [{200, {GitHub.License.Content, :t}}],
+      query: query,
+      response: [{200, {GitHub.License.Content, :t}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end

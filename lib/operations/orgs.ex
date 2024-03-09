@@ -10,9 +10,9 @@ defmodule GitHub.Orgs do
 
   Adds a team as a security manager for an organization. For more information, see "[Managing security for an organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization) for an organization."
 
-  To use this endpoint, you must be an administrator for the organization, and you must use an access token with the `write:org` scope.
+  The authenticated user must be an administrator for the organization to use this endpoint.
 
-  GitHub Apps must have the `administration` organization read-write permission to use this endpoint.
+  OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint.
 
   ## Resources
 
@@ -30,6 +30,64 @@ defmodule GitHub.Orgs do
       url: "/orgs/#{org}/security-managers/teams/#{team_slug}",
       method: :put,
       response: [{204, :null}, {409, :null}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Assign an organization role to a team
+
+  Assigns an organization role to a team in an organization. For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+
+  The authenticated user must be an administrator for the organization to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/organization-roles#assign-an-organization-role-to-a-team)
+
+  """
+  @spec assign_team_to_org_role(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def assign_team_to_org_role(org, team_slug, role_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, team_slug: team_slug, role_id: role_id],
+      call: {GitHub.Orgs, :assign_team_to_org_role},
+      url: "/orgs/#{org}/organization-roles/teams/#{team_slug}/#{role_id}",
+      method: :put,
+      response: [{204, :null}, {404, :null}, {422, :null}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Assign an organization role to a user
+
+  Assigns an organization role to a member of an organization. For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+
+  The authenticated user must be an administrator for the organization to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/organization-roles#assign-an-organization-role-to-a-user)
+
+  """
+  @spec assign_user_to_org_role(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def assign_user_to_org_role(org, username, role_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, username: username, role_id: role_id],
+      call: {GitHub.Orgs, :assign_user_to_org_role},
+      url: "/orgs/#{org}/organization-roles/users/#{username}/#{role_id}",
+      method: :put,
+      response: [{204, :null}, {404, :null}, {422, :null}],
       opts: opts
     })
   end
@@ -197,11 +255,51 @@ defmodule GitHub.Orgs do
   end
 
   @doc """
+  Create a custom organization role
+
+  Creates a custom organization role that can be assigned to users and teams, granting them specific permissions over the organization. For more information on custom organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+
+  To use this endpoint, the authenticated user must be one of:
+
+  - An administrator for the organization.
+  - A user, or a user on a team, with the fine-grained permissions of `write_organization_custom_org_role` in the organization.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/organization-roles#create-a-custom-organization-role)
+
+  """
+  @spec create_custom_organization_role(String.t(), map, keyword) ::
+          {:ok, GitHub.Organization.Role.t()} | {:error, GitHub.Error.t()}
+  def create_custom_organization_role(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, body: body],
+      call: {GitHub.Orgs, :create_custom_organization_role},
+      url: "/orgs/#{org}/organization-roles",
+      body: body,
+      method: :post,
+      request: [{"application/json", :map}],
+      response: [
+        {201, {GitHub.Organization.Role, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {409, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   Create an organization invitation
 
   Invite people to an organization by using their GitHub user ID or their email address. In order to create invitations in an organization, the authenticated user must be an organization owner.
 
-  This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. See "[Secondary rate limits](https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits)" and "[Dealing with secondary rate limits](https://docs.github.com/rest/guides/best-practices-for-integrators#dealing-with-secondary-rate-limits)" for details.
+  This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/overview/rate-limits-for-the-rest-api#about-secondary-rate-limits)"
+  and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)."
 
   ## Resources
 
@@ -224,6 +322,117 @@ defmodule GitHub.Orgs do
         {201, {GitHub.Organization.Invitation, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create or update custom properties for an organization
+
+  Creates new or updates existing custom properties defined for an organization in a batch.
+
+  To use this endpoint, the authenticated user must be one of:
+    - An administrator for the organization.
+    - A user, or a user on a team, with the fine-grained permission of `custom_properties_org_definitions_manager` in the organization.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/custom-properties#create-or-update-custom-properties-for-an-organization)
+
+  """
+  @spec create_or_update_custom_properties(String.t(), map, keyword) ::
+          {:ok, [GitHub.OrgCustomProperty.t()]} | {:error, GitHub.Error.t()}
+  def create_or_update_custom_properties(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, body: body],
+      call: {GitHub.Orgs, :create_or_update_custom_properties},
+      url: "/orgs/#{org}/properties/schema",
+      body: body,
+      method: :patch,
+      request: [{"application/json", :map}],
+      response: [
+        {200, [{GitHub.OrgCustomProperty, :t}]},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create or update custom property values for organization repositories
+
+  Create new or update existing custom property values for repositories in a batch that belong to an organization.
+  Each target repository will have its custom property values updated to match the values provided in the request.
+
+  A maximum of 30 repositories can be updated in a single request.
+
+  Using a value of `null` for a custom property will remove or 'unset' the property value from the repository.
+
+  To use this endpoint, the authenticated user must be one of:
+    - An administrator for the organization.
+    - A user, or a user on a team, with the fine-grained permission of `custom_properties_org_values_editor` in the organization.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/custom-properties#create-or-update-custom-property-values-for-organization-repositories)
+
+  """
+  @spec create_or_update_custom_properties_values_for_repos(String.t(), map, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def create_or_update_custom_properties_values_for_repos(org, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, body: body],
+      call: {GitHub.Orgs, :create_or_update_custom_properties_values_for_repos},
+      url: "/orgs/#{org}/properties/values",
+      body: body,
+      method: :patch,
+      request: [{"application/json", :map}],
+      response: [
+        {204, :null},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Create or update a custom property for an organization
+
+  Creates a new or updates an existing custom property that is defined for an organization.
+
+  To use this endpoint, the authenticated user must be one of:
+  - An administrator for the organization.
+  - A user, or a user on a team, with the fine-grained permission of `custom_properties_org_definitions_manager` in the organization.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/custom-properties#create-or-update-a-custom-property-for-an-organization)
+
+  """
+  @spec create_or_update_custom_property(String.t(), String.t(), map, keyword) ::
+          {:ok, GitHub.OrgCustomProperty.t()} | {:error, GitHub.Error.t()}
+  def create_or_update_custom_property(org, custom_property_name, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, custom_property_name: custom_property_name, body: body],
+      call: {GitHub.Orgs, :create_or_update_custom_property},
+      url: "/orgs/#{org}/properties/schema/#{custom_property_name}",
+      body: body,
+      method: :put,
+      request: [{"application/json", :map}],
+      response: [
+        {200, {GitHub.OrgCustomProperty, :t}},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}}
       ],
       opts: opts
     })
@@ -296,6 +505,38 @@ defmodule GitHub.Orgs do
   end
 
   @doc """
+  Delete a custom organization role.
+
+  Deletes a custom organization role. For more information on custom organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+
+  To use this endpoint, the authenticated user must be one of:
+
+  - An administrator for the organization.
+  - A user, or a user on a team, with the fine-grained permissions of `write_organization_custom_org_role` in the organization.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/organization-roles#delete-a-custom-organization-role)
+
+  """
+  @spec delete_custom_organization_role(String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def delete_custom_organization_role(org, role_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, role_id: role_id],
+      call: {GitHub.Orgs, :delete_custom_organization_role},
+      url: "/orgs/#{org}/organization-roles/#{role_id}",
+      method: :delete,
+      response: [{204, :null}],
+      opts: opts
+    })
+  end
+
+  @doc """
   Delete an organization webhook
 
   ## Resources
@@ -320,14 +561,11 @@ defmodule GitHub.Orgs do
   @doc """
   Enable or disable a security feature for an organization
 
-  Enables or disables the specified security feature for all eligible repositories in an organization.
+  Enables or disables the specified security feature for all eligible repositories in an organization. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)."
 
-  To use this endpoint, you must be an organization owner or be member of a team with the security manager role.
-  A token with the 'write:org' scope is also required.
+  The authenticated user must be an organization owner or be member of a team with the security manager role to use this endpoint.
 
-  GitHub Apps must have the `organization_administration:write` permission to use this endpoint.
-
-  For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)."
+  OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint.
 
   ## Resources
 
@@ -365,9 +603,15 @@ defmodule GitHub.Orgs do
   @doc """
   Get an organization
 
-  To see many of the organization response values, you need to be an authenticated organization owner with the `admin:org` scope. When the value of `two_factor_requirement_enabled` is `true`, the organization requires all members, billing managers, and outside collaborators to enable [two-factor authentication](https://docs.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/).
+  Gets information about an organization.
 
-  GitHub Apps with the `Organization plan` permission can use this endpoint to retrieve information about an organization's GitHub plan. See "[Authenticating with GitHub Apps](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/)" for details. For an example response, see 'Response with GitHub plan information' below."
+  When the value of `two_factor_requirement_enabled` is `true`, the organization requires all members, billing managers, and outside collaborators to enable [two-factor authentication](https://docs.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/).
+
+  To see the full details about an organization, the authenticated user must be an organization owner.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to see the full details about an organization.
+
+  To see information about an organization's GitHub plan, GitHub Apps need the `Organization plan` permission.
 
   ## Resources
 
@@ -384,6 +628,66 @@ defmodule GitHub.Orgs do
       url: "/orgs/#{org}",
       method: :get,
       response: [{200, {GitHub.Organization, :full}}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get all custom properties for an organization
+
+  Gets all custom properties defined for an organization.
+  Organization members can read these properties.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/custom-properties#get-all-custom-properties-for-an-organization)
+
+  """
+  @spec get_all_custom_properties(String.t(), keyword) ::
+          {:ok, [GitHub.OrgCustomProperty.t()]} | {:error, GitHub.Error.t()}
+  def get_all_custom_properties(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org],
+      call: {GitHub.Orgs, :get_all_custom_properties},
+      url: "/orgs/#{org}/properties/schema",
+      method: :get,
+      response: [
+        {200, [{GitHub.OrgCustomProperty, :t}]},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Get a custom property for an organization
+
+  Gets a custom property that is defined for an organization.
+  Organization members can read these properties.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/custom-properties#get-a-custom-property-for-an-organization)
+
+  """
+  @spec get_custom_property(String.t(), String.t(), keyword) ::
+          {:ok, GitHub.OrgCustomProperty.t()} | {:error, GitHub.Error.t()}
+  def get_custom_property(org, custom_property_name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, custom_property_name: custom_property_name],
+      call: {GitHub.Orgs, :get_custom_property},
+      url: "/orgs/#{org}/properties/schema/#{custom_property_name}",
+      method: :get,
+      response: [
+        {200, {GitHub.OrgCustomProperty, :t}},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
@@ -447,6 +751,42 @@ defmodule GitHub.Orgs do
   end
 
   @doc """
+  Get an organization role
+
+  Gets an organization role that is available to this organization. For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+
+  To use this endpoint, the authenticated user must be one of:
+
+  - An administrator for the organization.
+  - A user, or a user on a team, with the fine-grained permissions of `read_organization_custom_org_role` in the organization.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/organization-roles#get-an-organization-role)
+
+  """
+  @spec get_org_role(String.t(), integer, keyword) ::
+          {:ok, GitHub.Organization.Role.t()} | {:error, GitHub.Error.t()}
+  def get_org_role(org, role_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, role_id: role_id],
+      call: {GitHub.Orgs, :get_org_role},
+      url: "/orgs/#{org}/organization-roles/#{role_id}",
+      method: :get,
+      response: [
+        {200, {GitHub.Organization.Role, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   Get an organization webhook
 
   Returns a webhook configured in an organization. To get only the webhook `config` properties, see "[Get a webhook configuration for an organization](https://docs.github.com/rest/orgs/webhooks#get-a-webhook-configuration-for-an-organization)."
@@ -476,7 +816,7 @@ defmodule GitHub.Orgs do
 
   Returns the webhook configuration for an organization. To get more information about the webhook, including the `active` state and `events`, use "[Get an organization webhook ](https://docs.github.com/rest/orgs/webhooks#get-an-organization-webhook)."
 
-  Access tokens must have the `admin:org_hook` scope, and GitHub Apps must have the `organization_hooks:read` permission.
+  OAuth app tokens and personal access tokens (classic) need the `admin:org_hook` scope to use this endpoint.
 
   ## Resources
 
@@ -537,7 +877,7 @@ defmodule GitHub.Orgs do
   ## Options
 
     * `since`: An organization ID. Only return organizations with an ID greater than this ID.
-    * `per_page`: The number of results per page (max 100).
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -569,12 +909,17 @@ defmodule GitHub.Orgs do
   @doc """
   List app installations for an organization
 
-  Lists all GitHub Apps in an organization. The installation count includes all GitHub Apps installed on repositories in the organization. You must be an organization owner with `admin:read` scope to use this endpoint.
+  Lists all GitHub Apps in an organization. The installation count includes
+  all GitHub Apps installed on repositories in the organization.
+
+  The authenticated user must be an organization owner to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:read` scope to use this endpoint.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -604,8 +949,8 @@ defmodule GitHub.Orgs do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -630,14 +975,52 @@ defmodule GitHub.Orgs do
   end
 
   @doc """
+  List custom property values for organization repositories
+
+  Lists organization repositories with all of their custom property values.
+  Organization members can read these properties.
+
+  ## Options
+
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `repository_query`: Finds repositories in the organization with a query containing one or more search keywords and qualifiers. Qualifiers allow you to limit your search to specific areas of GitHub. The REST API supports the same qualifiers as the web interface for GitHub. To learn more about the format of the query, see [Constructing a search query](https://docs.github.com/rest/search/search#constructing-a-search-query). See "[Searching for repositories](https://docs.github.com/articles/searching-for-repositories/)" for a detailed list of qualifiers.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/custom-properties#list-custom-property-values-for-organization-repositories)
+
+  """
+  @spec list_custom_properties_values_for_repos(String.t(), keyword) ::
+          {:ok, [GitHub.OrgRepoCustomPropertyValues.t()]} | {:error, GitHub.Error.t()}
+  def list_custom_properties_values_for_repos(org, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page, :repository_query])
+
+    client.request(%{
+      args: [org: org],
+      call: {GitHub.Orgs, :list_custom_properties_values_for_repos},
+      url: "/orgs/#{org}/properties/values",
+      method: :get,
+      query: query,
+      response: [
+        {200, [{GitHub.OrgRepoCustomPropertyValues, :t}]},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   List failed organization invitations
 
   The return hash contains `failed_at` and `failed_reason` fields which represent the time at which the invitation failed and the reason for the failure.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -666,14 +1049,12 @@ defmodule GitHub.Orgs do
 
   List organizations for the authenticated user.
 
-  **OAuth scope requirements**
-
-  This only lists organizations that your authorization allows you to operate on in some way (e.g., you can list teams with `read:org` scope, you can publicize your organization membership with `user` scope, etc.). Therefore, this API requires at least `user` or `read:org` scope. OAuth requests with insufficient scope receive a `403 Forbidden` response.
+  For OAuth app tokens and personal access tokens (classic), this endpoint only lists organizations that your authorization allows you to operate on in some way (e.g., you can list teams with `read:org` scope, you can publicize your organization membership with `user` scope, etc.). Therefore, this API requires at least `user` or `read:org` scope for OAuth app tokens and personal access tokens (classic). Requests with insufficient scope will receive a `403 Forbidden` response.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -711,8 +1092,8 @@ defmodule GitHub.Orgs do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -743,8 +1124,8 @@ defmodule GitHub.Orgs do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -777,8 +1158,8 @@ defmodule GitHub.Orgs do
 
     * `filter`: Filter members returned in the list. `2fa_disabled` means that only members without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned. This options is only available for organization owners.
     * `role`: Filter members returned by their role.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -810,8 +1191,8 @@ defmodule GitHub.Orgs do
   ## Options
 
     * `state`: Indicates the state of the memberships to return. If not specified, the API returns both active and pending memberships.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -842,6 +1223,157 @@ defmodule GitHub.Orgs do
   end
 
   @doc """
+  List teams that are assigned to an organization role
+
+  Lists the teams that are assigned to an organization role. For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+
+  To use this endpoint, you must be an administrator for the organization.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+
+  ## Options
+
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/organization-roles#list-teams-that-are-assigned-to-an-organization-role)
+
+  """
+  @spec list_org_role_teams(String.t(), integer, keyword) ::
+          {:ok, [GitHub.Team.t()]} | {:error, GitHub.Error.t()}
+  def list_org_role_teams(org, role_id, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      args: [org: org, role_id: role_id],
+      call: {GitHub.Orgs, :list_org_role_teams},
+      url: "/orgs/#{org}/organization-roles/#{role_id}/teams",
+      method: :get,
+      query: query,
+      response: [{200, [{GitHub.Team, :t}]}, {404, :null}, {422, :null}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List users that are assigned to an organization role
+
+  Lists organization members that are assigned to an organization role. For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+
+  To use this endpoint, you must be an administrator for the organization.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+
+  ## Options
+
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/organization-roles#list-users-that-are-assigned-to-an-organization-role)
+
+  """
+  @spec list_org_role_users(String.t(), integer, keyword) ::
+          {:ok, [GitHub.User.simple()]} | {:error, GitHub.Error.t()}
+  def list_org_role_users(org, role_id, opts \\ []) do
+    client = opts[:client] || @default_client
+    query = Keyword.take(opts, [:page, :per_page])
+
+    client.request(%{
+      args: [org: org, role_id: role_id],
+      call: {GitHub.Orgs, :list_org_role_users},
+      url: "/orgs/#{org}/organization-roles/#{role_id}/users",
+      method: :get,
+      query: query,
+      response: [{200, [{GitHub.User, :simple}]}, {404, :null}, {422, :null}],
+      opts: opts
+    })
+  end
+
+  @type list_org_roles_200_json_resp :: %{
+          __info__: map,
+          roles: [GitHub.Organization.Role.t()] | nil,
+          total_count: integer | nil
+        }
+
+  @doc """
+  Get all organization roles for an organization
+
+  Lists the organization roles available in this organization. For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+
+  To use this endpoint, the authenticated user must be one of:
+
+  - An administrator for the organization.
+  - A user, or a user on a team, with the fine-grained permissions of `read_organization_custom_org_role` in the organization.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/organization-roles#get-all-organization-roles-for-an-organization)
+
+  """
+  @spec list_org_roles(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
+  def list_org_roles(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org],
+      call: {GitHub.Orgs, :list_org_roles},
+      url: "/orgs/#{org}/organization-roles",
+      method: :get,
+      response: [
+        {200, {GitHub.Orgs, :list_org_roles_200_json_resp}},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  List organization fine-grained permissions for an organization
+
+  Lists the fine-grained permissions that can be used in custom organization roles for an organization. For more information, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+
+  To list the fine-grained permissions that can be used in custom repository roles for an organization, see "[List repository fine-grained permissions for an organization](https://docs.github.com/rest/orgs/organization-roles#list-repository-fine-grained-permissions-for-an-organization)."
+
+  To use this endpoint, the authenticated user must be one of:
+
+  - An administrator for the organization.
+  - A user, or a user on a team, with the fine-grained permissions of `read_organization_custom_org_role` in the organization.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/organization-roles#list-organization-fine-grained-permissions-for-an-organization)
+
+  """
+  @spec list_organization_fine_grained_permissions(String.t(), keyword) ::
+          {:ok, [GitHub.Organization.FineGrainedPermission.t()]} | {:error, GitHub.Error.t()}
+  def list_organization_fine_grained_permissions(org, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org],
+      call: {GitHub.Orgs, :list_organization_fine_grained_permissions},
+      url: "/orgs/#{org}/organization-fine-grained-permissions",
+      method: :get,
+      response: [
+        {200, [{GitHub.Organization.FineGrainedPermission, :t}]},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   List outside collaborators for an organization
 
   List all users who are outside collaborators of an organization.
@@ -849,8 +1381,8 @@ defmodule GitHub.Orgs do
   ## Options
 
     * `filter`: Filter the list of outside collaborators. `2fa_disabled` means that only outside collaborators without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned.
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -877,15 +1409,14 @@ defmodule GitHub.Orgs do
   @doc """
   List repositories a fine-grained personal access token has access to
 
-  Lists the repositories a fine-grained personal access token has access to. Only GitHub Apps can call this API,
-  using the `organization_personal_access_tokens: read` permission.
+  Lists the repositories a fine-grained personal access token has access to.
 
-  **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+  Only GitHub Apps can use this endpoint.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -917,15 +1448,14 @@ defmodule GitHub.Orgs do
   @doc """
   List repositories requested to be accessed by a fine-grained personal access token
 
-  Lists the repositories a fine-grained personal access token request is requesting access to. Only GitHub Apps can call this API,
-  using the `organization_personal_access_token_requests: read` permission.
+  Lists the repositories a fine-grained personal access token request is requesting access to.
 
-  **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+  Only GitHub Apps can use this endpoint.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -957,15 +1487,14 @@ defmodule GitHub.Orgs do
   @doc """
   List requests to access organization resources with fine-grained personal access tokens
 
-  Lists requests from organization members to access organization resources with a fine-grained personal access token. Only GitHub Apps can call this API,
-  using the `organization_personal_access_token_requests: read` permission.
+  Lists requests from organization members to access organization resources with a fine-grained personal access token.
 
-  **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+  Only GitHub Apps can use this endpoint.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `sort`: The property by which to sort the results.
     * `direction`: The direction to sort the results by.
     * `owner`: A list of owner usernames to use to filter the results.
@@ -1018,15 +1547,14 @@ defmodule GitHub.Orgs do
   @doc """
   List fine-grained personal access tokens with access to organization resources
 
-  Lists approved fine-grained personal access tokens owned by organization members that can access organization resources. Only GitHub Apps can call this API,
-  using the `organization_personal_access_tokens: read` permission.
+  Lists approved fine-grained personal access tokens owned by organization members that can access organization resources.
 
-  **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+  Only GitHub Apps can use this endpoint.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `sort`: The property by which to sort the results.
     * `direction`: The direction to sort the results by.
     * `owner`: A list of owner usernames to use to filter the results.
@@ -1082,8 +1610,8 @@ defmodule GitHub.Orgs do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `role`: Filter invitations by their member role.
     * `invitation_source`: Filter invitations by their invitation source.
 
@@ -1116,8 +1644,8 @@ defmodule GitHub.Orgs do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -1146,9 +1674,9 @@ defmodule GitHub.Orgs do
 
   Lists teams that are security managers for an organization. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)."
 
-  To use this endpoint, you must be an administrator or security manager for the organization, and you must use an access token with the `read:org` scope.
+  The authenticated user must be an administrator or security manager for the organization to use this endpoint.
 
-  GitHub Apps must have the `administration` organization read permission to use this endpoint.
+  OAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint.
 
   ## Resources
 
@@ -1177,7 +1705,7 @@ defmodule GitHub.Orgs do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `cursor`: Used for pagination: the starting delivery from which the page of deliveries is fetched. Refer to the `link` header for the next and previous page cursors.
     * `redelivery`
 
@@ -1212,8 +1740,8 @@ defmodule GitHub.Orgs do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -1233,6 +1761,46 @@ defmodule GitHub.Orgs do
       method: :get,
       query: query,
       response: [{200, [{GitHub.OrgHook, :t}]}, {404, {GitHub.BasicError, :t}}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Update a custom organization role
+
+  Updates an existing custom organization role. Permission changes will apply to all assignees. For more information on custom organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+
+
+  To use this endpoint, the authenticated user must be one of:
+
+  - An administrator for the organization.
+  - A user, or a user on a team, with the fine-grained permissions of `write_organization_custom_org_role` in the organization.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/organization-roles#update-a-custom-organization-role)
+
+  """
+  @spec patch_custom_organization_role(String.t(), integer, map, keyword) ::
+          {:ok, GitHub.Organization.Role.t()} | {:error, GitHub.Error.t()}
+  def patch_custom_organization_role(org, role_id, body, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, role_id: role_id, body: body],
+      call: {GitHub.Orgs, :patch_custom_organization_role},
+      url: "/orgs/#{org}/organization-roles/#{role_id}",
+      body: body,
+      method: :patch,
+      request: [{"application/json", :map}],
+      response: [
+        {200, {GitHub.Organization.Role, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {409, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
       opts: opts
     })
   end
@@ -1286,6 +1854,35 @@ defmodule GitHub.Orgs do
         {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {422, {GitHub.ValidationError, :t}}
       ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Remove a custom property for an organization
+
+  Removes a custom property that is defined for an organization.
+
+  To use this endpoint, the authenticated user must be one of:
+    - An administrator for the organization.
+    - A user, or a user on a team, with the fine-grained permission of `custom_properties_org_definitions_manager` in the organization.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/custom-properties#remove-a-custom-property-for-an-organization)
+
+  """
+  @spec remove_custom_property(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def remove_custom_property(org, custom_property_name, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, custom_property_name: custom_property_name],
+      call: {GitHub.Orgs, :remove_custom_property},
+      url: "/orgs/#{org}/properties/schema/#{custom_property_name}",
+      method: :delete,
+      response: [{204, :null}, {403, {GitHub.BasicError, :t}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -1402,9 +1999,9 @@ defmodule GitHub.Orgs do
 
   Removes the security manager role from a team for an organization. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization) team from an organization."
 
-  To use this endpoint, you must be an administrator for the organization, and you must use an access token with the `admin:org` scope.
+  The authenticated user must be an administrator for the organization to use this endpoint.
 
-  GitHub Apps must have the `administration` organization read-write permission to use this endpoint.
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
 
   ## Resources
 
@@ -1429,10 +2026,9 @@ defmodule GitHub.Orgs do
   @doc """
   Review a request to access organization resources with a fine-grained personal access token
 
-  Approves or denies a pending request to access organization resources via a fine-grained personal access token. Only GitHub Apps can call this API,
-  using the `organization_personal_access_token_requests: write` permission.
+  Approves or denies a pending request to access organization resources via a fine-grained personal access token.
 
-  **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+  Only GitHub Apps can use this endpoint.
 
   ## Resources
 
@@ -1465,10 +2061,9 @@ defmodule GitHub.Orgs do
   @doc """
   Review requests to access organization resources with fine-grained personal access tokens
 
-  Approves or denies multiple pending requests to access organization resources via a fine-grained personal access token. Only GitHub Apps can call this API,
-  using the `organization_personal_access_token_requests: write` permission.
+  Approves or denies multiple pending requests to access organization resources via a fine-grained personal access token.
 
-  **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+  Only GitHub Apps can use this endpoint.
 
   ## Resources
 
@@ -1494,6 +2089,122 @@ defmodule GitHub.Orgs do
         {422, {GitHub.ValidationError, :t}},
         {500, {GitHub.BasicError, :t}}
       ],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Remove all organization roles for a team
+
+  Removes all assigned organization roles from a team. For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+
+  The authenticated user must be an administrator for the organization to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/organization-roles#remove-all-organization-roles-for-a-team)
+
+  """
+  @spec revoke_all_org_roles_team(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def revoke_all_org_roles_team(org, team_slug, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, team_slug: team_slug],
+      call: {GitHub.Orgs, :revoke_all_org_roles_team},
+      url: "/orgs/#{org}/organization-roles/teams/#{team_slug}",
+      method: :delete,
+      response: [{204, :null}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Remove all organization roles for a user
+
+  Revokes all assigned organization roles from a user. For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+
+  The authenticated user must be an administrator for the organization to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/organization-roles#remove-all-organization-roles-for-a-user)
+
+  """
+  @spec revoke_all_org_roles_user(String.t(), String.t(), keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def revoke_all_org_roles_user(org, username, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, username: username],
+      call: {GitHub.Orgs, :revoke_all_org_roles_user},
+      url: "/orgs/#{org}/organization-roles/users/#{username}",
+      method: :delete,
+      response: [{204, :null}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Remove an organization role from a team
+
+  Removes an organization role from a team. For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+
+  The authenticated user must be an administrator for the organization to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/organization-roles#remove-an-organization-role-from-a-team)
+
+  """
+  @spec revoke_org_role_team(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def revoke_org_role_team(org, team_slug, role_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, team_slug: team_slug, role_id: role_id],
+      call: {GitHub.Orgs, :revoke_org_role_team},
+      url: "/orgs/#{org}/organization-roles/teams/#{team_slug}/#{role_id}",
+      method: :delete,
+      response: [{204, :null}],
+      opts: opts
+    })
+  end
+
+  @doc """
+  Remove an organization role from a user
+
+  Remove an organization role from a user. For more information on organization roles, see "[Managing people's access to your organization with roles](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/about-custom-organization-roles)."
+
+  The authenticated user must be an administrator for the organization to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/orgs/organization-roles#remove-an-organization-role-from-a-user)
+
+  """
+  @spec revoke_org_role_user(String.t(), String.t(), integer, keyword) ::
+          :ok | {:error, GitHub.Error.t()}
+  def revoke_org_role_user(org, username, role_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [org: org, username: username, role_id: role_id],
+      call: {GitHub.Orgs, :revoke_org_role_user},
+      url: "/orgs/#{org}/organization-roles/users/#{username}/#{role_id}",
+      method: :delete,
+      response: [{204, :null}],
       opts: opts
     })
   end
@@ -1542,7 +2253,7 @@ defmodule GitHub.Orgs do
 
   The user can publicize their own membership. (A user cannot publicize the membership for another user.)
 
-  Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
+  Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP method](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#http-method)."
 
   ## Resources
 
@@ -1593,7 +2304,11 @@ defmodule GitHub.Orgs do
 
   **Parameter Deprecation Notice:** GitHub will replace and discontinue `members_allowed_repository_creation_type` in favor of more granular permissions. The new input parameters are `members_can_create_public_repositories`, `members_can_create_private_repositories` for all organizations and `members_can_create_internal_repositories` for organizations associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+. For more information, see the [blog post](https://developer.github.com/changes/2019-12-03-internal-visibility-changes).
 
-  Enables an authenticated organization owner with the `admin:org` scope or the `repo` scope to update the organization's profile and member privileges.
+  Updates the organization's profile and member privileges.
+
+  The authenticated user must be an organization owner to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:org` or `repo` scope to use this endpoint.
 
   ## Resources
 
@@ -1656,10 +2371,9 @@ defmodule GitHub.Orgs do
   @doc """
   Update the access a fine-grained personal access token has to organization resources
 
-  Updates the access an organization member has to organization resources via a fine-grained personal access token. Limited to revoking the token's existing access. Limited to revoking a token's existing access. Only GitHub Apps can call this API,
-  using the `organization_personal_access_tokens: write` permission.
+  Updates the access an organization member has to organization resources via a fine-grained personal access token. Limited to revoking the token's existing access. Limited to revoking a token's existing access.
 
-  **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+  Only GitHub Apps can use this endpoint.
 
   ## Resources
 
@@ -1691,10 +2405,9 @@ defmodule GitHub.Orgs do
   @doc """
   Update the access to organization resources via fine-grained personal access tokens
 
-  Updates the access organization members have to organization resources via fine-grained personal access tokens. Limited to revoking a token's existing access. Only GitHub Apps can call this API,
-  using the `organization_personal_access_tokens: write` permission.
+  Updates the access organization members have to organization resources via fine-grained personal access tokens. Limited to revoking a token's existing access.
 
-  **Note**: Fine-grained PATs are in public beta. Related APIs, events, and functionality are subject to change.
+  Only GitHub Apps can use this endpoint.
 
   ## Resources
 
@@ -1760,7 +2473,7 @@ defmodule GitHub.Orgs do
 
   Updates the webhook configuration for an organization. To update more information about the webhook, including the `active` state and `events`, use "[Update an organization webhook ](https://docs.github.com/rest/orgs/webhooks#update-an-organization-webhook)."
 
-  Access tokens must have the `admin:org_hook` scope, and GitHub Apps must have the `organization_hooks:write` permission.
+  OAuth app tokens and personal access tokens (classic) need the `admin:org_hook` scope to use this endpoint.
 
   ## Resources
 
@@ -1792,6 +2505,10 @@ defmodule GitHub.Orgs do
 
   def __fields__(:list_app_installations_200_json_resp) do
     [installations: [{GitHub.Installation, :t}], total_count: :integer]
+  end
+
+  def __fields__(:list_org_roles_200_json_resp) do
+    [roles: [{GitHub.Organization.Role, :t}], total_count: :integer]
   end
 
   def __fields__(:remove_outside_collaborator_422_json_resp) do

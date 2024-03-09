@@ -413,15 +413,54 @@ defmodule GitHub.Plugin.TypedDecoder do
 
   defp choose_union(value, [
          {GitHub.SecretScanning.LocationCommit, :t},
+         {GitHub.SecretScanning.LocationDiscussionBody, :t},
+         {GitHub.SecretScanning.LocationDiscussionComment, :t},
+         {GitHub.SecretScanning.LocationDiscussionTitle, :t},
          {GitHub.SecretScanning.LocationIssueBody, :t},
          {GitHub.SecretScanning.LocationIssueComment, :t},
-         {GitHub.SecretScanning.LocationIssueTitle, :t}
+         {GitHub.SecretScanning.LocationIssueTitle, :t},
+         {GitHub.SecretScanning.LocationPullRequestBody, :t},
+         {GitHub.SecretScanning.LocationPullRequestComment, :t},
+         {GitHub.SecretScanning.LocationPullRequestReview, :t},
+         {GitHub.SecretScanning.LocationPullRequestReviewComment, :t},
+         {GitHub.SecretScanning.LocationPullRequestTitle, :t}
        ]) do
     case value do
-      %{"commit_sha" => _} -> {GitHub.SecretScanning.LocationCommit, :t}
-      %{"issue_body_url" => _} -> {GitHub.SecretScanning.LocationIssueBody, :t}
-      %{"issue_comment_url" => _} -> {GitHub.SecretScanning.LocationIssueComment, :t}
-      %{"issue_title_url" => _} -> {GitHub.SecretScanning.LocationIssueTitle, :t}
+      %{"commit_sha" => _} ->
+        {GitHub.SecretScanning.LocationCommit, :t}
+
+      %{"discussion_body_url" => _} ->
+        {GitHub.SecretScanning.LocationDiscussionBody, :t}
+
+      %{"discussion_comment_url" => _} ->
+        {GitHub.SecretScanning.LocationDiscussionComment, :t}
+
+      %{"discussion_title_url" => _} ->
+        {GitHub.SecretScanning.LocationDiscussionTitle, :t}
+
+      %{"issue_body_url" => _} ->
+        {GitHub.SecretScanning.LocationIssueBody, :t}
+
+      %{"issue_comment_url" => _} ->
+        {GitHub.SecretScanning.LocationIssueComment, :t}
+
+      %{"issue_title_url" => _} ->
+        {GitHub.SecretScanning.LocationIssueTitle, :t}
+
+      %{"pull_request_body_url" => _} ->
+        {GitHub.SecretScanning.LocationPullRequestBody, :t}
+
+      %{"pull_request_comment_url" => _} ->
+        {GitHub.SecretScanning.LocationPullRequestComment, :t}
+
+      %{"pull_request_review_url" => _} ->
+        {GitHub.SecretScanning.LocationPullRequestReview, :t}
+
+      %{"pull_request_review_comment_url" => _} ->
+        {GitHub.SecretScanning.LocationPullRequestReviewComment, :t}
+
+      %{"pull_request_title_url" => _} ->
+        {GitHub.SecretScanning.LocationPullRequestTitle, :t}
     end
   end
 

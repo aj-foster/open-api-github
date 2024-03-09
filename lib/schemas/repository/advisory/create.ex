@@ -12,8 +12,9 @@ defmodule GitHub.Repository.Advisory.Create do
           cwe_ids: [String.t()] | nil,
           description: String.t(),
           severity: String.t() | nil,
+          start_private_fork: boolean | nil,
           summary: String.t(),
-          vulnerabilities: [map]
+          vulnerabilities: [GitHub.Repository.Advisory.CreateVulnerabilities.t()]
         }
 
   defstruct [
@@ -24,6 +25,7 @@ defmodule GitHub.Repository.Advisory.Create do
     :cwe_ids,
     :description,
     :severity,
+    :start_private_fork,
     :summary,
     :vulnerabilities
   ]
@@ -40,8 +42,9 @@ defmodule GitHub.Repository.Advisory.Create do
       cwe_ids: {:union, [[string: :generic], :null]},
       description: {:string, :generic},
       severity: {:enum, ["critical", "high", "medium", "low", nil]},
+      start_private_fork: :boolean,
       summary: {:string, :generic},
-      vulnerabilities: [:map]
+      vulnerabilities: [{GitHub.Repository.Advisory.CreateVulnerabilities, :t}]
     ]
   end
 end

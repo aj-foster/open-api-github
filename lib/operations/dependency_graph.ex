@@ -16,7 +16,11 @@ defmodule GitHub.DependencyGraph do
   @doc """
   Create a snapshot of dependencies for a repository
 
-  Create a new snapshot of a repository's dependencies. You must authenticate using an access token with the `repo` scope to use this endpoint for a repository that the requesting user has access to.
+  Create a new snapshot of a repository's dependencies.
+
+  The authenticated user must have access to the repository.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Resources
 

@@ -8,7 +8,7 @@ defmodule GitHub.Users do
   @doc """
   Add an email address for the authenticated user
 
-  This endpoint is accessible with the `user` scope.
+  OAuth app tokens and personal access tokens (classic) need the `user` scope to use this endpoint.
 
   ## Resources
 
@@ -42,7 +42,9 @@ defmodule GitHub.Users do
   @doc """
   Add social accounts for the authenticated user
 
-  Add one or more social accounts to the authenticated user's profile. This endpoint is accessible with the `user` scope.
+  Add one or more social accounts to the authenticated user's profile.
+
+  OAuth app tokens and personal access tokens (classic) need the `user` scope to use this endpoint.
 
   ## Resources
 
@@ -189,7 +191,9 @@ defmodule GitHub.Users do
   @doc """
   Create a GPG key for the authenticated user
 
-  Adds a GPG key to the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+  Adds a GPG key to the authenticated user's GitHub account.
+
+  OAuth app tokens and personal access tokens (classic) need the `write:gpg_key` scope to use this endpoint.
 
   ## Resources
 
@@ -223,7 +227,9 @@ defmodule GitHub.Users do
   @doc """
   Create a public SSH key for the authenticated user
 
-  Adds a public SSH key to the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth, or OAuth with at least `write:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+  Adds a public SSH key to the authenticated user's GitHub account.
+
+  OAuth app tokens and personal access tokens (classic) need the `write:gpg_key` scope to use this endpoint.
 
   ## Resources
 
@@ -257,7 +263,9 @@ defmodule GitHub.Users do
   @doc """
   Create a SSH signing key for the authenticated user
 
-  Creates an SSH signing key for the authenticated user's GitHub account. You must authenticate with Basic Authentication, or you must authenticate with OAuth with at least `write:ssh_signing_key` scope. For more information, see "[Understanding scopes for OAuth apps](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/)."
+  Creates an SSH signing key for the authenticated user's GitHub account.
+
+  OAuth app tokens and personal access tokens (classic) need the `write:ssh_signing_key` scope to use this endpoint.
 
   ## Resources
 
@@ -291,7 +299,7 @@ defmodule GitHub.Users do
   @doc """
   Delete an email address for the authenticated user
 
-  This endpoint is accessible with the `user` scope.
+  OAuth app tokens and personal access tokens (classic) need the `user` scope to use this endpoint.
 
   ## Resources
 
@@ -325,7 +333,9 @@ defmodule GitHub.Users do
   @doc """
   Delete a GPG key for the authenticated user
 
-  Removes a GPG key from the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth or via OAuth with at least `admin:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+  Removes a GPG key from the authenticated user's GitHub account.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:gpg_key` scope to use this endpoint.
 
   ## Resources
 
@@ -357,7 +367,9 @@ defmodule GitHub.Users do
   @doc """
   Delete a public SSH key for the authenticated user
 
-  Removes a public SSH key from the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth or via OAuth with at least `admin:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+  Removes a public SSH key from the authenticated user's GitHub account.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:public_key` scope to use this endpoint.
 
   ## Resources
 
@@ -388,7 +400,9 @@ defmodule GitHub.Users do
   @doc """
   Delete social accounts for the authenticated user
 
-  Deletes one or more social accounts from the authenticated user's profile. This endpoint is accessible with the `user` scope.
+  Deletes one or more social accounts from the authenticated user's profile.
+
+  OAuth app tokens and personal access tokens (classic) need the `user` scope to use this endpoint.
 
   ## Resources
 
@@ -422,7 +436,9 @@ defmodule GitHub.Users do
   @doc """
   Delete an SSH signing key for the authenticated user
 
-  Deletes an SSH signing key from the authenticated user's GitHub account. You must authenticate with Basic Authentication, or you must authenticate with OAuth with at least `admin:ssh_signing_key` scope. For more information, see "[Understanding scopes for OAuth apps](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/)."
+  Deletes an SSH signing key from the authenticated user's GitHub account.
+
+  OAuth app tokens and personal access tokens (classic) need the `admin:ssh_signing_key` scope to use this endpoint.
 
   ## Resources
 
@@ -453,9 +469,9 @@ defmodule GitHub.Users do
   @doc """
   Follow a user
 
-  Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/overview/resources-in-the-rest-api#http-verbs)."
+  Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP verbs](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#http-method)."
 
-  Following a user requires the user to be logged in and authenticated with basic auth or OAuth with the `user:follow` scope.
+  OAuth app tokens and personal access tokens (classic) need the `user:follow` scope to use this endpoint.
 
   ## Resources
 
@@ -485,9 +501,7 @@ defmodule GitHub.Users do
   @doc """
   Get the authenticated user
 
-  If the authenticated user is authenticated with an OAuth token with the `user` scope, then the response lists public and private profile information.
-
-  If the authenticated user is authenticated through OAuth without the `user` scope, then the response lists only public profile information.
+  OAuth app tokens and personal access tokens (classic) need the `user` scope in order for the response to include private profile information.
 
   ## Resources
 
@@ -519,9 +533,7 @@ defmodule GitHub.Users do
 
   Provides publicly available information about someone with a GitHub account.
 
-  GitHub Apps with the `Plan` user permission can use this endpoint to retrieve information about a user's GitHub plan. The GitHub App must be authenticated as a user. See "[Identifying and authorizing users for GitHub Apps](https://docs.github.com/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps/)" for details about authentication. For an example response, see 'Response with GitHub plan information' below"
-
-  The `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be “public” which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://docs.github.com/rest/overview/resources-in-the-rest-api#authentication).
+  The `email` key in the following response is the publicly visible email address from your GitHub [profile page](https://github.com/settings/profile). When setting up your profile, you can select a primary email address to be “public” which provides an email entry for this endpoint. If you do not set a public email address for `email`, then it will have a value of `null`. You only see publicly visible email addresses when authenticated with GitHub. For more information, see [Authentication](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#authentication).
 
   The Emails API enables you to list all of your email addresses, and toggle a primary email to be visible publicly. For more information, see "[Emails API](https://docs.github.com/rest/users/emails)".
 
@@ -551,7 +563,7 @@ defmodule GitHub.Users do
   @doc """
   Get contextual information for a user
 
-  Provides hovercard information when authenticated through basic auth or OAuth with the `repo` scope. You can find out more about someone in relation to their pull requests, issues, repositories, and organizations.
+  Provides hovercard information. You can find out more about someone in relation to their pull requests, issues, repositories, and organizations.
 
   The `subject_type` and `subject_id` parameters provide context for the person's hovercard, which returns more information than without the parameters. For example, if you wanted to find out more about `octocat` who owns the `Spoon-Knife` repository via cURL, it would look like this:
 
@@ -559,6 +571,8 @@ defmodule GitHub.Users do
    curl -u username:token
     https://api.github.com/users/octocat/hovercard?subject_type=repository&subject_id=1300192
   ```
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.
 
   ## Options
 
@@ -594,7 +608,9 @@ defmodule GitHub.Users do
   @doc """
   Get a GPG key for the authenticated user
 
-  View extended details for a single GPG key. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+  View extended details for a single GPG key.
+
+  OAuth app tokens and personal access tokens (classic) need the `read:gpg_key` scope to use this endpoint.
 
   ## Resources
 
@@ -625,7 +641,9 @@ defmodule GitHub.Users do
   @doc """
   Get a public SSH key for the authenticated user
 
-  View extended details for a single public SSH key. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+  View extended details for a single public SSH key.
+
+  OAuth app tokens and personal access tokens (classic) need the `read:public_key` scope to use this endpoint.
 
   ## Resources
 
@@ -656,7 +674,9 @@ defmodule GitHub.Users do
   @doc """
   Get an SSH signing key for the authenticated user
 
-  Gets extended details for an SSH signing key. You must authenticate with Basic Authentication, or you must authenticate with OAuth with at least `read:ssh_signing_key` scope. For more information, see "[Understanding scopes for OAuth apps](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/)."
+  Gets extended details for an SSH signing key.
+
+  OAuth app tokens and personal access tokens (classic) need the `read:ssh_signing_key` scope to use this endpoint.
 
   ## Resources
 
@@ -694,7 +714,7 @@ defmodule GitHub.Users do
   ## Options
 
     * `since`: A user ID. Only return users with an ID greater than this ID.
-    * `per_page`: The number of results per page (max 100).
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -724,8 +744,8 @@ defmodule GitHub.Users do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -758,12 +778,15 @@ defmodule GitHub.Users do
   @doc """
   List email addresses for the authenticated user
 
-  Lists all of your email addresses, and specifies which one is visible to the public. This endpoint is accessible with the `user:email` scope.
+  Lists all of your email addresses, and specifies which one is visible
+  to the public.
+
+  OAuth app tokens and personal access tokens (classic) need the `user:email` scope to use this endpoint.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -800,8 +823,8 @@ defmodule GitHub.Users do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -837,8 +860,8 @@ defmodule GitHub.Users do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -874,8 +897,8 @@ defmodule GitHub.Users do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -906,8 +929,8 @@ defmodule GitHub.Users do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -934,12 +957,14 @@ defmodule GitHub.Users do
   @doc """
   List GPG keys for the authenticated user
 
-  Lists the current user's GPG keys. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:gpg_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+  Lists the current user's GPG keys.
+
+  OAuth app tokens and personal access tokens (classic) need the `read:gpg_key` scope to use this endpoint.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -976,8 +1001,8 @@ defmodule GitHub.Users do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -1004,12 +1029,16 @@ defmodule GitHub.Users do
   @doc """
   List public email addresses for the authenticated user
 
-  Lists your publicly visible email address, which you can set with the [Set primary email visibility for the authenticated user](https://docs.github.com/rest/users/emails#set-primary-email-visibility-for-the-authenticated-user) endpoint. This endpoint is accessible with the `user:email` scope.
+  Lists your publicly visible email address, which you can set with the
+  [Set primary email visibility for the authenticated user](https://docs.github.com/rest/users/emails#set-primary-email-visibility-for-the-authenticated-user)
+  endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `user:email` scope to use this endpoint.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -1046,8 +1075,8 @@ defmodule GitHub.Users do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -1074,12 +1103,14 @@ defmodule GitHub.Users do
   @doc """
   List public SSH keys for the authenticated user
 
-  Lists the public SSH keys for the authenticated user's GitHub account. Requires that you are authenticated via Basic Auth or via OAuth with at least `read:public_key` [scope](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/).
+  Lists the public SSH keys for the authenticated user's GitHub account.
+
+  OAuth app tokens and personal access tokens (classic) need the `read:public_key` scope to use this endpoint.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -1116,8 +1147,8 @@ defmodule GitHub.Users do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -1154,8 +1185,8 @@ defmodule GitHub.Users do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -1182,12 +1213,14 @@ defmodule GitHub.Users do
   @doc """
   List SSH signing keys for the authenticated user
 
-  Lists the SSH signing keys for the authenticated user's GitHub account. You must authenticate with Basic Authentication, or you must authenticate with OAuth with at least `read:ssh_signing_key` scope. For more information, see "[Understanding scopes for OAuth apps](https://docs.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/)."
+  Lists the SSH signing keys for the authenticated user's GitHub account.
+
+  OAuth app tokens and personal access tokens (classic) need the `read:ssh_signing_key` scope to use this endpoint.
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -1224,8 +1257,8 @@ defmodule GitHub.Users do
 
   ## Options
 
-    * `per_page`: The number of results per page (max 100).
-    * `page`: Page number of the results to fetch.
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -1316,7 +1349,7 @@ defmodule GitHub.Users do
   @doc """
   Unfollow a user
 
-  Unfollowing a user requires the user to be logged in and authenticated with basic auth or OAuth with the `user:follow` scope.
+  OAuth app tokens and personal access tokens (classic) need the `user:follow` scope to use this endpoint.
 
   ## Resources
 

@@ -33,7 +33,7 @@ defmodule GitHub.Copilot.SeatDetails do
   def __fields__(:t) do
     [
       assignee: {:union, [{GitHub.Organization, :t}, {GitHub.Team, :t}, {GitHub.User, :simple}]},
-      assigning_team: {:union, [{GitHub.Team, :t}, :null]},
+      assigning_team: {GitHub.Team, :t},
       created_at: {:string, :date_time},
       last_activity_at: {:union, [{:string, :date_time}, :null]},
       last_activity_editor: {:union, [{:string, :generic}, :null]},

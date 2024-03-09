@@ -6,6 +6,7 @@ defmodule GitHub.CodeScanning.CodeqlDatabase do
 
   @type t :: %__MODULE__{
           __info__: map,
+          commit_oid: String.t() | nil,
           content_type: String.t(),
           created_at: DateTime.t(),
           id: integer,
@@ -19,6 +20,7 @@ defmodule GitHub.CodeScanning.CodeqlDatabase do
 
   defstruct [
     :__info__,
+    :commit_oid,
     :content_type,
     :created_at,
     :id,
@@ -36,6 +38,7 @@ defmodule GitHub.CodeScanning.CodeqlDatabase do
 
   def __fields__(:t) do
     [
+      commit_oid: {:union, [{:string, :generic}, :null]},
       content_type: {:string, :generic},
       created_at: {:string, :date_time},
       id: :integer,

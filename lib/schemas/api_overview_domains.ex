@@ -6,13 +6,14 @@ defmodule GitHub.ApiOverviewDomains do
 
   @type t :: %__MODULE__{
           __info__: map,
+          actions: [String.t()] | nil,
           codespaces: [String.t()] | nil,
           copilot: [String.t()] | nil,
           packages: [String.t()] | nil,
           website: [String.t()] | nil
         }
 
-  defstruct [:__info__, :codespaces, :copilot, :packages, :website]
+  defstruct [:__info__, :actions, :codespaces, :copilot, :packages, :website]
 
   @doc false
   @spec __fields__(atom) :: keyword
@@ -20,6 +21,7 @@ defmodule GitHub.ApiOverviewDomains do
 
   def __fields__(:t) do
     [
+      actions: [string: :generic],
       codespaces: [string: :generic],
       copilot: [string: :generic],
       packages: [string: :generic],

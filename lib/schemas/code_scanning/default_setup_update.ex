@@ -8,7 +8,7 @@ defmodule GitHub.CodeScanning.DefaultSetupUpdate do
           __info__: map,
           languages: [String.t()] | nil,
           query_suite: String.t() | nil,
-          state: String.t()
+          state: String.t() | nil
         }
 
   defstruct [:__info__, :languages, :query_suite, :state]

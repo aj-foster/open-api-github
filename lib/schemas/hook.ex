@@ -7,7 +7,7 @@ defmodule GitHub.Hook do
   @type t :: %__MODULE__{
           __info__: map,
           active: boolean,
-          config: GitHub.Hook.Config.t(),
+          config: GitHub.Webhook.Config.t(),
           created_at: DateTime.t(),
           deliveries_url: String.t() | nil,
           events: [String.t()],
@@ -45,7 +45,7 @@ defmodule GitHub.Hook do
   def __fields__(:t) do
     [
       active: :boolean,
-      config: {GitHub.Hook.Config, :t},
+      config: {GitHub.Webhook.Config, :t},
       created_at: {:string, :date_time},
       deliveries_url: {:string, :uri},
       events: [string: :generic],

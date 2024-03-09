@@ -18,7 +18,7 @@ defmodule GitHub.Installation do
   @type t :: %__MODULE__{
           __info__: map,
           access_tokens_url: String.t(),
-          account: GitHub.Enterprise.t() | GitHub.User.simple() | nil,
+          account: GitHub.Enterprise.t() | GitHub.User.simple(),
           app_id: integer,
           app_slug: String.t(),
           contact_email: String.t() | nil,
@@ -82,7 +82,7 @@ defmodule GitHub.Installation do
   def __fields__(:t) do
     [
       access_tokens_url: {:string, :uri},
-      account: {:union, [{GitHub.Enterprise, :t}, {GitHub.User, :simple}, :null]},
+      account: {:union, [{GitHub.Enterprise, :t}, {GitHub.User, :simple}]},
       app_id: :integer,
       app_slug: {:string, :generic},
       contact_email: {:union, [{:string, :generic}, :null]},

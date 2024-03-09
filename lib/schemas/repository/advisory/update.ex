@@ -16,7 +16,7 @@ defmodule GitHub.Repository.Advisory.Update do
           severity: String.t() | nil,
           state: String.t() | nil,
           summary: String.t() | nil,
-          vulnerabilities: [map] | nil
+          vulnerabilities: [GitHub.Repository.Advisory.UpdateVulnerabilities.t()] | nil
         }
 
   defstruct [
@@ -50,7 +50,7 @@ defmodule GitHub.Repository.Advisory.Update do
       severity: {:enum, ["critical", "high", "medium", "low", nil]},
       state: {:enum, ["published", "closed", "draft"]},
       summary: {:string, :generic},
-      vulnerabilities: [:map]
+      vulnerabilities: [{GitHub.Repository.Advisory.UpdateVulnerabilities, :t}]
     ]
   end
 end

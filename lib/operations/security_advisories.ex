@@ -6,6 +6,39 @@ defmodule GitHub.SecurityAdvisories do
   @default_client GitHub.Client
 
   @doc """
+  Create a temporary private fork
+
+  Create a temporary private fork to collaborate on fixing a security vulnerability in your repository.
+
+  **Note**: Forking a repository happens asynchronously. You may have to wait up to 5 minutes before you can access the fork.
+
+  ## Resources
+
+    * [API method documentation](https://docs.github.com/rest/security-advisories/repository-advisories#create-a-temporary-private-fork)
+
+  """
+  @spec create_fork(String.t(), String.t(), String.t(), keyword) ::
+          {:ok, GitHub.Repository.full()} | {:error, GitHub.Error.t()}
+  def create_fork(owner, repo, ghsa_id, opts \\ []) do
+    client = opts[:client] || @default_client
+
+    client.request(%{
+      args: [owner: owner, repo: repo, ghsa_id: ghsa_id],
+      call: {GitHub.SecurityAdvisories, :create_fork},
+      url: "/repos/#{owner}/#{repo}/security-advisories/#{ghsa_id}/forks",
+      method: :post,
+      response: [
+        {202, {GitHub.Repository, :full}},
+        {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
+        {403, {GitHub.BasicError, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
+      opts: opts
+    })
+  end
+
+  @doc """
   Privately report a security vulnerability
 
   Report a security vulnerability to the maintainers of the repository.
@@ -46,9 +79,10 @@ defmodule GitHub.SecurityAdvisories do
   Create a repository security advisory
 
   Creates a new repository security advisory.
-  You must authenticate using an access token with the `repo` scope or `repository_advisories:write` permission to use this endpoint.
 
-  In order to create a draft repository security advisory, you must be a security manager or administrator of that repository.
+  In order to create a draft repository security advisory, the authenticated user must be a security manager or administrator of that repository.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` or `repository_advisories:write` scope to use this endpoint.
 
   ## Resources
 
@@ -88,9 +122,9 @@ defmodule GitHub.SecurityAdvisories do
 
   You may request a CVE for public repositories, but cannot do so for private repositories.
 
-  You must authenticate using an access token with the `repo` scope or `repository_advisories:write` permission to use this endpoint.
+  In order to request a CVE for a repository security advisory, the authenticated user must be a security manager or administrator of that repository.
 
-  In order to request a CVE for a repository security advisory, you must be a security manager or administrator of that repository.
+  OAuth app tokens and personal access tokens (classic) need the `repo` or `repository_advisories:write` scope to use this endpoint.
 
   ## Resources
 
@@ -147,12 +181,13 @@ defmodule GitHub.SecurityAdvisories do
   Get a repository security advisory
 
   Get a repository security advisory using its GitHub Security Advisory (GHSA) identifier.
-  You can access any published security advisory on a public repository.
-  You must authenticate using an access token with the `repo` scope or `repository_advisories:read` permission
-  in order to get a published security advisory in a private repository, or any unpublished security advisory that you have access to.
 
-  You can access an unpublished security advisory from a repository if you are a security manager or administrator of that repository, or if you are a
+  Anyone can access any published security advisory on a public repository.
+
+  The authenticated user can access an unpublished security advisory from a repository if they are a security manager or administrator of that repository, or if they are a
   collaborator on the security advisory.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` or `repository_advisories:read` scope to to get a published security advisory in a private repository, or any unpublished security advisory that the authenticated user has access to.
 
   ## Resources
 
@@ -209,10 +244,10 @@ defmodule GitHub.SecurityAdvisories do
     * `modified`: If specified, only show advisories that were updated or published on a date or date range.
       
       For more information on the syntax of the date range, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)."
-    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
-    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
+    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `direction`: The direction to sort the results by.
-    * `per_page`: The number of results per page (max 100).
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `sort`: The property to sort the results by.
 
   ## Resources
@@ -265,15 +300,17 @@ defmodule GitHub.SecurityAdvisories do
 
   Lists repository security advisories for an organization.
 
-  To use this endpoint, you must be an owner or security manager for the organization, and you must use an access token with the `repo` scope or `repository_advisories:write` permission.
+  The authenticated user must be an owner or security manager for the organization to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` or `repository_advisories:write` scope to use this endpoint.
 
   ## Options
 
     * `direction`: The direction to sort the results by.
     * `sort`: The property to sort the results by.
-    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
-    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
-    * `per_page`: The number of advisories to return per page.
+    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `per_page`: The number of advisories to return per page. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `state`: Filter by the state of the repository advisories. Only advisories of this state will be returned.
 
   ## Resources
@@ -306,18 +343,18 @@ defmodule GitHub.SecurityAdvisories do
   List repository security advisories
 
   Lists security advisories in a repository.
-  You must authenticate using an access token with the `repo` scope or `repository_advisories:read` permission
-  in order to get published security advisories in a private repository, or any unpublished security advisories that you have access to.
 
-  You can access unpublished security advisories from a repository if you are a security manager or administrator of that repository, or if you are a collaborator on any security advisory.
+  The authenticated user can access unpublished security advisories from a repository if they are a security manager or administrator of that repository, or if they are a collaborator on any security advisory.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` or `repository_advisories:read` scope to to get a published security advisory in a private repository, or any unpublished security advisory that the authenticated user has access to.
 
   ## Options
 
     * `direction`: The direction to sort the results by.
     * `sort`: The property to sort the results by.
-    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor.
-    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor.
-    * `per_page`: Number of advisories to return per page.
+    * `before`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `after`: A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `per_page`: The number of advisories to return per page. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
     * `state`: Filter by state of the repository advisories. Only advisories of this state will be returned.
 
   ## Resources
@@ -350,10 +387,11 @@ defmodule GitHub.SecurityAdvisories do
   Update a repository security advisory
 
   Update a repository security advisory using its GitHub Security Advisory (GHSA) identifier.
-  You must authenticate using an access token with the `repo` scope or `repository_advisories:write` permission to use this endpoint.
 
-  In order to update any security advisory, you must be a security manager or administrator of that repository,
+  In order to update any security advisory, the authenticated user must be a security manager or administrator of that repository,
   or a collaborator on the repository security advisory.
+
+  OAuth app tokens and personal access tokens (classic) need the `repo` or `repository_advisories:write` scope to use this endpoint.
 
   ## Resources
 

@@ -6,43 +6,6 @@ defmodule GitHub.Classroom do
 
   @default_client GitHub.Client
 
-  @type simple :: %__MODULE__{
-          __info__: map,
-          archived: boolean,
-          id: integer,
-          name: String.t(),
-          url: String.t()
-        }
-
-  @type t :: %__MODULE__{
-          __info__: map,
-          archived: boolean,
-          id: integer,
-          name: String.t(),
-          organization: GitHub.Classroom.Organization.simple(),
-          url: String.t()
-        }
-
-  defstruct [:__info__, :archived, :id, :name, :organization, :url]
-
-  @doc false
-  @spec __fields__(atom) :: keyword
-  def __fields__(type \\ :t)
-
-  def __fields__(:simple) do
-    [archived: :boolean, id: :integer, name: {:string, :generic}, url: {:string, :generic}]
-  end
-
-  def __fields__(:t) do
-    [
-      archived: :boolean,
-      id: :integer,
-      name: {:string, :generic},
-      organization: {GitHub.Classroom.Organization, :simple},
-      url: {:string, :generic}
-    ]
-  end
-
   @doc """
   Get a classroom
 
@@ -125,8 +88,8 @@ defmodule GitHub.Classroom do
 
   ## Options
 
-    * `page`: Page number of the results to fetch.
-    * `per_page`: The number of results per page (max 100).
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -157,8 +120,8 @@ defmodule GitHub.Classroom do
 
   ## Options
 
-    * `page`: Page number of the results to fetch.
-    * `per_page`: The number of results per page (max 100).
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -189,8 +152,8 @@ defmodule GitHub.Classroom do
 
   ## Options
 
-    * `page`: Page number of the results to fetch.
-    * `per_page`: The number of results per page (max 100).
+    * `page`: The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
+    * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
 
   ## Resources
 
@@ -212,5 +175,42 @@ defmodule GitHub.Classroom do
       response: [{200, [{GitHub.Classroom, :simple}]}],
       opts: opts
     })
+  end
+
+  @type simple :: %__MODULE__{
+          __info__: map,
+          archived: boolean,
+          id: integer,
+          name: String.t(),
+          url: String.t()
+        }
+
+  @type t :: %__MODULE__{
+          __info__: map,
+          archived: boolean,
+          id: integer,
+          name: String.t(),
+          organization: GitHub.Classroom.Organization.simple(),
+          url: String.t()
+        }
+
+  defstruct [:__info__, :archived, :id, :name, :organization, :url]
+
+  @doc false
+  @spec __fields__(atom) :: keyword
+  def __fields__(type \\ :t)
+
+  def __fields__(:simple) do
+    [archived: :boolean, id: :integer, name: {:string, :generic}, url: {:string, :generic}]
+  end
+
+  def __fields__(:t) do
+    [
+      archived: :boolean,
+      id: :integer,
+      name: {:string, :generic},
+      organization: {GitHub.Classroom.Organization, :simple},
+      url: {:string, :generic}
+    ]
   end
 end
