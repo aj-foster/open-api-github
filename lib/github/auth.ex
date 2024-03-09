@@ -53,7 +53,7 @@ if Code.ensure_loaded?(JOSE) do
     @token_clock_drift_allowance_sec 60
     @token_duration_sec 10 * 60
 
-    def to_auth(%GitHub.App{id: app_id, pem: private_key}) do
+    def to_auth(%{id: app_id, pem: private_key}) do
       case GitHub.Auth.Cache.get({:app, app_id}) do
         {:ok, jwt} ->
           jwt
@@ -82,7 +82,7 @@ if Code.ensure_loaded?(JOSE) do
   end
 else
   defimpl GitHub.Auth, for: GitHub.App do
-    def to_auth(%GitHub.App{} = app) do
+    def to_auth(app) do
       raise GitHub.Error.new(
               source: app,
               message: """

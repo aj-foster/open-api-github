@@ -37,7 +37,7 @@ defmodule GitHub do
   def app(app_name) do
     case Config.app(app_name) do
       {:ok, {_app_name, app_id, private_key}} ->
-        %GitHub.App{id: app_id, pem: private_key}
+        struct(GitHub.App, %{id: app_id, pem: private_key})
 
       _else ->
         nil

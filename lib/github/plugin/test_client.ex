@@ -40,10 +40,11 @@ defmodule GitHub.Plugin.TestClient do
   defp error(operation, data, opts \\ [])
 
   defp error(operation, :not_found, _opts) do
-    error = %GitHub.BasicError{
-      documentation_url: @generic_documentation,
-      message: @not_found_message
-    }
+    error =
+      struct(GitHub.BasicError, %{
+        documentation_url: @generic_documentation,
+        message: @not_found_message
+      })
 
     TypedDecoder.normalize_errors(
       %Operation{operation | response_body: error, response_code: 404},
@@ -52,10 +53,11 @@ defmodule GitHub.Plugin.TestClient do
   end
 
   defp error(operation, :rate_limited, _opts) do
-    error = %GitHub.BasicError{
-      documentation_url: @rate_limited_documentation,
-      message: @rate_limited_message
-    }
+    error =
+      struct(GitHub.BasicError, %{
+        documentation_url: @rate_limited_documentation,
+        message: @rate_limited_message
+      })
 
     TypedDecoder.normalize_errors(
       %Operation{operation | response_body: error, response_code: 403},
@@ -64,10 +66,11 @@ defmodule GitHub.Plugin.TestClient do
   end
 
   defp error(operation, :unauthorized, _opts) do
-    error = %GitHub.BasicError{
-      documentation_url: @generic_documentation,
-      message: @unauthorized_message
-    }
+    error =
+      struct(GitHub.BasicError, %{
+        documentation_url: @generic_documentation,
+        message: @unauthorized_message
+      })
 
     TypedDecoder.normalize_errors(
       %Operation{operation | response_body: error, response_code: 403},
