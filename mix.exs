@@ -1,7 +1,7 @@
 defmodule GitHub.MixProject do
   use Mix.Project
 
-  @version "0.2.3"
+  @version "0.3.0"
   @source_url "https://github.com/aj-foster/open-api-github"
 
   def project do
@@ -38,8 +38,7 @@ defmodule GitHub.MixProject do
       {:jason, "~> 1.0", optional: true},
       {:jose, "~> 1.0", optional: true},
       {:httpoison, "~> 1.7 or ~> 2.0", optional: true},
-      # {:oapi_generator, "0.1.0-rc.3", only: :dev, runtime: false},
-      {:oapi_generator, path: "/Users/aj/Documents/Projects/aj-foster/open-api-generator"},
+      {:oapi_generator, github: "aj-foster/open-api-generator", only: :dev, runtime: false},
       {:opentelemetry_api, "~> 1.0", optional: true},
       {:opentelemetry_semantic_conventions, "~> 0.2", optional: true},
       {:plug, "~> 1.0", optional: true},
