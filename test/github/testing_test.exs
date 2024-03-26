@@ -208,6 +208,52 @@ defmodule GitHub.TestingTest do
       assert :ok = Repos.get("owner", "repo", @options)
       assert_fail(fn -> Repos.get("owner", "another-repo", Keyword.put(@options, :a, :b)) end)
     end
+
+    test "caches previously generated responses" do
+      response = generate_gh(GitHub.Repository)
+
+      mock_gh &Repos.get/2, fn ->
+        refute Process.get(:gh_test_mock_function_marker, false), "Mock called twice"
+        Process.put(:gh_test_mock_function_marker, true)
+        {:ok, response}
+      end
+
+      Repos.get("mock_cache", "test_repo", @options)
+      Repos.get("mock_cache", "test_repo", @options)
+    end
+
+    test "only caches responses for matching arguments" do
+      response = generate_gh(GitHub.Repository)
+
+      mock_gh &Repos.get/2,
+              fn ->
+                counter = Process.get(:gh_test_mock_function_marker, 0)
+                Process.put(:gh_test_mock_function_marker, counter + 1)
+                {:ok, response}
+              end
+
+      assert Repos.get("mock_cache", "test_repo", @options) == {:ok, response}
+      Repos.get("mock_cache", "test_repo_2", @options)
+
+      assert Process.get(:gh_test_mock_function_marker, 0) == 2
+    end
+
+    test "optionally does not cache mock responses" do
+      response = generate_gh(GitHub.Repository)
+
+      mock_gh &Repos.get/2,
+              fn ->
+                counter = Process.get(:gh_test_mock_function_marker, 0)
+                Process.put(:gh_test_mock_function_marker, counter + 1)
+                {:ok, response}
+              end,
+              cache: false
+
+      assert Repos.get("mock_cache", "test_repo", @options) == {:ok, response}
+      Repos.get("mock_cache", "test_repo", @options)
+
+      assert Process.get(:gh_test_mock_function_marker, 0) == 2
+    end
   end
 
   defp assert_fail(fun) do

@@ -353,6 +353,13 @@ defmodule GitHub.Testing do
   * `{:error, :rate_limited}` with return an error matching a GitHub API rate limited response.
   * `{:error, :unauthorized}` will return an error matching GitHub's unauthorized response.
 
+  ## Options
+
+    * `cache`: For return values expressed as a function, whether the mock's result should be
+      cached for future calls with the same arguments. Set to `false` if you want to guarantee
+      that the mock function always runs (for example, if it contains assertions). Defaults to
+      `true`.
+
   ## Examples
 
       mock_gh GitHub.Repos.get("owner", "repo"), {:ok, %GitHub.Repository{}}
@@ -422,7 +429,10 @@ defmodule GitHub.Testing do
       %{args: ^args, return: mock_return} ->
         evaluate_mock(mock_return, args, options)
 
-      %{return: mock_return} ->
+      %{return: mock_return, cache: false} ->
+        evaluate_mock(mock_return, args, options)
+
+      %{return: mock_return, cache: true} ->
         return_value = evaluate_mock(mock_return, args, options)
         put_mock(module, function, args, return_value, implicit: true)
 
@@ -450,11 +460,14 @@ defmodule GitHub.Testing do
   @doc false
   @spec put_mock(module, atom, Mock.args(), Mock.return_fun(), keyword) :: Mock.t()
   def put_mock(module, function, args, return, opts \\ []) do
+    cache = opts[:cache] != false
     implicit = opts[:implicit] == true
+
+    # Not yet supported
     limit = opts[:limit] || :infinity
 
     all_mocks = Process.get(@pd_mock_key, %{})
-    new_mock = %Mock{args: args, implicit: implicit, limit: limit, return: return}
+    new_mock = %Mock{args: args, cache: cache, implicit: implicit, limit: limit, return: return}
     new_mocks = [new_mock | Map.get(all_mocks, {module, function}, [])]
     updated_mocks = Map.put(all_mocks, {module, function}, new_mocks)
 

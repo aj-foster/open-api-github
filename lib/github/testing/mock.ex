@@ -45,7 +45,7 @@ defmodule GitHub.Testing.Mock do
   """
   @type return_fun ::
           return
-          | (() -> return)
+          | (-> return)
           | (... -> return)
 
   @typedoc """
@@ -53,12 +53,13 @@ defmodule GitHub.Testing.Mock do
   """
   @type t :: %__MODULE__{
           args: args,
+          cache: boolean,
           implicit: boolean,
           limit: limit,
           return: return_fun
         }
 
-  defstruct [:args, :implicit, :limit, :return]
+  defstruct [:args, :cache, :implicit, :limit, :return]
 
   #
   # Matching
