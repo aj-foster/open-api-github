@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Nothing yet_
 
+### 0.3.1 (2024-03-26)
+
+* **Add**: Add `cache: false` option to `mock_gh/3` to disable result caching during testing.
+* **Fix**: Always return `pull: true` in generated repository permissions during testing.
+
 ## 0.3.0 (2024-03-08)
 
 * **Breaking**: Thanks to advancements in the code generator (now using `0.1.0-rc.4`), the majority of responses and subfields are now correctly decoded.
