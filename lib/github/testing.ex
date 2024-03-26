@@ -180,6 +180,7 @@ defmodule GitHub.Testing do
   # Special cases
   def generate(_schema, :id, :integer), do: System.unique_integer([:positive])
   def generate(_schema, :login, {:string, :generic}), do: Faker.Internet.user_name()
+  def generate(GitHub.Repository.Permissions, :pull, :boolean), do: true
 
   def generate(GitHub.Repository, :created_at, {:union, [{:string, :date_time}, :null]}),
     do: generate(GitHub.Repository, :created_at, {:string, :date_time})
