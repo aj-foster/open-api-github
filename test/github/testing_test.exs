@@ -155,6 +155,27 @@ defmodule GitHub.TestingTest do
       assert_gh_called Repos.get(:_, repo)
       assert_fail(fn -> assert_gh_called Repos.get(repo, :_) end)
     end
+
+    test "asserts on shared call history" do
+      assert_gh_called Repos.get(:_, :_), times: 0, shared: true
+
+      # Call recorded in process storage should be ignored
+      Repos.get("owner", "shared-call-repo", @options)
+      assert_gh_called Repos.get(:_, :_), times: 0, shared: true
+      assert_gh_called Repos.get(:_, :_), times: 1, shared: false
+
+      # Call explicitly recorded in shared storage
+      Repos.get("owner", "shared-call-repo", @options ++ [shared: true])
+      assert_gh_called Repos.get(:_, :_), times: 1, shared: true
+      assert_gh_called Repos.get(:_, :_), times: 1, shared: false
+
+      # Call from non-test process
+      Task.async(fn -> Repos.get("owner", "shared-call-repo", @options) end)
+      |> Task.await()
+
+      assert_gh_called Repos.get(:_, :_), times: 2, shared: true
+      assert_gh_called Repos.get(:_, :_), times: 1, shared: false
+    end
   end
 
   describe "mock_gh/3" do
@@ -253,6 +274,19 @@ defmodule GitHub.TestingTest do
       Repos.get("mock_cache", "test_repo", @options)
 
       assert Process.get(:gh_test_mock_function_marker, 0) == 2
+    end
+
+    test "mocks in shared storage" do
+      id = System.unique_integer([:positive])
+      repo = generate_gh(GitHub.Repository, :t, id: id)
+
+      mock_gh &Repos.get/2, {:ok, repo}, shared: true
+
+      response =
+        Task.async(fn -> Repos.get("shared_mock", "repo", @options) end)
+        |> Task.await()
+
+      assert {:ok, %GitHub.Repository{id: ^id}} = response
     end
   end
 

@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-_Nothing yet_
+* **Add**: Add `shared: true` option to several testing-related calls to enable shared storage of mocks and calls across process boundaries.
+  See the **Async and Sharing** section of the `GitHub.Testing` module documentation.
 
 ### 0.3.1 (2024-03-26)
 

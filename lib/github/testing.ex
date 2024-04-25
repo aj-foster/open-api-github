@@ -4,10 +4,12 @@ defmodule GitHub.Testing do
 
   > #### Note {:.info}
   >
-  > The current method of tracking and mocking API calls uses the process dictionary for storage.
+  > The default method of tracking and mocking API calls uses the process dictionary for storage.
   > This means that tests can be run async (calls from one process will not affect calls from
   > another). However, it also means that calls from an async task will not be tracked by the test
-  > process. If this affects you, please open an issue to discuss possible solutions.
+  > process. If mocks and calls need to extend past the test process boundary, use `shared: true`
+  > on the call to `use GitHub.Testing` or in individual calls to `mock_gh` and `assert_gh_called`.
+  > See **Async and Sharing** for more information.
 
   ## Usage
 
@@ -43,14 +45,45 @@ defmodule GitHub.Testing do
       end
 
   The `use` macro also imports `mock_gh/3` and `generate_gh/2` for use in tests.
+
+  ## Async and Sharing
+
+  By default, this library supports async tests with mocks and call tracking within a single
+  process. If a test causes or observes other processes to call client functions, then additional
+  configuration is necessary.
+
+  First, multi-process mocking and call tracking is not supported with async tests. Ensure that
+  `async: true` is **not** present in the call to `use ExUnit.Case` or similar `use` calls (such
+  as `use MyApp.DataCase`). To enable shared storage of mocks and calls, add `shared: true` to
+  the call to `use GitHub.Testing` or individual calls to `mock_gh` and `assert_gh_called`:
+
+      defmodule MyApp.MyTest do
+        use ExUnit.Case
+        use GitHub.Testing, shared: true
+
+        # or...
+
+        test "something" do
+          my_async_function()
+          assert_gh_called &GitHub.Repos.get/2, shared: true
+        end
+      end
+
+  Mocks and calls will automatically be cleared from the shared storage after each test.
+
+  Shared storage uses an ETS table owned by an unsupervised GenServer. To ensure proper management
+  of this process, you may optionally add `GitHub.Testing.Store.ETS` to your application's
+  supervisor in test environments.
   """
   require ExUnit.Assertions
 
   alias GitHub.Operation
+  alias GitHub.Testing.Call
   alias GitHub.Testing.Mock
+  alias GitHub.Testing.Store
 
   @doc false
-  defmacro __using__(_) do
+  defmacro __using__(opts) do
     quote do
       import GitHub.Testing,
         only: [
@@ -63,6 +96,19 @@ defmodule GitHub.Testing do
           mock_gh: 3,
           to_gh_params: 1
         ]
+
+      setup do
+        if unquote(opts)[:shared] do
+          GitHub.Testing.Store.set(GitHub.Testing.Store.ETS)
+
+          ExUnit.Callbacks.on_exit(fn ->
+            GitHub.Testing.Store.clear_calls(shared: true)
+            GitHub.Testing.Store.clear_mocks(shared: true)
+          end)
+        else
+          GitHub.Testing.Store.set(GitHub.Testing.Store.Process)
+        end
+      end
     end
   end
 
@@ -308,8 +354,6 @@ defmodule GitHub.Testing do
   # Mocks
   #
 
-  @pd_mock_key :oapi_github_test_mock
-
   @doc """
   Mock a response for an API endpoint
 
@@ -423,8 +467,7 @@ defmodule GitHub.Testing do
     {module, function, args} = Operation.get_caller(operation)
     options = Operation.get_options(operation)
 
-    Process.get(@pd_mock_key, %{})
-    |> Map.get({module, function})
+    Store.get_mocks(module, function, options)
     |> Mock.choose(args)
     |> case do
       %{args: ^args, return: mock_return} ->
@@ -459,7 +502,7 @@ defmodule GitHub.Testing do
   end
 
   @doc false
-  @spec put_mock(module, atom, Mock.args(), Mock.return_fun(), keyword) :: Mock.t()
+  @spec put_mock(module, atom, Mock.args(), Mock.return_fun(), keyword) :: Mock.return()
   def put_mock(module, function, args, return, opts \\ []) do
     cache = opts[:cache] != false
     implicit = opts[:implicit] == true
@@ -467,22 +510,23 @@ defmodule GitHub.Testing do
     # Not yet supported
     limit = opts[:limit] || :infinity
 
-    all_mocks = Process.get(@pd_mock_key, %{})
-    new_mock = %Mock{args: args, cache: cache, implicit: implicit, limit: limit, return: return}
-    new_mocks = [new_mock | Map.get(all_mocks, {module, function}, [])]
-    updated_mocks = Map.put(all_mocks, {module, function}, new_mocks)
+    new_mock = %Mock{
+      args: args,
+      cache: cache,
+      function: function,
+      implicit: implicit,
+      limit: limit,
+      module: module,
+      return: return
+    }
 
-    Process.put(@pd_mock_key, updated_mocks)
+    Store.put_mock(new_mock, opts)
     return
   end
 
   #
   # Calls
   #
-
-  @pd_call_key :oapi_github_test_call
-
-  @typep call :: {module :: module, function :: atom, args :: [any]}
 
   @doc """
   Assert the number of times an API endpoint was called
@@ -601,31 +645,20 @@ defmodule GitHub.Testing do
   # Not ready for public use
 
   @doc false
-  @spec get_calls :: [call]
-  def get_calls do
-    Process.get(@pd_call_key, [])
-  end
-
-  @doc false
   @spec put_call(Operation.t()) :: :ok
   def put_call(operation) do
-    new_call = Operation.get_caller(operation)
+    {module, function, args} = Operation.get_caller(operation)
+    opts = Operation.get_options(operation)
 
-    all_calls = Process.get(@pd_call_key, [])
-    updated_calls = [new_call | all_calls]
-
-    Process.put(@pd_call_key, updated_calls)
-    :ok
+    Store.put_call(%Call{args: args, function: function, module: module, opts: opts}, opts)
   end
 
   @doc false
   @spec assert_call_count(module, atom, Mock.args(), keyword) :: any
   def assert_call_count(module, function, args, opts \\ []) do
     call_count =
-      get_calls()
-      |> Enum.count(fn {m, f, a} ->
-        module == m and function == f and args_match?(args, a)
-      end)
+      Store.get_calls(module, function, opts)
+      |> Enum.count(fn %Call{args: a} -> args_match?(args, a) end)
 
     Keyword.take(opts, [:times, :min, :max])
     |> Enum.into(%{})

@@ -54,12 +54,14 @@ defmodule GitHub.Testing.Mock do
   @type t :: %__MODULE__{
           args: args,
           cache: boolean,
+          function: atom,
           implicit: boolean,
           limit: limit,
+          module: module,
           return: return_fun
         }
 
-  defstruct [:args, :cache, :implicit, :limit, :return]
+  defstruct [:args, :cache, :function, :implicit, :limit, :module, :return]
 
   #
   # Matching
