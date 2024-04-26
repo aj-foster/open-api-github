@@ -199,6 +199,13 @@ defmodule GitHub.Plugin.TypedDecoder do
   defp choose_union(value, [:number, {:string, :generic}]) when is_number(value), do: :number
   defp choose_union(_value, [:number, {:string, :generic}]), do: :string
 
+  defp choose_union(value, [{:string, :generic}, [string: :generic]]) do
+    cond do
+      is_list(value) -> [string: :generic]
+      is_binary(value) -> {:string, :generic}
+    end
+  end
+
   defp choose_union(value, [:integer, {:string, :generic}, [string: :generic], :null]) do
     cond do
       is_nil(value) -> :null
@@ -423,7 +430,8 @@ defmodule GitHub.Plugin.TypedDecoder do
          {GitHub.SecretScanning.LocationPullRequestComment, :t},
          {GitHub.SecretScanning.LocationPullRequestReview, :t},
          {GitHub.SecretScanning.LocationPullRequestReviewComment, :t},
-         {GitHub.SecretScanning.LocationPullRequestTitle, :t}
+         {GitHub.SecretScanning.LocationPullRequestTitle, :t},
+         {GitHub.SecretScanning.LocationWikiCommit, :t}
        ]) do
     case value do
       %{"commit_sha" => _} ->
@@ -461,6 +469,9 @@ defmodule GitHub.Plugin.TypedDecoder do
 
       %{"pull_request_title_url" => _} ->
         {GitHub.SecretScanning.LocationPullRequestTitle, :t}
+
+      %{"page_url" => _} ->
+        {GitHub.SecretScanning.LocationWikiCommit, :t}
     end
   end
 

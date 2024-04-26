@@ -356,6 +356,7 @@ defmodule GitHub.Pulls do
         {200, {GitHub.PullRequest, :t}},
         {304, :null},
         {404, {GitHub.BasicError, :t}},
+        {406, {GitHub.BasicError, :t}},
         {500, {GitHub.BasicError, :t}},
         {503, {GitHub.ServiceUnavailable, :json_resp}}
       ],

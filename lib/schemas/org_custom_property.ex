@@ -7,7 +7,7 @@ defmodule GitHub.OrgCustomProperty do
   @type t :: %__MODULE__{
           __info__: map,
           allowed_values: [String.t()] | nil,
-          default_value: String.t() | nil,
+          default_value: String.t() | [String.t()] | nil,
           description: String.t() | nil,
           property_name: String.t(),
           required: boolean | nil,
@@ -33,7 +33,7 @@ defmodule GitHub.OrgCustomProperty do
   def __fields__(:t) do
     [
       allowed_values: {:union, [[string: :generic], :null]},
-      default_value: {:union, [{:string, :generic}, :null]},
+      default_value: {:union, [{:string, :generic}, [string: :generic]]},
       description: {:union, [{:string, :generic}, :null]},
       property_name: {:string, :generic},
       required: :boolean,

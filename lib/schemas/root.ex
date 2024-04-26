@@ -19,7 +19,7 @@ defmodule GitHub.Root do
           followers_url: String.t(),
           following_url: String.t(),
           gists_url: String.t(),
-          hub_url: String.t(),
+          hub_url: String.t() | nil,
           issue_search_url: String.t(),
           issues_url: String.t(),
           keys_url: String.t(),

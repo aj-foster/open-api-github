@@ -18,8 +18,10 @@ defmodule GitHub.SecretScanning.Location do
             | GitHub.SecretScanning.LocationPullRequestComment.t()
             | GitHub.SecretScanning.LocationPullRequestReview.t()
             | GitHub.SecretScanning.LocationPullRequestReviewComment.t()
-            | GitHub.SecretScanning.LocationPullRequestTitle.t(),
-          type: String.t()
+            | GitHub.SecretScanning.LocationPullRequestTitle.t()
+            | GitHub.SecretScanning.LocationWikiCommit.t()
+            | nil,
+          type: String.t() | nil
         }
 
   defstruct [:__info__, :details, :type]
@@ -44,12 +46,14 @@ defmodule GitHub.SecretScanning.Location do
            {GitHub.SecretScanning.LocationPullRequestComment, :t},
            {GitHub.SecretScanning.LocationPullRequestReview, :t},
            {GitHub.SecretScanning.LocationPullRequestReviewComment, :t},
-           {GitHub.SecretScanning.LocationPullRequestTitle, :t}
+           {GitHub.SecretScanning.LocationPullRequestTitle, :t},
+           {GitHub.SecretScanning.LocationWikiCommit, :t}
          ]},
       type:
         {:enum,
          [
            "commit",
+           "wiki_commit",
            "issue_title",
            "issue_body",
            "issue_comment",

@@ -78,7 +78,7 @@ defmodule GitHub.Check.Run do
       output: {GitHub.Check.RunOutput, :t},
       pull_requests: [{GitHub.PullRequest, :minimal}],
       started_at: {:union, [{:string, :date_time}, :null]},
-      status: {:enum, ["queued", "in_progress", "completed"]},
+      status: {:enum, ["queued", "in_progress", "completed", "waiting", "requested", "pending"]},
       url: {:string, :generic}
     ]
   end

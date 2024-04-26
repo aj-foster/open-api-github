@@ -842,7 +842,11 @@ defmodule GitHub.Repos do
       body: body,
       method: :post,
       request: [{"application/json", :map}],
-      response: [{204, :null}, {422, {GitHub.ValidationError, :t}}],
+      response: [
+        {204, :null},
+        {404, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
       opts: opts
     })
   end
@@ -2789,6 +2793,7 @@ defmodule GitHub.Repos do
       response: [
         {200, {GitHub.Commit, :t}},
         {404, {GitHub.BasicError, :t}},
+        {409, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}},
         {500, {GitHub.BasicError, :t}},
         {503, {GitHub.ServiceUnavailable, :json_resp}}
@@ -4339,7 +4344,11 @@ defmodule GitHub.Repos do
       call: {GitHub.Repos, :list_branches_for_head_commit},
       url: "/repos/#{owner}/#{repo}/commits/#{commit_sha}/branches-where-head",
       method: :get,
-      response: [{200, [{GitHub.Branch.Short, :t}]}, {422, {GitHub.ValidationError, :t}}],
+      response: [
+        {200, [{GitHub.Branch.Short, :t}]},
+        {409, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
       opts: opts
     })
   end
@@ -5160,7 +5169,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/commits/#{commit_sha}/pulls",
       method: :get,
       query: query,
-      response: [{200, [{GitHub.PullRequest, :simple}]}],
+      response: [{200, [{GitHub.PullRequest, :simple}]}, {409, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end

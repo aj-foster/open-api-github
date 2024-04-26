@@ -94,7 +94,7 @@ defmodule GitHub.Actions.Job do
       runner_id: {:union, [:integer, :null]},
       runner_name: {:union, [{:string, :generic}, :null]},
       started_at: {:string, :date_time},
-      status: {:enum, ["queued", "in_progress", "completed", "waiting"]},
+      status: {:enum, ["queued", "in_progress", "completed", "waiting", "requested", "pending"]},
       steps: [{GitHub.Actions.Actions.JobSteps, :t}],
       url: {:string, :generic},
       workflow_name: {:union, [{:string, :generic}, :null]}

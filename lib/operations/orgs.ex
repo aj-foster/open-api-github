@@ -441,7 +441,12 @@ defmodule GitHub.Orgs do
   @doc """
   Create an organization webhook
 
-  Here's how you can create a hook that posts payloads in JSON format:
+  Create a hook that posts payloads in JSON format.
+
+  You must be an organization owner to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or
+  edit webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps.
 
   ## Resources
 
@@ -539,6 +544,11 @@ defmodule GitHub.Orgs do
   @doc """
   Delete an organization webhook
 
+  You must be an organization owner to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit
+  webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps.
+
   ## Resources
 
     * [API method documentation](https://docs.github.com/rest/orgs/webhooks#delete-an-organization-webhook)
@@ -608,6 +618,17 @@ defmodule GitHub.Orgs do
   When the value of `two_factor_requirement_enabled` is `true`, the organization requires all members, billing managers, and outside collaborators to enable [two-factor authentication](https://docs.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/).
 
   To see the full details about an organization, the authenticated user must be an organization owner.
+
+  The values returned by this endpoint are set by the "Update an organization" endpoint. If your organization set a default security configuration (beta), the following values retrieved from the "Update an organization" endpoint have been overwritten by that configuration:
+
+  - advanced_security_enabled_for_new_repositories
+  - dependabot_alerts_enabled_for_new_repositories
+  - dependabot_security_updates_enabled_for_new_repositories
+  - dependency_graph_enabled_for_new_repositories
+  - secret_scanning_enabled_for_new_repositories
+  - secret_scanning_push_protection_enabled_for_new_repositories
+
+  For more information on security configurations, see "[Enabling security features at scale](https://docs.github.com/code-security/securing-your-organization/introduction-to-securing-your-organization-at-scale/about-enabling-security-features-at-scale)."
 
   OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to see the full details about an organization.
 
@@ -789,7 +810,13 @@ defmodule GitHub.Orgs do
   @doc """
   Get an organization webhook
 
-  Returns a webhook configured in an organization. To get only the webhook `config` properties, see "[Get a webhook configuration for an organization](https://docs.github.com/rest/orgs/webhooks#get-a-webhook-configuration-for-an-organization)."
+  Returns a webhook configured in an organization. To get only the webhook
+  `config` properties, see "[Get a webhook configuration for an organization](https://docs.github.com/rest/orgs/webhooks#get-a-webhook-configuration-for-an-organization).
+
+  You must be an organization owner to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit
+  webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps.
 
   ## Resources
 
@@ -816,7 +843,10 @@ defmodule GitHub.Orgs do
 
   Returns the webhook configuration for an organization. To get more information about the webhook, including the `active` state and `events`, use "[Get an organization webhook ](https://docs.github.com/rest/orgs/webhooks#get-an-organization-webhook)."
 
-  OAuth app tokens and personal access tokens (classic) need the `admin:org_hook` scope to use this endpoint.
+  You must be an organization owner to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit
+  webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps.
 
   ## Resources
 
@@ -842,6 +872,11 @@ defmodule GitHub.Orgs do
   Get a webhook delivery for an organization webhook
 
   Returns a delivery for a webhook configured in an organization.
+
+  You must be an organization owner to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit
+  webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps.
 
   ## Resources
 
@@ -870,7 +905,7 @@ defmodule GitHub.Orgs do
   @doc """
   List organizations
 
-  Lists all organizations, in the order that they were created on GitHub.
+  Lists all organizations, in the order that they were created.
 
   **Note:** Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of organizations.
 
@@ -1703,6 +1738,11 @@ defmodule GitHub.Orgs do
 
   Returns a list of webhook deliveries for a webhook configured in an organization.
 
+  You must be an organization owner to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit
+  webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps.
+
   ## Options
 
     * `per_page`: The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)."
@@ -1737,6 +1777,11 @@ defmodule GitHub.Orgs do
 
   @doc """
   List organization webhooks
+
+  You must be an organization owner to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit
+  webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps.
 
   ## Options
 
@@ -1808,7 +1853,13 @@ defmodule GitHub.Orgs do
   @doc """
   Ping an organization webhook
 
-  This will trigger a [ping event](https://docs.github.com/webhooks/#ping-event) to be sent to the hook.
+  This will trigger a [ping event](https://docs.github.com/webhooks/#ping-event)
+  to be sent to the hook.
+
+  You must be an organization owner to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit
+  webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps.
 
   ## Resources
 
@@ -1833,6 +1884,11 @@ defmodule GitHub.Orgs do
   Redeliver a delivery for an organization webhook
 
   Redeliver a delivery for a webhook configured in an organization.
+
+  You must be an organization owner to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit
+  webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps.
 
   ## Resources
 
@@ -2306,6 +2362,17 @@ defmodule GitHub.Orgs do
 
   Updates the organization's profile and member privileges.
 
+  With security configurations (beta), your organization can choose a default security configuration which will automatically apply a set of security enablement settings to new repositories in your organization based on their visibility. For targeted repositories, the following attributes will be overridden by the default security configuration:
+
+  - advanced_security_enabled_for_new_repositories
+  - dependabot_alerts_enabled_for_new_repositories
+  - dependabot_security_updates_enabled_for_new_repositories
+  - dependency_graph_enabled_for_new_repositories
+  - secret_scanning_enabled_for_new_repositories
+  - secret_scanning_push_protection_enabled_for_new_repositories
+
+  For more information on setting a default security configuration, see "[Enabling security features at scale](https://docs.github.com/code-security/securing-your-organization/introduction-to-securing-your-organization-at-scale/about-enabling-security-features-at-scale)."
+
   The authenticated user must be an organization owner to use this endpoint.
 
   OAuth app tokens and personal access tokens (classic) need the `admin:org` or `repo` scope to use this endpoint.
@@ -2440,7 +2507,16 @@ defmodule GitHub.Orgs do
   @doc """
   Update an organization webhook
 
-  Updates a webhook configured in an organization. When you update a webhook, the `secret` will be overwritten. If you previously had a `secret` set, you must provide the same `secret` or set a new `secret` or the secret will be removed. If you are only updating individual webhook `config` properties, use "[Update a webhook configuration for an organization](https://docs.github.com/rest/orgs/webhooks#update-a-webhook-configuration-for-an-organization)."
+  Updates a webhook configured in an organization. When you update a webhook,
+  the `secret` will be overwritten. If you previously had a `secret` set, you must
+  provide the same `secret` or set a new `secret` or the secret will be removed. If
+  you are only updating individual webhook `config` properties, use "[Update a webhook
+  configuration for an organization](https://docs.github.com/rest/orgs/webhooks#update-a-webhook-configuration-for-an-organization)".
+
+  You must be an organization owner to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit
+  webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps.
 
   ## Resources
 
@@ -2473,7 +2549,10 @@ defmodule GitHub.Orgs do
 
   Updates the webhook configuration for an organization. To update more information about the webhook, including the `active` state and `events`, use "[Update an organization webhook ](https://docs.github.com/rest/orgs/webhooks#update-an-organization-webhook)."
 
-  OAuth app tokens and personal access tokens (classic) need the `admin:org_hook` scope to use this endpoint.
+  You must be an organization owner to use this endpoint.
+
+  OAuth app tokens and personal access tokens (classic) need `admin:org_hook` scope. OAuth apps cannot list, view, or edit
+  webhooks that they did not create and users cannot list, view, or edit webhooks that were created by OAuth apps.
 
   ## Resources
 

@@ -85,7 +85,8 @@ defmodule GitHub.Check.Suite do
       repository: {GitHub.Repository, :minimal},
       rerequestable: :boolean,
       runs_rerequestable: :boolean,
-      status: {:enum, ["queued", "in_progress", "completed", nil]},
+      status:
+        {:enum, ["queued", "in_progress", "completed", "waiting", "requested", "pending", nil]},
       updated_at: {:union, [{:string, :date_time}, :null]},
       url: {:union, [{:string, :generic}, :null]}
     ]

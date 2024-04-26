@@ -90,6 +90,7 @@ defmodule GitHub.Git do
       response: [
         {201, {GitHub.Git.Commit, :t}},
         {404, {GitHub.BasicError, :t}},
+        {409, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
       ],
       opts: opts
@@ -118,7 +119,11 @@ defmodule GitHub.Git do
       body: body,
       method: :post,
       request: [{"application/json", :map}],
-      response: [{201, {GitHub.Git.Ref, :t}}, {422, {GitHub.ValidationError, :t}}],
+      response: [
+        {201, {GitHub.Git.Ref, :t}},
+        {409, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
       opts: opts
     })
   end
@@ -174,7 +179,11 @@ defmodule GitHub.Git do
       body: body,
       method: :post,
       request: [{"application/json", :map}],
-      response: [{201, {GitHub.Git.Tag, :t}}, {422, {GitHub.ValidationError, :t}}],
+      response: [
+        {201, {GitHub.Git.Tag, :t}},
+        {409, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
       opts: opts
     })
   end
@@ -209,6 +218,7 @@ defmodule GitHub.Git do
         {201, {GitHub.Git.Tree, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
+        {409, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
       ],
       opts: opts
@@ -235,7 +245,11 @@ defmodule GitHub.Git do
       call: {GitHub.Git, :delete_ref},
       url: "/repos/#{owner}/#{repo}/git/refs/#{ref}",
       method: :delete,
-      response: [{204, :null}, {422, {GitHub.ValidationError, :t}}],
+      response: [
+        {204, :null},
+        {409, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
       opts: opts
     })
   end
@@ -271,6 +285,7 @@ defmodule GitHub.Git do
         {200, {GitHub.Blob, :t}},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
+        {409, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
       ],
       opts: opts
@@ -328,7 +343,11 @@ defmodule GitHub.Git do
       call: {GitHub.Git, :get_commit},
       url: "/repos/#{owner}/#{repo}/git/commits/#{commit_sha}",
       method: :get,
-      response: [{200, {GitHub.Git.Commit, :t}}, {404, {GitHub.BasicError, :t}}],
+      response: [
+        {200, {GitHub.Git.Commit, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {409, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
@@ -355,7 +374,11 @@ defmodule GitHub.Git do
       call: {GitHub.Git, :get_ref},
       url: "/repos/#{owner}/#{repo}/git/ref/#{ref}",
       method: :get,
-      response: [{200, {GitHub.Git.Ref, :t}}, {404, {GitHub.BasicError, :t}}],
+      response: [
+        {200, {GitHub.Git.Ref, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {409, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
@@ -407,7 +430,11 @@ defmodule GitHub.Git do
       call: {GitHub.Git, :get_tag},
       url: "/repos/#{owner}/#{repo}/git/tags/#{tag_sha}",
       method: :get,
-      response: [{200, {GitHub.Git.Tag, :t}}, {404, {GitHub.BasicError, :t}}],
+      response: [
+        {200, {GitHub.Git.Tag, :t}},
+        {404, {GitHub.BasicError, :t}},
+        {409, {GitHub.BasicError, :t}}
+      ],
       opts: opts
     })
   end
@@ -446,6 +473,7 @@ defmodule GitHub.Git do
       response: [
         {200, {GitHub.Git.Tree, :t}},
         {404, {GitHub.BasicError, :t}},
+        {409, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}}
       ],
       opts: opts
@@ -478,7 +506,7 @@ defmodule GitHub.Git do
       call: {GitHub.Git, :list_matching_refs},
       url: "/repos/#{owner}/#{repo}/git/matching-refs/#{ref}",
       method: :get,
-      response: [{200, [{GitHub.Git.Ref, :t}]}],
+      response: [{200, [{GitHub.Git.Ref, :t}]}, {409, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -505,7 +533,11 @@ defmodule GitHub.Git do
       body: body,
       method: :patch,
       request: [{"application/json", :map}],
-      response: [{200, {GitHub.Git.Ref, :t}}, {422, {GitHub.ValidationError, :t}}],
+      response: [
+        {200, {GitHub.Git.Ref, :t}},
+        {409, {GitHub.BasicError, :t}},
+        {422, {GitHub.ValidationError, :t}}
+      ],
       opts: opts
     })
   end
