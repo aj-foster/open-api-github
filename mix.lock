@@ -15,7 +15,7 @@
   "mime": {:hex, :mime, "2.0.5", "dc34c8efd439abe6ae0343edbb8556f4d63f178594894720607772a041b04b02", [:mix], [], "hexpm", "da0d64a365c45bc9935cc5c8a7fc5e49a0e0f9932a761c55d6c52b142780a05c"},
   "mimerl": {:hex, :mimerl, "1.2.0", "67e2d3f571088d5cfd3e550c383094b47159f3eee8ffa08e64106cdf5e981be3", [:rebar3], [], "hexpm", "f278585650aa581986264638ebf698f8bb19df297f66ad91b18910dfc6e19323"},
   "nimble_parsec": {:hex, :nimble_parsec, "1.2.3", "244836e6e3f1200c7f30cb56733fd808744eca61fd182f731eac4af635cc6d0b", [:mix], [], "hexpm", "c8d789e39b9131acf7b99291e93dae60ab48ef14a7ee9d58c6964f59efb570b0"},
-  "oapi_generator": {:git, "https://github.com/aj-foster/open-api-generator.git", "db69e1a23133811a8b4ddfa225e6780614d8a7e8", []},
+  "oapi_generator": {:git, "https://github.com/aj-foster/open-api-generator.git", "fc5c8028d397a5a362dd8f673e803575f84488da", []},
   "open_api": {:git, "https://github.com/aj-foster/open-api-generator.git", "743659291e16537f8b64ed7574f2508a66ebf4c8", [branch: "main"]},
   "opentelemetry_api": {:hex, :opentelemetry_api, "1.2.2", "693f47b0d8c76da2095fe858204cfd6350c27fe85d00e4b763deecc9588cf27a", [:mix, :rebar3], [{:opentelemetry_semantic_conventions, "~> 0.2", [hex: :opentelemetry_semantic_conventions, repo: "hexpm", optional: false]}], "hexpm", "dc77b9a00f137a858e60a852f14007bb66eda1ffbeb6c05d5fe6c9e678b05e9d"},
   "opentelemetry_semantic_conventions": {:hex, :opentelemetry_semantic_conventions, "0.2.0", "b67fe459c2938fcab341cb0951c44860c62347c005ace1b50f8402576f241435", [:mix, :rebar3], [], "hexpm", "d61fa1f5639ee8668d74b527e6806e0503efc55a42db7b5f39939d84c07d6895"},
