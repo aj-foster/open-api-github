@@ -490,8 +490,7 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/orgs/orgs#delete-an-organization)
 
   """
-  @spec delete(String.t(), keyword) ::
-          {:ok, GitHub.Accepted.json_resp()} | {:error, GitHub.Error.t()}
+  @spec delete(String.t(), keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def delete(org, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -500,11 +499,7 @@ defmodule GitHub.Orgs do
       call: {GitHub.Orgs, :delete},
       url: "/orgs/#{org}",
       method: :delete,
-      response: [
-        {202, {GitHub.Accepted, :json_resp}},
-        {403, {GitHub.BasicError, :t}},
-        {404, {GitHub.BasicError, :t}}
-      ],
+      response: [{202, :map}, {403, {GitHub.BasicError, :t}}, {404, {GitHub.BasicError, :t}}],
       opts: opts
     })
   end
@@ -1896,7 +1891,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec redeliver_webhook_delivery(String.t(), integer, integer, keyword) ::
-          {:ok, GitHub.Accepted.json_resp()} | {:error, GitHub.Error.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def redeliver_webhook_delivery(org, hook_id, delivery_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1906,7 +1901,7 @@ defmodule GitHub.Orgs do
       url: "/orgs/#{org}/hooks/#{hook_id}/deliveries/#{delivery_id}/attempts",
       method: :post,
       response: [
-        {202, {GitHub.Accepted, :json_resp}},
+        {202, :map},
         {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {422, {GitHub.ValidationError, :t}}
       ],
@@ -2127,7 +2122,7 @@ defmodule GitHub.Orgs do
 
   """
   @spec review_pat_grant_requests_in_bulk(String.t(), map, keyword) ::
-          {:ok, GitHub.Accepted.json_resp()} | {:error, GitHub.Error.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def review_pat_grant_requests_in_bulk(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2139,7 +2134,7 @@ defmodule GitHub.Orgs do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {202, {GitHub.Accepted, :json_resp}},
+        {202, :map},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}},
@@ -2481,8 +2476,7 @@ defmodule GitHub.Orgs do
     * [API method documentation](https://docs.github.com/rest/orgs/personal-access-tokens#update-the-access-to-organization-resources-via-fine-grained-personal-access-tokens)
 
   """
-  @spec update_pat_accesses(String.t(), map, keyword) ::
-          {:ok, GitHub.Accepted.json_resp()} | {:error, GitHub.Error.t()}
+  @spec update_pat_accesses(String.t(), map, keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def update_pat_accesses(org, body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2494,7 +2488,7 @@ defmodule GitHub.Orgs do
       method: :post,
       request: [{"application/json", :map}],
       response: [
-        {202, {GitHub.Accepted, :json_resp}},
+        {202, :map},
         {403, {GitHub.BasicError, :t}},
         {404, {GitHub.BasicError, :t}},
         {422, {GitHub.ValidationError, :t}},

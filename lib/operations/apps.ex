@@ -1004,8 +1004,7 @@ defmodule GitHub.Apps do
     * [API method documentation](https://docs.github.com/rest/apps/webhooks#redeliver-a-delivery-for-an-app-webhook)
 
   """
-  @spec redeliver_webhook_delivery(integer, keyword) ::
-          {:ok, GitHub.Accepted.json_resp()} | {:error, GitHub.Error.t()}
+  @spec redeliver_webhook_delivery(integer, keyword) :: {:ok, map} | {:error, GitHub.Error.t()}
   def redeliver_webhook_delivery(delivery_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -1015,7 +1014,7 @@ defmodule GitHub.Apps do
       url: "/app/hook/deliveries/#{delivery_id}/attempts",
       method: :post,
       response: [
-        {202, {GitHub.Accepted, :json_resp}},
+        {202, :map},
         {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {422, {GitHub.ValidationError, :t}}
       ],

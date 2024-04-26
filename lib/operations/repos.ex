@@ -2634,7 +2634,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_code_frequency_stats(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Accepted.json_resp() | [[integer]]} | {:error, GitHub.Error.t()}
+          {:ok, map | [[integer]]} | {:error, GitHub.Error.t()}
   def get_code_frequency_stats(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2643,12 +2643,7 @@ defmodule GitHub.Repos do
       call: {GitHub.Repos, :get_code_frequency_stats},
       url: "/repos/#{owner}/#{repo}/stats/code_frequency",
       method: :get,
-      response: [
-        {200, [[:integer]]},
-        {202, {GitHub.Accepted, :json_resp}},
-        {204, :null},
-        {422, :null}
-      ],
+      response: [{200, [[:integer]]}, {202, :map}, {204, :null}, {422, :null}],
       opts: opts
     })
   end
@@ -2813,8 +2808,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_commit_activity_stats(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Accepted.json_resp() | [GitHub.Commit.Activity.t()]}
-          | {:error, GitHub.Error.t()}
+          {:ok, map | [GitHub.Commit.Activity.t()]} | {:error, GitHub.Error.t()}
   def get_commit_activity_stats(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -2823,11 +2817,7 @@ defmodule GitHub.Repos do
       call: {GitHub.Repos, :get_commit_activity_stats},
       url: "/repos/#{owner}/#{repo}/stats/commit_activity",
       method: :get,
-      response: [
-        {200, [{GitHub.Commit.Activity, :t}]},
-        {202, {GitHub.Accepted, :json_resp}},
-        {204, :null}
-      ],
+      response: [{200, [{GitHub.Commit.Activity, :t}]}, {202, :map}, {204, :null}],
       opts: opts
     })
   end
@@ -3024,8 +3014,7 @@ defmodule GitHub.Repos do
 
   """
   @spec get_contributors_stats(String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Accepted.json_resp() | [GitHub.ContributorActivity.t()]}
-          | {:error, GitHub.Error.t()}
+          {:ok, map | [GitHub.ContributorActivity.t()]} | {:error, GitHub.Error.t()}
   def get_contributors_stats(owner, repo, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -3034,11 +3023,7 @@ defmodule GitHub.Repos do
       call: {GitHub.Repos, :get_contributors_stats},
       url: "/repos/#{owner}/#{repo}/stats/contributors",
       method: :get,
-      response: [
-        {200, [{GitHub.ContributorActivity, :t}]},
-        {202, {GitHub.Accepted, :json_resp}},
-        {204, :null}
-      ],
+      response: [{200, [{GitHub.ContributorActivity, :t}]}, {202, :map}, {204, :null}],
       opts: opts
     })
   end
@@ -5498,7 +5483,7 @@ defmodule GitHub.Repos do
 
   """
   @spec redeliver_webhook_delivery(String.t(), String.t(), integer, integer, keyword) ::
-          {:ok, GitHub.Accepted.json_resp()} | {:error, GitHub.Error.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def redeliver_webhook_delivery(owner, repo, hook_id, delivery_id, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -5508,7 +5493,7 @@ defmodule GitHub.Repos do
       url: "/repos/#{owner}/#{repo}/hooks/#{hook_id}/deliveries/#{delivery_id}/attempts",
       method: :post,
       response: [
-        {202, {GitHub.Accepted, :json_resp}},
+        {202, :map},
         {400, {:union, [{GitHub.BasicError, :t}, {GitHub.SCIM.Error, :t}]}},
         {422, {GitHub.ValidationError, :t}}
       ],

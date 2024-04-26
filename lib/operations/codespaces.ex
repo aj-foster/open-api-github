@@ -449,7 +449,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec delete_for_authenticated_user(String.t(), keyword) ::
-          {:ok, GitHub.Accepted.json_resp()} | {:error, GitHub.Error.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def delete_for_authenticated_user(codespace_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -459,7 +459,7 @@ defmodule GitHub.Codespaces do
       url: "/user/codespaces/#{codespace_name}",
       method: :delete,
       response: [
-        {202, {GitHub.Accepted, :json_resp}},
+        {202, :map},
         {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},
@@ -483,7 +483,7 @@ defmodule GitHub.Codespaces do
 
   """
   @spec delete_from_organization(String.t(), String.t(), String.t(), keyword) ::
-          {:ok, GitHub.Accepted.json_resp()} | {:error, GitHub.Error.t()}
+          {:ok, map} | {:error, GitHub.Error.t()}
   def delete_from_organization(org, username, codespace_name, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -493,7 +493,7 @@ defmodule GitHub.Codespaces do
       url: "/orgs/#{org}/members/#{username}/codespaces/#{codespace_name}",
       method: :delete,
       response: [
-        {202, {GitHub.Accepted, :json_resp}},
+        {202, :map},
         {304, :null},
         {401, {GitHub.BasicError, :t}},
         {403, {GitHub.BasicError, :t}},

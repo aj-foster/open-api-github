@@ -19,7 +19,7 @@ defmodule GitHub.GpgKeySubkeys do
           public_key: String.t() | nil,
           raw_key: String.t() | nil,
           revoked: boolean | nil,
-          subkeys: [GitHub.GpgKeySubkeysSubkeys.t()] | nil
+          subkeys: [map] | nil
         }
 
   defstruct [
@@ -59,7 +59,7 @@ defmodule GitHub.GpgKeySubkeys do
       public_key: {:string, :generic},
       raw_key: {:union, [{:string, :generic}, :null]},
       revoked: :boolean,
-      subkeys: [{GitHub.GpgKeySubkeysSubkeys, :t}]
+      subkeys: [:map]
     ]
   end
 end
