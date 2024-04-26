@@ -4,11 +4,7 @@ defmodule GitHub.Hook.DeliveryRequest do
   """
   use GitHub.Encoder
 
-  @type t :: %__MODULE__{
-          __info__: map,
-          headers: GitHub.Hook.DeliveryRequestHeaders.t() | nil,
-          payload: GitHub.Hook.DeliveryRequestPayload.t() | nil
-        }
+  @type t :: %__MODULE__{__info__: map, headers: map | nil, payload: map | nil}
 
   defstruct [:__info__, :headers, :payload]
 
@@ -17,9 +13,6 @@ defmodule GitHub.Hook.DeliveryRequest do
   def __fields__(type \\ :t)
 
   def __fields__(:t) do
-    [
-      headers: {:union, [{GitHub.Hook.DeliveryRequestHeaders, :t}, :null]},
-      payload: {:union, [{GitHub.Hook.DeliveryRequestPayload, :t}, :null]}
-    ]
+    [headers: {:union, [:map, :null]}, payload: {:union, [:map, :null]}]
   end
 end
