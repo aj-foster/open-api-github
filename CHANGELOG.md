@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Nothing yet._
 
+### 0.3.3 (2024-04-29)
+
+* **Fix**: Decoding of issue labels previously failed in the `TypedDecoder` plugin.
+
 ### 0.3.2 (2024-04-25)
 
 * **Add**: Add `shared: true` option to several testing-related calls to enable shared storage of mocks and calls across process boundaries.

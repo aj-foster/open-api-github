@@ -483,6 +483,14 @@ defmodule GitHub.Plugin.TypedDecoder do
     end
   end
 
+  defp choose_union(value, [{GitHub.Issue.Labels, :t}, {:string, :generic}]) do
+    if is_binary(value) do
+      {:string, :generic}
+    else
+      {GitHub.Issue.Labels, :t}
+    end
+  end
+
   defp choose_union(value, [{GitHub.Team, :t}, {GitHub.User, :simple}]) do
     case value do
       %{"members_url" => _} -> {GitHub.Team, :t}
